@@ -12,16 +12,10 @@ The aim of the project are to learn the following:
 
 ## Writing Environment
 
-I'm on macOS Catalina and followed [Installing Sphinx on macOS](https://www.sphinx-doc.org/en/master/usage/installation.html#macos) with brew packager.
+I'm on macOS Catalina and followed [Installing Sphinx](https://www.sphinx-doc.org/en/master/usage/installation.html#installation-from-pypi) with `pip` packager.
 
 ```
-// Installs into /usr/local/opt/sphinx-doc/bin
-$ brew install sphinx-doc
-
-$ type sphinx-quickstart
-sphinx-quickstart not found
-
-$ /usr/local/opt/sphinx-doc/bin/sphinx-quickstart --version
+$ sphinx-quickstart --version
 sphinx-quickstart 2.2.1
 
 $ make html
