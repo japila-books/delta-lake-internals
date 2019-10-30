@@ -1,6 +1,6 @@
 # The Internals of Delta Lake Online Book
 
-The project contains the sources of The Internals of Delta Lake online book in [reStructuredText Primer](http://www.sphinx-doc.org/en/master/usage/restructuredtext/basics.html).
+The project contains the sources of [The Internals of Delta Lake](https://delta-lake-internals.rtfd.io) online book.
 
 The aim of the project are to learn the following:
 
