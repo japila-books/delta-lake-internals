@@ -8,7 +8,7 @@ The aim of the project are to learn the following:
 
 * [Read the Docs](https://readthedocs.org/) for online documentation with support for GitHub and multiple versions
 
-* [reStructuredText](http://www.sphinx-doc.org/en/master/usage/restructuredtext/basics.html) - the default plaintext markup language used by Sphinx and the preferred format for technical documentation at Read the Docs
+* [reStructuredText](http://www.sphinx-doc.org/en/master/usage/restructuredtext/basics.html) - the plaintext markup language and [Sphinx](http://www.sphinx-doc.org/en/master/contents.html) tool for technical documentation at Read the Docs
 
 ## Writing Environment
 
