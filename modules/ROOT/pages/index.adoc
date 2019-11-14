@@ -1,0 +1,23 @@
+= The Internals of Delta Lake {page-component-version}
+
+https://delta.io/[Delta Lake] is an open-source storage layer that brings ACID transactions to https://spark.apache.org/[Apache Spark] and big data workloads.
+
+Delta Lake uses a Hadoop DFS-compliant file system for the underlying storage.
+
+== Data Source for Spark SQL and Structured Streaming
+
+Delta Lake is a data source for Spark SQL and Structured Streaming (see https://github.com/delta-io/delta/blob/v0.4.0/src/main/scala/org/apache/spark/sql/delta/sources/DeltaDataSource.scala#L40-L45[github]).
+
+[source, scala]
+----
+val input = spark
+  .read
+  .format("delta")
+  .load
+----
+
+In that sense, Delta Lake is like `parquet`, `kafka` or any data source that can be used in batch and streaming queries.
+
+As a `DataSourceRegister`, Delta Lake registers itself as `delta` data source.
+
+TIP: Read up on https://jaceklaskowski.gitbooks.io/mastering-spark-sql/spark-sql-DataSourceRegister.html[DataSourceRegister] in http://bitly.com/spark-sql-internals[The Internals of Spark SQL] online book.

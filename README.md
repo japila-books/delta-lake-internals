@@ -1,44 +1,35 @@
 # The Internals of Delta Lake Online Book
 
-The project contains the sources of [The Internals of Delta Lake](https://delta-lake-internals.rtfd.io) online book.
+The project contains the sources of [The Internals of Delta Lake](FIXME) online book.
 
-The aim of the project are to learn the following:
+The aim of the project is to learn the following:
 
 * [Delta Lake](https://delta.io/) as it comes from my gurus from the Spark SQL / Structured Streaming crew at [Databricks](https://databricks.com/) (Michael, TD, Burak, zsxwing, and many others)
 
-* [Read the Docs](https://readthedocs.org/) for online documentation with support for GitHub and multiple versions
-
-* [reStructuredText](http://www.sphinx-doc.org/en/master/usage/restructuredtext/basics.html) - the plaintext markup language and [Sphinx](http://www.sphinx-doc.org/en/master/contents.html) tool for technical documentation at Read the Docs
+* [Antora](https://antora.org/)
 
 ## Writing Environment
 
-I'm on macOS Catalina and followed [Installing Sphinx](https://www.sphinx-doc.org/en/master/usage/installation.html#installation-from-pypi) with `pip` packager.
+I'm on macOS Catalina and use Docker to [run the Antora image](https://docs.antora.org/antora/2.2/antora-container/#run-the-antora-image).
 
 ```
-$ sphinx-quickstart --version
-sphinx-quickstart 2.2.1
+$ docker run -u $UID --privileged -v `pwd`:/antora --rm -t antora/antora antora-playbook.yml
 
-$ make html
+// alternatively and recommended
+$ docker run --entrypoint ash --privileged -v `pwd`:/antora --rm -it antora/antora
 
-$ open _build/html/index.html
+// Inside the container
+/antora # antora version
+2.2.0
+
+/antora # antora site.yml
+
+// On your local computer (outside the container)
+$ open .out/local/index.html
 ```
 
-I use [Atom Editor](https://atom.io/) with [language-restructuredtext](https://atom.io/packages/language-restructuredtext) plugin for editing rst files.
+I use [Atom Editor](https://atom.io/) for editing the files.
 
-## Docker (TODO)
+## Not Sphinx?! Why?
 
-I wish I could use [Docker](https://www.docker.com/) with the [python](https://hub.docker.com/_/python/) official image as the writing environment.
-
-```
-$ docker pull python
-
-$ docker run \
-   -it \
-   --rm \
-   --name sphinx \
-   -v "$PWD":/docs \
-   -w /docs \
-   -e USER_ID=$UID \
-   python \
-   /bin/bash
-```
+Read [Giving up on Read the Docs, reStructuredText and Sphinx](https://medium.com/@jaceklaskowski/giving-up-on-read-the-docs-restructuredtext-and-sphinx-674961804641).

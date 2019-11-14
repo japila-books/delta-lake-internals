@@ -1,0 +1,52 @@
+= Options
+
+[cols="30m,70",options="header",width="100%"]
+|===
+| Name
+| Description
+
+| path
+a| [[path]] *(required)* Directory on a Hadoop DFS-compliant file system with an optional <<time-travel.adoc#, time travel>> identifier.
+
+Default: (undefined)
+
+| replaceWhere
+a| [[replaceWhere]]
+
+| mergeSchema
+a| [[mergeSchema]]
+
+| excludeRegex
+a| [[excludeRegex]]
+
+| overwriteSchema
+a| [[overwriteSchema]]
+
+| maxFilesPerTrigger
+a| [[maxFilesPerTrigger]]
+
+| ignoreFileDeletion
+a| [[ignoreFileDeletion]]
+
+| ignoreChanges
+a| [[ignoreChanges]]
+
+| ignoreDeletes
+a| [[ignoreDeletes]]
+
+| optimizeWrite
+a| [[optimizeWrite]]
+
+| queryName
+a| [[queryName]]
+
+| checkpointLocation
+a| [[checkpointLocation]]
+
+| timestampAsOf
+a| [[timestampAsOf]]
+
+| versionAsOf
+a| [[versionAsOf]]
+
+|===

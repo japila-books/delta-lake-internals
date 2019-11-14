@@ -1,0 +1,16 @@
+= DeltaSQLConf -- spark.databricks.delta Configuration Properties
+
+The following table contains `spark.databricks.delta.`-prefixed configuration properties.
+
+.spark.databricks.delta Configuration Properties
+[cols="30m,70",options="header",width="100%"]
+|===
+| Name
+| Description
+
+| timeTravel.resolveOnIdentifier.enabled
+a| [[timeTravel.resolveOnIdentifier.enabled]] **(internal)** When enabled (`true`), patterns as `@v123` in identifiers are considered as <<time-travel.adoc#, time travel>> nodes.
+
+Default: `true`
+
+|===

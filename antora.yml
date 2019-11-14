@@ -1,0 +1,5 @@
+name: delta
+title: Delta Lake
+version: 0.4.0
+nav:
+  - modules/ROOT/nav.adoc
