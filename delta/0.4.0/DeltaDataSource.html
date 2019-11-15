@@ -3,8 +3,8 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>The Internals of Delta Lake 0.4.0 :: The Internals of Delta Lake</title>
-    <link rel="canonical" href="https://delta.japila.pl/delta/0.4.0/index.html">
+    <title> DeltaDataSource&#8201;&#8212;&#8201;Entry Point of Delta Data Source :: The Internals of Delta Lake</title>
+    <link rel="canonical" href="https://delta.japila.pl/delta/0.4.0/DeltaDataSource.html">
     <meta name="generator" content="Antora 2.2.0">
     <link rel="stylesheet" href="../../_/css/site.css">
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-151208281-1"></script>
@@ -67,7 +67,7 @@
 <ul class="nav-list">
   <li class="nav-item" data-depth="0">
 <ul class="nav-list">
-  <li class="nav-item is-current-page" data-depth="1">
+  <li class="nav-item" data-depth="1">
     <a class="nav-link" href="index.html">Introduction</a>
   </li>
   <li class="nav-item" data-depth="1">
@@ -76,7 +76,7 @@
   <li class="nav-item" data-depth="1">
     <a class="nav-link" href="options.html">Options</a>
   </li>
-  <li class="nav-item" data-depth="1">
+  <li class="nav-item is-current-page" data-depth="1">
     <a class="nav-link" href="DeltaDataSource.html">DeltaDataSource</a>
   </li>
   <li class="nav-item" data-depth="1">
@@ -112,56 +112,32 @@
 <main>
 <div class="toolbar" role="navigation">
 <button class="nav-toggle"></button>
-  <a href="index.html" class="home-link is-current"></a>
+  <a href="index.html" class="home-link"></a>
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="index.html">Delta Lake</a></li>
-    <li><a href="index.html">Introduction</a></li>
+    <li><a href="DeltaDataSource.html">DeltaDataSource</a></li>
   </ul>
 </nav>
-  <div class="edit-this-page"><a href="file:///antora/modules/ROOT/pages/index.adoc">Edit this Page</a></div>
+  <div class="edit-this-page"><a href="file:///antora/modules/ROOT/pages/DeltaDataSource.adoc">Edit this Page</a></div>
 </div>
 <article class="doc">
-<h1 class="page">The Internals of Delta Lake 0.4.0</h1>
+<h1 class="page"><a id="DeltaDataSource"></a> DeltaDataSource&#8201;&#8212;&#8201;Entry Point of Delta Data Source</h1>
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p><a href="https://delta.io/">Delta Lake</a> is an open-source storage layer that brings ACID transactions to <a href="https://spark.apache.org/">Apache Spark</a> and big data workloads.</p>
+<p><code>DeltaDataSource</code> is a <a href="#DataSourceRegister">DataSourceRegister</a> and acts as the entry point to all features provided by <code>delta</code> data source.</p>
 </div>
 <div class="paragraph">
-<p>Delta Lake uses a Hadoop DFS-compliant file system for the underlying storage.</p>
-</div>
-<div class="paragraph">
-<p>Technically speaking, Delta Lake is:</p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p><a href="#data-source">Data Source for Spark SQL and Structured Streaming</a></p>
-</li>
-</ol>
+<p><code>DeltaDataSource</code> is a <a href="#RelationProvider">RelationProvider</a>.</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="data-source-for-spark-sql-and-structured-streaming"><a class="anchor" href="#data-source-for-spark-sql-and-structured-streaming"></a><a class="link" href="#data-source-for-spark-sql-and-structured-streaming"><a id="data-source"></a> Data Source for Spark SQL and Structured Streaming</a></h2>
+<h2 id="datasourceregister-for-delta-alias"><a class="anchor" href="#datasourceregister-for-delta-alias"></a><a class="link" href="#datasourceregister-for-delta-alias"><a id="delta-format"></a><a id="DataSourceRegister"></a> DataSourceRegister for delta alias</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Delta Lake is a data source for Spark SQL and Structured Streaming (see <a href="https://github.com/delta-io/delta/blob/v0.4.0/src/main/scala/org/apache/spark/sql/delta/sources/DeltaDataSource.scala#L40-L45">github</a>).</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">val input = spark
-  .read
-  .format("delta")
-  .load</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>In that sense, Delta Lake is like <code>parquet</code>, <code>kafka</code> or any data source that can be used in batch and streaming queries and is simply an extension of Apache Spark&#8217;s Spark SQL and Structured Streaming.</p>
-</div>
-<div class="paragraph">
-<p>As a <code>DataSourceRegister</code>, Delta Lake registers itself as <code>delta</code> data source.</p>
+<p><code>DeltaDataSource</code> is a <code>DataSourceRegister</code> and registers itself to be available using <code>delta</code> alias.</p>
 </div>
 <div class="admonitionblock tip">
 <table>
@@ -176,32 +152,92 @@ Read up on <a href="https://jaceklaskowski.gitbooks.io/mastering-spark-sql/spark
 </table>
 </div>
 <div class="paragraph">
-<p>In order to "install" and use Delta Lake in a Spark application (e.g. <code>spark-shell</code>), use <code>--packages</code> command-line option.</p>
+<p><code>DeltaDataSource</code> is registered using <code>META-INF/services/org.apache.spark.sql.sources.DataSourceRegister</code>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">$ spark-shell --packages io.delta:delta-core_2.12:0.4.0
-
-assert(spark.version == "2.4.4")
-
-// The following exception is expected
-scala&gt; val input = spark.read.format("delta").load
-java.lang.IllegalArgumentException: 'path' is not specified
-  at org.apache.spark.sql.delta.DeltaErrors$.pathNotSpecifiedException(DeltaErrors.scala:225)
-  at org.apache.spark.sql.delta.sources.DeltaDataSource.$anonfun$createRelation$4(DeltaDataSource.scala:140)
-  at scala.collection.MapLike.getOrElse(MapLike.scala:131)
-  at scala.collection.MapLike.getOrElse$(MapLike.scala:129)
-  at org.apache.spark.sql.catalyst.util.CaseInsensitiveMap.getOrElse(CaseInsensitiveMap.scala:28)
-  at org.apache.spark.sql.delta.sources.DeltaDataSource.createRelation(DeltaDataSource.scala:140)
-  at org.apache.spark.sql.execution.datasources.DataSource.resolveRelation(DataSource.scala:318)
-  at org.apache.spark.sql.DataFrameReader.loadV1Source(DataFrameReader.scala:223)
-  at org.apache.spark.sql.DataFrameReader.load(DataFrameReader.scala:211)
-  at org.apache.spark.sql.DataFrameReader.load(DataFrameReader.scala:167)
-  ... 49 elided</code></pre>
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">org.apache.spark.sql.delta.sources.DeltaDataSource</code></pre>
 </div>
 </div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="relationprovider"><a class="anchor" href="#relationprovider"></a><a class="link" href="#relationprovider"><a id="RelationProvider"></a> RelationProvider</a></h2>
+<div class="sectionbody">
 <div class="paragraph">
-<p>As you have noticed in the above example, <code>delta</code> data source requires <a href="options.html#path" class="page">path</a> option.</p>
+<p><code>DeltaDataSource</code> is a <code>RelationProvider</code>.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+Read up on <a href="https://jaceklaskowski.gitbooks.io/mastering-spark-sql/spark-sql-RelationProvider.html">RelationProvider</a> in <a href="https://bit.ly/spark-sql-internals">The Internals of Spark SQL</a> online book.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="creatablerelationprovider"><a class="anchor" href="#creatablerelationprovider"></a><a class="link" href="#creatablerelationprovider"><a id="CreatableRelationProvider"></a> CreatableRelationProvider</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><code>DeltaDataSource</code> is a <code>CreatableRelationProvider</code>.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+Read up on <a href="https://jaceklaskowski.gitbooks.io/mastering-spark-sql/spark-sql-CreatableRelationProvider.html">CreatableRelationProvider</a> in <a href="https://bit.ly/spark-sql-internals">The Internals of Spark SQL</a> online book.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="streamsourceprovider"><a class="anchor" href="#streamsourceprovider"></a><a class="link" href="#streamsourceprovider"><a id="StreamSourceProvider"></a> StreamSourceProvider</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><code>DeltaDataSource</code> is a <code>StreamSourceProvider</code>.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+Read up on <a href="https://jaceklaskowski.gitbooks.io/spark-structured-streaming/spark-sql-streaming-StreamSourceProvider.html">StreamSourceProvider</a> in <a href="https://bit.ly/spark-structured-streaming">The Internals of Spark Structured Streaming</a> online book.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="streamsinkprovider"><a class="anchor" href="#streamsinkprovider"></a><a class="link" href="#streamsinkprovider"><a id="StreamSinkProvider"></a> StreamSinkProvider</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><code>DeltaDataSource</code> is a <code>StreamSinkProvider</code>.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+Read up on <a href="https://jaceklaskowski.gitbooks.io/spark-structured-streaming/spark-sql-streaming-StreamSinkProvider.html">StreamSinkProvider</a> in <a href="https://bit.ly/spark-structured-streaming">The Internals of Spark Structured Streaming</a> online book.
+</td>
+</tr>
+</table>
 </div>
 </div>
 </div>

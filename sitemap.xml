@@ -1,23 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
+<loc>https://delta.japila.pl/delta/0.4.0/DeltaDataSource.html</loc>
+<lastmod>2019-11-15T09:39:13.995Z</lastmod>
+</url>
+<url>
 <loc>https://delta.japila.pl/delta/0.4.0/DeltaSQLConf.html</loc>
-<lastmod>2019-11-14T14:29:57.284Z</lastmod>
+<lastmod>2019-11-15T09:39:13.995Z</lastmod>
 </url>
 <url>
 <loc>https://delta.japila.pl/delta/0.4.0/index.html</loc>
-<lastmod>2019-11-14T14:29:57.284Z</lastmod>
+<lastmod>2019-11-15T09:39:13.995Z</lastmod>
 </url>
 <url>
 <loc>https://delta.japila.pl/delta/0.4.0/options.html</loc>
-<lastmod>2019-11-14T14:29:57.284Z</lastmod>
+<lastmod>2019-11-15T09:39:13.995Z</lastmod>
 </url>
 <url>
 <loc>https://delta.japila.pl/delta/0.4.0/others.html</loc>
-<lastmod>2019-11-14T14:29:57.284Z</lastmod>
+<lastmod>2019-11-15T09:39:13.995Z</lastmod>
 </url>
 <url>
 <loc>https://delta.japila.pl/delta/0.4.0/time-travel.html</loc>
-<lastmod>2019-11-14T14:29:57.284Z</lastmod>
+<lastmod>2019-11-15T09:39:13.995Z</lastmod>
 </url>
 </urlset>
