@@ -4,7 +4,11 @@ https://delta.io/[Delta Lake] is an open-source storage layer that brings ACID t
 
 Delta Lake uses a Hadoop DFS-compliant file system for the underlying storage.
 
-== Data Source for Spark SQL and Structured Streaming
+Technically speaking, Delta Lake is:
+
+. <<data-source, Data Source for Spark SQL and Structured Streaming>>
+
+== [[data-source]] Data Source for Spark SQL and Structured Streaming
 
 Delta Lake is a data source for Spark SQL and Structured Streaming (see https://github.com/delta-io/delta/blob/v0.4.0/src/main/scala/org/apache/spark/sql/delta/sources/DeltaDataSource.scala#L40-L45[github]).
 
@@ -16,8 +20,34 @@ val input = spark
   .load
 ----
 
-In that sense, Delta Lake is like `parquet`, `kafka` or any data source that can be used in batch and streaming queries.
+In that sense, Delta Lake is like `parquet`, `kafka` or any data source that can be used in batch and streaming queries and is simply an extension of Apache Spark's Spark SQL and Structured Streaming.
 
 As a `DataSourceRegister`, Delta Lake registers itself as `delta` data source.
 
-TIP: Read up on https://jaceklaskowski.gitbooks.io/mastering-spark-sql/spark-sql-DataSourceRegister.html[DataSourceRegister] in http://bitly.com/spark-sql-internals[The Internals of Spark SQL] online book.
+TIP: Read up on https://jaceklaskowski.gitbooks.io/mastering-spark-sql/spark-sql-DataSourceRegister.html[DataSourceRegister] in https://bit.ly/spark-sql-internals[The Internals of Spark SQL] online book.
+
+In order to "install" and use Delta Lake in a Spark application (e.g. `spark-shell`), use `--packages` command-line option.
+
+[source, scala]
+----
+$ spark-shell --packages io.delta:delta-core_2.12:0.4.0
+
+assert(spark.version == "2.4.4")
+
+// The following exception is expected
+scala> val input = spark.read.format("delta").load
+java.lang.IllegalArgumentException: 'path' is not specified
+  at org.apache.spark.sql.delta.DeltaErrors$.pathNotSpecifiedException(DeltaErrors.scala:225)
+  at org.apache.spark.sql.delta.sources.DeltaDataSource.$anonfun$createRelation$4(DeltaDataSource.scala:140)
+  at scala.collection.MapLike.getOrElse(MapLike.scala:131)
+  at scala.collection.MapLike.getOrElse$(MapLike.scala:129)
+  at org.apache.spark.sql.catalyst.util.CaseInsensitiveMap.getOrElse(CaseInsensitiveMap.scala:28)
+  at org.apache.spark.sql.delta.sources.DeltaDataSource.createRelation(DeltaDataSource.scala:140)
+  at org.apache.spark.sql.execution.datasources.DataSource.resolveRelation(DataSource.scala:318)
+  at org.apache.spark.sql.DataFrameReader.loadV1Source(DataFrameReader.scala:223)
+  at org.apache.spark.sql.DataFrameReader.load(DataFrameReader.scala:211)
+  at org.apache.spark.sql.DataFrameReader.load(DataFrameReader.scala:167)
+  ... 49 elided
+----
+
+As you have noticed in the above example, `delta` data source requires <<options.adoc#path, path>> option.

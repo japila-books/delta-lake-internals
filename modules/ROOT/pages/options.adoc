@@ -1,32 +1,19 @@
 = Options
 
+The following table contains the options of `delta` data source.
+
+The options can be defined using `option` method of `DataFrameReader` and `DataStreamReader`.
+
 [cols="30m,70",options="header",width="100%"]
 |===
 | Name
 | Description
 
-| path
-a| [[path]] *(required)* Directory on a Hadoop DFS-compliant file system with an optional <<time-travel.adoc#, time travel>> identifier.
-
-Default: (undefined)
-
-| replaceWhere
-a| [[replaceWhere]]
-
-| mergeSchema
-a| [[mergeSchema]]
+| checkpointLocation
+a| [[checkpointLocation]]
 
 | excludeRegex
 a| [[excludeRegex]]
-
-| overwriteSchema
-a| [[overwriteSchema]]
-
-| maxFilesPerTrigger
-a| [[maxFilesPerTrigger]]
-
-| ignoreFileDeletion
-a| [[ignoreFileDeletion]]
 
 | ignoreChanges
 a| [[ignoreChanges]]
@@ -34,14 +21,33 @@ a| [[ignoreChanges]]
 | ignoreDeletes
 a| [[ignoreDeletes]]
 
+| ignoreFileDeletion
+a| [[ignoreFileDeletion]]
+
+| maxFilesPerTrigger
+a| [[maxFilesPerTrigger]]
+
+| mergeSchema
+a| [[mergeSchema]]
+
+| overwriteSchema
+a| [[overwriteSchema]]
+
 | optimizeWrite
 a| [[optimizeWrite]]
+
+| path
+a| [[path]] *(required)* Directory on a Hadoop DFS-compliant file system with an optional <<time-travel.adoc#, time travel>> identifier.
+
+Default: (undefined)
+
+Can also be specified using `load` method of `DataFrameReader` and `DataStreamReader`.
 
 | queryName
 a| [[queryName]]
 
-| checkpointLocation
-a| [[checkpointLocation]]
+| replaceWhere
+a| [[replaceWhere]]
 
 | timestampAsOf
 a| [[timestampAsOf]]

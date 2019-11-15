@@ -1,0 +1,42 @@
+= [[DeltaDataSource]] DeltaDataSource -- Entry Point of Delta Data Source
+
+`DeltaDataSource` is a <<DataSourceRegister, DataSourceRegister>> and acts as the entry point to all features provided by `delta` data source.
+
+`DeltaDataSource` is a <<RelationProvider, RelationProvider>>.
+
+== [[delta-format]][[DataSourceRegister]] DataSourceRegister for delta alias
+
+`DeltaDataSource` is a `DataSourceRegister` and registers itself to be available using `delta` alias.
+
+TIP: Read up on https://jaceklaskowski.gitbooks.io/mastering-spark-sql/spark-sql-DataSourceRegister.html[DataSourceRegister] in https://bit.ly/spark-sql-internals[The Internals of Spark SQL] online book.
+
+`DeltaDataSource` is registered using `META-INF/services/org.apache.spark.sql.sources.DataSourceRegister`:
+
+[source, scala]
+----
+org.apache.spark.sql.delta.sources.DeltaDataSource
+----
+
+== [[RelationProvider]] RelationProvider
+
+`DeltaDataSource` is a `RelationProvider`.
+
+TIP: Read up on https://jaceklaskowski.gitbooks.io/mastering-spark-sql/spark-sql-RelationProvider.html[RelationProvider] in https://bit.ly/spark-sql-internals[The Internals of Spark SQL] online book.
+
+== [[CreatableRelationProvider]] CreatableRelationProvider
+
+`DeltaDataSource` is a `CreatableRelationProvider`.
+
+TIP: Read up on https://jaceklaskowski.gitbooks.io/mastering-spark-sql/spark-sql-CreatableRelationProvider.html[CreatableRelationProvider] in https://bit.ly/spark-sql-internals[The Internals of Spark SQL] online book.
+
+== [[StreamSourceProvider]] StreamSourceProvider
+
+`DeltaDataSource` is a `StreamSourceProvider`.
+
+TIP: Read up on https://jaceklaskowski.gitbooks.io/spark-structured-streaming/spark-sql-streaming-StreamSourceProvider.html[StreamSourceProvider] in https://bit.ly/spark-structured-streaming[The Internals of Spark Structured Streaming] online book.
+
+== [[StreamSinkProvider]] StreamSinkProvider
+
+`DeltaDataSource` is a `StreamSinkProvider`.
+
+TIP: Read up on https://jaceklaskowski.gitbooks.io/spark-structured-streaming/spark-sql-streaming-StreamSinkProvider.html[StreamSinkProvider] in https://bit.ly/spark-structured-streaming[The Internals of Spark Structured Streaming] online book.
