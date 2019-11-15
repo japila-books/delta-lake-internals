@@ -34,4 +34,3 @@ ui:
 
 output:
   dir: .out/local
-  clean: true

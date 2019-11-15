@@ -1,12 +1,14 @@
 # The Internals of Delta Lake Online Book
 
-The project contains the sources of [The Internals of Delta Lake](FIXME) online book.
+The project contains the sources of [The Internals of Delta Lake](https://delta.japila.pl/) online book.
 
 The aim of the project is to learn the following:
 
 * [Delta Lake](https://delta.io/) as it comes from my gurus from the Spark SQL / Structured Streaming crew at [Databricks](https://databricks.com/) (Michael, TD, Burak, zsxwing, and many others)
 
 * [Antora](https://antora.org/)
+
+* Publishing using [GitHub Pages](https://help.github.com/en/github/working-with-github-pages)
 
 ## Writing Environment
 
