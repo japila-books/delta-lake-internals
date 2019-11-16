@@ -1,10 +1,10 @@
-== [[DeltaLog]] DeltaLog
+= [[DeltaLog]] DeltaLog
 
 `DeltaLog` is a <<LogStoreProvider.adoc#, LogStoreProvider>>.
 
 `DeltaLog` is <<creating-instance, created>> when...FIXME
 
-=== [[creating-instance]] Creating DeltaLog Instance
+== [[creating-instance]] Creating DeltaLog Instance
 
 `DeltaLog` takes the following to be created:
 
@@ -14,7 +14,7 @@
 
 `DeltaLog` initializes the <<internal-properties, internal properties>>.
 
-=== [[withNewTransaction]] Executing Operation (Block) in New Transaction -- `withNewTransaction` Method
+== [[withNewTransaction]] Executing Operation (Block) in New Transaction -- `withNewTransaction` Method
 
 [source, scala]
 ----
@@ -22,11 +22,24 @@ withNewTransaction[T](
   thunk: OptimisticTransaction => T): T
 ----
 
-`withNewTransaction`...FIXME
+`withNewTransaction` <<startTransaction, starts a new transaction>> (that is <<OptimisticTransaction.adoc#setActive, set active>> for the whole thread) and executes the given `thunk` function.
+
+In the end, `withNewTransaction` makes the transaction <<OptimisticTransaction.adoc#clearActive, no longer active>>.
 
 NOTE: `withNewTransaction` is used when...FIXME
 
-=== [[assertRemovable]] `assertRemovable` Method
+== [[startTransaction]] Starting New Transaction -- `startTransaction` Method
+
+[source, scala]
+----
+startTransaction(): OptimisticTransaction
+----
+
+`startTransaction` <<update, updates>> and creates a new <<OptimisticTransaction.adoc#, OptimisticTransaction>>.
+
+NOTE: `startTransaction` is used when...FIXME
+
+== [[assertRemovable]] `assertRemovable` Method
 
 [source, scala]
 ----
@@ -37,7 +50,7 @@ assertRemovable(): Unit
 
 NOTE: `assertRemovable` is used when...FIXME
 
-=== [[forTable]] Creating DeltaLog Instance -- `forTable` Utility
+== [[forTable]] Creating DeltaLog Instance -- `forTable` Utility
 
 [source, scala]
 ----
@@ -49,3 +62,37 @@ forTable(
 `forTable` creates a <<apply, DeltaLog>> with `_delta_log` directory (in `dataPath` directory).
 
 NOTE: `forTable` is used when...FIXME
+
+== [[update]] `update` Method
+
+[source, scala]
+----
+update(
+  stalenessAcceptable: Boolean = false): Snapshot
+----
+
+`update`...FIXME
+
+NOTE: `update` is used when...FIXME
+
+== [[snapshot]] Current Snapshot -- `snapshot` Method
+
+[source, scala]
+----
+snapshot: Snapshot
+----
+
+`snapshot` returns the <<currentSnapshot, current snapshot>>.
+
+NOTE: `snapshot` is used when...FIXME
+
+== [[currentSnapshot]] `currentSnapshot` Internal Registry
+
+[source, scala]
+----
+currentSnapshot: Snapshot
+----
+
+`currentSnapshot`...FIXME
+
+NOTE: `currentSnapshot` is used when...FIXME

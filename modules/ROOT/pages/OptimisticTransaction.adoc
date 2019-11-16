@@ -1,3 +1,38 @@
-== [[OptimisticTransaction]] OptimisticTransaction
+= [[OptimisticTransaction]] OptimisticTransaction
 
 `OptimisticTransaction` is a concrete <<OptimisticTransactionImpl.adoc#, OptimisticTransactionImpl>>.
+
+`OptimisticTransaction` is <<creating-instance, created>> when `DeltaLog` is requested to <<DeltaLog.adoc#startTransaction, start a new transaction>>.
+
+== [[creating-instance]] Creating OptimisticTransaction Instance
+
+`OptimisticTransaction` takes the following to be created:
+
+* [[deltaLog]] <<DeltaLog.adoc#, DeltaLog>>
+* [[snapshot]] <<Snapshot.adoc#, Snapshot>> (default: the <<DeltaLog.adoc#snapshot, current snapshot>> of the <<deltaLog, DeltaLog>>)
+* [[clock]] `Clock`
+
+`OptimisticTransaction` initializes the <<internal-properties, internal properties>>.
+
+== [[setActive]] `setActive` Utility
+
+[source, scala]
+----
+setActive(
+  txn: OptimisticTransaction): Unit
+----
+
+`setActive`...FIXME
+
+NOTE: `setActive` is used when...FIXME
+
+== [[clearActive]] `clearActive` Utility
+
+[source, scala]
+----
+clearActive(): Unit
+----
+
+`clearActive`...FIXME
+
+NOTE: `clearActive` is used when...FIXME

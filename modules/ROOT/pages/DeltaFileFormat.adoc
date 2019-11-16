@@ -1,0 +1,29 @@
+= [[DeltaFileFormat]] DeltaFileFormat Contract
+
+`DeltaFileFormat` is the <<contract, abstraction>> of <<implementations, FileFormat "descriptors">> that can <<fileFormat, specify the underlying FileFormat of Spark>> that describes a Delta table.
+
+[[contract]]
+.DeltaFileFormat Contract
+[cols="30m,70",options="header",width="100%"]
+|===
+| Method
+| Description
+
+| fileFormat
+a| [[fileFormat]]
+
+[source, scala]
+----
+fileFormat: FileFormat
+----
+
+Spark SQL's `FileFormat` that describes a Delta table
+
+Default: `ParquetFileFormat`
+
+Used when...FIXME
+
+|===
+
+[[implementations]]
+NOTE: <<Snapshot.adoc#, Snapshot>> is the only known `DeltaFileFormat`.
