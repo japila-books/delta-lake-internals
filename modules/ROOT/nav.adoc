@@ -2,5 +2,6 @@
 * xref:time-travel.adoc[Time Travel]
 * xref:options.adoc[Options]
 * xref:DeltaDataSource.adoc[DeltaDataSource]
+* xref:DeltaSink.adoc[DeltaSink]
 * xref:DeltaSQLConf.adoc[DeltaSQLConf]
 * xref:others.adoc[The Others (Contenders)]

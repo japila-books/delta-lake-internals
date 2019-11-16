@@ -1,4 +1,4 @@
-= The Internals of Delta Lake {page-component-version}
+== The Internals of Delta Lake {page-component-version}
 
 https://delta.io/[Delta Lake] is an open-source storage layer that brings ACID transactions to https://spark.apache.org/[Apache Spark] and big data workloads.
 
@@ -8,14 +8,16 @@ Technically speaking, Delta Lake is:
 
 . <<data-source, Data Source for Spark SQL and Structured Streaming>>
 
-== [[data-source]] Data Source for Spark SQL and Structured Streaming
+. <<streaming-sink, Streaming sink for streaming queries (Structured Streaming)>>
+
+=== [[data-source]] Data Source for Spark SQL and Structured Streaming
 
 Delta Lake is a data source for Spark SQL and Structured Streaming (see https://github.com/delta-io/delta/blob/v0.4.0/src/main/scala/org/apache/spark/sql/delta/sources/DeltaDataSource.scala#L40-L45[github]).
 
 [source, scala]
 ----
 val input = spark
-  .read
+  .read // or readStream
   .format("delta")
   .load
 ----
@@ -30,24 +32,37 @@ In order to "install" and use Delta Lake in a Spark application (e.g. `spark-she
 
 [source, scala]
 ----
-$ spark-shell --packages io.delta:delta-core_2.12:0.4.0
+// $ spark-shell --packages io.delta:delta-core_2.12:0.4.0
 
 assert(spark.version == "2.4.4")
 
-// The following exception is expected
-scala> val input = spark.read.format("delta").load
-java.lang.IllegalArgumentException: 'path' is not specified
-  at org.apache.spark.sql.delta.DeltaErrors$.pathNotSpecifiedException(DeltaErrors.scala:225)
-  at org.apache.spark.sql.delta.sources.DeltaDataSource.$anonfun$createRelation$4(DeltaDataSource.scala:140)
-  at scala.collection.MapLike.getOrElse(MapLike.scala:131)
-  at scala.collection.MapLike.getOrElse$(MapLike.scala:129)
-  at org.apache.spark.sql.catalyst.util.CaseInsensitiveMap.getOrElse(CaseInsensitiveMap.scala:28)
-  at org.apache.spark.sql.delta.sources.DeltaDataSource.createRelation(DeltaDataSource.scala:140)
-  at org.apache.spark.sql.execution.datasources.DataSource.resolveRelation(DataSource.scala:318)
-  at org.apache.spark.sql.DataFrameReader.loadV1Source(DataFrameReader.scala:223)
-  at org.apache.spark.sql.DataFrameReader.load(DataFrameReader.scala:211)
-  at org.apache.spark.sql.DataFrameReader.load(DataFrameReader.scala:167)
-  ... 49 elided
+val input = spark
+  .read
+  .format("delta")
+  .option("path", "delta") // a required option
+  .load
 ----
 
-As you have noticed in the above example, `delta` data source requires <<options.adoc#path, path>> option.
+`delta` data source requires some <<options.adoc#, options>> (with <<options.adoc#path, path>> option required).
+
+=== [[streaming-sink]] Streaming Sink for Streaming Queries (Structured Streaming)
+
+Delta Lake is a <<DeltaDataSource.adoc#StreamSinkProvider, streaming sink>> for streaming queries in Structured Streaming.
+
+[source, scala]
+----
+// $ spark-shell --packages io.delta:delta-core_2.12:0.4.0
+
+assert(spark.version == "2.4.4")
+
+// Any streaming query would work
+// Using rate data source for demo
+// val rates = spark.readStream.format("rate").load
+
+val q = rates
+  .writeStream
+  .format("delta")
+  .option("checkpointLocation", "delta-checkpointLocation") // a required option
+  .option("path", "delta") // a required option
+  .start
+----

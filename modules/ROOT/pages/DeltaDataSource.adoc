@@ -1,10 +1,12 @@
-= [[DeltaDataSource]] DeltaDataSource -- Entry Point of Delta Data Source
+== [[DeltaDataSource]] DeltaDataSource -- Entry Point of Delta Data Source
 
 `DeltaDataSource` is a <<DataSourceRegister, DataSourceRegister>> and acts as the entry point to all features provided by `delta` data source.
 
 `DeltaDataSource` is a <<RelationProvider, RelationProvider>>.
 
-== [[delta-format]][[DataSourceRegister]] DataSourceRegister for delta alias
+`DeltaDataSource` is a <<StreamSinkProvider, StreamSinkProvider>> for a streaming sink for streaming queries (Structured Streaming).
+
+=== [[delta-format]][[DataSourceRegister]] DataSourceRegister for delta alias
 
 `DeltaDataSource` is a `DataSourceRegister` and registers itself to be available using `delta` alias.
 
@@ -17,26 +19,30 @@ TIP: Read up on https://jaceklaskowski.gitbooks.io/mastering-spark-sql/spark-sql
 org.apache.spark.sql.delta.sources.DeltaDataSource
 ----
 
-== [[RelationProvider]] RelationProvider
+=== [[RelationProvider]] RelationProvider
 
 `DeltaDataSource` is a `RelationProvider`.
 
 TIP: Read up on https://jaceklaskowski.gitbooks.io/mastering-spark-sql/spark-sql-RelationProvider.html[RelationProvider] in https://bit.ly/spark-sql-internals[The Internals of Spark SQL] online book.
 
-== [[CreatableRelationProvider]] CreatableRelationProvider
+=== [[CreatableRelationProvider]] CreatableRelationProvider
 
 `DeltaDataSource` is a `CreatableRelationProvider`.
 
 TIP: Read up on https://jaceklaskowski.gitbooks.io/mastering-spark-sql/spark-sql-CreatableRelationProvider.html[CreatableRelationProvider] in https://bit.ly/spark-sql-internals[The Internals of Spark SQL] online book.
 
-== [[StreamSourceProvider]] StreamSourceProvider
+=== [[StreamSourceProvider]] StreamSourceProvider
 
 `DeltaDataSource` is a `StreamSourceProvider`.
 
 TIP: Read up on https://jaceklaskowski.gitbooks.io/spark-structured-streaming/spark-sql-streaming-StreamSourceProvider.html[StreamSourceProvider] in https://bit.ly/spark-structured-streaming[The Internals of Spark Structured Streaming] online book.
 
-== [[StreamSinkProvider]] StreamSinkProvider
+=== [[StreamSinkProvider]][[createSink]] Creating Streaming Sink (Structured Streaming) -- `createSink` Method
 
-`DeltaDataSource` is a `StreamSinkProvider`.
+`DeltaDataSource` is a `StreamSinkProvider` for a streaming sink for Structured Streaming.
 
 TIP: Read up on https://jaceklaskowski.gitbooks.io/spark-structured-streaming/spark-sql-streaming-StreamSinkProvider.html[StreamSinkProvider] in https://bit.ly/spark-structured-streaming[The Internals of Spark Structured Streaming] online book.
+
+`DeltaDataSource` supports `Append` and `Complete` output modes only.
+
+In the end, `DeltaDataSource` creates a <<DeltaSink.adoc#, DeltaSink>>.
