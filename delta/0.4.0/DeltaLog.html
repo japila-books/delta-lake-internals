@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Untitled :: The Internals of Delta Lake</title>
+    <title> DeltaLog :: The Internals of Delta Lake</title>
     <link rel="canonical" href="https://delta.japila.pl/delta/0.4.0/DeltaLog.html">
     <meta name="generator" content="Antora 2.2.0">
     <link rel="stylesheet" href="../../_/css/site.css">
@@ -86,6 +86,9 @@
     <a class="nav-link" href="DeltaLog.html">DeltaLog</a>
   </li>
   <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="Snapshot.html">Snapshot</a>
+  </li>
+  <li class="nav-item" data-depth="1">
     <a class="nav-link" href="DeltaSQLConf.html">DeltaSQLConf</a>
   </li>
   <li class="nav-item" data-depth="1">
@@ -99,6 +102,9 @@
     <a class="nav-link" href="OptimisticTransaction.html">OptimisticTransaction</a>
   </li>
 </ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="DeltaFileFormat.html">DeltaFileFormat</a>
   </li>
   <li class="nav-item" data-depth="1">
     <a class="nav-link" href="others.html">The Others (Contenders)</a>
@@ -140,8 +146,8 @@
   <div class="edit-this-page"><a href="file:///antora/modules/ROOT/pages/DeltaLog.adoc">Edit this Page</a></div>
 </div>
 <article class="doc">
-<div class="sect1">
-<h2 id="deltalog"><a class="anchor" href="#deltalog"></a><a class="link" href="#deltalog"><a id="DeltaLog"></a> DeltaLog</a></h2>
+<h1 class="page"><a id="DeltaLog"></a> DeltaLog</h1>
+<div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
 <p><code>DeltaLog</code> is a <a href="LogStoreProvider.html" class="page">LogStoreProvider</a>.</p>
@@ -149,8 +155,11 @@
 <div class="paragraph">
 <p><code>DeltaLog</code> is <a href="#creating-instance">created</a> when&#8230;&#8203;FIXME</p>
 </div>
-<div class="sect2">
-<h3 id="creating-deltalog-instance"><a class="anchor" href="#creating-deltalog-instance"></a><a class="link" href="#creating-deltalog-instance"><a id="creating-instance"></a> Creating DeltaLog Instance</a></h3>
+</div>
+</div>
+<div class="sect1">
+<h2 id="creating-deltalog-instance"><a class="anchor" href="#creating-deltalog-instance"></a><a class="link" href="#creating-deltalog-instance"><a id="creating-instance"></a> Creating DeltaLog Instance</a></h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p><code>DeltaLog</code> takes the following to be created:</p>
 </div>
@@ -171,8 +180,10 @@
 <p><code>DeltaLog</code> initializes the <a href="#internal-properties">internal properties</a>.</p>
 </div>
 </div>
-<div class="sect2">
-<h3 id="executing-operation-block-in-new-transactionwithnewtransaction-method"><a class="anchor" href="#executing-operation-block-in-new-transactionwithnewtransaction-method"></a><a class="link" href="#executing-operation-block-in-new-transactionwithnewtransaction-method"><a id="withNewTransaction"></a> Executing Operation (Block) in New Transaction&#8201;&#8212;&#8201;<code>withNewTransaction</code> Method</a></h3>
+</div>
+<div class="sect1">
+<h2 id="executing-operation-block-in-new-transactionwithnewtransaction-method"><a class="anchor" href="#executing-operation-block-in-new-transactionwithnewtransaction-method"></a><a class="link" href="#executing-operation-block-in-new-transactionwithnewtransaction-method"><a id="withNewTransaction"></a> Executing Operation (Block) in New Transaction&#8201;&#8212;&#8201;<code>withNewTransaction</code> Method</a></h2>
+<div class="sectionbody">
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">withNewTransaction[T](
@@ -180,7 +191,10 @@
 </div>
 </div>
 <div class="paragraph">
-<p><code>withNewTransaction</code>&#8230;&#8203;FIXME</p>
+<p><code>withNewTransaction</code> <a href="#startTransaction">starts a new transaction</a> (that is <a href="OptimisticTransaction.html#setActive" class="page">set active</a> for the whole thread) and executes the given <code>thunk</code> function.</p>
+</div>
+<div class="paragraph">
+<p>In the end, <code>withNewTransaction</code> makes the transaction <a href="OptimisticTransaction.html#clearActive" class="page">no longer active</a>.</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -195,8 +209,35 @@
 </table>
 </div>
 </div>
-<div class="sect2">
-<h3 id="assertremovable-method"><a class="anchor" href="#assertremovable-method"></a><a class="link" href="#assertremovable-method"><a id="assertRemovable"></a> <code>assertRemovable</code> Method</a></h3>
+</div>
+<div class="sect1">
+<h2 id="starting-new-transactionstarttransaction-method"><a class="anchor" href="#starting-new-transactionstarttransaction-method"></a><a class="link" href="#starting-new-transactionstarttransaction-method"><a id="startTransaction"></a> Starting New Transaction&#8201;&#8212;&#8201;<code>startTransaction</code> Method</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">startTransaction(): OptimisticTransaction</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>startTransaction</code> <a href="#update">updates</a> and creates a new <a href="OptimisticTransaction.html" class="page">OptimisticTransaction</a>.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>startTransaction</code> is used when&#8230;&#8203;FIXME
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="assertremovable-method"><a class="anchor" href="#assertremovable-method"></a><a class="link" href="#assertremovable-method"><a id="assertRemovable"></a> <code>assertRemovable</code> Method</a></h2>
+<div class="sectionbody">
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">assertRemovable(): Unit</code></pre>
@@ -218,8 +259,10 @@
 </table>
 </div>
 </div>
-<div class="sect2">
-<h3 id="creating-deltalog-instancefortable-utility"><a class="anchor" href="#creating-deltalog-instancefortable-utility"></a><a class="link" href="#creating-deltalog-instancefortable-utility"><a id="forTable"></a> Creating DeltaLog Instance&#8201;&#8212;&#8201;<code>forTable</code> Utility</a></h3>
+</div>
+<div class="sect1">
+<h2 id="creating-deltalog-instancefortable-utility"><a class="anchor" href="#creating-deltalog-instancefortable-utility"></a><a class="link" href="#creating-deltalog-instancefortable-utility"><a id="forTable"></a> Creating DeltaLog Instance&#8201;&#8212;&#8201;<code>forTable</code> Utility</a></h2>
+<div class="sectionbody">
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">forTable(
@@ -242,6 +285,81 @@
 </tr>
 </table>
 </div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="update-method"><a class="anchor" href="#update-method"></a><a class="link" href="#update-method"><a id="update"></a> <code>update</code> Method</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">update(
+  stalenessAcceptable: Boolean = false): Snapshot</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>update</code>&#8230;&#8203;FIXME</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>update</code> is used when&#8230;&#8203;FIXME
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="current-snapshotsnapshot-method"><a class="anchor" href="#current-snapshotsnapshot-method"></a><a class="link" href="#current-snapshotsnapshot-method"><a id="snapshot"></a> Current Snapshot&#8201;&#8212;&#8201;<code>snapshot</code> Method</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">snapshot: Snapshot</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>snapshot</code> returns the <a href="#currentSnapshot">current snapshot</a>.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>snapshot</code> is used when&#8230;&#8203;FIXME
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="currentsnapshot-internal-registry"><a class="anchor" href="#currentsnapshot-internal-registry"></a><a class="link" href="#currentsnapshot-internal-registry"><a id="currentSnapshot"></a> <code>currentSnapshot</code> Internal Registry</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">currentSnapshot: Snapshot</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>currentSnapshot</code>&#8230;&#8203;FIXME</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>currentSnapshot</code> is used when&#8230;&#8203;FIXME
+</td>
+</tr>
+</table>
 </div>
 </div>
 </div>
