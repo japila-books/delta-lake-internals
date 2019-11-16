@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title> DeltaDataSource&#8201;&#8212;&#8201;Entry Point of Delta Data Source :: The Internals of Delta Lake</title>
+    <title>Untitled :: The Internals of Delta Lake</title>
     <link rel="canonical" href="https://delta.japila.pl/delta/0.4.0/DeltaDataSource.html">
     <meta name="generator" content="Antora 2.2.0">
     <link rel="stylesheet" href="../../_/css/site.css">
@@ -80,6 +80,9 @@
     <a class="nav-link" href="DeltaDataSource.html">DeltaDataSource</a>
   </li>
   <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="DeltaSink.html">DeltaSink</a>
+  </li>
+  <li class="nav-item" data-depth="1">
     <a class="nav-link" href="DeltaSQLConf.html">DeltaSQLConf</a>
   </li>
   <li class="nav-item" data-depth="1">
@@ -122,8 +125,8 @@
   <div class="edit-this-page"><a href="file:///antora/modules/ROOT/pages/DeltaDataSource.adoc">Edit this Page</a></div>
 </div>
 <article class="doc">
-<h1 class="page"><a id="DeltaDataSource"></a> DeltaDataSource&#8201;&#8212;&#8201;Entry Point of Delta Data Source</h1>
-<div id="preamble">
+<div class="sect1">
+<h2 id="deltadatasourceentry-point-of-delta-data-source"><a class="anchor" href="#deltadatasourceentry-point-of-delta-data-source"></a><a class="link" href="#deltadatasourceentry-point-of-delta-data-source"><a id="DeltaDataSource"></a> DeltaDataSource&#8201;&#8212;&#8201;Entry Point of Delta Data Source</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p><code>DeltaDataSource</code> is a <a href="#DataSourceRegister">DataSourceRegister</a> and acts as the entry point to all features provided by <code>delta</code> data source.</p>
@@ -131,11 +134,11 @@
 <div class="paragraph">
 <p><code>DeltaDataSource</code> is a <a href="#RelationProvider">RelationProvider</a>.</p>
 </div>
+<div class="paragraph">
+<p><code>DeltaDataSource</code> is a <a href="#StreamSinkProvider">StreamSinkProvider</a> for a streaming sink for streaming queries (Structured Streaming).</p>
 </div>
-</div>
-<div class="sect1">
-<h2 id="datasourceregister-for-delta-alias"><a class="anchor" href="#datasourceregister-for-delta-alias"></a><a class="link" href="#datasourceregister-for-delta-alias"><a id="delta-format"></a><a id="DataSourceRegister"></a> DataSourceRegister for delta alias</a></h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="datasourceregister-for-delta-alias"><a class="anchor" href="#datasourceregister-for-delta-alias"></a><a class="link" href="#datasourceregister-for-delta-alias"><a id="delta-format"></a><a id="DataSourceRegister"></a> DataSourceRegister for delta alias</a></h3>
 <div class="paragraph">
 <p><code>DeltaDataSource</code> is a <code>DataSourceRegister</code> and registers itself to be available using <code>delta</code> alias.</p>
 </div>
@@ -160,10 +163,8 @@ Read up on <a href="https://jaceklaskowski.gitbooks.io/mastering-spark-sql/spark
 </div>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="relationprovider"><a class="anchor" href="#relationprovider"></a><a class="link" href="#relationprovider"><a id="RelationProvider"></a> RelationProvider</a></h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="relationprovider"><a class="anchor" href="#relationprovider"></a><a class="link" href="#relationprovider"><a id="RelationProvider"></a> RelationProvider</a></h3>
 <div class="paragraph">
 <p><code>DeltaDataSource</code> is a <code>RelationProvider</code>.</p>
 </div>
@@ -180,10 +181,8 @@ Read up on <a href="https://jaceklaskowski.gitbooks.io/mastering-spark-sql/spark
 </table>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="creatablerelationprovider"><a class="anchor" href="#creatablerelationprovider"></a><a class="link" href="#creatablerelationprovider"><a id="CreatableRelationProvider"></a> CreatableRelationProvider</a></h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="creatablerelationprovider"><a class="anchor" href="#creatablerelationprovider"></a><a class="link" href="#creatablerelationprovider"><a id="CreatableRelationProvider"></a> CreatableRelationProvider</a></h3>
 <div class="paragraph">
 <p><code>DeltaDataSource</code> is a <code>CreatableRelationProvider</code>.</p>
 </div>
@@ -200,10 +199,8 @@ Read up on <a href="https://jaceklaskowski.gitbooks.io/mastering-spark-sql/spark
 </table>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="streamsourceprovider"><a class="anchor" href="#streamsourceprovider"></a><a class="link" href="#streamsourceprovider"><a id="StreamSourceProvider"></a> StreamSourceProvider</a></h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="streamsourceprovider"><a class="anchor" href="#streamsourceprovider"></a><a class="link" href="#streamsourceprovider"><a id="StreamSourceProvider"></a> StreamSourceProvider</a></h3>
 <div class="paragraph">
 <p><code>DeltaDataSource</code> is a <code>StreamSourceProvider</code>.</p>
 </div>
@@ -220,12 +217,10 @@ Read up on <a href="https://jaceklaskowski.gitbooks.io/spark-structured-streamin
 </table>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="streamsinkprovider"><a class="anchor" href="#streamsinkprovider"></a><a class="link" href="#streamsinkprovider"><a id="StreamSinkProvider"></a> StreamSinkProvider</a></h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="creating-streaming-sink-structured-streamingcreatesink-method"><a class="anchor" href="#creating-streaming-sink-structured-streamingcreatesink-method"></a><a class="link" href="#creating-streaming-sink-structured-streamingcreatesink-method"><a id="StreamSinkProvider"></a><a id="createSink"></a> Creating Streaming Sink (Structured Streaming)&#8201;&#8212;&#8201;<code>createSink</code> Method</a></h3>
 <div class="paragraph">
-<p><code>DeltaDataSource</code> is a <code>StreamSinkProvider</code>.</p>
+<p><code>DeltaDataSource</code> is a <code>StreamSinkProvider</code> for a streaming sink for Structured Streaming.</p>
 </div>
 <div class="admonitionblock tip">
 <table>
@@ -238,6 +233,13 @@ Read up on <a href="https://jaceklaskowski.gitbooks.io/spark-structured-streamin
 </td>
 </tr>
 </table>
+</div>
+<div class="paragraph">
+<p><code>DeltaDataSource</code> supports <code>Append</code> and <code>Complete</code> output modes only.</p>
+</div>
+<div class="paragraph">
+<p>In the end, <code>DeltaDataSource</code> creates a <a href="DeltaSink.html" class="page">DeltaSink</a>.</p>
+</div>
 </div>
 </div>
 </div>
