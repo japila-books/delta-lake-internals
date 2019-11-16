@@ -1,3 +1,50 @@
-== [[DeltaSink]] DeltaSink
+= [[DeltaSink]] DeltaSink -- Streaming Sink of Delta Data Source
 
-`DeltaSink` is...FIXME
+`DeltaSink` is a streaming sink of <<DeltaDataSource.adoc#, delta data source>>.
+
+TIP: Read up on https://jaceklaskowski.gitbooks.io/spark-structured-streaming/spark-sql-streaming-Sink.html[Streaming Sink] in https://bit.ly/spark-structured-streaming[The Internals of Spark Structured Streaming] online book.
+
+`DeltaSink` is <<creating-instance, created>> exclusively when `DeltaDataSource` is requested for a <<DeltaDataSource.adoc#createSink, streaming sink>> (Structured Streaming).
+
+[[toString]]
+`DeltaSink` uses the following text representation (with the <<path, path>>):
+
+```
+DeltaSink[path]
+```
+
+== [[creating-instance]] Creating DeltaSink Instance
+
+`DeltaSink` takes the following to be created:
+
+* [[sqlContext]] `SQLContext`
+* [[path]] Hadoop `Path` (corresponds to <<options.adoc#path, path>> option)
+* [[partitionColumns]] Names of the partition columns (`Seq[String]`)
+* [[outputMode]] `OutputMode`
+* [[options]] `DeltaOptions`
+
+== [[deltaLog]] `deltaLog` Internal Property
+
+[source, scala]
+----
+deltaLog: DeltaLog
+----
+
+When <<creating-instance, created>>, `DeltaSink` creates a <<DeltaLog.adoc#forTable, DeltaLog>>.
+
+`deltaLog` is used exclusively when `DeltaSink` is requested to <<addBatch, addBatch>>.
+
+== [[addBatch]] `addBatch` Method
+
+[source, scala]
+----
+addBatch(
+  batchId: Long,
+  data: DataFrame): Unit
+----
+
+NOTE: `addBatch` is part of the `Sink` contract (in Spark Structured Streaming) to add a batch of data to the sink.
+
+`addBatch` requests the <<deltaLog, DeltaLog>> to <<DeltaLog.adoc#withNewTransaction, start a new transaction>>.
+
+`addBatch`...FIXME

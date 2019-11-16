@@ -1,0 +1,3 @@
+== [[OptimisticTransaction]] OptimisticTransaction
+
+`OptimisticTransaction` is a concrete <<OptimisticTransactionImpl.adoc#, OptimisticTransactionImpl>>.

@@ -1,0 +1,51 @@
+== [[DeltaLog]] DeltaLog
+
+`DeltaLog` is a <<LogStoreProvider.adoc#, LogStoreProvider>>.
+
+`DeltaLog` is <<creating-instance, created>> when...FIXME
+
+=== [[creating-instance]] Creating DeltaLog Instance
+
+`DeltaLog` takes the following to be created:
+
+* [[logPath]] Log path (Hadoop `Path`)
+* [[dataPath]] Data path (Hadoop `Path`)
+* [[clock]] `Clock`
+
+`DeltaLog` initializes the <<internal-properties, internal properties>>.
+
+=== [[withNewTransaction]] Executing Operation (Block) in New Transaction -- `withNewTransaction` Method
+
+[source, scala]
+----
+withNewTransaction[T](
+  thunk: OptimisticTransaction => T): T
+----
+
+`withNewTransaction`...FIXME
+
+NOTE: `withNewTransaction` is used when...FIXME
+
+=== [[assertRemovable]] `assertRemovable` Method
+
+[source, scala]
+----
+assertRemovable(): Unit
+----
+
+`assertRemovable`...FIXME
+
+NOTE: `assertRemovable` is used when...FIXME
+
+=== [[forTable]] Creating DeltaLog Instance -- `forTable` Utility
+
+[source, scala]
+----
+forTable(
+  spark: SparkSession,
+  dataPath: Path): DeltaLog
+----
+
+`forTable` creates a <<apply, DeltaLog>> with `_delta_log` directory (in `dataPath` directory).
+
+NOTE: `forTable` is used when...FIXME
