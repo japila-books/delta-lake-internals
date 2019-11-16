@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Untitled :: The Internals of Delta Lake</title>
+    <title> DeltaSink&#8201;&#8212;&#8201;Streaming Sink of Delta Data Source :: The Internals of Delta Lake</title>
     <link rel="canonical" href="https://delta.japila.pl/delta/0.4.0/DeltaSink.html">
     <meta name="generator" content="Antora 2.2.0">
     <link rel="stylesheet" href="../../_/css/site.css">
@@ -83,7 +83,22 @@
     <a class="nav-link" href="DeltaSink.html">DeltaSink</a>
   </li>
   <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="DeltaLog.html">DeltaLog</a>
+  </li>
+  <li class="nav-item" data-depth="1">
     <a class="nav-link" href="DeltaSQLConf.html">DeltaSQLConf</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="LogStoreProvider.html">LogStoreProvider</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="OptimisticTransactionImpl.html">OptimisticTransactionImpl</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="OptimisticTransaction.html">OptimisticTransaction</a>
+  </li>
+</ul>
   </li>
   <li class="nav-item" data-depth="1">
     <a class="nav-link" href="others.html">The Others (Contenders)</a>
@@ -125,11 +140,107 @@
   <div class="edit-this-page"><a href="file:///antora/modules/ROOT/pages/DeltaSink.adoc">Edit this Page</a></div>
 </div>
 <article class="doc">
-<div class="sect1">
-<h2 id="deltasink"><a class="anchor" href="#deltasink"></a><a class="link" href="#deltasink"><a id="DeltaSink"></a> DeltaSink</a></h2>
+<h1 class="page"><a id="DeltaSink"></a> DeltaSink&#8201;&#8212;&#8201;Streaming Sink of Delta Data Source</h1>
+<div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p><code>DeltaSink</code> is&#8230;&#8203;FIXME</p>
+<p><code>DeltaSink</code> is a streaming sink of <a href="DeltaDataSource.html" class="page">delta data source</a>.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+Read up on <a href="https://jaceklaskowski.gitbooks.io/spark-structured-streaming/spark-sql-streaming-Sink.html">Streaming Sink</a> in <a href="https://bit.ly/spark-structured-streaming">The Internals of Spark Structured Streaming</a> online book.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><code>DeltaSink</code> is <a href="#creating-instance">created</a> exclusively when <code>DeltaDataSource</code> is requested for a <a href="DeltaDataSource.html#createSink" class="page">streaming sink</a> (Structured Streaming).</p>
+</div>
+<div id="toString" class="paragraph">
+<p><code>DeltaSink</code> uses the following text representation (with the <a href="#path">path</a>):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code>DeltaSink[path]</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="creating-deltasink-instance"><a class="anchor" href="#creating-deltasink-instance"></a><a class="link" href="#creating-deltasink-instance"><a id="creating-instance"></a> Creating DeltaSink Instance</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><code>DeltaSink</code> takes the following to be created:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a id="sqlContext"></a> <code>SQLContext</code></p>
+</li>
+<li>
+<p><a id="path"></a> Hadoop <code>Path</code> (corresponds to <a href="options.html#path" class="page">path</a> option)</p>
+</li>
+<li>
+<p><a id="partitionColumns"></a> Names of the partition columns (<code>Seq[String]</code>)</p>
+</li>
+<li>
+<p><a id="outputMode"></a> <code>OutputMode</code></p>
+</li>
+<li>
+<p><a id="options"></a> <code>DeltaOptions</code></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="deltalog-internal-property"><a class="anchor" href="#deltalog-internal-property"></a><a class="link" href="#deltalog-internal-property"><a id="deltaLog"></a> <code>deltaLog</code> Internal Property</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">deltaLog: DeltaLog</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>When <a href="#creating-instance">created</a>, <code>DeltaSink</code> creates a <a href="DeltaLog.html#forTable" class="page">DeltaLog</a>.</p>
+</div>
+<div class="paragraph">
+<p><code>deltaLog</code> is used exclusively when <code>DeltaSink</code> is requested to <a href="#addBatch">addBatch</a>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="addbatch-method"><a class="anchor" href="#addbatch-method"></a><a class="link" href="#addbatch-method"><a id="addBatch"></a> <code>addBatch</code> Method</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">addBatch(
+  batchId: Long,
+  data: DataFrame): Unit</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>addBatch</code> is part of the <code>Sink</code> contract (in Spark Structured Streaming) to add a batch of data to the sink.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><code>addBatch</code> requests the <a href="#deltaLog">DeltaLog</a> to <a href="DeltaLog.html#withNewTransaction" class="page">start a new transaction</a>.</p>
+</div>
+<div class="paragraph">
+<p><code>addBatch</code>&#8230;&#8203;FIXME</p>
 </div>
 </div>
 </div>
