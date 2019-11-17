@@ -81,6 +81,9 @@
     <a class="nav-link" href="commands.html">Commands</a>
 <ul class="nav-list">
   <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="ConvertToDeltaCommand.html">ConvertToDeltaCommand</a>
+  </li>
+  <li class="nav-item" data-depth="2">
     <a class="nav-link" href="DeleteCommand.html">DeleteCommand</a>
   </li>
   <li class="nav-item" data-depth="2">
@@ -90,10 +93,19 @@
     <a class="nav-link" href="UpdateCommand.html">UpdateCommand</a>
   </li>
   <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="VacuumCommand.html">VacuumCommand</a>
+  </li>
+  <li class="nav-item" data-depth="2">
     <a class="nav-link" href="WriteIntoDelta.html">WriteIntoDelta</a>
   </li>
   <li class="nav-item is-current-page" data-depth="2">
     <a class="nav-link" href="DeltaCommand.html">DeltaCommand</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="ConvertToDeltaCommandBase.html">ConvertToDeltaCommandBase</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="VacuumCommandImpl.html">VacuumCommandImpl</a>
   </li>
 </ul>
   </li>
@@ -172,8 +184,221 @@
 </div>
 <article class="doc">
 <h1 class="page"><a id="DeltaCommand"></a> DeltaCommand</h1>
+<div id="preamble">
+<div class="sectionbody">
 <div class="paragraph">
-<p><code>DeltaCommand</code> is&#8230;&#8203;FIXME</p>
+<p><code>DeltaCommand</code> is the <a href="#contract">abstraction</a> of <a href="#implementations">Delta commands</a> that can <a href="#FIXME">FIXME</a>.</p>
+</div>
+<table id="implementations" class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. DeltaCommands (Direct Implementations and Extensions Only)</caption>
+<colgroup>
+<col style="width: 30%;">
+<col style="width: 70%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">DeltaCommand</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="WriteIntoDelta.html" class="page">WriteIntoDelta</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a id="WriteIntoDelta"></a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="VacuumCommandImpl.html" class="page">VacuumCommandImpl</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a id="VacuumCommandImpl"></a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="UpdateCommand.html" class="page">UpdateCommand</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a id="UpdateCommand"></a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="MergeIntoCommand.html" class="page">MergeIntoCommand</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a id="MergeIntoCommand"></a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="ConvertToDeltaCommandBase.html" class="page">ConvertToDeltaCommandBase</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a id="ConvertToDeltaCommandBase"></a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="DeleteCommand.html" class="page">DeleteCommand</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a id="DeleteCommand"></a></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect1">
+<h2 id="parsepartitionpredicates-method"><a class="anchor" href="#parsepartitionpredicates-method"></a><a class="link" href="#parsepartitionpredicates-method"><a id="parsePartitionPredicates"></a> <code>parsePartitionPredicates</code> Method</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">parsePartitionPredicates(
+  spark: SparkSession,
+  predicate: String): Seq[Expression]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>parsePartitionPredicates</code>&#8230;&#8203;FIXME</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>parsePartitionPredicates</code> is used when&#8230;&#8203;FIXME
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="verifypartitionpredicates-method"><a class="anchor" href="#verifypartitionpredicates-method"></a><a class="link" href="#verifypartitionpredicates-method"><a id="verifyPartitionPredicates"></a> <code>verifyPartitionPredicates</code> Method</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">verifyPartitionPredicates(
+  spark: SparkSession,
+  partitionColumns: Seq[String],
+  predicates: Seq[Expression]): Unit</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>verifyPartitionPredicates</code>&#8230;&#8203;FIXME</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>verifyPartitionPredicates</code> is used when&#8230;&#8203;FIXME
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="generatecandidatefilemap-method"><a class="anchor" href="#generatecandidatefilemap-method"></a><a class="link" href="#generatecandidatefilemap-method"><a id="generateCandidateFileMap"></a> <code>generateCandidateFileMap</code> Method</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">generateCandidateFileMap(
+  basePath: Path,
+  candidateFiles: Seq[AddFile]): Map[String, AddFile]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>generateCandidateFileMap</code>&#8230;&#8203;FIXME</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>generateCandidateFileMap</code> is used when&#8230;&#8203;FIXME
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="removefilesfrompaths-method"><a class="anchor" href="#removefilesfrompaths-method"></a><a class="link" href="#removefilesfrompaths-method"><a id="removeFilesFromPaths"></a> <code>removeFilesFromPaths</code> Method</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">removeFilesFromPaths(
+  deltaLog: DeltaLog,
+  nameToAddFileMap: Map[String, AddFile],
+  filesToRewrite: Seq[String],
+  operationTimestamp: Long): Seq[RemoveFile]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>removeFilesFromPaths</code>&#8230;&#8203;FIXME</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>removeFilesFromPaths</code> is used when&#8230;&#8203;FIXME
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="buildbaserelation-method"><a class="anchor" href="#buildbaserelation-method"></a><a class="link" href="#buildbaserelation-method"><a id="buildBaseRelation"></a> <code>buildBaseRelation</code> Method</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">buildBaseRelation(
+  spark: SparkSession,
+  txn: OptimisticTransaction,
+  actionType: String,
+  rootPath: Path,
+  inputLeafFiles: Seq[String],
+  nameToAddFileMap: Map[String, AddFile]): HadoopFsRelation</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>buildBaseRelation</code>&#8230;&#8203;FIXME</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>buildBaseRelation</code> is used when&#8230;&#8203;FIXME
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="gettouchedfile-method"><a class="anchor" href="#gettouchedfile-method"></a><a class="link" href="#gettouchedfile-method"><a id="getTouchedFile"></a> <code>getTouchedFile</code> Method</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">getTouchedFile(
+  basePath: Path,
+  filePath: String,
+  nameToAddFileMap: Map[String, AddFile]): AddFile</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>getTouchedFile</code>&#8230;&#8203;FIXME</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>getTouchedFile</code> is used when&#8230;&#8203;FIXME
+</td>
+</tr>
+</table>
+</div>
+</div>
 </div>
 </article>
 </main>
