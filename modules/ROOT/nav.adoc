@@ -3,11 +3,15 @@
 * xref:options.adoc[Options]
 
 * xref:commands.adoc[Commands]
+** xref:ConvertToDeltaCommand.adoc[ConvertToDeltaCommand]
 ** xref:DeleteCommand.adoc[DeleteCommand]
 ** xref:MergeIntoCommand.adoc[MergeIntoCommand]
 ** xref:UpdateCommand.adoc[UpdateCommand]
+** xref:VacuumCommand.adoc[VacuumCommand]
 ** xref:WriteIntoDelta.adoc[WriteIntoDelta]
 ** xref:DeltaCommand.adoc[DeltaCommand]
+** xref:ConvertToDeltaCommandBase.adoc[ConvertToDeltaCommandBase]
+** xref:VacuumCommandImpl.adoc[VacuumCommandImpl]
 
 * xref:DeltaDataSource.adoc[DeltaDataSource]
 * xref:DeltaSink.adoc[DeltaSink]

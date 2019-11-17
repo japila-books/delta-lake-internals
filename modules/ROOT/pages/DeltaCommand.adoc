@@ -1,3 +1,116 @@
 = [[DeltaCommand]] DeltaCommand
 
-`DeltaCommand` is...FIXME
+`DeltaCommand` is the <<contract, abstraction>> of <<implementations, Delta commands>> that can <<FIXME, FIXME>>.
+
+[[implementations]]
+.DeltaCommands (Direct Implementations and Extensions Only)
+[cols="30,70",options="header",width="100%"]
+|===
+| DeltaCommand
+| Description
+
+| <<WriteIntoDelta.adoc#, WriteIntoDelta>>
+| [[WriteIntoDelta]]
+
+| <<VacuumCommandImpl.adoc#, VacuumCommandImpl>>
+| [[VacuumCommandImpl]]
+
+| <<UpdateCommand.adoc#, UpdateCommand>>
+| [[UpdateCommand]]
+
+| <<MergeIntoCommand.adoc#, MergeIntoCommand>>
+| [[MergeIntoCommand]]
+
+| <<ConvertToDeltaCommandBase.adoc#, ConvertToDeltaCommandBase>>
+| [[ConvertToDeltaCommandBase]]
+
+| <<DeleteCommand.adoc#, DeleteCommand>>
+| [[DeleteCommand]]
+
+|===
+
+== [[parsePartitionPredicates]] `parsePartitionPredicates` Method
+
+[source, scala]
+----
+parsePartitionPredicates(
+  spark: SparkSession,
+  predicate: String): Seq[Expression]
+----
+
+`parsePartitionPredicates`...FIXME
+
+NOTE: `parsePartitionPredicates` is used when...FIXME
+
+== [[verifyPartitionPredicates]] `verifyPartitionPredicates` Method
+
+[source, scala]
+----
+verifyPartitionPredicates(
+  spark: SparkSession,
+  partitionColumns: Seq[String],
+  predicates: Seq[Expression]): Unit
+----
+
+`verifyPartitionPredicates`...FIXME
+
+NOTE: `verifyPartitionPredicates` is used when...FIXME
+
+== [[generateCandidateFileMap]] `generateCandidateFileMap` Method
+
+[source, scala]
+----
+generateCandidateFileMap(
+  basePath: Path,
+  candidateFiles: Seq[AddFile]): Map[String, AddFile]
+----
+
+`generateCandidateFileMap`...FIXME
+
+NOTE: `generateCandidateFileMap` is used when...FIXME
+
+== [[removeFilesFromPaths]] `removeFilesFromPaths` Method
+
+[source, scala]
+----
+removeFilesFromPaths(
+  deltaLog: DeltaLog,
+  nameToAddFileMap: Map[String, AddFile],
+  filesToRewrite: Seq[String],
+  operationTimestamp: Long): Seq[RemoveFile]
+----
+
+`removeFilesFromPaths`...FIXME
+
+NOTE: `removeFilesFromPaths` is used when...FIXME
+
+== [[buildBaseRelation]] `buildBaseRelation` Method
+
+[source, scala]
+----
+buildBaseRelation(
+  spark: SparkSession,
+  txn: OptimisticTransaction,
+  actionType: String,
+  rootPath: Path,
+  inputLeafFiles: Seq[String],
+  nameToAddFileMap: Map[String, AddFile]): HadoopFsRelation
+----
+
+`buildBaseRelation`...FIXME
+
+NOTE: `buildBaseRelation` is used when...FIXME
+
+== [[getTouchedFile]] `getTouchedFile` Method
+
+[source, scala]
+----
+getTouchedFile(
+  basePath: Path,
+  filePath: String,
+  nameToAddFileMap: Map[String, AddFile]): AddFile
+----
+
+`getTouchedFile`...FIXME
+
+NOTE: `getTouchedFile` is used when...FIXME

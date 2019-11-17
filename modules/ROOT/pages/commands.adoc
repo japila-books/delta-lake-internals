@@ -7,6 +7,9 @@ Delta Lake comes with commands (that are executed eagerly for its side effects w
 | Name
 | Description
 
+| <<ConvertToDeltaCommand.adoc#, ConvertToDeltaCommand>>
+| [[ConvertToDeltaCommand]]
+
 | <<DeleteCommand.adoc#, DeleteCommand>>
 | [[DeleteCommand]]
 
@@ -15,6 +18,9 @@ Delta Lake comes with commands (that are executed eagerly for its side effects w
 
 | <<UpdateCommand.adoc#, UpdateCommand>>
 | [[UpdateCommand]]
+
+| <<VacuumCommand.adoc#, VacuumCommand>>
+| [[VacuumCommand]]
 
 | <<WriteIntoDelta.adoc#, WriteIntoDelta>>
 | [[WriteIntoDelta]] Writing data(frame) transactionally into a delta table
