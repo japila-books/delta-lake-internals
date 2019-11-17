@@ -7,6 +7,7 @@
 ** xref:MergeIntoCommand.adoc[MergeIntoCommand]
 ** xref:UpdateCommand.adoc[UpdateCommand]
 ** xref:WriteIntoDelta.adoc[WriteIntoDelta]
+** xref:DeltaCommand.adoc[DeltaCommand]
 
 * xref:DeltaDataSource.adoc[DeltaDataSource]
 * xref:DeltaSink.adoc[DeltaSink]
@@ -17,5 +18,6 @@
 * xref:OptimisticTransactionImpl.adoc[OptimisticTransactionImpl]
 ** xref:OptimisticTransaction.adoc[OptimisticTransaction]
 * xref:DeltaFileFormat.adoc[DeltaFileFormat]
+* xref:ImplicitMetadataOperation.adoc[ImplicitMetadataOperation]
 
 * xref:others.adoc[The Others (Contenders)]

@@ -1,3 +1,26 @@
-= [[WriteIntoDelta]] WriteIntoDelta
+= [[WriteIntoDelta]] WriteIntoDelta Command -- Writing Data(Frame) Transactionally Into Delta Table
 
-`WriteIntoDelta` is...FIXME
+`WriteIntoDelta` is a <<DeltaCommand.adoc#, DeltaCommand>> that can write <<data, data(frame)>> transactionally into a delta table.
+
+`WriteIntoDelta` is a <<ImplicitMetadataOperation.adoc#, ImplicitMetadataOperation>>.
+
+`WriteIntoDelta` is a `RunnableCommand` (that is executed eagerly for its side effects).
+
+TIP: Read up on https://jaceklaskowski.gitbooks.io/mastering-spark-sql/spark-sql-LogicalPlan-RunnableCommand.html[RunnableCommand] in https://bit.ly/spark-sql-internals[The Internals of Spark SQL] online book.
+
+`WriteIntoDelta` is <<creating-instance, created>> when:
+
+* `DeltaLog` is requested to <<DeltaLog.adoc#createRelation, create a relation (per partition filters and time travel)>> (when `DeltaDataSource` is requested to create a relation as a <<DeltaDataSource.adoc#CreatableRelationProvider, CreatableRelationProvider>> or a <<DeltaDataSource.adoc#RelationProvider, RelationProvider>>)
+
+* `DeltaDataSource` is requested to <<DeltaDataSource.adoc#createRelation, create a relation (per save mode and data source-specific parameters)>> (as a <<DeltaDataSource.adoc#CreatableRelationProvider, CreatableRelationProvider>>)
+
+== [[creating-instance]] Creating WriteIntoDelta Instance
+
+`WriteIntoDelta` takes the following to be created:
+
+* [[deltaLog]] <<DeltaLog.adoc#, DeltaLog>>
+* [[mode]] `SaveMode`
+* [[options]] `DeltaOptions`
+* [[partitionColumns]] Names of the partition columns (`Seq[String]`)
+* [[configuration]] Configuration (`Map[String, String]`)
+* [[data]] Data (`DataFrame`)

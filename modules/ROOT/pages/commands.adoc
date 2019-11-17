@@ -1,3 +1,22 @@
-= Delta Commands
+= Commands
 
-Delta Lake comes with logical commands...FIXME
+Delta Lake comes with commands (that are executed eagerly for its side effects when used in logical query plans).
+
+[cols="30m,70",options="header",width="100%"]
+|===
+| Name
+| Description
+
+| <<DeleteCommand.adoc#, DeleteCommand>>
+| [[DeleteCommand]]
+
+| <<MergeIntoCommand.adoc#, MergeIntoCommand>>
+| [[MergeIntoCommand]]
+
+| <<UpdateCommand.adoc#, UpdateCommand>>
+| [[UpdateCommand]]
+
+| <<WriteIntoDelta.adoc#, WriteIntoDelta>>
+| [[WriteIntoDelta]] Writing data(frame) transactionally into a delta table
+
+|===
