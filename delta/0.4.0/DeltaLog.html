@@ -77,6 +77,24 @@
     <a class="nav-link" href="options.html">Options</a>
   </li>
   <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="commands.html">Commands</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="DeleteCommand.html">DeleteCommand</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="MergeIntoCommand.html">MergeIntoCommand</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="UpdateCommand.html">UpdateCommand</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="WriteIntoDelta.html">WriteIntoDelta</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
     <a class="nav-link" href="DeltaDataSource.html">DeltaDataSource</a>
   </li>
   <li class="nav-item" data-depth="1">
@@ -203,7 +221,19 @@
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-<code>withNewTransaction</code> is used when&#8230;&#8203;FIXME
+<div class="paragraph">
+<p><code>withNewTransaction</code> is used when:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="DeleteCommand.html" class="page">DeleteCommand</a>, <a href="MergeIntoCommand.html" class="page">MergeIntoCommand</a>, <a href="UpdateCommand.html" class="page">UpdateCommand</a>, and <a href="WriteIntoDelta.html" class="page">WriteIntoDelta</a> logical commands are executed</p>
+</li>
+<li>
+<p><code>DeltaSink</code> is requested to <a href="DeltaSink.html#addBatch" class="page">addBatch</a></p>
+</li>
+</ul>
+</div>
 </td>
 </tr>
 </table>
