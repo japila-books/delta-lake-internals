@@ -92,6 +92,9 @@
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="WriteIntoDelta.html">WriteIntoDelta</a>
   </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="DeltaCommand.html">DeltaCommand</a>
+  </li>
 </ul>
   </li>
   <li class="nav-item" data-depth="1">
@@ -123,6 +126,9 @@
   </li>
   <li class="nav-item" data-depth="1">
     <a class="nav-link" href="DeltaFileFormat.html">DeltaFileFormat</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="ImplicitMetadataOperation.html">ImplicitMetadataOperation</a>
   </li>
   <li class="nav-item" data-depth="1">
     <a class="nav-link" href="others.html">The Others (Contenders)</a>
@@ -362,6 +368,33 @@
 </td>
 <td class="content">
 <code>snapshot</code> is used when&#8230;&#8203;FIXME
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="creating-relation-per-partition-filters-and-time-travelcreaterelation-method"><a class="anchor" href="#creating-relation-per-partition-filters-and-time-travelcreaterelation-method"></a><a class="link" href="#creating-relation-per-partition-filters-and-time-travelcreaterelation-method"><a id="createRelation"></a> Creating Relation (per Partition Filters and Time Travel)&#8201;&#8212;&#8201;<code>createRelation</code> Method</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">createRelation(
+  partitionFilters: Seq[Expression] = Nil,
+  timeTravel: Option[DeltaTimeTravelSpec] = None): BaseRelation</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>createRelation</code>&#8230;&#8203;FIXME</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>createRelation</code> is used when <code>DeltaDataSource</code> is requested to create a relation as a <a href="DeltaDataSource.html#CreatableRelationProvider" class="page">CreatableRelationProvider</a> and a <a href="DeltaDataSource.html#RelationProvider" class="page">RelationProvider</a>
 </td>
 </tr>
 </table>

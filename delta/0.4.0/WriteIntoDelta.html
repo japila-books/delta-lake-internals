@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title> WriteIntoDelta :: The Internals of Delta Lake</title>
+    <title> WriteIntoDelta Command&#8201;&#8212;&#8201;Writing Data(Frame) Transactionally Into Delta Table :: The Internals of Delta Lake</title>
     <link rel="canonical" href="https://delta.japila.pl/delta/0.4.0/WriteIntoDelta.html">
     <meta name="generator" content="Antora 2.2.0">
     <link rel="stylesheet" href="../../_/css/site.css">
@@ -92,6 +92,9 @@
   <li class="nav-item is-current-page" data-depth="2">
     <a class="nav-link" href="WriteIntoDelta.html">WriteIntoDelta</a>
   </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="DeltaCommand.html">DeltaCommand</a>
+  </li>
 </ul>
   </li>
   <li class="nav-item" data-depth="1">
@@ -123,6 +126,9 @@
   </li>
   <li class="nav-item" data-depth="1">
     <a class="nav-link" href="DeltaFileFormat.html">DeltaFileFormat</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="ImplicitMetadataOperation.html">ImplicitMetadataOperation</a>
   </li>
   <li class="nav-item" data-depth="1">
     <a class="nav-link" href="others.html">The Others (Contenders)</a>
@@ -165,9 +171,74 @@
   <div class="edit-this-page"><a href="file:///antora/modules/ROOT/pages/WriteIntoDelta.adoc">Edit this Page</a></div>
 </div>
 <article class="doc">
-<h1 class="page"><a id="WriteIntoDelta"></a> WriteIntoDelta</h1>
+<h1 class="page"><a id="WriteIntoDelta"></a> WriteIntoDelta Command&#8201;&#8212;&#8201;Writing Data(Frame) Transactionally Into Delta Table</h1>
+<div id="preamble">
+<div class="sectionbody">
 <div class="paragraph">
-<p><code>WriteIntoDelta</code> is&#8230;&#8203;FIXME</p>
+<p><code>WriteIntoDelta</code> is a <a href="DeltaCommand.html" class="page">DeltaCommand</a> that can write <a href="#data">data(frame)</a> transactionally into a delta table.</p>
+</div>
+<div class="paragraph">
+<p><code>WriteIntoDelta</code> is a <a href="ImplicitMetadataOperation.html" class="page">ImplicitMetadataOperation</a>.</p>
+</div>
+<div class="paragraph">
+<p><code>WriteIntoDelta</code> is a <code>RunnableCommand</code> (that is executed eagerly for its side effects).</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+Read up on <a href="https://jaceklaskowski.gitbooks.io/mastering-spark-sql/spark-sql-LogicalPlan-RunnableCommand.html">RunnableCommand</a> in <a href="https://bit.ly/spark-sql-internals">The Internals of Spark SQL</a> online book.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><code>WriteIntoDelta</code> is <a href="#creating-instance">created</a> when:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>DeltaLog</code> is requested to <a href="DeltaLog.html#createRelation" class="page">create a relation (per partition filters and time travel)</a> (when <code>DeltaDataSource</code> is requested to create a relation as a <a href="DeltaDataSource.html#CreatableRelationProvider" class="page">CreatableRelationProvider</a> or a <a href="DeltaDataSource.html#RelationProvider" class="page">RelationProvider</a>)</p>
+</li>
+<li>
+<p><code>DeltaDataSource</code> is requested to <a href="DeltaDataSource.html#createRelation" class="page">create a relation (per save mode and data source-specific parameters)</a> (as a <a href="DeltaDataSource.html#CreatableRelationProvider" class="page">CreatableRelationProvider</a>)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="creating-writeintodelta-instance"><a class="anchor" href="#creating-writeintodelta-instance"></a><a class="link" href="#creating-writeintodelta-instance"><a id="creating-instance"></a> Creating WriteIntoDelta Instance</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><code>WriteIntoDelta</code> takes the following to be created:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a id="deltaLog"></a> <a href="DeltaLog.html" class="page">DeltaLog</a></p>
+</li>
+<li>
+<p><a id="mode"></a> <code>SaveMode</code></p>
+</li>
+<li>
+<p><a id="options"></a> <code>DeltaOptions</code></p>
+</li>
+<li>
+<p><a id="partitionColumns"></a> Names of the partition columns (<code>Seq[String]</code>)</p>
+</li>
+<li>
+<p><a id="configuration"></a> Configuration (<code>Map[String, String]</code>)</p>
+</li>
+<li>
+<p><a id="data"></a> Data (<code>DataFrame</code>)</p>
+</li>
+</ul>
+</div>
+</div>
 </div>
 </article>
 </main>
