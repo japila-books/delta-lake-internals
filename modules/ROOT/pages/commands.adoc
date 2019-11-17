@@ -1,0 +1,3 @@
+= Delta Commands
+
+Delta Lake comes with logical commands...FIXME

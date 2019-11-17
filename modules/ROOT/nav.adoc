@@ -1,6 +1,13 @@
 * xref:index.adoc[Introduction]
 * xref:time-travel.adoc[Time Travel]
 * xref:options.adoc[Options]
+
+* xref:commands.adoc[Commands]
+** xref:DeleteCommand.adoc[DeleteCommand]
+** xref:MergeIntoCommand.adoc[MergeIntoCommand]
+** xref:UpdateCommand.adoc[UpdateCommand]
+** xref:WriteIntoDelta.adoc[WriteIntoDelta]
+
 * xref:DeltaDataSource.adoc[DeltaDataSource]
 * xref:DeltaSink.adoc[DeltaSink]
 * xref:DeltaLog.adoc[DeltaLog]
@@ -10,4 +17,5 @@
 * xref:OptimisticTransactionImpl.adoc[OptimisticTransactionImpl]
 ** xref:OptimisticTransaction.adoc[OptimisticTransaction]
 * xref:DeltaFileFormat.adoc[DeltaFileFormat]
+
 * xref:others.adoc[The Others (Contenders)]

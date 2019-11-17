@@ -26,7 +26,14 @@ withNewTransaction[T](
 
 In the end, `withNewTransaction` makes the transaction <<OptimisticTransaction.adoc#clearActive, no longer active>>.
 
-NOTE: `withNewTransaction` is used when...FIXME
+[NOTE]
+====
+`withNewTransaction` is used when:
+
+* <<DeleteCommand.adoc#, DeleteCommand>>, <<MergeIntoCommand.adoc#, MergeIntoCommand>>, <<UpdateCommand.adoc#, UpdateCommand>>, and <<WriteIntoDelta.adoc#, WriteIntoDelta>> logical commands are executed
+
+* `DeltaSink` is requested to <<DeltaSink.adoc#addBatch, addBatch>>
+====
 
 == [[startTransaction]] Starting New Transaction -- `startTransaction` Method
 
