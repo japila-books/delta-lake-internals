@@ -106,6 +106,32 @@ createRelation(
 
 NOTE: `createRelation` is used when `DeltaDataSource` is requested to create a relation as a <<DeltaDataSource.adoc#CreatableRelationProvider, CreatableRelationProvider>> and a <<DeltaDataSource.adoc#RelationProvider, RelationProvider>>
 
+== [[getSnapshotAt]] `getSnapshotAt` Method
+
+[source, scala]
+----
+getSnapshotAt(
+  version: Long,
+  commitTimestamp: Option[Long] = None,
+  lastCheckpointHint: Option[CheckpointInstance] = None): Snapshot
+----
+
+`getSnapshotAt`...FIXME
+
+NOTE: `getSnapshotAt` is used when...FIXME
+
+== [[tryUpdate]] `tryUpdate` Method
+
+[source, scala]
+----
+tryUpdate(
+  isAsync: Boolean = false): Snapshot
+----
+
+`tryUpdate`...FIXME
+
+NOTE: `tryUpdate` is used exclusively when `DeltaLog` is requested to <<update, update>>.
+
 == [[currentSnapshot]] `currentSnapshot` Internal Registry
 
 [source, scala]
@@ -116,3 +142,14 @@ currentSnapshot: Snapshot
 `currentSnapshot`...FIXME
 
 NOTE: `currentSnapshot` is used when...FIXME
+
+== [[updateInternal]] `updateInternal` Internal Method
+
+[source, scala]
+----
+updateInternal(isAsync: Boolean): Snapshot
+----
+
+`updateInternal`...FIXME
+
+NOTE: `updateInternal` is used when `DeltaLog` is requested to <<update, update>> and <<tryUpdate, tryUpdate>>.

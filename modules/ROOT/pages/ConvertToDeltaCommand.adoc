@@ -24,4 +24,56 @@ run(spark: SparkSession): Seq[Row]
 
 NOTE: `run` is part of the `RunnableCommand` contract to...FIXME.
 
-`run`...FIXME
+`run` <<getConvertProperties, creates a ConvertProperties>> from the <<tableIdentifier, TableIdentifier>> (with the given `SparkSession`).
+
+`run` makes sure that the (data source) provider (the database part of the <<tableIdentifier, TableIdentifier>>) is either `delta` or `parquet`. For all other data source providers, `run` throws an `AnalysisException`:
+
+```
+CONVERT TO DELTA only supports parquet tables, but you are trying to convert a [sourceName] source: [ident]
+```
+
+For `delta` data source provider, `run` simply prints out the following message to standard output and returns.
+
+```
+The table you are trying to convert is already a delta table
+```
+
+For `parquet` data source provider, `run` uses `DeltaLog` utility to <<DeltaLog.adoc#forTable, create a DeltaLog>>. `run` then requests `DeltaLog` to <<DeltaLog.adoc#update, update>> and <<DeltaLog.adoc#startTransaction, start a new transaction>>. In the end, `run` <<performConvert, performConvert>>.
+
+In case the <<OptimisticTransactionImpl.adoc#readVersion, readVersion>> of the new transaction is greater than `-1`, `run` simply prints out the following message to standard output and returns.
+
+```
+The table you are trying to convert is already a delta table
+```
+
+== [[performConvert]] `performConvert` Method
+
+[source, scala]
+----
+performConvert(
+  spark: SparkSession,
+  txn: OptimisticTransaction,
+  convertProperties: ConvertProperties): Seq[Row]
+----
+
+`performConvert`...FIXME
+
+NOTE: `performConvert` is used exclusively when `ConvertToDeltaCommand` is requested to <<run, run>>.
+
+== [[getConvertProperties]] Creating ConvertProperties from TableIdentifier -- `getConvertProperties` Method
+
+[source, scala]
+----
+getConvertProperties(
+  spark: SparkSession,
+  tableIdentifier: TableIdentifier): ConvertProperties
+----
+
+`getConvertProperties` simply creates a new `ConvertProperties` with the following:
+
+* Undefined `CatalogTable` (`None`)
+* The database of the `TableIdentifier` as the provider name
+* The table of the `TableIdentifier` as the target directory
+* No properties
+
+NOTE: `getConvertProperties` is used exclusively when `ConvertToDeltaCommand` is requested to <<run, run>>.

@@ -1,3 +1,14 @@
-== [[OptimisticTransactionImpl]] OptimisticTransactionImpl
+= [[OptimisticTransactionImpl]] OptimisticTransactionImpl
 
 `OptimisticTransactionImpl` is...FIXME
+
+== [[readVersion]] `readVersion` Method
+
+[source, scala]
+----
+readVersion: Long
+----
+
+`readVersion` simply requests the <<snapshot, Snapshot>> for the <<Snapshot.adoc#version, version>>.
+
+NOTE: `readVersion` is used when...FIXME
