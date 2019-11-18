@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Untitled :: The Internals of Delta Lake</title>
+    <title> OptimisticTransactionImpl :: The Internals of Delta Lake</title>
     <link rel="canonical" href="https://delta.japila.pl/delta/0.4.0/OptimisticTransactionImpl.html">
     <meta name="generator" content="Antora 2.2.0">
     <link rel="stylesheet" href="../../_/css/site.css">
@@ -188,11 +188,36 @@
   <div class="edit-this-page"><a href="file:///antora/modules/ROOT/pages/OptimisticTransactionImpl.adoc">Edit this Page</a></div>
 </div>
 <article class="doc">
-<div class="sect1">
-<h2 id="optimistictransactionimpl"><a class="anchor" href="#optimistictransactionimpl"></a><a class="link" href="#optimistictransactionimpl"><a id="OptimisticTransactionImpl"></a> OptimisticTransactionImpl</a></h2>
+<h1 class="page"><a id="OptimisticTransactionImpl"></a> OptimisticTransactionImpl</h1>
+<div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
 <p><code>OptimisticTransactionImpl</code> is&#8230;&#8203;FIXME</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="readversion-method"><a class="anchor" href="#readversion-method"></a><a class="link" href="#readversion-method"><a id="readVersion"></a> <code>readVersion</code> Method</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">readVersion: Long</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>readVersion</code> simply requests the <a href="#snapshot">Snapshot</a> for the <a href="Snapshot.html#version" class="page">version</a>.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>readVersion</code> is used when&#8230;&#8203;FIXME
+</td>
+</tr>
+</table>
 </div>
 </div>
 </div>

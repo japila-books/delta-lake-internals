@@ -420,6 +420,60 @@
 </div>
 </div>
 <div class="sect1">
+<h2 id="getsnapshotat-method"><a class="anchor" href="#getsnapshotat-method"></a><a class="link" href="#getsnapshotat-method"><a id="getSnapshotAt"></a> <code>getSnapshotAt</code> Method</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">getSnapshotAt(
+  version: Long,
+  commitTimestamp: Option[Long] = None,
+  lastCheckpointHint: Option[CheckpointInstance] = None): Snapshot</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>getSnapshotAt</code>&#8230;&#8203;FIXME</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>getSnapshotAt</code> is used when&#8230;&#8203;FIXME
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="tryupdate-method"><a class="anchor" href="#tryupdate-method"></a><a class="link" href="#tryupdate-method"><a id="tryUpdate"></a> <code>tryUpdate</code> Method</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">tryUpdate(
+  isAsync: Boolean = false): Snapshot</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>tryUpdate</code>&#8230;&#8203;FIXME</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>tryUpdate</code> is used exclusively when <code>DeltaLog</code> is requested to <a href="#update">update</a>.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
 <h2 id="currentsnapshot-internal-registry"><a class="anchor" href="#currentsnapshot-internal-registry"></a><a class="link" href="#currentsnapshot-internal-registry"><a id="currentSnapshot"></a> <code>currentSnapshot</code> Internal Registry</a></h2>
 <div class="sectionbody">
 <div class="listingblock">
@@ -438,6 +492,31 @@
 </td>
 <td class="content">
 <code>currentSnapshot</code> is used when&#8230;&#8203;FIXME
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="updateinternal-internal-method"><a class="anchor" href="#updateinternal-internal-method"></a><a class="link" href="#updateinternal-internal-method"><a id="updateInternal"></a> <code>updateInternal</code> Internal Method</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">updateInternal(isAsync: Boolean): Snapshot</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>updateInternal</code>&#8230;&#8203;FIXME</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>updateInternal</code> is used when <code>DeltaLog</code> is requested to <a href="#update">update</a> and <a href="#tryUpdate">tryUpdate</a>.
 </td>
 </tr>
 </table>

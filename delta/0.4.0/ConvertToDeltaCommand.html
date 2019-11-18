@@ -245,7 +245,105 @@
 </table>
 </div>
 <div class="paragraph">
-<p><code>run</code>&#8230;&#8203;FIXME</p>
+<p><code>run</code> <a href="#getConvertProperties">creates a ConvertProperties</a> from the <a href="#tableIdentifier">TableIdentifier</a> (with the given <code>SparkSession</code>).</p>
+</div>
+<div class="paragraph">
+<p><code>run</code> makes sure that the (data source) provider (the database part of the <a href="#tableIdentifier">TableIdentifier</a>) is either <code>delta</code> or <code>parquet</code>. For all other data source providers, <code>run</code> throws an <code>AnalysisException</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code>CONVERT TO DELTA only supports parquet tables, but you are trying to convert a [sourceName] source: [ident]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>For <code>delta</code> data source provider, <code>run</code> simply prints out the following message to standard output and returns.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code>The table you are trying to convert is already a delta table</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>For <code>parquet</code> data source provider, <code>run</code> uses <code>DeltaLog</code> utility to <a href="DeltaLog.html#forTable" class="page">create a DeltaLog</a>. <code>run</code> then requests <code>DeltaLog</code> to <a href="DeltaLog.html#update" class="page">update</a> and <a href="DeltaLog.html#startTransaction" class="page">start a new transaction</a>. In the end, <code>run</code> <a href="#performConvert">performConvert</a>.</p>
+</div>
+<div class="paragraph">
+<p>In case the <a href="OptimisticTransactionImpl.html#readVersion" class="page">readVersion</a> of the new transaction is greater than <code>-1</code>, <code>run</code> simply prints out the following message to standard output and returns.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code>The table you are trying to convert is already a delta table</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="performconvert-method"><a class="anchor" href="#performconvert-method"></a><a class="link" href="#performconvert-method"><a id="performConvert"></a> <code>performConvert</code> Method</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">performConvert(
+  spark: SparkSession,
+  txn: OptimisticTransaction,
+  convertProperties: ConvertProperties): Seq[Row]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>performConvert</code>&#8230;&#8203;FIXME</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>performConvert</code> is used exclusively when <code>ConvertToDeltaCommand</code> is requested to <a href="#run">run</a>.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="creating-convertproperties-from-tableidentifiergetconvertproperties-method"><a class="anchor" href="#creating-convertproperties-from-tableidentifiergetconvertproperties-method"></a><a class="link" href="#creating-convertproperties-from-tableidentifiergetconvertproperties-method"><a id="getConvertProperties"></a> Creating ConvertProperties from TableIdentifier&#8201;&#8212;&#8201;<code>getConvertProperties</code> Method</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">getConvertProperties(
+  spark: SparkSession,
+  tableIdentifier: TableIdentifier): ConvertProperties</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>getConvertProperties</code> simply creates a new <code>ConvertProperties</code> with the following:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Undefined <code>CatalogTable</code> (<code>None</code>)</p>
+</li>
+<li>
+<p>The database of the <code>TableIdentifier</code> as the provider name</p>
+</li>
+<li>
+<p>The table of the <code>TableIdentifier</code> as the target directory</p>
+</li>
+<li>
+<p>No properties</p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>getConvertProperties</code> is used exclusively when <code>ConvertToDeltaCommand</code> is requested to <a href="#run">run</a>.
+</td>
+</tr>
+</table>
 </div>
 </div>
 </div>

@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Untitled :: The Internals of Delta Lake</title>
+    <title> Snapshot :: The Internals of Delta Lake</title>
     <link rel="canonical" href="https://delta.japila.pl/delta/0.4.0/Snapshot.html">
     <meta name="generator" content="Antora 2.2.0">
     <link rel="stylesheet" href="../../_/css/site.css">
@@ -188,11 +188,50 @@
   <div class="edit-this-page"><a href="file:///antora/modules/ROOT/pages/Snapshot.adoc">Edit this Page</a></div>
 </div>
 <article class="doc">
-<div class="sect1">
-<h2 id="snapshot"><a class="anchor" href="#snapshot"></a><a class="link" href="#snapshot"><a id="Snapshot"></a> Snapshot</a></h2>
+<h1 class="page"><a id="Snapshot"></a> Snapshot</h1>
+<div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p><code>Snapshot</code> is&#8230;&#8203;FIXME</p>
+<p><code>Snapshot</code> is <a href="#creating-instance">created</a> when <code>DeltaLog</code> is requested for the <a href="DeltaLog.html#currentSnapshot" class="page">current snapshot</a>, to <a href="DeltaLog.html#update" class="page">update</a>, and <a href="DeltaLog.html#getSnapshotAt" class="page">getSnapshotAt</a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="creating-snapshot-instance"><a class="anchor" href="#creating-snapshot-instance"></a><a class="link" href="#creating-snapshot-instance"><a id="creating-instance"></a> Creating Snapshot Instance</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><code>Snapshot</code> takes the following to be created:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a id="path"></a> <code>Path</code></p>
+</li>
+<li>
+<p><a id="version"></a> Version</p>
+</li>
+<li>
+<p><a id="previousSnapshot"></a> Previous snapshot (<code>Option[Dataset[SingleAction]]</code>)</p>
+</li>
+<li>
+<p><a id="files"></a> Files (<code>Seq[Path]</code>)</p>
+</li>
+<li>
+<p><a id="minFileRetentionTimestamp"></a> <code>minFileRetentionTimestamp</code></p>
+</li>
+<li>
+<p><a id="deltaLog"></a> <a href="DeltaLog.html" class="page">DeltaLog</a></p>
+</li>
+<li>
+<p><a id="timestamp"></a> Timestamp</p>
+</li>
+<li>
+<p><a id="lineageLength"></a> Length of the lineage (default: <code>1</code>)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><code>Snapshot</code> initializes the <a href="#internal-properties">internal properties</a>.</p>
 </div>
 </div>
 </div>
