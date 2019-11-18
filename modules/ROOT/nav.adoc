@@ -12,6 +12,8 @@
 ** xref:DeltaCommand.adoc[DeltaCommand]
 ** xref:ConvertToDeltaCommandBase.adoc[ConvertToDeltaCommandBase]
 ** xref:VacuumCommandImpl.adoc[VacuumCommandImpl]
+** xref:DeltaConvert.adoc[DeltaConvert]
+** xref:DeltaTable.adoc[DeltaTable]
 
 * xref:DeltaDataSource.adoc[DeltaDataSource]
 * xref:DeltaSink.adoc[DeltaSink]

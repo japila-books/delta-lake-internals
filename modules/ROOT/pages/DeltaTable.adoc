@@ -1,0 +1,53 @@
+= [[DeltaTable]] DeltaTable Utility
+
+`DeltaTable` is...FIXME
+
+[source]
+----
+import io.delta.tables.DeltaTable.convertToDelta
+
+assert(spark.isInstanceOf[org.apache.spark.sql.SparkSession])
+val tableId = "parquet.`/path`"
+val partitionSchema = "key1 LONG, key2 STRING"
+
+convertToDelta(spark, tableId, partitionSchema)
+----
+
+== [[forPath]] `forPath` Utility
+
+[source, scala]
+----
+forPath(
+  sparkSession: SparkSession,
+  path: String): DeltaTable
+----
+
+`forPath`...FIXME
+
+NOTE: `forPath` is used when...FIXME
+
+== [[convertToDelta]] Creating DeltaTable from Parquet Table (and Partition Schema) -- `convertToDelta` Utility
+
+[source, scala]
+----
+convertToDelta(
+  spark: SparkSession,
+  identifier: String,
+  partitionSchema: StructType): DeltaTable
+convertToDelta(
+  spark: SparkSession,
+  identifier: String,
+  partitionSchema: String): DeltaTable  // <1>
+convertToDelta(
+  spark: SparkSession,
+  identifier: String): DeltaTable
+----
+<1> Creates `StructType` from the given DDL-formatted `partitionSchema` string
+
+`convertToDelta` requests the `SparkSession` for the SQL parser (`ParserInterface`) that is in turn requested to parse the given table identifier (to get a `TableIdentifier`).
+
+TIP: Read up on https://jaceklaskowski.gitbooks.io/mastering-spark-sql/spark-sql-ParserInterface.html[ParserInterface] in https://bit.ly/spark-sql-internals[The Internals of Spark SQL] online book.
+
+`convertToDelta` uses the `DeltaConvert` utility to <<DeltaConvert.adoc#executeConvert, executeConvert>>.
+
+In the end, `convertToDelta` <<forPath, creates a DeltaTable for the table (path of the table identifier)>>.

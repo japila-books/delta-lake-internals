@@ -1,0 +1,18 @@
+= [[DeltaConvert]] DeltaConvert Utility
+
+`DeltaConvert` is...FIXME
+
+== [[executeConvert]] `executeConvert` Method
+
+[source, scala]
+----
+executeConvert(
+  spark: SparkSession,
+  tableIdentifier: TableIdentifier,
+  partitionSchema: Option[StructType],
+  deltaPath: Option[String]): Unit
+----
+
+`executeConvert` simply creates a new <<ConvertToDeltaCommand.adoc#, ConvertToDeltaCommand>> and requests it to <<ConvertToDeltaCommand.adoc#run, run>>.
+
+NOTE: `executeConvert` is used when `DeltaTable` utility is requested to <<DeltaTable.adoc#convertToDelta, convertToDelta>>

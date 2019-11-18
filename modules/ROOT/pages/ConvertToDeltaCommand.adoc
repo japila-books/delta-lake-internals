@@ -1,3 +1,27 @@
-= [[ConvertToDeltaCommand]] ConvertToDeltaCommand
+= [[ConvertToDeltaCommand]] ConvertToDeltaCommand and ConvertToDeltaCommandBase
 
-`ConvertToDeltaCommand` is...FIXME
+`ConvertToDeltaCommand` is a <<DeltaCommand.adoc#, Delta command>> that <<run, FIXME>>.
+
+`ConvertToDeltaCommand` is <<creating-instance, created>> exclusively when `DeltaConvert` (as a `DeltaConvertBase`) is requested to <<DeltaConvert.adoc#executeConvert, executeConvert>>.
+
+[[ConvertToDeltaCommandBase]]
+`ConvertToDeltaCommandBase` is the base of `ConvertToDeltaCommand`-like commands with the only known implementation being <<ConvertToDeltaCommand, ConvertToDeltaCommand>> itself.
+
+== [[creating-instance]] Creating ConvertToDeltaCommand Instance
+
+`ConvertToDeltaCommand` takes the following to be created:
+
+* [[tableIdentifier]] `TableIdentifier`
+* [[partitionSchema]] Partition schema (`Option[StructType]`)
+* [[deltaPath]] Path (`Option[String]`)
+
+== [[run]] Running Command -- `run` Method
+
+[source, scala]
+----
+run(spark: SparkSession): Seq[Row]
+----
+
+NOTE: `run` is part of the `RunnableCommand` contract to...FIXME.
+
+`run`...FIXME
