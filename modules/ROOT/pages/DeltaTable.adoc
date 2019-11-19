@@ -13,20 +13,25 @@ val partitionSchema = "key1 LONG, key2 STRING"
 convertToDelta(spark, tableId, partitionSchema)
 ----
 
-== [[forPath]] `forPath` Utility
+== [[forPath]] Creating DeltaTable -- `forPath` Utility
 
 [source, scala]
 ----
 forPath(
+  path: String): DeltaTable // <1>
+forPath(
   sparkSession: SparkSession,
   path: String): DeltaTable
 ----
+<1> Uses `SparkSession.getActiveSession`
 
-`forPath`...FIXME
+`forPath` creates a <<DeltaTable, DeltaTable>> for data in the given directory (`path`).
+
+Internally, `forPath` makes sure that the given <<DeltaTableUtils.adoc#isDeltaTable, directory is part of a Delta table>> (as the root or a child directory).
 
 NOTE: `forPath` is used when...FIXME
 
-== [[convertToDelta]] Creating DeltaTable from Parquet Table (and Partition Schema) -- `convertToDelta` Utility
+== [[convertToDelta]] Importing Parquet Table Into Delta Lake (Converting Parquet Table To Delta Format) -- `convertToDelta` Utility
 
 [source, scala]
 ----
@@ -48,6 +53,4 @@ convertToDelta(
 
 TIP: Read up on https://jaceklaskowski.gitbooks.io/mastering-spark-sql/spark-sql-ParserInterface.html[ParserInterface] in https://bit.ly/spark-sql-internals[The Internals of Spark SQL] online book.
 
-`convertToDelta` uses the `DeltaConvert` utility to <<DeltaConvert.adoc#executeConvert, executeConvert>>.
-
-In the end, `convertToDelta` <<forPath, creates a DeltaTable for the table (path of the table identifier)>>.
+In the end, `convertToDelta` uses the `DeltaConvert` utility to <<DeltaConvert.adoc#executeConvert, convert the parquet table to delta format>> and <<forPath, creates a delta table>>.

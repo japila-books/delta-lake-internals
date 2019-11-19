@@ -8,7 +8,7 @@ Delta Lake comes with commands (that are executed eagerly for its side effects w
 | Description
 
 | <<ConvertToDeltaCommand.adoc#, ConvertToDeltaCommand>>
-| [[ConvertToDeltaCommand]]
+| [[ConvertToDeltaCommand]] Imports a parquet table into Delta Lake (by converting a parquet table to delta format)
 
 | <<DeleteCommand.adoc#, DeleteCommand>>
 | [[DeleteCommand]]

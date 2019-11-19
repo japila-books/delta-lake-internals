@@ -1,6 +1,6 @@
 = [[DeltaConvert]] DeltaConvert Utility
 
-`DeltaConvert` utility allows for <<executeConvert, executing ConvertToDeltaCommand>>.
+`DeltaConvert` utility allows for <<executeConvert, importing a parquet table into Delta Lake>>.
 
 [source,scala]
 ----
@@ -23,7 +23,7 @@ import io.delta.tables.execution.DeltaConvert
 DeltaConvert.executeConvert(spark, table, partitionSchema, deltaPath)
 ----
 
-== [[executeConvert]] Executing ConvertToDeltaCommand -- `executeConvert` Method
+== [[executeConvert]] Importing Parquet Table Into Delta Lake (Converting Parquet Table To Delta Format) -- `executeConvert` Method
 
 [source, scala]
 ----

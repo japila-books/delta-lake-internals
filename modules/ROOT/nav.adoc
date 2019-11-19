@@ -29,5 +29,6 @@
 * xref:SchemaUtils.adoc[SchemaUtils]
 * xref:Metadata.adoc[Metadata]
 * xref:DeltaOperations.adoc[DeltaOperations]
+* xref:DeltaTableUtils.adoc[DeltaTableUtils]
 
 * xref:others.adoc[The Others (Contenders)]

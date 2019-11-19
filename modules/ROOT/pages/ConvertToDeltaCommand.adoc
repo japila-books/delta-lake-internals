@@ -1,4 +1,4 @@
-= [[ConvertToDeltaCommand]] ConvertToDeltaCommand (and ConvertToDeltaCommandBase)
+= [[ConvertToDeltaCommand]] ConvertToDeltaCommand -- Importing Parquet Table Into Delta Lake (Converting Parquet Table To Delta Format)
 
 `ConvertToDeltaCommand` is a <<DeltaCommand.adoc#, Delta command>> that <<run, converts a parquet table into delta format>> (_imports_ it into Delta).
 
