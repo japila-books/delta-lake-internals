@@ -102,9 +102,6 @@
     <a class="nav-link" href="DeltaCommand.html">DeltaCommand</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="ConvertToDeltaCommandBase.html">ConvertToDeltaCommandBase</a>
-  </li>
-  <li class="nav-item" data-depth="2">
     <a class="nav-link" href="VacuumCommandImpl.html">VacuumCommandImpl</a>
   </li>
   <li class="nav-item" data-depth="2">
@@ -147,6 +144,18 @@
   </li>
   <li class="nav-item" data-depth="1">
     <a class="nav-link" href="ImplicitMetadataOperation.html">ImplicitMetadataOperation</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="DeltaFileOperations.html">DeltaFileOperations</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="SchemaUtils.html">SchemaUtils</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="Metadata.html">Metadata</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="DeltaOperations.html">DeltaOperations</a>
   </li>
   <li class="nav-item" data-depth="1">
     <a class="nav-link" href="others.html">The Others (Contenders)</a>
@@ -205,6 +214,24 @@
 </tr>
 </thead>
 <tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>import.batchSize.schemaInference</code></p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="import.batchSize.schemaInference"></a><a id="DELTA_IMPORT_BATCH_SIZE_SCHEMA_INFERENCE"></a> <strong>(internal)</strong> Number of files per batch for schema inference during <a href="ConvertToDeltaCommand.html#performConvert-schemaBatchSize" class="page">import</a>.</p>
+</div>
+<div class="paragraph">
+<p>Default: <code>1000000</code></p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>import.batchSize.statsCollection</code></p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="import.batchSize.statsCollection"></a><a id="DELTA_IMPORT_BATCH_SIZE_STATS_COLLECTION"></a> <strong>(internal)</strong> Number of files per batch for stats collection during <a href="ConvertToDeltaCommand.html#performConvert-schemaBatchSize" class="page">import</a>.</p>
+</div>
+<div class="paragraph">
+<p>Default: <code>50000</code></p>
+</div></div></td>
+</tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>timeTravel.resolveOnIdentifier.enabled</code></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">

@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title> ConvertToDeltaCommand and ConvertToDeltaCommandBase :: The Internals of Delta Lake</title>
+    <title> ConvertToDeltaCommand (and ConvertToDeltaCommandBase) :: The Internals of Delta Lake</title>
     <link rel="canonical" href="https://delta.japila.pl/delta/0.4.0/ConvertToDeltaCommand.html">
     <meta name="generator" content="Antora 2.2.0">
     <link rel="stylesheet" href="../../_/css/site.css">
@@ -102,9 +102,6 @@
     <a class="nav-link" href="DeltaCommand.html">DeltaCommand</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="ConvertToDeltaCommandBase.html">ConvertToDeltaCommandBase</a>
-  </li>
-  <li class="nav-item" data-depth="2">
     <a class="nav-link" href="VacuumCommandImpl.html">VacuumCommandImpl</a>
   </li>
   <li class="nav-item" data-depth="2">
@@ -149,6 +146,18 @@
     <a class="nav-link" href="ImplicitMetadataOperation.html">ImplicitMetadataOperation</a>
   </li>
   <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="DeltaFileOperations.html">DeltaFileOperations</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="SchemaUtils.html">SchemaUtils</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="Metadata.html">Metadata</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="DeltaOperations.html">DeltaOperations</a>
+  </li>
+  <li class="nav-item" data-depth="1">
     <a class="nav-link" href="others.html">The Others (Contenders)</a>
   </li>
 </ul>
@@ -189,11 +198,11 @@
   <div class="edit-this-page"><a href="file:///antora/modules/ROOT/pages/ConvertToDeltaCommand.adoc">Edit this Page</a></div>
 </div>
 <article class="doc">
-<h1 class="page"><a id="ConvertToDeltaCommand"></a> ConvertToDeltaCommand and ConvertToDeltaCommandBase</h1>
+<h1 class="page"><a id="ConvertToDeltaCommand"></a> ConvertToDeltaCommand (and ConvertToDeltaCommandBase)</h1>
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p><code>ConvertToDeltaCommand</code> is a <a href="DeltaCommand.html" class="page">Delta command</a> that <a href="#run">FIXME</a>.</p>
+<p><code>ConvertToDeltaCommand</code> is a <a href="DeltaCommand.html" class="page">Delta command</a> that <a href="#run">imports&#8230;&#8203;FIXME</a>.</p>
 </div>
 <div class="paragraph">
 <p><code>ConvertToDeltaCommand</code> is <a href="#creating-instance">created</a> exclusively when <code>DeltaConvert</code> (as a <code>DeltaConvertBase</code>) is requested to <a href="DeltaConvert.html#executeConvert" class="page">executeConvert</a>.</p>
@@ -288,7 +297,47 @@
 </div>
 </div>
 <div class="paragraph">
-<p><code>performConvert</code>&#8230;&#8203;FIXME</p>
+<p><code>performConvert</code> makes sure that the directory exists (from the given <code>ConvertProperties</code> which is the table part of the <a href="#tableIdentifier">TableIdentifier</a> of the command).</p>
+</div>
+<div class="paragraph">
+<p><code>performConvert</code> requests the <code>OptimisticTransaction</code> for the <a href="OptimisticTransaction.html#deltaLog" class="page">DeltaLog</a> that is in turn requested to <a href="DeltaLog.html#ensureLogDirectoryExist" class="page">ensureLogDirectoryExist</a>.</p>
+</div>
+<div class="paragraph">
+<p><code>performConvert</code> <a href="DeltaFileOperations.html#recursiveListDirs" class="page">creates a Dataset to recursively list directories and files</a> in the directory and leaves only files (by filtering out directories using <code>WHERE</code> clause).</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>performConvert</code> uses <code>Dataset</code> API to build a distributed computation to query files.
+</td>
+</tr>
+</table>
+</div>
+<div id="performConvert-cache" class="paragraph">
+<p><code>performConvert</code> caches the <code>Dataset</code> of file names.</p>
+</div>
+<div id="performConvert-schemaBatchSize" class="paragraph">
+<p><code>performConvert</code> uses <a href="DeltaSQLConf.html#import.batchSize.schemaInference" class="page">spark.databricks.delta.import.batchSize.schemaInference</a> configuration property for the number of files per batch for schema inference. <code>performConvert</code> <a href="#mergeSchemasInParallel">mergeSchemasInParallel</a> for every batch of files and then <a href="SchemaUtils.html#mergeSchemas" class="page">mergeSchemas</a>.</p>
+</div>
+<div class="paragraph">
+<p><code>performConvert</code> <a href="#constructTableSchema">constructTableSchema</a> using the inferred table schema and the <a href="#partitionSchema">partitionSchema</a> (if specified).</p>
+</div>
+<div class="paragraph">
+<p><code>performConvert</code> creates a new <a href="Metadata.html" class="page">Metadata</a> using the table schema and the <a href="#partitionSchema">partitionSchema</a> (if specified).</p>
+</div>
+<div class="paragraph">
+<p><code>performConvert</code> requests the <code>OptimisticTransaction</code> to <a href="OptimisticTransactionImpl.html#updateMetadata" class="page">update the metadata</a>.</p>
+</div>
+<div id="performConvert-statsBatchSize" class="paragraph">
+<p><code>performConvert</code> uses <a href="DeltaSQLConf.html#import.batchSize.statsCollection" class="page">spark.databricks.delta.import.batchSize.statsCollection</a> configuration property for the number of files per batch for stats collection. <code>performConvert</code> <a href="#createAddFile">creates an AddFile</a> (in the <a href="DeltaLog.html#dataPath" class="page">data path</a> of the <a href="OptimisticTransaction.html#deltaLog" class="page">DeltaLog</a> of the <code>OptimisticTransaction</code>) for every file in a batch.</p>
+</div>
+<div class="paragraph">
+<p><a id="performConvert-streamWrite"></a><a id="performConvert-unpersist"></a>
+In the end, <code>performConvert</code> <a href="#streamWrite">streamWrite</a> (with the <code>OptimisticTransaction</code>, the <code>AddFile`s, and <a href="DeltaOperations.html#Convert" class="page">Convert</a> operation) and unpersists the `Dataset</code> of file names.</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -298,6 +347,119 @@
 </td>
 <td class="content">
 <code>performConvert</code> is used exclusively when <code>ConvertToDeltaCommand</code> is requested to <a href="#run">run</a>.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="streamwrite-method"><a class="anchor" href="#streamwrite-method"></a><a class="link" href="#streamwrite-method"><a id="streamWrite"></a> <code>streamWrite</code> Method</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">streamWrite(
+  spark: SparkSession,
+  txn: OptimisticTransaction,
+  addFiles: Iterator[AddFile],
+  op: DeltaOperations.Convert): Long</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>streamWrite</code>&#8230;&#8203;FIXME</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>streamWrite</code> is used exclusively when <code>ConvertToDeltaCommand</code> is requested to <a href="#performConvert">performConvert</a>.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="createaddfile-method"><a class="anchor" href="#createaddfile-method"></a><a class="link" href="#createaddfile-method"><a id="createAddFile"></a> <code>createAddFile</code> Method</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">createAddFile(
+  file: SerializableFileStatus,
+  basePath: Path,
+  fs: FileSystem,
+  resolver: Resolver): AddFile</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>createAddFile</code>&#8230;&#8203;FIXME</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>createAddFile</code> is used exclusively when <code>ConvertToDeltaCommand</code> is requested to <a href="#performConvert">performConvert</a>.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="mergeschemasinparallel-method"><a class="anchor" href="#mergeschemasinparallel-method"></a><a class="link" href="#mergeschemasinparallel-method"><a id="mergeSchemasInParallel"></a> <code>mergeSchemasInParallel</code> Method</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">mergeSchemasInParallel(
+  sparkSession: SparkSession,
+  filesToTouch: Seq[FileStatus]): Option[StructType]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>mergeSchemasInParallel</code>&#8230;&#8203;FIXME</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>mergeSchemasInParallel</code> is used exclusively when <code>ConvertToDeltaCommand</code> is requested to <a href="#performConvert">performConvert</a>.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="constructtableschema-method"><a class="anchor" href="#constructtableschema-method"></a><a class="link" href="#constructtableschema-method"><a id="constructTableSchema"></a> <code>constructTableSchema</code> Method</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">constructTableSchema(
+  spark: SparkSession,
+  dataSchema: StructType,
+  partitionFields: Seq[StructField]): StructType</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>constructTableSchema</code>&#8230;&#8203;FIXME</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>constructTableSchema</code> is used exclusively when <code>ConvertToDeltaCommand</code> is requested to <a href="#performConvert">performConvert</a>.
 </td>
 </tr>
 </table>
@@ -323,10 +485,10 @@
 <p>Undefined <code>CatalogTable</code> (<code>None</code>)</p>
 </li>
 <li>
-<p>The database of the <code>TableIdentifier</code> as the provider name</p>
+<p>Provider name as the database of the <a href="#tableIdentifier">TableIdentifier</a></p>
 </li>
 <li>
-<p>The table of the <code>TableIdentifier</code> as the target directory</p>
+<p>Target directory as the table of the <a href="#tableIdentifier">TableIdentifier</a></p>
 </li>
 <li>
 <p>No properties</p>
