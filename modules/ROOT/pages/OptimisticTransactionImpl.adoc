@@ -12,3 +12,14 @@ readVersion: Long
 `readVersion` simply requests the <<snapshot, Snapshot>> for the <<Snapshot.adoc#version, version>>.
 
 NOTE: `readVersion` is used when...FIXME
+
+== [[updateMetadata]] Updating Metadata -- `updateMetadata` Method
+
+[source, scala]
+----
+updateMetadata(metadata: Metadata): Unit
+----
+
+`updateMetadata`...FIXME
+
+NOTE: `updateMetadata` is used when...FIXME

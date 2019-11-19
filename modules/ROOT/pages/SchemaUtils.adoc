@@ -1,0 +1,16 @@
+= [[SchemaUtils]] SchemaUtils Utility
+
+`SchemaUtils` is...FIXME
+
+== [[mergeSchemas]] `mergeSchemas` Utility
+
+[source, scala]
+----
+mergeSchemas(
+  tableSchema: StructType,
+  dataSchema: StructType): StructType
+----
+
+`mergeSchemas`...FIXME
+
+NOTE: `mergeSchemas` is used when...FIXME

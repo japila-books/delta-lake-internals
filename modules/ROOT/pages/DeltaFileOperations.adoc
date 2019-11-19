@@ -1,0 +1,19 @@
+= [[DeltaFileOperations]] DeltaFileOperations Utility
+
+`DeltaFileOperations` is...FIXME
+
+== [[recursiveListDirs]] `recursiveListDirs` Utility
+
+[source, scala]
+----
+recursiveListDirs(
+  spark: SparkSession,
+  subDirs: Seq[String],
+  hadoopConf: Broadcast[SerializableConfiguration],
+  hiddenFileNameFilter: String => Boolean = defaultHiddenFileFilter,
+  fileListingParallelism: Option[Int] = None): Dataset[SerializableFileStatus]
+----
+
+`recursiveListDirs`...FIXME
+
+NOTE: `recursiveListDirs` is used when...FIXME

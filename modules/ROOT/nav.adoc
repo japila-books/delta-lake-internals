@@ -10,7 +10,6 @@
 ** xref:VacuumCommand.adoc[VacuumCommand]
 ** xref:WriteIntoDelta.adoc[WriteIntoDelta]
 ** xref:DeltaCommand.adoc[DeltaCommand]
-** xref:ConvertToDeltaCommandBase.adoc[ConvertToDeltaCommandBase]
 ** xref:VacuumCommandImpl.adoc[VacuumCommandImpl]
 ** xref:DeltaConvert.adoc[DeltaConvert]
 ** xref:DeltaTable.adoc[DeltaTable]
@@ -25,5 +24,9 @@
 ** xref:OptimisticTransaction.adoc[OptimisticTransaction]
 * xref:DeltaFileFormat.adoc[DeltaFileFormat]
 * xref:ImplicitMetadataOperation.adoc[ImplicitMetadataOperation]
+* xref:DeltaFileOperations.adoc[DeltaFileOperations]
+* xref:SchemaUtils.adoc[SchemaUtils]
+* xref:Metadata.adoc[Metadata]
+* xref:DeltaOperations.adoc[DeltaOperations]
 
 * xref:others.adoc[The Others (Contenders)]

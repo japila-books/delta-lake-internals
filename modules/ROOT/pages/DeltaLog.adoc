@@ -132,6 +132,17 @@ tryUpdate(
 
 NOTE: `tryUpdate` is used exclusively when `DeltaLog` is requested to <<update, update>>.
 
+== [[ensureLogDirectoryExist]] `ensureLogDirectoryExist` Method
+
+[source, scala]
+----
+ensureLogDirectoryExist(): Unit
+----
+
+`ensureLogDirectoryExist`...FIXME
+
+NOTE: `ensureLogDirectoryExist` is used when...FIXME
+
 == [[currentSnapshot]] `currentSnapshot` Internal Registry
 
 [source, scala]

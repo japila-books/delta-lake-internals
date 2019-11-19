@@ -8,6 +8,16 @@ The following table contains `spark.databricks.delta.`-prefixed configuration pr
 | Name
 | Description
 
+| import.batchSize.schemaInference
+a| [[import.batchSize.schemaInference]][[DELTA_IMPORT_BATCH_SIZE_SCHEMA_INFERENCE]] **(internal)** Number of files per batch for schema inference during <<ConvertToDeltaCommand.adoc#performConvert-schemaBatchSize, import>>.
+
+Default: `1000000`
+
+| import.batchSize.statsCollection
+a| [[import.batchSize.statsCollection]][[DELTA_IMPORT_BATCH_SIZE_STATS_COLLECTION]] **(internal)** Number of files per batch for stats collection during <<ConvertToDeltaCommand.adoc#performConvert-schemaBatchSize, import>>.
+
+Default: `50000`
+
 | timeTravel.resolveOnIdentifier.enabled
 a| [[timeTravel.resolveOnIdentifier.enabled]] **(internal)** When enabled (`true`), patterns as `@v123` in identifiers are considered as <<time-travel.adoc#, time travel>> nodes.
 
