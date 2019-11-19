@@ -36,4 +36,4 @@ executeConvert(
 
 `executeConvert` simply creates a new <<ConvertToDeltaCommand.adoc#, ConvertToDeltaCommand>> and requests it to <<ConvertToDeltaCommand.adoc#run, run>>.
 
-NOTE: `executeConvert` is used when `DeltaTable` utility is requested to <<DeltaTable.adoc#convertToDelta, convertToDelta>>
+NOTE: `executeConvert` is used when `DeltaTable` utility is requested to <<DeltaTable.adoc#convertToDelta, convert a parquet table to delta format>>.
