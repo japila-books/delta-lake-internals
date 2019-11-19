@@ -1,8 +1,29 @@
 = [[DeltaConvert]] DeltaConvert Utility
 
-`DeltaConvert` is...FIXME
+`DeltaConvert` utility allows for <<executeConvert, executing ConvertToDeltaCommand>>.
 
-== [[executeConvert]] `executeConvert` Method
+[source,scala]
+----
+import org.apache.spark.sql.SparkSession
+assert(spark.isInstanceOf[SparkSession])
+
+// CONVERT TO DELTA only supports parquet tables
+// TableIdentifier should be parquet.`users`
+import org.apache.spark.sql.catalyst.TableIdentifier
+val table = TableIdentifier(table = "users", database = Some("parquet"))
+
+import org.apache.spark.sql.types.{StringType, StructField, StructType}
+val partitionSchema: Option[StructType] = Some(
+  new StructType().add(StructField("country", StringType)))
+
+val deltaPath: Option[String] = None
+
+// Use web UI to monitor execution, e.g. http://localhost:4040
+import io.delta.tables.execution.DeltaConvert
+DeltaConvert.executeConvert(spark, table, partitionSchema, deltaPath)
+----
+
+== [[executeConvert]] Executing ConvertToDeltaCommand -- `executeConvert` Method
 
 [source, scala]
 ----

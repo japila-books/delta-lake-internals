@@ -1,8 +1,8 @@
 = [[ConvertToDeltaCommand]] ConvertToDeltaCommand (and ConvertToDeltaCommandBase)
 
-`ConvertToDeltaCommand` is a <<DeltaCommand.adoc#, Delta command>> that <<run, imports...FIXME>>.
+`ConvertToDeltaCommand` is a <<DeltaCommand.adoc#, Delta command>> that <<run, converts a parquet table into delta format>> (_imports_ it into Delta).
 
-`ConvertToDeltaCommand` is <<creating-instance, created>> exclusively when `DeltaConvert` (as a `DeltaConvertBase`) is requested to <<DeltaConvert.adoc#executeConvert, executeConvert>>.
+`ConvertToDeltaCommand` is <<creating-instance, created>> and <<run, executed>> using <<DeltaConvert.adoc#, DeltaConvert>> utility.
 
 [[ConvertToDeltaCommandBase]]
 `ConvertToDeltaCommandBase` is the base of `ConvertToDeltaCommand`-like commands with the only known implementation being <<ConvertToDeltaCommand, ConvertToDeltaCommand>> itself.

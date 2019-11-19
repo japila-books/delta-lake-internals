@@ -2,6 +2,8 @@
 * xref:time-travel.adoc[Time Travel]
 * xref:options.adoc[Options]
 
+* xref:DeltaConvert.adoc[DeltaConvert]
+
 * xref:commands.adoc[Commands]
 ** xref:ConvertToDeltaCommand.adoc[ConvertToDeltaCommand]
 ** xref:DeleteCommand.adoc[DeleteCommand]
@@ -11,7 +13,6 @@
 ** xref:WriteIntoDelta.adoc[WriteIntoDelta]
 ** xref:DeltaCommand.adoc[DeltaCommand]
 ** xref:VacuumCommandImpl.adoc[VacuumCommandImpl]
-** xref:DeltaConvert.adoc[DeltaConvert]
 ** xref:DeltaTable.adoc[DeltaTable]
 
 * xref:DeltaDataSource.adoc[DeltaDataSource]
