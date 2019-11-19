@@ -3,8 +3,8 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title> DeltaFileFormat Contract :: The Internals of Delta Lake</title>
-    <link rel="canonical" href="https://delta.japila.pl/delta/0.4.0/DeltaFileFormat.html">
+    <title> DeltaTableUtils Utility :: The Internals of Delta Lake</title>
+    <link rel="canonical" href="https://delta.japila.pl/delta/0.4.0/DeltaTableUtils.html">
     <meta name="generator" content="Antora 2.2.0">
     <link rel="stylesheet" href="../../_/css/site.css">
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-151208281-1"></script>
@@ -139,7 +139,7 @@
   </li>
 </ul>
   </li>
-  <li class="nav-item is-current-page" data-depth="1">
+  <li class="nav-item" data-depth="1">
     <a class="nav-link" href="DeltaFileFormat.html">DeltaFileFormat</a>
   </li>
   <li class="nav-item" data-depth="1">
@@ -157,7 +157,7 @@
   <li class="nav-item" data-depth="1">
     <a class="nav-link" href="DeltaOperations.html">DeltaOperations</a>
   </li>
-  <li class="nav-item" data-depth="1">
+  <li class="nav-item is-current-page" data-depth="1">
     <a class="nav-link" href="DeltaTableUtils.html">DeltaTableUtils</a>
   </li>
   <li class="nav-item" data-depth="1">
@@ -194,59 +194,76 @@
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="index.html">Delta Lake</a></li>
-    <li><a href="DeltaFileFormat.html">DeltaFileFormat</a></li>
+    <li><a href="DeltaTableUtils.html">DeltaTableUtils</a></li>
   </ul>
 </nav>
-  <div class="edit-this-page"><a href="file:///antora/modules/ROOT/pages/DeltaFileFormat.adoc">Edit this Page</a></div>
+  <div class="edit-this-page"><a href="file:///antora/modules/ROOT/pages/DeltaTableUtils.adoc">Edit this Page</a></div>
 </div>
 <article class="doc">
-<h1 class="page"><a id="DeltaFileFormat"></a> DeltaFileFormat Contract</h1>
+<h1 class="page"><a id="DeltaTableUtils"></a> DeltaTableUtils Utility</h1>
+<div id="preamble">
+<div class="sectionbody">
 <div class="paragraph">
-<p><code>DeltaFileFormat</code> is the <a href="#contract">abstraction</a> of <a href="#implementations">FileFormat "descriptors"</a> that can <a href="#fileFormat">specify the underlying FileFormat of Spark</a> that describes a Delta table.</p>
+<p><code>DeltaTableUtils</code> is&#8230;&#8203;FIXME</p>
 </div>
-<table id="contract" class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 1. DeltaFileFormat Contract</caption>
-<colgroup>
-<col style="width: 30%;">
-<col style="width: 70%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Method</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>fileFormat</code></p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div id="fileFormat" class="listingblock">
+</div>
+</div>
+<div class="sect1">
+<h2 id="checking-out-whether-directory-is-part-of-delta-tableisdeltatable-utility"><a class="anchor" href="#checking-out-whether-directory-is-part-of-delta-tableisdeltatable-utility"></a><a class="link" href="#checking-out-whether-directory-is-part-of-delta-tableisdeltatable-utility"><a id="isDeltaTable"></a> Checking Out Whether Directory Is Part of Delta Table&#8201;&#8212;&#8201;<code>isDeltaTable</code> Utility</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">fileFormat: FileFormat</code></pre>
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">isDeltaTable(
+  spark: SparkSession,
+  path: Path): Boolean</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Spark SQL&#8217;s <code>FileFormat</code> that describes a Delta table</p>
+<p><code>isDeltaTable</code> tries to <a href="#findDeltaTableRoot">find the root of the delta table</a> for the given path and returns whether it was successful or not.</p>
 </div>
-<div class="paragraph">
-<p>Default: <code>ParquetFileFormat</code></p>
-</div>
-<div class="paragraph">
-<p>Used when&#8230;&#8203;FIXME</p>
-</div></div></td>
-</tr>
-</tbody>
-</table>
-<div id="implementations" class="admonitionblock note">
+<div class="admonitionblock note">
 <table>
 <tr>
 <td class="icon">
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-<a href="Snapshot.html" class="page">Snapshot</a> is the only known <code>DeltaFileFormat</code>.
+<code>isDeltaTable</code> is used when&#8230;&#8203;FIXME
 </td>
 </tr>
 </table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="finding-root-directory-of-delta-tablefinddeltatableroot-utility"><a class="anchor" href="#finding-root-directory-of-delta-tablefinddeltatableroot-utility"></a><a class="link" href="#finding-root-directory-of-delta-tablefinddeltatableroot-utility"><a id="findDeltaTableRoot"></a> Finding Root Directory Of Delta Table&#8201;&#8212;&#8201;<code>findDeltaTableRoot</code> Utility</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">findDeltaTableRoot(
+  spark: SparkSession,
+  path: Path): Option[Path]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>findDeltaTableRoot</code> traverses the Hadoop DFS-compliant path upwards (to the root directory of the file system) until <code>_delta_log</code> or <code>_samples</code> directories are found or the root directory is reached.</p>
+</div>
+<div class="paragraph">
+<p>For <code>_delta_log</code> or <code>_samples</code> directories, <code>findDeltaTableRoot</code> returns the parent directory.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>findDeltaTableRoot</code> is used when&#8230;&#8203;FIXME
+</td>
+</tr>
+</table>
+</div>
+</div>
 </div>
 </article>
 </main>

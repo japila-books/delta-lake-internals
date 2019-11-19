@@ -158,6 +158,9 @@
     <a class="nav-link" href="DeltaOperations.html">DeltaOperations</a>
   </li>
   <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="DeltaTableUtils.html">DeltaTableUtils</a>
+  </li>
+  <li class="nav-item" data-depth="1">
     <a class="nav-link" href="others.html">The Others (Contenders)</a>
   </li>
 </ul>
@@ -218,17 +221,30 @@ convertToDelta(spark, tableId, partitionSchema)</code></pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="forpath-utility"><a class="anchor" href="#forpath-utility"></a><a class="link" href="#forpath-utility"><a id="forPath"></a> <code>forPath</code> Utility</a></h2>
+<h2 id="creating-deltatableforpath-utility"><a class="anchor" href="#creating-deltatableforpath-utility"></a><a class="link" href="#creating-deltatableforpath-utility"><a id="forPath"></a> Creating DeltaTable&#8201;&#8212;&#8201;<code>forPath</code> Utility</a></h2>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">forPath(
+  path: String): DeltaTable <i class="conum" data-value="1"></i><b>(1)</b>
+forPath(
   sparkSession: SparkSession,
   path: String): DeltaTable</code></pre>
 </div>
 </div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Uses <code>SparkSession.getActiveSession</code></td>
+</tr>
+</table>
+</div>
 <div class="paragraph">
-<p><code>forPath</code>&#8230;&#8203;FIXME</p>
+<p><code>forPath</code> creates a <a href="#DeltaTable">DeltaTable</a> for data in the given directory (<code>path</code>).</p>
+</div>
+<div class="paragraph">
+<p>Internally, <code>forPath</code> makes sure that the given <a href="DeltaTableUtils.html#isDeltaTable" class="page">directory is part of a Delta table</a> (as the root or a child directory).</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -245,7 +261,7 @@ convertToDelta(spark, tableId, partitionSchema)</code></pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="creating-deltatable-from-parquet-table-and-partition-schemaconverttodelta-utility"><a class="anchor" href="#creating-deltatable-from-parquet-table-and-partition-schemaconverttodelta-utility"></a><a class="link" href="#creating-deltatable-from-parquet-table-and-partition-schemaconverttodelta-utility"><a id="convertToDelta"></a> Creating DeltaTable from Parquet Table (and Partition Schema)&#8201;&#8212;&#8201;<code>convertToDelta</code> Utility</a></h2>
+<h2 id="importing-parquet-table-into-delta-lake-converting-parquet-table-to-delta-formatconverttodelta-utility"><a class="anchor" href="#importing-parquet-table-into-delta-lake-converting-parquet-table-to-delta-formatconverttodelta-utility"></a><a class="link" href="#importing-parquet-table-into-delta-lake-converting-parquet-table-to-delta-formatconverttodelta-utility"><a id="convertToDelta"></a> Importing Parquet Table Into Delta Lake (Converting Parquet Table To Delta Format)&#8201;&#8212;&#8201;<code>convertToDelta</code> Utility</a></h2>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content">
@@ -286,10 +302,7 @@ Read up on <a href="https://jaceklaskowski.gitbooks.io/mastering-spark-sql/spark
 </table>
 </div>
 <div class="paragraph">
-<p><code>convertToDelta</code> uses the <code>DeltaConvert</code> utility to <a href="DeltaConvert.html#executeConvert" class="page">executeConvert</a>.</p>
-</div>
-<div class="paragraph">
-<p>In the end, <code>convertToDelta</code> <a href="#forPath">creates a DeltaTable for the table (path of the table identifier)</a>.</p>
+<p>In the end, <code>convertToDelta</code> uses the <code>DeltaConvert</code> utility to <a href="DeltaConvert.html#executeConvert" class="page">convert the parquet table to delta format</a> and <a href="#forPath">creates a delta table</a>.</p>
 </div>
 </div>
 </div>
