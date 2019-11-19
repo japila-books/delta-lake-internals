@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title> DeltaTable Utility :: The Internals of Delta Lake</title>
+    <title> DeltaTable :: The Internals of Delta Lake</title>
     <link rel="canonical" href="https://delta.japila.pl/delta/0.4.0/DeltaTable.html">
     <meta name="generator" content="Antora 2.2.0">
     <link rel="stylesheet" href="../../_/css/site.css">
@@ -201,7 +201,7 @@
   <div class="edit-this-page"><a href="file:///antora/modules/ROOT/pages/DeltaTable.adoc">Edit this Page</a></div>
 </div>
 <article class="doc">
-<h1 class="page"><a id="DeltaTable"></a> DeltaTable Utility</h1>
+<h1 class="page"><a id="DeltaTable"></a> DeltaTable</h1>
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
@@ -209,19 +209,19 @@
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code>import io.delta.tables.DeltaTable.convertToDelta
+<pre class="highlightjs highlight"><code>import io.delta.tables.{DeltaTable =&gt; delta}
 
 assert(spark.isInstanceOf[org.apache.spark.sql.SparkSession])
-val tableId = "parquet.`/path`"
+val tableId = "parquet.`/tmp/delta-lake`"
 val partitionSchema = "key1 LONG, key2 STRING"
 
-convertToDelta(spark, tableId, partitionSchema)</code></pre>
+delta.convertToDelta(spark, tableId, partitionSchema)</code></pre>
 </div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="creating-deltatableforpath-utility"><a class="anchor" href="#creating-deltatableforpath-utility"></a><a class="link" href="#creating-deltatableforpath-utility"><a id="forPath"></a> Creating DeltaTable&#8201;&#8212;&#8201;<code>forPath</code> Utility</a></h2>
+<h2 id="creating-deltatabledeltatable-forpath-utility"><a class="anchor" href="#creating-deltatabledeltatable-forpath-utility"></a><a class="link" href="#creating-deltatabledeltatable-forpath-utility"><a id="forPath"></a> Creating DeltaTable&#8201;&#8212;&#8201;<code>DeltaTable.forPath</code> Utility</a></h2>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content">
@@ -241,10 +241,28 @@ forPath(
 </table>
 </div>
 <div class="paragraph">
-<p><code>forPath</code> creates a <a href="#DeltaTable">DeltaTable</a> for data in the given directory (<code>path</code>).</p>
+<p><code>forPath</code> creates a <a href="#DeltaTable">DeltaTable</a> for data in the given directory (<code>path</code>) only when the given <a href="DeltaTableUtils.html#isDeltaTable" class="page">directory is part of a delta table</a> (as the root or a child directory).</p>
 </div>
 <div class="paragraph">
-<p>Internally, <code>forPath</code> makes sure that the given <a href="DeltaTableUtils.html#isDeltaTable" class="page">directory is part of a Delta table</a> (as the root or a child directory).</p>
+<p><code>forPath</code> throws an <code>AnalysisException</code> when the given <code>path</code> does not belong to a delta table:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code>[deltaTableIdentifier] is not a Delta table.</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Internally, <code>forPath</code> creates a new <a href="#DeltaTable">DeltaTable</a> with the following:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>Dataset</code> that represents loading data from the specified <code>path</code> using <a href="DeltaDataSource.html#delta-format" class="page">delta</a> data source</p>
+</li>
+<li>
+<p><a href="DeltaLog.html" class="page">DeltaLog</a> for the <a href="DeltaLog.html#forTable" class="page">table in the specified path</a></p>
+</li>
+</ul>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -253,7 +271,7 @@ forPath(
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-<code>forPath</code> is used when&#8230;&#8203;FIXME
+<code>forPath</code> is used when <code>DeltaTable</code> utility is used to <a href="#convertToDelta">convert a parquet table to delta format (DeltaTable.convertToDelta)</a>.
 </td>
 </tr>
 </table>
@@ -261,7 +279,7 @@ forPath(
 </div>
 </div>
 <div class="sect1">
-<h2 id="importing-parquet-table-into-delta-lake-converting-parquet-table-to-delta-formatconverttodelta-utility"><a class="anchor" href="#importing-parquet-table-into-delta-lake-converting-parquet-table-to-delta-formatconverttodelta-utility"></a><a class="link" href="#importing-parquet-table-into-delta-lake-converting-parquet-table-to-delta-formatconverttodelta-utility"><a id="convertToDelta"></a> Importing Parquet Table Into Delta Lake (Converting Parquet Table To Delta Format)&#8201;&#8212;&#8201;<code>convertToDelta</code> Utility</a></h2>
+<h2 id="converting-parquet-table-to-delta-format-importing-parquet-table-into-delta-lakedeltatable-converttodelta-utility"><a class="anchor" href="#converting-parquet-table-to-delta-format-importing-parquet-table-into-delta-lakedeltatable-converttodelta-utility"></a><a class="link" href="#converting-parquet-table-to-delta-format-importing-parquet-table-into-delta-lakedeltatable-converttodelta-utility"><a id="convertToDelta"></a> Converting Parquet Table To Delta Format (Importing Parquet Table Into Delta Lake)&#8201;&#8212;&#8201;<code>DeltaTable.convertToDelta</code> Utility</a></h2>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content">
@@ -302,7 +320,7 @@ Read up on <a href="https://jaceklaskowski.gitbooks.io/mastering-spark-sql/spark
 </table>
 </div>
 <div class="paragraph">
-<p>In the end, <code>convertToDelta</code> uses the <code>DeltaConvert</code> utility to <a href="DeltaConvert.html#executeConvert" class="page">convert the parquet table to delta format</a> and <a href="#forPath">creates a delta table</a>.</p>
+<p>In the end, <code>convertToDelta</code> uses the <code>DeltaConvert</code> utility to <a href="DeltaConvert.html#executeConvert" class="page">convert the parquet table to delta format</a> and <a href="#forPath">creates a DeltaTable</a>.</p>
 </div>
 </div>
 </div>
