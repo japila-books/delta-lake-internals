@@ -77,6 +77,9 @@
     <a class="nav-link" href="options.html">Options</a>
   </li>
   <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="DeltaConvert.html">DeltaConvert</a>
+  </li>
+  <li class="nav-item" data-depth="1">
     <button class="nav-item-toggle"></button>
     <a class="nav-link" href="commands.html">Commands</a>
 <ul class="nav-list">
@@ -103,9 +106,6 @@
   </li>
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="VacuumCommandImpl.html">VacuumCommandImpl</a>
-  </li>
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="DeltaConvert.html">DeltaConvert</a>
   </li>
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="DeltaTable.html">DeltaTable</a>
@@ -202,10 +202,10 @@
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p><code>ConvertToDeltaCommand</code> is a <a href="DeltaCommand.html" class="page">Delta command</a> that <a href="#run">imports&#8230;&#8203;FIXME</a>.</p>
+<p><code>ConvertToDeltaCommand</code> is a <a href="DeltaCommand.html" class="page">Delta command</a> that <a href="#run">converts a parquet table into delta format</a> (<em>imports</em> it into Delta).</p>
 </div>
 <div class="paragraph">
-<p><code>ConvertToDeltaCommand</code> is <a href="#creating-instance">created</a> exclusively when <code>DeltaConvert</code> (as a <code>DeltaConvertBase</code>) is requested to <a href="DeltaConvert.html#executeConvert" class="page">executeConvert</a>.</p>
+<p><code>ConvertToDeltaCommand</code> is <a href="#creating-instance">created</a> and <a href="#run">executed</a> using <a href="DeltaConvert.html" class="page">DeltaConvert</a> utility.</p>
 </div>
 <div id="ConvertToDeltaCommandBase" class="paragraph">
 <p><code>ConvertToDeltaCommandBase</code> is the base of <code>ConvertToDeltaCommand</code>-like commands with the only known implementation being <a href="#ConvertToDeltaCommand">ConvertToDeltaCommand</a> itself.</p>
