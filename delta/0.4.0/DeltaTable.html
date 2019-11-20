@@ -210,9 +210,190 @@
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p><code>DeltaTable</code> is the main class to programmatically access Delta tables.</p>
+<p><code>DeltaTable</code> is the main class to <a href="#operators">programmatically access Delta tables</a>.</p>
 </div>
-<div id="creating-instance" class="paragraph">
+<div class="paragraph">
+<p>You can create <code>DeltaTable</code> instances for existing Delta tables using <a href="#forPath">DeltaTable.forPath</a> utility (static method).</p>
+</div>
+<div class="paragraph">
+<p>You can convert parquet tables to delta format (by importing the tables into Delta Lake) using <a href="#convertToDelta">DeltaTable.convertToDelta</a> utility (static method).</p>
+</div>
+<div class="paragraph">
+<p>You can check whether a directory is part of a delta table using <a href="#isDeltaTable">DeltaTable.isDeltaTable</a> utility (static method).</p>
+</div>
+<table id="operators" class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. DeltaTable API / Operators</caption>
+<colgroup>
+<col style="width: 30%;">
+<col style="width: 70%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>alias</code></p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div id="alias" class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">alias(alias: String): DeltaTable</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Applies an alias to the <code>DeltaTable</code> (equivalent to <a href="#as">as</a>)</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>as</code></p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div id="as" class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">as(alias: String): DeltaTable</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Applies an alias to the <code>DeltaTable</code> (equivalent to <a href="#alias">alias</a>)</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>delete</code></p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div id="delete" class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">delete(): Unit <i class="conum" data-value="1"></i><b>(1)</b>
+delete(condition: Column): Unit
+delete(condition: String): Unit</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Undefined condition</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Deletes data from the <code>DeltaTable</code> that matches the given <code>condition</code>.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>history</code></p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div id="history" class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">history(): DataFrame <i class="conum" data-value="1"></i><b>(1)</b>
+history(
+  limit: Int): DataFrame</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Unlimited history</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Gets available commits (<em>history</em>) on the <code>DeltaTable</code></p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>merge</code></p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div id="merge" class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">merge(
+  source: DataFrame,
+  condition: Column): DeltaMergeBuilder
+merge(
+  source: DataFrame,
+  condition: String): DeltaMergeBuilder</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Merges data from the <code>source</code> DataFrame based on the given merge <code>condition</code></p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>toDF</code></p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div id="toDF" class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">toDF: Dataset[Row]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Gets the DataFrame representation of the <code>DeltaTable</code></p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>update</code></p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div id="update" class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">update(
+  condition: Column,
+  set: Map[String, Column]): Unit
+update(
+  condition: Column,
+  set: java.util.Map[String, Column]): Unit
+update(
+  set: Map[String, Column]): Unit
+update(
+  set: java.util.Map[String, Column]): Unit</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Updates data in the <code>DeltaTable</code> on the rows that match the given <code>condition</code> based on the rules defined by <code>set</code></p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>updateExpr</code></p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div id="updateExpr" class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">updateExpr(
+  set: Map[String, String]): Unit
+updateExpr(
+  set: java.util.Map[String, String]): Unit
+updateExpr(
+  condition: String,
+  set: Map[String, String]): Unit
+updateExpr(
+  condition: String,
+  set: java.util.Map[String, String]): Unit</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Updates data in the <code>DeltaTable</code> on the rows that match the given <code>condition</code> based on the rules defined by <code>set</code></p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>vacuum</code></p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div id="vacuum" class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">vacuum(): DataFrame <i class="conum" data-value="1"></i><b>(1)</b>
+vacuum(
+  retentionHours: Double): DataFrame</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Undefined retention threshold</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Deletes files and directories (recursively) in the <code>DeltaTable</code> that are not needed by the table (and maintain older versions up to the given retention threshold).</p>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect1">
+<h2 id="creating-deltatable-instance"><a class="anchor" href="#creating-deltatable-instance"></a><a class="link" href="#creating-deltatable-instance"><a id="creating-instance"></a> Creating DeltaTable Instance</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
 <p><code>DeltaTable</code> takes the following to be created:</p>
 </div>
 <div class="ulist">
@@ -225,11 +406,17 @@
 </li>
 </ul>
 </div>
-<div class="paragraph">
-<p>You should create <code>DeltaTable</code> instances for existing Delta tables using <a href="#forPath">DeltaTable.forPath</a> utility (static) methods.</p>
-</div>
-<div class="paragraph">
-<p>You can convert parquet tables to delta format (by importing the tables into Delta Lake) using <a href="#convertToDelta">DeltaTable.convertToDelta</a> utility (static) methods.</p>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+You should create new <code>DeltaTable</code> instances using <a href="#forPath">DeltaTable.forPath</a> and <a href="#convertToDelta">DeltaTable.convertToDelta</a> utilities.
+</td>
+</tr>
+</table>
 </div>
 </div>
 </div>
@@ -367,6 +554,26 @@ Read up on <a href="https://jaceklaskowski.gitbooks.io/mastering-spark-sql/spark
 </div>
 <div class="paragraph">
 <p>In the end, <code>convertToDelta</code> uses the <code>DeltaConvert</code> utility to <a href="DeltaConvert.html#executeConvert" class="page">convert the parquet table to delta format</a> and <a href="#forPath">creates a DeltaTable</a>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="checking-out-whether-directory-is-part-of-delta-tableisdeltatable-utility"><a class="anchor" href="#checking-out-whether-directory-is-part-of-delta-tableisdeltatable-utility"></a><a class="link" href="#checking-out-whether-directory-is-part-of-delta-tableisdeltatable-utility"><a id="isDeltaTable"></a> Checking Out Whether Directory Is Part of Delta Table&#8201;&#8212;&#8201;<code>isDeltaTable</code> Utility</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">isDeltaTable(
+  identifier: String): Boolean
+isDeltaTable(
+  sparkSession: SparkSession,
+  identifier: String): Boolean</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>isDeltaTable</code> checks whether or not the provided <code>identifier</code> string is a file path that points to the root of a Delta table or one of the subdirectories.</p>
+</div>
+<div class="paragraph">
+<p>Internally, <code>isDeltaTable</code> simply relays to <a href="DeltaTableUtils.html#isDeltaTable" class="page">DeltaTableUtils.isDeltaTable</a> utility.</p>
 </div>
 </div>
 </div>
