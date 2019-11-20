@@ -1,17 +1,16 @@
 = [[DeltaTable]] DeltaTable
 
-`DeltaTable` is...FIXME
+`DeltaTable` is the main class to programmatically access Delta tables.
 
-[source]
-----
-import io.delta.tables.{DeltaTable => delta}
+[[creating-instance]]
+`DeltaTable` takes the following to be created:
 
-assert(spark.isInstanceOf[org.apache.spark.sql.SparkSession])
-val tableId = "parquet.`/tmp/delta-lake`"
-val partitionSchema = "key1 LONG, key2 STRING"
+* [[df]] Distributed structured query to access table data (`Dataset[Row]`)
+* [[deltaLog]] <<DeltaLog.adoc#, DeltaLog>>
 
-delta.convertToDelta(spark, tableId, partitionSchema)
-----
+You should create `DeltaTable` instances for existing Delta tables using <<forPath, DeltaTable.forPath>> utility (static) methods.
+
+You can convert parquet tables to delta format (by importing the tables into Delta Lake) using <<convertToDelta, DeltaTable.convertToDelta>> utility (static) methods.
 
 == [[forPath]] Creating DeltaTable -- `DeltaTable.forPath` Utility
 
@@ -25,7 +24,19 @@ forPath(
 ----
 <1> Uses `SparkSession.getActiveSession`
 
-`forPath` creates a <<DeltaTable, DeltaTable>> for data in the given directory (`path`) only when the given <<DeltaTableUtils.adoc#isDeltaTable, directory is part of a delta table>> (as the root or a child directory).
+`forPath` creates a `DeltaTable` instance for data in the given directory (`path`) when the given <<DeltaTableUtils.adoc#isDeltaTable, directory is part of a delta table>> already (as the root or a child directory).
+
+[source]
+----
+assert(spark.isInstanceOf[org.apache.spark.sql.SparkSession])
+
+val tableId = "/tmp/delta-table/users"
+
+import io.delta.tables.DeltaTable
+assert(DeltaTable.isDeltaTable(tableId), s"$tableId should be a Delta table")
+
+val dt = DeltaTable.forPath("delta-table")
+----
 
 `forPath` throws an `AnalysisException` when the given `path` does not belong to a delta table:
 
@@ -59,7 +70,27 @@ convertToDelta(
 ----
 <1> Creates `StructType` from the given DDL-formatted `partitionSchema` string
 
-`convertToDelta` requests the `SparkSession` for the SQL parser (`ParserInterface`) that is in turn requested to parse the given table identifier (to get a `TableIdentifier`).
+`convertToDelta` converts a parquet table to delta format (and makes the table available in Delta Lake).
+
+[source]
+----
+assert(spark.isInstanceOf[org.apache.spark.sql.SparkSession])
+
+val deltaDir = "/tmp/delta-lake"
+
+// Create parquet table
+import spark.implicits._
+Seq((0, "hello"), (1, "world")).toDF("id", "name").write.format("parquet").partitionBy("name").mode("overwrite").save(deltaDir)
+
+val tableId = s"parquet.`$deltaDir`"
+val partitionSchema = "name STRING"
+
+import io.delta.tables.DeltaTable
+val dt = DeltaTable.convertToDelta(spark, tableId, partitionSchema)
+assert(dt.isInstanceOf[DeltaTable])
+----
+
+Internally, `convertToDelta` requests the `SparkSession` for the SQL parser (`ParserInterface`) that is in turn requested to parse the given table identifier (to get a `TableIdentifier`).
 
 TIP: Read up on https://jaceklaskowski.gitbooks.io/mastering-spark-sql/spark-sql-ParserInterface.html[ParserInterface] in https://bit.ly/spark-sql-internals[The Internals of Spark SQL] online book.
 

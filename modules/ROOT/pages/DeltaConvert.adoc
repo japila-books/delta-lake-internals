@@ -1,7 +1,8 @@
 = [[DeltaConvert]] DeltaConvert Utility
 
-`DeltaConvert` utility allows for <<executeConvert, importing a parquet table into Delta Lake>>.
+`DeltaConvert` utility is used exclusively for <<executeConvert, importing a parquet table into Delta Lake (DeltaConvert.executeConvert)>>.
 
+.Demo of DeltaConvert
 [source,scala]
 ----
 import org.apache.spark.sql.SparkSession
@@ -36,4 +37,4 @@ executeConvert(
 
 `executeConvert` simply creates a new <<ConvertToDeltaCommand.adoc#, ConvertToDeltaCommand>> and requests it to <<ConvertToDeltaCommand.adoc#run, run>>.
 
-NOTE: `executeConvert` is used when `DeltaTable` utility is requested to <<DeltaTable.adoc#convertToDelta, convert a parquet table to delta format>>.
+NOTE: `executeConvert` is used when `DeltaTable` utility is requested to <<DeltaTable.adoc#convertToDelta, convert a parquet table to delta format (DeltaTable.convertToDelta)>>.

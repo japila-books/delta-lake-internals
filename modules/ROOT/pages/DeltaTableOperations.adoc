@@ -1,0 +1,3 @@
+= [[DeltaTableOperations]] DeltaTableOperations
+
+`DeltaTableOperations` is...FIXME
