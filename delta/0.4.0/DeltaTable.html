@@ -107,8 +107,14 @@
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="VacuumCommandImpl.html">VacuumCommandImpl</a>
   </li>
-  <li class="nav-item is-current-page" data-depth="2">
+</ul>
+  </li>
+  <li class="nav-item is-current-page" data-depth="1">
+    <button class="nav-item-toggle"></button>
     <a class="nav-link" href="DeltaTable.html">DeltaTable</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="DeltaTableOperations.html">DeltaTableOperations</a>
   </li>
 </ul>
   </li>
@@ -194,7 +200,6 @@
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="index.html">Delta Lake</a></li>
-    <li><a href="commands.html">Commands</a></li>
     <li><a href="DeltaTable.html">DeltaTable</a></li>
   </ul>
 </nav>
@@ -205,18 +210,26 @@
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p><code>DeltaTable</code> is&#8230;&#8203;FIXME</p>
+<p><code>DeltaTable</code> is the main class to programmatically access Delta tables.</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code>import io.delta.tables.{DeltaTable =&gt; delta}
-
-assert(spark.isInstanceOf[org.apache.spark.sql.SparkSession])
-val tableId = "parquet.`/tmp/delta-lake`"
-val partitionSchema = "key1 LONG, key2 STRING"
-
-delta.convertToDelta(spark, tableId, partitionSchema)</code></pre>
+<div id="creating-instance" class="paragraph">
+<p><code>DeltaTable</code> takes the following to be created:</p>
 </div>
+<div class="ulist">
+<ul>
+<li>
+<p><a id="df"></a> Distributed structured query to access table data (<code>Dataset[Row]</code>)</p>
+</li>
+<li>
+<p><a id="deltaLog"></a> <a href="DeltaLog.html" class="page">DeltaLog</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>You should create <code>DeltaTable</code> instances for existing Delta tables using <a href="#forPath">DeltaTable.forPath</a> utility (static) methods.</p>
+</div>
+<div class="paragraph">
+<p>You can convert parquet tables to delta format (by importing the tables into Delta Lake) using <a href="#convertToDelta">DeltaTable.convertToDelta</a> utility (static) methods.</p>
 </div>
 </div>
 </div>
@@ -241,7 +254,19 @@ forPath(
 </table>
 </div>
 <div class="paragraph">
-<p><code>forPath</code> creates a <a href="#DeltaTable">DeltaTable</a> for data in the given directory (<code>path</code>) only when the given <a href="DeltaTableUtils.html#isDeltaTable" class="page">directory is part of a delta table</a> (as the root or a child directory).</p>
+<p><code>forPath</code> creates a <code>DeltaTable</code> instance for data in the given directory (<code>path</code>) when the given <a href="DeltaTableUtils.html#isDeltaTable" class="page">directory is part of a delta table</a> already (as the root or a child directory).</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code>assert(spark.isInstanceOf[org.apache.spark.sql.SparkSession])
+
+val tableId = "/tmp/delta-table/users"
+
+import io.delta.tables.DeltaTable
+assert(DeltaTable.isDeltaTable(tableId), s"$tableId should be a Delta table")
+
+val dt = DeltaTable.forPath("delta-table")</code></pre>
+</div>
 </div>
 <div class="paragraph">
 <p><code>forPath</code> throws an <code>AnalysisException</code> when the given <code>path</code> does not belong to a delta table:</p>
@@ -305,7 +330,28 @@ convertToDelta(
 </table>
 </div>
 <div class="paragraph">
-<p><code>convertToDelta</code> requests the <code>SparkSession</code> for the SQL parser (<code>ParserInterface</code>) that is in turn requested to parse the given table identifier (to get a <code>TableIdentifier</code>).</p>
+<p><code>convertToDelta</code> converts a parquet table to delta format (and makes the table available in Delta Lake).</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code>assert(spark.isInstanceOf[org.apache.spark.sql.SparkSession])
+
+val deltaDir = "/tmp/delta-lake"
+
+// Create parquet table
+import spark.implicits._
+Seq((0, "hello"), (1, "world")).toDF("id", "name").write.format("parquet").partitionBy("name").mode("overwrite").save(deltaDir)
+
+val tableId = s"parquet.`$deltaDir`"
+val partitionSchema = "name STRING"
+
+import io.delta.tables.DeltaTable
+val dt = DeltaTable.convertToDelta(spark, tableId, partitionSchema)
+assert(dt.isInstanceOf[DeltaTable])</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Internally, <code>convertToDelta</code> requests the <code>SparkSession</code> for the SQL parser (<code>ParserInterface</code>) that is in turn requested to parse the given table identifier (to get a <code>TableIdentifier</code>).</p>
 </div>
 <div class="admonitionblock tip">
 <table>

@@ -107,8 +107,14 @@
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="VacuumCommandImpl.html">VacuumCommandImpl</a>
   </li>
-  <li class="nav-item" data-depth="2">
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
     <a class="nav-link" href="DeltaTable.html">DeltaTable</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="DeltaTableOperations.html">DeltaTableOperations</a>
   </li>
 </ul>
   </li>
@@ -204,9 +210,10 @@
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p><code>DeltaConvert</code> utility allows for <a href="#executeConvert">importing a parquet table into Delta Lake</a>.</p>
+<p><code>DeltaConvert</code> utility is used exclusively for <a href="#executeConvert">importing a parquet table into Delta Lake (DeltaConvert.executeConvert)</a>.</p>
 </div>
 <div class="listingblock">
+<div class="title">Demo of DeltaConvert</div>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">import org.apache.spark.sql.SparkSession
 assert(spark.isInstanceOf[SparkSession])
@@ -251,7 +258,7 @@ DeltaConvert.executeConvert(spark, table, partitionSchema, deltaPath)</code></pr
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-<code>executeConvert</code> is used when <code>DeltaTable</code> utility is requested to <a href="DeltaTable.html#convertToDelta" class="page">convert a parquet table to delta format</a>.
+<code>executeConvert</code> is used when <code>DeltaTable</code> utility is requested to <a href="DeltaTable.html#convertToDelta" class="page">convert a parquet table to delta format (DeltaTable.convertToDelta)</a>.
 </td>
 </tr>
 </table>
