@@ -2,7 +2,9 @@
 
 https://delta.io/[Delta Lake] is an open-source storage layer that brings ACID transactions to https://spark.apache.org/[Apache Spark] and big data workloads.
 
-Delta Lake introduces a concept of <<DeltaTable.adoc#, delta table>> (that, among other things, is simply a <<DeltaTableUtils.adoc#findDeltaTableRoot, directory with `_delta_log` subdirectory>>). You can create a delta table from scratch or <<DeltaConvert.adoc#executeConvert, convert a parquet table to delta format>>.
+Delta Lake introduces a concept of *delta table* (that, among other things, is simply a <<DeltaTableUtils.adoc#findDeltaTableRoot, directory with `_delta_log` subdirectory>>).
+
+Delta Lake provides <<DeltaTable.adoc#, DeltaTable API>> to programmatically access Delta tables. You can <<DeltaTable.adoc#convertToDelta, convert a parquet table to delta format (DeltaTable.convertToDelta)>> or create a delta table from scratch (using <<data-source, delta data source>>).
 
 .Demo: Converting Parquet Dataset Into Delta Format
 [source]
@@ -47,7 +49,7 @@ import io.delta.tables.DeltaTable
 assert(DeltaTable.isDeltaTable(users))
 ----
 
-Delta Lake uses a Hadoop DFS-compliant file system for the underlying storage, e.g. Hadoop DFS itself or Amazon S3.
+Delta Lake uses https://hadoop.apache.org/docs/stable/hadoop-project-dist/hadoop-common/filesystem/index.html[Hadoop FileSystem API] to access the underlying data storage (e.g. http://hadoop.apache.org/[Hadoop DFS] or https://hadoop.apache.org/docs/stable/hadoop-aws/tools/hadoop-aws/index.html[Amazon S3]).
 
 Technically speaking, Delta Lake is:
 
