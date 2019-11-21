@@ -1,3 +1,36 @@
 = [[DeleteCommand]] DeleteCommand
 
-`DeleteCommand` is...FIXME
+`DeleteCommand` is a <<DeltaCommand.adoc#, Delta command>> that <<run, FIXME>>.
+
+`DeleteCommand` is <<creating-instance, created>> (using <<apply, apply>> factory utility) and <<run, executed>> when <<DeltaTable.adoc#delete, DeltaTable.delete>> operator is used (when `DeltaTableOperations` is requested to <<DeltaTableOperations.adoc#executeDelete, execute delete command>>).
+
+== [[creating-instance]] Creating DeleteCommand Instance
+
+`DeleteCommand` takes the following to be created:
+
+* [[tahoeFileIndex]] `TahoeFileIndex`
+* [[target]] Target `LogicalPlan`
+* [[condition]] Optional Catalyst expression
+
+== [[apply]] Creating DeleteCommand Instance -- `apply` Factory Utility
+
+[source, scala]
+----
+apply(
+  delete: Delete): DeleteCommand
+----
+
+`apply`...FIXME
+
+NOTE: `apply` is used when...FIXME
+
+== [[run]] Running Command -- `run` Method
+
+[source, scala]
+----
+run(sparkSession: SparkSession): Seq[Row]
+----
+
+NOTE: `run` is part of the `RunnableCommand` contract to...FIXME.
+
+`run`...FIXME
