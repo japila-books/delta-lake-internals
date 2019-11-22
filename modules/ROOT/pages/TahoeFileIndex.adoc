@@ -1,0 +1,73 @@
+= [[TahoeFileIndex]] TahoeFileIndex
+
+`TahoeFileIndex` is an <<contract, extension>> of the Spark SQL `FileIndex` contract for <<implementations, file indices>> that can <<listFiles, listing data files>> that <<matchingFiles, match partition and data filters>>.
+
+[[contract]]
+.TahoeFileIndex Contract (Abstract Methods Only)
+[cols="30m,70",options="header",width="100%"]
+|===
+| Method
+| Description
+
+| matchingFiles
+a| [[matchingFiles]]
+
+[source, scala]
+----
+matchingFiles(
+  partitionFilters: Seq[Expression],
+  dataFilters: Seq[Expression],
+  keepStats: Boolean = false): Seq[AddFile]
+----
+
+Returns all matching/valid files by the given `partitionFilters` and `dataFilters` expressions
+
+Used exclusively while <<listFiles, listing data files>>
+
+|===
+
+[[tableVersion]]
+`TahoeFileIndex` has `tableVersion` property that is simply the <<Snapshot.adoc#version, version>> of the <<DeltaLog.adoc#snapshot, current snapshot>> of the <<deltaLog, DeltaLog>>.
+
+[[rootPaths]]
+When requested for root input paths (`rootPaths`), `TahoeFileIndex` simply gives the <<path, path>>.
+
+[[implementations]]
+.TahoeFileIndices
+[cols="30,70",options="header",width="100%"]
+|===
+| TahoeFileIndex
+| Description
+
+| <<TahoeBatchFileIndex.adoc#, TahoeBatchFileIndex>>
+| [[TahoeBatchFileIndex]]
+
+| <<TahoeLogFileIndex.adoc#, TahoeLogFileIndex>>
+| [[TahoeLogFileIndex]]
+
+|===
+
+== [[creating-instance]] Creating TahoeFileIndex Instance
+
+`TahoeFileIndex` takes the following to be created:
+
+* [[spark]] `SparkSession`
+* [[deltaLog]] <<DeltaLog.adoc#, DeltaLog>>
+* [[path]] Hadoop `Path`
+
+`TahoeFileIndex` initializes the <<internal-properties, internal properties>>.
+
+NOTE: `TahoeFileIndex` is a Scala abstract class and cannot be <<creating-instance, created>> directly. It is created indirectly for the <<implementations, concrete file indices>>.
+
+== [[listFiles]] Listing Data Files -- `listFiles` Method
+
+[source, scala]
+----
+listFiles(
+  partitionFilters: Seq[Expression],
+  dataFilters: Seq[Expression]): Seq[PartitionDirectory]
+----
+
+NOTE: `listFiles` is part of the `FileIndex` contract (Spark SQL) to...FIXME.
+
+`listFiles`...FIXME

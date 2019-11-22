@@ -1,0 +1,3 @@
+= [[TahoeLogFileIndex]] TahoeLogFileIndex
+
+`TahoeLogFileIndex` is...FIXME

@@ -33,4 +33,8 @@
 * xref:DeltaOperations.adoc[DeltaOperations]
 * xref:DeltaTableUtils.adoc[DeltaTableUtils]
 
+* xref:TahoeFileIndex.adoc[TahoeFileIndex]
+** xref:TahoeBatchFileIndex.adoc[TahoeBatchFileIndex]
+** xref:TahoeLogFileIndex.adoc[TahoeLogFileIndex]
+
 * xref:others.adoc[The Others (Contenders)]
