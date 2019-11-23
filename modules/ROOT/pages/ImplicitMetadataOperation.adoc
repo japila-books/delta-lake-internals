@@ -1,3 +1,26 @@
 = [[ImplicitMetadataOperation]] ImplicitMetadataOperation
 
 `ImplicitMetadataOperation` is...FIXME
+
+== [[updateMetadata]] `updateMetadata` Method
+
+[source, scala]
+----
+updateMetadata(
+  txn: OptimisticTransaction,
+  data: Dataset[_],
+  partitionColumns: Seq[String],
+  configuration: Map[String, String],
+  isOverwriteMode: Boolean): Unit
+----
+
+`updateMetadata`...FIXME
+
+[NOTE]
+====
+`updateMetadata` is used when:
+
+* `WriteIntoDelta` is requested to <<WriteIntoDelta.adoc#write, write>>
+
+* `DeltaSink` is requested to <<DeltaSink.adoc#addBatch, addBatch>>
+====

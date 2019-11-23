@@ -1,6 +1,38 @@
 = [[OptimisticTransactionImpl]] OptimisticTransactionImpl
 
-`OptimisticTransactionImpl` is...FIXME
+`OptimisticTransactionImpl` is an <<contract, extension>> of the <<TransactionalWrite.adoc#, TransactionalWrite contract>> for <<implementations, optimistic transactions>> that <<FIXME, FIXME>>.
+
+[[contract]]
+.OptimisticTransactionImpl Contract (Abstract Methods Only)
+[cols="30m,70",options="header",width="100%"]
+|===
+| Method
+| Description
+
+| deltaLog
+a| [[deltaLog]]
+
+[source, scala]
+----
+deltaLog: DeltaLog
+----
+
+Used when...FIXME
+
+| snapshot
+a| [[snapshot]]
+
+[source, scala]
+----
+snapshot: Snapshot
+----
+
+Used when...FIXME
+
+|===
+
+[[implementations]]
+NOTE: <<OptimisticTransaction.adoc#, OptimisticTransaction>> is the only known `OptimisticTransactionImpl` in Delta Lake.
 
 == [[readVersion]] `readVersion` Method
 
@@ -11,7 +43,18 @@ readVersion: Long
 
 `readVersion` simply requests the <<snapshot, Snapshot>> for the <<Snapshot.adoc#version, version>>.
 
-NOTE: `readVersion` is used when...FIXME
+[NOTE]
+====
+`readVersion` is used when:
+
+* `OptimisticTransactionImpl` is requested for <<snapshotMetadata, snapshotMetadata>>, to <<updateMetadata, updateMetadata>> and <<commit, commit>>
+
+* `ConvertToDeltaCommand` is requested to <<ConvertToDeltaCommand.adoc#run, run>>
+
+* `WriteIntoDelta` is requested to <<WriteIntoDelta.adoc#write, write>>
+
+* `ImplicitMetadataOperation` is requested to <<ImplicitMetadataOperation.adoc#updateMetadata, updateMetadata>>
+====
 
 == [[updateMetadata]] Updating Metadata -- `updateMetadata` Method
 
@@ -23,3 +66,126 @@ updateMetadata(metadata: Metadata): Unit
 `updateMetadata`...FIXME
 
 NOTE: `updateMetadata` is used when...FIXME
+
+== [[filterFiles]] `filterFiles` Method
+
+[source, scala]
+----
+filterFiles(): Seq[AddFile]
+filterFiles(
+  filters: Seq[Expression]): Seq[AddFile]
+----
+
+`filterFiles`...FIXME
+
+NOTE: `filterFiles` is used when...FIXME
+
+== [[readWholeTable]] `readWholeTable` Method
+
+[source, scala]
+----
+readWholeTable(): Unit
+----
+
+`readWholeTable`...FIXME
+
+NOTE: `readWholeTable` is used when...FIXME
+
+== [[commit]] Committing -- `commit` Method
+
+[source, scala]
+----
+commit(
+  actions: Seq[Action],
+  op: DeltaOperations.Operation): Long
+----
+
+`commit`...FIXME
+
+NOTE: `commit` is used when...FIXME
+
+== [[checkAndRetry]] `checkAndRetry` Method
+
+[source, scala]
+----
+checkAndRetry(
+  checkVersion: Long,
+  actions: Seq[Action],
+  attemptNumber: Int): Long
+----
+
+`checkAndRetry`...FIXME
+
+NOTE: `checkAndRetry` is used exclusively when `OptimisticTransactionImpl` is requested to <<doCommit, attempt to commit>> (that failed with an `FileAlreadyExistsException`).
+
+== [[prepareCommit]] `prepareCommit` Method
+
+[source, scala]
+----
+prepareCommit(
+  actions: Seq[Action],
+  op: DeltaOperations.Operation): Seq[Action]
+----
+
+`prepareCommit`...FIXME
+
+`prepareCommit` requests the <<deltaLog, DeltaLog>> to <<DeltaLog.adoc#protocolWrite, protocolWrite>>.
+
+`prepareCommit`...FIXME
+
+NOTE: `prepareCommit` is used exclusively when `OptimisticTransactionImpl` is requested to <<commit, commit>> (at the beginning).
+
+== [[postCommit]] `postCommit` Method
+
+[source, scala]
+----
+postCommit(
+  commitVersion: Long,
+  commitActions: Seq[Action]): Unit
+----
+
+`postCommit`...FIXME
+
+NOTE: `postCommit` is used exclusively when `OptimisticTransactionImpl` is requested to <<commit, commit>> (at the end).
+
+== [[doCommit]] `doCommit` Internal Method
+
+[source, scala]
+----
+doCommit(
+  attemptVersion: Long,
+  actions: Seq[Action],
+  attemptNumber: Int): Long
+----
+
+`doCommit`...FIXME
+
+NOTE: `doCommit` is used when `OptimisticTransactionImpl` is requested to <<commit, commit>> and <<checkAndRetry, checkAndRetry>>.
+
+== [[internal-properties]] Internal Properties
+
+[cols="30m,70",options="header",width="100%"]
+|===
+| Name
+| Description
+
+| committed
+a| [[committed]] Flag that controls whether the transaction has already committed or not (and prevents <<prepareCommit, prepareCommit>> being executed again)
+
+Default: `false`
+
+Enabled (set to `true`) exclusively in <<postCommit, postCommit>>
+
+| dependsOnFiles
+a| [[dependsOnFiles]] Flag that...FIXME
+
+Default: `false`
+
+Enabled (set to `true`) in <<filterFiles, filterFiles>>, <<readWholeTable, readWholeTable>>
+
+Used in <<commit, commit>> and <<checkAndRetry, checkAndRetry>>
+
+| snapshotMetadata
+a| [[snapshotMetadata]] <<Metadata.adoc#, Metadata>>
+
+|===

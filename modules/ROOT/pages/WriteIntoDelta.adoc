@@ -24,3 +24,27 @@ TIP: Read up on https://jaceklaskowski.gitbooks.io/mastering-spark-sql/spark-sql
 * [[partitionColumns]] Names of the partition columns (`Seq[String]`)
 * [[configuration]] Configuration (`Map[String, String]`)
 * [[data]] Data (`DataFrame`)
+
+== [[run]] Running Command -- `run` Method
+
+[source, scala]
+----
+run(sparkSession: SparkSession): Seq[Row]
+----
+
+NOTE: `run` is part of the `RunnableCommand` contract to...FIXME.
+
+`run`...
+
+== [[write]] `write` Method
+
+[source, scala]
+----
+write(
+  txn: OptimisticTransaction,
+  sparkSession: SparkSession): Seq[Action]
+----
+
+`write`...FIXME
+
+NOTE: `write` is used exclusively when `WriteIntoDelta` is requested to <<run, run>>.

@@ -143,6 +143,19 @@ ensureLogDirectoryExist(): Unit
 
 NOTE: `ensureLogDirectoryExist` is used when...FIXME
 
+== [[protocolWrite]] `protocolWrite` Method
+
+[source, scala]
+----
+protocolWrite(
+  protocol: Protocol,
+  logUpgradeMessage: Boolean = true): Unit
+----
+
+`protocolWrite`...FIXME
+
+NOTE: `protocolWrite` is used when...FIXME
+
 == [[currentSnapshot]] `currentSnapshot` Internal Registry
 
 [source, scala]

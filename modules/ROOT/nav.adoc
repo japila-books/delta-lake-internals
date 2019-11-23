@@ -23,6 +23,7 @@
 * xref:Snapshot.adoc[Snapshot]
 * xref:DeltaSQLConf.adoc[DeltaSQLConf]
 * xref:LogStoreProvider.adoc[LogStoreProvider]
+* xref:TransactionalWrite.adoc[TransactionalWrite]
 * xref:OptimisticTransactionImpl.adoc[OptimisticTransactionImpl]
 ** xref:OptimisticTransaction.adoc[OptimisticTransaction]
 * xref:DeltaFileFormat.adoc[DeltaFileFormat]
