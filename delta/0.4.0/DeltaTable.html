@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title> DeltaTable :: The Internals of Delta Lake</title>
+    <title> DeltaTable&#8201;&#8212;&#8201;Management Interface Of Delta Tables :: The Internals of Delta Lake</title>
     <link rel="canonical" href="https://delta.japila.pl/delta/0.4.0/DeltaTable.html">
     <meta name="generator" content="Antora 2.2.0">
     <link rel="stylesheet" href="../../_/css/site.css">
@@ -137,6 +137,9 @@
     <a class="nav-link" href="LogStoreProvider.html">LogStoreProvider</a>
   </li>
   <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="TransactionalWrite.html">TransactionalWrite</a>
+  </li>
+  <li class="nav-item" data-depth="1">
     <button class="nav-item-toggle"></button>
     <a class="nav-link" href="OptimisticTransactionImpl.html">OptimisticTransactionImpl</a>
 <ul class="nav-list">
@@ -165,6 +168,18 @@
   </li>
   <li class="nav-item" data-depth="1">
     <a class="nav-link" href="DeltaTableUtils.html">DeltaTableUtils</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="TahoeFileIndex.html">TahoeFileIndex</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="TahoeBatchFileIndex.html">TahoeBatchFileIndex</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="TahoeLogFileIndex.html">TahoeLogFileIndex</a>
+  </li>
+</ul>
   </li>
   <li class="nav-item" data-depth="1">
     <a class="nav-link" href="others.html">The Others (Contenders)</a>
@@ -206,14 +221,14 @@
   <div class="edit-this-page"><a href="file:///antora/modules/ROOT/pages/DeltaTable.adoc">Edit this Page</a></div>
 </div>
 <article class="doc">
-<h1 class="page"><a id="DeltaTable"></a> DeltaTable</h1>
+<h1 class="page"><a id="DeltaTable"></a> DeltaTable&#8201;&#8212;&#8201;Management Interface Of Delta Tables</h1>
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p><code>DeltaTable</code> is the main class to <a href="#operators">programmatically access Delta tables</a>.</p>
+<p><code>DeltaTable</code> is the <a href="#operators">management interface of Delta tables</a> (with the <a href="DeltaTableOperations.html" class="page">Delta DML Operations</a>).</p>
 </div>
 <div class="paragraph">
-<p>You can create <code>DeltaTable</code> instances for existing Delta tables using <a href="#forPath">DeltaTable.forPath</a> utility (static method).</p>
+<p><code>DeltaTable</code> instances are created for existing Delta tables using <a href="#forPath">DeltaTable.forPath</a> utility (static method).</p>
 </div>
 <div class="paragraph">
 <p>You can convert parquet tables to delta format (by importing the tables into Delta Lake) using <a href="#convertToDelta">DeltaTable.convertToDelta</a> utility (static method).</p>
@@ -275,6 +290,18 @@ delete(condition: String): Unit</code></pre>
 </div>
 <div class="paragraph">
 <p>Deletes data from the <code>DeltaTable</code> that matches the given <code>condition</code>.</p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+<a href="#delete">delete</a> and <a href="#update">update</a> operators do not support subqueries (and <a href="DeltaTableOperations.html#subqueryNotSupportedCheck" class="page">throw an AnalysisException</a> otherwise).
+</td>
+</tr>
+</table>
 </div></div></td>
 </tr>
 <tr>
@@ -343,6 +370,18 @@ update(
 </div>
 <div class="paragraph">
 <p>Updates data in the <code>DeltaTable</code> on the rows that match the given <code>condition</code> based on the rules defined by <code>set</code></p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+<a href="#delete">delete</a> and <a href="#update">update</a> operators do not support subqueries (and <a href="DeltaTableOperations.html#subqueryNotSupportedCheck" class="page">throw an AnalysisException</a> otherwise).
+</td>
+</tr>
+</table>
 </div></div></td>
 </tr>
 <tr>
@@ -384,6 +423,9 @@ vacuum(
 </div>
 <div class="paragraph">
 <p>Deletes files and directories (recursively) in the <code>DeltaTable</code> that are not needed by the table (and maintain older versions up to the given retention threshold).</p>
+</div>
+<div class="paragraph">
+<p>Internally, <code>vacuum</code> simply triggers <a href="DeltaTableOperations.html#executeVacuum" class="page">executeVacuum</a></p>
 </div></div></td>
 </tr>
 </tbody>

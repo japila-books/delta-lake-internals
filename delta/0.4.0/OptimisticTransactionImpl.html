@@ -136,6 +136,9 @@
   <li class="nav-item" data-depth="1">
     <a class="nav-link" href="LogStoreProvider.html">LogStoreProvider</a>
   </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="TransactionalWrite.html">TransactionalWrite</a>
+  </li>
   <li class="nav-item is-current-page" data-depth="1">
     <button class="nav-item-toggle"></button>
     <a class="nav-link" href="OptimisticTransactionImpl.html">OptimisticTransactionImpl</a>
@@ -165,6 +168,18 @@
   </li>
   <li class="nav-item" data-depth="1">
     <a class="nav-link" href="DeltaTableUtils.html">DeltaTableUtils</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="TahoeFileIndex.html">TahoeFileIndex</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="TahoeBatchFileIndex.html">TahoeBatchFileIndex</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="TahoeLogFileIndex.html">TahoeLogFileIndex</a>
+  </li>
+</ul>
   </li>
   <li class="nav-item" data-depth="1">
     <a class="nav-link" href="others.html">The Others (Contenders)</a>
@@ -210,7 +225,56 @@
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p><code>OptimisticTransactionImpl</code> is&#8230;&#8203;FIXME</p>
+<p><code>OptimisticTransactionImpl</code> is an <a href="#contract">extension</a> of the <a href="TransactionalWrite.html" class="page">TransactionalWrite contract</a> for <a href="#implementations">optimistic transactions</a> that <a href="#FIXME">FIXME</a>.</p>
+</div>
+<table id="contract" class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. OptimisticTransactionImpl Contract (Abstract Methods Only)</caption>
+<colgroup>
+<col style="width: 30%;">
+<col style="width: 70%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Method</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>deltaLog</code></p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div id="deltaLog" class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">deltaLog: DeltaLog</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Used when&#8230;&#8203;FIXME</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>snapshot</code></p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div id="snapshot" class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">snapshot: Snapshot</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Used when&#8230;&#8203;FIXME</p>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<div id="implementations" class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<a href="OptimisticTransaction.html" class="page">OptimisticTransaction</a> is the only known <code>OptimisticTransactionImpl</code> in Delta Lake.
+</td>
+</tr>
+</table>
 </div>
 </div>
 </div>
@@ -232,7 +296,25 @@
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-<code>readVersion</code> is used when&#8230;&#8203;FIXME
+<div class="paragraph">
+<p><code>readVersion</code> is used when:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>OptimisticTransactionImpl</code> is requested for <a href="#snapshotMetadata">snapshotMetadata</a>, to <a href="#updateMetadata">updateMetadata</a> and <a href="#commit">commit</a></p>
+</li>
+<li>
+<p><code>ConvertToDeltaCommand</code> is requested to <a href="ConvertToDeltaCommand.html#run" class="page">run</a></p>
+</li>
+<li>
+<p><code>WriteIntoDelta</code> is requested to <a href="WriteIntoDelta.html#write" class="page">write</a></p>
+</li>
+<li>
+<p><code>ImplicitMetadataOperation</code> is requested to <a href="ImplicitMetadataOperation.html#updateMetadata" class="page">updateMetadata</a></p>
+</li>
+</ul>
+</div>
 </td>
 </tr>
 </table>
@@ -262,6 +344,253 @@
 </tr>
 </table>
 </div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="filterfiles-method"><a class="anchor" href="#filterfiles-method"></a><a class="link" href="#filterfiles-method"><a id="filterFiles"></a> <code>filterFiles</code> Method</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">filterFiles(): Seq[AddFile]
+filterFiles(
+  filters: Seq[Expression]): Seq[AddFile]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>filterFiles</code>&#8230;&#8203;FIXME</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>filterFiles</code> is used when&#8230;&#8203;FIXME
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="readwholetable-method"><a class="anchor" href="#readwholetable-method"></a><a class="link" href="#readwholetable-method"><a id="readWholeTable"></a> <code>readWholeTable</code> Method</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">readWholeTable(): Unit</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>readWholeTable</code>&#8230;&#8203;FIXME</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>readWholeTable</code> is used when&#8230;&#8203;FIXME
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="committingcommit-method"><a class="anchor" href="#committingcommit-method"></a><a class="link" href="#committingcommit-method"><a id="commit"></a> Committing&#8201;&#8212;&#8201;<code>commit</code> Method</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">commit(
+  actions: Seq[Action],
+  op: DeltaOperations.Operation): Long</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>commit</code>&#8230;&#8203;FIXME</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>commit</code> is used when&#8230;&#8203;FIXME
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="checkandretry-method"><a class="anchor" href="#checkandretry-method"></a><a class="link" href="#checkandretry-method"><a id="checkAndRetry"></a> <code>checkAndRetry</code> Method</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">checkAndRetry(
+  checkVersion: Long,
+  actions: Seq[Action],
+  attemptNumber: Int): Long</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>checkAndRetry</code>&#8230;&#8203;FIXME</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>checkAndRetry</code> is used exclusively when <code>OptimisticTransactionImpl</code> is requested to <a href="#doCommit">attempt to commit</a> (that failed with an <code>FileAlreadyExistsException</code>).
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="preparecommit-method"><a class="anchor" href="#preparecommit-method"></a><a class="link" href="#preparecommit-method"><a id="prepareCommit"></a> <code>prepareCommit</code> Method</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">prepareCommit(
+  actions: Seq[Action],
+  op: DeltaOperations.Operation): Seq[Action]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>prepareCommit</code>&#8230;&#8203;FIXME</p>
+</div>
+<div class="paragraph">
+<p><code>prepareCommit</code> requests the <a href="#deltaLog">DeltaLog</a> to <a href="DeltaLog.html#protocolWrite" class="page">protocolWrite</a>.</p>
+</div>
+<div class="paragraph">
+<p><code>prepareCommit</code>&#8230;&#8203;FIXME</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>prepareCommit</code> is used exclusively when <code>OptimisticTransactionImpl</code> is requested to <a href="#commit">commit</a> (at the beginning).
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="postcommit-method"><a class="anchor" href="#postcommit-method"></a><a class="link" href="#postcommit-method"><a id="postCommit"></a> <code>postCommit</code> Method</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">postCommit(
+  commitVersion: Long,
+  commitActions: Seq[Action]): Unit</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>postCommit</code>&#8230;&#8203;FIXME</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>postCommit</code> is used exclusively when <code>OptimisticTransactionImpl</code> is requested to <a href="#commit">commit</a> (at the end).
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="docommit-internal-method"><a class="anchor" href="#docommit-internal-method"></a><a class="link" href="#docommit-internal-method"><a id="doCommit"></a> <code>doCommit</code> Internal Method</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">doCommit(
+  attemptVersion: Long,
+  actions: Seq[Action],
+  attemptNumber: Int): Long</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>doCommit</code>&#8230;&#8203;FIXME</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>doCommit</code> is used when <code>OptimisticTransactionImpl</code> is requested to <a href="#commit">commit</a> and <a href="#checkAndRetry">checkAndRetry</a>.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="internal-properties"><a class="anchor" href="#internal-properties"></a><a class="link" href="#internal-properties"><a id="internal-properties"></a> Internal Properties</a></h2>
+<div class="sectionbody">
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 30%;">
+<col style="width: 70%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>committed</code></p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="committed"></a> Flag that controls whether the transaction has already committed or not (and prevents <a href="#prepareCommit">prepareCommit</a> being executed again)</p>
+</div>
+<div class="paragraph">
+<p>Default: <code>false</code></p>
+</div>
+<div class="paragraph">
+<p>Enabled (set to <code>true</code>) exclusively in <a href="#postCommit">postCommit</a></p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>dependsOnFiles</code></p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="dependsOnFiles"></a> Flag that&#8230;&#8203;FIXME</p>
+</div>
+<div class="paragraph">
+<p>Default: <code>false</code></p>
+</div>
+<div class="paragraph">
+<p>Enabled (set to <code>true</code>) in <a href="#filterFiles">filterFiles</a>, <a href="#readWholeTable">readWholeTable</a></p>
+</div>
+<div class="paragraph">
+<p>Used in <a href="#commit">commit</a> and <a href="#checkAndRetry">checkAndRetry</a></p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>snapshotMetadata</code></p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="snapshotMetadata"></a> <a href="Metadata.html" class="page">Metadata</a></p>
+</div></div></td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </article>

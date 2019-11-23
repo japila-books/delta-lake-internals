@@ -137,6 +137,9 @@
     <a class="nav-link" href="LogStoreProvider.html">LogStoreProvider</a>
   </li>
   <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="TransactionalWrite.html">TransactionalWrite</a>
+  </li>
+  <li class="nav-item" data-depth="1">
     <button class="nav-item-toggle"></button>
     <a class="nav-link" href="OptimisticTransactionImpl.html">OptimisticTransactionImpl</a>
 <ul class="nav-list">
@@ -165,6 +168,18 @@
   </li>
   <li class="nav-item" data-depth="1">
     <a class="nav-link" href="DeltaTableUtils.html">DeltaTableUtils</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="TahoeFileIndex.html">TahoeFileIndex</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="TahoeBatchFileIndex.html">TahoeBatchFileIndex</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="TahoeLogFileIndex.html">TahoeLogFileIndex</a>
+  </li>
+</ul>
   </li>
   <li class="nav-item" data-depth="1">
     <a class="nav-link" href="others.html">The Others (Contenders)</a>
@@ -273,6 +288,58 @@ Read up on <a href="https://jaceklaskowski.gitbooks.io/mastering-spark-sql/spark
 <p><a id="data"></a> Data (<code>DataFrame</code>)</p>
 </li>
 </ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="running-commandrun-method"><a class="anchor" href="#running-commandrun-method"></a><a class="link" href="#running-commandrun-method"><a id="run"></a> Running Command&#8201;&#8212;&#8201;<code>run</code> Method</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">run(sparkSession: SparkSession): Seq[Row]</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>run</code> is part of the <code>RunnableCommand</code> contract to&#8230;&#8203;FIXME.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><code>run</code>&#8230;&#8203;</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="write-method"><a class="anchor" href="#write-method"></a><a class="link" href="#write-method"><a id="write"></a> <code>write</code> Method</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">write(
+  txn: OptimisticTransaction,
+  sparkSession: SparkSession): Seq[Action]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>write</code>&#8230;&#8203;FIXME</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>write</code> is used exclusively when <code>WriteIntoDelta</code> is requested to <a href="#run">run</a>.
+</td>
+</tr>
+</table>
 </div>
 </div>
 </div>
