@@ -170,6 +170,15 @@
     <a class="nav-link" href="DeltaTableUtils.html">DeltaTableUtils</a>
   </li>
   <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="Invariants.html">Invariants</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="DelayedCommitProtocol.html">DelayedCommitProtocol</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="DeltaInvariantCheckerExec.html">DeltaInvariantCheckerExec</a>
+  </li>
+  <li class="nav-item" data-depth="1">
     <button class="nav-item-toggle"></button>
     <a class="nav-link" href="TahoeFileIndex.html">TahoeFileIndex</a>
 <ul class="nav-list">
@@ -223,8 +232,96 @@
 </div>
 <article class="doc">
 <h1 class="page"><a id="UpdateCommand"></a> UpdateCommand</h1>
+<div id="preamble">
+<div class="sectionbody">
 <div class="paragraph">
 <p><code>UpdateCommand</code> is&#8230;&#8203;FIXME</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="running-commandrun-method"><a class="anchor" href="#running-commandrun-method"></a><a class="link" href="#running-commandrun-method"><a id="run"></a> Running Command&#8201;&#8212;&#8201;<code>run</code> Method</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">run(sparkSession: SparkSession): Seq[Row]</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>run</code> is part of the <code>RunnableCommand</code> contract to&#8230;&#8203;FIXME.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><code>run</code>&#8230;&#8203;FIXME</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="performupdate-internal-method"><a class="anchor" href="#performupdate-internal-method"></a><a class="link" href="#performupdate-internal-method"><a id="performUpdate"></a> <code>performUpdate</code> Internal Method</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">performUpdate(
+  sparkSession: SparkSession,
+  deltaLog: DeltaLog,
+  txn: OptimisticTransaction): Unit</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>performUpdate</code>&#8230;&#8203;FIXME</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>performUpdate</code> is used exclusively when <code>UpdateCommand</code> is requested to <a href="#run">run</a>.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="rewritefiles-internal-method"><a class="anchor" href="#rewritefiles-internal-method"></a><a class="link" href="#rewritefiles-internal-method"><a id="rewriteFiles"></a> <code>rewriteFiles</code> Internal Method</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">rewriteFiles(
+  spark: SparkSession,
+  txn: OptimisticTransaction,
+  rootPath: Path,
+  inputLeafFiles: Seq[String],
+  nameToAddFileMap: Map[String, AddFile],
+  condition: Expression): Seq[AddFile]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>rewriteFiles</code>&#8230;&#8203;FIXME</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>rewriteFiles</code> is used exclusively when <code>UpdateCommand</code> is requested to <a href="#performUpdate">performUpdate</a>.
+</td>
+</tr>
+</table>
+</div>
+</div>
 </div>
 </article>
 </main>

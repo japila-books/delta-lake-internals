@@ -3,8 +3,8 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>The Internals of Delta Lake 0.4.0 :: The Internals of Delta Lake</title>
-    <link rel="canonical" href="https://delta.japila.pl/delta/0.4.0/index.html">
+    <title> Invariants :: The Internals of Delta Lake</title>
+    <link rel="canonical" href="https://delta.japila.pl/delta/0.4.0/Invariants.html">
     <meta name="generator" content="Antora 2.2.0">
     <link rel="stylesheet" href="../../_/css/site.css">
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-151208281-1"></script>
@@ -67,7 +67,7 @@
 <ul class="nav-list">
   <li class="nav-item" data-depth="0">
 <ul class="nav-list">
-  <li class="nav-item is-current-page" data-depth="1">
+  <li class="nav-item" data-depth="1">
     <a class="nav-link" href="index.html">Introduction</a>
   </li>
   <li class="nav-item" data-depth="1">
@@ -169,7 +169,7 @@
   <li class="nav-item" data-depth="1">
     <a class="nav-link" href="DeltaTableUtils.html">DeltaTableUtils</a>
   </li>
-  <li class="nav-item" data-depth="1">
+  <li class="nav-item is-current-page" data-depth="1">
     <a class="nav-link" href="Invariants.html">Invariants</a>
   </li>
   <li class="nav-item" data-depth="1">
@@ -220,167 +220,19 @@
 <main>
 <div class="toolbar" role="navigation">
 <button class="nav-toggle"></button>
-  <a href="index.html" class="home-link is-current"></a>
+  <a href="index.html" class="home-link"></a>
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="index.html">Delta Lake</a></li>
-    <li><a href="index.html">Introduction</a></li>
+    <li><a href="Invariants.html">Invariants</a></li>
   </ul>
 </nav>
-  <div class="edit-this-page"><a href="file:///antora/modules/ROOT/pages/index.adoc">Edit this Page</a></div>
+  <div class="edit-this-page"><a href="file:///antora/modules/ROOT/pages/Invariants.adoc">Edit this Page</a></div>
 </div>
 <article class="doc">
-<h1 class="page">The Internals of Delta Lake 0.4.0</h1>
-<div id="preamble">
-<div class="sectionbody">
+<h1 class="page"><a id="Invariants"></a> Invariants</h1>
 <div class="paragraph">
-<p><a href="https://delta.io/">Delta Lake</a> is an open-source storage layer that brings ACID transactions to <a href="https://spark.apache.org/">Apache Spark</a> and big data workloads.</p>
-</div>
-<div class="paragraph">
-<p>Delta Lake introduces a concept of <strong>delta table</strong> (that, among other things, is simply a <a href="DeltaTableUtils.html#findDeltaTableRoot" class="page">directory with <code>_delta_log</code> subdirectory</a>).</p>
-</div>
-<div class="paragraph">
-<p>Delta Lake provides <a href="DeltaTable.html" class="page">DeltaTable API</a> to programmatically access Delta tables. You can <a href="DeltaTable.html#convertToDelta" class="page">convert a parquet table to delta format (DeltaTable.convertToDelta)</a> or create a delta table from scratch (using <a href="#data-source">delta data source</a>).</p>
-</div>
-<div class="listingblock">
-<div class="title">Demo: Converting Parquet Dataset Into Delta Format</div>
-<div class="content">
-<pre class="highlightjs highlight"><code>// ./bin/spark-shell --packages io.delta:delta-core_2.12:0.4.0
-//
-// scala&gt; :type spark
-// org.apache.spark.sql.SparkSession
-//
-// scala&gt; spark.version
-// res0: String = 2.4.4
-
-val users = "/tmp/delta-table/users"
-// Note the parquet format
-spark.emptyDataset[(Long, String)].write.format("parquet").mode("overwrite").save(users)
-
-import io.delta.tables.DeltaTable
-
-val pid = s"parquet.`$users`"
-DeltaTable.convertToDelta(spark, pid)
-
-// users table is now in delta format
-assert(DeltaTable.isDeltaTable(users))</code></pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="title">Demo: Creating DeltaTable Instance</div>
-<div class="content">
-<pre class="highlightjs highlight"><code>// ./bin/spark-shell --packages io.delta:delta-core_2.12:0.4.0
-//
-// scala&gt; :type spark
-// org.apache.spark.sql.SparkSession
-//
-// scala&gt; spark.version
-// res0: String = 2.4.4
-
-val users = "/tmp/delta-table/users"
-// Note the delta format
-spark.emptyDataset[(Long, String)].write.format("delta").mode("overwrite").save(users)
-
-import io.delta.tables.DeltaTable
-assert(DeltaTable.isDeltaTable(users))</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Delta Lake uses <a href="https://hadoop.apache.org/docs/stable/hadoop-project-dist/hadoop-common/filesystem/index.html">Hadoop FileSystem API</a> to access the underlying data storage (e.g. <a href="http://hadoop.apache.org/">Hadoop DFS</a> or <a href="https://hadoop.apache.org/docs/stable/hadoop-aws/tools/hadoop-aws/index.html">Amazon S3</a>).</p>
-</div>
-<div class="paragraph">
-<p>Technically speaking, Delta Lake is:</p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p><a href="#data-source">Data Source for Spark SQL and Structured Streaming</a></p>
-</li>
-<li>
-<p><a href="#streaming-sink">Streaming sink for streaming queries (Structured Streaming)</a></p>
-</li>
-</ol>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="data-source-for-spark-sql-and-structured-streaming"><a class="anchor" href="#data-source-for-spark-sql-and-structured-streaming"></a><a class="link" href="#data-source-for-spark-sql-and-structured-streaming"><a id="data-source"></a> Data Source for Spark SQL and Structured Streaming</a></h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Delta Lake is a data source for Spark SQL and Structured Streaming (see <a href="https://github.com/delta-io/delta/blob/v0.4.0/src/main/scala/org/apache/spark/sql/delta/sources/DeltaDataSource.scala#L40-L45">github</a>).</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">val input = spark
-  .read // or readStream
-  .format("delta")
-  .load</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>In that sense, Delta Lake is like <code>parquet</code>, <code>kafka</code> or any data source that can be used in batch and streaming queries and is simply an extension of Apache Spark&#8217;s Spark SQL and Structured Streaming.</p>
-</div>
-<div class="paragraph">
-<p>As a <code>DataSourceRegister</code>, Delta Lake registers itself as <code>delta</code> data source.</p>
-</div>
-<div class="admonitionblock tip">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-tip" title="Tip"></i>
-</td>
-<td class="content">
-Read up on <a href="https://jaceklaskowski.gitbooks.io/mastering-spark-sql/spark-sql-DataSourceRegister.html">DataSourceRegister</a> in <a href="https://bit.ly/spark-sql-internals">The Internals of Spark SQL</a> online book.
-</td>
-</tr>
-</table>
-</div>
-<div class="paragraph">
-<p>In order to "install" and use Delta Lake in a Spark application (e.g. <code>spark-shell</code>), use <code>--packages</code> command-line option.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">// $ spark-shell --packages io.delta:delta-core_2.12:0.4.0
-
-assert(spark.version == "2.4.4")
-
-val input = spark
-  .read
-  .format("delta")
-  .option("path", "delta") // a required option
-  .load</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p><code>delta</code> data source requires some <a href="options.html" class="page">options</a> (with <a href="options.html#path" class="page">path</a> option required).</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="streaming-sink-for-streaming-queries-structured-streaming"><a class="anchor" href="#streaming-sink-for-streaming-queries-structured-streaming"></a><a class="link" href="#streaming-sink-for-streaming-queries-structured-streaming"><a id="streaming-sink"></a> Streaming Sink for Streaming Queries (Structured Streaming)</a></h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Delta Lake is a <a href="DeltaDataSource.html#StreamSinkProvider" class="page">streaming sink</a> for streaming queries in Structured Streaming.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">// $ spark-shell --packages io.delta:delta-core_2.12:0.4.0
-
-assert(spark.version == "2.4.4")
-
-// Any streaming query would work
-// Using rate data source for demo
-// val rates = spark.readStream.format("rate").load
-
-val q = rates
-  .writeStream
-  .format("delta")
-  .option("checkpointLocation", "delta-checkpointLocation") // a required option
-  .option("path", "delta") // a required option
-  .start</code></pre>
-</div>
-</div>
-</div>
+<p><code>Invariants</code> is&#8230;&#8203;FIXME</p>
 </div>
 </article>
 </main>
