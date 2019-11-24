@@ -1,3 +1,28 @@
 = [[MergeIntoCommand]] MergeIntoCommand
 
 `MergeIntoCommand` is...FIXME
+
+== [[run]] Running Command -- `run` Method
+
+[source, scala]
+----
+run(spark: SparkSession): Seq[Row]
+----
+
+NOTE: `run` is part of the `RunnableCommand` contract to...FIXME.
+
+`run`...FIXME
+
+== [[writeAllChanges]] `writeAllChanges` Internal Method
+
+[source, scala]
+----
+writeAllChanges(
+  spark: SparkSession,
+  deltaTxn: OptimisticTransaction,
+  filesToRewrite: Seq[AddFile]): Seq[AddFile]
+----
+
+`writeAllChanges`...FIXME
+
+NOTE: `writeAllChanges` is used exclusively when `MergeIntoCommand` is requested to <<run, run>>.
