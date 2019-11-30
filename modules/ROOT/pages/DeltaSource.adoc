@@ -1,0 +1,78 @@
+= [[DeltaSource]] DeltaSource
+
+`DeltaSource` is...FIXME
+
+== [[getBatch]] `getBatch` Method
+
+[source, scala]
+----
+getBatch(
+  start: Option[Offset],
+  end: Offset): DataFrame
+----
+
+NOTE: `getBatch` is part of the streaming `Source` contract (Spark Structured Streaming) to...FIXME.
+
+`getBatch`...FIXME
+
+== [[getOffset]] `getOffset` Method
+
+[source, scala]
+----
+getOffset: Option[Offset]
+----
+
+NOTE: `getOffset` is part of the streaming `Source` contract (Spark Structured Streaming) to get the maximum available offset for this source.
+
+`getOffset`...FIXME
+
+== [[getStartingOffset]] `getStartingOffset` Internal Method
+
+[source, scala]
+----
+getStartingOffset(): Option[Offset]
+----
+
+`getStartingOffset`...FIXME
+
+NOTE: `getStartingOffset` is used exclusively when `DeltaSource` is requested to <<getOffset, getOffset>>.
+
+== [[getChangesWithRateLimit]] `getChangesWithRateLimit` Internal Method
+
+[source, scala]
+----
+getChangesWithRateLimit(
+  fromVersion: Long,
+  fromIndex: Long,
+  isStartingVersion: Boolean): Iterator[IndexedFile]
+----
+
+`getChangesWithRateLimit`...FIXME
+
+NOTE: `getChangesWithRateLimit` is used when `DeltaSource` is requested to <<getStartingOffset, getStartingOffset>> and <<getOffset, getOffset>>.
+
+== [[getChanges]] `getChanges` Internal Method
+
+[source, scala]
+----
+getChanges(
+  fromVersion: Long,
+  fromIndex: Long,
+  isStartingVersion: Boolean): Iterator[IndexedFile]
+----
+
+`getChanges`...FIXME
+
+NOTE: `getChanges` is used when `DeltaSource` is requested to <<getChangesWithRateLimit, getChangesWithRateLimit>> and <<getBatch, getBatch>>.
+
+== [[getSnapshotAt]] `getSnapshotAt` Internal Method
+
+[source, scala]
+----
+getSnapshotAt(
+  version: Long): Iterator[IndexedFile]
+----
+
+`getSnapshotAt`...FIXME
+
+NOTE: `getSnapshotAt` is used exclusively when `DeltaSource` is requested to <<getChanges, getChanges>>.

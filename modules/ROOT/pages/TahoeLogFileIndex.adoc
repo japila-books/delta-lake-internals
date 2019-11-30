@@ -1,3 +1,53 @@
 = [[TahoeLogFileIndex]] TahoeLogFileIndex
 
-`TahoeLogFileIndex` is...FIXME
+`TahoeLogFileIndex` is a concrete <<TahoeFileIndex.adoc#, TahoeFileIndex>> that...FIXME
+
+`TahoeLogFileIndex` is <<creating-instance, created>> exclusively when `DeltaLog` is requested for a <<DeltaLog.adoc#createRelation, relation>> (when `DeltaDataSource` is requested for one as a <<DeltaDataSource.adoc#CreatableRelationProvider, CreatableRelationProvider>> and a <<DeltaDataSource.adoc#RelationProvider, RelationProvider>>).
+
+== [[creating-instance]] Creating TahoeLogFileIndex Instance
+
+`TahoeLogFileIndex` takes the following to be created:
+
+* [[spark]] `SparkSession`
+* [[deltaLog]] <<DeltaLog.adoc#, DeltaLog>>
+* [[dataPath]] Data path (Hadoop `Path`)
+* [[partitionFilters]] Partition filters (as `Seq[Expression]`) (default: `empty`)
+* [[versionToUse]] Option[Long] = None
+
+`TahoeLogFileIndex` initializes the <<internal-properties, internal properties>>.
+
+== [[partitionSchema]] Schema of Partition Columns -- `partitionSchema` Method
+
+[source, scala]
+----
+partitionSchema: StructType
+----
+
+NOTE: `partitionSchema` is part of the `FileIndex` contract (Spark SQL) to get the schema of the partition columns (if used).
+
+`partitionSchema`...FIXME
+
+== [[getSnapshot]] `getSnapshot` Method
+
+[source, scala]
+----
+getSnapshot(stalenessAcceptable: Boolean): Snapshot
+----
+
+`getSnapshot`...FIXME
+
+NOTE: `getSnapshot` is used when...FIXME
+
+== [[internal-properties]] Internal Properties
+
+[cols="30m,70",options="header",width="100%"]
+|===
+| Name
+| Description
+
+| historicalSnapshotOpt
+a| [[historicalSnapshotOpt]] <<Snapshot.adoc#, Snapshot>> for the <<versionToUse, versionToUse>> (if defined)
+
+Used when `TahoeLogFileIndex` is requested for the <<getSnapshot, snapshot>> and <<partitionSchema, schema of the partition columns>>
+
+|===

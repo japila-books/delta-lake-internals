@@ -1,6 +1,6 @@
 = [[TahoeFileIndex]] TahoeFileIndex
 
-`TahoeFileIndex` is an <<contract, extension>> of the Spark SQL `FileIndex` contract for <<implementations, file indices>> that can <<listFiles, listing data files>> that <<matchingFiles, match partition and data filters>>.
+`TahoeFileIndex` is an <<contract, extension>> of the Spark SQL `FileIndex` contract for <<implementations, file indices>> that can <<listFiles, list data files>> based on <<matchingFiles, partition and data filters>>.
 
 [[contract]]
 .TahoeFileIndex Contract (Abstract Methods Only)

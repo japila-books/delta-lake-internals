@@ -137,7 +137,16 @@ getSnapshotAt(
 
 `getSnapshotAt`...FIXME
 
-NOTE: `getSnapshotAt` is used when...FIXME
+[NOTE]
+====
+`getSnapshotAt` is used when:
+
+* `DeltaLog` is requested for a <<createRelation, relation>>, and to <<updateInternal, updateInternal>>
+
+* `DeltaSource` is requested to <<DeltaSource.adoc#getSnapshotAt, getSnapshotAt>>
+
+* `TahoeLogFileIndex` is requested for <<TahoeLogFileIndex.adoc#historicalSnapshotOpt, historicalSnapshotOpt>>
+====
 
 == [[tryUpdate]] `tryUpdate` Method
 

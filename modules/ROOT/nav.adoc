@@ -41,4 +41,6 @@
 ** xref:TahoeBatchFileIndex.adoc[TahoeBatchFileIndex]
 ** xref:TahoeLogFileIndex.adoc[TahoeLogFileIndex]
 
+* xref:DeltaSource.adoc[DeltaSource]
+
 * xref:others.adoc[The Others (Contenders)]
