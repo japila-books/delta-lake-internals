@@ -104,7 +104,26 @@ createRelation(
 
 `createRelation`...FIXME
 
+`createRelation` creates a <<TahoeLogFileIndex.adoc#, TahoeLogFileIndex>> for the <<dataPath, data path>>, the given `partitionFilters` and a version (if defined).
+
+`createRelation`...FIXME
+
+In the end, `createRelation` creates a `HadoopFsRelation` for the `TahoeLogFileIndex` and...FIXME. The `HadoopFsRelation` is also an <<createRelation-InsertableRelation, InsertableRelation>>
+
 NOTE: `createRelation` is used when `DeltaDataSource` is requested to create a relation as a <<DeltaDataSource.adoc#CreatableRelationProvider, CreatableRelationProvider>> and a <<DeltaDataSource.adoc#RelationProvider, RelationProvider>>
+
+=== [[createRelation-InsertableRelation]][[createRelation-InsertableRelation-insert]] `insert` Method
+
+[source, scala]
+----
+insert(
+  data: DataFrame,
+  overwrite: Boolean): Unit
+----
+
+NOTE: `insert` is part of the `InsertableRelation` contract to...FIXME.
+
+`insert`...FIXME
 
 == [[getSnapshotAt]] `getSnapshotAt` Method
 

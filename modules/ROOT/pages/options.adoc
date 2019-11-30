@@ -50,9 +50,15 @@ a| [[queryName]]
 a| [[replaceWhere]]
 
 | timestampAsOf
-a| [[timestampAsOf]]
+a| [[timestampAsOf]] <<time-travel.adoc#, Time traveling>> using a timestamp of a table
+
+Mutually exclusive with <<versionAsOf, versionAsOf>> option and the time travel identifier of the <<path, path>> option.
 
 | versionAsOf
-a| [[versionAsOf]]
+a| [[versionAsOf]] <<time-travel.adoc#, Time traveling>> using a version of a table
+
+Mutually exclusive with <<timestampAsOf, timestampAsOf>> option and the time travel identifier of the <<path, path>> option.
+
+Used exclusively when `DeltaDataSource` is requested for a <<DeltaDataSource.adoc#RelationProvider-createRelation, relation (as a RelationProvider)>>
 
 |===

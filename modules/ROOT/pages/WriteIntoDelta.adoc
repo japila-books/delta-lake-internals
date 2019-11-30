@@ -12,7 +12,7 @@ TIP: Read up on https://jaceklaskowski.gitbooks.io/mastering-spark-sql/spark-sql
 
 * `DeltaLog` is requested to <<DeltaLog.adoc#createRelation, create a relation (per partition filters and time travel)>> (when `DeltaDataSource` is requested to create a relation as a <<DeltaDataSource.adoc#CreatableRelationProvider, CreatableRelationProvider>> or a <<DeltaDataSource.adoc#RelationProvider, RelationProvider>>)
 
-* `DeltaDataSource` is requested to <<DeltaDataSource.adoc#createRelation, create a relation (per save mode and data source-specific parameters)>> (as a <<DeltaDataSource.adoc#CreatableRelationProvider, CreatableRelationProvider>>)
+* `DeltaDataSource` is requested to <<DeltaDataSource.adoc#CreatableRelationProvider-createRelation, create a relation (per save mode and data source-specific parameters)>> (as a <<DeltaDataSource.adoc#CreatableRelationProvider, CreatableRelationProvider>>)
 
 == [[creating-instance]] Creating WriteIntoDelta Instance
 

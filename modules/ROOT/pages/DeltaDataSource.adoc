@@ -19,13 +19,24 @@ TIP: Read up on https://jaceklaskowski.gitbooks.io/mastering-spark-sql/spark-sql
 org.apache.spark.sql.delta.sources.DeltaDataSource
 ----
 
-=== [[RelationProvider]] RelationProvider
+=== [[RelationProvider]][[RelationProvider-createRelation]] RelationProvider
 
 `DeltaDataSource` is a `RelationProvider`.
 
 TIP: Read up on https://jaceklaskowski.gitbooks.io/mastering-spark-sql/spark-sql-RelationProvider.html[RelationProvider] in https://bit.ly/spark-sql-internals[The Internals of Spark SQL] online book.
 
-=== [[CreatableRelationProvider]][[createRelation]][[createRelation-CreatableRelationProvider]] CreatableRelationProvider
+[source, scala]
+----
+createRelation(
+  sqlContext: SQLContext,
+  parameters: Map[String, String]): BaseRelation
+----
+
+`createRelation`...FIXME
+
+In the end, `createRelation` requests the <<RelationProvider-createRelation-deltaLog, DeltaLog>> to <<DeltaLog.adoc#createRelation, createRelation>>
+
+=== [[CreatableRelationProvider]][[CreatableRelationProvider-createRelation]] CreatableRelationProvider
 
 `DeltaDataSource` is a `CreatableRelationProvider`.
 
@@ -46,3 +57,15 @@ TIP: Read up on https://jaceklaskowski.gitbooks.io/spark-structured-streaming/sp
 `DeltaDataSource` supports `Append` and `Complete` output modes only.
 
 In the end, `DeltaDataSource` creates a <<DeltaSink.adoc#, DeltaSink>>.
+
+== [[getTimeTravelVersion]] `getTimeTravelVersion` Internal Method
+
+[source, scala]
+----
+getTimeTravelVersion(
+  parameters: Map[String, String]): Option[DeltaTimeTravelSpec]
+----
+
+`getTimeTravelVersion`...FIXME
+
+NOTE: `getTimeTravelVersion` is used exclusively when `DeltaDataSource` is requested to <<RelationProvider-createRelation, create a relation (as a RelationProvider)>>.
