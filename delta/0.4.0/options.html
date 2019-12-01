@@ -125,7 +125,13 @@
     <a class="nav-link" href="DeltaSink.html">DeltaSink</a>
   </li>
   <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
     <a class="nav-link" href="DeltaLog.html">DeltaLog</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="Checkpoints.html">Checkpoints</a>
+  </li>
+</ul>
   </li>
   <li class="nav-item" data-depth="1">
     <a class="nav-link" href="Snapshot.html">Snapshot</a>
@@ -189,6 +195,15 @@
     <a class="nav-link" href="TahoeLogFileIndex.html">TahoeLogFileIndex</a>
   </li>
 </ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="DeltaSource.html">DeltaSource</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="PartitionFiltering.html">PartitionFiltering</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="DeltaHistoryManager.html">DeltaHistoryManager</a>
   </li>
   <li class="nav-item" data-depth="1">
     <a class="nav-link" href="others.html">The Others (Contenders)</a>
@@ -307,11 +322,24 @@
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>timestampAsOf</code></p></td>
-<td class="tableblock halign-left valign-top"><div class="content"></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="timestampAsOf"></a> <a href="time-travel.html" class="page">Time traveling</a> using a timestamp of a table</p>
+</div>
+<div class="paragraph">
+<p>Mutually exclusive with <a href="#versionAsOf">versionAsOf</a> option and the time travel identifier of the <a href="#path">path</a> option.</p>
+</div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>versionAsOf</code></p></td>
-<td class="tableblock halign-left valign-top"><div class="content"></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="versionAsOf"></a> <a href="time-travel.html" class="page">Time traveling</a> using a version of a table</p>
+</div>
+<div class="paragraph">
+<p>Mutually exclusive with <a href="#timestampAsOf">timestampAsOf</a> option and the time travel identifier of the <a href="#path">path</a> option.</p>
+</div>
+<div class="paragraph">
+<p>Used exclusively when <code>DeltaDataSource</code> is requested for a <a href="DeltaDataSource.html#RelationProvider-createRelation" class="page">relation (as a RelationProvider)</a></p>
+</div></div></td>
 </tr>
 </tbody>
 </table>

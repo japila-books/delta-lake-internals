@@ -125,7 +125,13 @@
     <a class="nav-link" href="DeltaSink.html">DeltaSink</a>
   </li>
   <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
     <a class="nav-link" href="DeltaLog.html">DeltaLog</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="Checkpoints.html">Checkpoints</a>
+  </li>
+</ul>
   </li>
   <li class="nav-item" data-depth="1">
     <a class="nav-link" href="Snapshot.html">Snapshot</a>
@@ -189,6 +195,15 @@
     <a class="nav-link" href="TahoeLogFileIndex.html">TahoeLogFileIndex</a>
   </li>
 </ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="DeltaSource.html">DeltaSource</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="PartitionFiltering.html">PartitionFiltering</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="DeltaHistoryManager.html">DeltaHistoryManager</a>
   </li>
   <li class="nav-item" data-depth="1">
     <a class="nav-link" href="others.html">The Others (Contenders)</a>
@@ -264,7 +279,7 @@ Read up on <a href="https://jaceklaskowski.gitbooks.io/mastering-spark-sql/spark
 <p><code>DeltaLog</code> is requested to <a href="DeltaLog.html#createRelation" class="page">create a relation (per partition filters and time travel)</a> (when <code>DeltaDataSource</code> is requested to create a relation as a <a href="DeltaDataSource.html#CreatableRelationProvider" class="page">CreatableRelationProvider</a> or a <a href="DeltaDataSource.html#RelationProvider" class="page">RelationProvider</a>)</p>
 </li>
 <li>
-<p><code>DeltaDataSource</code> is requested to <a href="DeltaDataSource.html#createRelation" class="page">create a relation (per save mode and data source-specific parameters)</a> (as a <a href="DeltaDataSource.html#CreatableRelationProvider" class="page">CreatableRelationProvider</a>)</p>
+<p><code>DeltaDataSource</code> is requested to <a href="DeltaDataSource.html#CreatableRelationProvider-createRelation" class="page">create a relation (per save mode and data source-specific parameters)</a> (as a <a href="DeltaDataSource.html#CreatableRelationProvider" class="page">CreatableRelationProvider</a>)</p>
 </li>
 </ul>
 </div>

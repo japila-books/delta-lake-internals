@@ -125,7 +125,13 @@
     <a class="nav-link" href="DeltaSink.html">DeltaSink</a>
   </li>
   <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
     <a class="nav-link" href="DeltaLog.html">DeltaLog</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="Checkpoints.html">Checkpoints</a>
+  </li>
+</ul>
   </li>
   <li class="nav-item" data-depth="1">
     <a class="nav-link" href="Snapshot.html">Snapshot</a>
@@ -191,6 +197,15 @@
 </ul>
   </li>
   <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="DeltaSource.html">DeltaSource</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="PartitionFiltering.html">PartitionFiltering</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="DeltaHistoryManager.html">DeltaHistoryManager</a>
+  </li>
+  <li class="nav-item" data-depth="1">
     <a class="nav-link" href="others.html">The Others (Contenders)</a>
   </li>
 </ul>
@@ -234,7 +249,7 @@
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p><code>TahoeFileIndex</code> is an <a href="#contract">extension</a> of the Spark SQL <code>FileIndex</code> contract for <a href="#implementations">file indices</a> that can <a href="#listFiles">listing data files</a> that <a href="#matchingFiles">match partition and data filters</a>.</p>
+<p><code>TahoeFileIndex</code> is an <a href="#contract">extension</a> of the Spark SQL <code>FileIndex</code> contract for <a href="#implementations">file indices</a> that can <a href="#listFiles">list data files</a> based on <a href="#matchingFiles">partition and data filters</a>.</p>
 </div>
 <table id="contract" class="tableblock frame-all grid-all stretch">
 <caption class="title">Table 1. TahoeFileIndex Contract (Abstract Methods Only)</caption>
@@ -260,7 +275,7 @@
 </div>
 </div>
 <div class="paragraph">
-<p>Returns all matching/valid files by the given <code>partitionFilters</code> and <code>dataFilters</code> expressions</p>
+<p>Matching (valid) files by the given filtering expressions (<code>partitionFilters</code> and <code>dataFilters</code>)</p>
 </div>
 <div class="paragraph">
 <p>Used exclusively while <a href="#listFiles">listing data files</a></p>

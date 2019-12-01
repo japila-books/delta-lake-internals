@@ -125,7 +125,13 @@
     <a class="nav-link" href="DeltaSink.html">DeltaSink</a>
   </li>
   <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
     <a class="nav-link" href="DeltaLog.html">DeltaLog</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="Checkpoints.html">Checkpoints</a>
+  </li>
+</ul>
   </li>
   <li class="nav-item" data-depth="1">
     <a class="nav-link" href="Snapshot.html">Snapshot</a>
@@ -191,6 +197,15 @@
 </ul>
   </li>
   <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="DeltaSource.html">DeltaSource</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="PartitionFiltering.html">PartitionFiltering</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="DeltaHistoryManager.html">DeltaHistoryManager</a>
+  </li>
+  <li class="nav-item" data-depth="1">
     <a class="nav-link" href="others.html">The Others (Contenders)</a>
   </li>
 </ul>
@@ -232,8 +247,42 @@
 </div>
 <article class="doc">
 <h1 class="page"><a id="VacuumCommand"></a> VacuumCommand</h1>
+<div id="preamble">
+<div class="sectionbody">
 <div class="paragraph">
 <p><code>VacuumCommand</code> is&#8230;&#8203;FIXME</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="gc-utility"><a class="anchor" href="#gc-utility"></a><a class="link" href="#gc-utility"><a id="gc"></a> <code>gc</code> Utility</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">gc(
+  spark: SparkSession,
+  deltaLog: DeltaLog,
+  dryRun: Boolean = true,
+  retentionHours: Option[Double] = None,
+  clock: Clock = new SystemClock): DataFrame</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>gc</code>&#8230;&#8203;FIXME</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>gc</code> is used when&#8230;&#8203;FIXME
+</td>
+</tr>
+</table>
+</div>
+</div>
 </div>
 </article>
 </main>

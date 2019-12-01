@@ -125,7 +125,13 @@
     <a class="nav-link" href="DeltaSink.html">DeltaSink</a>
   </li>
   <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
     <a class="nav-link" href="DeltaLog.html">DeltaLog</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="Checkpoints.html">Checkpoints</a>
+  </li>
+</ul>
   </li>
   <li class="nav-item" data-depth="1">
     <a class="nav-link" href="Snapshot.html">Snapshot</a>
@@ -189,6 +195,15 @@
     <a class="nav-link" href="TahoeLogFileIndex.html">TahoeLogFileIndex</a>
   </li>
 </ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="DeltaSource.html">DeltaSource</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="PartitionFiltering.html">PartitionFiltering</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="DeltaHistoryManager.html">DeltaHistoryManager</a>
   </li>
   <li class="nav-item" data-depth="1">
     <a class="nav-link" href="others.html">The Others (Contenders)</a>
@@ -269,7 +284,7 @@ Read up on <a href="https://jaceklaskowski.gitbooks.io/mastering-spark-sql/spark
 </div>
 </div>
 <div class="sect2">
-<h3 id="relationprovider"><a class="anchor" href="#relationprovider"></a><a class="link" href="#relationprovider"><a id="RelationProvider"></a> RelationProvider</a></h3>
+<h3 id="relationprovider"><a class="anchor" href="#relationprovider"></a><a class="link" href="#relationprovider"><a id="RelationProvider"></a><a id="RelationProvider-createRelation"></a> RelationProvider</a></h3>
 <div class="paragraph">
 <p><code>DeltaDataSource</code> is a <code>RelationProvider</code>.</p>
 </div>
@@ -285,9 +300,22 @@ Read up on <a href="https://jaceklaskowski.gitbooks.io/mastering-spark-sql/spark
 </tr>
 </table>
 </div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">createRelation(
+  sqlContext: SQLContext,
+  parameters: Map[String, String]): BaseRelation</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>createRelation</code>&#8230;&#8203;FIXME</p>
+</div>
+<div class="paragraph">
+<p>In the end, <code>createRelation</code> requests the <a href="#RelationProvider-createRelation-deltaLog">DeltaLog</a> to <a href="DeltaLog.html#createRelation" class="page">createRelation</a></p>
+</div>
 </div>
 <div class="sect2">
-<h3 id="creatablerelationprovider"><a class="anchor" href="#creatablerelationprovider"></a><a class="link" href="#creatablerelationprovider"><a id="CreatableRelationProvider"></a><a id="createRelation"></a><a id="createRelation-CreatableRelationProvider"></a> CreatableRelationProvider</a></h3>
+<h3 id="creatablerelationprovider"><a class="anchor" href="#creatablerelationprovider"></a><a class="link" href="#creatablerelationprovider"><a id="CreatableRelationProvider"></a><a id="CreatableRelationProvider-createRelation"></a> CreatableRelationProvider</a></h3>
 <div class="paragraph">
 <p><code>DeltaDataSource</code> is a <code>CreatableRelationProvider</code>.</p>
 </div>
@@ -345,6 +373,32 @@ Read up on <a href="https://jaceklaskowski.gitbooks.io/spark-structured-streamin
 <div class="paragraph">
 <p>In the end, <code>DeltaDataSource</code> creates a <a href="DeltaSink.html" class="page">DeltaSink</a>.</p>
 </div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="gettimetravelversion-internal-method"><a class="anchor" href="#gettimetravelversion-internal-method"></a><a class="link" href="#gettimetravelversion-internal-method"><a id="getTimeTravelVersion"></a> <code>getTimeTravelVersion</code> Internal Method</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">getTimeTravelVersion(
+  parameters: Map[String, String]): Option[DeltaTimeTravelSpec]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>getTimeTravelVersion</code>&#8230;&#8203;FIXME</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>getTimeTravelVersion</code> is used exclusively when <code>DeltaDataSource</code> is requested to <a href="#RelationProvider-createRelation">create a relation (as a RelationProvider)</a>.
+</td>
+</tr>
+</table>
 </div>
 </div>
 </div>
