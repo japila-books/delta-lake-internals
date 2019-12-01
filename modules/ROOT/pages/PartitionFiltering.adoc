@@ -1,0 +1,17 @@
+= [[PartitionFiltering]] PartitionFiltering
+
+`PartitionFiltering`...FIXME
+
+== [[filesForScan]] `filesForScan` Method
+
+[source, scala]
+----
+filesForScan(
+  projection: Seq[Attribute],
+  filters: Seq[Expression],
+  keepStats: Boolean = false): DeltaScan
+----
+
+`filesForScan`...FIXME
+
+NOTE: `filesForScan` is used when...FIXME

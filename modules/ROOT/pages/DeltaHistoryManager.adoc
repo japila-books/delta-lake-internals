@@ -1,0 +1,43 @@
+= DeltaHistoryManager
+
+`DeltaHistoryManager` is...FIXME
+
+== [[getHistory]] `getHistory` Method
+
+[source, scala]
+----
+getHistory(
+  limitOpt: Option[Int]): Seq[CommitInfo]
+getHistory(
+  start: Long,
+  end: Option[Long]): Seq[CommitInfo]
+----
+
+`getHistory`...FIXME
+
+NOTE: `getHistory` is used when...FIXME
+
+== [[getActiveCommitAtTime]] `getActiveCommitAtTime` Method
+
+[source, scala]
+----
+getActiveCommitAtTime(
+  timestamp: Timestamp,
+  canReturnLastCommit: Boolean,
+  mustBeRecreatable: Boolean = true): Commit
+----
+
+`getActiveCommitAtTime`...FIXME
+
+NOTE: `getActiveCommitAtTime` is used when...FIXME
+
+== [[checkVersionExists]] `checkVersionExists` Method
+
+[source, scala]
+----
+checkVersionExists(version: Long): Unit
+----
+
+`checkVersionExists`...FIXME
+
+NOTE: `checkVersionExists` is used when...FIXME

@@ -20,6 +20,7 @@
 * xref:DeltaDataSource.adoc[DeltaDataSource]
 * xref:DeltaSink.adoc[DeltaSink]
 * xref:DeltaLog.adoc[DeltaLog]
+** xref:Checkpoints.adoc[Checkpoints]
 * xref:Snapshot.adoc[Snapshot]
 * xref:DeltaSQLConf.adoc[DeltaSQLConf]
 * xref:LogStoreProvider.adoc[LogStoreProvider]
@@ -42,5 +43,8 @@
 ** xref:TahoeLogFileIndex.adoc[TahoeLogFileIndex]
 
 * xref:DeltaSource.adoc[DeltaSource]
+
+* xref:PartitionFiltering.adoc[PartitionFiltering]
+* xref:DeltaHistoryManager.adoc[DeltaHistoryManager]
 
 * xref:others.adoc[The Others (Contenders)]

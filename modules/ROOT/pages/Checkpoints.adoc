@@ -1,0 +1,25 @@
+= Checkpoints
+
+`Checkpoints` is...FIXME
+
+== [[lastCheckpoint]] `lastCheckpoint` Method
+
+[source, scala]
+----
+lastCheckpoint: Option[CheckpointMetaData]
+----
+
+`lastCheckpoint` simply <<loadMetadataFromFile, loadMetadataFromFile>> (with 0 `tries`).
+
+NOTE: `lastCheckpoint` is used when...FIXME
+
+== [[loadMetadataFromFile]] `loadMetadataFromFile` Internal Method
+
+[source, scala]
+----
+loadMetadataFromFile(tries: Int): Option[CheckpointMetaData]
+----
+
+`loadMetadataFromFile`...FIXME
+
+NOTE: `loadMetadataFromFile` is used when...FIXME

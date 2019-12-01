@@ -20,7 +20,7 @@ matchingFiles(
   keepStats: Boolean = false): Seq[AddFile]
 ----
 
-Returns all matching/valid files by the given `partitionFilters` and `dataFilters` expressions
+Matching (valid) files by the given filtering expressions (`partitionFilters` and `dataFilters`)
 
 Used exclusively while <<listFiles, listing data files>>
 

@@ -1,3 +1,19 @@
 = [[VacuumCommand]] VacuumCommand
 
 `VacuumCommand` is...FIXME
+
+== [[gc]] `gc` Utility
+
+[source, scala]
+----
+gc(
+  spark: SparkSession,
+  deltaLog: DeltaLog,
+  dryRun: Boolean = true,
+  retentionHours: Option[Double] = None,
+  clock: Clock = new SystemClock): DataFrame
+----
+
+`gc`...FIXME
+
+NOTE: `gc` is used when...FIXME

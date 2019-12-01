@@ -78,9 +78,30 @@ update(
   stalenessAcceptable: Boolean = false): Snapshot
 ----
 
-`update`...FIXME
+`update` branches off based on a combination of flags: the given `stalenessAcceptable` and <<isSnapshotStale, isSnapshotStale>> flags.
 
-NOTE: `update` is used when...FIXME
+For the `stalenessAcceptable` not acceptable (default) and the <<isSnapshotStale, snapshot not stale>>, `update` simply acquires the <<deltaLogLock, deltaLogLock>> lock and <<updateInternal, updateInternal>> (with `isAsync` flag off).
+
+For all other cases, `update`...FIXME
+
+[NOTE]
+====
+`update` is used when:
+
+* `DeltaHistoryManager` is requested to <<DeltaHistoryManager.adoc#getHistory, getHistory>>, <<DeltaHistoryManager.adoc#getActiveCommitAtTime, getActiveCommitAtTime>>, and <<DeltaHistoryManager.adoc#checkVersionExists, checkVersionExists>>
+
+* `DeltaLog` is <<creating-instance, created>> (with no <<Checkpoints.adoc#lastCheckpoint, checkpoint>> created), and requested to <<startTransaction, startTransaction>> and <<withNewTransaction, withNewTransaction>>
+
+* `OptimisticTransactionImpl` is requested to <<OptimisticTransactionImpl.adoc#doCommit, doCommit>> and <<OptimisticTransactionImpl.adoc#checkAndRetry, checkAndRetry>>
+
+* `ConvertToDeltaCommand` is requested to <<ConvertToDeltaCommand.adoc#run, run>> and <<ConvertToDeltaCommand.adoc#streamWrite, streamWrite>>
+
+* `VacuumCommand` utility is used to <<VacuumCommand.adoc#gc, gc>>
+
+* `TahoeLogFileIndex` is requested for the <<TahoeLogFileIndex.adoc#getSnapshot, (historical or latest) snapshot>>
+
+* `DeltaDataSource` is requested for a <<DeltaDataSource.adoc#RelationProvider-createRelation, relation>>
+====
 
 == [[snapshot]] Current Snapshot -- `snapshot` Method
 
@@ -205,3 +226,17 @@ updateInternal(isAsync: Boolean): Snapshot
 `updateInternal`...FIXME
 
 NOTE: `updateInternal` is used when `DeltaLog` is requested to <<update, update>> and <<tryUpdate, tryUpdate>>.
+
+== [[internal-properties]] Internal Properties
+
+[cols="30m,70",options="header",width="100%"]
+|===
+| Name
+| Description
+
+| deltaLogLock
+a| [[deltaLogLock]] Lock
+
+Used when...FIXME
+
+|===
