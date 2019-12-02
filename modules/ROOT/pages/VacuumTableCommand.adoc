@@ -1,3 +1,27 @@
 = VacuumTableCommand
 
-`VacuumTableCommand` is...FIXME
+`VacuumTableCommand` is a logical command (`RunnableCommand`) for <<delta-sql-commands.adoc#VACUUM, VACUUM>> SQL command.
+
+TIP: Read up on https://jaceklaskowski.gitbooks.io/mastering-spark-sql/spark-sql-LogicalPlan-RunnableCommand.html[RunnableCommand] in https://bit.ly/spark-sql-internals[The Internals of Spark SQL] online book.
+
+`VacuumTableCommand` is <<creating-instance, created>> exclusively when `DeltaSqlAstBuilder` is requested to <<DeltaSqlAstBuilder.adoc#visitVacuumTable, visitVacuumTable>> (for `VACUUM` SQL command).
+
+== [[creating-instance]] Creating VacuumTableCommand Instance
+
+`VacuumTableCommand` takes the following to be created:
+
+* [[path]] Path (optional)
+* [[table]] `TableIdentifier` (optional)
+* [[horizonHours]] Optional `horizonHours`
+* [[dryRun]] `dryRun` flag
+
+== [[run]] Running Command -- `run` Method
+
+[source, scala]
+----
+run(sparkSession: SparkSession): Seq[Row]
+----
+
+NOTE: `run` is part of the `RunnableCommand` contract to...FIXME.
+
+`run`...FIXME

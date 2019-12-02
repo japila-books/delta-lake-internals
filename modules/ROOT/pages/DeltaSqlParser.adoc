@@ -1,0 +1,8 @@
+= DeltaSqlParser
+
+`DeltaSqlParser` is a custom SQL command parser for Delta SQL grammar.
+
+`DeltaSqlParser` is registered in a Spark SQL application using <<DeltaSparkSessionExtension.adoc#, DeltaSparkSessionExtension>>.
+
+[[builder]]
+`DeltaSqlParser` uses <<DeltaSqlAstBuilder.adoc#, DeltaSqlAstBuilder>> for...FIXME

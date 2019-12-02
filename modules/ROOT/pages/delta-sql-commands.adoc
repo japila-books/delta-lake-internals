@@ -1,0 +1,32 @@
+= Delta SQL Commands
+
+Delta Lake gives <<DESCRIBE-HISTORY, DESCRIBE HISTORY>> and <<VACUUM, VACUUM>> SQL commands that can be registered in a Spark application using <<DeltaSparkSessionExtension.adoc#, DeltaSparkSessionExtension>> and *spark.sql.extensions* configuration property.
+
+[[commands]]
+.Delta SQL Commands
+[cols="30m,70",options="header",width="100%"]
+|===
+| Name
+| Description
+
+| DESCRIBE HISTORY
+a| [[DESCRIBE-HISTORY]]
+
+```
+(DESC \| DESCRIBE) HISTORY (path=STRING \| table=qualifiedName)
+  (LIMIT limit=INTEGER_VALUE)?
+```
+
+Creates a <<DescribeDeltaHistoryCommand.adoc#, DescribeDeltaHistoryCommand>>
+
+| VACUUM
+a| [[VACUUM]]
+
+```
+VACUUM (path=STRING \| table=qualifiedName)
+  (RETAIN number HOURS)? (DRY RUN)?
+```
+
+Creates a <<VacuumTableCommand.adoc#, VacuumTableCommand>>
+
+|===

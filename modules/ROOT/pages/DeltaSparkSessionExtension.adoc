@@ -1,0 +1,28 @@
+= DeltaSparkSessionExtension
+
+`DeltaSparkSessionExtension` is an extension of Spark SQL to activate <<DeltaSqlParser.adoc#, DeltaSqlParser>> for <<delta-sql-commands.adoc#, Delta SQL commands>> (i.e. <<delta-sql-commands.adoc#DESCRIBE-HISTORY, DESCRIBE HISTORY>> and <<delta-sql-commands.adoc#VACUUM, VACUUM>>).
+
+`DeltaSparkSessionExtension` is registered using *spark.sql.extensions* configuration property while creating a `SparkSession` in a Spark application.
+
+[[application]]
+.Registering DeltaSparkSessionExtension with Spark SQL Application
+[source, scala]
+----
+import org.apache.spark.sql.SparkSession
+val spark = SparkSession
+  .builder()
+  .appName("...")
+  .config("spark.sql.extensions", "io.delta.sql.DeltaSparkSessionExtension")
+  .getOrCreate
+----
+
+[[spark-shell]]
+.Registering DeltaSparkSessionExtension with Spark Shell
+[source, scala]
+----
+$ ./bin/spark-shell \
+  --packages io.delta:delta-core_2.12:0.4.0 \
+  --conf spark.sql.extensions=io.delta.sql.DeltaSparkSessionExtension
+
+// FIXME: That does not seem to work
+----

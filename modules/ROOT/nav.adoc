@@ -4,6 +4,9 @@
 
 * xref:DeltaConvert.adoc[DeltaConvert]
 
+* xref:DeltaTable.adoc[DeltaTable]
+** xref:DeltaTableOperations.adoc[DeltaTableOperations]
+
 * xref:commands.adoc[Commands]
 ** xref:ConvertToDeltaCommand.adoc[ConvertToDeltaCommand]
 ** xref:DeleteCommand.adoc[DeleteCommand]
@@ -16,8 +19,10 @@
 ** xref:DescribeDeltaHistoryCommand.adoc[DescribeDeltaHistoryCommand]
 ** xref:VacuumTableCommand.adoc[VacuumTableCommand]
 
-* xref:DeltaTable.adoc[DeltaTable]
-** xref:DeltaTableOperations.adoc[DeltaTableOperations]
+* xref:delta-sql-commands.adoc[Delta SQL Commands]
+** xref:DeltaSparkSessionExtension.adoc[DeltaSparkSessionExtension]
+** xref:DeltaSqlParser.adoc[DeltaSqlParser]
+** xref:DeltaSqlAstBuilder.adoc[DeltaSqlAstBuilder]
 
 * xref:DeltaDataSource.adoc[DeltaDataSource]
 * xref:DeltaSink.adoc[DeltaSink]

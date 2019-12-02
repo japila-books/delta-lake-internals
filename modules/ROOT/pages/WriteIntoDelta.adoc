@@ -1,6 +1,6 @@
 = [[WriteIntoDelta]] WriteIntoDelta Command -- Writing Data(Frame) Transactionally Into Delta Table
 
-`WriteIntoDelta` is a <<DeltaCommand.adoc#, DeltaCommand>> that can write <<data, data(frame)>> transactionally into a delta table.
+`WriteIntoDelta` is a <<DeltaCommand.adoc#, DeltaCommand>> that can write <<data, data(frame)>> transactionally into a <<deltaLog, delta table>>.
 
 `WriteIntoDelta` is a <<ImplicitMetadataOperation.adoc#, ImplicitMetadataOperation>>.
 
@@ -34,7 +34,7 @@ run(sparkSession: SparkSession): Seq[Row]
 
 NOTE: `run` is part of the `RunnableCommand` contract to...FIXME.
 
-`run`...
+`run`...FIXME
 
 == [[write]] `write` Method
 

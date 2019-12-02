@@ -1,0 +1,34 @@
+= DeltaSqlAstBuilder
+
+`DeltaSqlAstBuilder` is a command builder for the <<commands, Delta SQL commands>> described in *DeltaSqlBase.g4* ANTLR grammar, i.e. <<visitVacuumTable, VACUUM>> and <<visitDescribeDeltaHistory, DESCRIBE HISTORY>>.
+
+`DeltaSqlParser` is used exclusively by <<DeltaSqlParser.adoc#builder, DeltaSqlParser>>.
+
+[[commands]]
+.DeltaSqlAstBuilder's Delta SQL Commands
+[cols="30m,70",options="header",width="100%"]
+|===
+| Name
+| Description
+
+| DESCRIBE HISTORY
+a| [[DESCRIBE-HISTORY]][[visitDescribeDeltaHistory]]
+
+```
+(DESC \| DESCRIBE) HISTORY (path=STRING \| table=qualifiedName)
+  (LIMIT limit=INTEGER_VALUE)?
+```
+
+Creates a <<DescribeDeltaHistoryCommand.adoc#, DescribeDeltaHistoryCommand>>
+
+| VACUUM
+a| [[VACUUM]][[visitVacuumTable]]
+
+```
+VACUUM (path=STRING \| table=qualifiedName)
+  (RETAIN number HOURS)? (DRY RUN)?
+```
+
+Creates a <<VacuumTableCommand.adoc#, VacuumTableCommand>>
+
+|===
