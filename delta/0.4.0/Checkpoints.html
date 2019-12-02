@@ -107,6 +107,12 @@
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="VacuumCommandImpl.html">VacuumCommandImpl</a>
   </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="DescribeDeltaHistoryCommand.html">DescribeDeltaHistoryCommand</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="VacuumTableCommand.html">VacuumTableCommand</a>
+  </li>
 </ul>
   </li>
   <li class="nav-item" data-depth="1">
@@ -131,6 +137,15 @@
   <li class="nav-item is-current-page" data-depth="2">
     <a class="nav-link" href="Checkpoints.html">Checkpoints</a>
   </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="MetadataCleanup.html">MetadataCleanup</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="LogStoreProvider.html">LogStoreProvider</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="VerifyChecksum.html">VerifyChecksum</a>
+  </li>
 </ul>
   </li>
   <li class="nav-item" data-depth="1">
@@ -138,9 +153,6 @@
   </li>
   <li class="nav-item" data-depth="1">
     <a class="nav-link" href="DeltaSQLConf.html">DeltaSQLConf</a>
-  </li>
-  <li class="nav-item" data-depth="1">
-    <a class="nav-link" href="LogStoreProvider.html">LogStoreProvider</a>
   </li>
   <li class="nav-item" data-depth="1">
     <a class="nav-link" href="TransactionalWrite.html">TransactionalWrite</a>
@@ -250,7 +262,144 @@
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p><code>Checkpoints</code> is&#8230;&#8203;FIXME</p>
+<p><code>Checkpoints</code> is an <a href="#contract">abstraction</a> of <a href="#implementations">DeltaLogs</a> that can <a href="#checkpoint">checkpoint</a> the current state of a delta table.</p>
+</div>
+<table id="contract" class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. Checkpoints Contract (Abstract Methods Only)</caption>
+<colgroup>
+<col style="width: 30%;">
+<col style="width: 70%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Method</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>logPath</code></p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div id="logPath" class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">logPath: Path</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Used when&#8230;&#8203;FIXME</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>dataPath</code></p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div id="dataPath" class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">dataPath: Path</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Used when&#8230;&#8203;FIXME</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>snapshot</code></p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div id="snapshot" class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">snapshot: Snapshot</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Used when&#8230;&#8203;FIXME</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>store</code></p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div id="store" class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">store: LogStore</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Used when&#8230;&#8203;FIXME</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>metadata</code></p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div id="metadata" class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">metadata: Metadata</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Used when&#8230;&#8203;FIXME</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>doLogCleanup</code></p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div id="doLogCleanup" class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">doLogCleanup(): Unit</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Used when&#8230;&#8203;FIXME</p>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<div id="implementations" class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<a href="DeltaLog.html" class="page">DeltaLog</a> is the default and only known <code>Checkpoints</code> in Delta Lake.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_last_checkpoint-metadata-file"><a class="anchor" href="#_last_checkpoint-metadata-file"></a><a class="link" href="#_last_checkpoint-metadata-file"><a id="LAST_CHECKPOINT"></a><a id="_last_checkpoint"></a> _last_checkpoint Metadata File</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><code>Checkpoints</code> uses <strong>_last_checkpoint</strong> metadata file (under the <a href="DeltaLog.html#logPath" class="page">log path</a>) for the following:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#checkpoint">Writing checkpoint metadata out</a></p>
+</li>
+<li>
+<p><a href="#loadMetadataFromFile">Loading checkpoint metadata in</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="checkpoint-method"><a class="anchor" href="#checkpoint-method"></a><a class="link" href="#checkpoint-method"><a id="checkpoint"></a> <code>checkpoint</code> Method</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">checkpoint(): Unit
+checkpoint(snapshotToCheckpoint: Snapshot): CheckpointMetaData</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>checkpoint</code>&#8230;&#8203;FIXME</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>checkpoint</code> is used when&#8230;&#8203;FIXME
+</td>
+</tr>
+</table>
 </div>
 </div>
 </div>
@@ -273,6 +422,111 @@
 </td>
 <td class="content">
 <code>lastCheckpoint</code> is used when&#8230;&#8203;FIXME
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="manuallyloadcheckpoint-method"><a class="anchor" href="#manuallyloadcheckpoint-method"></a><a class="link" href="#manuallyloadcheckpoint-method"><a id="manuallyLoadCheckpoint"></a> <code>manuallyLoadCheckpoint</code> Method</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">manuallyLoadCheckpoint(cv: CheckpointInstance): CheckpointMetaData</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>manuallyLoadCheckpoint</code>&#8230;&#8203;FIXME</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>manuallyLoadCheckpoint</code> is used when&#8230;&#8203;FIXME
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="findlastcompletecheckpoint-method"><a class="anchor" href="#findlastcompletecheckpoint-method"></a><a class="link" href="#findlastcompletecheckpoint-method"><a id="findLastCompleteCheckpoint"></a> <code>findLastCompleteCheckpoint</code> Method</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">findLastCompleteCheckpoint(cv: CheckpointInstance): Option[CheckpointInstance]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>findLastCompleteCheckpoint</code>&#8230;&#8203;FIXME</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>findLastCompleteCheckpoint</code> is used when&#8230;&#8203;FIXME
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="getlatestcompletecheckpointfromlist-method"><a class="anchor" href="#getlatestcompletecheckpointfromlist-method"></a><a class="link" href="#getlatestcompletecheckpointfromlist-method"><a id="getLatestCompleteCheckpointFromList"></a> <code>getLatestCompleteCheckpointFromList</code> Method</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">getLatestCompleteCheckpointFromList(
+  instances: Array[CheckpointInstance],
+  notLaterThan: CheckpointInstance): Option[CheckpointInstance]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>getLatestCompleteCheckpointFromList</code>&#8230;&#8203;FIXME</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>getLatestCompleteCheckpointFromList</code> is used when&#8230;&#8203;FIXME
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="writecheckpoint-utility"><a class="anchor" href="#writecheckpoint-utility"></a><a class="link" href="#writecheckpoint-utility"><a id="writeCheckpoint"></a> <code>writeCheckpoint</code> Utility</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">writeCheckpoint(
+  spark: SparkSession,
+  deltaLog: DeltaLog,
+  snapshot: Snapshot): CheckpointMetaData</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>writeCheckpoint</code>&#8230;&#8203;FIXME</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>writeCheckpoint</code> is used when&#8230;&#8203;FIXME
 </td>
 </tr>
 </table>

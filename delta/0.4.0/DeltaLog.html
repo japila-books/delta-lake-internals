@@ -107,6 +107,12 @@
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="VacuumCommandImpl.html">VacuumCommandImpl</a>
   </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="DescribeDeltaHistoryCommand.html">DescribeDeltaHistoryCommand</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="VacuumTableCommand.html">VacuumTableCommand</a>
+  </li>
 </ul>
   </li>
   <li class="nav-item" data-depth="1">
@@ -131,6 +137,15 @@
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="Checkpoints.html">Checkpoints</a>
   </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="MetadataCleanup.html">MetadataCleanup</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="LogStoreProvider.html">LogStoreProvider</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="VerifyChecksum.html">VerifyChecksum</a>
+  </li>
 </ul>
   </li>
   <li class="nav-item" data-depth="1">
@@ -138,9 +153,6 @@
   </li>
   <li class="nav-item" data-depth="1">
     <a class="nav-link" href="DeltaSQLConf.html">DeltaSQLConf</a>
-  </li>
-  <li class="nav-item" data-depth="1">
-    <a class="nav-link" href="LogStoreProvider.html">LogStoreProvider</a>
   </li>
   <li class="nav-item" data-depth="1">
     <a class="nav-link" href="TransactionalWrite.html">TransactionalWrite</a>
@@ -249,10 +261,77 @@
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p><code>DeltaLog</code> is a <a href="LogStoreProvider.html" class="page">LogStoreProvider</a>.</p>
+<p><code>DeltaLog</code> is a transactional log of a <a href="#dataPath">delta table</a>.</p>
 </div>
 <div class="paragraph">
-<p><code>DeltaLog</code> is <a href="#creating-instance">created</a> when&#8230;&#8203;FIXME</p>
+<p><code>DeltaLog</code> is <a href="#creating-instance">created</a> (indirectly via <a href="#apply">DeltaLog.apply</a> utility) when <a href="#forTable">DeltaLog.forTable</a> utility is used.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">import org.apache.spark.sql.SparkSession
+assert(spark.isInstanceOf[SparkSession])
+
+import org.apache.spark.sql.delta.DeltaLog
+val deltaLog = DeltaLog.forTable(spark, dataPath = "/tmp/delta/t1")
+
+scala&gt; println(deltaLog.LAST_CHECKPOINT)
+file:/tmp/delta/t1/_delta_log/_last_checkpoint</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>DeltaLog</code> is a <a href="LogStoreProvider.html" class="page">LogStoreProvider</a>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_delta_log-metadata-directory"><a class="anchor" href="#_delta_log-metadata-directory"></a><a class="link" href="#_delta_log-metadata-directory"><a id="_delta_log"></a> _delta_log Metadata Directory</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><code>DeltaLog</code> uses <strong>_delta_log</strong> metadata directory under the <a href="#dataPath">data path</a> directory (that is specified using <a href="#forTable">DeltaLog.forTable</a> utility).</p>
+</div>
+<div class="paragraph">
+<p>The <code>_delta_log</code> directory is resolved (in the <a href="#apply">DeltaLog.apply</a> utility) using the application-wide Hadoop <a href="https://hadoop.apache.org/docs/current2/api/org/apache/hadoop/conf/Configuration.html">Configuration</a>.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p><a href="#apply">DeltaLog.apply</a> utility uses the given <code>SparkSession</code> to create an Hadoop <code>Configuration</code> instance.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">spark.sessionState.newHadoopConf()</code></pre>
+</div>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Once resolved and turned into a qualified path, the <code>_delta_log</code> directory for the delta table (under the <a href="#dataPath">data path</a> directory) is <a href="#deltaLogCache">cached</a> for later reuse.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="deltalogcache-cache-of-_delta_log-fully-qualified-paths"><a class="anchor" href="#deltalogcache-cache-of-_delta_log-fully-qualified-paths"></a><a class="link" href="#deltalogcache-cache-of-_delta_log-fully-qualified-paths"><a id="deltaLogCache"></a> <code>deltaLogCache</code> Cache of <code>_delta_log</code> Fully-Qualified Paths</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">deltaLogCache: Cache[Path, DeltaLog]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>deltaLogCache</code> is a cache of <a href="#DeltaLog">DeltaLogs</a> by their fully-qualified <a href="#_delta_log">_delta_log</a> metadata directories.</p>
+</div>
+<div class="paragraph">
+<p><code>deltaLogCache</code> has a new <code>DeltaLog</code> added in <a href="#apply">DeltaLog.apply</a> utility.</p>
+</div>
+<div class="paragraph">
+<p><code>deltaLogCache</code> is invalidated for a <code>Path</code> in <a href="#apply">DeltaLog.apply</a>, <a href="#invalidateCache">DeltaLog.invalidateCache</a> utilities and all <code>Paths</code> in <a href="#clearCache">DeltaLog.clearCache</a> utility.</p>
 </div>
 </div>
 </div>
@@ -277,6 +356,34 @@
 </div>
 <div class="paragraph">
 <p><code>DeltaLog</code> initializes the <a href="#internal-properties">internal properties</a>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="creating-deltalog-instanceapply-utility"><a class="anchor" href="#creating-deltalog-instanceapply-utility"></a><a class="link" href="#creating-deltalog-instanceapply-utility"><a id="apply"></a> Creating DeltaLog Instance&#8201;&#8212;&#8201;<code>apply</code> Utility</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">apply(
+  spark: SparkSession,
+  rawPath: Path,
+  clock: Clock = new SystemClock): DeltaLog</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>apply</code>&#8230;&#8203;FIXME</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>apply</code> is used when <code>DeltaLog</code> is requested to <a href="#forTable">forTable</a>.
+</td>
+</tr>
+</table>
 </div>
 </div>
 </div>
@@ -378,11 +485,29 @@
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">forTable(
   spark: SparkSession,
-  dataPath: Path): DeltaLog</code></pre>
+  dataPath: File): DeltaLog
+forTable(
+  spark: SparkSession,
+  dataPath: File,
+  clock: Clock): DeltaLog
+forTable(
+  spark: SparkSession,
+  dataPath: Path): DeltaLog
+forTable(
+  spark: SparkSession,
+  dataPath: Path,
+  clock: Clock): DeltaLog
+forTable(
+  spark: SparkSession,
+  dataPath: String): DeltaLog
+forTable(
+  spark: SparkSession,
+  dataPath: String,
+  clock: Clock): DeltaLog</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p><code>forTable</code> creates a <a href="#apply">DeltaLog</a> with <code>_delta_log</code> directory (in <code>dataPath</code> directory).</p>
+<p><code>forTable</code> creates a <a href="#apply">DeltaLog</a> with <strong>_delta_log</strong> directory (in the given <code>dataPath</code> directory).</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -391,7 +516,31 @@
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-<code>forTable</code> is used when&#8230;&#8203;FIXME
+<div class="paragraph">
+<p><code>forTable</code> is used when:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="DeltaTable.html#forPath" class="page">DeltaTable.forPath</a> utility is used to create a <a href="DeltaTable.html" class="page">DeltaTable</a></p>
+</li>
+<li>
+<p><a href="ConvertToDeltaCommand.html" class="page">ConvertToDeltaCommand</a>, <a href="DescribeDeltaHistoryCommand.html" class="page">DescribeDeltaHistoryCommand</a>, <a href="VacuumTableCommand.html" class="page">VacuumTableCommand</a> are requested to <code>run</code></p>
+</li>
+<li>
+<p><code>DeltaDataSource</code> is requested to <a href="DeltaDataSource.html#sourceSchema" class="page">sourceSchema</a>, <a href="DeltaDataSource.html#createSource" class="page">createSource</a>, and create a relation (as <a href="DeltaDataSource.html#CreatableRelationProvider-createRelation" class="page">CreatableRelationProvider</a> and <a href="DeltaDataSource.html#RelationProvider-createRelation" class="page">RelationProvider</a>)</p>
+</li>
+<li>
+<p><a href="DeltaTableUtils.html#combineWithCatalogMetadata" class="page">DeltaTableUtils.combineWithCatalogMetadata</a> utility is used</p>
+</li>
+<li>
+<p><code>DeltaTableIdentifier</code> is requested to <code>getDeltaLog</code></p>
+</li>
+<li>
+<p><a href="DeltaSink.html" class="page">DeltaSink</a> is created</p>
+</li>
+</ul>
+</div>
 </td>
 </tr>
 </table>
@@ -502,7 +651,7 @@
 <p><code>createRelation</code>&#8230;&#8203;FIXME</p>
 </div>
 <div class="paragraph">
-<p>In the end, <code>createRelation</code> creates a <code>HadoopFsRelation</code> for the <code>TahoeLogFileIndex</code> and&#8230;&#8203;FIXME. The <code>HadoopFsRelation</code> is also an <a href="#createRelation-InsertableRelation">InsertableRelation</a></p>
+<p>In the end, <code>createRelation</code> creates a <code>HadoopFsRelation</code> for the <code>TahoeLogFileIndex</code> and&#8230;&#8203;FIXME. The <code>HadoopFsRelation</code> is also an <a href="#createRelation-InsertableRelation">InsertableRelation</a>.</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -708,6 +857,58 @@
 </td>
 <td class="content">
 <code>updateInternal</code> is used when <code>DeltaLog</code> is requested to <a href="#update">update</a> and <a href="#tryUpdate">tryUpdate</a>.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="invalidating-cached-deltalog-instanceinvalidatecache-utility"><a class="anchor" href="#invalidating-cached-deltalog-instanceinvalidatecache-utility"></a><a class="link" href="#invalidating-cached-deltalog-instanceinvalidatecache-utility"><a id="invalidateCache"></a> Invalidating Cached DeltaLog Instance&#8201;&#8212;&#8201;<code>invalidateCache</code> Utility</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">invalidateCache(
+  spark: SparkSession,
+  dataPath: Path): Unit</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>invalidateCache</code>&#8230;&#8203;FIXME</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>invalidateCache</code> does not seem to be used at all.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="removing-clearing-all-cached-deltalog-instancesclearcache-utility"><a class="anchor" href="#removing-clearing-all-cached-deltalog-instancesclearcache-utility"></a><a class="link" href="#removing-clearing-all-cached-deltalog-instancesclearcache-utility"><a id="clearCache"></a> Removing (Clearing) All Cached DeltaLog Instances&#8201;&#8212;&#8201;<code>clearCache</code> Utility</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">clearCache(): Unit</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>clearCache</code>&#8230;&#8203;FIXME</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>clearCache</code> seems to be used exclusively in tests.
 </td>
 </tr>
 </table>
