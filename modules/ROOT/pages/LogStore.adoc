@@ -1,0 +1,25 @@
+= LogStore
+
+`LogStore` is...FIXME
+
+== [[apply]] Creating LogStore -- `apply` Utility
+
+[source, scala]
+----
+apply(
+  sc: SparkContext): LogStore
+apply(
+  sparkConf: SparkConf,
+  hadoopConf: Configuration): LogStore
+----
+
+`apply`...FIXME
+
+[NOTE]
+====
+`apply` is used when:
+
+* `DeltaHistoryManager` is requested to <<DeltaHistoryManager.adoc#getHistory, getHistory>> and <<DeltaHistoryManager.adoc#parallelSearch0, parallelSearch0>>
+
+* `DeltaFileOperations` utility is used to <<recursiveListDirs, recursiveListDirs>>
+====

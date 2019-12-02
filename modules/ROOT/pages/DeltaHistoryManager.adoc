@@ -41,3 +41,21 @@ checkVersionExists(version: Long): Unit
 `checkVersionExists`...FIXME
 
 NOTE: `checkVersionExists` is used when...FIXME
+
+== [[parallelSearch0]] `parallelSearch0` Internal Utility
+
+[source, scala]
+----
+parallelSearch0(
+  spark: SparkSession,
+  conf: SerializableConfiguration,
+  logPath: String,
+  time: Long,
+  start: Long,
+  end: Long,
+  step: Long): Commit
+----
+
+`parallelSearch0`...FIXME
+
+NOTE: `parallelSearch0` is used when...FIXME

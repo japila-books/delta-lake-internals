@@ -36,6 +36,10 @@ spark.sessionState.newHadoopConf()
 
 Once resolved and turned into a qualified path, the `_delta_log` directory for the delta table (under the <<dataPath, data path>> directory) is <<deltaLogCache, cached>> for later reuse.
 
+== [[store]] LogStore
+
+`DeltaLog` uses an <<LogStore.adoc#, LogStore>> for...FIXME
+
 == [[deltaLogCache]] `deltaLogCache` Cache of `_delta_log` Fully-Qualified Paths
 
 [source, scala]

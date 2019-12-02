@@ -16,4 +16,11 @@ recursiveListDirs(
 
 `recursiveListDirs`...FIXME
 
-NOTE: `recursiveListDirs` is used when...FIXME
+[NOTE]
+====
+`recursiveListDirs` is used when:
+
+* <<ConvertToDeltaCommand.adoc#, ConvertToDeltaCommand>> is requested to run (and <<ConvertToDeltaCommand.adoc#performConvert, performConvert>>)
+
+* `VacuumCommand` utility is used to <<VacuumCommand.adoc#gc, gc>>
+====

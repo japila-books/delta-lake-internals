@@ -28,6 +28,9 @@
 ** xref:LogStoreProvider.adoc[LogStoreProvider]
 ** xref:VerifyChecksum.adoc[VerifyChecksum]
 
+* xref:LogStore.adoc[LogStore]
+** xref:HDFSLogStore.adoc[HDFSLogStore]
+
 * xref:Snapshot.adoc[Snapshot]
 * xref:DeltaSQLConf.adoc[DeltaSQLConf]
 * xref:TransactionalWrite.adoc[TransactionalWrite]
