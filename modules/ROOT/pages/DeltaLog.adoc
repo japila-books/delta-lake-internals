@@ -1,8 +1,53 @@
 = [[DeltaLog]] DeltaLog
 
+`DeltaLog` is a transactional log of a <<dataPath, delta table>>.
+
+`DeltaLog` is <<creating-instance, created>> (indirectly via <<apply, DeltaLog.apply>> utility) when <<forTable, DeltaLog.forTable>> utility is used.
+
+[source, scala]
+----
+import org.apache.spark.sql.SparkSession
+assert(spark.isInstanceOf[SparkSession])
+
+import org.apache.spark.sql.delta.DeltaLog
+val deltaLog = DeltaLog.forTable(spark, dataPath = "/tmp/delta/t1")
+
+scala> println(deltaLog.LAST_CHECKPOINT)
+file:/tmp/delta/t1/_delta_log/_last_checkpoint
+----
+
 `DeltaLog` is a <<LogStoreProvider.adoc#, LogStoreProvider>>.
 
-`DeltaLog` is <<creating-instance, created>> when...FIXME
+== [[_delta_log]] _delta_log Metadata Directory
+
+`DeltaLog` uses *_delta_log* metadata directory under the <<dataPath, data path>> directory (that is specified using <<forTable, DeltaLog.forTable>> utility).
+
+The `_delta_log` directory is resolved (in the <<apply, DeltaLog.apply>> utility) using the application-wide Hadoop https://hadoop.apache.org/docs/current2/api/org/apache/hadoop/conf/Configuration.html[Configuration].
+
+[NOTE]
+====
+<<apply, DeltaLog.apply>> utility uses the given `SparkSession` to create an Hadoop `Configuration` instance.
+
+[source, scala]
+----
+spark.sessionState.newHadoopConf()
+----
+====
+
+Once resolved and turned into a qualified path, the `_delta_log` directory for the delta table (under the <<dataPath, data path>> directory) is <<deltaLogCache, cached>> for later reuse.
+
+== [[deltaLogCache]] `deltaLogCache` Cache of `_delta_log` Fully-Qualified Paths
+
+[source, scala]
+----
+deltaLogCache: Cache[Path, DeltaLog]
+----
+
+`deltaLogCache` is a cache of <<DeltaLog, DeltaLogs>> by their fully-qualified <<_delta_log, _delta_log>> metadata directories.
+
+`deltaLogCache` has a new `DeltaLog` added in <<apply, DeltaLog.apply>> utility.
+
+`deltaLogCache` is invalidated for a `Path` in <<apply, DeltaLog.apply>>, <<invalidateCache, DeltaLog.invalidateCache>> utilities and all `Paths` in <<clearCache, DeltaLog.clearCache>> utility.
 
 == [[creating-instance]] Creating DeltaLog Instance
 
@@ -13,6 +58,20 @@
 * [[clock]] `Clock`
 
 `DeltaLog` initializes the <<internal-properties, internal properties>>.
+
+== [[apply]] Creating DeltaLog Instance -- `apply` Utility
+
+[source, scala]
+----
+apply(
+  spark: SparkSession,
+  rawPath: Path,
+  clock: Clock = new SystemClock): DeltaLog
+----
+
+`apply`...FIXME
+
+NOTE: `apply` is used when `DeltaLog` is requested to <<forTable, forTable>>.
 
 == [[withNewTransaction]] Executing Operation (Block) in New Transaction -- `withNewTransaction` Method
 
@@ -63,12 +122,45 @@ NOTE: `assertRemovable` is used when...FIXME
 ----
 forTable(
   spark: SparkSession,
+  dataPath: File): DeltaLog
+forTable(
+  spark: SparkSession,
+  dataPath: File,
+  clock: Clock): DeltaLog
+forTable(
+  spark: SparkSession,
   dataPath: Path): DeltaLog
+forTable(
+  spark: SparkSession,
+  dataPath: Path,
+  clock: Clock): DeltaLog
+forTable(
+  spark: SparkSession,
+  dataPath: String): DeltaLog
+forTable(
+  spark: SparkSession,
+  dataPath: String,
+  clock: Clock): DeltaLog
 ----
 
-`forTable` creates a <<apply, DeltaLog>> with `_delta_log` directory (in `dataPath` directory).
+`forTable` creates a <<apply, DeltaLog>> with *_delta_log* directory (in the given `dataPath` directory).
 
-NOTE: `forTable` is used when...FIXME
+[NOTE]
+====
+`forTable` is used when:
+
+* <<DeltaTable.adoc#forPath, DeltaTable.forPath>> utility is used to create a <<DeltaTable.adoc#, DeltaTable>>
+
+* <<ConvertToDeltaCommand.adoc#, ConvertToDeltaCommand>>, <<DescribeDeltaHistoryCommand.adoc#, DescribeDeltaHistoryCommand>>, <<VacuumTableCommand.adoc#, VacuumTableCommand>> are requested to `run`
+
+* `DeltaDataSource` is requested to <<DeltaDataSource.adoc#sourceSchema, sourceSchema>>, <<DeltaDataSource.adoc#createSource, createSource>>, and create a relation (as <<DeltaDataSource.adoc#CreatableRelationProvider-createRelation, CreatableRelationProvider>> and <<DeltaDataSource.adoc#RelationProvider-createRelation, RelationProvider>>)
+
+* <<DeltaTableUtils.adoc#combineWithCatalogMetadata, DeltaTableUtils.combineWithCatalogMetadata>> utility is used
+
+* `DeltaTableIdentifier` is requested to `getDeltaLog`
+
+* <<DeltaSink.adoc#, DeltaSink>> is created
+====
 
 == [[update]] `update` Method
 
@@ -129,7 +221,7 @@ createRelation(
 
 `createRelation`...FIXME
 
-In the end, `createRelation` creates a `HadoopFsRelation` for the `TahoeLogFileIndex` and...FIXME. The `HadoopFsRelation` is also an <<createRelation-InsertableRelation, InsertableRelation>>
+In the end, `createRelation` creates a `HadoopFsRelation` for the `TahoeLogFileIndex` and...FIXME. The `HadoopFsRelation` is also an <<createRelation-InsertableRelation, InsertableRelation>>.
 
 NOTE: `createRelation` is used when `DeltaDataSource` is requested to create a relation as a <<DeltaDataSource.adoc#CreatableRelationProvider, CreatableRelationProvider>> and a <<DeltaDataSource.adoc#RelationProvider, RelationProvider>>
 
@@ -226,6 +318,30 @@ updateInternal(isAsync: Boolean): Snapshot
 `updateInternal`...FIXME
 
 NOTE: `updateInternal` is used when `DeltaLog` is requested to <<update, update>> and <<tryUpdate, tryUpdate>>.
+
+== [[invalidateCache]] Invalidating Cached DeltaLog Instance -- `invalidateCache` Utility
+
+[source, scala]
+----
+invalidateCache(
+  spark: SparkSession,
+  dataPath: Path): Unit
+----
+
+`invalidateCache`...FIXME
+
+NOTE: `invalidateCache` does not seem to be used at all.
+
+== [[clearCache]] Removing (Clearing) All Cached DeltaLog Instances -- `clearCache` Utility
+
+[source, scala]
+----
+clearCache(): Unit
+----
+
+`clearCache`...FIXME
+
+NOTE: `clearCache` seems to be used exclusively in tests.
 
 == [[internal-properties]] Internal Properties
 

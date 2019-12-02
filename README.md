@@ -24,7 +24,7 @@ $ docker run --entrypoint ash --privileged -v `pwd`:/antora --rm -it antora/anto
 /antora # antora version
 2.2.0
 
-/antora # antora site.yml
+/antora # antora antora-playbook.yml
 
 // On your local computer (outside the container)
 $ open .out/local/index.html

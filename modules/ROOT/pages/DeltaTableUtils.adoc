@@ -29,3 +29,16 @@ findDeltaTableRoot(
 For `_delta_log` or `_samples` directories, `findDeltaTableRoot` returns the parent directory.
 
 NOTE: `findDeltaTableRoot` is used when...FIXME
+
+== [[combineWithCatalogMetadata]] `combineWithCatalogMetadata` Utility
+
+[source, scala]
+----
+combineWithCatalogMetadata(
+  sparkSession: SparkSession,
+  table: CatalogTable): CatalogTable
+----
+
+`combineWithCatalogMetadata`...FIXME
+
+NOTE: `combineWithCatalogMetadata` is used when...FIXME

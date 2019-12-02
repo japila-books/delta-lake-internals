@@ -1,0 +1,3 @@
+= VacuumTableCommand
+
+`VacuumTableCommand` is...FIXME

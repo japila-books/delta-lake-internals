@@ -1,0 +1,3 @@
+= VerifyChecksum
+
+`VerifyChecksum` is...FIXME

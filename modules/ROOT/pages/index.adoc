@@ -1,6 +1,6 @@
 = The Internals of Delta Lake {page-component-version}
 
-https://delta.io/[Delta Lake] is an open-source storage layer that brings ACID transactions to https://spark.apache.org/[Apache Spark] and big data workloads.
+https://delta.io/[Delta Lake] is an open-source storage management system (storage layer) that brings ACID transactions and time travel to https://spark.apache.org/[Apache Spark] and big data workloads.
 
 Delta Lake introduces a concept of *delta table* (that, among other things, is simply a <<DeltaTableUtils.adoc#findDeltaTableRoot, directory with `_delta_log` subdirectory>>).
 
@@ -49,7 +49,7 @@ import io.delta.tables.DeltaTable
 assert(DeltaTable.isDeltaTable(users))
 ----
 
-Delta Lake uses https://hadoop.apache.org/docs/stable/hadoop-project-dist/hadoop-common/filesystem/index.html[Hadoop FileSystem API] to access the underlying data storage (e.g. http://hadoop.apache.org/[Hadoop DFS] or https://hadoop.apache.org/docs/stable/hadoop-aws/tools/hadoop-aws/index.html[Amazon S3]).
+Delta Lake uses https://hadoop.apache.org/docs/current2/hadoop-project-dist/hadoop-common/filesystem/index.html[Hadoop FileSystem API] to access the underlying data storage (e.g. http://hadoop.apache.org/[Hadoop DFS] or https://hadoop.apache.org/docs/current2/hadoop-aws/tools/hadoop-aws/index.html[Amazon S3]).
 
 Technically speaking, Delta Lake is:
 

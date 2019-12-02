@@ -13,17 +13,23 @@
 ** xref:WriteIntoDelta.adoc[WriteIntoDelta]
 ** xref:DeltaCommand.adoc[DeltaCommand]
 ** xref:VacuumCommandImpl.adoc[VacuumCommandImpl]
+** xref:DescribeDeltaHistoryCommand.adoc[DescribeDeltaHistoryCommand]
+** xref:VacuumTableCommand.adoc[VacuumTableCommand]
 
 * xref:DeltaTable.adoc[DeltaTable]
 ** xref:DeltaTableOperations.adoc[DeltaTableOperations]
 
 * xref:DeltaDataSource.adoc[DeltaDataSource]
 * xref:DeltaSink.adoc[DeltaSink]
+
 * xref:DeltaLog.adoc[DeltaLog]
 ** xref:Checkpoints.adoc[Checkpoints]
+** xref:MetadataCleanup.adoc[MetadataCleanup]
+** xref:LogStoreProvider.adoc[LogStoreProvider]
+** xref:VerifyChecksum.adoc[VerifyChecksum]
+
 * xref:Snapshot.adoc[Snapshot]
 * xref:DeltaSQLConf.adoc[DeltaSQLConf]
-* xref:LogStoreProvider.adoc[LogStoreProvider]
 * xref:TransactionalWrite.adoc[TransactionalWrite]
 * xref:OptimisticTransactionImpl.adoc[OptimisticTransactionImpl]
 ** xref:OptimisticTransaction.adoc[OptimisticTransaction]
