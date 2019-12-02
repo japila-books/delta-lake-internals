@@ -149,6 +149,15 @@
 </ul>
   </li>
   <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="LogStore.html">LogStore</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="HDFSLogStore.html">HDFSLogStore</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
     <a class="nav-link" href="Snapshot.html">Snapshot</a>
   </li>
   <li class="nav-item" data-depth="1">
@@ -262,7 +271,52 @@
 <h2 id="logstoreprovider"><a class="anchor" href="#logstoreprovider"></a><a class="link" href="#logstoreprovider"><a id="LogStoreProvider"></a> LogStoreProvider</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p><code>LogStoreProvider</code> is&#8230;&#8203;FIXME</p>
+<p><code>LogStoreProvider</code> is an abstraction of <a href="#implementations">providers</a> of <a href="#createLogStore">LogStores</a>.</p>
+</div>
+<div class="paragraph">
+<p><a id="logStoreClassConfKey"></a><a id="defaultLogStoreClass"></a>
+<code>LogStoreProvider</code> uses the <strong>spark.delta.logStore.class</strong> configuration property (default: <a href="HDFSLogStore.html" class="page">HDFSLogStore</a>) for the fully-qualified class name of the <a href="LogStore.html" class="page">LogStore</a> to <a href="#createLogStore">create</a> (for a <a href="DeltaLog.html" class="page">DeltaLog</a>, a <a href="DeltaHistoryManager.html" class="page">DeltaHistoryManager</a>, and <a href="DeltaFileOperations.html" class="page">DeltaFileOperations</a>).</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="creating-logstorecreatelogstore-method"><a class="anchor" href="#creating-logstorecreatelogstore-method"></a><a class="link" href="#creating-logstorecreatelogstore-method"><a id="createLogStore"></a> Creating LogStore&#8201;&#8212;&#8201;<code>createLogStore</code> Method</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">createLogStore(
+  spark: SparkSession): LogStore
+createLogStore(
+  sparkConf: SparkConf,
+  hadoopConf: Configuration): LogStore</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>createLogStore</code>&#8230;&#8203;FIXME</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p><code>createLogStore</code> is used when:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="DeltaLog.html#store" class="page">DeltaLog</a> is created</p>
+</li>
+<li>
+<p><a href="LogStore.html#apply" class="page">LogStore.apply</a> utility is used (to create a <a href="LogStore.html" class="page">LogStore</a>)</p>
+</li>
+</ul>
+</div>
+</td>
+</tr>
+</table>
 </div>
 </div>
 </div>
