@@ -81,6 +81,15 @@
   </li>
   <li class="nav-item" data-depth="1">
     <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="DeltaTable.html">DeltaTable</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="DeltaTableOperations.html">DeltaTableOperations</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
     <a class="nav-link" href="commands.html">Commands</a>
 <ul class="nav-list">
   <li class="nav-item" data-depth="2">
@@ -117,10 +126,16 @@
   </li>
   <li class="nav-item" data-depth="1">
     <button class="nav-item-toggle"></button>
-    <a class="nav-link" href="DeltaTable.html">DeltaTable</a>
+    <a class="nav-link" href="delta-sql-commands.html">Delta SQL Commands</a>
 <ul class="nav-list">
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="DeltaTableOperations.html">DeltaTableOperations</a>
+    <a class="nav-link" href="DeltaSparkSessionExtension.html">DeltaSparkSessionExtension</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="DeltaSqlParser.html">DeltaSqlParser</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="DeltaSqlAstBuilder.html">DeltaSqlAstBuilder</a>
   </li>
 </ul>
   </li>
@@ -268,8 +283,76 @@
 </div>
 <article class="doc">
 <h1 class="page">VacuumTableCommand</h1>
+<div id="preamble">
+<div class="sectionbody">
 <div class="paragraph">
-<p><code>VacuumTableCommand</code> is&#8230;&#8203;FIXME</p>
+<p><code>VacuumTableCommand</code> is a logical command (<code>RunnableCommand</code>) for <a href="delta-sql-commands.html#VACUUM" class="page">VACUUM</a> SQL command.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+Read up on <a href="https://jaceklaskowski.gitbooks.io/mastering-spark-sql/spark-sql-LogicalPlan-RunnableCommand.html">RunnableCommand</a> in <a href="https://bit.ly/spark-sql-internals">The Internals of Spark SQL</a> online book.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><code>VacuumTableCommand</code> is <a href="#creating-instance">created</a> exclusively when <code>DeltaSqlAstBuilder</code> is requested to <a href="DeltaSqlAstBuilder.html#visitVacuumTable" class="page">visitVacuumTable</a> (for <code>VACUUM</code> SQL command).</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="creating-vacuumtablecommand-instance"><a class="anchor" href="#creating-vacuumtablecommand-instance"></a><a class="link" href="#creating-vacuumtablecommand-instance"><a id="creating-instance"></a> Creating VacuumTableCommand Instance</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><code>VacuumTableCommand</code> takes the following to be created:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a id="path"></a> Path (optional)</p>
+</li>
+<li>
+<p><a id="table"></a> <code>TableIdentifier</code> (optional)</p>
+</li>
+<li>
+<p><a id="horizonHours"></a> Optional <code>horizonHours</code></p>
+</li>
+<li>
+<p><a id="dryRun"></a> <code>dryRun</code> flag</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="running-commandrun-method"><a class="anchor" href="#running-commandrun-method"></a><a class="link" href="#running-commandrun-method"><a id="run"></a> Running Command&#8201;&#8212;&#8201;<code>run</code> Method</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">run(sparkSession: SparkSession): Seq[Row]</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>run</code> is part of the <code>RunnableCommand</code> contract to&#8230;&#8203;FIXME.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><code>run</code>&#8230;&#8203;FIXME</p>
+</div>
+</div>
 </div>
 </article>
 </main>

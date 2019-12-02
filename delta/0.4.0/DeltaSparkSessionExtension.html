@@ -3,8 +3,8 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title> VacuumCommandImpl :: The Internals of Delta Lake</title>
-    <link rel="canonical" href="https://delta.japila.pl/delta/0.4.0/VacuumCommandImpl.html">
+    <title>DeltaSparkSessionExtension :: The Internals of Delta Lake</title>
+    <link rel="canonical" href="https://delta.japila.pl/delta/0.4.0/DeltaSparkSessionExtension.html">
     <meta name="generator" content="Antora 2.2.0">
     <link rel="stylesheet" href="../../_/css/site.css">
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-151208281-1"></script>
@@ -113,7 +113,7 @@
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="DeltaCommand.html">DeltaCommand</a>
   </li>
-  <li class="nav-item is-current-page" data-depth="2">
+  <li class="nav-item" data-depth="2">
     <a class="nav-link" href="VacuumCommandImpl.html">VacuumCommandImpl</a>
   </li>
   <li class="nav-item" data-depth="2">
@@ -128,7 +128,7 @@
     <button class="nav-item-toggle"></button>
     <a class="nav-link" href="delta-sql-commands.html">Delta SQL Commands</a>
 <ul class="nav-list">
-  <li class="nav-item" data-depth="2">
+  <li class="nav-item is-current-page" data-depth="2">
     <a class="nav-link" href="DeltaSparkSessionExtension.html">DeltaSparkSessionExtension</a>
   </li>
   <li class="nav-item" data-depth="2">
@@ -275,16 +275,40 @@
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="index.html">Delta Lake</a></li>
-    <li><a href="commands.html">Commands</a></li>
-    <li><a href="VacuumCommandImpl.html">VacuumCommandImpl</a></li>
+    <li><a href="delta-sql-commands.html">Delta SQL Commands</a></li>
+    <li><a href="DeltaSparkSessionExtension.html">DeltaSparkSessionExtension</a></li>
   </ul>
 </nav>
-  <div class="edit-this-page"><a href="file:///antora/modules/ROOT/pages/VacuumCommandImpl.adoc">Edit this Page</a></div>
+  <div class="edit-this-page"><a href="file:///antora/modules/ROOT/pages/DeltaSparkSessionExtension.adoc">Edit this Page</a></div>
 </div>
 <article class="doc">
-<h1 class="page"><a id="VacuumCommandImpl"></a> VacuumCommandImpl</h1>
+<h1 class="page">DeltaSparkSessionExtension</h1>
 <div class="paragraph">
-<p><code>VacuumCommandImpl</code> is&#8230;&#8203;FIXME</p>
+<p><code>DeltaSparkSessionExtension</code> is an extension of Spark SQL to activate <a href="DeltaSqlParser.html" class="page">DeltaSqlParser</a> for <a href="delta-sql-commands.html" class="page">Delta SQL commands</a> (i.e. <a href="delta-sql-commands.html#DESCRIBE-HISTORY" class="page">DESCRIBE HISTORY</a> and <a href="delta-sql-commands.html#VACUUM" class="page">VACUUM</a>).</p>
+</div>
+<div class="paragraph">
+<p><code>DeltaSparkSessionExtension</code> is registered using <strong>spark.sql.extensions</strong> configuration property while creating a <code>SparkSession</code> in a Spark application.</p>
+</div>
+<div id="application" class="listingblock">
+<div class="title">Registering DeltaSparkSessionExtension with Spark SQL Application</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">import org.apache.spark.sql.SparkSession
+val spark = SparkSession
+  .builder()
+  .appName("...")
+  .config("spark.sql.extensions", "io.delta.sql.DeltaSparkSessionExtension")
+  .getOrCreate</code></pre>
+</div>
+</div>
+<div id="spark-shell" class="listingblock">
+<div class="title">Registering DeltaSparkSessionExtension with Spark Shell</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">$ ./bin/spark-shell \
+  --packages io.delta:delta-core_2.12:0.4.0 \
+  --conf spark.sql.extensions=io.delta.sql.DeltaSparkSessionExtension
+
+// FIXME: That does not seem to work</code></pre>
+</div>
 </div>
 </article>
 </main>
