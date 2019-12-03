@@ -20,9 +20,26 @@ val spark = SparkSession
 .Registering DeltaSparkSessionExtension with Spark Shell
 [source, scala]
 ----
-$ ./bin/spark-shell \
+/*
+./bin/spark-shell \
   --packages io.delta:delta-core_2.12:0.4.0 \
   --conf spark.sql.extensions=io.delta.sql.DeltaSparkSessionExtension
+*/
 
-// FIXME: That does not seem to work
+assert(spark.conf.get("spark.sql.extensions") == "io.delta.sql.DeltaSparkSessionExtension")
+
+// Create a delta table
+val data = Seq((0,"zero")).toDF("id", "name")
+// note the delta format
+data.write.format("delta").partitionBy("id").save("/tmp/delta/t1")
+import io.delta.tables.DeltaTable
+assert(DeltaTable.isDeltaTable("/tmp/delta/t1"))
+
+val describe = sql("DESCRIBE HISTORY delta.`/tmp/delta/t1`")
+scala> describe.show
++-------+-------------------+------+--------+---------+--------------------+----+--------+---------+-----------+--------------+-------------+
+|version|          timestamp|userId|userName|operation| operationParameters| job|notebook|clusterId|readVersion|isolationLevel|isBlindAppend|
++-------+-------------------+------+--------+---------+--------------------+----+--------+---------+-----------+--------------+-------------+
+|      0|2019-12-03 11:40:27|  null|    null|    WRITE|[mode -> ErrorIfE...|null|    null|     null|       null|          null|         true|
++-------+-------------------+------+--------+---------+--------------------+----+--------+---------+-----------+--------------+-------------+
 ----
