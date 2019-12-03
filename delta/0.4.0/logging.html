@@ -3,8 +3,8 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title> PartitionFiltering :: The Internals of Delta Lake</title>
-    <link rel="canonical" href="https://delta.japila.pl/delta/0.4.0/PartitionFiltering.html">
+    <title>Logging :: The Internals of Delta Lake</title>
+    <link rel="canonical" href="https://delta.japila.pl/delta/0.4.0/logging.html">
     <meta name="generator" content="Antora 2.2.0">
     <link rel="stylesheet" href="../../_/css/site.css">
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-151208281-1"></script>
@@ -241,13 +241,13 @@
   <li class="nav-item" data-depth="1">
     <a class="nav-link" href="DeltaSource.html">DeltaSource</a>
   </li>
-  <li class="nav-item is-current-page" data-depth="1">
+  <li class="nav-item" data-depth="1">
     <a class="nav-link" href="PartitionFiltering.html">PartitionFiltering</a>
   </li>
   <li class="nav-item" data-depth="1">
     <a class="nav-link" href="DeltaHistoryManager.html">DeltaHistoryManager</a>
   </li>
-  <li class="nav-item" data-depth="1">
+  <li class="nav-item is-current-page" data-depth="1">
     <a class="nav-link" href="logging.html">Logging</a>
   </li>
   <li class="nav-item" data-depth="1">
@@ -284,45 +284,93 @@
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="index.html">Delta Lake</a></li>
-    <li><a href="PartitionFiltering.html">PartitionFiltering</a></li>
+    <li><a href="logging.html">Logging</a></li>
   </ul>
 </nav>
-  <div class="edit-this-page"><a href="file:///antora/modules/ROOT/pages/PartitionFiltering.adoc">Edit this Page</a></div>
+  <div class="edit-this-page"><a href="file:///antora/modules/ROOT/pages/logging.adoc">Edit this Page</a></div>
 </div>
 <article class="doc">
-<h1 class="page"><a id="PartitionFiltering"></a> PartitionFiltering</h1>
+<h1 class="page">Logging</h1>
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p><code>PartitionFiltering</code>&#8230;&#8203;FIXME</p>
+<p>Delta Lake uses <a href="http://logging.apache.org/log4j">log4j</a> for logging (as does Apache Spark itself).</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="filesforscan-method"><a class="anchor" href="#filesforscan-method"></a><a class="link" href="#filesforscan-method"><a id="filesForScan"></a> <code>filesForScan</code> Method</a></h2>
+<h2 id="logging-levels"><a class="anchor" href="#logging-levels"></a><a class="link" href="#logging-levels"><a id="levels"></a> Logging Levels</a></h2>
 <div class="sectionbody">
+<div class="paragraph">
+<p>The valid logging levels are <a href="http://logging.apache.org/log4j/2.x/log4j-api/apidocs/index.html">log4j&#8217;s Levels</a> (from most specific to least):</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>OFF</code> (most specific, no logging)</p>
+</li>
+<li>
+<p><code>FATAL</code> (most specific, little data)</p>
+</li>
+<li>
+<p><code>ERROR</code></p>
+</li>
+<li>
+<p><code>WARN</code></p>
+</li>
+<li>
+<p><code>INFO</code></p>
+</li>
+<li>
+<p><code>DEBUG</code></p>
+</li>
+<li>
+<p><code>TRACE</code> (least specific, a lot of data)</p>
+</li>
+<li>
+<p><code>ALL</code> (least specific, all data)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="conflog4j-properties"><a class="anchor" href="#conflog4j-properties"></a><a class="link" href="#conflog4j-properties"><a id="log4j-properties"></a> conf/log4j.properties</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>You can set up the default logging for Delta applications in <code>conf/log4j.properties</code> of the Spark installation. Use Spark&#8217;s <code>conf/log4j.properties.template</code> as a starting point.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="sbt"><a class="anchor" href="#sbt"></a><a class="link" href="#sbt"><a id="sbt"></a> sbt</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>When running a Delta application from within sbt using <code>run</code> task, you can use the following <code>build.sbt</code> to configure logging levels:</p>
+</div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">filesForScan(
-  projection: Seq[Attribute],
-  filters: Seq[Expression],
-  keepStats: Boolean = false): DeltaScan</code></pre>
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">fork in run := true
+javaOptions in run ++= Seq(
+  "-Dlog4j.debug=true",
+  "-Dlog4j.configuration=log4j.properties")
+outputStrategy := Some(StdoutOutput)</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p><code>filesForScan</code>&#8230;&#8203;FIXME</p>
+<p>With the above configuration <code>log4j.properties</code> file should be on CLASSPATH which can be in <code>src/main/resources</code> directory (that is included in CLASSPATH by default).</p>
 </div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<code>filesForScan</code> is used when&#8230;&#8203;FIXME
-</td>
-</tr>
-</table>
+<div class="paragraph">
+<p>When <code>run</code> starts, you should see the following output in sbt:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code>[spark-activator]&gt; run
+[info] Running StreamingApp
+log4j: Trying to find [log4j.properties] using context classloader sun.misc.Launcher$AppClassLoader@1b6d3586.
+log4j: Using URL [file:.../classes/log4j.properties] for automatic log4j configuration.
+log4j: Reading configuration from URL file:.../classes/log4j.properties</code></pre>
+</div>
 </div>
 </div>
 </div>
