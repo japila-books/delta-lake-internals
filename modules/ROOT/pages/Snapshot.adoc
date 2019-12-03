@@ -16,3 +16,28 @@
 * [[lineageLength]] Length of the lineage (default: `1`)
 
 `Snapshot` initializes the <<internal-properties, internal properties>>.
+
+== [[state]] `state` Method
+
+[source, scala]
+----
+state: Dataset[SingleAction]
+----
+
+`state` simply requests the <<cachedState, cached delta state>> to <<CachedDS.adoc#getDS, get the delta state from the cache>>.
+
+NOTE: `state` is used when...FIXME
+
+== [[internal-properties]] Internal Properties
+
+[cols="30m,70",options="header",width="100%"]
+|===
+| Name
+| Description
+
+| cachedState
+a| [[cachedState]] <<CachedDS.adoc#, CachedDS>>
+
+Used when...FIXME
+
+|===

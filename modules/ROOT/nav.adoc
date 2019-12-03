@@ -38,6 +38,11 @@
 ** xref:HDFSLogStore.adoc[HDFSLogStore]
 
 * xref:Snapshot.adoc[Snapshot]
+** xref:StateCache.adoc[StateCache]
+** xref:DeltaSourceSnapshot.adoc[DeltaSourceSnapshot]
+** xref:CachedDS.adoc[CachedDS]
+** xref:SnapshotIterator.adoc[SnapshotIterator]
+
 * xref:DeltaSQLConf.adoc[DeltaSQLConf]
 * xref:TransactionalWrite.adoc[TransactionalWrite]
 * xref:OptimisticTransactionImpl.adoc[OptimisticTransactionImpl]

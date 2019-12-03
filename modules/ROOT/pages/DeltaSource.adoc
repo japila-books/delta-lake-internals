@@ -65,7 +65,7 @@ getChanges(
 
 NOTE: `getChanges` is used when `DeltaSource` is requested to <<getChangesWithRateLimit, getChangesWithRateLimit>> and <<getBatch, getBatch>>.
 
-== [[getSnapshotAt]] `getSnapshotAt` Internal Method
+== [[getSnapshotAt]] Looking Up Snapshot By Version -- `getSnapshotAt` Internal Method
 
 [source, scala]
 ----

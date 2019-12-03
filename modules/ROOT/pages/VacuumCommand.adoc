@@ -39,7 +39,35 @@ gc(
 Starting garbage collection (dryRun = [dryRun]) of untracked files older than [deleteBeforeTimestamp] in [path]
 ```
 
+[[gc-validFiles]]
+`gc` requests the `Snapshot` for the <<Snapshot.adoc#state, state dataset>> and defines a function for every action (in a partition) that does the following:
+
+. FIXME
+
+`gc` converts the mapped state dataset (of actions) into a `DataFrame` with a single `path` column.
+
+[[gc-allFilesAndDirs]]
 `gc`...FIXME
+
+`gc` caches the <<gc-allFilesAndDirs, allFilesAndDirs>> dataset.
+
+`gc` prints out the following INFO message to the logs:
+
+```
+Deleting untracked files and empty directories in [path]
+```
+
+`gc`...FIXME
+
+`gc` prints out the following message to standard output:
+
+```
+Deleted [filesDeleted] files and directories in a total of [dirCounts] directories.
+```
+
+`gc`...FIXME
+
+In the end, `gc` unpersists the <<gc-allFilesAndDirs, allFilesAndDirs>> dataset.
 
 [NOTE]
 ====

@@ -1,0 +1,14 @@
+= DeltaSourceSnapshot
+
+`DeltaSourceSnapshot` is...FIXME
+
+== [[initialFiles]] `initialFiles` Method
+
+[source, scala]
+----
+initialFiles: Dataset[IndexedFile]
+----
+
+`initialFiles`...FIXME
+
+NOTE: `initialFiles` is used exclusively when `SnapshotIterator` is requested for a <<SnapshotIterator.adoc#iterator, iterator (of IndexedFiles)>>.
