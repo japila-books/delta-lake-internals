@@ -179,7 +179,22 @@
 </ul>
   </li>
   <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
     <a class="nav-link" href="Snapshot.html">Snapshot</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="StateCache.html">StateCache</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="DeltaSourceSnapshot.html">DeltaSourceSnapshot</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="CachedDS.html">CachedDS</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="SnapshotIterator.html">SnapshotIterator</a>
+  </li>
+</ul>
   </li>
   <li class="nav-item" data-depth="1">
     <a class="nav-link" href="DeltaSQLConf.html">DeltaSQLConf</a>
@@ -352,8 +367,49 @@
 <pre class="highlightjs highlight"><code>Starting garbage collection (dryRun = [dryRun]) of untracked files older than [deleteBeforeTimestamp] in [path]</code></pre>
 </div>
 </div>
+<div id="gc-validFiles" class="paragraph">
+<p><code>gc</code> requests the <code>Snapshot</code> for the <a href="Snapshot.html#state" class="page">state dataset</a> and defines a function for every action (in a partition) that does the following:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>FIXME</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><code>gc</code> converts the mapped state dataset (of actions) into a <code>DataFrame</code> with a single <code>path</code> column.</p>
+</div>
+<div id="gc-allFilesAndDirs" class="paragraph">
+<p><code>gc</code>&#8230;&#8203;FIXME</p>
+</div>
+<div class="paragraph">
+<p><code>gc</code> caches the <a href="#gc-allFilesAndDirs">allFilesAndDirs</a> dataset.</p>
+</div>
+<div class="paragraph">
+<p><code>gc</code> prints out the following INFO message to the logs:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code>Deleting untracked files and empty directories in [path]</code></pre>
+</div>
+</div>
 <div class="paragraph">
 <p><code>gc</code>&#8230;&#8203;FIXME</p>
+</div>
+<div class="paragraph">
+<p><code>gc</code> prints out the following message to standard output:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code>Deleted [filesDeleted] files and directories in a total of [dirCounts] directories.</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>gc</code>&#8230;&#8203;FIXME</p>
+</div>
+<div class="paragraph">
+<p>In the end, <code>gc</code> unpersists the <a href="#gc-allFilesAndDirs">allFilesAndDirs</a> dataset.</p>
 </div>
 <div class="admonitionblock note">
 <table>
