@@ -1,6 +1,6 @@
 = Commands
 
-Delta Lake comes with commands (that are executed eagerly for its side effects when used in logical query plans).
+Delta Lake comes with commands to work with delta tables.
 
 [cols="30m,70",options="header",width="100%"]
 |===
@@ -19,8 +19,8 @@ Delta Lake comes with commands (that are executed eagerly for its side effects w
 | <<UpdateCommand.adoc#, UpdateCommand>>
 | [[UpdateCommand]]
 
-| <<VacuumCommand.adoc#, VacuumCommand>>
-| [[VacuumCommand]]
+| xref:vacuum.adoc[Vacuum]
+| [[vacuum]]
 
 | <<WriteIntoDelta.adoc#, WriteIntoDelta>>
 | [[WriteIntoDelta]] Writing data(frame) transactionally into a delta table

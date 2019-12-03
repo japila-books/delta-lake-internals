@@ -10,14 +10,15 @@
 * xref:commands.adoc[Commands]
 ** xref:ConvertToDeltaCommand.adoc[ConvertToDeltaCommand]
 ** xref:DeleteCommand.adoc[DeleteCommand]
+** xref:DeltaCommand.adoc[DeltaCommand]
+** xref:DescribeDeltaHistoryCommand.adoc[DescribeDeltaHistoryCommand]
 ** xref:MergeIntoCommand.adoc[MergeIntoCommand]
 ** xref:UpdateCommand.adoc[UpdateCommand]
-** xref:VacuumCommand.adoc[VacuumCommand]
+** xref:vacuum.adoc[Vacuum]
+*** xref:VacuumCommand.adoc[VacuumCommand]
+*** xref:VacuumCommandImpl.adoc[VacuumCommandImpl]
+*** xref:VacuumTableCommand.adoc[VacuumTableCommand]
 ** xref:WriteIntoDelta.adoc[WriteIntoDelta]
-** xref:DeltaCommand.adoc[DeltaCommand]
-** xref:VacuumCommandImpl.adoc[VacuumCommandImpl]
-** xref:DescribeDeltaHistoryCommand.adoc[DescribeDeltaHistoryCommand]
-** xref:VacuumTableCommand.adoc[VacuumTableCommand]
 
 * xref:delta-sql-commands.adoc[Delta SQL Commands]
 ** xref:DeltaSparkSessionExtension.adoc[DeltaSparkSessionExtension]
@@ -60,5 +61,7 @@
 
 * xref:PartitionFiltering.adoc[PartitionFiltering]
 * xref:DeltaHistoryManager.adoc[DeltaHistoryManager]
+
+* xref:logging.adoc[Logging]
 
 * xref:others.adoc[The Others (Contenders)]

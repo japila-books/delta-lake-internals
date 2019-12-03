@@ -52,7 +52,7 @@ executeUpdate(
 
 NOTE: `executeUpdate` is used when...FIXME
 
-== [[executeVacuum]] `executeVacuum` Method
+== [[executeVacuum]] Executing Vacuum Command -- `executeVacuum` Method
 
 [source, scala]
 ----
@@ -61,9 +61,11 @@ executeVacuum(
   retentionHours: Option[Double]): DataFrame
 ----
 
-`executeVacuum`...FIXME
+`executeVacuum` simply uses the `VacuumCommand` utility to <<VacuumCommand.adoc#gc, gc>> (with the `dryRun` flag off) and returns an empty `DataFrame`.
 
-NOTE: `executeVacuum` is used when...FIXME
+NOTE: `executeVacuum` returns an empty `DataFrame` not the one from <<VacuumCommand.adoc#gc, VacuumCommand.gc>>.
+
+NOTE: `executeVacuum` is used exclusively in <<DeltaTable.adoc#vacuum, DeltaTable.vacuum>> operator.
 
 == [[makeUpdateTable]] `makeUpdateTable` Method
 

@@ -134,14 +134,13 @@ a| [[vacuum]]
 [source, scala]
 ----
 vacuum(): DataFrame // <1>
-vacuum(
-  retentionHours: Double): DataFrame
+vacuum(retentionHours: Double): DataFrame
 ----
 <1> Undefined retention threshold
 
-Deletes files and directories (recursively) in the `DeltaTable` that are not needed by the table (and maintain older versions up to the given retention threshold).
+Deletes files and directories (recursively) in the `DeltaTable` that are not needed by the table (and maintains older versions up to the given retention threshold).
 
-Internally, `vacuum` simply triggers <<DeltaTableOperations.adoc#executeVacuum, executeVacuum>>
+Internally, `vacuum` simply <<DeltaTableOperations.adoc#executeVacuum, executes vacuum command>>.
 
 |===
 

@@ -1,8 +1,22 @@
-= [[VacuumCommand]] VacuumCommand
+= [[VacuumCommand]] VacuumCommand Utility -- Garbage Collecting Delta Table
 
-`VacuumCommand` is...FIXME
+`VacuumCommand` is a concrete <<VacuumCommandImpl.adoc#, VacuumCommandImpl>> for <<gc, gc>>.
 
-== [[gc]] `gc` Utility
+[[logging]]
+[TIP]
+====
+Enable `ALL` logging level for `org.apache.spark.sql.delta.commands.VacuumCommand` logger to see what happens inside.
+
+Add the following line to `conf/log4j.properties`:
+
+```
+log4j.logger.org.apache.spark.sql.delta.commands.VacuumCommand=ALL
+```
+
+Refer to <<logging.adoc#, Logging>>.
+====
+
+== [[gc]] Garbage Collecting Delta Table -- `gc` Utility
 
 [source, scala]
 ----
@@ -14,6 +28,38 @@ gc(
   clock: Clock = new SystemClock): DataFrame
 ----
 
+`gc` requests the given `DeltaLog` to <<DeltaLog.adoc#update, update>> (and give the latest <<Snapshot.adoc#, Snapshot>> of the delta table).
+
+[[gc-deleteBeforeTimestamp]]
+`gc`...FIXME (deleteBeforeTimestamp)
+
+`gc` prints out the following INFO message to the logs:
+
+```
+Starting garbage collection (dryRun = [dryRun]) of untracked files older than [deleteBeforeTimestamp] in [path]
+```
+
 `gc`...FIXME
 
-NOTE: `gc` is used when...FIXME
+[NOTE]
+====
+`gc` is used when:
+
+* `DeltaTableOperations` is requested to <<DeltaTableOperations.adoc#executeVacuum, execute vacuum command>> (for <<DeltaTable.adoc#vacuum, DeltaTable.vacuum>> operator)
+
+* <<VacuumTableCommand.adoc#, VacuumTableCommand>> is executed (for <<delta-sql-commands.adoc#VACUUM, VACUUM>> SQL command)
+====
+
+== [[checkRetentionPeriodSafety]] `checkRetentionPeriodSafety` Method
+
+[source, scala]
+----
+checkRetentionPeriodSafety(
+  spark: SparkSession,
+  retentionMs: Option[Long],
+  configuredRetention: Long): Unit
+----
+
+`checkRetentionPeriodSafety`...FIXME
+
+NOTE: `checkRetentionPeriodSafety` is used exclusively when `VacuumCommand` utility is requested to <<gc, gc>>.

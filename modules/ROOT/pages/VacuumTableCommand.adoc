@@ -11,17 +11,6 @@ TIP: Read up on https://jaceklaskowski.gitbooks.io/mastering-spark-sql/spark-sql
 [[output]]
 The output of `VacuumTableCommand` is a single `path` column (of type `StringType`).
 
-[source, scala]
-----
-scala> sql("VACUUM delta.`/tmp/delta/t1`").show
-Deleted 0 files and directories in a total of 2 directories.
-+------------------+
-|              path|
-+------------------+
-|file:/tmp/delta/t1|
-+------------------+
-----
-
 == [[creating-instance]] Creating VacuumTableCommand Instance
 
 `VacuumTableCommand` takes the following to be created:
