@@ -301,7 +301,24 @@ Read up on <a href="https://jaceklaskowski.gitbooks.io/mastering-spark-sql/spark
 </table>
 </div>
 <div class="paragraph">
-<p><code>VacuumTableCommand</code> is <a href="#creating-instance">created</a> exclusively when <code>DeltaSqlAstBuilder</code> is requested to <a href="DeltaSqlAstBuilder.html#visitVacuumTable" class="page">visitVacuumTable</a> (for <code>VACUUM</code> SQL command).</p>
+<p><code>VacuumTableCommand</code> is <a href="#creating-instance">created</a> exclusively when <code>DeltaSqlAstBuilder</code> is requested to <a href="DeltaSqlAstBuilder.html#visitVacuumTable" class="page">parse VACUUM SQL command</a>.</p>
+</div>
+<div class="paragraph">
+<p><code>VacuumTableCommand</code> <a href="#run">requires</a> that either the <a href="#table">table</a> or the <a href="#path">path</a> is defined and it is the root directory of a delta table. Partition directories are not supported.</p>
+</div>
+<div id="output" class="paragraph">
+<p>The output of <code>VacuumTableCommand</code> is a single <code>path</code> column (of type <code>StringType</code>).</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">scala&gt; sql("VACUUM delta.`/tmp/delta/t1`").show
+Deleted 0 files and directories in a total of 2 directories.
++------------------+
+|              path|
++------------------+
+|file:/tmp/delta/t1|
++------------------+</code></pre>
+</div>
 </div>
 </div>
 </div>
@@ -350,7 +367,26 @@ Read up on <a href="https://jaceklaskowski.gitbooks.io/mastering-spark-sql/spark
 </table>
 </div>
 <div class="paragraph">
-<p><code>run</code>&#8230;&#8203;FIXME</p>
+<p><code>run</code> takes the path to vacuum (i.e. either the <a href="#table">table</a> or the <a href="#path">path</a>) and <a href="DeltaTableUtils.html#findDeltaTableRoot" class="page">finds the root directory of the delta table</a>.</p>
+</div>
+<div class="paragraph">
+<p><code>run</code> <a href="DeltaLog.html#forTable" class="page">creates a DeltaLog instance</a> for the delta table and executes <a href="VacuumCommand.html#gc" class="page">VacuumCommand.gc</a> utility (passing in the <code>DeltaLog</code> instance, the <a href="#dryRun">dryRun</a> and the <a href="#horizonHours">horizonHours</a> options).</p>
+</div>
+<div class="paragraph">
+<p><code>run</code> throws an <code>AnalysisException</code> when executed for a non-root directory of a delta table:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code>Please provide the base path ([baseDeltaPath]) when Vacuuming Delta tables. Vacuuming specific partitions is currently not supported.</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>run</code> throws an <code>AnalysisException</code> when executed for a <code>DeltaLog</code> with the snapshot version being <code>-1</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code>[deltaTableIdentifier] is not a Delta table. VACUUM is only supported for Delta tables.</code></pre>
+</div>
 </div>
 </div>
 </div>
