@@ -6,6 +6,8 @@ Delta Lake introduces a concept of *delta table* (that, among other things, is s
 
 In addition to tables in its own `delta` format, Delta Lake supports `parquet` tables (after converting them into delta tables using <<DeltaTable.adoc#convertToDelta, DeltaTable.convertToDelta>> utility).
 
+Changes to (the state of) a Delta table are reflected as <<Action.adoc#, actions>> and persisted to the Delta log (in <<Action.adoc#json, JSON format>>).
+
 Delta Lake provides <<DeltaTable.adoc#, DeltaTable API>> to programmatically access Delta tables. You can <<DeltaTable.adoc#convertToDelta, convert a parquet table to delta format (DeltaTable.convertToDelta)>> or create a delta table from scratch (using <<data-source, delta data source>>).
 
 .Demo: Creating DeltaTable Instance

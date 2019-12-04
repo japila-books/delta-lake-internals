@@ -1,0 +1,71 @@
+= Action
+
+`Action` is an <<contract, abstraction>> of <<implementations, metadata>> of a change to (the state of) a Delta table.
+
+`Action` can be converted (_serialized_) to <<json, json>> format for...FIXME
+
+[[contract]]
+.Action Contract (Abstract Methods Only)
+[cols="30m,70",options="header",width="100%"]
+|===
+| Method
+| Description
+
+| wrap
+a| [[wrap]]
+
+[source, scala]
+----
+wrap: SingleAction
+----
+
+Used when...FIXME
+
+|===
+
+[[implementations]]
+[[extensions]]
+.Actions (Direct Implementations and Extensions Only)
+[cols="30,70",options="header",width="100%"]
+|===
+| Action
+| Description
+
+| Protocol
+| [[Protocol]]
+
+| SetTransaction
+| [[SetTransaction]]
+
+| CommitInfo
+| [[CommitInfo]]
+
+| <<FileAction.adoc#, FileAction>>
+| [[FileAction]]
+
+| Metadata
+| [[Metadata]]
+
+|===
+
+NOTE: `Action` is a Scala *sealed trait* which means that all the <<implementations, implementations>> are in the same compilation unit (a single file).
+
+== [[json]] Serializing to JSON Format -- `json` Method
+
+[source, scala]
+----
+json: String
+----
+
+`json` simply serializes (_converts_) the <<wrap, (wrapped) action>> to JSON format.
+
+NOTE: `json` uses https://github.com/FasterXML/jackson[Jackson] library (with https://github.com/FasterXML/jackson-module-scala[jackson-module-scala]) as the JSON processor.
+
+[NOTE]
+====
+`json` is used when:
+
+* `OptimisticTransactionImpl` is requested to <<OptimisticTransactionImpl.adoc#doCommit, doCommit>>
+
+* `ConvertToDeltaCommand` is requested to <<ConvertToDeltaCommand.adoc#streamWrite, streamWrite>>
+====

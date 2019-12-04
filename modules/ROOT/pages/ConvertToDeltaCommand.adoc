@@ -4,6 +4,8 @@
 
 `ConvertToDeltaCommand` is <<creating-instance, created>> and <<run, executed>> using <<DeltaConvert.adoc#, DeltaConvert>> utility.
 
+`ConvertToDeltaCommand` requires that the <<partitionSchema, partition schema>> matches the partitions of the <<tableIdentifier, parquet table>> (<<createAddFile-unexpectedNumPartitionColumnsFromFileNameException, or an AnalysisException is thrown>>)
+
 [[ConvertToDeltaCommandBase]]
 `ConvertToDeltaCommandBase` is the base of `ConvertToDeltaCommand`-like commands with the only known implementation being <<ConvertToDeltaCommand, ConvertToDeltaCommand>> itself.
 
@@ -11,7 +13,7 @@
 
 `ConvertToDeltaCommand` takes the following to be created:
 
-* [[tableIdentifier]] `TableIdentifier`
+* [[tableIdentifier]] Parquet table (`TableIdentifier`)
 * [[partitionSchema]] Partition schema (`Option[StructType]`)
 * [[deltaPath]] Path (`Option[String]`)
 
@@ -80,7 +82,7 @@ NOTE: `performConvert` uses `Dataset` API to build a distributed computation to 
 `performConvert` uses <<DeltaSQLConf.adoc#import.batchSize.statsCollection, spark.databricks.delta.import.batchSize.statsCollection>> configuration property for the number of files per batch for stats collection. `performConvert` <<createAddFile, creates an AddFile>> (in the <<DeltaLog.adoc#dataPath, data path>> of the <<OptimisticTransaction.adoc#deltaLog, DeltaLog>> of the `OptimisticTransaction`) for every file in a batch.
 
 [[performConvert-streamWrite]][[performConvert-unpersist]]
-In the end, `performConvert` <<streamWrite, streamWrite>> (with the `OptimisticTransaction`, the `AddFile`s, and <<DeltaOperations.adoc#Convert, Convert>> operation) and unpersists the `Dataset` of file names.
+In the end, `performConvert` <<streamWrite, streamWrite>> (with the `OptimisticTransaction`, the ``AddFile``s, and <<DeltaOperations.adoc#Convert, Convert>> operation) and unpersists the `Dataset` of file names.
 
 NOTE: `performConvert` is used exclusively when `ConvertToDeltaCommand` is requested to <<run, run>>.
 
@@ -110,9 +112,18 @@ createAddFile(
   resolver: Resolver): AddFile
 ----
 
-`createAddFile`...FIXME
+`createAddFile` creates an <<FileAction.adoc#AddFile, AddFile>> action.
 
-NOTE: `createAddFile` is used exclusively when `ConvertToDeltaCommand` is requested to <<performConvert, performConvert>>.
+Internally, `createAddFile`...FIXME
+
+[[createAddFile-unexpectedNumPartitionColumnsFromFileNameException]]
+`createAddFile` throws an `AnalysisException` if the number of fields in the given <<partitionSchema, partition schema>> does not match the number of partitions found (at partition discovery phase):
+
+```
+Expecting [size] partition column(s): [expectedCols], but found [size] partition column(s): [parsedCols] from parsing the file name: [path]
+```
+
+NOTE: `createAddFile` is used exclusively when `ConvertToDeltaCommand` is requested to <<performConvert, performConvert>> (for every data file to import).
 
 == [[mergeSchemasInParallel]] `mergeSchemasInParallel` Method
 
