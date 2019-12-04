@@ -77,7 +77,13 @@
     <a class="nav-link" href="options.html">Options</a>
   </li>
   <li class="nav-item" data-depth="1">
-    <a class="nav-link" href="DeltaConvert.html">DeltaConvert</a>
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">Demos</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="demo-Converting-Parquet-Dataset-Into-Delta-Format.html">Converting Parquet Dataset Into Delta Format</a>
+  </li>
+</ul>
   </li>
   <li class="nav-item" data-depth="1">
     <button class="nav-item-toggle"></button>
@@ -92,8 +98,14 @@
     <button class="nav-item-toggle"></button>
     <a class="nav-link" href="commands.html">Commands</a>
 <ul class="nav-list">
-  <li class="nav-item is-current-page" data-depth="2">
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="DeltaConvert.html">DeltaConvert</a>
+<ul class="nav-list">
+  <li class="nav-item is-current-page" data-depth="3">
     <a class="nav-link" href="ConvertToDeltaCommand.html">ConvertToDeltaCommand</a>
+  </li>
+</ul>
   </li>
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="DeleteCommand.html">DeleteCommand</a>
@@ -300,6 +312,7 @@
   <ul>
     <li><a href="index.html">Delta Lake</a></li>
     <li><a href="commands.html">Commands</a></li>
+    <li><a href="DeltaConvert.html">DeltaConvert</a></li>
     <li><a href="ConvertToDeltaCommand.html">ConvertToDeltaCommand</a></li>
   </ul>
 </nav>
@@ -408,7 +421,7 @@
 <p><code>performConvert</code> makes sure that the directory exists (from the given <code>ConvertProperties</code> which is the table part of the <a href="#tableIdentifier">TableIdentifier</a> of the command).</p>
 </div>
 <div class="paragraph">
-<p><code>performConvert</code> requests the <code>OptimisticTransaction</code> for the <a href="OptimisticTransaction.html#deltaLog" class="page">DeltaLog</a> that is in turn requested to <a href="DeltaLog.html#ensureLogDirectoryExist" class="page">ensureLogDirectoryExist</a>.</p>
+<p><code>performConvert</code> requests the <code>OptimisticTransaction</code> for the <a href="OptimisticTransaction.html#deltaLog" class="page">DeltaLog</a> that is then requested to <a href="DeltaLog.html#ensureLogDirectoryExist" class="page">ensureLogDirectoryExist</a>.</p>
 </div>
 <div class="paragraph">
 <p><code>performConvert</code> <a href="DeltaFileOperations.html#recursiveListDirs" class="page">creates a Dataset to recursively list directories and files</a> in the directory and leaves only files (by filtering out directories using <code>WHERE</code> clause).</p>

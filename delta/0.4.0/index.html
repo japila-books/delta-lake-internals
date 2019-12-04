@@ -77,7 +77,13 @@
     <a class="nav-link" href="options.html">Options</a>
   </li>
   <li class="nav-item" data-depth="1">
-    <a class="nav-link" href="DeltaConvert.html">DeltaConvert</a>
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">Demos</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="demo-Converting-Parquet-Dataset-Into-Delta-Format.html">Converting Parquet Dataset Into Delta Format</a>
+  </li>
+</ul>
   </li>
   <li class="nav-item" data-depth="1">
     <button class="nav-item-toggle"></button>
@@ -93,7 +99,13 @@
     <a class="nav-link" href="commands.html">Commands</a>
 <ul class="nav-list">
   <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="DeltaConvert.html">DeltaConvert</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
     <a class="nav-link" href="ConvertToDeltaCommand.html">ConvertToDeltaCommand</a>
+  </li>
+</ul>
   </li>
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="DeleteCommand.html">DeleteCommand</a>
@@ -315,31 +327,10 @@
 <p>Delta Lake introduces a concept of <strong>delta table</strong> (that, among other things, is simply a <a href="DeltaTableUtils.html#findDeltaTableRoot" class="page">directory with <code>_delta_log</code> subdirectory</a>).</p>
 </div>
 <div class="paragraph">
+<p>In addition to tables in its own <code>delta</code> format, Delta Lake supports <code>parquet</code> tables (after converting them into delta tables using <a href="DeltaTable.html#convertToDelta" class="page">DeltaTable.convertToDelta</a> utility).</p>
+</div>
+<div class="paragraph">
 <p>Delta Lake provides <a href="DeltaTable.html" class="page">DeltaTable API</a> to programmatically access Delta tables. You can <a href="DeltaTable.html#convertToDelta" class="page">convert a parquet table to delta format (DeltaTable.convertToDelta)</a> or create a delta table from scratch (using <a href="#data-source">delta data source</a>).</p>
-</div>
-<div class="listingblock">
-<div class="title">Demo: Converting Parquet Dataset Into Delta Format</div>
-<div class="content">
-<pre class="highlightjs highlight"><code>// ./bin/spark-shell --packages io.delta:delta-core_2.12:0.4.0
-//
-// scala&gt; :type spark
-// org.apache.spark.sql.SparkSession
-//
-// scala&gt; spark.version
-// res0: String = 2.4.4
-
-val users = "/tmp/delta-table/users"
-// Note the parquet format
-spark.emptyDataset[(Long, String)].write.format("parquet").mode("overwrite").save(users)
-
-import io.delta.tables.DeltaTable
-
-val pid = s"parquet.`$users`"
-DeltaTable.convertToDelta(spark, pid)
-
-// users table is now in delta format
-assert(DeltaTable.isDeltaTable(users))</code></pre>
-</div>
 </div>
 <div class="listingblock">
 <div class="title">Demo: Creating DeltaTable Instance</div>
@@ -352,9 +343,13 @@ assert(DeltaTable.isDeltaTable(users))</code></pre>
 // scala&gt; spark.version
 // res0: String = 2.4.4
 
-val users = "/tmp/delta-table/users"
-// Note the delta format
-spark.emptyDataset[(Long, String)].write.format("delta").mode("overwrite").save(users)
+val users = "/tmp/delta-lake/users"
+spark
+  .emptyDataset[(Long, String)]
+  .write
+  .format("delta")  // &lt;-- note the delta format
+  .mode("overwrite")
+  .save(users)
 
 import io.delta.tables.DeltaTable
 assert(DeltaTable.isDeltaTable(users))</code></pre>

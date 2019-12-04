@@ -3,8 +3,8 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>HDFSLogStore :: The Internals of Delta Lake</title>
-    <link rel="canonical" href="https://delta.japila.pl/delta/0.4.0/HDFSLogStore.html">
+    <title>Converting Parquet Dataset Into Delta Format :: The Internals of Delta Lake</title>
+    <link rel="canonical" href="https://delta.japila.pl/delta/0.4.0/demo-Converting-Parquet-Dataset-Into-Delta-Format.html">
     <meta name="generator" content="Antora 2.2.0">
     <link rel="stylesheet" href="../../_/css/site.css">
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-151208281-1"></script>
@@ -80,7 +80,7 @@
     <button class="nav-item-toggle"></button>
     <span class="nav-text">Demos</span>
 <ul class="nav-list">
-  <li class="nav-item" data-depth="2">
+  <li class="nav-item is-current-page" data-depth="2">
     <a class="nav-link" href="demo-Converting-Parquet-Dataset-Into-Delta-Format.html">Converting Parquet Dataset Into Delta Format</a>
   </li>
 </ul>
@@ -185,7 +185,7 @@
     <button class="nav-item-toggle"></button>
     <a class="nav-link" href="LogStore.html">LogStore</a>
 <ul class="nav-list">
-  <li class="nav-item is-current-page" data-depth="2">
+  <li class="nav-item" data-depth="2">
     <a class="nav-link" href="HDFSLogStore.html">HDFSLogStore</a>
   </li>
 </ul>
@@ -311,16 +311,54 @@
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="index.html">Delta Lake</a></li>
-    <li><a href="LogStore.html">LogStore</a></li>
-    <li><a href="HDFSLogStore.html">HDFSLogStore</a></li>
+    <li>Demos</li>
+    <li><a href="demo-Converting-Parquet-Dataset-Into-Delta-Format.html">Converting Parquet Dataset Into Delta Format</a></li>
   </ul>
 </nav>
-  <div class="edit-this-page"><a href="file:///antora/modules/ROOT/pages/HDFSLogStore.adoc">Edit this Page</a></div>
+  <div class="edit-this-page"><a href="file:///antora/modules/ROOT/pages/demo-Converting-Parquet-Dataset-Into-Delta-Format.adoc">Edit this Page</a></div>
 </div>
 <article class="doc">
-<h1 class="page">HDFSLogStore</h1>
-<div class="paragraph">
-<p><code>HDFSLogStore</code> is&#8230;&#8203;FIXME</p>
+<h1 class="page">Converting Parquet Dataset Into Delta Format</h1>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">// ./bin/spark-shell --packages io.delta:delta-core_2.12:0.4.0
+assert(spark.version.matches("2.4.[2-4]"), "Delta Lake supports Spark 2.4.2+")
+
+import org.apache.spark.sql.SparkSession
+assert(spark.isInstanceOf[SparkSession])
+
+val deltaLake = "/tmp/delta-lake"
+
+// Create parquet table
+val users = s"$deltaLake/users"
+import spark.implicits._
+val data = Seq((0, "Agata"), (1, "Jacek")).toDF("id", "name")
+data
+  .write
+  .format("parquet")
+  .partitionBy("name")
+  .mode("overwrite")
+  .save(users)
+
+// TIP: You could use git to version the users directory
+//      and track the changes for import
+
+// Use TableIdentifier to refer to the parquet table
+// The path itself would work too
+val tableId = s"parquet.`$users`"
+val partitionSchema = "name STRING"
+
+// Import users table into Delta Lake
+// Well, convert the parquet table into delta table
+// Use web UI to monitor execution, e.g. http://localhost:4040
+
+import io.delta.tables.DeltaTable
+val dt = DeltaTable.convertToDelta(spark, tableId, partitionSchema)
+assert(dt.isInstanceOf[DeltaTable])
+
+// users table is now in delta format
+assert(DeltaTable.isDeltaTable(users))</code></pre>
+</div>
 </div>
 </article>
 </main>

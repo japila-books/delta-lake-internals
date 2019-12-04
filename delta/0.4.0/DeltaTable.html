@@ -77,7 +77,13 @@
     <a class="nav-link" href="options.html">Options</a>
   </li>
   <li class="nav-item" data-depth="1">
-    <a class="nav-link" href="DeltaConvert.html">DeltaConvert</a>
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">Demos</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="demo-Converting-Parquet-Dataset-Into-Delta-Format.html">Converting Parquet Dataset Into Delta Format</a>
+  </li>
+</ul>
   </li>
   <li class="nav-item is-current-page" data-depth="1">
     <button class="nav-item-toggle"></button>
@@ -93,7 +99,13 @@
     <a class="nav-link" href="commands.html">Commands</a>
 <ul class="nav-list">
   <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="DeltaConvert.html">DeltaConvert</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
     <a class="nav-link" href="ConvertToDeltaCommand.html">ConvertToDeltaCommand</a>
+  </li>
+</ul>
   </li>
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="DeleteCommand.html">DeleteCommand</a>
@@ -644,23 +656,17 @@ convertToDelta(
 <div class="paragraph">
 <p><code>convertToDelta</code> converts a parquet table to delta format (and makes the table available in Delta Lake).</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code>assert(spark.isInstanceOf[org.apache.spark.sql.SparkSession])
-
-val deltaDir = "/tmp/delta-lake"
-
-// Create parquet table
-import spark.implicits._
-Seq((0, "hello"), (1, "world")).toDF("id", "name").write.format("parquet").partitionBy("name").mode("overwrite").save(deltaDir)
-
-val tableId = s"parquet.`$deltaDir`"
-val partitionSchema = "name STRING"
-
-import io.delta.tables.DeltaTable
-val dt = DeltaTable.convertToDelta(spark, tableId, partitionSchema)
-assert(dt.isInstanceOf[DeltaTable])</code></pre>
-</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+Refer to <a href="demo-Converting-Parquet-Dataset-Into-Delta-Format.html" class="page">Demo: Converting Parquet Dataset Into Delta Format</a> for a demo of <code>DeltaTable.convertToDelta</code>.
+</td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
 <p>Internally, <code>convertToDelta</code> requests the <code>SparkSession</code> for the SQL parser (<code>ParserInterface</code>) that is in turn requested to parse the given table identifier (to get a <code>TableIdentifier</code>).</p>
