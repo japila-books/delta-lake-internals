@@ -275,6 +275,15 @@
     <a class="nav-link" href="DeltaHistoryManager.html">DeltaHistoryManager</a>
   </li>
   <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="Action.html">Action</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="FileAction.html">FileAction</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
     <a class="nav-link" href="logging.html">Logging</a>
   </li>
   <li class="nav-item" data-depth="1">
@@ -328,6 +337,9 @@
 </div>
 <div class="paragraph">
 <p>In addition to tables in its own <code>delta</code> format, Delta Lake supports <code>parquet</code> tables (after converting them into delta tables using <a href="DeltaTable.html#convertToDelta" class="page">DeltaTable.convertToDelta</a> utility).</p>
+</div>
+<div class="paragraph">
+<p>Changes to (the state of) a Delta table are reflected as <a href="Action.html" class="page">actions</a> and persisted to the Delta log (in <a href="Action.html#json" class="page">JSON format</a>).</p>
 </div>
 <div class="paragraph">
 <p>Delta Lake provides <a href="DeltaTable.html" class="page">DeltaTable API</a> to programmatically access Delta tables. You can <a href="DeltaTable.html#convertToDelta" class="page">convert a parquet table to delta format (DeltaTable.convertToDelta)</a> or create a delta table from scratch (using <a href="#data-source">delta data source</a>).</p>

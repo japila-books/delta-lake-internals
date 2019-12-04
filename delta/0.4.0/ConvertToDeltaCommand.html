@@ -275,6 +275,15 @@
     <a class="nav-link" href="DeltaHistoryManager.html">DeltaHistoryManager</a>
   </li>
   <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="Action.html">Action</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="FileAction.html">FileAction</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
     <a class="nav-link" href="logging.html">Logging</a>
   </li>
   <li class="nav-item" data-depth="1">
@@ -328,6 +337,9 @@
 <div class="paragraph">
 <p><code>ConvertToDeltaCommand</code> is <a href="#creating-instance">created</a> and <a href="#run">executed</a> using <a href="DeltaConvert.html" class="page">DeltaConvert</a> utility.</p>
 </div>
+<div class="paragraph">
+<p><code>ConvertToDeltaCommand</code> requires that the <a href="#partitionSchema">partition schema</a> matches the partitions of the <a href="#tableIdentifier">parquet table</a> (<a href="#createAddFile-unexpectedNumPartitionColumnsFromFileNameException">or an AnalysisException is thrown</a>)</p>
+</div>
 <div id="ConvertToDeltaCommandBase" class="paragraph">
 <p><code>ConvertToDeltaCommandBase</code> is the base of <code>ConvertToDeltaCommand</code>-like commands with the only known implementation being <a href="#ConvertToDeltaCommand">ConvertToDeltaCommand</a> itself.</p>
 </div>
@@ -342,7 +354,7 @@
 <div class="ulist">
 <ul>
 <li>
-<p><a id="tableIdentifier"></a> <code>TableIdentifier</code></p>
+<p><a id="tableIdentifier"></a> Parquet table (<code>TableIdentifier</code>)</p>
 </li>
 <li>
 <p><a id="partitionSchema"></a> Partition schema (<code>Option[StructType]</code>)</p>
@@ -458,7 +470,7 @@
 </div>
 <div class="paragraph">
 <p><a id="performConvert-streamWrite"></a><a id="performConvert-unpersist"></a>
-In the end, <code>performConvert</code> <a href="#streamWrite">streamWrite</a> (with the <code>OptimisticTransaction</code>, the <code>AddFile`s, and <a href="DeltaOperations.html#Convert" class="page">Convert</a> operation) and unpersists the `Dataset</code> of file names.</p>
+In the end, <code>performConvert</code> <a href="#streamWrite">streamWrite</a> (with the <code>OptimisticTransaction</code>, the <code>AddFile</code>s, and <a href="DeltaOperations.html#Convert" class="page">Convert</a> operation) and unpersists the <code>Dataset</code> of file names.</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -516,7 +528,18 @@ In the end, <code>performConvert</code> <a href="#streamWrite">streamWrite</a> (
 </div>
 </div>
 <div class="paragraph">
-<p><code>createAddFile</code>&#8230;&#8203;FIXME</p>
+<p><code>createAddFile</code> creates an <a href="FileAction.html#AddFile" class="page">AddFile</a> action.</p>
+</div>
+<div class="paragraph">
+<p>Internally, <code>createAddFile</code>&#8230;&#8203;FIXME</p>
+</div>
+<div id="createAddFile-unexpectedNumPartitionColumnsFromFileNameException" class="paragraph">
+<p><code>createAddFile</code> throws an <code>AnalysisException</code> if the number of fields in the given <a href="#partitionSchema">partition schema</a> does not match the number of partitions found (at partition discovery phase):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code>Expecting [size] partition column(s): [expectedCols], but found [size] partition column(s): [parsedCols] from parsing the file name: [path]</code></pre>
+</div>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -525,7 +548,7 @@ In the end, <code>performConvert</code> <a href="#streamWrite">streamWrite</a> (
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-<code>createAddFile</code> is used exclusively when <code>ConvertToDeltaCommand</code> is requested to <a href="#performConvert">performConvert</a>.
+<code>createAddFile</code> is used exclusively when <code>ConvertToDeltaCommand</code> is requested to <a href="#performConvert">performConvert</a> (for every data file to import).
 </td>
 </tr>
 </table>
