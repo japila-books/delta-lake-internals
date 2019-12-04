@@ -4,31 +4,9 @@ https://delta.io/[Delta Lake] is an open-source storage management system (stora
 
 Delta Lake introduces a concept of *delta table* (that, among other things, is simply a <<DeltaTableUtils.adoc#findDeltaTableRoot, directory with `_delta_log` subdirectory>>).
 
+In addition to tables in its own `delta` format, Delta Lake supports `parquet` tables (after converting them into delta tables using <<DeltaTable.adoc#convertToDelta, DeltaTable.convertToDelta>> utility).
+
 Delta Lake provides <<DeltaTable.adoc#, DeltaTable API>> to programmatically access Delta tables. You can <<DeltaTable.adoc#convertToDelta, convert a parquet table to delta format (DeltaTable.convertToDelta)>> or create a delta table from scratch (using <<data-source, delta data source>>).
-
-.Demo: Converting Parquet Dataset Into Delta Format
-[source]
-----
-// ./bin/spark-shell --packages io.delta:delta-core_2.12:0.4.0
-//
-// scala> :type spark
-// org.apache.spark.sql.SparkSession
-//
-// scala> spark.version
-// res0: String = 2.4.4
-
-val users = "/tmp/delta-table/users"
-// Note the parquet format
-spark.emptyDataset[(Long, String)].write.format("parquet").mode("overwrite").save(users)
-
-import io.delta.tables.DeltaTable
-
-val pid = s"parquet.`$users`"
-DeltaTable.convertToDelta(spark, pid)
-
-// users table is now in delta format
-assert(DeltaTable.isDeltaTable(users))
-----
 
 .Demo: Creating DeltaTable Instance
 [source]
@@ -41,9 +19,13 @@ assert(DeltaTable.isDeltaTable(users))
 // scala> spark.version
 // res0: String = 2.4.4
 
-val users = "/tmp/delta-table/users"
-// Note the delta format
-spark.emptyDataset[(Long, String)].write.format("delta").mode("overwrite").save(users)
+val users = "/tmp/delta-lake/users"
+spark
+  .emptyDataset[(Long, String)]
+  .write
+  .format("delta")  // <-- note the delta format
+  .mode("overwrite")
+  .save(users)
 
 import io.delta.tables.DeltaTable
 assert(DeltaTable.isDeltaTable(users))

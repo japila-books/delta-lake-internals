@@ -2,13 +2,15 @@
 * xref:time-travel.adoc[Time Travel]
 * xref:options.adoc[Options]
 
-* xref:DeltaConvert.adoc[DeltaConvert]
+* Demos
+** xref:demo-Converting-Parquet-Dataset-Into-Delta-Format.adoc[Converting Parquet Dataset Into Delta Format]
 
 * xref:DeltaTable.adoc[DeltaTable]
 ** xref:DeltaTableOperations.adoc[DeltaTableOperations]
 
 * xref:commands.adoc[Commands]
-** xref:ConvertToDeltaCommand.adoc[ConvertToDeltaCommand]
+** xref:DeltaConvert.adoc[DeltaConvert]
+*** xref:ConvertToDeltaCommand.adoc[ConvertToDeltaCommand]
 ** xref:DeleteCommand.adoc[DeleteCommand]
 ** xref:DeltaCommand.adoc[DeltaCommand]
 ** xref:DescribeDeltaHistoryCommand.adoc[DescribeDeltaHistoryCommand]

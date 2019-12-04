@@ -35,6 +35,6 @@ executeConvert(
   deltaPath: Option[String]): Unit
 ----
 
-`executeConvert` simply creates a new <<ConvertToDeltaCommand.adoc#, ConvertToDeltaCommand>> and requests it to <<ConvertToDeltaCommand.adoc#run, run>>.
+`executeConvert` simply creates a new <<ConvertToDeltaCommand.adoc#, ConvertToDeltaCommand>> and <<ConvertToDeltaCommand.adoc#run, executes it>>.
 
 NOTE: `executeConvert` is used when `DeltaTable` utility is requested to <<DeltaTable.adoc#convertToDelta, convert a parquet table to delta format (DeltaTable.convertToDelta)>>.

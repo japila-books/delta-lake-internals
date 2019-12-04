@@ -1,0 +1,42 @@
+= Converting Parquet Dataset Into Delta Format
+
+[source,scala]
+----
+// ./bin/spark-shell --packages io.delta:delta-core_2.12:0.4.0
+assert(spark.version.matches("2.4.[2-4]"), "Delta Lake supports Spark 2.4.2+")
+
+import org.apache.spark.sql.SparkSession
+assert(spark.isInstanceOf[SparkSession])
+
+val deltaLake = "/tmp/delta-lake"
+
+// Create parquet table
+val users = s"$deltaLake/users"
+import spark.implicits._
+val data = Seq((0, "Agata"), (1, "Jacek")).toDF("id", "name")
+data
+  .write
+  .format("parquet")
+  .partitionBy("name")
+  .mode("overwrite")
+  .save(users)
+
+// TIP: You could use git to version the users directory
+//      and track the changes for import
+
+// Use TableIdentifier to refer to the parquet table
+// The path itself would work too
+val tableId = s"parquet.`$users`"
+val partitionSchema = "name STRING"
+
+// Import users table into Delta Lake
+// Well, convert the parquet table into delta table
+// Use web UI to monitor execution, e.g. http://localhost:4040
+
+import io.delta.tables.DeltaTable
+val dt = DeltaTable.convertToDelta(spark, tableId, partitionSchema)
+assert(dt.isInstanceOf[DeltaTable])
+
+// users table is now in delta format
+assert(DeltaTable.isDeltaTable(users))
+----

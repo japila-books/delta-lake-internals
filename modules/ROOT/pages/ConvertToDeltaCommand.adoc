@@ -58,7 +58,7 @@ performConvert(
 
 `performConvert` makes sure that the directory exists (from the given `ConvertProperties` which is the table part of the <<tableIdentifier, TableIdentifier>> of the command).
 
-`performConvert` requests the `OptimisticTransaction` for the <<OptimisticTransaction.adoc#deltaLog, DeltaLog>> that is in turn requested to <<DeltaLog.adoc#ensureLogDirectoryExist, ensureLogDirectoryExist>>.
+`performConvert` requests the `OptimisticTransaction` for the <<OptimisticTransaction.adoc#deltaLog, DeltaLog>> that is then requested to <<DeltaLog.adoc#ensureLogDirectoryExist, ensureLogDirectoryExist>>.
 
 `performConvert` <<DeltaFileOperations.adoc#recursiveListDirs, creates a Dataset to recursively list directories and files>> in the directory and leaves only files (by filtering out directories using `WHERE` clause).
 
