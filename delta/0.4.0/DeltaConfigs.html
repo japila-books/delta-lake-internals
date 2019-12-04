@@ -3,8 +3,8 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title> Snapshot :: The Internals of Delta Lake</title>
-    <link rel="canonical" href="https://delta.japila.pl/delta/0.4.0/Snapshot.html">
+    <title>DeltaConfigs :: The Internals of Delta Lake</title>
+    <link rel="canonical" href="https://delta.japila.pl/delta/0.4.0/DeltaConfigs.html">
     <meta name="generator" content="Antora 2.2.0">
     <link rel="stylesheet" href="../../_/css/site.css">
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-151208281-1"></script>
@@ -190,7 +190,7 @@
   </li>
 </ul>
   </li>
-  <li class="nav-item is-current-page" data-depth="1">
+  <li class="nav-item" data-depth="1">
     <button class="nav-item-toggle"></button>
     <a class="nav-link" href="Snapshot.html">Snapshot</a>
 <ul class="nav-list">
@@ -286,7 +286,7 @@
   </li>
 </ul>
   </li>
-  <li class="nav-item" data-depth="1">
+  <li class="nav-item is-current-page" data-depth="1">
     <a class="nav-link" href="DeltaConfigs.html">DeltaConfigs</a>
   </li>
   <li class="nav-item" data-depth="1">
@@ -326,119 +326,193 @@
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="index.html">Delta Lake</a></li>
-    <li><a href="Snapshot.html">Snapshot</a></li>
+    <li><a href="DeltaConfigs.html">DeltaConfigs</a></li>
   </ul>
 </nav>
-  <div class="edit-this-page"><a href="file:///antora/modules/ROOT/pages/Snapshot.adoc">Edit this Page</a></div>
+  <div class="edit-this-page"><a href="file:///antora/modules/ROOT/pages/DeltaConfigs.adoc">Edit this Page</a></div>
 </div>
 <article class="doc">
-<h1 class="page"><a id="Snapshot"></a> Snapshot</h1>
+<h1 class="page">DeltaConfigs</h1>
 <div id="preamble">
 <div class="sectionbody">
-<div class="paragraph">
-<p><code>Snapshot</code> is <a href="#creating-instance">created</a> when <code>DeltaLog</code> is requested for the <a href="DeltaLog.html#currentSnapshot" class="page">current snapshot</a>, to <a href="DeltaLog.html#update" class="page">update</a>, and <a href="DeltaLog.html#getSnapshotAt" class="page">getSnapshotAt</a></p>
+<div id="T" class="paragraph">
+<p><code>DeltaConfigs</code> (of type <code>T</code>) represents a <a href="#key">named configuration property</a> (with <a href="#validationFunction">values</a> of type <code>T</code>).</p>
 </div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="creating-snapshot-instance"><a class="anchor" href="#creating-snapshot-instance"></a><a class="link" href="#creating-snapshot-instance"><a id="creating-instance"></a> Creating Snapshot Instance</a></h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p><code>Snapshot</code> takes the following to be created:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><a id="path"></a> <code>Path</code></p>
-</li>
-<li>
-<p><a id="version"></a> Version</p>
-</li>
-<li>
-<p><a id="previousSnapshot"></a> Previous snapshot (<code>Option[Dataset[SingleAction]]</code>)</p>
-</li>
-<li>
-<p><a id="files"></a> Files (<code>Seq[Path]</code>)</p>
-</li>
-<li>
-<p><a id="minFileRetentionTimestamp"></a> <code>minFileRetentionTimestamp</code></p>
-</li>
-<li>
-<p><a id="deltaLog"></a> <a href="DeltaLog.html" class="page">DeltaLog</a></p>
-</li>
-<li>
-<p><a id="timestamp"></a> Timestamp</p>
-</li>
-<li>
-<p><a id="lineageLength"></a> Length of the lineage (default: <code>1</code>)</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p><code>Snapshot</code> initializes the <a href="#internal-properties">internal properties</a>.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="state-method"><a class="anchor" href="#state-method"></a><a class="link" href="#state-method"><a id="state"></a> <code>state</code> Method</a></h2>
-<div class="sectionbody">
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">state: Dataset[SingleAction]</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p><code>state</code> simply requests the <a href="#cachedState">cached delta state</a> to <a href="CachedDS.html#getDS" class="page">get the delta state from the cache</a>.</p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<code>state</code> is used when&#8230;&#8203;FIXME
-</td>
-</tr>
-</table>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="internal-properties"><a class="anchor" href="#internal-properties"></a><a class="link" href="#internal-properties"><a id="internal-properties"></a> Internal Properties</a></h2>
-<div class="sectionbody">
-<table class="tableblock frame-all grid-all stretch">
+<table id="metadata-configuration" class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. DeltaConfigs</caption>
 <colgroup>
 <col style="width: 30%;">
 <col style="width: 70%;">
 </colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Key</th>
 <th class="tableblock halign-left valign-top">Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>cachedState</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>autoOptimize</code></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="cachedState"></a> <a href="CachedDS.html" class="page">CachedDS</a></p>
+<p><a id="AUTO_OPTIMIZE"></a> Whether this delta table will automagically optimize the layout of files during writes.</p>
 </div>
 <div class="paragraph">
-<p>Used when&#8230;&#8203;FIXME</p>
+<p>Default: <code>false</code></p>
 </div></div></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>metadata</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>checkpointInterval</code></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="metadata"></a> <a href="Metadata.html" class="page">Metadata</a></p>
+<p><a id="CHECKPOINT_INTERVAL"></a> How often to checkpoint the delta log</p>
 </div>
 <div class="paragraph">
-<p>Used when&#8230;&#8203;FIXME</p>
+<p>Default: <code>10</code></p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>checkpointRetentionDuration</code></p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="CHECKPOINT_RETENTION_DURATION"></a> The shortest duration to keep checkpoint files around before deleting them</p>
+</div>
+<div class="paragraph">
+<p>Default: <code>interval 2 days</code></p>
+</div>
+<div class="paragraph">
+<p>The most recent checkpoint is never deleted. It is acceptable to keep checkpoint files beyond this duration until the next calendar day.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>dataSkippingNumIndexedCols</code></p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="DATA_SKIPPING_NUM_INDEXED_COLS"></a> The number of columns to collect stats on for data skipping. <code>-1</code> means collecting stats for all columns.</p>
+</div>
+<div class="paragraph">
+<p>Default: <code>32</code></p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>enableExpiredLogCleanup</code></p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="ENABLE_EXPIRED_LOG_CLEANUP"></a> Whether to clean up expired checkpoints and delta logs</p>
+</div>
+<div class="paragraph">
+<p>Default: <code>true</code></p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>enableFullRetentionRollback</code></p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="ENABLE_FULL_RETENTION_ROLLBACK"></a> When enabled (default), a delta table can be rolled back to any point within <a href="#LOG_RETENTION">logRetentionDuration</a>. When disabled, the table can be rolled back <a href="#CHECKPOINT_RETENTION_DURATION">checkpointRetentionDuration</a> only.</p>
+</div>
+<div class="paragraph">
+<p>Default: <code>true</code></p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>appendOnly</code></p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="IS_APPEND_ONLY"></a> Whether a delta table is append-only (so files can&#8217;t be deleted, and values updated).</p>
+</div>
+<div class="paragraph">
+<p>Default: <code>false</code></p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>logRetentionDuration</code></p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="LOG_RETENTION"></a> The shortest duration to keep delta files around before deleting them</p>
+</div>
+<div class="paragraph">
+<p>Default: <code>interval 30 days</code></p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>randomizeFilePrefixes</code></p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="RANDOMIZE_FILE_PREFIXES"></a> Whether to use a random prefix in a file path instead of partition information (may be required for very high volume S3 calls to better be partitioned across S3 servers)</p>
+</div>
+<div class="paragraph">
+<p>Default: <code>false</code></p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>randomPrefixLength</code></p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="RANDOM_PREFIX_LENGTH"></a> The length of the random prefix in a file path for <a href="#RANDOMIZE_FILE_PREFIXES">randomizeFilePrefixes</a></p>
+</div>
+<div class="paragraph">
+<p>Default: <code>2</code></p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>sampleRetentionDuration</code></p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="SAMPLE_RETENTION"></a> The shortest duration to keep delta sample files around before deleting them</p>
+</div>
+<div class="paragraph">
+<p>Default: <code>interval 7 days</code></p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>deletedFileRetentionDuration</code></p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="TOMBSTONE_RETENTION"></a> The shortest duration to keep logically deleted data files around before deleting them physically (to prevent failures in stale readers after compactions or partition overwrites)</p>
+</div>
+<div class="paragraph">
+<p>Default: <code>interval 1 week</code></p>
 </div></div></td>
 </tr>
 </tbody>
 </table>
+</div>
+</div>
+<div class="sect1">
+<h2 id="creating-deltaconfigs-instance"><a class="anchor" href="#creating-deltaconfigs-instance"></a><a class="link" href="#creating-deltaconfigs-instance"><a id="creating-instance"></a> Creating DeltaConfigs Instance</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><code>DeltaConfigs</code> takes the following to be created:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a id="key"></a> Key</p>
+</li>
+<li>
+<p><a id="defaultValue"></a> Default value</p>
+</li>
+<li>
+<p><a id="fromString"></a> Conversion function (from text representation of the <code>DeltaConfigs</code> to the <a href="#T">type</a>, i.e. <code>String &#8658; T</code>)</p>
+</li>
+<li>
+<p><a id="validationFunction"></a> Validation function (that guards from incorrect values, i.e. <code>T &#8658; Boolean</code>)</p>
+</li>
+<li>
+<p><a id="helpMessage"></a> Help message</p>
+</li>
+<li>
+<p><a id="minimumProtocolVersion"></a> (optional) Minimum version of <a href="Protocol.html" class="page">protocol</a> supported</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><code>DeltaConfigs</code> initializes the <a href="#internal-properties">internal properties</a>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="reading-deltaconfigs-from-metadatafrommetadata-method"><a class="anchor" href="#reading-deltaconfigs-from-metadatafrommetadata-method"></a><a class="link" href="#reading-deltaconfigs-from-metadatafrommetadata-method"><a id="fromMetaData"></a> Reading DeltaConfigs From Metadata&#8201;&#8212;&#8201;<code>fromMetaData</code> Method</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">fromMetaData(metadata: Metadata): T</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>fromMetaData</code> looks up the <a href="#key">key</a> of the <code>DeltaConfigs</code> configuration in the <a href="Metadata.html#configuration" class="page">configuration</a> of the given <a href="Metadata.html" class="page">Metadata</a>. If not found (i.e. not changed from the initial value), <code>fromMetaData</code> uses the <a href="#defaultValue">default value</a> instead.</p>
+</div>
+<div class="paragraph">
+<p>In the end, <code>fromMetaData</code> converts the text representation to the proper type using <a href="#fromString">fromString</a> conversion function.</p>
+</div>
 </div>
 </div>
 </article>
