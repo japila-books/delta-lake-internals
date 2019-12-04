@@ -1,0 +1,99 @@
+= DeltaConfigs
+
+[[T]]
+`DeltaConfigs` (of type `T`) represents a <<key, named configuration property>> (with <<validationFunction, values>> of type `T`).
+
+[[metadata-configuration]]
+.DeltaConfigs
+[cols="30m,70",options="header",width="100%"]
+|===
+| Key
+| Description
+
+| autoOptimize
+a| [[AUTO_OPTIMIZE]] Whether this delta table will automagically optimize the layout of files during writes.
+
+Default: `false`
+
+| checkpointInterval
+a| [[CHECKPOINT_INTERVAL]] How often to checkpoint the delta log
+
+Default: `10`
+
+| checkpointRetentionDuration
+a| [[CHECKPOINT_RETENTION_DURATION]] The shortest duration to keep checkpoint files around before deleting them
+
+Default: `interval 2 days`
+
+The most recent checkpoint is never deleted. It is acceptable to keep checkpoint files beyond this duration until the next calendar day.
+
+| dataSkippingNumIndexedCols
+a| [[DATA_SKIPPING_NUM_INDEXED_COLS]] The number of columns to collect stats on for data skipping. `-1` means collecting stats for all columns.
+
+Default: `32`
+
+| enableExpiredLogCleanup
+a| [[ENABLE_EXPIRED_LOG_CLEANUP]] Whether to clean up expired checkpoints and delta logs
+
+Default: `true`
+
+| enableFullRetentionRollback
+a| [[ENABLE_FULL_RETENTION_ROLLBACK]] When enabled (default), a delta table can be rolled back to any point within <<LOG_RETENTION, logRetentionDuration>>. When disabled, the table can be rolled back <<CHECKPOINT_RETENTION_DURATION, checkpointRetentionDuration>> only.
+
+Default: `true`
+
+| appendOnly
+a| [[IS_APPEND_ONLY]] Whether a delta table is append-only (so files can't be deleted, and values updated).
+
+Default: `false`
+
+| logRetentionDuration
+a| [[LOG_RETENTION]] The shortest duration to keep delta files around before deleting them
+
+Default: `interval 30 days`
+
+| randomizeFilePrefixes
+a| [[RANDOMIZE_FILE_PREFIXES]] Whether to use a random prefix in a file path instead of partition information (may be required for very high volume S3 calls to better be partitioned across S3 servers)
+
+Default: `false`
+
+| randomPrefixLength
+a| [[RANDOM_PREFIX_LENGTH]] The length of the random prefix in a file path for <<RANDOMIZE_FILE_PREFIXES, randomizeFilePrefixes>>
+
+Default: `2`
+
+| sampleRetentionDuration
+a| [[SAMPLE_RETENTION]] The shortest duration to keep delta sample files around before deleting them
+
+Default: `interval 7 days`
+
+| deletedFileRetentionDuration
+a| [[TOMBSTONE_RETENTION]] The shortest duration to keep logically deleted data files around before deleting them physically (to prevent failures in stale readers after compactions or partition overwrites)
+
+Default: `interval 1 week`
+
+|===
+
+== [[creating-instance]] Creating DeltaConfigs Instance
+
+`DeltaConfigs` takes the following to be created:
+
+* [[key]] Key
+* [[defaultValue]] Default value
+* [[fromString]] Conversion function (from text representation of the `DeltaConfigs` to the <<T, type>>, i.e. `String => T`)
+* [[validationFunction]] Validation function (that guards from incorrect values, i.e. `T => Boolean`)
+* [[helpMessage]] Help message
+* [[minimumProtocolVersion]] (optional) Minimum version of <<Protocol.adoc#, protocol>> supported
+
+`DeltaConfigs` initializes the <<internal-properties, internal properties>>.
+
+== [[fromMetaData]] Reading DeltaConfigs From Metadata -- `fromMetaData` Method
+
+[source, scala]
+----
+fromMetaData(metadata: Metadata): T
+----
+
+`fromMetaData` looks up the <<key, key>> of the `DeltaConfigs` configuration in the <<Metadata.adoc#configuration, configuration>> of the given <<Metadata.adoc#, Metadata>>. If not found (i.e. not changed from the initial value), `fromMetaData` uses the <<defaultValue, default value>> instead.
+
+In the end, `fromMetaData` converts the text representation to the proper type using <<fromString, fromString>> conversion function.

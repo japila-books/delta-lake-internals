@@ -1,6 +1,6 @@
 = Checkpoints
 
-`Checkpoints` is an <<contract, abstraction>> of <<implementations, DeltaLogs>> that can <<checkpoint, checkpoint>> the current state of a delta table.
+`Checkpoints` is an <<contract, abstraction>> of <<implementations, DeltaLogs>> that can <<checkpoint, checkpoint>> the current state of a delta table (represented by the <<self, DeltaLog>>).
 
 [[contract]]
 .Checkpoints Contract (Abstract Methods Only)
@@ -57,6 +57,8 @@ a| [[metadata]]
 metadata: Metadata
 ----
 
+<<Metadata.adoc#, Metadata>> of (the current state of) the <<self, delta table>>
+
 Used when...FIXME
 
 | doLogCleanup
@@ -71,7 +73,7 @@ Used when...FIXME
 
 |===
 
-[[implementations]]
+[[implementations]][[self]]
 NOTE: <<DeltaLog.adoc#, DeltaLog>> is the default and only known `Checkpoints` in Delta Lake.
 
 == [[LAST_CHECKPOINT]][[_last_checkpoint]] _last_checkpoint Metadata File

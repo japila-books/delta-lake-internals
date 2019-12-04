@@ -71,6 +71,9 @@
 
 * xref:Action.adoc[Action]
 ** xref:FileAction.adoc[FileAction]
+** xref:Protocol.adoc[Protocol]
+
+* xref:DeltaConfigs.adoc[DeltaConfigs]
 
 * xref:logging.adoc[Logging]
 

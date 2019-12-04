@@ -40,4 +40,9 @@ a| [[cachedState]] <<CachedDS.adoc#, CachedDS>>
 
 Used when...FIXME
 
+| metadata
+a| [[metadata]] <<Metadata.adoc#, Metadata>>
+
+Used when...FIXME
+
 |===
