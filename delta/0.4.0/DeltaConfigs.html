@@ -188,6 +188,9 @@
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="HDFSLogStore.html">HDFSLogStore</a>
   </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="HadoopFileSystemLogStore.html">HadoopFileSystemLogStore</a>
+  </li>
 </ul>
   </li>
   <li class="nav-item" data-depth="1">
@@ -368,7 +371,7 @@
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>autoOptimize</code></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="AUTO_OPTIMIZE"></a> Whether this delta table will automagically optimize the layout of files during writes.</p>
+<p><a id="autoOptimize"></a><a id="AUTO_OPTIMIZE"></a> Whether this delta table will automagically optimize the layout of files during writes.</p>
 </div>
 <div class="paragraph">
 <p>Default: <code>false</code></p>
@@ -377,7 +380,7 @@
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>checkpointInterval</code></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="CHECKPOINT_INTERVAL"></a> How often to checkpoint the state of a delta table</p>
+<p><a id="checkpointInterval"></a><a id="CHECKPOINT_INTERVAL"></a> How often to checkpoint the state of a delta table</p>
 </div>
 <div class="paragraph">
 <p>Default: <code>10</code></p>
@@ -386,7 +389,7 @@
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>checkpointRetentionDuration</code></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="CHECKPOINT_RETENTION_DURATION"></a> How long to keep checkpoint files around before deleting them</p>
+<p><a id="checkpointRetentionDuration"></a><a id="CHECKPOINT_RETENTION_DURATION"></a> How long to keep checkpoint files around before deleting them</p>
 </div>
 <div class="paragraph">
 <p>Default: <code>interval 2 days</code></p>
@@ -398,7 +401,7 @@
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>dataSkippingNumIndexedCols</code></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="DATA_SKIPPING_NUM_INDEXED_COLS"></a> The number of columns to collect stats on for data skipping. <code>-1</code> means collecting stats for all columns.</p>
+<p><a id="dataSkippingNumIndexedCols"></a><a id="DATA_SKIPPING_NUM_INDEXED_COLS"></a> The number of columns to collect stats on for data skipping. <code>-1</code> means collecting stats for all columns.</p>
 </div>
 <div class="paragraph">
 <p>Default: <code>32</code></p>
@@ -407,7 +410,7 @@
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>enableExpiredLogCleanup</code></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="ENABLE_EXPIRED_LOG_CLEANUP"></a> Whether to clean up expired log files and checkpoints</p>
+<p><a id="enableExpiredLogCleanup"></a><a id="ENABLE_EXPIRED_LOG_CLEANUP"></a> Whether to clean up expired log files and checkpoints</p>
 </div>
 <div class="paragraph">
 <p>Default: <code>true</code></p>
@@ -416,7 +419,7 @@
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>enableFullRetentionRollback</code></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="ENABLE_FULL_RETENTION_ROLLBACK"></a> When enabled (default), a delta table can be rolled back to any point within <a href="#LOG_RETENTION">logRetentionDuration</a>. When disabled, the table can be rolled back <a href="#CHECKPOINT_RETENTION_DURATION">checkpointRetentionDuration</a> only.</p>
+<p><a id="enableFullRetentionRollback"></a><a id="ENABLE_FULL_RETENTION_ROLLBACK"></a> When enabled (default), a delta table can be rolled back to any point within <a href="#LOG_RETENTION">logRetentionDuration</a>. When disabled, the table can be rolled back <a href="#CHECKPOINT_RETENTION_DURATION">checkpointRetentionDuration</a> only.</p>
 </div>
 <div class="paragraph">
 <p>Default: <code>true</code></p>
@@ -425,7 +428,7 @@
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>appendOnly</code></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="IS_APPEND_ONLY"></a> Whether a delta table is append-only (<code>true</code>) or not (<code>false</code>). When disabled (default), a table allows appends only and no updates or deletes.</p>
+<p><a id="appendOnly"></a><a id="IS_APPEND_ONLY"></a> Whether a delta table is append-only (<code>true</code>) or not (<code>false</code>). When enabled, a table allows appends only and no updates or deletes.</p>
 </div>
 <div class="paragraph">
 <p>Default: <code>false</code></p>
@@ -434,7 +437,7 @@
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>logRetentionDuration</code></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="LOG_RETENTION"></a> How long to keep obsolete logs around before deleting them. Delta can keep logs beyond the duration until the next calendar day to avoid constantly creating checkpoints.</p>
+<p><a id="logRetentionDuration"></a><a id="LOG_RETENTION"></a> How long to keep obsolete logs around before deleting them. Delta can keep logs beyond the duration until the next calendar day to avoid constantly creating checkpoints.</p>
 </div>
 <div class="paragraph">
 <p>Default: <code>interval 30 days</code></p>
@@ -443,7 +446,7 @@
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>randomizeFilePrefixes</code></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="RANDOMIZE_FILE_PREFIXES"></a> Whether to use a random prefix in a file path instead of partition information (may be required for very high volume S3 calls to better be partitioned across S3 servers)</p>
+<p><a id="randomizeFilePrefixes"></a><a id="RANDOMIZE_FILE_PREFIXES"></a> Whether to use a random prefix in a file path instead of partition information (may be required for very high volume S3 calls to better be partitioned across S3 servers)</p>
 </div>
 <div class="paragraph">
 <p>Default: <code>false</code></p>
@@ -452,7 +455,7 @@
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>randomPrefixLength</code></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="RANDOM_PREFIX_LENGTH"></a> The length of the random prefix in a file path for <a href="#RANDOMIZE_FILE_PREFIXES">randomizeFilePrefixes</a></p>
+<p><a id="randomPrefixLength"></a><a id="RANDOM_PREFIX_LENGTH"></a> The length of the random prefix in a file path for <a href="#RANDOMIZE_FILE_PREFIXES">randomizeFilePrefixes</a></p>
 </div>
 <div class="paragraph">
 <p>Default: <code>2</code></p>
@@ -461,7 +464,7 @@
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>sampleRetentionDuration</code></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="SAMPLE_RETENTION"></a> How long to keep delta sample files around before deleting them</p>
+<p><a id="sampleRetentionDuration"></a><a id="SAMPLE_RETENTION"></a> How long to keep delta sample files around before deleting them</p>
 </div>
 <div class="paragraph">
 <p>Default: <code>interval 7 days</code></p>
@@ -470,7 +473,7 @@
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>deletedFileRetentionDuration</code></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="TOMBSTONE_RETENTION"></a> How long to keep logically deleted data files around before deleting them physically (to prevent failures in stale readers after compactions or partition overwrites)</p>
+<p><a id="deletedFileRetentionDuration"></a><a id="TOMBSTONE_RETENTION"></a> How long to keep logically deleted data files around before deleting them physically (to prevent failures in stale readers after compactions or partition overwrites)</p>
 </div>
 <div class="paragraph">
 <p>Default: <code>interval 1 week</code></p>

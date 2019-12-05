@@ -188,6 +188,9 @@
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="HDFSLogStore.html">HDFSLogStore</a>
   </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="HadoopFileSystemLogStore.html">HadoopFileSystemLogStore</a>
+  </li>
 </ul>
   </li>
   <li class="nav-item" data-depth="1">
@@ -449,6 +452,34 @@
 </td>
 <td class="content">
 <code>combineWithCatalogMetadata</code> is used when&#8230;&#8203;FIXME
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="resolvetimetravelversion-utility"><a class="anchor" href="#resolvetimetravelversion-utility"></a><a class="link" href="#resolvetimetravelversion-utility"><a id="resolveTimeTravelVersion"></a> <code>resolveTimeTravelVersion</code> Utility</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">resolveTimeTravelVersion(
+  conf: SQLConf,
+  deltaLog: DeltaLog,
+  tt: DeltaTimeTravelSpec): (Long, String)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>resolveTimeTravelVersion</code>&#8230;&#8203;FIXME</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>resolveTimeTravelVersion</code> is used exclusively when <code>DeltaLog</code> is requested to <a href="DeltaLog.html#createRelation" class="page">create a relation (per partition filters and time travel)</a>.
 </td>
 </tr>
 </table>
