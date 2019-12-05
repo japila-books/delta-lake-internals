@@ -338,6 +338,18 @@ tombstoneRetentionMillis: Long
 
 NOTE: `tombstoneRetentionMillis` is used when...FIXME
 
+== [[getChanges]] `getChanges` Method
+
+[source, scala]
+----
+getChanges(
+  startVersion: Long): Iterator[(Long, Seq[Action])]
+----
+
+`getChanges`...FIXME
+
+NOTE: `getChanges` is used when...FIXME
+
 == [[currentSnapshot]] `currentSnapshot` Internal Registry
 
 [source, scala]

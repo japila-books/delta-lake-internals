@@ -57,3 +57,17 @@ combineWithCatalogMetadata(
 `combineWithCatalogMetadata`...FIXME
 
 NOTE: `combineWithCatalogMetadata` is used when...FIXME
+
+== [[resolveTimeTravelVersion]] `resolveTimeTravelVersion` Utility
+
+[source, scala]
+----
+resolveTimeTravelVersion(
+  conf: SQLConf,
+  deltaLog: DeltaLog,
+  tt: DeltaTimeTravelSpec): (Long, String)
+----
+
+`resolveTimeTravelVersion`...FIXME
+
+NOTE: `resolveTimeTravelVersion` is used exclusively when `DeltaLog` is requested to <<DeltaLog.adoc#createRelation, create a relation (per partition filters and time travel)>>.

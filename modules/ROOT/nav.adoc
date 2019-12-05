@@ -38,6 +38,7 @@
 
 * xref:LogStore.adoc[LogStore]
 ** xref:HDFSLogStore.adoc[HDFSLogStore]
+** xref:HadoopFileSystemLogStore.adoc[HadoopFileSystemLogStore]
 
 * xref:Snapshot.adoc[Snapshot]
 ** xref:StateCache.adoc[StateCache]

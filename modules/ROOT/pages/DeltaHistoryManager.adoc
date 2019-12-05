@@ -29,7 +29,7 @@ getActiveCommitAtTime(
 
 `getActiveCommitAtTime`...FIXME
 
-NOTE: `getActiveCommitAtTime` is used when...FIXME
+NOTE: `getActiveCommitAtTime` is used exclusively when `DeltaTableUtils` utility is requested to <<DeltaTableUtils.adoc#resolveTimeTravelVersion, resolveTimeTravelVersion>>.
 
 == [[checkVersionExists]] `checkVersionExists` Method
 
@@ -41,6 +41,20 @@ checkVersionExists(version: Long): Unit
 `checkVersionExists`...FIXME
 
 NOTE: `checkVersionExists` is used when...FIXME
+
+== [[parallelSearch]] `parallelSearch` Internal Method
+
+[source, scala]
+----
+parallelSearch(
+  time: Long,
+  start: Long,
+  end: Long): Commit
+----
+
+`parallelSearch`...FIXME
+
+NOTE: `parallelSearch` is used exclusively when `DeltaHistoryManager` is requested to <<getActiveCommitAtTime, getActiveCommitAtTime>>.
 
 == [[parallelSearch0]] `parallelSearch0` Internal Utility
 
@@ -58,4 +72,18 @@ parallelSearch0(
 
 `parallelSearch0`...FIXME
 
-NOTE: `parallelSearch0` is used when...FIXME
+NOTE: `parallelSearch0` is used exclusively when `DeltaHistoryManager` is requested to <<parallelSearch, parallelSearch>>.
+
+== [[getCommitInfo]] `getCommitInfo` Internal Utility
+
+[source, scala]
+----
+getCommitInfo(
+  logStore: LogStore,
+  basePath: Path,
+  version: Long): CommitInfo
+----
+
+`getCommitInfo`...FIXME
+
+NOTE: `getCommitInfo` is used when...FIXME

@@ -19,64 +19,64 @@ ALTER TABLE <table_name> SET TBLPROPERTIES (<key>=<value>)
 | Description
 
 | autoOptimize
-a| [[AUTO_OPTIMIZE]] Whether this delta table will automagically optimize the layout of files during writes.
+a| [[autoOptimize]][[AUTO_OPTIMIZE]] Whether this delta table will automagically optimize the layout of files during writes.
 
 Default: `false`
 
 | checkpointInterval
-a| [[CHECKPOINT_INTERVAL]] How often to checkpoint the state of a delta table
+a| [[checkpointInterval]][[CHECKPOINT_INTERVAL]] How often to checkpoint the state of a delta table
 
 Default: `10`
 
 | checkpointRetentionDuration
-a| [[CHECKPOINT_RETENTION_DURATION]] How long to keep checkpoint files around before deleting them
+a| [[checkpointRetentionDuration]][[CHECKPOINT_RETENTION_DURATION]] How long to keep checkpoint files around before deleting them
 
 Default: `interval 2 days`
 
 The most recent checkpoint is never deleted. It is acceptable to keep checkpoint files beyond this duration until the next calendar day.
 
 | dataSkippingNumIndexedCols
-a| [[DATA_SKIPPING_NUM_INDEXED_COLS]] The number of columns to collect stats on for data skipping. `-1` means collecting stats for all columns.
+a| [[dataSkippingNumIndexedCols]][[DATA_SKIPPING_NUM_INDEXED_COLS]] The number of columns to collect stats on for data skipping. `-1` means collecting stats for all columns.
 
 Default: `32`
 
 | enableExpiredLogCleanup
-a| [[ENABLE_EXPIRED_LOG_CLEANUP]] Whether to clean up expired log files and checkpoints
+a| [[enableExpiredLogCleanup]][[ENABLE_EXPIRED_LOG_CLEANUP]] Whether to clean up expired log files and checkpoints
 
 Default: `true`
 
 | enableFullRetentionRollback
-a| [[ENABLE_FULL_RETENTION_ROLLBACK]] When enabled (default), a delta table can be rolled back to any point within <<LOG_RETENTION, logRetentionDuration>>. When disabled, the table can be rolled back <<CHECKPOINT_RETENTION_DURATION, checkpointRetentionDuration>> only.
+a| [[enableFullRetentionRollback]][[ENABLE_FULL_RETENTION_ROLLBACK]] When enabled (default), a delta table can be rolled back to any point within <<LOG_RETENTION, logRetentionDuration>>. When disabled, the table can be rolled back <<CHECKPOINT_RETENTION_DURATION, checkpointRetentionDuration>> only.
 
 Default: `true`
 
 | appendOnly
-a| [[IS_APPEND_ONLY]] Whether a delta table is append-only (`true`) or not (`false`). When disabled (default), a table allows appends only and no updates or deletes.
+a| [[appendOnly]][[IS_APPEND_ONLY]] Whether a delta table is append-only (`true`) or not (`false`). When enabled, a table allows appends only and no updates or deletes.
 
 Default: `false`
 
 | logRetentionDuration
-a| [[LOG_RETENTION]] How long to keep obsolete logs around before deleting them. Delta can keep logs beyond the duration until the next calendar day to avoid constantly creating checkpoints.
+a| [[logRetentionDuration]][[LOG_RETENTION]] How long to keep obsolete logs around before deleting them. Delta can keep logs beyond the duration until the next calendar day to avoid constantly creating checkpoints.
 
 Default: `interval 30 days`
 
 | randomizeFilePrefixes
-a| [[RANDOMIZE_FILE_PREFIXES]] Whether to use a random prefix in a file path instead of partition information (may be required for very high volume S3 calls to better be partitioned across S3 servers)
+a| [[randomizeFilePrefixes]][[RANDOMIZE_FILE_PREFIXES]] Whether to use a random prefix in a file path instead of partition information (may be required for very high volume S3 calls to better be partitioned across S3 servers)
 
 Default: `false`
 
 | randomPrefixLength
-a| [[RANDOM_PREFIX_LENGTH]] The length of the random prefix in a file path for <<RANDOMIZE_FILE_PREFIXES, randomizeFilePrefixes>>
+a| [[randomPrefixLength]][[RANDOM_PREFIX_LENGTH]] The length of the random prefix in a file path for <<RANDOMIZE_FILE_PREFIXES, randomizeFilePrefixes>>
 
 Default: `2`
 
 | sampleRetentionDuration
-a| [[SAMPLE_RETENTION]] How long to keep delta sample files around before deleting them
+a| [[sampleRetentionDuration]][[SAMPLE_RETENTION]] How long to keep delta sample files around before deleting them
 
 Default: `interval 7 days`
 
 | deletedFileRetentionDuration
-a| [[TOMBSTONE_RETENTION]] How long to keep logically deleted data files around before deleting them physically (to prevent failures in stale readers after compactions or partition overwrites)
+a| [[deletedFileRetentionDuration]][[TOMBSTONE_RETENTION]] How long to keep logically deleted data files around before deleting them physically (to prevent failures in stale readers after compactions or partition overwrites)
 
 Default: `interval 1 week`
 
