@@ -116,3 +116,17 @@ In the end, `fromMetaData` converts the text representation to the proper type u
 
 * `Snapshot` is requested for the <<Snapshot.adoc#numIndexedCols, numIndexedCols>>
 ====
+
+== [[mergeGlobalConfigs]] `mergeGlobalConfigs` Utility
+
+[source, scala]
+----
+mergeGlobalConfigs(
+  sqlConfs: SQLConf,
+  tableConf: Map[String, String],
+  protocol: Protocol): Map[String, String]
+----
+
+`mergeGlobalConfigs`...FIXME
+
+NOTE: `mergeGlobalConfigs` is used when...FIXME

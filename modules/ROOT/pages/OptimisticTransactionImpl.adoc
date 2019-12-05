@@ -17,6 +17,8 @@ a| [[deltaLog]]
 deltaLog: DeltaLog
 ----
 
+<<DeltaLog.adoc#, DeltaLog>> of the delta table
+
 Used when...FIXME
 
 | snapshot
@@ -27,12 +29,40 @@ a| [[snapshot]]
 snapshot: Snapshot
 ----
 
+<<Snapshot.adoc#, Snapshot>>
+
 Used when...FIXME
 
 |===
 
 [[implementations]]
 NOTE: <<OptimisticTransaction.adoc#, OptimisticTransaction>> is the only known `OptimisticTransactionImpl` in Delta Lake.
+
+== [[newMetadata]] `newMetadata` Internal Registry
+
+[source, scala]
+----
+newMetadata: Option[Metadata]
+----
+
+`OptimisticTransactionImpl` manages an `newMetadata` internal registry for a new <<Metadata.adoc#, Metadata>> that should be committed with this transaction.
+
+`newMetadata` is initially undefined (`None`) and can be <<updateMetadata, updated>> once (and before <<TransactionalWrite.adoc#hasWritten, writing out any files>>).
+
+`newMetadata` is used when <<prepareCommit, prepareCommit>> (and <<doCommit, doCommit>> for statistics).
+
+`newMetadata` is available using <<metadata, metadata>> method.
+
+== [[metadata]] `metadata` Method
+
+[source, scala]
+----
+metadata: Metadata
+----
+
+NOTE: `metadata` is part of the <<TransactionalWrite.adoc#metadata, TransactionalWrite Contract>> to...FIXME.
+
+`metadata` is either the <<newMetadata, newMetadata>> (if defined) or the <<snapshotMetadata, snapshotMetadata>>.
 
 == [[readVersion]] `readVersion` Method
 
@@ -63,9 +93,32 @@ readVersion: Long
 updateMetadata(metadata: Metadata): Unit
 ----
 
-`updateMetadata`...FIXME
+`updateMetadata` updates the <<newMetadata, newMetadata>> internal property based on the <<readVersion, readVersion>>:
 
-NOTE: `updateMetadata` is used when...FIXME
+* For `-1`, `updateMetadata` updates the <<Metadata.adoc#configuration, configuration>> of the given `Metadata` with a <<DeltaConfigs.adoc#mergeGlobalConfigs, new metadata>> based on the `SQLConf` (of the active `SparkSession`), the <<Metadata.adoc#configuration, configuration>> of the given `Metadata` and a new <<Protocol.adoc#, Protocol>>
+
+* For other versions, `updateMetadata` leaves the given `Metadata` unchanged
+
+`updateMetadata` throws an `AssertionError` when the <<TransactionalWrite.adoc#hasWritten, hasWritten>> flag is enabled (`true`):
+
+```
+Cannot update the metadata in a transaction that has already written data.
+```
+
+`updateMetadata` throws an `AssertionError` when the <<newMetadata, newMetadata>> is not empty:
+
+```
+Cannot change the metadata more than once in a transaction.
+```
+
+[NOTE]
+====
+`updateMetadata` is used when:
+
+* <<ConvertToDeltaCommand.adoc#, ConvertToDeltaCommand>> is executed (and requested to <<ConvertToDeltaCommand.adoc#performConvert, performConvert>>)
+
+* `ImplicitMetadataOperation` is requested to <<ImplicitMetadataOperation.adoc#updateMetadata, updateMetadata>>
+====
 
 == [[filterFiles]] `filterFiles` Method
 
@@ -102,7 +155,22 @@ commit(
 
 `commit`...FIXME
 
-NOTE: `commit` is used when...FIXME
+[NOTE]
+====
+`commit` is used when:
+
+* `DeltaLog` is requested to <<DeltaLog.adoc#upgradeProtocol, upgradeProtocol>>
+
+* <<DeleteCommand.adoc#, DeleteCommand>> is executed (and requested to <<DeleteCommand.adoc#performDelete, performDelete>>)
+
+* <<MergeIntoCommand.adoc#, MergeIntoCommand>> is executed
+
+* <<UpdateCommand.adoc#, UpdateCommand>> is executed (and requested to <<UpdateCommand.adoc#performUpdate, performUpdate>>)
+
+* <<WriteIntoDelta.adoc#, WriteIntoDelta>> is executed
+
+* `DeltaSink` is requested to <<DeltaSink.adoc#addBatch, addBatch>>
+====
 
 == [[checkAndRetry]] `checkAndRetry` Method
 

@@ -2,7 +2,7 @@
 
 `ImplicitMetadataOperation` is...FIXME
 
-== [[updateMetadata]] `updateMetadata` Method
+== [[updateMetadata]] Updating Metadata -- `updateMetadata` Method
 
 [source, scala]
 ----

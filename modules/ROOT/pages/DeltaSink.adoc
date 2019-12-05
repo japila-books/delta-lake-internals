@@ -48,3 +48,5 @@ NOTE: `addBatch` is part of the `Sink` contract (in Spark Structured Streaming) 
 `addBatch` requests the <<deltaLog, DeltaLog>> to <<DeltaLog.adoc#withNewTransaction, start a new transaction>>.
 
 `addBatch`...FIXME
+
+In the end, `addBatch` requests the `OptimisticTransaction` to <<OptimisticTransactionImpl.adoc#commit, commit>>.

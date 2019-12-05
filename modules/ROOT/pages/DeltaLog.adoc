@@ -350,6 +350,18 @@ getChanges(
 
 NOTE: `getChanges` is used when...FIXME
 
+== [[upgradeProtocol]] `upgradeProtocol` Method
+
+[source, scala]
+----
+upgradeProtocol(
+  newVersion: Protocol = Protocol()): Unit
+----
+
+`upgradeProtocol`...FIXME
+
+NOTE: `upgradeProtocol` is used when...FIXME
+
 == [[currentSnapshot]] `currentSnapshot` Internal Registry
 
 [source, scala]
