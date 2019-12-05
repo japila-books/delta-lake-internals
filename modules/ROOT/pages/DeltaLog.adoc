@@ -109,14 +109,18 @@ startTransaction(): OptimisticTransaction
 
 NOTE: `startTransaction` is used when...FIXME
 
-== [[assertRemovable]] `assertRemovable` Method
+== [[assertRemovable]] Throwing UnsupportedOperationException For appendOnly Table Property Enabled -- `assertRemovable` Method
 
 [source, scala]
 ----
 assertRemovable(): Unit
 ----
 
-`assertRemovable` checks the `IS_APPEND_ONLY` configuration from the <<metadata, metadata>>.
+`assertRemovable` throws an `UnsupportedOperationException` for the <<DeltaConfigs.adoc#IS_APPEND_ONLY, appendOnly>> table property (<<DeltaConfigs.adoc#fromMetaData, in>> the <<metadata, Metadata>>) enabled (`true`):
+
+```
+This table is configured to only allow appends. If you would like to permit updates or deletes, use 'ALTER TABLE <table_name> SET TBLPROPERTIES (appendOnly=false)'.
+```
 
 NOTE: `assertRemovable` is used when...FIXME
 
@@ -311,6 +315,28 @@ protocolWrite(
 `protocolWrite`...FIXME
 
 NOTE: `protocolWrite` is used when...FIXME
+
+== [[checkpointInterval]] `checkpointInterval` Method
+
+[source, scala]
+----
+checkpointInterval: Int
+----
+
+`checkpointInterval` gives the value of <<DeltaConfigs.adoc#CHECKPOINT_INTERVAL, checkpointInterval>> table property (<<DeltaConfigs.adoc#fromMetaData, from>> the <<metadata, Metadata>>).
+
+NOTE: `checkpointInterval` is used when...FIXME
+
+== [[tombstoneRetentionMillis]] `tombstoneRetentionMillis` Method
+
+[source, scala]
+----
+tombstoneRetentionMillis: Long
+----
+
+`tombstoneRetentionMillis` gives the value of <<DeltaConfigs.adoc#TOMBSTONE_RETENTION, deletedFileRetentionDuration>> table property (<<DeltaConfigs.adoc#fromMetaData, from>> the <<metadata, Metadata>>).
+
+NOTE: `tombstoneRetentionMillis` is used when...FIXME
 
 == [[currentSnapshot]] `currentSnapshot` Internal Registry
 

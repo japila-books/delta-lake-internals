@@ -1,3 +1,25 @@
 = MetadataCleanup
 
 `MetadataCleanup` is...FIXME
+
+== [[enableExpiredLogCleanup]] `enableExpiredLogCleanup` Method
+
+[source, scala]
+----
+enableExpiredLogCleanup: Boolean
+----
+
+`enableExpiredLogCleanup` gives the value of <<DeltaConfigs.adoc#ENABLE_EXPIRED_LOG_CLEANUP, enableExpiredLogCleanup>> table property (<<DeltaConfigs.adoc#fromMetaData, from>> the <<DeltaLog.adoc#metadata, Metadata>>).
+
+NOTE: `enableExpiredLogCleanup` is used when...FIXME
+
+== [[deltaRetentionMillis]] `deltaRetentionMillis` Method
+
+[source, scala]
+----
+deltaRetentionMillis: Long
+----
+
+`deltaRetentionMillis` gives the value of <<DeltaConfigs.adoc#LOG_RETENTION, logRetentionDuration>> table property (<<DeltaConfigs.adoc#fromMetaData, from>> the <<DeltaLog.adoc#metadata, Metadata>>).
+
+NOTE: `deltaRetentionMillis` is used when...FIXME

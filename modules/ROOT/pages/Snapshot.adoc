@@ -28,6 +28,17 @@ state: Dataset[SingleAction]
 
 NOTE: `state` is used when...FIXME
 
+== [[numIndexedCols]] dataSkippingNumIndexedCols Table Property -- `numIndexedCols` Value
+
+[source, scala]
+----
+numIndexedCols: Int
+----
+
+`numIndexedCols` simply reads the <<DeltaConfigs.adoc#DATA_SKIPPING_NUM_INDEXED_COLS, dataSkippingNumIndexedCols>> table property <<DeltaConfigs.adoc#fromMetaData, from>> the <<metadata, Metadata>>.
+
+NOTE: `numIndexedCols` is used when...FIXME
+
 == [[internal-properties]] Internal Properties
 
 [cols="30m,70",options="header",width="100%"]
@@ -41,7 +52,7 @@ a| [[cachedState]] <<CachedDS.adoc#, CachedDS>>
 Used when...FIXME
 
 | metadata
-a| [[metadata]] <<Metadata.adoc#, Metadata>>
+a| [[metadata]] <<Metadata.adoc#, Metadata>> of the <<deltaLog, delta table>>
 
 Used when...FIXME
 

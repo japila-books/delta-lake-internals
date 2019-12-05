@@ -1,7 +1,15 @@
-= DeltaConfigs
+= DeltaConfigs -- Table Property
 
 [[T]]
-`DeltaConfigs` (of type `T`) represents a <<key, named configuration property>> (with <<validationFunction, values>> of type `T`).
+`DeltaConfigs` (of type `T`) represents a <<key, named property>> of a delta table with values (of type `T`) in a <<validationFunction, validated range>>.
+
+`DeltaConfigs` is persisted to the <<fromMetaData, Metadata>>.
+
+`DeltaConfigs` table property can be assigned a value using `ALTER TABLE` SQL command:
+
+```
+ALTER TABLE <table_name> SET TBLPROPERTIES (<key>=<value>)
+```
 
 [[metadata-configuration]]
 .DeltaConfigs
@@ -16,12 +24,12 @@ a| [[AUTO_OPTIMIZE]] Whether this delta table will automagically optimize the la
 Default: `false`
 
 | checkpointInterval
-a| [[CHECKPOINT_INTERVAL]] How often to checkpoint the delta log
+a| [[CHECKPOINT_INTERVAL]] How often to checkpoint the state of a delta table
 
 Default: `10`
 
 | checkpointRetentionDuration
-a| [[CHECKPOINT_RETENTION_DURATION]] The shortest duration to keep checkpoint files around before deleting them
+a| [[CHECKPOINT_RETENTION_DURATION]] How long to keep checkpoint files around before deleting them
 
 Default: `interval 2 days`
 
@@ -33,7 +41,7 @@ a| [[DATA_SKIPPING_NUM_INDEXED_COLS]] The number of columns to collect stats on 
 Default: `32`
 
 | enableExpiredLogCleanup
-a| [[ENABLE_EXPIRED_LOG_CLEANUP]] Whether to clean up expired checkpoints and delta logs
+a| [[ENABLE_EXPIRED_LOG_CLEANUP]] Whether to clean up expired log files and checkpoints
 
 Default: `true`
 
@@ -43,12 +51,12 @@ a| [[ENABLE_FULL_RETENTION_ROLLBACK]] When enabled (default), a delta table can 
 Default: `true`
 
 | appendOnly
-a| [[IS_APPEND_ONLY]] Whether a delta table is append-only (so files can't be deleted, and values updated).
+a| [[IS_APPEND_ONLY]] Whether a delta table is append-only (`true`) or not (`false`). When disabled (default), a table allows appends only and no updates or deletes.
 
 Default: `false`
 
 | logRetentionDuration
-a| [[LOG_RETENTION]] The shortest duration to keep delta files around before deleting them
+a| [[LOG_RETENTION]] How long to keep obsolete logs around before deleting them. Delta can keep logs beyond the duration until the next calendar day to avoid constantly creating checkpoints.
 
 Default: `interval 30 days`
 
@@ -63,12 +71,12 @@ a| [[RANDOM_PREFIX_LENGTH]] The length of the random prefix in a file path for <
 Default: `2`
 
 | sampleRetentionDuration
-a| [[SAMPLE_RETENTION]] The shortest duration to keep delta sample files around before deleting them
+a| [[SAMPLE_RETENTION]] How long to keep delta sample files around before deleting them
 
 Default: `interval 7 days`
 
 | deletedFileRetentionDuration
-a| [[TOMBSTONE_RETENTION]] The shortest duration to keep logically deleted data files around before deleting them physically (to prevent failures in stale readers after compactions or partition overwrites)
+a| [[TOMBSTONE_RETENTION]] How long to keep logically deleted data files around before deleting them physically (to prevent failures in stale readers after compactions or partition overwrites)
 
 Default: `interval 1 week`
 
@@ -87,7 +95,7 @@ Default: `interval 1 week`
 
 `DeltaConfigs` initializes the <<internal-properties, internal properties>>.
 
-== [[fromMetaData]] Reading DeltaConfigs From Metadata -- `fromMetaData` Method
+== [[fromMetaData]] Reading Configuration Property From Metadata -- `fromMetaData` Method
 
 [source, scala]
 ----
@@ -97,3 +105,14 @@ fromMetaData(metadata: Metadata): T
 `fromMetaData` looks up the <<key, key>> of the `DeltaConfigs` configuration in the <<Metadata.adoc#configuration, configuration>> of the given <<Metadata.adoc#, Metadata>>. If not found (i.e. not changed from the initial value), `fromMetaData` uses the <<defaultValue, default value>> instead.
 
 In the end, `fromMetaData` converts the text representation to the proper type using <<fromString, fromString>> conversion function.
+
+[NOTE]
+====
+`fromMetaData` is used when:
+
+* `DeltaLog` is requested for <<DeltaLog.adoc#checkpointInterval, checkpointInterval>> and <<DeltaLog.adoc#tombstoneRetentionMillis, deletedFileRetentionDuration>> table properties, and to <<DeltaLog.adoc#assertRemovable, assert a table can be modified (not read-only)>>
+
+* `MetadataCleanup` is requested for the <<MetadataCleanup.adoc#enableExpiredLogCleanup, enableExpiredLogCleanup>> and the <<MetadataCleanup.adoc#deltaRetentionMillis, deltaRetentionMillis>>
+
+* `Snapshot` is requested for the <<Snapshot.adoc#numIndexedCols, numIndexedCols>>
+====
