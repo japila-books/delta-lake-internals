@@ -3,8 +3,8 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title> DeltaConvert Utility :: The Internals of Delta Lake</title>
-    <link rel="canonical" href="https://delta.japila.pl/delta/0.4.0/DeltaConvert.html">
+    <title>FileNames Utility :: The Internals of Delta Lake</title>
+    <link rel="canonical" href="https://delta.japila.pl/delta/0.4.0/FileNames.html">
     <meta name="generator" content="Antora 2.2.0">
     <link rel="stylesheet" href="../../_/css/site.css">
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-151208281-1"></script>
@@ -98,7 +98,7 @@
     <button class="nav-item-toggle"></button>
     <a class="nav-link" href="commands.html">Commands</a>
 <ul class="nav-list">
-  <li class="nav-item is-current-page" data-depth="2">
+  <li class="nav-item" data-depth="2">
     <button class="nav-item-toggle"></button>
     <a class="nav-link" href="DeltaConvert.html">DeltaConvert</a>
 <ul class="nav-list">
@@ -289,7 +289,7 @@
   <li class="nav-item" data-depth="1">
     <a class="nav-link" href="DeltaConfigs.html">DeltaConfigs</a>
   </li>
-  <li class="nav-item" data-depth="1">
+  <li class="nav-item is-current-page" data-depth="1">
     <a class="nav-link" href="FileNames.html">FileNames</a>
   </li>
   <li class="nav-item" data-depth="1">
@@ -329,72 +329,49 @@
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="index.html">Delta Lake</a></li>
-    <li><a href="commands.html">Commands</a></li>
-    <li><a href="DeltaConvert.html">DeltaConvert</a></li>
+    <li><a href="FileNames.html">FileNames</a></li>
   </ul>
 </nav>
-  <div class="edit-this-page"><a href="file:///antora/modules/ROOT/pages/DeltaConvert.adoc">Edit this Page</a></div>
+  <div class="edit-this-page"><a href="file:///antora/modules/ROOT/pages/FileNames.adoc">Edit this Page</a></div>
 </div>
 <article class="doc">
-<h1 class="page"><a id="DeltaConvert"></a> DeltaConvert Utility</h1>
-<div id="preamble">
-<div class="sectionbody">
-<div class="paragraph">
-<p><code>DeltaConvert</code> utility is used exclusively for <a href="#executeConvert">importing a parquet table into Delta Lake (DeltaConvert.executeConvert)</a>.</p>
-</div>
-<div class="listingblock">
-<div class="title">Demo of DeltaConvert</div>
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">import org.apache.spark.sql.SparkSession
-assert(spark.isInstanceOf[SparkSession])
-
-// CONVERT TO DELTA only supports parquet tables
-// TableIdentifier should be parquet.`users`
-import org.apache.spark.sql.catalyst.TableIdentifier
-val table = TableIdentifier(table = "users", database = Some("parquet"))
-
-import org.apache.spark.sql.types.{StringType, StructField, StructType}
-val partitionSchema: Option[StructType] = Some(
-  new StructType().add(StructField("country", StringType)))
-
-val deltaPath: Option[String] = None
-
-// Use web UI to monitor execution, e.g. http://localhost:4040
-import io.delta.tables.execution.DeltaConvert
-DeltaConvert.executeConvert(spark, table, partitionSchema, deltaPath)</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="importing-parquet-table-into-delta-lake-converting-parquet-table-to-delta-formatexecuteconvert-method"><a class="anchor" href="#importing-parquet-table-into-delta-lake-converting-parquet-table-to-delta-formatexecuteconvert-method"></a><a class="link" href="#importing-parquet-table-into-delta-lake-converting-parquet-table-to-delta-formatexecuteconvert-method"><a id="executeConvert"></a> Importing Parquet Table Into Delta Lake (Converting Parquet Table To Delta Format)&#8201;&#8212;&#8201;<code>executeConvert</code> Method</a></h2>
-<div class="sectionbody">
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">executeConvert(
-  spark: SparkSession,
-  tableIdentifier: TableIdentifier,
-  partitionSchema: Option[StructType],
-  deltaPath: Option[String]): Unit</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p><code>executeConvert</code> simply creates a new <a href="ConvertToDeltaCommand.html" class="page">ConvertToDeltaCommand</a> and <a href="ConvertToDeltaCommand.html#run" class="page">executes it</a>.</p>
-</div>
-<div class="admonitionblock note">
-<table>
+<h1 class="page">FileNames Utility</h1>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 30%;">
+<col style="width: 70%;">
+</colgroup>
+<thead>
 <tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<code>executeConvert</code> is used when <code>DeltaTable</code> utility is requested to <a href="DeltaTable.html#convertToDelta" class="page">convert a parquet table to delta format (DeltaTable.convertToDelta)</a>.
-</td>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
 </tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>checkpointPrefix</code></p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="checkpointPrefix"></a> Creates a Hadoop <code>Path</code> for a file name with a given <code>version</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code>[version][%020d].checkpoint</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>E.g. <code>00000000000000000005.checkpoint</code></p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>isCheckpointFile</code></p></td>
+<td class="tableblock halign-left valign-top"><div class="content"></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>isDeltaFile</code></p></td>
+<td class="tableblock halign-left valign-top"><div class="content"></div></td>
+</tr>
+</tbody>
 </table>
-</div>
-</div>
-</div>
 </article>
 </main>
 </div>

@@ -290,6 +290,9 @@
     <a class="nav-link" href="DeltaConfigs.html">DeltaConfigs</a>
   </li>
   <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="FileNames.html">FileNames</a>
+  </li>
+  <li class="nav-item" data-depth="1">
     <a class="nav-link" href="logging.html">Logging</a>
   </li>
   <li class="nav-item" data-depth="1">
@@ -519,7 +522,7 @@
 </div>
 </div>
 <div class="paragraph">
-<p><code>fromMetaData</code> looks up the <a href="#key">key</a> of the <code>DeltaConfigs</code> configuration in the <a href="Metadata.html#configuration" class="page">configuration</a> of the given <a href="Metadata.html" class="page">Metadata</a>. If not found (i.e. not changed from the initial value), <code>fromMetaData</code> uses the <a href="#defaultValue">default value</a> instead.</p>
+<p><code>fromMetaData</code> looks up the <a href="#key">key</a> of the <code>DeltaConfigs</code> configuration in the <a href="Metadata.html#configuration" class="page">configuration</a> of the given <a href="Metadata.html" class="page">Metadata</a>. If not found, <code>fromMetaData</code> takes the <a href="#defaultValue">default value</a>.</p>
 </div>
 <div class="paragraph">
 <p>In the end, <code>fromMetaData</code> converts the text representation to the proper type using <a href="#fromString">fromString</a> conversion function.</p>
