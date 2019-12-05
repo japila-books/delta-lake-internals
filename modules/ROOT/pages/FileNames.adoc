@@ -1,0 +1,23 @@
+= FileNames Utility
+
+[cols="30m,70",options="header",width="100%"]
+|===
+| Name
+| Description
+
+| checkpointPrefix
+a| [[checkpointPrefix]] Creates a Hadoop `Path` for a file name with a given `version`:
+
+```
+[version][%020d].checkpoint
+```
+
+E.g. `00000000000000000005.checkpoint`
+
+| isCheckpointFile
+a| [[isCheckpointFile]]
+
+| isDeltaFile
+a| [[isDeltaFile]]
+
+|===

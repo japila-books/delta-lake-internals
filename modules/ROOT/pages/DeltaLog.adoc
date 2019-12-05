@@ -57,8 +57,8 @@ deltaLogCache: Cache[Path, DeltaLog]
 
 `DeltaLog` takes the following to be created:
 
-* [[logPath]] Log path (Hadoop `Path`)
-* [[dataPath]] Data path (Hadoop `Path`)
+* [[logPath]] Log directory (Hadoop https://hadoop.apache.org/docs/r2.6.5/api/org/apache/hadoop/fs/Path.html[Path])
+* [[dataPath]] Data directory (Hadoop https://hadoop.apache.org/docs/r2.6.5/api/org/apache/hadoop/fs/Path.html[Path])
 * [[clock]] `Clock`
 
 `DeltaLog` initializes the <<internal-properties, internal properties>>.

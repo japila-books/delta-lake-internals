@@ -102,7 +102,7 @@ Default: `interval 1 week`
 fromMetaData(metadata: Metadata): T
 ----
 
-`fromMetaData` looks up the <<key, key>> of the `DeltaConfigs` configuration in the <<Metadata.adoc#configuration, configuration>> of the given <<Metadata.adoc#, Metadata>>. If not found (i.e. not changed from the initial value), `fromMetaData` uses the <<defaultValue, default value>> instead.
+`fromMetaData` looks up the <<key, key>> of the `DeltaConfigs` configuration in the <<Metadata.adoc#configuration, configuration>> of the given <<Metadata.adoc#, Metadata>>. If not found, `fromMetaData` takes the <<defaultValue, default value>>.
 
 In the end, `fromMetaData` converts the text representation to the proper type using <<fromString, fromString>> conversion function.
 
