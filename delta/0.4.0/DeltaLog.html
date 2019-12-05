@@ -537,7 +537,7 @@ file:/tmp/delta/t1/_delta_log/_last_checkpoint</code></pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="assertremovable-method"><a class="anchor" href="#assertremovable-method"></a><a class="link" href="#assertremovable-method"><a id="assertRemovable"></a> <code>assertRemovable</code> Method</a></h2>
+<h2 id="throwing-unsupportedoperationexception-for-appendonly-table-property-enabledassertremovable-method"><a class="anchor" href="#throwing-unsupportedoperationexception-for-appendonly-table-property-enabledassertremovable-method"></a><a class="link" href="#throwing-unsupportedoperationexception-for-appendonly-table-property-enabledassertremovable-method"><a id="assertRemovable"></a> Throwing UnsupportedOperationException For appendOnly Table Property Enabled&#8201;&#8212;&#8201;<code>assertRemovable</code> Method</a></h2>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content">
@@ -545,7 +545,12 @@ file:/tmp/delta/t1/_delta_log/_last_checkpoint</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p><code>assertRemovable</code> checks the <code>IS_APPEND_ONLY</code> configuration from the <a href="#metadata">metadata</a>.</p>
+<p><code>assertRemovable</code> throws an <code>UnsupportedOperationException</code> for the <a href="DeltaConfigs.html#IS_APPEND_ONLY" class="page">appendOnly</a> table property (<a href="DeltaConfigs.html#fromMetaData" class="page">in</a> the <a href="#metadata">Metadata</a>) enabled (<code>true</code>):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code>This table is configured to only allow appends. If you would like to permit updates or deletes, use 'ALTER TABLE &lt;table_name&gt; SET TBLPROPERTIES (appendOnly=false)'.</code></pre>
+</div>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -915,6 +920,56 @@ forTable(
 </td>
 <td class="content">
 <code>protocolWrite</code> is used when&#8230;&#8203;FIXME
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="checkpointinterval-method"><a class="anchor" href="#checkpointinterval-method"></a><a class="link" href="#checkpointinterval-method"><a id="checkpointInterval"></a> <code>checkpointInterval</code> Method</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">checkpointInterval: Int</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>checkpointInterval</code> gives the value of <a href="DeltaConfigs.html#CHECKPOINT_INTERVAL" class="page">checkpointInterval</a> table property (<a href="DeltaConfigs.html#fromMetaData" class="page">from</a> the <a href="#metadata">Metadata</a>).</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>checkpointInterval</code> is used when&#8230;&#8203;FIXME
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="tombstoneretentionmillis-method"><a class="anchor" href="#tombstoneretentionmillis-method"></a><a class="link" href="#tombstoneretentionmillis-method"><a id="tombstoneRetentionMillis"></a> <code>tombstoneRetentionMillis</code> Method</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">tombstoneRetentionMillis: Long</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>tombstoneRetentionMillis</code> gives the value of <a href="DeltaConfigs.html#TOMBSTONE_RETENTION" class="page">deletedFileRetentionDuration</a> table property (<a href="DeltaConfigs.html#fromMetaData" class="page">from</a> the <a href="#metadata">Metadata</a>).</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>tombstoneRetentionMillis</code> is used when&#8230;&#8203;FIXME
 </td>
 </tr>
 </table>
