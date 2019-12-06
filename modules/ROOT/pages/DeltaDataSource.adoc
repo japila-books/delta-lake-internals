@@ -58,6 +58,8 @@ TIP: Read up on https://jaceklaskowski.gitbooks.io/spark-structured-streaming/sp
 
 In the end, `DeltaDataSource` creates a <<DeltaSink.adoc#, DeltaSink>>.
 
+TIP: Consult the demo <<demo-Using-Delta-Lake-as-Streaming-Sink-in-Structured-Streaming.adoc#, Using Delta Lake (as Streaming Sink) in Streaming Queries>>.
+
 == [[getTimeTravelVersion]] `getTimeTravelVersion` Internal Method
 
 [source, scala]

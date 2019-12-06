@@ -74,6 +74,8 @@ writeFiles(
 
 `writeFiles` turns the <<hasWritten, hasWritten>> flag on (`true`).
 
+NOTE: After `writeFiles`, no <<OptimisticTransactionImpl.adoc#updateMetadata-AssertionError-hasWritten, metadata updates>> in the transaction are permitted.
+
 `writeFiles` <<normalizeData, normalize>> the given `data` dataset (based on the <<Metadata.adoc#partitionColumns, partitionColumns>> of the <<OptimisticTransactionImpl.adoc#metadata, Metadata>>).
 
 `writeFiles` <<getPartitioningColumns, getPartitioningColumns>> based on the <<Metadata.adoc#partitionSchema, partitionSchema>> of the <<OptimisticTransactionImpl.adoc#metadata, Metadata>>.
@@ -82,7 +84,7 @@ writeFiles(
 
 `writeFiles` <<Invariants.adoc#getFromSchema, gets the invariants>> from the <<Metadata.adoc#schema, schema>> of the <<OptimisticTransactionImpl.adoc#metadata, Metadata>>.
 
-`writeFiles` requests a new execution ID that is used to track Spark jobs of `FileFormatWriter.write` (Spark SQL) with a physical query plan of a new <<DeltaInvariantCheckerExec.adoc#, DeltaInvariantCheckerExec>> unary physical operator with the executed plan of the normalized query execution as the child operator.
+`writeFiles` requests a new execution ID that is used to track Spark jobs of `FileFormatWriter.write` (Spark SQL) with a physical query plan of a new <<DeltaInvariantCheckerExec.adoc#, DeltaInvariantCheckerExec>> unary physical operator (with the executed plan of the normalized query execution as the child operator).
 
 In the end, `writeFiles` returns the <<DelayedCommitProtocol.adoc#addedStatuses, addedStatuses>> of the <<DelayedCommitProtocol.adoc#, DelayedCommitProtocol>> committer.
 
@@ -148,11 +150,9 @@ NOTE: `getPartitioningColumns` is used when...FIXME
 
 [source, scala]
 ----
-hasWritten: Boolean
+hasWritten: Boolean = false
 ----
 
-`hasWritten` is a flag that is used exclusively to prevent `OptimisticTransactionImpl` from <<OptimisticTransactionImpl.adoc#updateMetadata, updating metadata>> after the transaction has <<writeFiles, written files out>>.
+`TransactionalWrite` uses the `hasWritten` internal registry to prevent `OptimisticTransactionImpl` from <<OptimisticTransactionImpl.adoc#updateMetadata, updating metadata>> after <<writeFiles, having written out any files>>.
 
-`hasWritten` is turned off (`false`) by default.
-
-`hasWritten` is turned on (`true`) when `TransactionalWrite` is requested to <<writeFiles, write files out>>.
+`hasWritten` is initially turned off (`false`). It can be turned on (`true`) when `TransactionalWrite` is requested to <<writeFiles, write files out>>.

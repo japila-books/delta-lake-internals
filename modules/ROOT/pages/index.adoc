@@ -33,13 +33,13 @@ import io.delta.tables.DeltaTable
 assert(DeltaTable.isDeltaTable(users))
 ----
 
+Delta Lake supports Structured Streaming and can be used as a <<DeltaDataSource.adoc#StreamSinkProvider, streaming sink>> in streaming queries.
+
 Delta Lake uses https://hadoop.apache.org/docs/current2/hadoop-project-dist/hadoop-common/filesystem/index.html[Hadoop FileSystem API] to access the underlying data storage (e.g. http://hadoop.apache.org/[Hadoop DFS] or https://hadoop.apache.org/docs/current2/hadoop-aws/tools/hadoop-aws/index.html[Amazon S3]).
 
 Technically speaking, Delta Lake is:
 
 . <<data-source, Data Source for Spark SQL and Structured Streaming>>
-
-. <<streaming-sink, Streaming sink for streaming queries (Structured Streaming)>>
 
 == [[data-source]] Data Source for Spark SQL and Structured Streaming
 
@@ -75,25 +75,3 @@ val input = spark
 ----
 
 `delta` data source requires some <<options.adoc#, options>> (with <<options.adoc#path, path>> option required).
-
-== [[streaming-sink]] Streaming Sink for Streaming Queries (Structured Streaming)
-
-Delta Lake is a <<DeltaDataSource.adoc#StreamSinkProvider, streaming sink>> for streaming queries in Structured Streaming.
-
-[source, scala]
-----
-// $ spark-shell --packages io.delta:delta-core_2.12:0.4.0
-
-assert(spark.version == "2.4.4")
-
-// Any streaming query would work
-// Using rate data source for demo
-// val rates = spark.readStream.format("rate").load
-
-val q = rates
-  .writeStream
-  .format("delta")
-  .option("checkpointLocation", "delta-checkpointLocation") // a required option
-  .option("path", "delta") // a required option
-  .start
-----
