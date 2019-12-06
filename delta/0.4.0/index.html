@@ -83,6 +83,9 @@
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="demo-Converting-Parquet-Dataset-Into-Delta-Format.html">Converting Parquet Dataset Into Delta Format</a>
   </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="demo-Using-Delta-Lake-as-Streaming-Sink-in-Structured-Streaming.html">Using Delta Lake as Streaming Sink in Structured Streaming</a>
+  </li>
 </ul>
   </li>
   <li class="nav-item" data-depth="1">
@@ -380,6 +383,9 @@ assert(DeltaTable.isDeltaTable(users))</code></pre>
 </div>
 </div>
 <div class="paragraph">
+<p>Delta Lake supports Structured Streaming and can be used as a <a href="DeltaDataSource.html#StreamSinkProvider" class="page">streaming sink</a> in streaming queries.</p>
+</div>
+<div class="paragraph">
 <p>Delta Lake uses <a href="https://hadoop.apache.org/docs/current2/hadoop-project-dist/hadoop-common/filesystem/index.html">Hadoop FileSystem API</a> to access the underlying data storage (e.g. <a href="http://hadoop.apache.org/">Hadoop DFS</a> or <a href="https://hadoop.apache.org/docs/current2/hadoop-aws/tools/hadoop-aws/index.html">Amazon S3</a>).</p>
 </div>
 <div class="paragraph">
@@ -389,9 +395,6 @@ assert(DeltaTable.isDeltaTable(users))</code></pre>
 <ol class="arabic">
 <li>
 <p><a href="#data-source">Data Source for Spark SQL and Structured Streaming</a></p>
-</li>
-<li>
-<p><a href="#streaming-sink">Streaming sink for streaming queries (Structured Streaming)</a></p>
 </li>
 </ol>
 </div>
@@ -447,32 +450,6 @@ val input = spark
 </div>
 <div class="paragraph">
 <p><code>delta</code> data source requires some <a href="options.html" class="page">options</a> (with <a href="options.html#path" class="page">path</a> option required).</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="streaming-sink-for-streaming-queries-structured-streaming"><a class="anchor" href="#streaming-sink-for-streaming-queries-structured-streaming"></a><a class="link" href="#streaming-sink-for-streaming-queries-structured-streaming"><a id="streaming-sink"></a> Streaming Sink for Streaming Queries (Structured Streaming)</a></h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Delta Lake is a <a href="DeltaDataSource.html#StreamSinkProvider" class="page">streaming sink</a> for streaming queries in Structured Streaming.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">// $ spark-shell --packages io.delta:delta-core_2.12:0.4.0
-
-assert(spark.version == "2.4.4")
-
-// Any streaming query would work
-// Using rate data source for demo
-// val rates = spark.readStream.format("rate").load
-
-val q = rates
-  .writeStream
-  .format("delta")
-  .option("checkpointLocation", "delta-checkpointLocation") // a required option
-  .option("path", "delta") // a required option
-  .start</code></pre>
-</div>
 </div>
 </div>
 </div>

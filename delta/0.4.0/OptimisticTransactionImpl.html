@@ -83,6 +83,9 @@
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="demo-Converting-Parquet-Dataset-Into-Delta-Format.html">Converting Parquet Dataset Into Delta Format</a>
   </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="demo-Using-Delta-Lake-as-Streaming-Sink-in-Structured-Streaming.html">Using Delta Lake as Streaming Sink in Structured Streaming</a>
+  </li>
 </ul>
   </li>
   <li class="nav-item" data-depth="1">
@@ -410,10 +413,10 @@
 </div>
 </div>
 <div class="paragraph">
-<p><code>OptimisticTransactionImpl</code> manages an <code>newMetadata</code> internal registry for a new <a href="Metadata.html" class="page">Metadata</a> that should be committed with this transaction.</p>
+<p><code>OptimisticTransactionImpl</code> uses the <code>newMetadata</code> internal registry for a new <a href="Metadata.html" class="page">Metadata</a> that should be committed with this transaction.</p>
 </div>
 <div class="paragraph">
-<p><code>newMetadata</code> is initially undefined (<code>None</code>) and can be <a href="#updateMetadata">updated</a> once (and before <a href="TransactionalWrite.html#hasWritten" class="page">writing out any files</a>).</p>
+<p><code>newMetadata</code> is initially undefined (<code>None</code>). It can be <a href="#updateMetadata">updated</a> only once and before the transaction <a href="TransactionalWrite.html#hasWritten" class="page">writes out any files</a>.</p>
 </div>
 <div class="paragraph">
 <p><code>newMetadata</code> is used when <a href="#prepareCommit">prepareCommit</a> (and <a href="#doCommit">doCommit</a> for statistics).</p>
@@ -512,7 +515,7 @@
 </li>
 </ul>
 </div>
-<div class="paragraph">
+<div id="updateMetadata-AssertionError-hasWritten" class="paragraph">
 <p><code>updateMetadata</code> throws an <code>AssertionError</code> when the <a href="TransactionalWrite.html#hasWritten" class="page">hasWritten</a> flag is enabled (<code>true</code>):</p>
 </div>
 <div class="listingblock">

@@ -83,6 +83,9 @@
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="demo-Converting-Parquet-Dataset-Into-Delta-Format.html">Converting Parquet Dataset Into Delta Format</a>
   </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="demo-Using-Delta-Lake-as-Streaming-Sink-in-Structured-Streaming.html">Using Delta Lake as Streaming Sink in Structured Streaming</a>
+  </li>
 </ul>
   </li>
   <li class="nav-item" data-depth="1">
@@ -439,6 +442,18 @@ writeFiles(
 <div class="paragraph">
 <p><code>writeFiles</code> turns the <a href="#hasWritten">hasWritten</a> flag on (<code>true</code>).</p>
 </div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+After <code>writeFiles</code>, no <a href="OptimisticTransactionImpl.html#updateMetadata-AssertionError-hasWritten" class="page">metadata updates</a> in the transaction are permitted.
+</td>
+</tr>
+</table>
+</div>
 <div class="paragraph">
 <p><code>writeFiles</code> <a href="#normalizeData">normalize</a> the given <code>data</code> dataset (based on the <a href="Metadata.html#partitionColumns" class="page">partitionColumns</a> of the <a href="OptimisticTransactionImpl.html#metadata" class="page">Metadata</a>).</p>
 </div>
@@ -452,7 +467,7 @@ writeFiles(
 <p><code>writeFiles</code> <a href="Invariants.html#getFromSchema" class="page">gets the invariants</a> from the <a href="Metadata.html#schema" class="page">schema</a> of the <a href="OptimisticTransactionImpl.html#metadata" class="page">Metadata</a>.</p>
 </div>
 <div class="paragraph">
-<p><code>writeFiles</code> requests a new execution ID that is used to track Spark jobs of <code>FileFormatWriter.write</code> (Spark SQL) with a physical query plan of a new <a href="DeltaInvariantCheckerExec.html" class="page">DeltaInvariantCheckerExec</a> unary physical operator with the executed plan of the normalized query execution as the child operator.</p>
+<p><code>writeFiles</code> requests a new execution ID that is used to track Spark jobs of <code>FileFormatWriter.write</code> (Spark SQL) with a physical query plan of a new <a href="DeltaInvariantCheckerExec.html" class="page">DeltaInvariantCheckerExec</a> unary physical operator (with the executed plan of the normalized query execution as the child operator).</p>
 </div>
 <div class="paragraph">
 <p>In the end, <code>writeFiles</code> returns the <a href="DelayedCommitProtocol.html#addedStatuses" class="page">addedStatuses</a> of the <a href="DelayedCommitProtocol.html" class="page">DelayedCommitProtocol</a> committer.</p>
@@ -593,17 +608,14 @@ writeFiles(
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">hasWritten: Boolean</code></pre>
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">hasWritten: Boolean = false</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p><code>hasWritten</code> is a flag that is used exclusively to prevent <code>OptimisticTransactionImpl</code> from <a href="OptimisticTransactionImpl.html#updateMetadata" class="page">updating metadata</a> after the transaction has <a href="#writeFiles">written files out</a>.</p>
+<p><code>TransactionalWrite</code> uses the <code>hasWritten</code> internal registry to prevent <code>OptimisticTransactionImpl</code> from <a href="OptimisticTransactionImpl.html#updateMetadata" class="page">updating metadata</a> after <a href="#writeFiles">having written out any files</a>.</p>
 </div>
 <div class="paragraph">
-<p><code>hasWritten</code> is turned off (<code>false</code>) by default.</p>
-</div>
-<div class="paragraph">
-<p><code>hasWritten</code> is turned on (<code>true</code>) when <code>TransactionalWrite</code> is requested to <a href="#writeFiles">write files out</a>.</p>
+<p><code>hasWritten</code> is initially turned off (<code>false</code>). It can be turned on (<code>true</code>) when <code>TransactionalWrite</code> is requested to <a href="#writeFiles">write files out</a>.</p>
 </div>
 </div>
 </div>
