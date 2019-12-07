@@ -348,7 +348,7 @@
 <p><code>OptimisticTransaction</code> is a concrete <a href="OptimisticTransactionImpl.html" class="page">OptimisticTransactionImpl</a>.</p>
 </div>
 <div class="paragraph">
-<p><code>OptimisticTransaction</code> is <a href="#creating-instance">created</a> when <code>DeltaLog</code> is requested to <a href="DeltaLog.html#startTransaction" class="page">start a new transaction</a>.</p>
+<p><code>OptimisticTransaction</code> is <a href="#creating-instance">created</a> when <code>DeltaLog</code> is requested to <a href="DeltaLog.html#startTransaction" class="page">start a new transaction</a> and <a href="DeltaLog.html#withNewTransaction" class="page">execute a single-threaded operation in a new transaction</a>.</p>
 </div>
 </div>
 </div>
@@ -377,6 +377,42 @@
 </div>
 </div>
 <div class="sect1">
+<h2 id="active-thread-local-optimistictransactionactive-internal-registry"><a class="anchor" href="#active-thread-local-optimistictransactionactive-internal-registry"></a><a class="link" href="#active-thread-local-optimistictransactionactive-internal-registry"><a id="active"></a> Active Thread-Local OptimisticTransaction&#8201;&#8212;&#8201;<code>active</code> Internal Registry</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">active: ThreadLocal[OptimisticTransaction]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>active</code> is a Java <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/ThreadLocal.html">ThreadLocal</a> with the <a href="#">OptimisticTransaction</a> of the current thread.</p>
+</div>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p><strong>ThreadLocal</strong> provides thread-local variables. These variables differ from their normal counterparts in that each thread that accesses one (via its get or set method) has its own, independently initialized copy of the variable.</p>
+</div>
+</blockquote>
+</div>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p><strong>ThreadLocal</strong> instances are typically private static fields in classes that wish to associate state with a thread (e.g., a user ID or Transaction ID).</p>
+</div>
+</blockquote>
+</div>
+<div class="paragraph">
+<p><code>active</code> is assigned to the current thread using <a href="#setActive">setActive</a> utility and cleared in <a href="#clearActive">clearActive</a>.</p>
+</div>
+<div class="paragraph">
+<p><code>active</code> is available using <a href="#getActive">getActive</a> utility.</p>
+</div>
+<div class="paragraph">
+<p>There can only be one active <code>OptimisticTransaction</code> (or an <code>IllegalStateException</code> is thrown).</p>
+</div>
+</div>
+</div>
+<div class="sect1">
 <h2 id="setactive-utility"><a class="anchor" href="#setactive-utility"></a><a class="link" href="#setactive-utility"><a id="setActive"></a> <code>setActive</code> Utility</a></h2>
 <div class="sectionbody">
 <div class="listingblock">
@@ -386,7 +422,15 @@
 </div>
 </div>
 <div class="paragraph">
-<p><code>setActive</code>&#8230;&#8203;FIXME</p>
+<p><code>setActive</code> simply associates the given <code>OptimisticTransaction</code> as <a href="#active">active</a> with the current thread.</p>
+</div>
+<div class="paragraph">
+<p><code>setActive</code> throws an <code>IllegalStateException</code> if there is an active <code>OptimisticTransaction</code> already associated:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code>Cannot set a new txn as active when one is already active</code></pre>
+</div>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -395,7 +439,7 @@
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-<code>setActive</code> is used when&#8230;&#8203;FIXME
+<code>setActive</code> is used exclusively when <code>DeltaLog</code> is requested to <a href="DeltaLog.html#withNewTransaction" class="page">execute an operation in a new transaction</a>.
 </td>
 </tr>
 </table>
@@ -411,7 +455,7 @@
 </div>
 </div>
 <div class="paragraph">
-<p><code>clearActive</code>&#8230;&#8203;FIXME</p>
+<p><code>clearActive</code> simply clears the <a href="#active">active</a> transaction (so no transaction is associated with a thread).</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -420,7 +464,32 @@
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-<code>clearActive</code> is used when&#8230;&#8203;FIXME
+<code>clearActive</code> is used exclusively when <code>DeltaLog</code> is requested to <a href="DeltaLog.html#withNewTransaction" class="page">execute an operation in a new transaction</a>.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="getactive-utility"><a class="anchor" href="#getactive-utility"></a><a class="link" href="#getactive-utility"><a id="getActive"></a> <code>getActive</code> Utility</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">getActive(): Option[OptimisticTransaction]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>getActive</code> simply returns the <a href="#active">active</a> transaction.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>getActive</code> seems unused.
 </td>
 </tr>
 </table>
