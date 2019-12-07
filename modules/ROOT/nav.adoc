@@ -48,10 +48,13 @@
 ** xref:SnapshotIterator.adoc[SnapshotIterator]
 
 * xref:DeltaSQLConf.adoc[DeltaSQLConf]
-* xref:TransactionalWrite.adoc[TransactionalWrite]
-* xref:OptimisticTransactionImpl.adoc[OptimisticTransactionImpl]
-** xref:OptimisticTransaction.adoc[OptimisticTransaction]
 * xref:DeltaFileFormat.adoc[DeltaFileFormat]
+
+* xref:OptimisticTransaction.adoc[OptimisticTransaction]
+** xref:OptimisticTransactionImpl.adoc[OptimisticTransactionImpl]
+** xref:TransactionalWrite.adoc[TransactionalWrite]
+** xref:DelayedCommitProtocol.adoc[DelayedCommitProtocol]
+
 * xref:ImplicitMetadataOperation.adoc[ImplicitMetadataOperation]
 * xref:DeltaFileOperations.adoc[DeltaFileOperations]
 * xref:SchemaUtils.adoc[SchemaUtils]
@@ -59,7 +62,6 @@
 * xref:DeltaOperations.adoc[DeltaOperations]
 * xref:DeltaTableUtils.adoc[DeltaTableUtils]
 * xref:Invariants.adoc[Invariants]
-* xref:DelayedCommitProtocol.adoc[DelayedCommitProtocol]
 * xref:DeltaInvariantCheckerExec.adoc[DeltaInvariantCheckerExec]
 
 * xref:TahoeFileIndex.adoc[TahoeFileIndex]

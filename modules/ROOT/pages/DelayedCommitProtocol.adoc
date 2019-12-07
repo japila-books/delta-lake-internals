@@ -1,3 +1,130 @@
 = [[DelayedCommitProtocol]] DelayedCommitProtocol
 
-`DelayedCommitProtocol` is...FIXME
+`DelayedCommitProtocol` is a concrete `FileCommitProtocol` (Spark Core) to write out files to a <<path, path>> and return a <<addedStatuses, list of them>>.
+
+TIP: Read up on https://jaceklaskowski.gitbooks.io/mastering-spark-sql/spark-sql-FileCommitProtocol.html[FileCommitProtocol] in https://bit.ly/spark-sql-internals[The Internals of Spark SQL] online book.
+
+`DelayedCommitProtocol` is <<creating-instance, created>> exclusively when `TransactionalWrite` is requested for a <<TransactionalWrite.adoc#getCommitter, committer for a directory>>.
+
+== [[creating-instance]] Creating DelayedCommitProtocol Instance
+
+`DelayedCommitProtocol` takes the following to be created:
+
+* [[jobId]] Job ID (always <<TransactionalWrite.adoc#getCommitter, delta>>)
+* [[path]] Directory
+* [[randomPrefixLength]] Optional length of a random prefix (always <<TransactionalWrite.adoc#getCommitter, empty>>)
+
+`DelayedCommitProtocol` initializes the <<internal-properties, internal properties>>.
+
+== [[setupTask]] `setupTask` Method
+
+[source, scala]
+----
+setupTask(
+  taskContext: TaskAttemptContext): Unit
+----
+
+NOTE: `setupTask` is part of the `FileCommitProtocol` contract to set up a task within a job.
+
+`setupTask` simply initializes the <<addedFiles, addedFiles>> internal registry to be empty.
+
+== [[newTaskTempFile]] `newTaskTempFile` Method
+
+[source, scala]
+----
+newTaskTempFile(
+  taskContext: TaskAttemptContext,
+  dir: Option[String],
+  ext: String): String
+----
+
+NOTE: `newTaskTempFile` is part of the `FileCommitProtocol` contract to inform the commit protocol to add a new file.
+
+`newTaskTempFile` <<getFileName, creates a file name>> for the given `TaskAttemptContext` and `ext`.
+
+`newTaskTempFile` tries to <<parsePartitions, parsePartitions>> with the given `dir` or falls back to an empty `partitionValues`.
+
+NOTE: The given `dir` defines a partition directory if it is partitioned. (FIXME What's the `it` part?)
+
+`newTaskTempFile` builds a path (based on the given `randomPrefixLength` and the `dir`, or uses the file name directly).
+
+NOTE: FIXME When would the optional `dir` and the <<randomPrefixLength, randomPrefixLength>> be defined?
+
+`newTaskTempFile` adds the partition values and the relative path to the <<addedFiles, addedFiles>> internal registry.
+
+In the end, `newTaskTempFile` returns the absolute path of the (relative) path in the <<path, directory>>.
+
+== [[commitTask]] `commitTask` Method
+
+[source, scala]
+----
+commitTask(
+  taskContext: TaskAttemptContext): TaskCommitMessage
+----
+
+NOTE: `commitTask` is part of the `FileCommitProtocol` contract to commit a task after the writes succeed.
+
+`commitTask` returns an empty `TaskCommitMessage` when the <<addedFiles, addedFiles>> internal registry has no entries (<<newTaskTempFile, files added>>).
+
+`commitTask` creates a `TaskCommitMessage` with <<FileAction.adoc#AddFile, AddFiles>> for every <<newTaskTempFile, file added>> by tasks on executors (`Seq[AddFile]`).
+
+== [[commitJob]] `commitJob` Method
+
+[source, scala]
+----
+commitJob(
+  jobContext: JobContext,
+  taskCommits: Seq[TaskCommitMessage]): Unit
+----
+
+NOTE: `commitJob` is part of the `FileCommitProtocol` contract to commit a job after the writes succeed.
+
+`commitJob`...FIXME
+
+== [[getFileName]] `getFileName` Method
+
+[source, scala]
+----
+getFileName(
+  taskContext: TaskAttemptContext,
+  ext: String): String
+----
+
+`getFileName`...FIXME
+
+NOTE: `getFileName` is used exclusively when `DelayedCommitProtocol` is requested to <<newTaskTempFile, newTaskTempFile>>.
+
+== [[parsePartitions]] `parsePartitions` Method
+
+[source, scala]
+----
+parsePartitions(
+  dir: String): Map[String, String]
+----
+
+`parsePartitions`...FIXME
+
+NOTE: `parsePartitions` is used exclusively when `DelayedCommitProtocol` is requested to <<newTaskTempFile, newTaskTempFile>>.
+
+== [[internal-properties]] Internal Properties
+
+[cols="30m,70",options="header",width="100%"]
+|===
+| Name
+| Description
+
+| addedFiles
+a| [[addedFiles]]
+
+[source, scala]
+----
+addedFiles: ArrayBuffer[(Map[String, String], String)]
+----
+
+Tracks the list of files <<newTaskTempFile, added by tasks>> (on executors)
+
+Initialized (as an empty collection) in <<setupTask, setupTask>>
+
+Used exclusively when `DelayedCommitProtocol` is requested to <<commitTask, commit a task>>
+
+|===

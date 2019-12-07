@@ -8,6 +8,8 @@ In addition to tables in its own `delta` format, Delta Lake supports `parquet` t
 
 Changes to (the state of) a Delta table are reflected as <<Action.adoc#, actions>> and persisted to the Delta log (in <<Action.adoc#json, JSON format>>).
 
+Delta Lake uses <<OptimisticTransaction.adoc#, OptimisticTransaction>> for <<TransactionalWrite.adoc#, transactional writes>>.
+
 Delta Lake provides <<DeltaTable.adoc#, DeltaTable API>> to programmatically access Delta tables. You can <<DeltaTable.adoc#convertToDelta, convert a parquet table to delta format (DeltaTable.convertToDelta)>> or create a delta table from scratch (using <<data-source, delta data source>>).
 
 .Demo: Creating DeltaTable Instance

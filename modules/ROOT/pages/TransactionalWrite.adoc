@@ -1,6 +1,6 @@
 = [[TransactionalWrite]] TransactionalWrite
 
-`TransactionalWrite` is an <<contract, abstraction>> of <<implementations, OptimisticTransactionImpl implementations>> that can <<writeFiles, write files out>> (among other features).
+`TransactionalWrite` is an <<contract, abstraction>> of <<implementations, optimistic transactional writers>> that can <<writeFiles, write files out>>.
 
 [[implementations]]
 NOTE: <<OptimisticTransaction.adoc#, OptimisticTransaction>> is the default and only known `TransactionalWrite` in Delta Lake (indirectly as a concrete <<OptimisticTransactionImpl.adoc#, OptimisticTransactionImpl>>).
@@ -54,7 +54,7 @@ Used when...FIXME
 
 |===
 
-== [[writeFiles]] `writeFiles` Method
+== [[writeFiles]] Writing Files Out -- `writeFiles` Method
 
 [source, scala]
 ----
@@ -72,7 +72,15 @@ writeFiles(
   isOptimize: Boolean): Seq[AddFile]
 ----
 
-`writeFiles` turns the <<hasWritten, hasWritten>> flag on (`true`).
+`writeFiles` creates a <<DeltaInvariantCheckerExec.adoc#, DeltaInvariantCheckerExec>> and a <<DelayedCommitProtocol.adoc#, DelayedCommitProtocol>> to write out files (using `FileFormatWriter.write`) to the <<DeltaLog.adoc#dataPath, data path>> (of the <<deltaLog, DeltaLog>>).
+
+`writeFiles` is executed within `SQLExecution.withNewExecutionId`.
+
+NOTE: `writeFiles` can be tracked using web UI or `SQLAppStatusListener` (using `SparkListenerSQLExecutionStart` and `SparkListenerSQLExecutionEnd` events).
+
+In the end, `writeFiles` returns the <<DelayedCommitProtocol.adoc#addedStatuses, addedStatuses>> of the `DelayedCommitProtocol` committer.
+
+Internally, `writeFiles` turns the <<hasWritten, hasWritten>> flag on (`true`).
 
 NOTE: After `writeFiles`, no <<OptimisticTransactionImpl.adoc#updateMetadata-AssertionError-hasWritten, metadata updates>> in the transaction are permitted.
 
@@ -80,13 +88,13 @@ NOTE: After `writeFiles`, no <<OptimisticTransactionImpl.adoc#updateMetadata-Ass
 
 `writeFiles` <<getPartitioningColumns, getPartitioningColumns>> based on the <<Metadata.adoc#partitionSchema, partitionSchema>> of the <<OptimisticTransactionImpl.adoc#metadata, Metadata>>.
 
-`writeFiles` <<getCommitter, gets the DelayedCommitProtocol committer>> for the <<DeltaLog.adoc#dataPath, data path>> of the <<deltaLog, DeltaLog>>.
+[[writeFiles-committer]]
+`writeFiles` <<getCommitter, creates a DelayedCommitProtocol committer>> for the <<DeltaLog.adoc#dataPath, data path>> of the <<deltaLog, DeltaLog>>.
 
 `writeFiles` <<Invariants.adoc#getFromSchema, gets the invariants>> from the <<Metadata.adoc#schema, schema>> of the <<OptimisticTransactionImpl.adoc#metadata, Metadata>>.
 
-`writeFiles` requests a new execution ID that is used to track Spark jobs of `FileFormatWriter.write` (Spark SQL) with a physical query plan of a new <<DeltaInvariantCheckerExec.adoc#, DeltaInvariantCheckerExec>> unary physical operator (with the executed plan of the normalized query execution as the child operator).
-
-In the end, `writeFiles` returns the <<DelayedCommitProtocol.adoc#addedStatuses, addedStatuses>> of the <<DelayedCommitProtocol.adoc#, DelayedCommitProtocol>> committer.
+[[writeFiles-DeltaInvariantCheckerExec]][[writeFiles-FileFormatWriter]]
+`writeFiles` requests a new Execution ID (that is used to track all Spark jobs of `FileFormatWriter.write` in Spark SQL) with a physical query plan of a new <<DeltaInvariantCheckerExec.adoc#, DeltaInvariantCheckerExec>> unary physical operator (with the executed plan of the normalized query execution as the child operator).
 
 [NOTE]
 ====
@@ -101,12 +109,13 @@ In the end, `writeFiles` returns the <<DelayedCommitProtocol.adoc#addedStatuses,
 
 [source, scala]
 ----
-getCommitter(outputPath: Path): DelayedCommitProtocol
+getCommitter(
+  outputPath: Path): DelayedCommitProtocol
 ----
 
-`getCommitter`...FIXME
+`getCommitter` creates a new <<DelayedCommitProtocol.adoc#, DelayedCommitProtocol>> with the *delta* job ID and the given `outputPath` (and no random prefix).
 
-NOTE: `getCommitter` is used when...FIXME
+NOTE: `getCommitter` is used exclusively when `TransactionalWrite` is requested to <<writeFiles, write files out>>.
 
 == [[makeOutputNullable]] `makeOutputNullable` Method
 
