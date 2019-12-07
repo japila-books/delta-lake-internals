@@ -77,7 +77,7 @@ apply(
 
 NOTE: `apply` is used when `DeltaLog` is requested to <<forTable, forTable>>.
 
-== [[withNewTransaction]] Executing Operation (Block) in New Transaction -- `withNewTransaction` Method
+== [[withNewTransaction]] Executing Single-Threaded Operation (Block) in New Transaction -- `withNewTransaction` Method
 
 [source, scala]
 ----
@@ -85,7 +85,7 @@ withNewTransaction[T](
   thunk: OptimisticTransaction => T): T
 ----
 
-`withNewTransaction` <<startTransaction, starts a new transaction>> (that is <<OptimisticTransaction.adoc#setActive, set active>> for the whole thread) and executes the given `thunk` function.
+`withNewTransaction` <<startTransaction, starts a new transaction>> (that is <<OptimisticTransaction.adoc#setActive, active>> for the whole thread) and executes the given `thunk` block.
 
 In the end, `withNewTransaction` makes the transaction <<OptimisticTransaction.adoc#clearActive, no longer active>>.
 
@@ -105,9 +105,18 @@ In the end, `withNewTransaction` makes the transaction <<OptimisticTransaction.a
 startTransaction(): OptimisticTransaction
 ----
 
-`startTransaction` <<update, updates>> and creates a new <<OptimisticTransaction.adoc#, OptimisticTransaction>>.
+`startTransaction` <<update, updates>> and creates a new <<OptimisticTransaction.adoc#, OptimisticTransaction>> (for this `DeltaLog`).
 
-NOTE: `startTransaction` is used when...FIXME
+NOTE: `startTransaction` is a subset of <<withNewTransaction, withNewTransaction>>.
+
+[NOTE]
+====
+`startTransaction` is used when:
+
+* `DeltaLog` is requested to <<upgradeProtocol, upgradeProtocol>>
+
+* <<ConvertToDeltaCommand.adoc#, ConvertToDeltaCommand>> is executed
+====
 
 == [[assertRemovable]] Throwing UnsupportedOperationException For appendOnly Table Property Enabled -- `assertRemovable` Method
 

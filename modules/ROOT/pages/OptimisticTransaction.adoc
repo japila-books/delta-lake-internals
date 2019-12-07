@@ -2,7 +2,7 @@
 
 `OptimisticTransaction` is a concrete <<OptimisticTransactionImpl.adoc#, OptimisticTransactionImpl>>.
 
-`OptimisticTransaction` is <<creating-instance, created>> when `DeltaLog` is requested to <<DeltaLog.adoc#startTransaction, start a new transaction>>.
+`OptimisticTransaction` is <<creating-instance, created>> when `DeltaLog` is requested to <<DeltaLog.adoc#startTransaction, start a new transaction>> and <<DeltaLog.adoc#withNewTransaction, execute a single-threaded operation in a new transaction>>.
 
 == [[creating-instance]] Creating OptimisticTransaction Instance
 
@@ -14,6 +14,25 @@
 
 `OptimisticTransaction` initializes the <<internal-properties, internal properties>>.
 
+== [[active]] Active Thread-Local OptimisticTransaction -- `active` Internal Registry
+
+[source, scala]
+----
+active: ThreadLocal[OptimisticTransaction]
+----
+
+`active` is a Java https://docs.oracle.com/javase/8/docs/api/java/lang/ThreadLocal.html[ThreadLocal] with the <<OptimisticTransaction.adoc#, OptimisticTransaction>> of the current thread.
+
+> *ThreadLocal* provides thread-local variables. These variables differ from their normal counterparts in that each thread that accesses one (via its get or set method) has its own, independently initialized copy of the variable.
+
+> *ThreadLocal* instances are typically private static fields in classes that wish to associate state with a thread (e.g., a user ID or Transaction ID).
+
+`active` is assigned to the current thread using <<setActive, setActive>> utility and cleared in <<clearActive, clearActive>>.
+
+`active` is available using <<getActive, getActive>> utility.
+
+There can only be one active `OptimisticTransaction` (or an `IllegalStateException` is thrown).
+
 == [[setActive]] `setActive` Utility
 
 [source, scala]
@@ -22,9 +41,15 @@ setActive(
   txn: OptimisticTransaction): Unit
 ----
 
-`setActive`...FIXME
+`setActive` simply associates the given `OptimisticTransaction` as <<active, active>> with the current thread.
 
-NOTE: `setActive` is used when...FIXME
+`setActive` throws an `IllegalStateException` if there is an active `OptimisticTransaction` already associated:
+
+```
+Cannot set a new txn as active when one is already active
+```
+
+NOTE: `setActive` is used exclusively when `DeltaLog` is requested to <<DeltaLog.adoc#withNewTransaction, execute an operation in a new transaction>>.
 
 == [[clearActive]] `clearActive` Utility
 
@@ -33,6 +58,17 @@ NOTE: `setActive` is used when...FIXME
 clearActive(): Unit
 ----
 
-`clearActive`...FIXME
+`clearActive` simply clears the <<active, active>> transaction (so no transaction is associated with a thread).
 
-NOTE: `clearActive` is used when...FIXME
+NOTE: `clearActive` is used exclusively when `DeltaLog` is requested to <<DeltaLog.adoc#withNewTransaction, execute an operation in a new transaction>>.
+
+== [[getActive]] `getActive` Utility
+
+[source, scala]
+----
+getActive(): Option[OptimisticTransaction]
+----
+
+`getActive` simply returns the <<active, active>> transaction.
+
+NOTE: `getActive` seems unused.
