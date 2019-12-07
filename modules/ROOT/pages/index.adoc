@@ -2,77 +2,48 @@
 
 https://delta.io/[Delta Lake] is an open-source storage management system (storage layer) that brings ACID transactions and time travel to https://spark.apache.org/[Apache Spark] and big data workloads.
 
-Delta Lake introduces a concept of *delta table* (that, among other things, is simply a <<DeltaTableUtils.adoc#findDeltaTableRoot, directory with `_delta_log` subdirectory>>).
+Delta Lake introduces a concept of *delta table* that is simply a parquet table with <<DeltaLog.adoc#, transactional log of changes>>.
 
-In addition to tables in its own `delta` format, Delta Lake supports `parquet` tables (after converting them into delta tables using <<DeltaTable.adoc#convertToDelta, DeltaTable.convertToDelta>> utility).
-
-Changes to (the state of) a Delta table are reflected as <<Action.adoc#, actions>> and persisted to the Delta log (in <<Action.adoc#json, JSON format>>).
+Changes to (the state of) a Delta table are reflected as <<Action.adoc#, actions>> and persisted to the log (in <<Action.adoc#json, JSON format>>).
 
 Delta Lake uses <<OptimisticTransaction.adoc#, OptimisticTransaction>> for <<TransactionalWrite.adoc#, transactional writes>>.
 
-Delta Lake provides <<DeltaTable.adoc#, DeltaTable API>> to programmatically access Delta tables. You can <<DeltaTable.adoc#convertToDelta, convert a parquet table to delta format (DeltaTable.convertToDelta)>> or create a delta table from scratch (using <<data-source, delta data source>>).
+Delta Lake provides <<DeltaTable.adoc#, DeltaTable API>> to programmatically access Delta tables. A delta table can be created <<DeltaTable.adoc#convertToDelta, based on a parquet table (DeltaTable.convertToDelta)>> or <<DeltaTable.adoc#forPath, from scratch (DeltaTable.forPath)>>.
 
-.Demo: Creating DeltaTable Instance
-[source]
-----
-// ./bin/spark-shell --packages io.delta:delta-core_2.12:0.4.0
-//
-// scala> :type spark
-// org.apache.spark.sql.SparkSession
-//
-// scala> spark.version
-// res0: String = 2.4.4
+Delta Lake supports Spark SQL and Structured Streaming using <<DeltaDataSource.adoc#DataSourceRegister, delta>> format.
 
-val users = "/tmp/delta-lake/users"
-spark
-  .emptyDataset[(Long, String)]
-  .write
-  .format("delta")  // <-- note the delta format
-  .mode("overwrite")
-  .save(users)
+Delta Lake supports reading and writing in batch queries:
 
-import io.delta.tables.DeltaTable
-assert(DeltaTable.isDeltaTable(users))
-----
+* <<DeltaDataSource.adoc#RelationProvider, Batch reads>> (as a `RelationProvider`)
 
-Delta Lake supports Structured Streaming and can be used as a <<DeltaDataSource.adoc#StreamSinkProvider, streaming sink>> in streaming queries.
+* <<DeltaDataSource.adoc#CreatableRelationProvider, Batch writes>> (as a `CreatableRelationProvider`)
+
+Delta Lake supports reading and writing in streaming queries:
+
+* <<DeltaDataSource.adoc#StreamSourceProvider, Streaming reads>> (as a `Source`)
+
+* <<DeltaDataSource.adoc#StreamSinkProvider, Streaming writes>> (as a `Sink`)
 
 Delta Lake uses https://hadoop.apache.org/docs/current2/hadoop-project-dist/hadoop-common/filesystem/index.html[Hadoop FileSystem API] to access the underlying data storage (e.g. http://hadoop.apache.org/[Hadoop DFS] or https://hadoop.apache.org/docs/current2/hadoop-aws/tools/hadoop-aws/index.html[Amazon S3]).
 
-Technically speaking, Delta Lake is:
-
-. <<data-source, Data Source for Spark SQL and Structured Streaming>>
-
-== [[data-source]] Data Source for Spark SQL and Structured Streaming
-
-Delta Lake is a data source for Spark SQL and Structured Streaming (see https://github.com/delta-io/delta/blob/v0.4.0/src/main/scala/org/apache/spark/sql/delta/sources/DeltaDataSource.scala#L40-L45[github]).
-
-[source, scala]
-----
-val input = spark
-  .read // or readStream
-  .format("delta")
-  .load
-----
-
-In that sense, Delta Lake is like `parquet`, `kafka` or any data source that can be used in batch and streaming queries and is simply an extension of Apache Spark's Spark SQL and Structured Streaming.
-
-As a `DataSourceRegister`, Delta Lake registers itself as `delta` data source.
-
-TIP: Read up on https://jaceklaskowski.gitbooks.io/mastering-spark-sql/spark-sql-DataSourceRegister.html[DataSourceRegister] in https://bit.ly/spark-sql-internals[The Internals of Spark SQL] online book.
+== Installing Delta Lake
 
 In order to "install" and use Delta Lake in a Spark application (e.g. `spark-shell`), use `--packages` command-line option.
 
 [source, scala]
 ----
-// $ spark-shell --packages io.delta:delta-core_2.12:0.4.0
-
-assert(spark.version == "2.4.4")
+/*
+./bin/spark-shell \
+  --packages io.delta:delta-core_2.12:0.4.0 \
+  --conf spark.sql.extensions=io.delta.sql.DeltaSparkSessionExtension
+*/
+assert(spark.isInstanceOf[org.apache.spark.sql.SparkSession])
+assert(spark.version.matches("2.4.[2-4]"), "Delta Lake supports Spark 2.4.2+")
 
 val input = spark
   .read
   .format("delta")
-  .option("path", "delta") // a required option
+  .option("path", "delta")
   .load
 ----
 

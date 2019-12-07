@@ -1,6 +1,6 @@
 = [[DeltaLog]] DeltaLog
 
-`DeltaLog` is a transactional log of a <<dataPath, delta table>>.
+`DeltaLog` is a transactional log of changes (actions) to the state of a <<dataPath, delta table>>.
 
 `DeltaLog` is <<creating-instance, created>> (indirectly via <<apply, DeltaLog.apply>> utility) when <<forTable, DeltaLog.forTable>> utility is used.
 

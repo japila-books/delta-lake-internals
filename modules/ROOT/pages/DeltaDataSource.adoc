@@ -10,6 +10,22 @@
 
 `DeltaDataSource` is a `DataSourceRegister` and registers itself to be available using `delta` alias.
 
+.Reading From Delta Table
+[source, scala]
+----
+assert(spark.isInstanceOf[org.apache.spark.sql.SparkSession])
+spark.read.format("delta")
+spark.readStream.format("delta")
+----
+
+.Writing To Delta Table
+[source, scala]
+----
+assert(df.isInstanceOf[org.apache.spark.sql.Dataset[_]])
+df.write.format("delta")
+df.writeStream.format("delta")
+----
+
 TIP: Read up on https://jaceklaskowski.gitbooks.io/mastering-spark-sql/spark-sql-DataSourceRegister.html[DataSourceRegister] in https://bit.ly/spark-sql-internals[The Internals of Spark SQL] online book.
 
 `DeltaDataSource` is registered using `META-INF/services/org.apache.spark.sql.sources.DataSourceRegister`:
@@ -42,7 +58,7 @@ In the end, `createRelation` requests the <<RelationProvider-createRelation-delt
 
 TIP: Read up on https://jaceklaskowski.gitbooks.io/mastering-spark-sql/spark-sql-CreatableRelationProvider.html[CreatableRelationProvider] in https://bit.ly/spark-sql-internals[The Internals of Spark SQL] online book.
 
-=== [[StreamSourceProvider]][[createSource]] StreamSourceProvider
+=== [[StreamSourceProvider]][[createSource]] Creating Streaming Source (Structured Streaming) -- `createSource` Method
 
 `DeltaDataSource` is a `StreamSourceProvider`.
 
