@@ -217,20 +217,23 @@
   <li class="nav-item" data-depth="1">
     <a class="nav-link" href="DeltaSQLConf.html">DeltaSQLConf</a>
   </li>
-  <li class="nav-item is-current-page" data-depth="1">
-    <a class="nav-link" href="TransactionalWrite.html">TransactionalWrite</a>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="DeltaFileFormat.html">DeltaFileFormat</a>
   </li>
   <li class="nav-item" data-depth="1">
     <button class="nav-item-toggle"></button>
-    <a class="nav-link" href="OptimisticTransactionImpl.html">OptimisticTransactionImpl</a>
+    <a class="nav-link" href="OptimisticTransaction.html">OptimisticTransaction</a>
 <ul class="nav-list">
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="OptimisticTransaction.html">OptimisticTransaction</a>
+    <a class="nav-link" href="OptimisticTransactionImpl.html">OptimisticTransactionImpl</a>
+  </li>
+  <li class="nav-item is-current-page" data-depth="2">
+    <a class="nav-link" href="TransactionalWrite.html">TransactionalWrite</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="DelayedCommitProtocol.html">DelayedCommitProtocol</a>
   </li>
 </ul>
-  </li>
-  <li class="nav-item" data-depth="1">
-    <a class="nav-link" href="DeltaFileFormat.html">DeltaFileFormat</a>
   </li>
   <li class="nav-item" data-depth="1">
     <a class="nav-link" href="ImplicitMetadataOperation.html">ImplicitMetadataOperation</a>
@@ -252,9 +255,6 @@
   </li>
   <li class="nav-item" data-depth="1">
     <a class="nav-link" href="Invariants.html">Invariants</a>
-  </li>
-  <li class="nav-item" data-depth="1">
-    <a class="nav-link" href="DelayedCommitProtocol.html">DelayedCommitProtocol</a>
   </li>
   <li class="nav-item" data-depth="1">
     <a class="nav-link" href="DeltaInvariantCheckerExec.html">DeltaInvariantCheckerExec</a>
@@ -335,6 +335,7 @@
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="index.html">Delta Lake</a></li>
+    <li><a href="OptimisticTransaction.html">OptimisticTransaction</a></li>
     <li><a href="TransactionalWrite.html">TransactionalWrite</a></li>
   </ul>
 </nav>
@@ -345,7 +346,7 @@
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p><code>TransactionalWrite</code> is an <a href="#contract">abstraction</a> of <a href="#implementations">OptimisticTransactionImpl implementations</a> that can <a href="#writeFiles">write files out</a> (among other features).</p>
+<p><code>TransactionalWrite</code> is an <a href="#contract">abstraction</a> of <a href="#implementations">optimistic transactional writers</a> that can <a href="#writeFiles">write files out</a>.</p>
 </div>
 <div id="implementations" class="admonitionblock note">
 <table>
@@ -421,7 +422,7 @@
 </div>
 </div>
 <div class="sect1">
-<h2 id="writefiles-method"><a class="anchor" href="#writefiles-method"></a><a class="link" href="#writefiles-method"><a id="writeFiles"></a> <code>writeFiles</code> Method</a></h2>
+<h2 id="writing-files-outwritefiles-method"><a class="anchor" href="#writing-files-outwritefiles-method"></a><a class="link" href="#writing-files-outwritefiles-method"><a id="writeFiles"></a> Writing Files Out&#8201;&#8212;&#8201;<code>writeFiles</code> Method</a></h2>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content">
@@ -440,7 +441,28 @@ writeFiles(
 </div>
 </div>
 <div class="paragraph">
-<p><code>writeFiles</code> turns the <a href="#hasWritten">hasWritten</a> flag on (<code>true</code>).</p>
+<p><code>writeFiles</code> creates a <a href="DeltaInvariantCheckerExec.html" class="page">DeltaInvariantCheckerExec</a> and a <a href="DelayedCommitProtocol.html" class="page">DelayedCommitProtocol</a> to write out files (using <code>FileFormatWriter.write</code>) to the <a href="DeltaLog.html#dataPath" class="page">data path</a> (of the <a href="#deltaLog">DeltaLog</a>).</p>
+</div>
+<div class="paragraph">
+<p><code>writeFiles</code> is executed within <code>SQLExecution.withNewExecutionId</code>.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>writeFiles</code> can be tracked using web UI or <code>SQLAppStatusListener</code> (using <code>SparkListenerSQLExecutionStart</code> and <code>SparkListenerSQLExecutionEnd</code> events).
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>In the end, <code>writeFiles</code> returns the <a href="DelayedCommitProtocol.html#addedStatuses" class="page">addedStatuses</a> of the <code>DelayedCommitProtocol</code> committer.</p>
+</div>
+<div class="paragraph">
+<p>Internally, <code>writeFiles</code> turns the <a href="#hasWritten">hasWritten</a> flag on (<code>true</code>).</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -460,17 +482,15 @@ After <code>writeFiles</code>, no <a href="OptimisticTransactionImpl.html#update
 <div class="paragraph">
 <p><code>writeFiles</code> <a href="#getPartitioningColumns">getPartitioningColumns</a> based on the <a href="Metadata.html#partitionSchema" class="page">partitionSchema</a> of the <a href="OptimisticTransactionImpl.html#metadata" class="page">Metadata</a>.</p>
 </div>
-<div class="paragraph">
-<p><code>writeFiles</code> <a href="#getCommitter">gets the DelayedCommitProtocol committer</a> for the <a href="DeltaLog.html#dataPath" class="page">data path</a> of the <a href="#deltaLog">DeltaLog</a>.</p>
+<div id="writeFiles-committer" class="paragraph">
+<p><code>writeFiles</code> <a href="#getCommitter">creates a DelayedCommitProtocol committer</a> for the <a href="DeltaLog.html#dataPath" class="page">data path</a> of the <a href="#deltaLog">DeltaLog</a>.</p>
 </div>
 <div class="paragraph">
 <p><code>writeFiles</code> <a href="Invariants.html#getFromSchema" class="page">gets the invariants</a> from the <a href="Metadata.html#schema" class="page">schema</a> of the <a href="OptimisticTransactionImpl.html#metadata" class="page">Metadata</a>.</p>
 </div>
 <div class="paragraph">
-<p><code>writeFiles</code> requests a new execution ID that is used to track Spark jobs of <code>FileFormatWriter.write</code> (Spark SQL) with a physical query plan of a new <a href="DeltaInvariantCheckerExec.html" class="page">DeltaInvariantCheckerExec</a> unary physical operator (with the executed plan of the normalized query execution as the child operator).</p>
-</div>
-<div class="paragraph">
-<p>In the end, <code>writeFiles</code> returns the <a href="DelayedCommitProtocol.html#addedStatuses" class="page">addedStatuses</a> of the <a href="DelayedCommitProtocol.html" class="page">DelayedCommitProtocol</a> committer.</p>
+<p><a id="writeFiles-DeltaInvariantCheckerExec"></a><a id="writeFiles-FileFormatWriter"></a>
+<code>writeFiles</code> requests a new Execution ID (that is used to track all Spark jobs of <code>FileFormatWriter.write</code> in Spark SQL) with a physical query plan of a new <a href="DeltaInvariantCheckerExec.html" class="page">DeltaInvariantCheckerExec</a> unary physical operator (with the executed plan of the normalized query execution as the child operator).</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -503,11 +523,12 @@ After <code>writeFiles</code>, no <a href="OptimisticTransactionImpl.html#update
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">getCommitter(outputPath: Path): DelayedCommitProtocol</code></pre>
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">getCommitter(
+  outputPath: Path): DelayedCommitProtocol</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p><code>getCommitter</code>&#8230;&#8203;FIXME</p>
+<p><code>getCommitter</code> creates a new <a href="DelayedCommitProtocol.html" class="page">DelayedCommitProtocol</a> with the <strong>delta</strong> job ID and the given <code>outputPath</code> (and no random prefix).</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -516,7 +537,7 @@ After <code>writeFiles</code>, no <a href="OptimisticTransactionImpl.html#update
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-<code>getCommitter</code> is used when&#8230;&#8203;FIXME
+<code>getCommitter</code> is used exclusively when <code>TransactionalWrite</code> is requested to <a href="#writeFiles">write files out</a>.
 </td>
 </tr>
 </table>
