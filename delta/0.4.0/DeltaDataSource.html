@@ -358,6 +358,22 @@
 <div class="paragraph">
 <p><code>DeltaDataSource</code> is a <code>DataSourceRegister</code> and registers itself to be available using <code>delta</code> alias.</p>
 </div>
+<div class="listingblock">
+<div class="title">Reading From Delta Table</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">assert(spark.isInstanceOf[org.apache.spark.sql.SparkSession])
+spark.read.format("delta")
+spark.readStream.format("delta")</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Writing To Delta Table</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">assert(df.isInstanceOf[org.apache.spark.sql.Dataset[_]])
+df.write.format("delta")
+df.writeStream.format("delta")</code></pre>
+</div>
+</div>
 <div class="admonitionblock tip">
 <table>
 <tr>
@@ -429,7 +445,7 @@ Read up on <a href="https://jaceklaskowski.gitbooks.io/mastering-spark-sql/spark
 </div>
 </div>
 <div class="sect2">
-<h3 id="streamsourceprovider"><a class="anchor" href="#streamsourceprovider"></a><a class="link" href="#streamsourceprovider"><a id="StreamSourceProvider"></a><a id="createSource"></a> StreamSourceProvider</a></h3>
+<h3 id="creating-streaming-source-structured-streamingcreatesource-method"><a class="anchor" href="#creating-streaming-source-structured-streamingcreatesource-method"></a><a class="link" href="#creating-streaming-source-structured-streamingcreatesource-method"><a id="StreamSourceProvider"></a><a id="createSource"></a> Creating Streaming Source (Structured Streaming)&#8201;&#8212;&#8201;<code>createSource</code> Method</a></h3>
 <div class="paragraph">
 <p><code>DeltaDataSource</code> is a <code>StreamSourceProvider</code>.</p>
 </div>
