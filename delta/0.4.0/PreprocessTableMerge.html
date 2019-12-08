@@ -3,8 +3,8 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>SnapshotIterator :: The Internals of Delta Lake</title>
-    <link rel="canonical" href="https://delta.japila.pl/delta/0.4.0/SnapshotIterator.html">
+    <title>PreprocessTableMerge :: The Internals of Delta Lake</title>
+    <link rel="canonical" href="https://delta.japila.pl/delta/0.4.0/PreprocessTableMerge.html">
     <meta name="generator" content="Antora 2.2.0">
     <link rel="stylesheet" href="../../_/css/site.css">
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-151208281-1"></script>
@@ -126,7 +126,7 @@
   <li class="nav-item" data-depth="3">
     <a class="nav-link" href="DeltaMergeBuilder.html">DeltaMergeBuilder</a>
   </li>
-  <li class="nav-item" data-depth="3">
+  <li class="nav-item is-current-page" data-depth="3">
     <a class="nav-link" href="PreprocessTableMerge.html">PreprocessTableMerge</a>
   </li>
 </ul>
@@ -218,7 +218,7 @@
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="CachedDS.html">CachedDS</a>
   </li>
-  <li class="nav-item is-current-page" data-depth="2">
+  <li class="nav-item" data-depth="2">
     <a class="nav-link" href="SnapshotIterator.html">SnapshotIterator</a>
   </li>
 </ul>
@@ -344,31 +344,39 @@
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="index.html">Delta Lake</a></li>
-    <li><a href="Snapshot.html">Snapshot</a></li>
-    <li><a href="SnapshotIterator.html">SnapshotIterator</a></li>
+    <li><a href="commands.html">Commands</a></li>
+    <li><a href="MergeIntoCommand.html">MergeIntoCommand</a></li>
+    <li><a href="PreprocessTableMerge.html">PreprocessTableMerge</a></li>
   </ul>
 </nav>
-  <div class="edit-this-page"><a href="file:///antora/modules/ROOT/pages/SnapshotIterator.adoc">Edit this Page</a></div>
+  <div class="edit-this-page"><a href="file:///antora/modules/ROOT/pages/PreprocessTableMerge.adoc">Edit this Page</a></div>
 </div>
 <article class="doc">
-<h1 class="page">SnapshotIterator</h1>
+<h1 class="page">PreprocessTableMerge</h1>
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p><code>SnapshotIterator</code> is&#8230;&#8203;FIXME</p>
+<p><code>PreprocessTableMerge</code> is&#8230;&#8203;FIXME</p>
+</div>
+<div class="paragraph">
+<p><code>PreprocessTableMerge</code> is <a href="#creating-instance">created</a> when <code>DeltaMergeBuilder</code> is requested to <a href="DeltaMergeBuilder.html#execute" class="page">execute</a></p>
+</div>
+<div class="paragraph">
+<p><a id="creating-instance"></a><a id="conf"></a>
+<code>PreprocessTableMerge</code> takes a single <code>SQLConf</code> to be created.</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="iterator-method"><a class="anchor" href="#iterator-method"></a><a class="link" href="#iterator-method"><a id="iterator"></a> <code>iterator</code> Method</a></h2>
+<h2 id="creating-mergeintocommand-instanceapply-method"><a class="anchor" href="#creating-mergeintocommand-instanceapply-method"></a><a class="link" href="#creating-mergeintocommand-instanceapply-method"><a id="apply"></a> Creating MergeIntoCommand Instance&#8201;&#8212;&#8201;<code>apply</code> Method</a></h2>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">iterator(): Iterator[IndexedFile]</code></pre>
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">apply(mergeInto: MergeInto): MergeIntoCommand</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p><code>iterator</code>&#8230;&#8203;FIXME</p>
+<p><code>apply</code>&#8230;&#8203;FIXME</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -377,7 +385,7 @@
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-<code>iterator</code> is used exclusively when <code>DeltaSource</code> is requested for the <a href="DeltaSource.html#getSnapshotAt" class="page">Snapshot by given version</a>.
+<code>apply</code> is used when&#8230;&#8203;FIXME
 </td>
 </tr>
 </table>

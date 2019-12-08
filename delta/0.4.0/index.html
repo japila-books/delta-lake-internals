@@ -120,7 +120,16 @@
     <a class="nav-link" href="DescribeDeltaHistoryCommand.html">DescribeDeltaHistoryCommand</a>
   </li>
   <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
     <a class="nav-link" href="MergeIntoCommand.html">MergeIntoCommand</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="DeltaMergeBuilder.html">DeltaMergeBuilder</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="PreprocessTableMerge.html">PreprocessTableMerge</a>
+  </li>
+</ul>
   </li>
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="UpdateCommand.html">UpdateCommand</a>
@@ -381,15 +390,15 @@
 <div class="ulist">
 <ul>
 <li>
-<p><a href="DeltaDataSource.html#StreamSourceProvider" class="page">Streaming reads</a> (as a <code>Source</code>)</p>
+<p><a href="DeltaDataSource.html#StreamSourceProvider" class="page">Stream reads</a> (as a <code>Source</code>)</p>
 </li>
 <li>
-<p><a href="DeltaDataSource.html#StreamSinkProvider" class="page">Streaming writes</a> (as a <code>Sink</code>)</p>
+<p><a href="DeltaDataSource.html#StreamSinkProvider" class="page">Stream writes</a> (as a <code>Sink</code>)</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p>Delta Lake uses <a href="DeltaLog.html#store" class="page">LogStore</a> to read and write physical log files and checkpoints (using <a href="https://hadoop.apache.org/docs/current2/hadoop-project-dist/hadoop-common/filesystem/index.html">Hadoop FileSystem API</a>).</p>
+<p>Delta Lake uses <a href="DeltaLog.html#store" class="page">LogStore</a> abstraction to read and write physical log files and checkpoints (using <a href="https://hadoop.apache.org/docs/current2/hadoop-project-dist/hadoop-common/filesystem/index.html">Hadoop FileSystem API</a>).</p>
 </div>
 </div>
 </div>

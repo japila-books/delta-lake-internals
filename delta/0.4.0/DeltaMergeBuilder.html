@@ -3,8 +3,8 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>SnapshotIterator :: The Internals of Delta Lake</title>
-    <link rel="canonical" href="https://delta.japila.pl/delta/0.4.0/SnapshotIterator.html">
+    <title>DeltaMergeBuilder :: The Internals of Delta Lake</title>
+    <link rel="canonical" href="https://delta.japila.pl/delta/0.4.0/DeltaMergeBuilder.html">
     <meta name="generator" content="Antora 2.2.0">
     <link rel="stylesheet" href="../../_/css/site.css">
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-151208281-1"></script>
@@ -123,7 +123,7 @@
     <button class="nav-item-toggle"></button>
     <a class="nav-link" href="MergeIntoCommand.html">MergeIntoCommand</a>
 <ul class="nav-list">
-  <li class="nav-item" data-depth="3">
+  <li class="nav-item is-current-page" data-depth="3">
     <a class="nav-link" href="DeltaMergeBuilder.html">DeltaMergeBuilder</a>
   </li>
   <li class="nav-item" data-depth="3">
@@ -218,7 +218,7 @@
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="CachedDS.html">CachedDS</a>
   </li>
-  <li class="nav-item is-current-page" data-depth="2">
+  <li class="nav-item" data-depth="2">
     <a class="nav-link" href="SnapshotIterator.html">SnapshotIterator</a>
   </li>
 </ul>
@@ -344,43 +344,101 @@
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="index.html">Delta Lake</a></li>
-    <li><a href="Snapshot.html">Snapshot</a></li>
-    <li><a href="SnapshotIterator.html">SnapshotIterator</a></li>
+    <li><a href="commands.html">Commands</a></li>
+    <li><a href="MergeIntoCommand.html">MergeIntoCommand</a></li>
+    <li><a href="DeltaMergeBuilder.html">DeltaMergeBuilder</a></li>
   </ul>
 </nav>
-  <div class="edit-this-page"><a href="file:///antora/modules/ROOT/pages/SnapshotIterator.adoc">Edit this Page</a></div>
+  <div class="edit-this-page"><a href="file:///antora/modules/ROOT/pages/DeltaMergeBuilder.adoc">Edit this Page</a></div>
 </div>
 <article class="doc">
-<h1 class="page">SnapshotIterator</h1>
+<h1 class="page">DeltaMergeBuilder</h1>
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p><code>SnapshotIterator</code> is&#8230;&#8203;FIXME</p>
+<p><code>DeltaMergeBuilder</code> is a <a href="#operators">builder interface</a> to specify how to merge data from a <a href="#source">source</a> DataFrame into the <a href="#targetTable">target</a> delta table.</p>
+</div>
+<div class="paragraph">
+<p><code>DeltaMergeBuilder</code> is supposed to be <a href="#creating-instance">created</a> exclusively using <a href="DeltaTable.html#merge" class="page">DeltaTable.merge</a> operator.</p>
+</div>
+<table id="operators" class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. DeltaMergeBuilder API / Operators</caption>
+<colgroup>
+<col style="width: 30%;">
+<col style="width: 70%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>whenMatched</code></p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div id="whenMatched" class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">whenMatched(): DeltaMergeMatchedActionBuilder
+whenMatched(
+  condition: Column): DeltaMergeMatchedActionBuilder
+whenMatched(
+  condition: String): DeltaMergeMatchedActionBuilder</code></pre>
+</div>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>whenNotMatched</code></p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div id="whenNotMatched" class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">whenNotMatched(): DeltaMergeNotMatchedActionBuilder
+whenNotMatched(
+  condition: Column): DeltaMergeNotMatchedActionBuilder
+whenNotMatched(
+  condition: String): DeltaMergeNotMatchedActionBuilder</code></pre>
+</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect1">
+<h2 id="creating-deltamergebuilder-instance"><a class="anchor" href="#creating-deltamergebuilder-instance"></a><a class="link" href="#creating-deltamergebuilder-instance"><a id="creating-instance"></a> Creating DeltaMergeBuilder Instance</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><code>DeltaMergeBuilder</code> takes the following to be created:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a id="targetTable"></a> Target <a href="DeltaTable.html" class="page">DeltaTable</a></p>
+</li>
+<li>
+<p><a id="source"></a> Source Data (<code>DataFrame</code>)</p>
+</li>
+<li>
+<p><a id="onCondition"></a> Condition (<code>Column</code>)</p>
+</li>
+<li>
+<p><a id="whenClauses"></a> When Clauses (<code>Seq[MergeIntoClause]</code>)</p>
+</li>
+</ul>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="iterator-method"><a class="anchor" href="#iterator-method"></a><a class="link" href="#iterator-method"><a id="iterator"></a> <code>iterator</code> Method</a></h2>
+<h2 id="executing-merge-operationexecute-method"><a class="anchor" href="#executing-merge-operationexecute-method"></a><a class="link" href="#executing-merge-operationexecute-method"><a id="execute"></a> Executing Merge Operation&#8201;&#8212;&#8201;<code>execute</code> Method</a></h2>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">iterator(): Iterator[IndexedFile]</code></pre>
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">execute(): Unit</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p><code>iterator</code>&#8230;&#8203;FIXME</p>
+<p><code>execute</code> resolves column references (and creates a <code>MergeInto</code>).</p>
 </div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<code>iterator</code> is used exclusively when <code>DeltaSource</code> is requested for the <a href="DeltaSource.html#getSnapshotAt" class="page">Snapshot by given version</a>.
-</td>
-</tr>
-</table>
+<div class="paragraph">
+<p>In the end, <code>execute</code> creates a <a href="PreprocessTableMerge.html" class="page">PreprocessTableMerge</a> to <a href="PreprocessTableMerge.html#apply" class="page">create a MergeIntoCommand</a> that is <a href="MergeIntoCommand.html#run" class="page">executed</a> right away.</p>
 </div>
 </div>
 </div>

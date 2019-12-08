@@ -120,7 +120,16 @@
     <a class="nav-link" href="DescribeDeltaHistoryCommand.html">DescribeDeltaHistoryCommand</a>
   </li>
   <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
     <a class="nav-link" href="MergeIntoCommand.html">MergeIntoCommand</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="DeltaMergeBuilder.html">DeltaMergeBuilder</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="PreprocessTableMerge.html">PreprocessTableMerge</a>
+  </li>
+</ul>
   </li>
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="UpdateCommand.html">UpdateCommand</a>
@@ -458,7 +467,7 @@ merge(
 </div>
 </div>
 <div class="paragraph">
-<p>Merges data from the <code>source</code> DataFrame based on the given merge <code>condition</code></p>
+<p>Creates a <a href="DeltaMergeBuilder.html" class="page">DeltaMergeBuilder</a> to specify how to merge the data from the source <code>DataFrame</code> into this delta table based on the condition.</p>
 </div></div></td>
 </tr>
 <tr>

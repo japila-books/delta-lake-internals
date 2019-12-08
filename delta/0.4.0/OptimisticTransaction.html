@@ -120,7 +120,16 @@
     <a class="nav-link" href="DescribeDeltaHistoryCommand.html">DescribeDeltaHistoryCommand</a>
   </li>
   <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
     <a class="nav-link" href="MergeIntoCommand.html">MergeIntoCommand</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="DeltaMergeBuilder.html">DeltaMergeBuilder</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="PreprocessTableMerge.html">PreprocessTableMerge</a>
+  </li>
+</ul>
   </li>
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="UpdateCommand.html">UpdateCommand</a>
@@ -349,6 +358,9 @@
 </div>
 <div class="paragraph">
 <p><code>OptimisticTransaction</code> is <a href="#creating-instance">created</a> when <code>DeltaLog</code> is requested to <a href="DeltaLog.html#startTransaction" class="page">start a new transaction</a> and <a href="DeltaLog.html#withNewTransaction" class="page">execute a single-threaded operation in a new transaction</a>.</p>
+</div>
+<div class="paragraph">
+<p><code>OptimisticTransaction</code> can be associated with a thread as an <a href="#active">active transaction</a>.</p>
 </div>
 </div>
 </div>
