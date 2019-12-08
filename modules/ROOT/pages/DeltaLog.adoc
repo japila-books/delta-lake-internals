@@ -384,7 +384,14 @@ createDataFrame(
 
 `createDataFrame`...FIXME
 
-NOTE: `createDataFrame` is used when...FIXME
+[NOTE]
+====
+`createDataFrame` is used when:
+
+* <<MergeIntoCommand.adoc#, MergeIntoCommand>> is executed
+
+* `DeltaSource` is requested to <<DeltaSource.adoc#getBatch, getBatch>>
+====
 
 == [[lockInterruptibly]] Acquiring Interruptible Lock on Log -- `lockInterruptibly` Method
 

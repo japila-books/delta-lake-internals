@@ -76,7 +76,7 @@ merge(
   condition: String): DeltaMergeBuilder
 ----
 
-Merges data from the `source` DataFrame based on the given merge `condition`
+Creates a <<DeltaMergeBuilder.adoc#, DeltaMergeBuilder>> to specify how to merge the data from the source `DataFrame` into this delta table based on the condition.
 
 | toDF
 a| [[toDF]]

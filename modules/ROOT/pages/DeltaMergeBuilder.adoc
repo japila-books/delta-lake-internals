@@ -1,0 +1,58 @@
+= DeltaMergeBuilder
+
+`DeltaMergeBuilder` is a <<operators, builder interface>> to specify how to merge data from a <<source, source>> DataFrame into the <<targetTable, target>> delta table.
+
+`DeltaMergeBuilder` is supposed to be <<creating-instance, created>> exclusively using <<DeltaTable.adoc#merge, DeltaTable.merge>> operator.
+
+[[operators]]
+.DeltaMergeBuilder API / Operators
+[cols="30m,70",options="header",width="100%"]
+|===
+| Name
+| Description
+
+| whenMatched
+a| [[whenMatched]]
+
+[source, scala]
+----
+whenMatched(): DeltaMergeMatchedActionBuilder
+whenMatched(
+  condition: Column): DeltaMergeMatchedActionBuilder
+whenMatched(
+  condition: String): DeltaMergeMatchedActionBuilder
+----
+
+| whenNotMatched
+a| [[whenNotMatched]]
+
+[source, scala]
+----
+whenNotMatched(): DeltaMergeNotMatchedActionBuilder
+whenNotMatched(
+  condition: Column): DeltaMergeNotMatchedActionBuilder
+whenNotMatched(
+  condition: String): DeltaMergeNotMatchedActionBuilder
+----
+
+|===
+
+== [[creating-instance]] Creating DeltaMergeBuilder Instance
+
+`DeltaMergeBuilder` takes the following to be created:
+
+* [[targetTable]] Target <<DeltaTable.adoc#, DeltaTable>>
+* [[source]] Source Data (`DataFrame`)
+* [[onCondition]] Condition (`Column`)
+* [[whenClauses]] When Clauses (`Seq[MergeIntoClause]`)
+
+== [[execute]] Executing Merge Operation -- `execute` Method
+
+[source, scala]
+----
+execute(): Unit
+----
+
+`execute` resolves column references (and creates a `MergeInto`).
+
+In the end, `execute` creates a <<PreprocessTableMerge.adoc#, PreprocessTableMerge>> to <<PreprocessTableMerge.adoc#apply, create a MergeIntoCommand>> that is <<MergeIntoCommand.adoc#run, executed>> right away.

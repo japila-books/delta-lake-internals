@@ -1,6 +1,25 @@
 = [[MergeIntoCommand]] MergeIntoCommand
 
-`MergeIntoCommand` is...FIXME
+`MergeIntoCommand` is a <<DeltaCommand.adoc#, DeltaCommand>> that can...FIXME
+
+`MergeIntoCommand` is a logical command (`RunnableCommand`).
+
+TIP: Read up on https://jaceklaskowski.gitbooks.io/mastering-spark-sql/spark-sql-LogicalPlan-RunnableCommand.html[RunnableCommand] in https://bit.ly/spark-sql-internals[The Internals of Spark SQL] online book.
+
+`MergeIntoCommand` is <<creating-instance, created>> exclusively when `DeltaMergeBuilder` is requested to <<DeltaMergeBuilder.adoc#execute, execute>> (using <<PreprocessTableMerge.adoc#apply, PreprocessTableMerge>>).
+
+== [[creating-instance]] Creating MergeIntoCommand Instance
+
+`MergeIntoCommand` takes the following to be created:
+
+* [[source]] Source Data (`LogicalPlan`)
+* [[target]] Target Data (`LogicalPlan`)
+* [[targetFileIndex]] <<TahoeFileIndex.adoc#, TahoeFileIndex>>
+* [[condition]] Condition (`Expression`)
+* [[matchedClauses]] Matched Clauses (`Seq[MergeIntoMatchedClause]`)
+* [[notMatchedClause]] Non-Matched Clauses (`Option[MergeIntoInsertClause]`)
+
+`MergeIntoCommand` initializes the <<internal-properties, internal properties>>.
 
 == [[run]] Running Command -- `run` Method
 
@@ -27,6 +46,19 @@ writeAllChanges(
 
 NOTE: `writeAllChanges` is used exclusively when `MergeIntoCommand` is requested to <<run, run>>.
 
+== [[findTouchedFiles]] `findTouchedFiles` Internal Method
+
+[source, scala]
+----
+findTouchedFiles(
+  deltaTxn: OptimisticTransaction,
+  files: Seq[AddFile]): LogicalPlan
+----
+
+`findTouchedFiles`...FIXME
+
+NOTE: `findTouchedFiles` is used when `MergeIntoCommand` is requested to <<run, run>>.
+
 == [[buildTargetPlanWithFiles]] `buildTargetPlanWithFiles` Internal Method
 
 [source, scala]
@@ -38,4 +70,4 @@ buildTargetPlanWithFiles(
 
 `buildTargetPlanWithFiles`...FIXME
 
-NOTE: `buildTargetPlanWithFiles` is used when...FIXME
+NOTE: `buildTargetPlanWithFiles` is used when `MergeIntoCommand` is requested to <<run, run>> (via <<findTouchedFiles, findTouchedFiles>> and <<writeAllChanges, writeAllChanges>>).

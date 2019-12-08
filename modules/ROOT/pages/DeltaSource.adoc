@@ -11,7 +11,7 @@ getBatch(
   end: Offset): DataFrame
 ----
 
-NOTE: `getBatch` is part of the streaming `Source` contract (Spark Structured Streaming) to...FIXME.
+NOTE: `getBatch` is part of the `Source` contract (Spark Structured Streaming) to...FIXME.
 
 `getBatch`...FIXME
 

@@ -20,9 +20,9 @@ Delta Lake supports reading and writing in batch queries:
 
 Delta Lake supports reading and writing in streaming queries:
 
-* <<DeltaDataSource.adoc#StreamSourceProvider, Streaming reads>> (as a `Source`)
+* <<DeltaDataSource.adoc#StreamSourceProvider, Stream reads>> (as a `Source`)
 
-* <<DeltaDataSource.adoc#StreamSinkProvider, Streaming writes>> (as a `Sink`)
+* <<DeltaDataSource.adoc#StreamSinkProvider, Stream writes>> (as a `Sink`)
 
 Delta Lake uses <<DeltaLog.adoc#store, LogStore>> abstraction to read and write physical log files and checkpoints (using https://hadoop.apache.org/docs/current2/hadoop-project-dist/hadoop-common/filesystem/index.html[Hadoop FileSystem API]).
 

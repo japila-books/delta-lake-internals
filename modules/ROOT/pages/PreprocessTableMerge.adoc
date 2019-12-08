@@ -1,0 +1,19 @@
+= PreprocessTableMerge
+
+`PreprocessTableMerge` is...FIXME
+
+`PreprocessTableMerge` is <<creating-instance, created>> when `DeltaMergeBuilder` is requested to <<DeltaMergeBuilder.adoc#execute, execute>>
+
+[[creating-instance]][[conf]]
+`PreprocessTableMerge` takes a single `SQLConf` to be created.
+
+== [[apply]] Creating MergeIntoCommand Instance -- `apply` Method
+
+[source, scala]
+----
+apply(mergeInto: MergeInto): MergeIntoCommand
+----
+
+`apply`...FIXME
+
+NOTE: `apply` is used when...FIXME
