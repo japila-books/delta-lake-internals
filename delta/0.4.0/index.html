@@ -348,10 +348,10 @@
 <p><a href="https://delta.io/">Delta Lake</a> is an open-source storage management system (storage layer) that brings ACID transactions and time travel to <a href="https://spark.apache.org/">Apache Spark</a> and big data workloads.</p>
 </div>
 <div class="paragraph">
-<p>Delta Lake introduces a concept of <strong>delta table</strong> that is simply a parquet table with <a href="DeltaLog.html" class="page">transactional log of changes</a>.</p>
+<p>Delta Lake introduces a concept of <strong>delta table</strong> that is simply a <a href="DeltaFileFormat.html#fileFormat" class="page">parquet table</a> with <a href="DeltaLog.html" class="page">transactional log</a>.</p>
 </div>
 <div class="paragraph">
-<p>Changes to (the state of) a Delta table are reflected as <a href="Action.html" class="page">actions</a> and persisted to the log (in <a href="Action.html#json" class="page">JSON format</a>).</p>
+<p>Changes to (the state of) a Delta table are reflected as <a href="Action.html" class="page">actions</a> and persisted to the transactional log (in <a href="Action.html#json" class="page">JSON format</a>).</p>
 </div>
 <div class="paragraph">
 <p>Delta Lake uses <a href="OptimisticTransaction.html" class="page">OptimisticTransaction</a> for <a href="TransactionalWrite.html" class="page">transactional writes</a>.</p>
@@ -389,7 +389,7 @@
 </ul>
 </div>
 <div class="paragraph">
-<p>Delta Lake uses <a href="https://hadoop.apache.org/docs/current2/hadoop-project-dist/hadoop-common/filesystem/index.html">Hadoop FileSystem API</a> to access the underlying data storage (e.g. <a href="http://hadoop.apache.org/">Hadoop DFS</a> or <a href="https://hadoop.apache.org/docs/current2/hadoop-aws/tools/hadoop-aws/index.html">Amazon S3</a>).</p>
+<p>Delta Lake uses <a href="DeltaLog.html#store" class="page">LogStore</a> to read and write physical log files and checkpoints (using <a href="https://hadoop.apache.org/docs/current2/hadoop-project-dist/hadoop-common/filesystem/index.html">Hadoop FileSystem API</a>).</p>
 </div>
 </div>
 </div>

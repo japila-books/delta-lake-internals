@@ -457,12 +457,13 @@ NOTE: <a href="DeltaLog.html" class="page">DeltaLog</a> is the default and only 
 </div>
 </div>
 <div class="sect1">
-<h2 id="checkpoint-method"><a class="anchor" href="#checkpoint-method"></a><a class="link" href="#checkpoint-method"><a id="checkpoint"></a> <code>checkpoint</code> Method</a></h2>
+<h2 id="checkpointingcheckpoint-method"><a class="anchor" href="#checkpointingcheckpoint-method"></a><a class="link" href="#checkpointingcheckpoint-method"><a id="checkpoint"></a> Checkpointing&#8201;&#8212;&#8201;<code>checkpoint</code> Method</a></h2>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">checkpoint(): Unit
-checkpoint(snapshotToCheckpoint: Snapshot): CheckpointMetaData</code></pre>
+checkpoint(
+  snapshotToCheckpoint: Snapshot): CheckpointMetaData</code></pre>
 </div>
 </div>
 <div class="paragraph">

@@ -369,10 +369,19 @@
 </div>
 </div>
 <div class="paragraph">
-<p><a href="DeltaLog.html" class="page">DeltaLog</a> of the delta table</p>
+<p><a href="DeltaLog.html" class="page">DeltaLog</a> of a delta table</p>
 </div>
-<div class="paragraph">
-<p>Used when&#8230;&#8203;FIXME</p>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>deltaLog</code> is part of the <a href="TransactionalWrite.html#deltaLog" class="page">TransactionalWrite</a> contract and seems to change it to <code>val</code> (from <code>def</code>).
+</td>
+</tr>
+</table>
 </div></div></td>
 </tr>
 <tr>
@@ -383,10 +392,19 @@
 </div>
 </div>
 <div class="paragraph">
-<p><a href="Snapshot.html" class="page">Snapshot</a></p>
+<p><a href="Snapshot.html" class="page">Snapshot</a> of a delta table</p>
 </div>
-<div class="paragraph">
-<p>Used when&#8230;&#8203;FIXME</p>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>snapshot</code> is part of the <a href="TransactionalWrite.html#snapshot" class="page">TransactionalWrite</a> contract and seems to change it to <code>val</code> (from <code>def</code>).
+</td>
+</tr>
+</table>
 </div></div></td>
 </tr>
 </tbody>
@@ -639,16 +657,7 @@ filterFiles(
 <p><code>DeltaLog</code> is requested to <a href="DeltaLog.html#upgradeProtocol" class="page">upgradeProtocol</a></p>
 </li>
 <li>
-<p><a href="DeleteCommand.html" class="page">DeleteCommand</a> is executed (and requested to <a href="DeleteCommand.html#performDelete" class="page">performDelete</a>)</p>
-</li>
-<li>
-<p><a href="MergeIntoCommand.html" class="page">MergeIntoCommand</a> is executed</p>
-</li>
-<li>
-<p><a href="UpdateCommand.html" class="page">UpdateCommand</a> is executed (and requested to <a href="UpdateCommand.html#performUpdate" class="page">performUpdate</a>)</p>
-</li>
-<li>
-<p><a href="WriteIntoDelta.html" class="page">WriteIntoDelta</a> is executed</p>
+<p><a href="DeleteCommand.html" class="page">DeleteCommand</a>, <a href="MergeIntoCommand.html" class="page">MergeIntoCommand</a>, <a href="UpdateCommand.html" class="page">UpdateCommand</a>, and <a href="WriteIntoDelta.html" class="page">WriteIntoDelta</a> are executed</p>
 </li>
 <li>
 <p><code>DeltaSink</code> is requested to <a href="DeltaSink.html#addBatch" class="page">addBatch</a></p>
@@ -690,7 +699,7 @@ filterFiles(
 </div>
 </div>
 <div class="sect1">
-<h2 id="preparecommit-method"><a class="anchor" href="#preparecommit-method"></a><a class="link" href="#preparecommit-method"><a id="prepareCommit"></a> <code>prepareCommit</code> Method</a></h2>
+<h2 id="preparing-commitpreparecommit-method"><a class="anchor" href="#preparing-commitpreparecommit-method"></a><a class="link" href="#preparing-commitpreparecommit-method"><a id="prepareCommit"></a> Preparing Commit&#8201;&#8212;&#8201;<code>prepareCommit</code> Method</a></h2>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content">
@@ -723,7 +732,7 @@ filterFiles(
 </div>
 </div>
 <div class="sect1">
-<h2 id="postcommit-method"><a class="anchor" href="#postcommit-method"></a><a class="link" href="#postcommit-method"><a id="postCommit"></a> <code>postCommit</code> Method</a></h2>
+<h2 id="performing-post-commit-operationspostcommit-method"><a class="anchor" href="#performing-post-commit-operationspostcommit-method"></a><a class="link" href="#performing-post-commit-operationspostcommit-method"><a id="postCommit"></a> Performing Post-Commit Operations&#8201;&#8212;&#8201;<code>postCommit</code> Method</a></h2>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content">

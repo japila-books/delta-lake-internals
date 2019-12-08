@@ -345,7 +345,7 @@
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p><code>OptimisticTransaction</code> is a concrete <a href="OptimisticTransactionImpl.html" class="page">OptimisticTransactionImpl</a>.</p>
+<p><code>OptimisticTransaction</code> is a concrete <a href="OptimisticTransactionImpl.html" class="page">OptimisticTransactionImpl</a> (which <em>seems</em> more of a class name change than anything more concrete).</p>
 </div>
 <div class="paragraph">
 <p><code>OptimisticTransaction</code> is <a href="#creating-instance">created</a> when <code>DeltaLog</code> is requested to <a href="DeltaLog.html#startTransaction" class="page">start a new transaction</a> and <a href="DeltaLog.html#withNewTransaction" class="page">execute a single-threaded operation in a new transaction</a>.</p>
@@ -371,8 +371,17 @@
 </li>
 </ul>
 </div>
-<div class="paragraph">
-<p><code>OptimisticTransaction</code> initializes the <a href="#internal-properties">internal properties</a>.</p>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The <a href="#deltaLog">DeltaLog</a> and <a href="#snapshot">Snapshot</a> are part of the <a href="OptimisticTransactionImpl.html" class="page">OptimisticTransactionImpl</a> contract (which in turn inherits them from the <a href="TransactionalWrite.html" class="page">TransactionalWrite</a> contract and changes to <code>val</code> from <code>def</code>).
+</td>
+</tr>
+</table>
 </div>
 </div>
 </div>
