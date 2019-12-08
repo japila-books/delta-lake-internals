@@ -371,6 +371,32 @@ upgradeProtocol(
 
 NOTE: `upgradeProtocol` is used when...FIXME
 
+== [[createDataFrame]] `createDataFrame` Method
+
+[source, scala]
+----
+createDataFrame(
+  snapshot: Snapshot,
+  addFiles: Seq[AddFile],
+  isStreaming: Boolean = false,
+  actionTypeOpt: Option[String] = None): DataFrame
+----
+
+`createDataFrame`...FIXME
+
+NOTE: `createDataFrame` is used when...FIXME
+
+== [[lockInterruptibly]] Acquiring Interruptible Lock on Log -- `lockInterruptibly` Method
+
+[source, scala]
+----
+lockInterruptibly[T](body: => T): T
+----
+
+`lockInterruptibly`...FIXME
+
+NOTE: `lockInterruptibly` is used when...FIXME
+
 == [[currentSnapshot]] `currentSnapshot` Internal Registry
 
 [source, scala]

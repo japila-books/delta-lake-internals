@@ -2,9 +2,9 @@
 
 https://delta.io/[Delta Lake] is an open-source storage management system (storage layer) that brings ACID transactions and time travel to https://spark.apache.org/[Apache Spark] and big data workloads.
 
-Delta Lake introduces a concept of *delta table* that is simply a parquet table with <<DeltaLog.adoc#, transactional log of changes>>.
+Delta Lake introduces a concept of *delta table* that is simply a <<DeltaFileFormat.adoc#fileFormat, parquet table>> with <<DeltaLog.adoc#, transactional log>>.
 
-Changes to (the state of) a Delta table are reflected as <<Action.adoc#, actions>> and persisted to the log (in <<Action.adoc#json, JSON format>>).
+Changes to (the state of) a Delta table are reflected as <<Action.adoc#, actions>> and persisted to the transactional log (in <<Action.adoc#json, JSON format>>).
 
 Delta Lake uses <<OptimisticTransaction.adoc#, OptimisticTransaction>> for <<TransactionalWrite.adoc#, transactional writes>>.
 
@@ -24,7 +24,7 @@ Delta Lake supports reading and writing in streaming queries:
 
 * <<DeltaDataSource.adoc#StreamSinkProvider, Streaming writes>> (as a `Sink`)
 
-Delta Lake uses https://hadoop.apache.org/docs/current2/hadoop-project-dist/hadoop-common/filesystem/index.html[Hadoop FileSystem API] to access the underlying data storage (e.g. http://hadoop.apache.org/[Hadoop DFS] or https://hadoop.apache.org/docs/current2/hadoop-aws/tools/hadoop-aws/index.html[Amazon S3]).
+Delta Lake uses <<DeltaLog.adoc#store, LogStore>> abstraction to read and write physical log files and checkpoints (using https://hadoop.apache.org/docs/current2/hadoop-project-dist/hadoop-common/filesystem/index.html[Hadoop FileSystem API]).
 
 == Installing Delta Lake
 

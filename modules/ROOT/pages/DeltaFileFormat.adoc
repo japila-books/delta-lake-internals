@@ -17,7 +17,7 @@ a| [[fileFormat]]
 fileFormat: FileFormat
 ----
 
-Spark SQL's `FileFormat` that describes a Delta table
+Spark SQL's `FileFormat` of the delta table
 
 Default: `ParquetFileFormat`
 

@@ -2,7 +2,7 @@
 
 `TransactionalWrite` is an <<contract, abstraction>> of <<implementations, optimistic transactional writers>> that can <<writeFiles, write files out>>.
 
-[[implementations]]
+[[implementations]][[self]]
 NOTE: <<OptimisticTransaction.adoc#, OptimisticTransaction>> is the default and only known `TransactionalWrite` in Delta Lake (indirectly as a concrete <<OptimisticTransactionImpl.adoc#, OptimisticTransactionImpl>>).
 
 [[contract]]
@@ -20,6 +20,30 @@ a| [[deltaLog]]
 deltaLog: DeltaLog
 ----
 
+<<DeltaLog.adoc#, DeltaLog>> of the delta table that this transaction is changing
+
+Used when:
+
+* `OptimisticTransactionImpl` is requested to <<OptimisticTransactionImpl.adoc#prepareCommit, prepare a commit>>, <<OptimisticTransactionImpl.adoc#doCommit, doCommit>> (after <<DeltaLog.adoc#lockInterruptibly, acquiring an interruptible lock on the log>>), <<OptimisticTransactionImpl.adoc#checkAndRetry, checkAndRetry>>, and <<OptimisticTransactionImpl.adoc#postCommit, perform post-commit operations>> (and execute <<Checkpoints.adoc#checkpoint, delta log checkpoint>>)
+
+* <<ConvertToDeltaCommand.adoc#, ConvertToDeltaCommand>> and <<MergeIntoCommand.adoc#, MergeIntoCommand>> are executed
+
+* `DeltaCommand` is requested to <<DeltaCommand.adoc#buildBaseRelation, buildBaseRelation>>
+
+* `DeltaLog` is requested to <<DeltaLog.adoc#createDataFrame, createDataFrame>>
+
+* `TransactionalWrite` is requested to <<writeFiles, write files out>>
+
+| metadata
+a| [[metadata]]
+
+[source, scala]
+----
+metadata: Metadata
+----
+
+<<Metadata.adoc#, Metadata>> of the delta table that this transaction is changing
+
 Used when...FIXME
 
 | protocol
@@ -29,6 +53,8 @@ a| [[protocol]]
 ----
 protocol: Protocol
 ----
+
+<<Protocol.adoc#, Protocol>> of the delta table that this transaction is changing
 
 Used when...FIXME
 
@@ -40,17 +66,7 @@ a| [[snapshot]]
 snapshot: Snapshot
 ----
 
-Used when...FIXME
-
-| metadata
-a| [[metadata]]
-
-[source, scala]
-----
-metadata: Metadata
-----
-
-Used when...FIXME
+<<Snapshot.adoc#, Snapshot>> of the delta table that this transaction is <<OptimisticTransactionImpl.adoc#readVersion, reading at>>
 
 |===
 

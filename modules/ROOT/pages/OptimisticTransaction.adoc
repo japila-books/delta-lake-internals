@@ -1,8 +1,10 @@
 = [[OptimisticTransaction]] OptimisticTransaction
 
-`OptimisticTransaction` is a concrete <<OptimisticTransactionImpl.adoc#, OptimisticTransactionImpl>>.
+`OptimisticTransaction` is a concrete <<OptimisticTransactionImpl.adoc#, OptimisticTransactionImpl>> (which _seems_ more of a class name change than anything more concrete).
 
 `OptimisticTransaction` is <<creating-instance, created>> when `DeltaLog` is requested to <<DeltaLog.adoc#startTransaction, start a new transaction>> and <<DeltaLog.adoc#withNewTransaction, execute a single-threaded operation in a new transaction>>.
+
+`OptimisticTransaction` can be associated with a thread as an <<active, active transaction>>.
 
 == [[creating-instance]] Creating OptimisticTransaction Instance
 
@@ -12,7 +14,7 @@
 * [[snapshot]] <<Snapshot.adoc#, Snapshot>> (default: the <<DeltaLog.adoc#snapshot, current snapshot>> of the <<deltaLog, DeltaLog>>)
 * [[clock]] `Clock`
 
-`OptimisticTransaction` initializes the <<internal-properties, internal properties>>.
+NOTE: The <<deltaLog, DeltaLog>> and <<snapshot, Snapshot>> are part of the <<OptimisticTransactionImpl.adoc#, OptimisticTransactionImpl>> contract (which in turn inherits them from the <<TransactionalWrite.adoc#, TransactionalWrite>> contract and changes to `val` from `def`).
 
 == [[active]] Active Thread-Local OptimisticTransaction -- `active` Internal Registry
 

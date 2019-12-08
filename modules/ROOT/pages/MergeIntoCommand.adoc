@@ -26,3 +26,16 @@ writeAllChanges(
 `writeAllChanges`...FIXME
 
 NOTE: `writeAllChanges` is used exclusively when `MergeIntoCommand` is requested to <<run, run>>.
+
+== [[buildTargetPlanWithFiles]] `buildTargetPlanWithFiles` Internal Method
+
+[source, scala]
+----
+buildTargetPlanWithFiles(
+  deltaTxn: OptimisticTransaction,
+  files: Seq[AddFile]): LogicalPlan
+----
+
+`buildTargetPlanWithFiles`...FIXME
+
+NOTE: `buildTargetPlanWithFiles` is used when...FIXME

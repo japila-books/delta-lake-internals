@@ -17,9 +17,9 @@ a| [[deltaLog]]
 deltaLog: DeltaLog
 ----
 
-<<DeltaLog.adoc#, DeltaLog>> of the delta table
+<<DeltaLog.adoc#, DeltaLog>> of a delta table
 
-Used when...FIXME
+NOTE: `deltaLog` is part of the <<TransactionalWrite.adoc#deltaLog, TransactionalWrite>> contract and seems to change it to `val` (from `def`).
 
 | snapshot
 a| [[snapshot]]
@@ -29,9 +29,9 @@ a| [[snapshot]]
 snapshot: Snapshot
 ----
 
-<<Snapshot.adoc#, Snapshot>>
+<<Snapshot.adoc#, Snapshot>> of a delta table
 
-Used when...FIXME
+NOTE: `snapshot` is part of the <<TransactionalWrite.adoc#snapshot, TransactionalWrite>> contract and seems to change it to `val` (from `def`).
 
 |===
 
@@ -162,13 +162,7 @@ commit(
 
 * `DeltaLog` is requested to <<DeltaLog.adoc#upgradeProtocol, upgradeProtocol>>
 
-* <<DeleteCommand.adoc#, DeleteCommand>> is executed (and requested to <<DeleteCommand.adoc#performDelete, performDelete>>)
-
-* <<MergeIntoCommand.adoc#, MergeIntoCommand>> is executed
-
-* <<UpdateCommand.adoc#, UpdateCommand>> is executed (and requested to <<UpdateCommand.adoc#performUpdate, performUpdate>>)
-
-* <<WriteIntoDelta.adoc#, WriteIntoDelta>> is executed
+* <<DeleteCommand.adoc#, DeleteCommand>>, <<MergeIntoCommand.adoc#, MergeIntoCommand>>, <<UpdateCommand.adoc#, UpdateCommand>>, and <<WriteIntoDelta.adoc#, WriteIntoDelta>> are executed
 
 * `DeltaSink` is requested to <<DeltaSink.adoc#addBatch, addBatch>>
 ====
@@ -187,7 +181,7 @@ checkAndRetry(
 
 NOTE: `checkAndRetry` is used exclusively when `OptimisticTransactionImpl` is requested to <<doCommit, attempt to commit>> (that failed with an `FileAlreadyExistsException`).
 
-== [[prepareCommit]] `prepareCommit` Method
+== [[prepareCommit]] Preparing Commit -- `prepareCommit` Method
 
 [source, scala]
 ----
@@ -204,7 +198,7 @@ prepareCommit(
 
 NOTE: `prepareCommit` is used exclusively when `OptimisticTransactionImpl` is requested to <<commit, commit>> (at the beginning).
 
-== [[postCommit]] `postCommit` Method
+== [[postCommit]] Performing Post-Commit Operations -- `postCommit` Method
 
 [source, scala]
 ----

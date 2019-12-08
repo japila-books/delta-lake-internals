@@ -84,12 +84,13 @@ NOTE: <<DeltaLog.adoc#, DeltaLog>> is the default and only known `Checkpoints` i
 
 * <<loadMetadataFromFile, Loading checkpoint metadata in>>
 
-== [[checkpoint]] `checkpoint` Method
+== [[checkpoint]] Checkpointing -- `checkpoint` Method
 
 [source, scala]
 ----
 checkpoint(): Unit
-checkpoint(snapshotToCheckpoint: Snapshot): CheckpointMetaData
+checkpoint(
+  snapshotToCheckpoint: Snapshot): CheckpointMetaData
 ----
 
 `checkpoint`...FIXME
