@@ -1071,7 +1071,7 @@ forTable(
 </div>
 </div>
 <div class="sect1">
-<h2 id="createdataframe-method"><a class="anchor" href="#createdataframe-method"></a><a class="link" href="#createdataframe-method"><a id="createDataFrame"></a> <code>createDataFrame</code> Method</a></h2>
+<h2 id="creating-dataframe-for-given-addfilescreatedataframe-method"><a class="anchor" href="#creating-dataframe-for-given-addfilescreatedataframe-method"></a><a class="link" href="#creating-dataframe-for-given-addfilescreatedataframe-method"><a id="createDataFrame"></a> Creating DataFrame For Given AddFiles&#8201;&#8212;&#8201;<code>createDataFrame</code> Method</a></h2>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content">
@@ -1083,7 +1083,13 @@ forTable(
 </div>
 </div>
 <div class="paragraph">
-<p><code>createDataFrame</code>&#8230;&#8203;FIXME</p>
+<p><code>createDataFrame</code> takes the action name to build the <code>DataFrame</code> for from the <code>actionTypeOpt</code> (if defined), or uses <code>streaming</code> when the given <code>isStreaming</code> flag is on, and <code>batch</code> otherwise.</p>
+</div>
+<div class="paragraph">
+<p><code>createDataFrame</code> creates a new <a href="TahoeBatchFileIndex.html" class="page">TahoeBatchFileIndex</a> (for the given <a href="FileAction.html#AddFile" class="page">AddFiles</a> and <a href="Snapshot.html" class="page">Snapshot</a>).</p>
+</div>
+<div class="paragraph">
+<p>In the end, <code>createDataFrame</code> creates a <code>DataFrame</code> with a logical query plan with a <code>LogicalRelation</code> over a <code>HadoopFsRelation</code> (with the new <code>TahoeBatchFileIndex</code>).</p>
 </div>
 <div class="admonitionblock note">
 <table>
