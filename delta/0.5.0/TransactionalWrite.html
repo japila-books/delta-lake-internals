@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title> TransactionalWrite :: The Internals of Delta Lake</title>
+    <link rel="canonical" href="https://delta.japila.pl/delta/0.5.0/TransactionalWrite.html">
+    <meta name="generator" content="Antora 2.2.0">
+    <link rel="stylesheet" href="../../_/css/site.css">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-151208281-1"></script>
+    <script>function gtag(){dataLayer.push(arguments)};window.dataLayer=window.dataLayer||[];gtag('js',new Date());gtag('config','UA-151208281-1')</script>
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="https://delta.japila.pl">The Internals of Delta Lake</a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="#">Home</a>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Products</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="#">Product A</a>
+            <a class="navbar-item" href="#">Product B</a>
+            <a class="navbar-item" href="#">Product C</a>
+          </div>
+        </div>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Services</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="#">Service A</a>
+            <a class="navbar-item" href="#">Service B</a>
+            <a class="navbar-item" href="#">Service C</a>
+          </div>
+        </div>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Resources</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="#">Resource A</a>
+            <a class="navbar-item" href="#">Resource B</a>
+            <a class="navbar-item" href="#">Resource C</a>
+          </div>
+        </div>
+        <div class="navbar-item">
+          <span class="control">
+            <a class="button is-primary" href="#">Download</a>
+          </span>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="delta" data-version="0.5.0">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="index.html">Delta Lake</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="index.html">Introduction</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="time-travel.html">Time Travel</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="options.html">Options</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">Demos</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="demo-Converting-Parquet-Dataset-Into-Delta-Format.html">Converting Parquet Dataset Into Delta Format</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="demo-Using-Delta-Lake-as-Streaming-Sink-in-Structured-Streaming.html">Using Delta Lake as Streaming Sink in Structured Streaming</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="DeltaTable.html">DeltaTable</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="DeltaTableOperations.html">DeltaTableOperations</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="commands.html">Commands</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="DeltaConvert.html">DeltaConvert</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="ConvertToDeltaCommand.html">ConvertToDeltaCommand</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="DeleteCommand.html">DeleteCommand</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="DeltaCommand.html">DeltaCommand</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="DescribeDeltaHistoryCommand.html">DescribeDeltaHistoryCommand</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="MergeIntoCommand.html">MergeIntoCommand</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="DeltaMergeBuilder.html">DeltaMergeBuilder</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="PreprocessTableMerge.html">PreprocessTableMerge</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="UpdateCommand.html">UpdateCommand</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="vacuum.html">Vacuum</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="VacuumCommand.html">VacuumCommand</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="VacuumCommandImpl.html">VacuumCommandImpl</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="VacuumTableCommand.html">VacuumTableCommand</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="WriteIntoDelta.html">WriteIntoDelta</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="delta-sql-commands.html">Delta SQL Commands</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="DeltaSparkSessionExtension.html">DeltaSparkSessionExtension</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="DeltaSqlParser.html">DeltaSqlParser</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="DeltaSqlAstBuilder.html">DeltaSqlAstBuilder</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="DeltaDataSource.html">DeltaDataSource</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="DeltaSink.html">DeltaSink</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="DeltaLog.html">DeltaLog</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="Checkpoints.html">Checkpoints</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="MetadataCleanup.html">MetadataCleanup</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="LogStoreProvider.html">LogStoreProvider</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="VerifyChecksum.html">VerifyChecksum</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="LogStore.html">LogStore</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="HDFSLogStore.html">HDFSLogStore</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="HadoopFileSystemLogStore.html">HadoopFileSystemLogStore</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="Snapshot.html">Snapshot</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="StateCache.html">StateCache</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="DeltaSourceSnapshot.html">DeltaSourceSnapshot</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="CachedDS.html">CachedDS</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="SnapshotIterator.html">SnapshotIterator</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="DeltaSQLConf.html">DeltaSQLConf</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="DeltaFileFormat.html">DeltaFileFormat</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="OptimisticTransaction.html">OptimisticTransaction</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="OptimisticTransactionImpl.html">OptimisticTransactionImpl</a>
+  </li>
+  <li class="nav-item is-current-page" data-depth="2">
+    <a class="nav-link" href="TransactionalWrite.html">TransactionalWrite</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="DelayedCommitProtocol.html">DelayedCommitProtocol</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="ImplicitMetadataOperation.html">ImplicitMetadataOperation</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="DeltaFileOperations.html">DeltaFileOperations</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="SchemaUtils.html">SchemaUtils</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="Metadata.html">Metadata</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="DeltaOperations.html">DeltaOperations</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="DeltaTableUtils.html">DeltaTableUtils</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="Invariants.html">Invariants</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="DeltaInvariantCheckerExec.html">DeltaInvariantCheckerExec</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="TahoeFileIndex.html">TahoeFileIndex</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="TahoeBatchFileIndex.html">TahoeBatchFileIndex</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="TahoeLogFileIndex.html">TahoeLogFileIndex</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="DeltaSource.html">DeltaSource</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="PartitionFiltering.html">PartitionFiltering</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="DeltaHistoryManager.html">DeltaHistoryManager</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="Action.html">Action</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="FileAction.html">FileAction</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="Protocol.html">Protocol</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="DeltaConfigs.html">DeltaConfigs</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="FileNames.html">FileNames</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="logging.html">Logging</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="others.html">The Others (Contenders)</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">Delta Lake</span>
+    <span class="version">0.5.0</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <span class="title">Delta Lake</span>
+      <ul class="versions">
+        <li class="version is-current is-latest">
+          <a href="index.html">0.5.0</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main>
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="index.html" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="index.html">Delta Lake</a></li>
+    <li><a href="OptimisticTransaction.html">OptimisticTransaction</a></li>
+    <li><a href="TransactionalWrite.html">TransactionalWrite</a></li>
+  </ul>
+</nav>
+  <div class="edit-this-page"><a href="file:///antora/modules/ROOT/pages/TransactionalWrite.adoc">Edit this Page</a></div>
+</div>
+<article class="doc">
+<h1 class="page"><a id="TransactionalWrite"></a> TransactionalWrite</h1>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p><code>TransactionalWrite</code> is an <a href="#contract">abstraction</a> of <a href="#implementations">optimistic transactional writers</a> that can <a href="#writeFiles">write files out</a>.</p>
+</div>
+<div class="paragraph">
+<p><a id="implementations"></a><a id="self"></a>
+NOTE: <a href="OptimisticTransaction.html" class="page">OptimisticTransaction</a> is the default and only known <code>TransactionalWrite</code> in Delta Lake (indirectly as a concrete <a href="OptimisticTransactionImpl.html" class="page">OptimisticTransactionImpl</a>).</p>
+</div>
+<table id="contract" class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. TransactionalWrite Contract (Abstract Methods Only)</caption>
+<colgroup>
+<col style="width: 30%;">
+<col style="width: 70%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Method</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>deltaLog</code></p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div id="deltaLog" class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">deltaLog: DeltaLog</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a href="DeltaLog.html" class="page">DeltaLog</a> of the delta table that this transaction is changing</p>
+</div>
+<div class="paragraph">
+<p>Used when:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>OptimisticTransactionImpl</code> is requested to <a href="OptimisticTransactionImpl.html#prepareCommit" class="page">prepare a commit</a>, <a href="OptimisticTransactionImpl.html#doCommit" class="page">doCommit</a> (after <a href="DeltaLog.html#lockInterruptibly" class="page">acquiring an interruptible lock on the log</a>), <a href="OptimisticTransactionImpl.html#checkAndRetry" class="page">checkAndRetry</a>, and <a href="OptimisticTransactionImpl.html#postCommit" class="page">perform post-commit operations</a> (and execute <a href="Checkpoints.html#checkpoint" class="page">delta log checkpoint</a>)</p>
+</li>
+<li>
+<p><a href="ConvertToDeltaCommand.html" class="page">ConvertToDeltaCommand</a> and <a href="MergeIntoCommand.html" class="page">MergeIntoCommand</a> are executed</p>
+</li>
+<li>
+<p><code>DeltaCommand</code> is requested to <a href="DeltaCommand.html#buildBaseRelation" class="page">buildBaseRelation</a></p>
+</li>
+<li>
+<p><code>DeltaLog</code> is requested to <a href="DeltaLog.html#createDataFrame" class="page">createDataFrame</a></p>
+</li>
+<li>
+<p><code>TransactionalWrite</code> is requested to <a href="#writeFiles">write files out</a></p>
+</li>
+</ul>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>metadata</code></p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div id="metadata" class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">metadata: Metadata</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a href="Metadata.html" class="page">Metadata</a> of the delta table that this transaction is changing</p>
+</div>
+<div class="paragraph">
+<p>Used when&#8230;&#8203;FIXME</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>protocol</code></p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div id="protocol" class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">protocol: Protocol</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a href="Protocol.html" class="page">Protocol</a> of the delta table that this transaction is changing</p>
+</div>
+<div class="paragraph">
+<p>Used when&#8230;&#8203;FIXME</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>snapshot</code></p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div id="snapshot" class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">snapshot: Snapshot</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a href="Snapshot.html" class="page">Snapshot</a> of the delta table that this transaction is <a href="OptimisticTransactionImpl.html#readVersion" class="page">reading at</a></p>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect1">
+<h2 id="writing-files-outwritefiles-method"><a class="anchor" href="#writing-files-outwritefiles-method"></a><a class="link" href="#writing-files-outwritefiles-method"><a id="writeFiles"></a> Writing Files Out&#8201;&#8212;&#8201;<code>writeFiles</code> Method</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">writeFiles(
+  data: Dataset[_]): Seq[AddFile]
+writeFiles(
+  data: Dataset[_],
+  writeOptions: Option[DeltaOptions]): Seq[AddFile]
+writeFiles(
+  data: Dataset[_],
+  isOptimize: Boolean): Seq[AddFile]
+writeFiles(
+  data: Dataset[_],
+  writeOptions: Option[DeltaOptions],
+  isOptimize: Boolean): Seq[AddFile]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>writeFiles</code> creates a <a href="DeltaInvariantCheckerExec.html" class="page">DeltaInvariantCheckerExec</a> and a <a href="DelayedCommitProtocol.html" class="page">DelayedCommitProtocol</a> to write out files (using <code>FileFormatWriter.write</code>) to the <a href="DeltaLog.html#dataPath" class="page">data path</a> (of the <a href="#deltaLog">DeltaLog</a>).</p>
+</div>
+<div class="paragraph">
+<p><code>writeFiles</code> is executed within <code>SQLExecution.withNewExecutionId</code>.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>writeFiles</code> can be tracked using web UI or <code>SQLAppStatusListener</code> (using <code>SparkListenerSQLExecutionStart</code> and <code>SparkListenerSQLExecutionEnd</code> events).
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>In the end, <code>writeFiles</code> returns the <a href="DelayedCommitProtocol.html#addedStatuses" class="page">addedStatuses</a> of the <code>DelayedCommitProtocol</code> committer.</p>
+</div>
+<div class="paragraph">
+<p>Internally, <code>writeFiles</code> turns the <a href="#hasWritten">hasWritten</a> flag on (<code>true</code>).</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+After <code>writeFiles</code>, no <a href="OptimisticTransactionImpl.html#updateMetadata-AssertionError-hasWritten" class="page">metadata updates</a> in the transaction are permitted.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><code>writeFiles</code> <a href="#normalizeData">normalize</a> the given <code>data</code> dataset (based on the <a href="Metadata.html#partitionColumns" class="page">partitionColumns</a> of the <a href="OptimisticTransactionImpl.html#metadata" class="page">Metadata</a>).</p>
+</div>
+<div class="paragraph">
+<p><code>writeFiles</code> <a href="#getPartitioningColumns">getPartitioningColumns</a> based on the <a href="Metadata.html#partitionSchema" class="page">partitionSchema</a> of the <a href="OptimisticTransactionImpl.html#metadata" class="page">Metadata</a>.</p>
+</div>
+<div id="writeFiles-committer" class="paragraph">
+<p><code>writeFiles</code> <a href="#getCommitter">creates a DelayedCommitProtocol committer</a> for the <a href="DeltaLog.html#dataPath" class="page">data path</a> of the <a href="#deltaLog">DeltaLog</a>.</p>
+</div>
+<div class="paragraph">
+<p><code>writeFiles</code> <a href="Invariants.html#getFromSchema" class="page">gets the invariants</a> from the <a href="Metadata.html#schema" class="page">schema</a> of the <a href="OptimisticTransactionImpl.html#metadata" class="page">Metadata</a>.</p>
+</div>
+<div class="paragraph">
+<p><a id="writeFiles-DeltaInvariantCheckerExec"></a><a id="writeFiles-FileFormatWriter"></a>
+<code>writeFiles</code> requests a new Execution ID (that is used to track all Spark jobs of <code>FileFormatWriter.write</code> in Spark SQL) with a physical query plan of a new <a href="DeltaInvariantCheckerExec.html" class="page">DeltaInvariantCheckerExec</a> unary physical operator (with the executed plan of the normalized query execution as the child operator).</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p><code>writeFiles</code> is used when:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="DeleteCommand.html" class="page">DeleteCommand</a>, <a href="MergeIntoCommand.html" class="page">MergeIntoCommand</a>, <a href="UpdateCommand.html" class="page">UpdateCommand</a>, and <a href="WriteIntoDelta.html" class="page">WriteIntoDelta</a> are requested to run</p>
+</li>
+<li>
+<p><code>DeltaSink</code> is requested to <a href="DeltaSink.html#addBatch" class="page">addBatch</a></p>
+</li>
+</ul>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="getcommitter-method"><a class="anchor" href="#getcommitter-method"></a><a class="link" href="#getcommitter-method"><a id="getCommitter"></a> <code>getCommitter</code> Method</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">getCommitter(
+  outputPath: Path): DelayedCommitProtocol</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>getCommitter</code> creates a new <a href="DelayedCommitProtocol.html" class="page">DelayedCommitProtocol</a> with the <strong>delta</strong> job ID and the given <code>outputPath</code> (and no random prefix).</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>getCommitter</code> is used exclusively when <code>TransactionalWrite</code> is requested to <a href="#writeFiles">write files out</a>.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="makeoutputnullable-method"><a class="anchor" href="#makeoutputnullable-method"></a><a class="link" href="#makeoutputnullable-method"><a id="makeOutputNullable"></a> <code>makeOutputNullable</code> Method</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">makeOutputNullable(output: Seq[Attribute]): Seq[Attribute]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>makeOutputNullable</code>&#8230;&#8203;FIXME</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>makeOutputNullable</code> is used when&#8230;&#8203;FIXME
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="normalizedata-method"><a class="anchor" href="#normalizedata-method"></a><a class="link" href="#normalizedata-method"><a id="normalizeData"></a> <code>normalizeData</code> Method</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">normalizeData(
+  data: Dataset[_],
+  partitionCols: Seq[String]): (QueryExecution, Seq[Attribute])</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>normalizeData</code>&#8230;&#8203;FIXME</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>normalizeData</code> is used when&#8230;&#8203;FIXME
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="getpartitioningcolumns-method"><a class="anchor" href="#getpartitioningcolumns-method"></a><a class="link" href="#getpartitioningcolumns-method"><a id="getPartitioningColumns"></a> <code>getPartitioningColumns</code> Method</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">getPartitioningColumns(
+  partitionSchema: StructType,
+  output: Seq[Attribute],
+  colsDropped: Boolean): Seq[Attribute]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>getPartitioningColumns</code>&#8230;&#8203;FIXME</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>getPartitioningColumns</code> is used when&#8230;&#8203;FIXME
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="haswritten-flag"><a class="anchor" href="#haswritten-flag"></a><a class="link" href="#haswritten-flag"><a id="hasWritten"></a> <code>hasWritten</code> Flag</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">hasWritten: Boolean = false</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>TransactionalWrite</code> uses the <code>hasWritten</code> internal registry to prevent <code>OptimisticTransactionImpl</code> from <a href="OptimisticTransactionImpl.html#updateMetadata" class="page">updating metadata</a> after <a href="#writeFiles">having written out any files</a>.</p>
+</div>
+<div class="paragraph">
+<p><code>hasWritten</code> is initially turned off (<code>false</code>). It can be turned on (<code>true</code>) when <code>TransactionalWrite</code> is requested to <a href="#writeFiles">write files out</a>.</p>
+</div>
+</div>
+</div>
+</article>
+</main>
+</div>
+<footer class="footer">
+  <p>This page was built using the Antora default UI.</p>
+  <p>The source code for this UI is licensed under the terms of the MPL-2.0 license.</p>
+</footer>
+<script src="../../_/js/site.js"></script>
+<script async src="../../_/js/vendor/highlight.js"></script>
+  </body>
+</html>

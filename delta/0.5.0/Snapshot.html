@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title> Snapshot :: The Internals of Delta Lake</title>
+    <link rel="canonical" href="https://delta.japila.pl/delta/0.5.0/Snapshot.html">
+    <meta name="generator" content="Antora 2.2.0">
+    <link rel="stylesheet" href="../../_/css/site.css">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-151208281-1"></script>
+    <script>function gtag(){dataLayer.push(arguments)};window.dataLayer=window.dataLayer||[];gtag('js',new Date());gtag('config','UA-151208281-1')</script>
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="https://delta.japila.pl">The Internals of Delta Lake</a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="#">Home</a>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Products</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="#">Product A</a>
+            <a class="navbar-item" href="#">Product B</a>
+            <a class="navbar-item" href="#">Product C</a>
+          </div>
+        </div>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Services</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="#">Service A</a>
+            <a class="navbar-item" href="#">Service B</a>
+            <a class="navbar-item" href="#">Service C</a>
+          </div>
+        </div>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Resources</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="#">Resource A</a>
+            <a class="navbar-item" href="#">Resource B</a>
+            <a class="navbar-item" href="#">Resource C</a>
+          </div>
+        </div>
+        <div class="navbar-item">
+          <span class="control">
+            <a class="button is-primary" href="#">Download</a>
+          </span>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="delta" data-version="0.5.0">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="index.html">Delta Lake</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="index.html">Introduction</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="time-travel.html">Time Travel</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="options.html">Options</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">Demos</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="demo-Converting-Parquet-Dataset-Into-Delta-Format.html">Converting Parquet Dataset Into Delta Format</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="demo-Using-Delta-Lake-as-Streaming-Sink-in-Structured-Streaming.html">Using Delta Lake as Streaming Sink in Structured Streaming</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="DeltaTable.html">DeltaTable</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="DeltaTableOperations.html">DeltaTableOperations</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="commands.html">Commands</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="DeltaConvert.html">DeltaConvert</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="ConvertToDeltaCommand.html">ConvertToDeltaCommand</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="DeleteCommand.html">DeleteCommand</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="DeltaCommand.html">DeltaCommand</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="DescribeDeltaHistoryCommand.html">DescribeDeltaHistoryCommand</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="MergeIntoCommand.html">MergeIntoCommand</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="DeltaMergeBuilder.html">DeltaMergeBuilder</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="PreprocessTableMerge.html">PreprocessTableMerge</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="UpdateCommand.html">UpdateCommand</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="vacuum.html">Vacuum</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="VacuumCommand.html">VacuumCommand</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="VacuumCommandImpl.html">VacuumCommandImpl</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="VacuumTableCommand.html">VacuumTableCommand</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="WriteIntoDelta.html">WriteIntoDelta</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="delta-sql-commands.html">Delta SQL Commands</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="DeltaSparkSessionExtension.html">DeltaSparkSessionExtension</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="DeltaSqlParser.html">DeltaSqlParser</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="DeltaSqlAstBuilder.html">DeltaSqlAstBuilder</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="DeltaDataSource.html">DeltaDataSource</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="DeltaSink.html">DeltaSink</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="DeltaLog.html">DeltaLog</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="Checkpoints.html">Checkpoints</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="MetadataCleanup.html">MetadataCleanup</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="LogStoreProvider.html">LogStoreProvider</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="VerifyChecksum.html">VerifyChecksum</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="LogStore.html">LogStore</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="HDFSLogStore.html">HDFSLogStore</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="HadoopFileSystemLogStore.html">HadoopFileSystemLogStore</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item is-current-page" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="Snapshot.html">Snapshot</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="StateCache.html">StateCache</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="DeltaSourceSnapshot.html">DeltaSourceSnapshot</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="CachedDS.html">CachedDS</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="SnapshotIterator.html">SnapshotIterator</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="DeltaSQLConf.html">DeltaSQLConf</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="DeltaFileFormat.html">DeltaFileFormat</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="OptimisticTransaction.html">OptimisticTransaction</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="OptimisticTransactionImpl.html">OptimisticTransactionImpl</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="TransactionalWrite.html">TransactionalWrite</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="DelayedCommitProtocol.html">DelayedCommitProtocol</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="ImplicitMetadataOperation.html">ImplicitMetadataOperation</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="DeltaFileOperations.html">DeltaFileOperations</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="SchemaUtils.html">SchemaUtils</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="Metadata.html">Metadata</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="DeltaOperations.html">DeltaOperations</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="DeltaTableUtils.html">DeltaTableUtils</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="Invariants.html">Invariants</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="DeltaInvariantCheckerExec.html">DeltaInvariantCheckerExec</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="TahoeFileIndex.html">TahoeFileIndex</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="TahoeBatchFileIndex.html">TahoeBatchFileIndex</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="TahoeLogFileIndex.html">TahoeLogFileIndex</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="DeltaSource.html">DeltaSource</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="PartitionFiltering.html">PartitionFiltering</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="DeltaHistoryManager.html">DeltaHistoryManager</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="Action.html">Action</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="FileAction.html">FileAction</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="Protocol.html">Protocol</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="DeltaConfigs.html">DeltaConfigs</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="FileNames.html">FileNames</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="logging.html">Logging</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="others.html">The Others (Contenders)</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">Delta Lake</span>
+    <span class="version">0.5.0</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <span class="title">Delta Lake</span>
+      <ul class="versions">
+        <li class="version is-current is-latest">
+          <a href="index.html">0.5.0</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main>
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="index.html" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="index.html">Delta Lake</a></li>
+    <li><a href="Snapshot.html">Snapshot</a></li>
+  </ul>
+</nav>
+  <div class="edit-this-page"><a href="file:///antora/modules/ROOT/pages/Snapshot.adoc">Edit this Page</a></div>
+</div>
+<article class="doc">
+<h1 class="page"><a id="Snapshot"></a> Snapshot</h1>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p><code>Snapshot</code> is <a href="#creating-instance">created</a> when <code>DeltaLog</code> is requested for the <a href="DeltaLog.html#currentSnapshot" class="page">current snapshot</a>, to <a href="DeltaLog.html#update" class="page">update</a>, and <a href="DeltaLog.html#getSnapshotAt" class="page">getSnapshotAt</a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="creating-snapshot-instance"><a class="anchor" href="#creating-snapshot-instance"></a><a class="link" href="#creating-snapshot-instance"><a id="creating-instance"></a> Creating Snapshot Instance</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><code>Snapshot</code> takes the following to be created:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a id="path"></a> <code>Path</code></p>
+</li>
+<li>
+<p><a id="version"></a> Version</p>
+</li>
+<li>
+<p><a id="previousSnapshot"></a> Previous snapshot (<code>Option[Dataset[SingleAction]]</code>)</p>
+</li>
+<li>
+<p><a id="files"></a> Files (<code>Seq[Path]</code>)</p>
+</li>
+<li>
+<p><a id="minFileRetentionTimestamp"></a> <code>minFileRetentionTimestamp</code></p>
+</li>
+<li>
+<p><a id="deltaLog"></a> <a href="DeltaLog.html" class="page">DeltaLog</a></p>
+</li>
+<li>
+<p><a id="timestamp"></a> Timestamp</p>
+</li>
+<li>
+<p><a id="lineageLength"></a> Length of the lineage (default: <code>1</code>)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><code>Snapshot</code> initializes the <a href="#internal-properties">internal properties</a>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="state-method"><a class="anchor" href="#state-method"></a><a class="link" href="#state-method"><a id="state"></a> <code>state</code> Method</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">state: Dataset[SingleAction]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>state</code> simply requests the <a href="#cachedState">cached delta state</a> to <a href="CachedDS.html#getDS" class="page">get the delta state from the cache</a>.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>state</code> is used when&#8230;&#8203;FIXME
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="dataskippingnumindexedcols-table-propertynumindexedcols-value"><a class="anchor" href="#dataskippingnumindexedcols-table-propertynumindexedcols-value"></a><a class="link" href="#dataskippingnumindexedcols-table-propertynumindexedcols-value"><a id="numIndexedCols"></a> dataSkippingNumIndexedCols Table Property&#8201;&#8212;&#8201;<code>numIndexedCols</code> Value</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">numIndexedCols: Int</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>numIndexedCols</code> simply reads the <a href="DeltaConfigs.html#DATA_SKIPPING_NUM_INDEXED_COLS" class="page">dataSkippingNumIndexedCols</a> table property <a href="DeltaConfigs.html#fromMetaData" class="page">from</a> the <a href="#metadata">Metadata</a>.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>numIndexedCols</code> seems unused.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="internal-properties"><a class="anchor" href="#internal-properties"></a><a class="link" href="#internal-properties"><a id="internal-properties"></a> Internal Properties</a></h2>
+<div class="sectionbody">
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 30%;">
+<col style="width: 70%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>cachedState</code></p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="cachedState"></a> <a href="CachedDS.html" class="page">CachedDS</a></p>
+</div>
+<div class="paragraph">
+<p>Used when&#8230;&#8203;FIXME</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>metadata</code></p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="metadata"></a> <a href="Metadata.html" class="page">Metadata</a> of the <a href="#deltaLog">delta table</a></p>
+</div>
+<div class="paragraph">
+<p>Used when&#8230;&#8203;FIXME</p>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</article>
+</main>
+</div>
+<footer class="footer">
+  <p>This page was built using the Antora default UI.</p>
+  <p>The source code for this UI is licensed under the terms of the MPL-2.0 license.</p>
+</footer>
+<script src="../../_/js/site.js"></script>
+<script async src="../../_/js/vendor/highlight.js"></script>
+  </body>
+</html>
