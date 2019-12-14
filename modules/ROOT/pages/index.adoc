@@ -34,7 +34,7 @@ In order to "install" and use Delta Lake in a Spark application (e.g. `spark-she
 ----
 /*
 ./bin/spark-shell \
-  --packages io.delta:delta-core_2.12:0.4.0 \
+  --packages io.delta:delta-core_2.12:{page-component-version} \
   --conf spark.sql.extensions=io.delta.sql.DeltaSparkSessionExtension
 */
 assert(spark.isInstanceOf[org.apache.spark.sql.SparkSession])
