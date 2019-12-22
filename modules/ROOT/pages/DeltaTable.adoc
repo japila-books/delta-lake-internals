@@ -50,6 +50,18 @@ Deletes data from the `DeltaTable` that matches the given `condition`.
 
 IMPORTANT: <<delete, delete>> and <<update, update>> operators do not support subqueries (and <<DeltaTableOperations.adoc#subqueryNotSupportedCheck, throw an AnalysisException>> otherwise).
 
+| generate
+a| [[generate]]
+
+[source, scala]
+----
+generate(mode: String): Unit
+----
+
+Generates a manifest for the delta table
+
+Internally, `generate` <<DeltaTableOperations.adoc#executeGenerate, executeGenerate>> with the table ID of the format `++delta.`path`++` (where the path is the <<DeltaLog.adoc#dataPath, data directory>> of the <<deltaLog, DeltaLog>>) and the given mode.
+
 | history
 a| [[history]]
 
@@ -235,3 +247,22 @@ isDeltaTable(
 `isDeltaTable` checks whether or not the provided `identifier` string is a file path that points to the root of a Delta table or one of the subdirectories.
 
 Internally, `isDeltaTable` simply relays to <<DeltaTableUtils.adoc#isDeltaTable, DeltaTableUtils.isDeltaTable>> utility.
+
+== [[unapply]] `unapply` Extractor Utility
+
+[source, scala]
+----
+unapply(
+  a: LogicalRelation): Option[TahoeFileIndex]
+----
+
+`unapply` simply destructures the given `LogicalRelation` and takes out the <<TahoeFileIndex.adoc#, TahoeFileIndex>> from the `HadoopFsRelation` relation.
+
+[NOTE]
+====
+`unapply` is used when:
+
+* `DeltaSink` is requested to <<DeltaSink.adoc#addBatch, addBatch>>
+
+* `DeltaDataSource` utility is used to <<DeltaDataSource.adoc#extractDeltaPath, extractDeltaPath>> (but does not seem to be used whatsoever)
+====

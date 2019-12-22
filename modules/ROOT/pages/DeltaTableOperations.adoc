@@ -8,6 +8,19 @@ NOTE: <<DeltaTable.adoc#, DeltaTable>> is the default and only known `DeltaTable
 
 NOTE: <<executeDelete, Delete>> and <<executeUpdate, Update>> operations do not support subqueries (and <<subqueryNotSupportedCheck, throw an AnalysisException>> otherwise).
 
+== [[executeGenerate]] Executing Generate Command -- `executeGenerate` Method
+
+[source, scala]
+----
+executeGenerate(
+  tblIdentifier: String,
+  mode: String): Unit
+----
+
+`executeGenerate` requests the SQL parser (of the `SparkSession`) to parse the given table identifier, creates a <<DeltaGenerateCommand.adoc#, DeltaGenerateCommand>> and runs it.
+
+NOTE: `executeGenerate` is used in <<DeltaTable.adoc#generate, DeltaTable.generate>> operator.
+
 == [[executeDelete]] Executing Delete Command -- `executeDelete` Method
 
 [source, scala]

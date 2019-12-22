@@ -1,0 +1,27 @@
+= DeltaGenerateCommand
+
+`DeltaGenerateCommand` is a concrete <<DeltaGenerateCommandBase.adoc#, DeltaGenerateCommandBase>> (and so can <<DeltaGenerateCommandBase.adoc#getPath, get the path of a delta table from a table identifier>>).
+
+`DeltaGenerateCommand` is <<creating-instance, created>> when:
+
+* `DeltaSqlAstBuilder` is requested to <<DeltaSqlAstBuilder.adoc#visitGenerate, parse GENERATE SQL command>>
+
+* <<DeltaTable.adoc#generate, DeltaTable.generate>> operator is used (that <<DeltaTableOperations.adoc#executeGenerate, executeGenerate>>)
+
+== [[creating-instance]] Creating DeltaGenerateCommand Instance
+
+`DeltaGenerateCommand` takes the following to be created:
+
+* [[modeName]] Mode
+* [[tableId]] Delta table (`TableIdentifier`)
+
+== [[run]] Running Command -- `run` Method
+
+[source, scala]
+----
+run(sparkSession: SparkSession): Seq[Row]
+----
+
+NOTE: `run` is part of the `RunnableCommand` contract to...FIXME.
+
+`run`...FIXME

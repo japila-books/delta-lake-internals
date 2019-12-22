@@ -1,8 +1,6 @@
 = DeltaSqlAstBuilder
 
-`DeltaSqlAstBuilder` is a command builder for the <<commands, Delta SQL commands>> described in *DeltaSqlBase.g4* ANTLR grammar, i.e. <<visitVacuumTable, VACUUM>> and <<visitDescribeDeltaHistory, DESCRIBE HISTORY>>.
-
-`DeltaSqlParser` is used exclusively by <<DeltaSqlParser.adoc#builder, DeltaSqlParser>>.
+`DeltaSqlAstBuilder` is a command builder for the <<commands, Delta SQL commands>> described in *DeltaSqlBase.g4* ANTLR grammar.
 
 [[commands]]
 .DeltaSqlAstBuilder's Delta SQL Commands
@@ -11,24 +9,54 @@
 | Name
 | Description
 
+| CONVERT TO DELTA
+a| [[CONVERT-TO-DELTA]][[visitConvert]]
+
+```
+CONVERT TO DELTA table
+  (PARTITIONED BY '(' colTypeList ')')?
+```
+
+Creates a <<DescribeDeltaHistoryCommand.adoc#, DescribeDeltaHistoryCommand>>
+
+| DESCRIBE DETAIL
+a| [[DESCRIBE-DETAIL]][[visitDescribeDeltaDetail]]
+
+```
+(DESC \| DESCRIBE) DETAIL (path \| table)
+```
+
+Creates a <<DescribeDeltaHistoryCommand.adoc#, DescribeDeltaHistoryCommand>>
+
 | DESCRIBE HISTORY
 a| [[DESCRIBE-HISTORY]][[visitDescribeDeltaHistory]]
 
 ```
-(DESC \| DESCRIBE) HISTORY (path=STRING \| table=qualifiedName)
-  (LIMIT limit=INTEGER_VALUE)?
+(DESC \| DESCRIBE) HISTORY (path \| table)
+  (LIMIT limit)?
 ```
 
 Creates a <<DescribeDeltaHistoryCommand.adoc#, DescribeDeltaHistoryCommand>>
+
+| GENERATE
+a| [[GENERATE]][[visitGenerate]]
+
+```
+GENERATE modeName FOR TABLE table
+```
+
+Creates a <<DeltaGenerateCommand.adoc#, DeltaGenerateCommand>>
 
 | VACUUM
 a| [[VACUUM]][[visitVacuumTable]]
 
 ```
-VACUUM (path=STRING \| table=qualifiedName)
+VACUUM (path \| table)
   (RETAIN number HOURS)? (DRY RUN)?
 ```
 
 Creates a <<VacuumTableCommand.adoc#, VacuumTableCommand>>
 
 |===
+
+`DeltaSqlParser` is used exclusively by <<DeltaSqlParser.adoc#builder, DeltaSqlParser>>.

@@ -14,6 +14,10 @@
 *** xref:ConvertToDeltaCommand.adoc[ConvertToDeltaCommand]
 ** xref:DeleteCommand.adoc[DeleteCommand]
 ** xref:DeltaCommand.adoc[DeltaCommand]
+
+** xref:DeltaGenerateCommand.adoc[DeltaGenerateCommand]
+*** xref:DeltaGenerateCommandBase.adoc[DeltaGenerateCommandBase]
+
 ** xref:DescribeDeltaHistoryCommand.adoc[DescribeDeltaHistoryCommand]
 ** xref:MergeIntoCommand.adoc[MergeIntoCommand]
 *** xref:DeltaMergeBuilder.adoc[DeltaMergeBuilder]

@@ -87,3 +87,15 @@ getTimeTravelVersion(
 `getTimeTravelVersion`...FIXME
 
 NOTE: `getTimeTravelVersion` is used exclusively when `DeltaDataSource` is requested to <<RelationProvider-createRelation, create a relation (as a RelationProvider)>>.
+
+== [[extractDeltaPath]] `extractDeltaPath` Utility
+
+[source, scala]
+----
+extractDeltaPath(
+  dataset: Dataset[_]): Option[String]
+----
+
+`extractDeltaPath`...FIXME
+
+NOTE: `extractDeltaPath` does not seem to be used whatsoever.
