@@ -17,7 +17,7 @@ CONVERT TO DELTA table
   (PARTITIONED BY '(' colTypeList ')')?
 ```
 
-Creates a <<DescribeDeltaHistoryCommand.adoc#, DescribeDeltaHistoryCommand>>
+Creates a <<ConvertToDeltaCommand.adoc#, ConvertToDeltaCommand>>
 
 | DESCRIBE DETAIL
 a| [[DESCRIBE-DETAIL]][[visitDescribeDeltaDetail]]
@@ -26,7 +26,7 @@ a| [[DESCRIBE-DETAIL]][[visitDescribeDeltaDetail]]
 (DESC \| DESCRIBE) DETAIL (path \| table)
 ```
 
-Creates a <<DescribeDeltaHistoryCommand.adoc#, DescribeDeltaHistoryCommand>>
+Creates a <<DescribeDeltaDetailCommand.adoc#, DescribeDeltaDetailCommand>>
 
 | DESCRIBE HISTORY
 a| [[DESCRIBE-HISTORY]][[visitDescribeDeltaHistory]]
