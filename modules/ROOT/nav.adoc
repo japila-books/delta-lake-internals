@@ -63,6 +63,7 @@
 ** xref:OptimisticTransactionImpl.adoc[OptimisticTransactionImpl]
 ** xref:TransactionalWrite.adoc[TransactionalWrite]
 ** xref:DelayedCommitProtocol.adoc[DelayedCommitProtocol]
+** xref:PostCommitHook.adoc[Post-Commit Hooks]
 
 * xref:ImplicitMetadataOperation.adoc[ImplicitMetadataOperation]
 * xref:DeltaFileOperations.adoc[DeltaFileOperations]
@@ -89,6 +90,8 @@
 * xref:DeltaConfigs.adoc[DeltaConfigs]
 
 * xref:FileNames.adoc[FileNames]
+
+* xref:DeltaErrors.adoc[DeltaErrors]
 
 * xref:logging.adoc[Logging]
 
