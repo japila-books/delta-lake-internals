@@ -53,7 +53,7 @@ Cannot set a new txn as active when one is already active
 
 NOTE: `setActive` is used exclusively when `DeltaLog` is requested to <<DeltaLog.adoc#withNewTransaction, execute an operation in a new transaction>>.
 
-== [[clearActive]] `clearActive` Utility
+== [[clearActive]] Clearing Active Transaction -- `clearActive` Utility
 
 [source, scala]
 ----

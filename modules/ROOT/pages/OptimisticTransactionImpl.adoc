@@ -1,6 +1,6 @@
 = [[OptimisticTransactionImpl]] OptimisticTransactionImpl
 
-`OptimisticTransactionImpl` is an <<contract, extension>> of the <<TransactionalWrite.adoc#, TransactionalWrite contract>> for <<implementations, optimistic transactions>> that <<FIXME, FIXME>>.
+`OptimisticTransactionImpl` is an <<contract, extension>> of the <<TransactionalWrite.adoc#, TransactionalWrite contract>> for <<implementations, optimistic transactions>> that can be <<commit, committed>>.
 
 [[contract]]
 .OptimisticTransactionImpl Contract (Abstract Methods Only)
@@ -37,6 +37,17 @@ NOTE: `snapshot` is part of the <<TransactionalWrite.adoc#snapshot, Transactiona
 
 [[implementations]]
 NOTE: <<OptimisticTransaction.adoc#, OptimisticTransaction>> is the only known `OptimisticTransactionImpl` in Delta Lake.
+
+== [[postCommitHooks]] Post-Commit Hooks -- `postCommitHooks` Internal Registry
+
+[source, scala]
+----
+postCommitHooks: ArrayBuffer[PostCommitHook]
+----
+
+`OptimisticTransactionImpl` manages <<PostCommitHook.adoc#, post-commit hooks>> that will be <<runPostCommitHooks, executed>> after a <<commit, commit>> is successful.
+
+Post-commit hooks can be <<registerPostCommitHook, registered>>, but only the <<GenerateSymlinkManifest.adoc#, GenerateSymlinkManifest>> post-commit hook is supported (when...FIXME).
 
 == [[newMetadata]] `newMetadata` Internal Registry
 
@@ -156,6 +167,14 @@ commit(
 
 `commit`...FIXME
 
+[[commit-registerPostCommitHook]]
+`commit` registers the <<GenerateSymlinkManifest.adoc#, GenerateSymlinkManifest>> post-commit hook when...FIXME
+
+`commit`...FIXME
+
+[[commit-runPostCommitHooks]]
+In the end, `commit` <<runPostCommitHooks, runs post-commit hooks>>.
+
 [NOTE]
 ====
 `commit` is used when:
@@ -211,7 +230,21 @@ postCommit(
 
 NOTE: `postCommit` is used exclusively when `OptimisticTransactionImpl` is requested to <<commit, commit>> (at the end).
 
-== [[runPostCommitHooks]] `runPostCommitHooks` Method
+== [[registerPostCommitHook]] Registering Post-Commit Hook -- `registerPostCommitHook` Method
+
+[source, scala]
+----
+registerPostCommitHook(
+  hook: PostCommitHook): Unit
+----
+
+`registerPostCommitHook` registers (_adds_) the given <<PostCommitHook.adoc#, PostCommitHook>> to the <<postCommitHooks, postCommitHooks>> internal registry.
+
+NOTE: `registerPostCommitHook` adds the hook only once.
+
+NOTE: `registerPostCommitHook` is used when `OptimisticTransactionImpl` is requested to <<commit, commit>> (to register the <<GenerateSymlinkManifest.adoc#, GenerateSymlinkManifest>> post-commit hook).
+
+== [[runPostCommitHooks]] Running Post-Commit Hooks -- `runPostCommitHooks` Method
 
 [source, scala]
 ----
@@ -220,7 +253,23 @@ runPostCommitHooks(
   committedActions: Seq[Action]): Unit
 ----
 
-`runPostCommitHooks`...FIXME
+`runPostCommitHooks` simply <<PostCommitHook.adoc#run, runs>> every <<PostCommitHook.adoc#, post-commit hook>> registered (in the <<postCommitHooks, postCommitHooks>> internal registry).
+
+`runPostCommitHooks` <<OptimisticTransaction.adoc#clearActive, clears the active transaction>> (making all follow-up operations non-transactional).
+
+NOTE: Hooks may create new transactions.
+
+For any non-fatal exception, `runPostCommitHooks` prints out the following ERROR message to the logs, records the delta event, and requests the post-commit hook to <<PostCommitHook.adoc#handleError, handle the error>>.
+
+```
+Error when executing post-commit hook [name] for commit [version]
+```
+
+`runPostCommitHooks` throws an `AssertionError` when <<committed, committed>> flag is turned off (`false`):
+
+```
+Can't call post commit hooks before committing
+```
 
 NOTE: `runPostCommitHooks` is used when `OptimisticTransactionImpl` is requested to <<commit, commit>>.
 
