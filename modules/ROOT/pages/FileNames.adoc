@@ -21,3 +21,16 @@ a| [[isCheckpointFile]]
 a| [[isDeltaFile]]
 
 |===
+
+== [[deltaFile]] Creating Hadoop Path To Delta File -- `deltaFile` Utility
+
+[source, scala]
+----
+deltaFile(
+  path: Path,
+  version: Long): Path
+----
+
+`deltaFile` creates a Hadoop `Path` to a file of the format `[version][%020d].json` in the `path` directory, e.g. `00000000000000000001.json`.
+
+NOTE: `deltaFile` is used when...FIXME

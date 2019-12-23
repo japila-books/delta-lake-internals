@@ -75,6 +75,8 @@ write(
   actions: Iterator[String]): Unit
 ----
 
+Writes the actions out to the given path (with or without overwrite as indicated).
+
 Used when:
 
 * `Checkpoints` is requested to <<Checkpoints.adoc#checkpoint, checkpoint>>

@@ -295,7 +295,7 @@ Can't call post commit hooks before committing
 
 NOTE: `runPostCommitHooks` is used when `OptimisticTransactionImpl` is requested to <<commit, commit>>.
 
-== [[doCommit]] `doCommit` Internal Method
+== [[doCommit]] Attempting Commit -- `doCommit` Internal Method
 
 [source, scala]
 ----
@@ -305,7 +305,33 @@ doCommit(
   attemptNumber: Int): Long
 ----
 
-`doCommit`...FIXME
+`doCommit` returns the given `attemptVersion` as the commit version if successful or <<checkAndRetry, checkAndRetry>>.
+
+Internally, `doCommit` prints out the following DEBUG message to the logs:
+
+```
+Attempting to commit version [attemptVersion] with [size] actions with [isolationLevel] isolation level
+```
+
+`doCommit` requests the <<DeltaLog.adoc#store, LogStore>> (of the <<deltaLog, DeltaLog>>) to <<LogStore.adoc#write, write out>> the given <<Action.adoc#, actions>> (serialized to <<Action.adoc#json, JSON format>>) to a <<FileNames.adoc#deltaFile, delta file>> (e.g. `00000000000000000001.json`) in the <<DeltaLog.adoc#logPath, log directory>> (of the <<deltaLog, DeltaLog>>) with the `attemptVersion` version.
+
+NOTE: <<LogStore.adoc#, LogStores>> must throw a `java.nio.file.FileAlreadyExistsException` exception if the delta file already exists. Any `FileAlreadyExistsExceptions` are caught by <<doCommit-FileAlreadyExistsException, doCommit>> itself to <<checkAndRetry, checkAndRetry>>.
+
+[[doCommit-postCommitSnapshot]]
+`doCommit` requests the <<deltaLog, DeltaLog>> to <<DeltaLog.adoc#update, update>>.
+
+[[doCommit-IllegalStateException]]
+`doCommit` throws an `IllegalStateException` if the version of the snapshot after update is smaller than the given `attemptVersion` version.
+
+```
+The committed version is [attemptVersion] but the current version is [version].
+```
+
+[[doCommit-stats]]
+`doCommit` records a new `CommitStats` and returns the given `attemptVersion` as the commit version.
+
+[[doCommit-FileAlreadyExistsException]]
+`doCommit` catches `FileAlreadyExistsExceptions` and <<checkAndRetry, checkAndRetry>>.
 
 NOTE: `doCommit` is used when `OptimisticTransactionImpl` is requested to <<commit, commit>> and <<checkAndRetry, checkAndRetry>>.
 
