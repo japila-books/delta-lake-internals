@@ -75,6 +75,11 @@ a| [[sampleRetentionDuration]][[SAMPLE_RETENTION]] How long to keep delta sample
 
 Default: `interval 7 days`
 
+| compatibility.symlinkFormatManifest.enabled
+a| [[compatibility-symlinkFormatManifest-enabled]][[SYMLINK_FORMAT_MANIFEST_ENABLED]] Whether to register the <<GenerateSymlinkManifest.adoc#, GenerateSymlinkManifest>> post-commit hook while <<OptimisticTransactionImpl.adoc#commit, committing a transaction>> or not
+
+Default: `false`
+
 | deletedFileRetentionDuration
 a| [[deletedFileRetentionDuration]][[TOMBSTONE_RETENTION]] How long to keep logically deleted data files around before deleting them physically (to prevent failures in stale readers after compactions or partition overwrites)
 

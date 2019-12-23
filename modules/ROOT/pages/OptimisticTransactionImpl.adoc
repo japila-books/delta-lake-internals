@@ -165,15 +165,37 @@ commit(
   op: DeltaOperations.Operation): Long
 ----
 
+[[commit-prepareCommit]]
+`commit` firstly <<prepareCommit, prepares a commit>> (that gives the final actions to commit).
+
+[[commit-isolationLevelToUse]]
+`commit` determines the isolation level for this commit by checking whether any <<FileAction.adoc#, FileAction>> (in the given <<Action.adoc#, actions>>) has the <<FileAction.adoc#dataChange, dataChange>> flag on (`true`). With no data changed, `commit` uses `SnapshotIsolation` else `Serializable`.
+
+[[commit-isBlindAppend]]
+`commit`...FIXME
+
+[[commit-commitInfo]]
 `commit`...FIXME
 
 [[commit-registerPostCommitHook]]
-`commit` registers the <<GenerateSymlinkManifest.adoc#, GenerateSymlinkManifest>> post-commit hook when...FIXME
+`commit` <<registerPostCommitHook, registers>> the <<GenerateSymlinkManifest.adoc#, GenerateSymlinkManifest>> post-commit hook when there is a <<FileAction.adoc#, FileAction>> among the actions and the <<DeltaConfigs.adoc#SYMLINK_FORMAT_MANIFEST_ENABLED, compatibility.symlinkFormatManifest.enabled>> table property (<<DeltaConfigs.adoc#fromMetaData, from>> the <<metadata, Metadata>>) is enabled (`true`).
 
-`commit`...FIXME
+NOTE: <<DeltaConfigs.adoc#SYMLINK_FORMAT_MANIFEST_ENABLED, compatibility.symlinkFormatManifest.enabled>> table property defaults to `false`.
+
+[[commit-commitVersion]]
+`commit` <<doCommit, doCommit>> with the next version, the actions, attempt number `0`, and the select isolation level.
+
+`commit` prints out the following INFO message to the logs:
+
+```
+Committed delta #[commitVersion] to [logPath]
+```
+
+[[commit-postCommit]]
+`commit` <<postCommit, postCommit>> (with the version committed and the actions).
 
 [[commit-runPostCommitHooks]]
-In the end, `commit` <<runPostCommitHooks, runs post-commit hooks>>.
+In the end, `commit` <<runPostCommitHooks, runs post-commit hooks>> and returns the version of the successful commit.
 
 [NOTE]
 ====
