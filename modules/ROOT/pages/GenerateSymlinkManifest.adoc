@@ -1,0 +1,16 @@
+= GenerateSymlinkManifest
+
+`GenerateSymlinkManifest` is...FIXME
+
+== [[generateFullManifest]] `generateFullManifest` Method
+
+[source, scala]
+----
+generateFullManifest(
+  spark: SparkSession,
+  deltaLog: DeltaLog): Unit
+----
+
+`generateFullManifest`...FIXME
+
+NOTE: `generateFullManifest` is used when...FIXME

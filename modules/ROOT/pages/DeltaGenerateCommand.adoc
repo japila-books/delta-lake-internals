@@ -1,6 +1,14 @@
-= DeltaGenerateCommand
+= DeltaGenerateCommand -- Executing Generation Functions On Delta Tables
 
-`DeltaGenerateCommand` is a concrete <<DeltaGenerateCommandBase.adoc#, DeltaGenerateCommandBase>> (and so can <<DeltaGenerateCommandBase.adoc#getPath, get the path of a delta table from a table identifier>>).
+`DeltaGenerateCommand` is a concrete <<DeltaGenerateCommandBase.adoc#, DeltaGenerateCommandBase>> (and so can <<DeltaGenerateCommandBase.adoc#getPath, get the path of a delta table from a table identifier>>) that can <<run, execute a generate function on a delta table>>.
+
+[[symlink_format_manifest]]
+`DeltaGenerateCommand` supports `symlink_format_manifest` only for the <<modeName, mode>>.
+
+[[modeNameToGenerationFunc]]
+`DeltaGenerateCommand` uses a lookup table for generation functions per mode:
+
+* Uses <<GenerateSymlinkManifest.adoc#generateFullManifest, generateFullManifest>> for the only-supported <<symlink_format_manifest, symlink_format_manifest>>
 
 `DeltaGenerateCommand` is <<creating-instance, created>> when:
 
@@ -12,7 +20,7 @@
 
 `DeltaGenerateCommand` takes the following to be created:
 
-* [[modeName]] Mode
+* [[modeName]] Mode (<<symlink_format_manifest, symlink_format_manifest>> is the only supported mode)
 * [[tableId]] Delta table (`TableIdentifier`)
 
 == [[run]] Running Command -- `run` Method
@@ -24,4 +32,18 @@ run(sparkSession: SparkSession): Seq[Row]
 
 NOTE: `run` is part of the `RunnableCommand` contract to...FIXME.
 
-`run`...FIXME
+`run` <<DeltaLog.adoc#forTable, creates a DeltaLog>> for the <<getPath, path of the delta table>> (from the <<tableId, table identifier>>).
+
+`run` finds the generate function for the mode (in the <<modeNameToGenerationFunc, modeNameToGenerationFunc>> registry) and applies (_executes_) it to the `DeltaLog`.
+
+`run` throws an `AnalysisException` when the <<Snapshot.adoc#version, version>> of the <<DeltaLog.adoc#snapshot, snapshot>> of the `DeltaLog` is negative (less than `0`):
+
+```
+Delta table not found at [tablePath].
+```
+
+`run` throws an `IllegalArgumentException` for unsupported <<modeName, mode>>:
+
+```
+Specified mode '[modeName]' is not supported. Supported modes are: symlink_format_manifest
+```

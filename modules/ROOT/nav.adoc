@@ -17,6 +17,7 @@
 
 ** xref:DeltaGenerateCommand.adoc[DeltaGenerateCommand]
 *** xref:DeltaGenerateCommandBase.adoc[DeltaGenerateCommandBase]
+*** xref:GenerateSymlinkManifest.adoc[GenerateSymlinkManifest]
 
 ** xref:DescribeDeltaDetailCommand.adoc[DescribeDeltaDetailCommand]
 
