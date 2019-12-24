@@ -1,6 +1,50 @@
 = [[ImplicitMetadataOperation]] ImplicitMetadataOperation
 
-`ImplicitMetadataOperation` is...FIXME
+`ImplicitMetadataOperation` is an <<contract, abstraction>> of <<implementations, metadata operations>> that can <<canMergeSchema, merge>> and <<canOverwriteSchema, overwrite>> schema (while writing out data to a delta table).
+
+[[contract]]
+.ImplicitMetadataOperation Contract (Abstract Methods Only)
+[cols="30m,70",options="header",width="100%"]
+|===
+| Method
+| Description
+
+| canMergeSchema
+a| [[canMergeSchema]]
+
+[source, scala]
+----
+canMergeSchema: Boolean
+----
+
+Used when `ImplicitMetadataOperation` is requested to <<updateMetadata, updateMetadata>>
+
+| canOverwriteSchema
+a| [[canOverwriteSchema]]
+
+[source, scala]
+----
+canOverwriteSchema: Boolean
+----
+
+Used when `ImplicitMetadataOperation` is requested to <<updateMetadata, updateMetadata>>
+
+|===
+
+[[implementations]]
+.ImplicitMetadataOperations
+[cols="30,70",options="header",width="100%"]
+|===
+| ImplicitMetadataOperation
+| Description
+
+| <<WriteIntoDelta.adoc#, WriteIntoDelta>>
+| [[WriteIntoDelta]]
+
+| <<DeltaSink.adoc#, DeltaSink>>
+| [[DeltaSink]] Streaming sink
+
+|===
 
 == [[updateMetadata]] Updating Metadata -- `updateMetadata` Method
 
@@ -20,7 +64,21 @@ updateMetadata(
 ====
 `updateMetadata` is used when:
 
-* `WriteIntoDelta` is requested to <<WriteIntoDelta.adoc#write, write>>
+* `WriteIntoDelta` command is requested to <<WriteIntoDelta.adoc#write, write>> (when requested to <<WriteIntoDelta.adoc#run, run>>)
 
 * `DeltaSink` is requested to <<DeltaSink.adoc#addBatch, addBatch>>
 ====
+
+== [[normalizePartitionColumns]] Normalize Partition Columns -- `normalizePartitionColumns` Internal Method
+
+[source, scala]
+----
+normalizePartitionColumns(
+  spark: SparkSession,
+  partitionCols: Seq[String],
+  schema: StructType): Seq[String]
+----
+
+`normalizePartitionColumns`...FIXME
+
+NOTE: `normalizePartitionColumns` is used when `ImplicitMetadataOperation` is requested to <<updateMetadata, updateMetadata>>.
