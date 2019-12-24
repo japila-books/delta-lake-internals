@@ -101,14 +101,15 @@ readVersion: Long
 
 [source, scala]
 ----
-updateMetadata(metadata: Metadata): Unit
+updateMetadata(
+  metadata: Metadata): Unit
 ----
 
 `updateMetadata` updates the <<newMetadata, newMetadata>> internal property based on the <<readVersion, readVersion>>:
 
 * For `-1`, `updateMetadata` updates the <<Metadata.adoc#configuration, configuration>> of the given `Metadata` with a <<DeltaConfigs.adoc#mergeGlobalConfigs, new metadata>> based on the `SQLConf` (of the active `SparkSession`), the <<Metadata.adoc#configuration, configuration>> of the given `Metadata` and a new <<Protocol.adoc#, Protocol>>
 
-* For other versions, `updateMetadata` leaves the given `Metadata` unchanged
+* For other versions, `updateMetadata` leaves the given <<Action.adoc#Metadata, Metadata>> unchanged
 
 [[updateMetadata-AssertionError-hasWritten]]
 `updateMetadata` throws an `AssertionError` when the <<TransactionalWrite.adoc#hasWritten, hasWritten>> flag is enabled (`true`):
@@ -156,7 +157,7 @@ readWholeTable(): Unit
 
 NOTE: `readWholeTable` is used when...FIXME
 
-== [[commit]] Committing -- `commit` Method
+== [[commit]] Committing Transaction -- `commit` Method
 
 [source, scala]
 ----
@@ -166,7 +167,7 @@ commit(
 ----
 
 [[commit-prepareCommit]]
-`commit` firstly <<prepareCommit, prepares a commit>> (that gives the final actions to commit).
+`commit` firstly <<prepareCommit, prepares a commit>> (that gives the final actions to commit that may be different from the given <<Action.adoc#, actions>>).
 
 [[commit-isolationLevelToUse]]
 `commit` determines the isolation level for this commit by checking whether any <<FileAction.adoc#, FileAction>> (in the given <<Action.adoc#, actions>>) has the <<FileAction.adoc#dataChange, dataChange>> flag on (`true`). With no data changed, `commit` uses `SnapshotIsolation` else `Serializable`.
@@ -231,11 +232,27 @@ prepareCommit(
   op: DeltaOperations.Operation): Seq[Action]
 ----
 
+`prepareCommit` adds the <<newMetadata, newMetadata>> action (if available) to the given <<Action.adoc#, actions>>.
+
+`prepareCommit` <<verifyNewMetadata, verifyNewMetadata>> if there was one.
+
 `prepareCommit`...FIXME
 
 `prepareCommit` requests the <<deltaLog, DeltaLog>> to <<DeltaLog.adoc#protocolWrite, protocolWrite>>.
 
 `prepareCommit`...FIXME
+
+`prepareCommit` throws an `AssertionError` when the number of metadata changes in the transaction (by means of <<Action.adoc#Metadata, Metadata>> actions) is above `1`:
+
+```
+Cannot change the metadata more than once in a transaction.
+```
+
+`prepareCommit` throws an `AssertionError` when the <<committed, committed>> internal flag is turned on (`true`):
+
+```
+Transaction already committed.
+```
 
 NOTE: `prepareCommit` is used exclusively when `OptimisticTransactionImpl` is requested to <<commit, commit>> (at the beginning).
 
@@ -335,6 +352,18 @@ The committed version is [attemptVersion] but the current version is [version].
 
 NOTE: `doCommit` is used when `OptimisticTransactionImpl` is requested to <<commit, commit>> and <<checkAndRetry, checkAndRetry>>.
 
+== [[verifyNewMetadata]] `verifyNewMetadata` Method
+
+[source, scala]
+----
+verifyNewMetadata(
+  metadata: Metadata): Unit
+----
+
+`verifyNewMetadata`...FIXME
+
+NOTE: `verifyNewMetadata` is used when `OptimisticTransactionImpl` is requested to <<prepareCommit, prepareCommit>> and <<updateMetadata, updateMetadata>>.
+
 == [[internal-properties]] Internal Properties
 
 [cols="30m,70",options="header",width="100%"]
@@ -343,7 +372,7 @@ NOTE: `doCommit` is used when `OptimisticTransactionImpl` is requested to <<comm
 | Description
 
 | committed
-a| [[committed]] Flag that controls whether the transaction has already committed or not (and prevents <<prepareCommit, prepareCommit>> being executed again)
+a| [[committed]] Flag that controls whether the transaction is <<commit, committed>> or not (and prevents <<prepareCommit, prepareCommit>> from being executed again)
 
 Default: `false`
 

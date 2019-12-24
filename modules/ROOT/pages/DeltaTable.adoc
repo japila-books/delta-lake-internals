@@ -4,6 +4,29 @@
 
 `DeltaTable` instances are created for existing Delta tables using <<forPath, DeltaTable.forPath>> utility (static method).
 
+[source, scala]
+----
+import org.apache.spark.sql.SparkSession
+assert(spark.isInstanceOf[SparkSession])
+
+val path = "/tmp/delta/t1"
+
+// random data to create a delta table from scratch
+val data = spark.range(5)
+data.write.format("delta").save(path)
+
+import io.delta.tables.DeltaTable
+val dt = DeltaTable.forPath(spark, path)
+
+val history = dt.history.select('version, 'timestamp, 'operation, 'operationParameters, 'isBlindAppend)
+scala> history.show(truncate = false)
++-------+-------------------+---------+------------------------------------------+-------------+
+|version|timestamp          |operation|operationParameters                       |isBlindAppend|
++-------+-------------------+---------+------------------------------------------+-------------+
+|0      |2019-12-23 22:24:40|WRITE    |[mode -> ErrorIfExists, partitionBy -> []]|true         |
++-------+-------------------+---------+------------------------------------------+-------------+
+----
+
 You can convert parquet tables to delta format (by importing the tables into Delta Lake) using <<convertToDelta, DeltaTable.convertToDelta>> utility (static method).
 
 You can check whether a directory is part of a delta table using <<isDeltaTable, DeltaTable.isDeltaTable>> utility (static method).

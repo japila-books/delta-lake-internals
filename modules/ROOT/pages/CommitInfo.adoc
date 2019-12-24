@@ -1,0 +1,3 @@
+= CommitInfo
+
+`CommitInfo` is an <<Action.adoc#, action>>...FIXME

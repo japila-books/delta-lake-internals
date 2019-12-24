@@ -1,3 +1,41 @@
 = [[Metadata]] Metadata
 
-`Metadata` is...FIXME
+`Metadata` is an <<Action.adoc#, action>> to describe metadata (update) of a <<DeltaLog.adoc#metadata, delta table>> (indirectly via <<Snapshot.adoc#metadata, Snapshot>>).
+
+TIP: Use <<DescribeDeltaDetailCommand.adoc#, DescribeDeltaDetailCommand>> to review the current metadata of a delta table.
+
+`Metadata` can be <<OptimisticTransactionImpl.adoc#updateMetadata, updated>> for a `OptimisticTransactionImpl` once (and only when created for the very first time, when <<OptimisticTransactionImpl.adoc#readVersion, readVersion>> is `-1`).
+
+`Metadata` is <<creating-instance, created>> when:
+
+* `DeltaLog` is requested for the <<DeltaLog.adoc#metadata, metadata>>
+
+* `OptimisticTransactionImpl` is requested for the <<OptimisticTransactionImpl.adoc#snapshotMetadata, snapshotMetadata>>
+
+* `ConvertToDeltaCommand` is requested to <<ConvertToDeltaCommand.adoc#performConvert, performConvert>>
+
+* `ImplicitMetadataOperation` is requested to <<ImplicitMetadataOperation.adoc#updateMetadata, update a Metadata>>
+
+== [[creating-instance]] Creating Metadata Instance
+
+`Metadata` takes the following to be created:
+
+* [[id]] Table ID (default: a random UUID)
+* [[name]] Name of the delta table (default: `null`)
+* [[description]] Description (default: `null`)
+* [[format]] `Format`
+* [[schemaString]] Schema (default: `null`)
+* [[partitionColumns]] Names of the partition columns (default: `Nil`)
+* [[configuration]] Configuration (default: `empty`)
+* [[createdTime]] Created time (in millis since the epoch)
+
+== [[wrap]] `wrap` Method
+
+[source, scala]
+----
+wrap: SingleAction
+----
+
+NOTE: `wrap` is part of the <<Action.adoc#wrap, Action>> contract to wrap the action into a <<SingleAction.adoc#, SingleAction>>.
+
+`wrap` simply creates a new <<SingleAction.adoc#, SingleAction>> with the `metaData` field set to this `Metadata`.

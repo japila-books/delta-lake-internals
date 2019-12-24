@@ -142,7 +142,7 @@ metadata: Metadata
 
 NOTE: `metadata` is part of the <<Checkpoints.adoc#metadata, Checkpoints Contract>> to...FIXME.
 
-`metadata` requests the <<snapshot, current Snapshot>> for the <<Snapshot.adoc#metadata, metadata>> or creates a new <<Metadata.adoc#, Metadata>> (if the <<snapshot, current Snapshot>> is not initialized).
+`metadata` requests the <<snapshot, current Snapshot>> for the <<Snapshot.adoc#metadata, metadata>> or creates a new <<Metadata.adoc#, one>> (if the <<snapshot, current Snapshot>> is not initialized).
 
 == [[forTable]] Creating DeltaLog Instance -- `forTable` Utility
 

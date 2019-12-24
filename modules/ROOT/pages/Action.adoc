@@ -19,6 +19,8 @@ a| [[wrap]]
 wrap: SingleAction
 ----
 
+Wraps the action into a <<SingleAction.adoc#, SingleAction>>
+
 Used when...FIXME
 
 |===
@@ -31,20 +33,20 @@ Used when...FIXME
 | Action
 | Description
 
-| <<Protocol.adoc#, Protocol>>
-| [[Protocol]]
-
-| SetTransaction
-| [[SetTransaction]]
-
-| CommitInfo
+| <<CommitInfo.adoc#, CommitInfo>>
 | [[CommitInfo]]
 
 | <<FileAction.adoc#, FileAction>>
 | [[FileAction]]
 
-| Metadata
+| <<Metadata.adoc#, Metadata>>
 | [[Metadata]]
+
+| <<Protocol.adoc#, Protocol>>
+| [[Protocol]]
+
+| <<SetTransaction.adoc#, SetTransaction>>
+| [[SetTransaction]]
 
 |===
 

@@ -68,7 +68,6 @@
 * xref:ImplicitMetadataOperation.adoc[ImplicitMetadataOperation]
 * xref:DeltaFileOperations.adoc[DeltaFileOperations]
 * xref:SchemaUtils.adoc[SchemaUtils]
-* xref:Metadata.adoc[Metadata]
 * xref:DeltaOperations.adoc[DeltaOperations]
 * xref:DeltaTableUtils.adoc[DeltaTableUtils]
 * xref:Invariants.adoc[Invariants]
@@ -84,8 +83,12 @@
 * xref:DeltaHistoryManager.adoc[DeltaHistoryManager]
 
 * xref:Action.adoc[Action]
+** xref:CommitInfo.adoc[CommitInfo]
 ** xref:FileAction.adoc[FileAction]
+** xref:Metadata.adoc[Metadata]
 ** xref:Protocol.adoc[Protocol]
+** xref:SetTransaction.adoc[SetTransaction]
+** xref:SingleAction.adoc[SingleAction]
 
 * xref:DeltaConfigs.adoc[DeltaConfigs]
 

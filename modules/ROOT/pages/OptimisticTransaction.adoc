@@ -1,10 +1,24 @@
 = [[OptimisticTransaction]] OptimisticTransaction
 
-`OptimisticTransaction` is a concrete <<OptimisticTransactionImpl.adoc#, OptimisticTransactionImpl>> (which _seems_ more of a class name change than anything more concrete).
+`OptimisticTransaction` is a concrete <<OptimisticTransactionImpl.adoc#, OptimisticTransactionImpl>> (which _seems_ more of a class name change than anything more important).
 
 `OptimisticTransaction` is <<creating-instance, created>> when `DeltaLog` is requested to <<DeltaLog.adoc#startTransaction, start a new transaction>> and <<DeltaLog.adoc#withNewTransaction, execute a single-threaded operation in a new transaction>>.
 
 `OptimisticTransaction` can be associated with a thread as an <<active, active transaction>>.
+
+[[logging]]
+[TIP]
+====
+Enable `ALL` logging level for `org.apache.spark.sql.delta.OptimisticTransaction` logger to see what happens inside.
+
+Add the following line to `conf/log4j.properties`:
+
+```
+log4j.logger.org.apache.spark.sql.delta.OptimisticTransaction=ALL
+```
+
+Refer to <<logging.adoc#, Logging>>.
+====
 
 == [[creating-instance]] Creating OptimisticTransaction Instance
 
