@@ -3,8 +3,8 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title> DeltaCommand :: The Internals of Delta Lake</title>
-    <link rel="canonical" href="https://delta.japila.pl/delta/0.5.0/DeltaCommand.html">
+    <title>PostCommitHook&#8201;&#8212;&#8201;Post-Commit Hooks :: The Internals of Delta Lake</title>
+    <link rel="canonical" href="https://delta.japila.pl/delta/0.5.0/PostCommitHook.html">
     <meta name="generator" content="Antora 2.2.0">
     <link rel="stylesheet" href="../../_/css/site.css">
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-151208281-1"></script>
@@ -113,7 +113,7 @@
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="DeleteCommand.html">DeleteCommand</a>
   </li>
-  <li class="nav-item is-current-page" data-depth="2">
+  <li class="nav-item" data-depth="2">
     <a class="nav-link" href="DeltaCommand.html">DeltaCommand</a>
   </li>
   <li class="nav-item" data-depth="2">
@@ -257,7 +257,7 @@
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="DelayedCommitProtocol.html">DelayedCommitProtocol</a>
   </li>
-  <li class="nav-item" data-depth="2">
+  <li class="nav-item is-current-page" data-depth="2">
     <a class="nav-link" href="PostCommitHook.html">Post-Commit Hooks</a>
   </li>
 </ul>
@@ -374,229 +374,103 @@
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="index.html">Delta Lake</a></li>
-    <li><a href="commands.html">Commands</a></li>
-    <li><a href="DeltaCommand.html">DeltaCommand</a></li>
+    <li><a href="OptimisticTransaction.html">OptimisticTransaction</a></li>
+    <li><a href="PostCommitHook.html">Post-Commit Hooks</a></li>
   </ul>
 </nav>
-  <div class="edit-this-page"><a href="file:///antora/modules/ROOT/pages/DeltaCommand.adoc">Edit this Page</a></div>
+  <div class="edit-this-page"><a href="file:///antora/modules/ROOT/pages/PostCommitHook.adoc">Edit this Page</a></div>
 </div>
 <article class="doc">
-<h1 class="page"><a id="DeltaCommand"></a> DeltaCommand</h1>
-<div id="preamble">
-<div class="sectionbody">
+<h1 class="page">PostCommitHook&#8201;&#8212;&#8201;Post-Commit Hooks</h1>
 <div class="paragraph">
-<p><code>DeltaCommand</code> is the <a href="#contract">abstraction</a> of <a href="#implementations">Delta commands</a> that can <a href="#FIXME">FIXME</a>.</p>
+<p><code>PostCommitHook</code> is an <a href="#contract">abstraction</a> of <a href="#implementations">post-commit hooks</a> that have a <a href="#name">user-friendly name</a> and can be <a href="#run">executed</a> (when <code>OptimisticTransactionImpl</code> is <a href="OptimisticTransactionImpl.html#commit" class="page">committed</a>).</p>
 </div>
-<table id="implementations" class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 1. DeltaCommands (Direct Implementations and Extensions Only)</caption>
+<table id="contract" class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. PostCommitHook Contract</caption>
 <colgroup>
 <col style="width: 30%;">
 <col style="width: 70%;">
 </colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-left valign-top">DeltaCommand</th>
+<th class="tableblock halign-left valign-top">Method</th>
 <th class="tableblock halign-left valign-top">Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="WriteIntoDelta.html" class="page">WriteIntoDelta</a></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><a id="WriteIntoDelta"></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>handleError</code></p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div id="handleError" class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">handleError(
+  error: Throwable,
+  version: Long): Unit = {}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Handles an error while <a href="#run">running the post-commit hook</a></p>
+</div>
+<div class="paragraph">
+<p>Used when <code>OptimisticTransactionImpl</code> is requested to <a href="OptimisticTransactionImpl.html#runPostCommitHooks" class="page">run post-commit hooks</a> (when <a href="OptimisticTransactionImpl.html#commit" class="page">committed</a>)</p>
+</div></div></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="VacuumCommandImpl.html" class="page">VacuumCommandImpl</a></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><a id="VacuumCommandImpl"></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>name</code></p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div id="name" class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">name: String</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>User-friendly name of the hook for error reporting</p>
+</div>
+<div class="paragraph">
+<p>Used when:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>DeltaErrors</code> utility is used to <a href="DeltaErrors.html#postCommitHookFailedException" class="page">report an post-commit hook failure</a></p>
+</li>
+<li>
+<p><code>OptimisticTransactionImpl</code> is requested to <a href="OptimisticTransactionImpl.html#runPostCommitHooks" class="page">run post-commit hooks</a> (when <a href="OptimisticTransactionImpl.html#commit" class="page">committed</a>)</p>
+</li>
+<li>
+<p><code>GenerateSymlinkManifestImpl</code> is requested to <a href="GenerateSymlinkManifest.html#handleError" class="page">handle an error</a></p>
+</li>
+</ul>
+</div></div></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="UpdateCommand.html" class="page">UpdateCommand</a></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><a id="UpdateCommand"></a></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="MergeIntoCommand.html" class="page">MergeIntoCommand</a></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><a id="MergeIntoCommand"></a></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#ConvertToDeltaCommandBase.adoc" class="page unresolved">ConvertToDeltaCommandBase</a></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><a id="ConvertToDeltaCommandBase"></a></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="DeleteCommand.html" class="page">DeleteCommand</a></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><a id="DeleteCommand"></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>run</code></p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div id="run" class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">run(
+  spark: SparkSession,
+  txn: OptimisticTransactionImpl,
+  committedActions: Seq[Action]): Unit</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Executes the post-commit hook</p>
+</div>
+<div class="paragraph">
+<p>Used when <code>OptimisticTransactionImpl</code> is requested to <a href="OptimisticTransactionImpl.html#runPostCommitHooks" class="page">run post-commit hooks</a> (when <a href="OptimisticTransactionImpl.html#commit" class="page">committed</a>)</p>
+</div></div></td>
 </tr>
 </tbody>
 </table>
-</div>
-</div>
-<div class="sect1">
-<h2 id="parsepartitionpredicates-method"><a class="anchor" href="#parsepartitionpredicates-method"></a><a class="link" href="#parsepartitionpredicates-method"><a id="parsePartitionPredicates"></a> <code>parsePartitionPredicates</code> Method</a></h2>
-<div class="sectionbody">
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">parsePartitionPredicates(
-  spark: SparkSession,
-  predicate: String): Seq[Expression]</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p><code>parsePartitionPredicates</code>&#8230;&#8203;FIXME</p>
-</div>
-<div class="admonitionblock note">
+<div id="implementations" class="admonitionblock note">
 <table>
 <tr>
 <td class="icon">
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-<code>parsePartitionPredicates</code> is used when&#8230;&#8203;FIXME
+<a href="GenerateSymlinkManifest.html#GenerateSymlinkManifestImpl" class="page">GenerateSymlinkManifestImpl</a> is the default and only known <code>PostCommitHook</code> in Delta Lake.
 </td>
 </tr>
 </table>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="verifypartitionpredicates-method"><a class="anchor" href="#verifypartitionpredicates-method"></a><a class="link" href="#verifypartitionpredicates-method"><a id="verifyPartitionPredicates"></a> <code>verifyPartitionPredicates</code> Method</a></h2>
-<div class="sectionbody">
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">verifyPartitionPredicates(
-  spark: SparkSession,
-  partitionColumns: Seq[String],
-  predicates: Seq[Expression]): Unit</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p><code>verifyPartitionPredicates</code>&#8230;&#8203;FIXME</p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<code>verifyPartitionPredicates</code> is used when&#8230;&#8203;FIXME
-</td>
-</tr>
-</table>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="generatecandidatefilemap-method"><a class="anchor" href="#generatecandidatefilemap-method"></a><a class="link" href="#generatecandidatefilemap-method"><a id="generateCandidateFileMap"></a> <code>generateCandidateFileMap</code> Method</a></h2>
-<div class="sectionbody">
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">generateCandidateFileMap(
-  basePath: Path,
-  candidateFiles: Seq[AddFile]): Map[String, AddFile]</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p><code>generateCandidateFileMap</code>&#8230;&#8203;FIXME</p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<code>generateCandidateFileMap</code> is used when&#8230;&#8203;FIXME
-</td>
-</tr>
-</table>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="removefilesfrompaths-method"><a class="anchor" href="#removefilesfrompaths-method"></a><a class="link" href="#removefilesfrompaths-method"><a id="removeFilesFromPaths"></a> <code>removeFilesFromPaths</code> Method</a></h2>
-<div class="sectionbody">
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">removeFilesFromPaths(
-  deltaLog: DeltaLog,
-  nameToAddFileMap: Map[String, AddFile],
-  filesToRewrite: Seq[String],
-  operationTimestamp: Long): Seq[RemoveFile]</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p><code>removeFilesFromPaths</code>&#8230;&#8203;FIXME</p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<code>removeFilesFromPaths</code> is used when&#8230;&#8203;FIXME
-</td>
-</tr>
-</table>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="buildbaserelation-method"><a class="anchor" href="#buildbaserelation-method"></a><a class="link" href="#buildbaserelation-method"><a id="buildBaseRelation"></a> <code>buildBaseRelation</code> Method</a></h2>
-<div class="sectionbody">
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">buildBaseRelation(
-  spark: SparkSession,
-  txn: OptimisticTransaction,
-  actionType: String,
-  rootPath: Path,
-  inputLeafFiles: Seq[String],
-  nameToAddFileMap: Map[String, AddFile]): HadoopFsRelation</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p><code>buildBaseRelation</code>&#8230;&#8203;FIXME</p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<code>buildBaseRelation</code> is used when&#8230;&#8203;FIXME
-</td>
-</tr>
-</table>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="gettouchedfile-method"><a class="anchor" href="#gettouchedfile-method"></a><a class="link" href="#gettouchedfile-method"><a id="getTouchedFile"></a> <code>getTouchedFile</code> Method</a></h2>
-<div class="sectionbody">
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">getTouchedFile(
-  basePath: Path,
-  filePath: String,
-  nameToAddFileMap: Map[String, AddFile]): AddFile</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p><code>getTouchedFile</code>&#8230;&#8203;FIXME</p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<code>getTouchedFile</code> is used when&#8230;&#8203;FIXME
-</td>
-</tr>
-</table>
-</div>
-</div>
 </div>
 </article>
 </main>

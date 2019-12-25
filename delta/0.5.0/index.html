@@ -117,6 +117,21 @@
     <a class="nav-link" href="DeltaCommand.html">DeltaCommand</a>
   </li>
   <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="DeltaGenerateCommand.html">DeltaGenerateCommand</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="DeltaGenerateCommandBase.html">DeltaGenerateCommandBase</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="GenerateSymlinkManifest.html">GenerateSymlinkManifest</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="DescribeDeltaDetailCommand.html">DescribeDeltaDetailCommand</a>
+  </li>
+  <li class="nav-item" data-depth="2">
     <a class="nav-link" href="DescribeDeltaHistoryCommand.html">DescribeDeltaHistoryCommand</a>
   </li>
   <li class="nav-item" data-depth="2">
@@ -213,10 +228,10 @@
     <a class="nav-link" href="StateCache.html">StateCache</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="DeltaSourceSnapshot.html">DeltaSourceSnapshot</a>
+    <a class="nav-link" href="CachedDS.html">CachedDS</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="CachedDS.html">CachedDS</a>
+    <a class="nav-link" href="DeltaSourceSnapshot.html">DeltaSourceSnapshot</a>
   </li>
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="SnapshotIterator.html">SnapshotIterator</a>
@@ -242,6 +257,9 @@
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="DelayedCommitProtocol.html">DelayedCommitProtocol</a>
   </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="PostCommitHook.html">Post-Commit Hooks</a>
+  </li>
 </ul>
   </li>
   <li class="nav-item" data-depth="1">
@@ -252,9 +270,6 @@
   </li>
   <li class="nav-item" data-depth="1">
     <a class="nav-link" href="SchemaUtils.html">SchemaUtils</a>
-  </li>
-  <li class="nav-item" data-depth="1">
-    <a class="nav-link" href="Metadata.html">Metadata</a>
   </li>
   <li class="nav-item" data-depth="1">
     <a class="nav-link" href="DeltaOperations.html">DeltaOperations</a>
@@ -294,10 +309,22 @@
     <a class="nav-link" href="Action.html">Action</a>
 <ul class="nav-list">
   <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="CommitInfo.html">CommitInfo</a>
+  </li>
+  <li class="nav-item" data-depth="2">
     <a class="nav-link" href="FileAction.html">FileAction</a>
   </li>
   <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="Metadata.html">Metadata</a>
+  </li>
+  <li class="nav-item" data-depth="2">
     <a class="nav-link" href="Protocol.html">Protocol</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="SetTransaction.html">SetTransaction</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="SingleAction.html">SingleAction</a>
   </li>
 </ul>
   </li>
@@ -306,6 +333,9 @@
   </li>
   <li class="nav-item" data-depth="1">
     <a class="nav-link" href="FileNames.html">FileNames</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="DeltaErrors.html">DeltaErrors</a>
   </li>
   <li class="nav-item" data-depth="1">
     <a class="nav-link" href="logging.html">Logging</a>
@@ -357,7 +387,7 @@
 <p><a href="https://delta.io/">Delta Lake</a> is an open-source storage management system (storage layer) that brings ACID transactions and time travel to <a href="https://spark.apache.org/">Apache Spark</a> and big data workloads.</p>
 </div>
 <div class="paragraph">
-<p>Delta Lake introduces a concept of <strong>delta table</strong> that is simply a <a href="DeltaFileFormat.html#fileFormat" class="page">parquet table</a> with <a href="DeltaLog.html" class="page">transactional log</a>.</p>
+<p>Delta Lake introduces a concept of <a href="DeltaTable.html" class="page">delta table</a> that is simply a <a href="DeltaFileFormat.html#fileFormat" class="page">parquet table</a> with <a href="DeltaLog.html" class="page">transactional log</a>.</p>
 </div>
 <div class="paragraph">
 <p>Changes to (the state of) a Delta table are reflected as <a href="Action.html" class="page">actions</a> and persisted to the transactional log (in <a href="Action.html#json" class="page">JSON format</a>).</p>

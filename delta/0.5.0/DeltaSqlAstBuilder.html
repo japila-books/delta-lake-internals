@@ -117,6 +117,21 @@
     <a class="nav-link" href="DeltaCommand.html">DeltaCommand</a>
   </li>
   <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="DeltaGenerateCommand.html">DeltaGenerateCommand</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="DeltaGenerateCommandBase.html">DeltaGenerateCommandBase</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="GenerateSymlinkManifest.html">GenerateSymlinkManifest</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="DescribeDeltaDetailCommand.html">DescribeDeltaDetailCommand</a>
+  </li>
+  <li class="nav-item" data-depth="2">
     <a class="nav-link" href="DescribeDeltaHistoryCommand.html">DescribeDeltaHistoryCommand</a>
   </li>
   <li class="nav-item" data-depth="2">
@@ -213,10 +228,10 @@
     <a class="nav-link" href="StateCache.html">StateCache</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="DeltaSourceSnapshot.html">DeltaSourceSnapshot</a>
+    <a class="nav-link" href="CachedDS.html">CachedDS</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="CachedDS.html">CachedDS</a>
+    <a class="nav-link" href="DeltaSourceSnapshot.html">DeltaSourceSnapshot</a>
   </li>
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="SnapshotIterator.html">SnapshotIterator</a>
@@ -242,6 +257,9 @@
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="DelayedCommitProtocol.html">DelayedCommitProtocol</a>
   </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="PostCommitHook.html">Post-Commit Hooks</a>
+  </li>
 </ul>
   </li>
   <li class="nav-item" data-depth="1">
@@ -252,9 +270,6 @@
   </li>
   <li class="nav-item" data-depth="1">
     <a class="nav-link" href="SchemaUtils.html">SchemaUtils</a>
-  </li>
-  <li class="nav-item" data-depth="1">
-    <a class="nav-link" href="Metadata.html">Metadata</a>
   </li>
   <li class="nav-item" data-depth="1">
     <a class="nav-link" href="DeltaOperations.html">DeltaOperations</a>
@@ -294,10 +309,22 @@
     <a class="nav-link" href="Action.html">Action</a>
 <ul class="nav-list">
   <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="CommitInfo.html">CommitInfo</a>
+  </li>
+  <li class="nav-item" data-depth="2">
     <a class="nav-link" href="FileAction.html">FileAction</a>
   </li>
   <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="Metadata.html">Metadata</a>
+  </li>
+  <li class="nav-item" data-depth="2">
     <a class="nav-link" href="Protocol.html">Protocol</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="SetTransaction.html">SetTransaction</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="SingleAction.html">SingleAction</a>
   </li>
 </ul>
   </li>
@@ -306,6 +333,9 @@
   </li>
   <li class="nav-item" data-depth="1">
     <a class="nav-link" href="FileNames.html">FileNames</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="DeltaErrors.html">DeltaErrors</a>
   </li>
   <li class="nav-item" data-depth="1">
     <a class="nav-link" href="logging.html">Logging</a>
@@ -353,10 +383,7 @@
 <article class="doc">
 <h1 class="page">DeltaSqlAstBuilder</h1>
 <div class="paragraph">
-<p><code>DeltaSqlAstBuilder</code> is a command builder for the <a href="#commands">Delta SQL commands</a> described in <strong>DeltaSqlBase.g4</strong> ANTLR grammar, i.e. <a href="#visitVacuumTable">VACUUM</a> and <a href="#visitDescribeDeltaHistory">DESCRIBE HISTORY</a>.</p>
-</div>
-<div class="paragraph">
-<p><code>DeltaSqlParser</code> is used exclusively by <a href="DeltaSqlParser.html#builder" class="page">DeltaSqlParser</a>.</p>
+<p><code>DeltaSqlAstBuilder</code> is a command builder for the <a href="#commands">Delta SQL commands</a> described in <strong>DeltaSqlBase.g4</strong> ANTLR grammar.</p>
 </div>
 <table id="commands" class="tableblock frame-all grid-all stretch">
 <caption class="title">Table 1. DeltaSqlAstBuilder&#8217;s Delta SQL Commands</caption>
@@ -372,18 +399,61 @@
 </thead>
 <tbody>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>CONVERT TO DELTA</code></p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="CONVERT-TO-DELTA"></a><a id="visitConvert"></a></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code>CONVERT TO DELTA table
+  (PARTITIONED BY '(' colTypeList ')')?</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Creates a <a href="ConvertToDeltaCommand.html" class="page">ConvertToDeltaCommand</a></p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>DESCRIBE DETAIL</code></p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="DESCRIBE-DETAIL"></a><a id="visitDescribeDeltaDetail"></a></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code>(DESC | DESCRIBE) DETAIL (path | table)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Creates a <a href="DescribeDeltaDetailCommand.html" class="page">DescribeDeltaDetailCommand</a></p>
+</div></div></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>DESCRIBE HISTORY</code></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a id="DESCRIBE-HISTORY"></a><a id="visitDescribeDeltaHistory"></a></p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code>(DESC | DESCRIBE) HISTORY (path=STRING | table=qualifiedName)
-  (LIMIT limit=INTEGER_VALUE)?</code></pre>
+<pre class="highlightjs highlight"><code>(DESC | DESCRIBE) HISTORY (path | table)
+  (LIMIT limit)?</code></pre>
 </div>
 </div>
 <div class="paragraph">
 <p>Creates a <a href="DescribeDeltaHistoryCommand.html" class="page">DescribeDeltaHistoryCommand</a></p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>GENERATE</code></p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="GENERATE"></a><a id="visitGenerate"></a></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code>GENERATE modeName FOR TABLE table</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Creates a <a href="DeltaGenerateCommand.html" class="page">DeltaGenerateCommand</a></p>
 </div></div></td>
 </tr>
 <tr>
@@ -393,7 +463,7 @@
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code>VACUUM (path=STRING | table=qualifiedName)
+<pre class="highlightjs highlight"><code>VACUUM (path | table)
   (RETAIN number HOURS)? (DRY RUN)?</code></pre>
 </div>
 </div>
@@ -403,6 +473,9 @@
 </tr>
 </tbody>
 </table>
+<div class="paragraph">
+<p><code>DeltaSqlParser</code> is used exclusively by <a href="DeltaSqlParser.html#builder" class="page">DeltaSqlParser</a>.</p>
+</div>
 </article>
 </main>
 </div>

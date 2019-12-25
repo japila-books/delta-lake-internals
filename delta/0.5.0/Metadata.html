@@ -117,6 +117,21 @@
     <a class="nav-link" href="DeltaCommand.html">DeltaCommand</a>
   </li>
   <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="DeltaGenerateCommand.html">DeltaGenerateCommand</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="DeltaGenerateCommandBase.html">DeltaGenerateCommandBase</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="GenerateSymlinkManifest.html">GenerateSymlinkManifest</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="DescribeDeltaDetailCommand.html">DescribeDeltaDetailCommand</a>
+  </li>
+  <li class="nav-item" data-depth="2">
     <a class="nav-link" href="DescribeDeltaHistoryCommand.html">DescribeDeltaHistoryCommand</a>
   </li>
   <li class="nav-item" data-depth="2">
@@ -213,10 +228,10 @@
     <a class="nav-link" href="StateCache.html">StateCache</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="DeltaSourceSnapshot.html">DeltaSourceSnapshot</a>
+    <a class="nav-link" href="CachedDS.html">CachedDS</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="CachedDS.html">CachedDS</a>
+    <a class="nav-link" href="DeltaSourceSnapshot.html">DeltaSourceSnapshot</a>
   </li>
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="SnapshotIterator.html">SnapshotIterator</a>
@@ -242,6 +257,9 @@
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="DelayedCommitProtocol.html">DelayedCommitProtocol</a>
   </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="PostCommitHook.html">Post-Commit Hooks</a>
+  </li>
 </ul>
   </li>
   <li class="nav-item" data-depth="1">
@@ -252,9 +270,6 @@
   </li>
   <li class="nav-item" data-depth="1">
     <a class="nav-link" href="SchemaUtils.html">SchemaUtils</a>
-  </li>
-  <li class="nav-item is-current-page" data-depth="1">
-    <a class="nav-link" href="Metadata.html">Metadata</a>
   </li>
   <li class="nav-item" data-depth="1">
     <a class="nav-link" href="DeltaOperations.html">DeltaOperations</a>
@@ -294,10 +309,22 @@
     <a class="nav-link" href="Action.html">Action</a>
 <ul class="nav-list">
   <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="CommitInfo.html">CommitInfo</a>
+  </li>
+  <li class="nav-item" data-depth="2">
     <a class="nav-link" href="FileAction.html">FileAction</a>
+  </li>
+  <li class="nav-item is-current-page" data-depth="2">
+    <a class="nav-link" href="Metadata.html">Metadata</a>
   </li>
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="Protocol.html">Protocol</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="SetTransaction.html">SetTransaction</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="SingleAction.html">SingleAction</a>
   </li>
 </ul>
   </li>
@@ -306,6 +333,9 @@
   </li>
   <li class="nav-item" data-depth="1">
     <a class="nav-link" href="FileNames.html">FileNames</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="DeltaErrors.html">DeltaErrors</a>
   </li>
   <li class="nav-item" data-depth="1">
     <a class="nav-link" href="logging.html">Logging</a>
@@ -344,6 +374,7 @@
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="index.html">Delta Lake</a></li>
+    <li><a href="Action.html">Action</a></li>
     <li><a href="Metadata.html">Metadata</a></li>
   </ul>
 </nav>
@@ -351,8 +382,107 @@
 </div>
 <article class="doc">
 <h1 class="page"><a id="Metadata"></a> Metadata</h1>
+<div id="preamble">
+<div class="sectionbody">
 <div class="paragraph">
-<p><code>Metadata</code> is&#8230;&#8203;FIXME</p>
+<p><code>Metadata</code> is an <a href="Action.html" class="page">action</a> to describe metadata (update) of a <a href="DeltaLog.html#metadata" class="page">delta table</a> (indirectly via <a href="Snapshot.html#metadata" class="page">Snapshot</a>).</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+Use <a href="DescribeDeltaDetailCommand.html" class="page">DescribeDeltaDetailCommand</a> to review the current metadata of a delta table.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><code>Metadata</code> can be <a href="OptimisticTransactionImpl.html#updateMetadata" class="page">updated</a> for a <code>OptimisticTransactionImpl</code> once (and only when created for the very first time, when <a href="OptimisticTransactionImpl.html#readVersion" class="page">readVersion</a> is <code>-1</code>).</p>
+</div>
+<div class="paragraph">
+<p><code>Metadata</code> is <a href="#creating-instance">created</a> when:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>DeltaLog</code> is requested for the <a href="DeltaLog.html#metadata" class="page">metadata</a></p>
+</li>
+<li>
+<p><code>OptimisticTransactionImpl</code> is requested for the <a href="OptimisticTransactionImpl.html#snapshotMetadata" class="page">snapshotMetadata</a></p>
+</li>
+<li>
+<p><code>ConvertToDeltaCommand</code> is requested to <a href="ConvertToDeltaCommand.html#performConvert" class="page">performConvert</a></p>
+</li>
+<li>
+<p><code>ImplicitMetadataOperation</code> is requested to <a href="ImplicitMetadataOperation.html#updateMetadata" class="page">update a Metadata</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="creating-metadata-instance"><a class="anchor" href="#creating-metadata-instance"></a><a class="link" href="#creating-metadata-instance"><a id="creating-instance"></a> Creating Metadata Instance</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><code>Metadata</code> takes the following to be created:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a id="id"></a> Table ID (default: a random UUID)</p>
+</li>
+<li>
+<p><a id="name"></a> Name of the delta table (default: <code>null</code>)</p>
+</li>
+<li>
+<p><a id="description"></a> Description (default: <code>null</code>)</p>
+</li>
+<li>
+<p><a id="format"></a> <code>Format</code></p>
+</li>
+<li>
+<p><a id="schemaString"></a> Schema (default: <code>null</code>)</p>
+</li>
+<li>
+<p><a id="partitionColumns"></a> Names of the partition columns (default: <code>Nil</code>)</p>
+</li>
+<li>
+<p><a id="configuration"></a> Configuration (default: <code>empty</code>)</p>
+</li>
+<li>
+<p><a id="createdTime"></a> Created time (in millis since the epoch)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="wrap-method"><a class="anchor" href="#wrap-method"></a><a class="link" href="#wrap-method"><a id="wrap"></a> <code>wrap</code> Method</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">wrap: SingleAction</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>wrap</code> is part of the <a href="Action.html#wrap" class="page">Action</a> contract to wrap the action into a <a href="SingleAction.html" class="page">SingleAction</a>.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><code>wrap</code> simply creates a new <a href="SingleAction.html" class="page">SingleAction</a> with the <code>metaData</code> field set to this <code>Metadata</code>.</p>
+</div>
+</div>
 </div>
 </article>
 </main>

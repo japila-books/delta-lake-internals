@@ -117,6 +117,21 @@
     <a class="nav-link" href="DeltaCommand.html">DeltaCommand</a>
   </li>
   <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="DeltaGenerateCommand.html">DeltaGenerateCommand</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="DeltaGenerateCommandBase.html">DeltaGenerateCommandBase</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="GenerateSymlinkManifest.html">GenerateSymlinkManifest</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="DescribeDeltaDetailCommand.html">DescribeDeltaDetailCommand</a>
+  </li>
+  <li class="nav-item" data-depth="2">
     <a class="nav-link" href="DescribeDeltaHistoryCommand.html">DescribeDeltaHistoryCommand</a>
   </li>
   <li class="nav-item" data-depth="2">
@@ -213,10 +228,10 @@
     <a class="nav-link" href="StateCache.html">StateCache</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="DeltaSourceSnapshot.html">DeltaSourceSnapshot</a>
+    <a class="nav-link" href="CachedDS.html">CachedDS</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="CachedDS.html">CachedDS</a>
+    <a class="nav-link" href="DeltaSourceSnapshot.html">DeltaSourceSnapshot</a>
   </li>
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="SnapshotIterator.html">SnapshotIterator</a>
@@ -242,6 +257,9 @@
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="DelayedCommitProtocol.html">DelayedCommitProtocol</a>
   </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="PostCommitHook.html">Post-Commit Hooks</a>
+  </li>
 </ul>
   </li>
   <li class="nav-item" data-depth="1">
@@ -252,9 +270,6 @@
   </li>
   <li class="nav-item" data-depth="1">
     <a class="nav-link" href="SchemaUtils.html">SchemaUtils</a>
-  </li>
-  <li class="nav-item" data-depth="1">
-    <a class="nav-link" href="Metadata.html">Metadata</a>
   </li>
   <li class="nav-item" data-depth="1">
     <a class="nav-link" href="DeltaOperations.html">DeltaOperations</a>
@@ -294,10 +309,22 @@
     <a class="nav-link" href="Action.html">Action</a>
 <ul class="nav-list">
   <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="CommitInfo.html">CommitInfo</a>
+  </li>
+  <li class="nav-item" data-depth="2">
     <a class="nav-link" href="FileAction.html">FileAction</a>
   </li>
   <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="Metadata.html">Metadata</a>
+  </li>
+  <li class="nav-item" data-depth="2">
     <a class="nav-link" href="Protocol.html">Protocol</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="SetTransaction.html">SetTransaction</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="SingleAction.html">SingleAction</a>
   </li>
 </ul>
   </li>
@@ -306,6 +333,9 @@
   </li>
   <li class="nav-item" data-depth="1">
     <a class="nav-link" href="FileNames.html">FileNames</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="DeltaErrors.html">DeltaErrors</a>
   </li>
   <li class="nav-item" data-depth="1">
     <a class="nav-link" href="logging.html">Logging</a>
@@ -358,6 +388,29 @@
 </div>
 <div class="paragraph">
 <p><code>DeltaTable</code> instances are created for existing Delta tables using <a href="#forPath">DeltaTable.forPath</a> utility (static method).</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">import org.apache.spark.sql.SparkSession
+assert(spark.isInstanceOf[SparkSession])
+
+val path = "/tmp/delta/t1"
+
+// random data to create a delta table from scratch
+val data = spark.range(5)
+data.write.format("delta").save(path)
+
+import io.delta.tables.DeltaTable
+val dt = DeltaTable.forPath(spark, path)
+
+val history = dt.history.select('version, 'timestamp, 'operation, 'operationParameters, 'isBlindAppend)
+scala&gt; history.show(truncate = false)
++-------+-------------------+---------+------------------------------------------+-------------+
+|version|timestamp          |operation|operationParameters                       |isBlindAppend|
++-------+-------------------+---------+------------------------------------------+-------------+
+|0      |2019-12-23 22:24:40|WRITE    |[mode -&gt; ErrorIfExists, partitionBy -&gt; []]|true         |
++-------+-------------------+---------+------------------------------------------+-------------+</code></pre>
+</div>
 </div>
 <div class="paragraph">
 <p>You can convert parquet tables to delta format (by importing the tables into Delta Lake) using <a href="#convertToDelta">DeltaTable.convertToDelta</a> utility (static method).</p>
@@ -431,6 +484,20 @@ delete(condition: String): Unit</code></pre>
 </td>
 </tr>
 </table>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>generate</code></p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div id="generate" class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">generate(mode: String): Unit</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Generates a manifest for the delta table</p>
+</div>
+<div class="paragraph">
+<p>Internally, <code>generate</code> <a href="DeltaTableOperations.html#executeGenerate" class="page">executeGenerate</a> with the table ID of the format <code>delta.`path`</code> (where the path is the <a href="DeltaLog.html#dataPath" class="page">data directory</a> of the <a href="#deltaLog">DeltaLog</a>) and the given mode.</p>
 </div></div></td>
 </tr>
 <tr>
@@ -738,6 +805,44 @@ isDeltaTable(
 </div>
 <div class="paragraph">
 <p>Internally, <code>isDeltaTable</code> simply relays to <a href="DeltaTableUtils.html#isDeltaTable" class="page">DeltaTableUtils.isDeltaTable</a> utility.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="unapply-extractor-utility"><a class="anchor" href="#unapply-extractor-utility"></a><a class="link" href="#unapply-extractor-utility"><a id="unapply"></a> <code>unapply</code> Extractor Utility</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">unapply(
+  a: LogicalRelation): Option[TahoeFileIndex]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>unapply</code> simply destructures the given <code>LogicalRelation</code> and takes out the <a href="TahoeFileIndex.html" class="page">TahoeFileIndex</a> from the <code>HadoopFsRelation</code> relation.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p><code>unapply</code> is used when:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>DeltaSink</code> is requested to <a href="DeltaSink.html#addBatch" class="page">addBatch</a></p>
+</li>
+<li>
+<p><code>DeltaDataSource</code> utility is used to <a href="DeltaDataSource.html#extractDeltaPath" class="page">extractDeltaPath</a> (but does not seem to be used whatsoever)</p>
+</li>
+</ul>
+</div>
+</td>
+</tr>
+</table>
 </div>
 </div>
 </div>
