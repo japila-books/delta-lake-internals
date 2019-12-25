@@ -393,6 +393,12 @@
 <div id="symlink_format_manifest" class="paragraph">
 <p><code>DeltaGenerateCommand</code> supports <code>symlink_format_manifest</code> only for the <a href="#modeName">mode</a>.</p>
 </div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-text hljs" data-lang="text">val generateQ = """GENERATE symlink_format_manifest for table delta.`/tmp/delta/t1`"""
+scala&gt; sql(generateQ).foreach(_ =&gt; ())</code></pre>
+</div>
+</div>
 <div id="modeNameToGenerationFunc" class="paragraph">
 <p><code>DeltaGenerateCommand</code> uses a lookup table for generation functions per mode:</p>
 </div>

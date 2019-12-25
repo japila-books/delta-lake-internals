@@ -389,7 +389,7 @@
 <p><code>DeltaSqlAstBuilder</code> is a command builder for the <a href="#commands">Delta SQL commands</a> described in <strong>DeltaSqlBase.g4</strong> ANTLR grammar.</p>
 </div>
 <table id="commands" class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 1. DeltaSqlAstBuilder&#8217;s Delta SQL Commands</caption>
+<caption class="title">Table 1. DeltaSqlAstBuilder&#8217;s Visit Methods</caption>
 <colgroup>
 <col style="width: 30%;">
 <col style="width: 70%;">
@@ -402,77 +402,24 @@
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>CONVERT TO DELTA</code></p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="CONVERT-TO-DELTA"></a><a id="visitConvert"></a></p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code>CONVERT TO DELTA table
-  (PARTITIONED BY '(' colTypeList ')')?</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Creates a <a href="ConvertToDeltaCommand.html" class="page">ConvertToDeltaCommand</a></p>
-</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="delta-sql-commands.html#CONVERT-TO-DELTA" class="page">CONVERT TO DELTA</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a id="visitConvert"></a> Creates a <a href="ConvertToDeltaCommand.html" class="page">ConvertToDeltaCommand</a></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>DESCRIBE DETAIL</code></p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="DESCRIBE-DETAIL"></a><a id="visitDescribeDeltaDetail"></a></p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code>(DESC | DESCRIBE) DETAIL (path | table)</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Creates a <a href="DescribeDeltaDetailCommand.html" class="page">DescribeDeltaDetailCommand</a></p>
-</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="delta-sql-commands.html#DESCRIBE-DETAIL" class="page">DESCRIBE DETAIL</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a id="visitDescribeDeltaDetail"></a> Creates a <a href="DescribeDeltaDetailCommand.html" class="page">DescribeDeltaDetailCommand</a></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>DESCRIBE HISTORY</code></p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="DESCRIBE-HISTORY"></a><a id="visitDescribeDeltaHistory"></a></p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code>(DESC | DESCRIBE) HISTORY (path | table)
-  (LIMIT limit)?</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Creates a <a href="DescribeDeltaHistoryCommand.html" class="page">DescribeDeltaHistoryCommand</a></p>
-</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="delta-sql-commands.html#DESCRIBE-HISTORY" class="page">DESCRIBE HISTORY</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a id="visitDescribeDeltaHistory"></a> Creates a <a href="DescribeDeltaHistoryCommand.html" class="page">DescribeDeltaHistoryCommand</a></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>GENERATE</code></p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="GENERATE"></a><a id="visitGenerate"></a></p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code>GENERATE modeName FOR TABLE table</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Creates a <a href="DeltaGenerateCommand.html" class="page">DeltaGenerateCommand</a></p>
-</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="delta-sql-commands.html#GENERATE" class="page">GENERATE</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a id="visitGenerate"></a> Creates a <a href="DeltaGenerateCommand.html" class="page">DeltaGenerateCommand</a></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>VACUUM</code></p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="VACUUM"></a><a id="visitVacuumTable"></a></p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code>VACUUM (path | table)
-  (RETAIN number HOURS)? (DRY RUN)?</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Creates a <a href="VacuumTableCommand.html" class="page">VacuumTableCommand</a></p>
-</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="delta-sql-commands.html#VACUUM" class="page">VACUUM</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a id="visitVacuumTable"></a> Creates a <a href="VacuumTableCommand.html" class="page">VacuumTableCommand</a></p></td>
 </tr>
 </tbody>
 </table>

@@ -385,7 +385,10 @@
 <article class="doc">
 <h1 class="page">Delta SQL Commands</h1>
 <div class="paragraph">
-<p>Delta Lake supports <a href="#DESCRIBE-HISTORY">DESCRIBE HISTORY</a> and <a href="#VACUUM">VACUUM</a> SQL commands that can be registered in a Spark application using <a href="DeltaSparkSessionExtension.html" class="page">DeltaSparkSessionExtension</a> and <strong>spark.sql.extensions</strong> configuration property.</p>
+<p>Delta Lake supports the <a href="#commands">SQL commands</a>. They can be registered in a Spark application using <a href="DeltaSparkSessionExtension.html" class="page">DeltaSparkSessionExtension</a>.</p>
+</div>
+<div class="paragraph">
+<p>The SQL commands support <code>table</code> of the format <code>delta.`path`</code> (with backticks), e.g. <code>delta.`/tmp/delta/t1`</code> while <code>path</code> is between single quotes, e.g. <code>'/tmp/delta/t1'</code>.</p>
 </div>
 <table id="commands" class="tableblock frame-all grid-all stretch">
 <caption class="title">Table 1. Delta SQL Commands</caption>
@@ -401,27 +404,61 @@
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>DESCRIBE HISTORY</code></p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div id="DESCRIBE-HISTORY" class="listingblock">
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>CONVERT TO DELTA</code></p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div id="CONVERT-TO-DELTA" class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code>(DESC | DESCRIBE) HISTORY (path=STRING | table=qualifiedName)
-  (LIMIT limit=INTEGER_VALUE)?</code></pre>
+<pre class="highlightjs highlight"><code>CONVERT TO DELTA table
+  (PARTITIONED BY '(' colTypeList ')')?</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Creates a <a href="DescribeDeltaHistoryCommand.html" class="page">DescribeDeltaHistoryCommand</a></p>
+<p>Runs a <a href="ConvertToDeltaCommand.html" class="page">ConvertToDeltaCommand</a></p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>DESCRIBE DETAIL</code></p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div id="DESCRIBE-DETAIL" class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code>(DESC | DESCRIBE) DETAIL (path | table)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Runs a <a href="DescribeDeltaDetailCommand.html" class="page">DescribeDeltaDetailCommand</a></p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>DESCRIBE HISTORY</code></p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div id="DESCRIBE-HISTORY" class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code>(DESC | DESCRIBE) HISTORY (path | table)
+  (LIMIT limit)?</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Runs a <a href="DescribeDeltaHistoryCommand.html" class="page">DescribeDeltaHistoryCommand</a></p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>GENERATE</code></p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div id="GENERATE" class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code>GENERATE modeName FOR TABLE table</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Runs a <a href="DeltaGenerateCommand.html" class="page">DeltaGenerateCommand</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>VACUUM</code></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div id="VACUUM" class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code>VACUUM (path=STRING | table=qualifiedName)
+<pre class="highlightjs highlight"><code>VACUUM (path | table)
   (RETAIN number HOURS)? (DRY RUN)?</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Creates a <a href="VacuumTableCommand.html" class="page">VacuumTableCommand</a></p>
+<p>Runs a <a href="VacuumTableCommand.html" class="page">VacuumTableCommand</a></p>
 </div></div></td>
 </tr>
 </tbody>
