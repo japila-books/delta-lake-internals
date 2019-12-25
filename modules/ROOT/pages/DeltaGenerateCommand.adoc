@@ -5,6 +5,12 @@
 [[symlink_format_manifest]]
 `DeltaGenerateCommand` supports `symlink_format_manifest` only for the <<modeName, mode>>.
 
+[source,text]
+----
+val generateQ = """GENERATE symlink_format_manifest for table delta.`/tmp/delta/t1`"""
+scala> sql(generateQ).foreach(_ => ())
+----
+
 [[modeNameToGenerationFunc]]
 `DeltaGenerateCommand` uses a lookup table for generation functions per mode:
 

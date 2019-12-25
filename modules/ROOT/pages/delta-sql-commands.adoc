@@ -1,6 +1,8 @@
 = Delta SQL Commands
 
-Delta Lake supports <<DESCRIBE-HISTORY, DESCRIBE HISTORY>> and <<VACUUM, VACUUM>> SQL commands that can be registered in a Spark application using <<DeltaSparkSessionExtension.adoc#, DeltaSparkSessionExtension>> and *spark.sql.extensions* configuration property.
+Delta Lake supports the <<commands, SQL commands>>. They can be registered in a Spark application using <<DeltaSparkSessionExtension.adoc#, DeltaSparkSessionExtension>>.
+
+The SQL commands support `table` of the format `++delta.`path`++` (with backticks), e.g. `++delta.`/tmp/delta/t1`++` while `path` is between single quotes, e.g. `'/tmp/delta/t1'`.
 
 [[commands]]
 .Delta SQL Commands
@@ -9,24 +11,52 @@ Delta Lake supports <<DESCRIBE-HISTORY, DESCRIBE HISTORY>> and <<VACUUM, VACUUM>
 | Name
 | Description
 
+| CONVERT TO DELTA
+a| [[CONVERT-TO-DELTA]]
+
+```
+CONVERT TO DELTA table
+  (PARTITIONED BY '(' colTypeList ')')?
+```
+
+Runs a <<ConvertToDeltaCommand.adoc#, ConvertToDeltaCommand>>
+
+| DESCRIBE DETAIL
+a| [[DESCRIBE-DETAIL]]
+
+```
+(DESC \| DESCRIBE) DETAIL (path \| table)
+```
+
+Runs a <<DescribeDeltaDetailCommand.adoc#, DescribeDeltaDetailCommand>>
+
 | DESCRIBE HISTORY
 a| [[DESCRIBE-HISTORY]]
 
 ```
-(DESC \| DESCRIBE) HISTORY (path=STRING \| table=qualifiedName)
-  (LIMIT limit=INTEGER_VALUE)?
+(DESC \| DESCRIBE) HISTORY (path \| table)
+  (LIMIT limit)?
 ```
 
-Creates a <<DescribeDeltaHistoryCommand.adoc#, DescribeDeltaHistoryCommand>>
+Runs a <<DescribeDeltaHistoryCommand.adoc#, DescribeDeltaHistoryCommand>>
+
+| GENERATE
+a| [[GENERATE]]
+
+```
+GENERATE modeName FOR TABLE table
+```
+
+Runs a <<DeltaGenerateCommand.adoc#, DeltaGenerateCommand>>
 
 | VACUUM
 a| [[VACUUM]]
 
 ```
-VACUUM (path=STRING \| table=qualifiedName)
+VACUUM (path \| table)
   (RETAIN number HOURS)? (DRY RUN)?
 ```
 
-Creates a <<VacuumTableCommand.adoc#, VacuumTableCommand>>
+Runs a <<VacuumTableCommand.adoc#, VacuumTableCommand>>
 
 |===

@@ -3,59 +3,26 @@
 `DeltaSqlAstBuilder` is a command builder for the <<commands, Delta SQL commands>> described in *DeltaSqlBase.g4* ANTLR grammar.
 
 [[commands]]
-.DeltaSqlAstBuilder's Delta SQL Commands
-[cols="30m,70",options="header",width="100%"]
+.DeltaSqlAstBuilder's Visit Methods
+[cols="30,70",options="header",width="100%"]
 |===
 | Name
 | Description
 
-| CONVERT TO DELTA
-a| [[CONVERT-TO-DELTA]][[visitConvert]]
+| <<delta-sql-commands.adoc#CONVERT-TO-DELTA, CONVERT TO DELTA>>
+| [[visitConvert]] Creates a <<ConvertToDeltaCommand.adoc#, ConvertToDeltaCommand>>
 
-```
-CONVERT TO DELTA table
-  (PARTITIONED BY '(' colTypeList ')')?
-```
+| <<delta-sql-commands.adoc#DESCRIBE-DETAIL, DESCRIBE DETAIL>>
+| [[visitDescribeDeltaDetail]] Creates a <<DescribeDeltaDetailCommand.adoc#, DescribeDeltaDetailCommand>>
 
-Creates a <<ConvertToDeltaCommand.adoc#, ConvertToDeltaCommand>>
+| <<delta-sql-commands.adoc#DESCRIBE-HISTORY, DESCRIBE HISTORY>>
+| [[visitDescribeDeltaHistory]] Creates a <<DescribeDeltaHistoryCommand.adoc#, DescribeDeltaHistoryCommand>>
 
-| DESCRIBE DETAIL
-a| [[DESCRIBE-DETAIL]][[visitDescribeDeltaDetail]]
+| <<delta-sql-commands.adoc#GENERATE, GENERATE>>
+| [[visitGenerate]] Creates a <<DeltaGenerateCommand.adoc#, DeltaGenerateCommand>>
 
-```
-(DESC \| DESCRIBE) DETAIL (path \| table)
-```
-
-Creates a <<DescribeDeltaDetailCommand.adoc#, DescribeDeltaDetailCommand>>
-
-| DESCRIBE HISTORY
-a| [[DESCRIBE-HISTORY]][[visitDescribeDeltaHistory]]
-
-```
-(DESC \| DESCRIBE) HISTORY (path \| table)
-  (LIMIT limit)?
-```
-
-Creates a <<DescribeDeltaHistoryCommand.adoc#, DescribeDeltaHistoryCommand>>
-
-| GENERATE
-a| [[GENERATE]][[visitGenerate]]
-
-```
-GENERATE modeName FOR TABLE table
-```
-
-Creates a <<DeltaGenerateCommand.adoc#, DeltaGenerateCommand>>
-
-| VACUUM
-a| [[VACUUM]][[visitVacuumTable]]
-
-```
-VACUUM (path \| table)
-  (RETAIN number HOURS)? (DRY RUN)?
-```
-
-Creates a <<VacuumTableCommand.adoc#, VacuumTableCommand>>
+| <<delta-sql-commands.adoc#VACUUM, VACUUM>>
+| [[visitVacuumTable]] Creates a <<VacuumTableCommand.adoc#, VacuumTableCommand>>
 
 |===
 

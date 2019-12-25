@@ -1,6 +1,6 @@
 = DeltaSparkSessionExtension
 
-`DeltaSparkSessionExtension` is an extension of Spark SQL to activate <<DeltaSqlParser.adoc#, DeltaSqlParser>> for <<delta-sql-commands.adoc#, Delta SQL commands>> (i.e. <<delta-sql-commands.adoc#DESCRIBE-HISTORY, DESCRIBE HISTORY>> and <<delta-sql-commands.adoc#VACUUM, VACUUM>>).
+`DeltaSparkSessionExtension` is an extension of Spark SQL to activate <<DeltaSqlParser.adoc#, DeltaSqlParser>> for <<delta-sql-commands.adoc#, Delta SQL commands>>.
 
 `DeltaSparkSessionExtension` is registered using *spark.sql.extensions* configuration property while creating a `SparkSession` in a Spark application.
 
