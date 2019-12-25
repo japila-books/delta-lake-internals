@@ -26,7 +26,40 @@ state: Dataset[SingleAction]
 
 `state` simply requests the <<cachedState, cached delta state>> to <<CachedDS.adoc#getDS, get the delta state from the cache>>.
 
-NOTE: `state` is used when...FIXME
+[NOTE]
+====
+`state` is used when:
+
+* `DeltaLog` is requested to <<DeltaLog.adoc#update, update>> (and in turn <<DeltaLog.adoc#updateInternal, updateInternal>>)
+
+* `Checkpoints` is requested to <<Checkpoints.adoc#checkpoint, checkpoint>> (and in turn <<Checkpoints.adoc#writeCheckpoint, writeCheckpoint>>)
+
+* `Snapshot` is created, and requested for <<allFiles, allFiles>> and <<tombstones, tombstones>>
+
+* `VacuumCommand` is requested for <<VacuumCommand.adoc#gc, garbage collecting of a delta table>>
+====
+
+== [[allFiles]] `allFiles` Method
+
+[source, scala]
+----
+allFiles: Dataset[AddFile]
+----
+
+`allFiles`...FIXME
+
+[NOTE]
+====
+`allFiles` is used when:
+
+* `PartitionFiltering` is requested to <<PartitionFiltering.adoc#filesForScan, filesForScan>>
+
+* `DeltaSourceSnapshot` is requested to <<DeltaSourceSnapshot.adoc#initialFiles, initialFiles>>
+
+* `GenerateSymlinkManifestImpl` is requested to <<GenerateSymlinkManifest.adoc#generateIncrementalManifest, generateIncrementalManifest>> and <<GenerateSymlinkManifest.adoc#generateFullManifest, generateFullManifest>>
+
+* `DeltaDataSource` is requested to <<DeltaDataSource.adoc#RelationProvider-createRelation, createRelation>>
+====
 
 == [[numIndexedCols]] dataSkippingNumIndexedCols Table Property -- `numIndexedCols` Value
 
@@ -39,6 +72,47 @@ numIndexedCols: Int
 
 NOTE: `numIndexedCols` seems unused.
 
+== [[tombstones]] `tombstones` Method
+
+[source, scala]
+----
+tombstones: Dataset[RemoveFile]
+----
+
+`tombstones`...FIXME
+
+NOTE: `tombstones` seems to be used for testing only.
+
+== [[stateReconstruction]] `stateReconstruction` Internal Property
+
+[source, scala]
+----
+stateReconstruction: Dataset[SingleAction]
+----
+
+`stateReconstruction` is a dataset of <<SingleAction.adoc#, SingleActions>> (that is the <<CachedDS.adoc#ds, dataset>> part) of the <<cachedState, cachedState>>.
+
+== [[emptyActions]] `emptyActions` Internal Method
+
+[source, scala]
+----
+emptyActions: Dataset[SingleAction]
+----
+
+`emptyActions` is an empty dataset of <<SingleAction.adoc#, SingleActions>> for <<stateReconstruction, stateReconstruction>> and <<load, load>>.
+
+== [[load]] `load` Internal Method
+
+[source, scala]
+----
+load(
+  files: Seq[DeltaLogFileIndex]): Dataset[SingleAction]
+----
+
+`load`...FIXME
+
+NOTE: `load` is used when `Snapshot` is created (and initializes <<stateReconstruction, stateReconstruction>>).
+
 == [[internal-properties]] Internal Properties
 
 [cols="30m,70",options="header",width="100%"]
@@ -47,9 +121,13 @@ NOTE: `numIndexedCols` seems unused.
 | Description
 
 | cachedState
-a| [[cachedState]] <<CachedDS.adoc#, CachedDS>>
+a| [[cachedState]] <<CachedDS.adoc#, Cached Delta State>> that is made up of the following:
 
-Used when...FIXME
+* The <<CachedDS.adoc#ds, dataset>> part is the <<stateReconstruction, stateReconstruction>> dataset of <<SingleAction.adoc#, SingleActions>>
+
+* The <<CachedDS.adoc#name, name>> in the format *Delta Table State #version - [redactedPath]* (with the <<version, version>> and the redacted <<path, path>>)
+
+Used when `Snapshot` is requested for the <<state, state>> (i.e. `Dataset[SingleAction]`)
 
 | metadata
 a| [[metadata]] <<Metadata.adoc#, Metadata>> of the <<deltaLog, delta table>>

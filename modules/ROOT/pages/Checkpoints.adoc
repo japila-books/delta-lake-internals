@@ -155,7 +155,7 @@ writeCheckpoint(
 
 `writeCheckpoint`...FIXME
 
-NOTE: `writeCheckpoint` is used when...FIXME
+NOTE: `writeCheckpoint` is used when `Checkpoints` is requested to <<checkpoint, checkpoint>>.
 
 == [[loadMetadataFromFile]] `loadMetadataFromFile` Internal Method
 

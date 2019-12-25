@@ -18,6 +18,11 @@ a| [[import.batchSize.statsCollection]][[DELTA_IMPORT_BATCH_SIZE_STATS_COLLECTIO
 
 Default: `50000`
 
+| snapshotPartitions
+a| [[snapshotPartitions]][[DELTA_SNAPSHOT_PARTITIONS]] **(internal)** Number of partitions to use when building a Delta Lake <<Snapshot.adoc#, snapshot>>.
+
+Default: `50`
+
 | timeTravel.resolveOnIdentifier.enabled
 a| [[timeTravel.resolveOnIdentifier.enabled]] **(internal)** When enabled (`true`), patterns as `@v123` in identifiers are considered as <<time-travel.adoc#, time travel>> nodes.
 

@@ -18,6 +18,16 @@ file:/tmp/delta/t1/_delta_log/_last_checkpoint
 
 `DeltaLog` is a <<LogStoreProvider.adoc#, LogStoreProvider>>.
 
+== [[FileFormats]] FileFormats
+
+`DeltaLog` defines two `FileFormats`:
+
+* [[CHECKPOINT_FILE_FORMAT]] `ParquetFileFormat` for indices of delta files
+
+* [[COMMIT_FILE_FORMAT]] `JsonFileFormat` for indices of checkpoint files
+
+The `FileFormats` are used to create <<DeltaLogFileIndex.adoc#, DeltaLogFileIndices>> for <<Snapshot.adoc#files, Snapshots>> that in turn used them for <<Snapshot.adoc#stateReconstruction, stateReconstruction>>.
+
 == [[_delta_log]] _delta_log Metadata Directory
 
 `DeltaLog` uses *_delta_log* metadata directory under the <<dataPath, data path>> directory (that is specified using <<forTable, DeltaLog.forTable>> utility).
@@ -423,12 +433,13 @@ NOTE: `currentSnapshot` is used when...FIXME
 
 [source, scala]
 ----
-updateInternal(isAsync: Boolean): Snapshot
+updateInternal(
+  isAsync: Boolean): Snapshot
 ----
 
 `updateInternal`...FIXME
 
-NOTE: `updateInternal` is used when `DeltaLog` is requested to <<update, update>> and <<tryUpdate, tryUpdate>>.
+NOTE: `updateInternal` is used when `DeltaLog` is requested to <<update, update>> (directly or via <<tryUpdate, tryUpdate>>).
 
 == [[invalidateCache]] Invalidating Cached DeltaLog Instance -- `invalidateCache` Utility
 

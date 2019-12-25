@@ -52,8 +52,8 @@
 
 * xref:Snapshot.adoc[Snapshot]
 ** xref:StateCache.adoc[StateCache]
-** xref:DeltaSourceSnapshot.adoc[DeltaSourceSnapshot]
 ** xref:CachedDS.adoc[CachedDS]
+** xref:DeltaSourceSnapshot.adoc[DeltaSourceSnapshot]
 ** xref:SnapshotIterator.adoc[SnapshotIterator]
 
 * xref:DeltaSQLConf.adoc[DeltaSQLConf]
@@ -93,6 +93,7 @@
 * xref:DeltaConfigs.adoc[DeltaConfigs]
 
 * xref:FileNames.adoc[FileNames]
+* xref:DeltaLogFileIndex.adoc[DeltaLogFileIndex]
 
 * xref:DeltaErrors.adoc[DeltaErrors]
 

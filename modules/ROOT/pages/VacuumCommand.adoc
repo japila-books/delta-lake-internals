@@ -16,7 +16,7 @@ log4j.logger.org.apache.spark.sql.delta.commands.VacuumCommand=ALL
 Refer to <<logging.adoc#, Logging>>.
 ====
 
-== [[gc]] Garbage Collecting Delta Table -- `gc` Utility
+== [[gc]] Garbage Collecting Of Delta Table -- `gc` Utility
 
 [source, scala]
 ----

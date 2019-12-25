@@ -1,6 +1,6 @@
-= CachedDS
+= CachedDS -- Cached Delta State
 
-`CachedDS` (of `A`s) is <<creating-instance, created>> exclusively when `StateCache` is requested to <<cacheDS, cacheDS>>.
+`CachedDS` (of ``A``s) is <<creating-instance, created>> exclusively when <<StateCache.adoc#, StateCache>> is requested to <<cacheDS, cacheDS>>.
 
 NOTE: `CachedDS` is an internal class of <<StateCache.adoc#, StateCache>> and has access to its internals.
 
