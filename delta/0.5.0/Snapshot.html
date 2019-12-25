@@ -335,6 +335,9 @@
     <a class="nav-link" href="FileNames.html">FileNames</a>
   </li>
   <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="DeltaLogFileIndex.html">DeltaLogFileIndex</a>
+  </li>
+  <li class="nav-item" data-depth="1">
     <a class="nav-link" href="DeltaErrors.html">DeltaErrors</a>
   </li>
   <li class="nav-item" data-depth="1">
@@ -457,7 +460,53 @@
 <p><code>Checkpoints</code> is requested to <a href="Checkpoints.html#checkpoint" class="page">checkpoint</a> (and in turn <a href="Checkpoints.html#writeCheckpoint" class="page">writeCheckpoint</a>)</p>
 </li>
 <li>
-<p>&#8230;&#8203;FIXME</p>
+<p><code>Snapshot</code> is created, and requested for <a href="#allFiles">allFiles</a> and <a href="#tombstones">tombstones</a></p>
+</li>
+<li>
+<p><code>VacuumCommand</code> is requested for <a href="VacuumCommand.html#gc" class="page">garbage collecting of a delta table</a></p>
+</li>
+</ul>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="allfiles-method"><a class="anchor" href="#allfiles-method"></a><a class="link" href="#allfiles-method"><a id="allFiles"></a> <code>allFiles</code> Method</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">allFiles: Dataset[AddFile]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>allFiles</code>&#8230;&#8203;FIXME</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p><code>allFiles</code> is used when:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>PartitionFiltering</code> is requested to <a href="PartitionFiltering.html#filesForScan" class="page">filesForScan</a></p>
+</li>
+<li>
+<p><code>DeltaSourceSnapshot</code> is requested to <a href="DeltaSourceSnapshot.html#initialFiles" class="page">initialFiles</a></p>
+</li>
+<li>
+<p><code>GenerateSymlinkManifestImpl</code> is requested to <a href="GenerateSymlinkManifest.html#generateIncrementalManifest" class="page">generateIncrementalManifest</a> and <a href="GenerateSymlinkManifest.html#generateFullManifest" class="page">generateFullManifest</a></p>
+</li>
+<li>
+<p><code>DeltaDataSource</code> is requested to <a href="DeltaDataSource.html#RelationProvider-createRelation" class="page">createRelation</a></p>
 </li>
 </ul>
 </div>
@@ -486,6 +535,83 @@
 </td>
 <td class="content">
 <code>numIndexedCols</code> seems unused.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="tombstones-method"><a class="anchor" href="#tombstones-method"></a><a class="link" href="#tombstones-method"><a id="tombstones"></a> <code>tombstones</code> Method</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">tombstones: Dataset[RemoveFile]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>tombstones</code>&#8230;&#8203;FIXME</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>tombstones</code> seems to be used for testing only.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="statereconstruction-internal-property"><a class="anchor" href="#statereconstruction-internal-property"></a><a class="link" href="#statereconstruction-internal-property"><a id="stateReconstruction"></a> <code>stateReconstruction</code> Internal Property</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">stateReconstruction: Dataset[SingleAction]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>stateReconstruction</code> is a dataset of <a href="SingleAction.html" class="page">SingleActions</a> (that is the <a href="CachedDS.html#ds" class="page">dataset</a> part) of the <a href="#cachedState">cachedState</a>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="emptyactions-internal-method"><a class="anchor" href="#emptyactions-internal-method"></a><a class="link" href="#emptyactions-internal-method"><a id="emptyActions"></a> <code>emptyActions</code> Internal Method</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">emptyActions: Dataset[SingleAction]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>emptyActions</code> is an empty dataset of <a href="SingleAction.html" class="page">SingleActions</a> for <a href="#stateReconstruction">stateReconstruction</a> and <a href="#load">load</a>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="load-internal-method"><a class="anchor" href="#load-internal-method"></a><a class="link" href="#load-internal-method"><a id="load"></a> <code>load</code> Internal Method</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">load(
+  files: Seq[DeltaLogFileIndex]): Dataset[SingleAction]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>load</code>&#8230;&#8203;FIXME</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>load</code> is used when <code>Snapshot</code> is created (and initializes <a href="#stateReconstruction">stateReconstruction</a>).
 </td>
 </tr>
 </table>
@@ -533,12 +659,6 @@
 </div>
 <div class="paragraph">
 <p>Used when&#8230;&#8203;FIXME</p>
-</div></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>stateReconstruction</code></p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="stateReconstruction"></a> Dataset of <a href="SingleAction.html" class="page">SingleActions</a> (that is the <a href="CachedDS.html#ds" class="page">dataset</a> part) of the <a href="#cachedState">cachedState</a></p>
 </div></div></td>
 </tr>
 </tbody>

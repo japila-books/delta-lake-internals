@@ -335,6 +335,9 @@
     <a class="nav-link" href="FileNames.html">FileNames</a>
   </li>
   <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="DeltaLogFileIndex.html">DeltaLogFileIndex</a>
+  </li>
+  <li class="nav-item" data-depth="1">
     <a class="nav-link" href="DeltaErrors.html">DeltaErrors</a>
   </li>
   <li class="nav-item" data-depth="1">
@@ -388,6 +391,76 @@
 </div>
 <div class="paragraph">
 <p><code>Action</code> can be converted (<em>serialized</em>) to <a href="#json">json</a> format for&#8230;&#8203;FIXME</p>
+</div>
+<div id="logSchema" class="paragraph">
+<p><code>Action</code> object defines <code>logSchema</code> that is a schema (<code>StructType</code>) based on the <a href="SingleAction.html" class="page">SingleAction</a> case class.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">import org.apache.spark.sql.delta.actions.Action.logSchema
+scala&gt; logSchema.printTreeString
+root
+ |-- txn: struct (nullable = true)
+ |    |-- appId: string (nullable = true)
+ |    |-- version: long (nullable = false)
+ |    |-- lastUpdated: long (nullable = true)
+ |-- add: struct (nullable = true)
+ |    |-- path: string (nullable = true)
+ |    |-- partitionValues: map (nullable = true)
+ |    |    |-- key: string
+ |    |    |-- value: string (valueContainsNull = true)
+ |    |-- size: long (nullable = false)
+ |    |-- modificationTime: long (nullable = false)
+ |    |-- dataChange: boolean (nullable = false)
+ |    |-- stats: string (nullable = true)
+ |    |-- tags: map (nullable = true)
+ |    |    |-- key: string
+ |    |    |-- value: string (valueContainsNull = true)
+ |-- remove: struct (nullable = true)
+ |    |-- path: string (nullable = true)
+ |    |-- deletionTimestamp: long (nullable = true)
+ |    |-- dataChange: boolean (nullable = false)
+ |-- metaData: struct (nullable = true)
+ |    |-- id: string (nullable = true)
+ |    |-- name: string (nullable = true)
+ |    |-- description: string (nullable = true)
+ |    |-- format: struct (nullable = true)
+ |    |    |-- provider: string (nullable = true)
+ |    |    |-- options: map (nullable = true)
+ |    |    |    |-- key: string
+ |    |    |    |-- value: string (valueContainsNull = true)
+ |    |-- schemaString: string (nullable = true)
+ |    |-- partitionColumns: array (nullable = true)
+ |    |    |-- element: string (containsNull = true)
+ |    |-- configuration: map (nullable = true)
+ |    |    |-- key: string
+ |    |    |-- value: string (valueContainsNull = true)
+ |    |-- createdTime: long (nullable = true)
+ |-- protocol: struct (nullable = true)
+ |    |-- minReaderVersion: integer (nullable = false)
+ |    |-- minWriterVersion: integer (nullable = false)
+ |-- commitInfo: struct (nullable = true)
+ |    |-- version: long (nullable = true)
+ |    |-- timestamp: timestamp (nullable = true)
+ |    |-- userId: string (nullable = true)
+ |    |-- userName: string (nullable = true)
+ |    |-- operation: string (nullable = true)
+ |    |-- operationParameters: map (nullable = true)
+ |    |    |-- key: string
+ |    |    |-- value: string (valueContainsNull = true)
+ |    |-- job: struct (nullable = true)
+ |    |    |-- jobId: string (nullable = true)
+ |    |    |-- jobName: string (nullable = true)
+ |    |    |-- runId: string (nullable = true)
+ |    |    |-- jobOwnerId: string (nullable = true)
+ |    |    |-- triggerType: string (nullable = true)
+ |    |-- notebook: struct (nullable = true)
+ |    |    |-- notebookId: string (nullable = true)
+ |    |-- clusterId: string (nullable = true)
+ |    |-- readVersion: long (nullable = true)
+ |    |-- isolationLevel: string (nullable = true)
+ |    |-- isBlindAppend: boolean (nullable = true)</code></pre>
+</div>
 </div>
 <table id="contract" class="tableblock frame-all grid-all stretch">
 <caption class="title">Table 1. Action Contract (Abstract Methods Only)</caption>

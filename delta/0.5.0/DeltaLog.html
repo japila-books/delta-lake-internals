@@ -335,6 +335,9 @@
     <a class="nav-link" href="FileNames.html">FileNames</a>
   </li>
   <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="DeltaLogFileIndex.html">DeltaLogFileIndex</a>
+  </li>
+  <li class="nav-item" data-depth="1">
     <a class="nav-link" href="DeltaErrors.html">DeltaErrors</a>
   </li>
   <li class="nav-item" data-depth="1">
@@ -403,6 +406,27 @@ file:/tmp/delta/t1/_delta_log/_last_checkpoint</code></pre>
 </div>
 <div class="paragraph">
 <p><code>DeltaLog</code> is a <a href="LogStoreProvider.html" class="page">LogStoreProvider</a>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="fileformats"><a class="anchor" href="#fileformats"></a><a class="link" href="#fileformats"><a id="FileFormats"></a> FileFormats</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><code>DeltaLog</code> defines two <code>FileFormats</code>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a id="CHECKPOINT_FILE_FORMAT"></a> <code>ParquetFileFormat</code> for indices of delta files</p>
+</li>
+<li>
+<p><a id="COMMIT_FILE_FORMAT"></a> <code>JsonFileFormat</code> for indices of checkpoint files</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The <code>FileFormats</code> are used to create <a href="DeltaLogFileIndex.html" class="page">DeltaLogFileIndices</a> for <a href="Snapshot.html#files" class="page">Snapshots</a> that in turn used them for <a href="Snapshot.html#stateReconstruction" class="page">stateReconstruction</a>.</p>
 </div>
 </div>
 </div>

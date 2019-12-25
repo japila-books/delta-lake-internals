@@ -3,8 +3,8 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Untitled :: The Internals of Delta Lake</title>
-    <link rel="canonical" href="https://delta.japila.pl/delta/0.5.0/LogStoreProvider.html">
+    <title>DeltaLogFileIndex :: The Internals of Delta Lake</title>
+    <link rel="canonical" href="https://delta.japila.pl/delta/0.5.0/DeltaLogFileIndex.html">
     <meta name="generator" content="Antora 2.2.0">
     <link rel="stylesheet" href="../../_/css/site.css">
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-151208281-1"></script>
@@ -200,7 +200,7 @@
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="MetadataCleanup.html">MetadataCleanup</a>
   </li>
-  <li class="nav-item is-current-page" data-depth="2">
+  <li class="nav-item" data-depth="2">
     <a class="nav-link" href="LogStoreProvider.html">LogStoreProvider</a>
   </li>
   <li class="nav-item" data-depth="2">
@@ -334,7 +334,7 @@
   <li class="nav-item" data-depth="1">
     <a class="nav-link" href="FileNames.html">FileNames</a>
   </li>
-  <li class="nav-item" data-depth="1">
+  <li class="nav-item is-current-page" data-depth="1">
     <a class="nav-link" href="DeltaLogFileIndex.html">DeltaLogFileIndex</a>
   </li>
   <li class="nav-item" data-depth="1">
@@ -377,39 +377,46 @@
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="index.html">Delta Lake</a></li>
-    <li><a href="DeltaLog.html">DeltaLog</a></li>
-    <li><a href="LogStoreProvider.html">LogStoreProvider</a></li>
+    <li><a href="DeltaLogFileIndex.html">DeltaLogFileIndex</a></li>
   </ul>
 </nav>
-  <div class="edit-this-page"><a href="file:///antora/modules/ROOT/pages/LogStoreProvider.adoc">Edit this Page</a></div>
+  <div class="edit-this-page"><a href="file:///antora/modules/ROOT/pages/DeltaLogFileIndex.adoc">Edit this Page</a></div>
 </div>
 <article class="doc">
-<div class="sect1">
-<h2 id="logstoreprovider"><a class="anchor" href="#logstoreprovider"></a><a class="link" href="#logstoreprovider"><a id="LogStoreProvider"></a> LogStoreProvider</a></h2>
+<h1 class="page">DeltaLogFileIndex</h1>
+<div id="preamble">
 <div class="sectionbody">
-<div class="paragraph">
-<p><code>LogStoreProvider</code> is an abstraction of <a href="#implementations">providers</a> of <a href="#createLogStore">LogStores</a>.</p>
+<div id="creating-instance" class="paragraph">
+<p><code>DeltaLogFileIndex</code> is a <code>FileIndex</code> (Spark SQL) that takes the following to be created:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a id="format"></a> One of the supported <a href="DeltaLog.html#FileFormats" class="page">FileFormats</a></p>
+</li>
+<li>
+<p><a id="files"></a> <code>Array[FileStatus]</code> (Hadoop)</p>
+</li>
+</ul>
 </div>
 <div class="paragraph">
-<p><a id="logStoreClassConfKey"></a><a id="defaultLogStoreClass"></a>
-<code>LogStoreProvider</code> uses the <strong>spark.delta.logStore.class</strong> configuration property (default: <a href="HDFSLogStore.html" class="page">HDFSLogStore</a>) for the fully-qualified class name of the <a href="LogStore.html" class="page">LogStore</a> to <a href="#createLogStore">create</a> (for a <a href="DeltaLog.html" class="page">DeltaLog</a>, a <a href="DeltaHistoryManager.html" class="page">DeltaHistoryManager</a>, and <a href="DeltaFileOperations.html" class="page">DeltaFileOperations</a>).</p>
+<p><code>DeltaLogFileIndex</code> is <a href="#creating-instance">created</a> (directly or indirectly using <a href="#apply">apply</a> utility) when <code>DeltaLog</code> is requested for the <a href="DeltaLog.html#currentSnapshot" class="page">currentSnapshot</a>, to <a href="#updateInternal">updateInternal</a> and <a href="#getSnapshotAt">getSnapshotAt</a>.</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="creating-logstorecreatelogstore-method"><a class="anchor" href="#creating-logstorecreatelogstore-method"></a><a class="link" href="#creating-logstorecreatelogstore-method"><a id="createLogStore"></a> Creating LogStore&#8201;&#8212;&#8201;<code>createLogStore</code> Method</a></h2>
+<h2 id="apply-utility"><a class="anchor" href="#apply-utility"></a><a class="link" href="#apply-utility"><a id="apply"></a> <code>apply</code> Utility</a></h2>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">createLogStore(
-  spark: SparkSession): LogStore
-createLogStore(
-  sparkConf: SparkConf,
-  hadoopConf: Configuration): LogStore</code></pre>
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">apply(
+  format: FileFormat,
+  fs: FileSystem,
+  paths: Seq[Path]): DeltaLogFileIndex</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p><code>createLogStore</code>&#8230;&#8203;FIXME</p>
+<p><code>apply</code> simply creates a new <code>DeltaLogFileIndex</code>.</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -418,19 +425,7 @@ createLogStore(
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-<div class="paragraph">
-<p><code>createLogStore</code> is used when:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><a href="DeltaLog.html#store" class="page">DeltaLog</a> is created</p>
-</li>
-<li>
-<p><a href="LogStore.html#apply" class="page">LogStore.apply</a> utility is used (to create a <a href="LogStore.html" class="page">LogStore</a>)</p>
-</li>
-</ul>
-</div>
+<code>apply</code> is used when <code>DeltaLog</code> is requested for the <a href="DeltaLog.html#currentSnapshot" class="page">currentSnapshot</a>, to <a href="#updateInternal">updateInternal</a> and <a href="#getSnapshotAt">getSnapshotAt</a>.
 </td>
 </tr>
 </table>
