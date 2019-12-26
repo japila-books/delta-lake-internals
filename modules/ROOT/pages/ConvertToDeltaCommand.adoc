@@ -112,7 +112,7 @@ createAddFile(
   resolver: Resolver): AddFile
 ----
 
-`createAddFile` creates an <<FileAction.adoc#AddFile, AddFile>> action.
+`createAddFile` creates an <<AddFile.adoc#, AddFile>> action.
 
 Internally, `createAddFile`...FIXME
 

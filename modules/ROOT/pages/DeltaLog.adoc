@@ -383,7 +383,7 @@ createDataFrame(
 
 `createDataFrame` takes the action name to build the `DataFrame` for from the `actionTypeOpt` (if defined), or uses `streaming` when the given `isStreaming` flag is on, and `batch` otherwise.
 
-`createDataFrame` creates a new <<TahoeBatchFileIndex.adoc#, TahoeBatchFileIndex>> (for the given <<FileAction.adoc#AddFile, AddFiles>> and <<Snapshot.adoc#, Snapshot>>).
+`createDataFrame` creates a new <<TahoeBatchFileIndex.adoc#, TahoeBatchFileIndex>> (for the given <<AddFile.adoc#, AddFiles>> and <<Snapshot.adoc#, Snapshot>>).
 
 In the end, `createDataFrame` creates a `DataFrame` with a logical query plan with a `LogicalRelation` over a `HadoopFsRelation` (with the new `TahoeBatchFileIndex`).
 

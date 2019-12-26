@@ -84,6 +84,7 @@
 * xref:DeltaHistoryManager.adoc[DeltaHistoryManager]
 
 * xref:Action.adoc[Action]
+** xref:AddFile.adoc[AddFile]
 ** xref:CommitInfo.adoc[CommitInfo]
 ** xref:FileAction.adoc[FileAction]
 ** xref:Metadata.adoc[Metadata]

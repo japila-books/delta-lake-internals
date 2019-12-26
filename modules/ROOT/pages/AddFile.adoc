@@ -1,0 +1,21 @@
+= AddFile
+
+`AddFile` is a <<FileAction.adoc#, file action>> to denote a file added to a <<DeltaLog.adoc#, delta table>>.
+
+`AddFile` is <<creating-instance, created>> when:
+
+* `ConvertToDeltaCommand` is requested to <<ConvertToDeltaCommand.adoc#performConvert, performConvert>> (for <<ConvertToDeltaCommand.adoc#createAddFile, every data file to import>>)
+
+* `DelayedCommitProtocol` is requested to <<DelayedCommitProtocol.adoc#commitTask, commitTask>>
+
+== [[creating-instance]] Creating AddFile Instance
+
+`AddFile` takes the following to be created:
+
+* [[path]] Path
+* [[partitionValues]] Partition values (`Map[String, String]`)
+* [[size]] Size
+* [[modificationTime]] Modification time
+* [[dataChange]] `dataChange` flag
+* [[stats]] Stats (default: `null`)
+* [[tags]] Tags (`Map[String, String]`) (default: `null`)

@@ -38,7 +38,7 @@ Used when...FIXME
 | FileAction
 | Description
 
-| AddFile
+| <<AddFile.adoc#, AddFile>>
 | [[AddFile]]
 
 | RemoveFile

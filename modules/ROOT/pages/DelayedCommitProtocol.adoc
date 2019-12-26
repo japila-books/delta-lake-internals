@@ -66,7 +66,7 @@ NOTE: `commitTask` is part of the `FileCommitProtocol` contract to commit a task
 
 `commitTask` returns an empty `TaskCommitMessage` when the <<addedFiles, addedFiles>> internal registry has no entries (<<newTaskTempFile, files added>>).
 
-`commitTask` creates a `TaskCommitMessage` with <<FileAction.adoc#AddFile, AddFiles>> for every <<newTaskTempFile, file added>> by tasks on executors (`Seq[AddFile]`).
+`commitTask` creates a `TaskCommitMessage` with an <<AddFile.adoc#, AddFile>> for every <<newTaskTempFile, file added>> by tasks on executors (`Seq[AddFile]`).
 
 == [[commitJob]] `commitJob` Method
 
