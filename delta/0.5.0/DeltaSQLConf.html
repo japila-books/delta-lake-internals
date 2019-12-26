@@ -225,6 +225,9 @@
     <a class="nav-link" href="Snapshot.html">Snapshot</a>
 <ul class="nav-list">
   <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="InMemoryLogReplay.html">InMemoryLogReplay</a>
+  </li>
+  <li class="nav-item" data-depth="2">
     <a class="nav-link" href="StateCache.html">StateCache</a>
   </li>
   <li class="nav-item" data-depth="2">
@@ -235,6 +238,9 @@
   </li>
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="SnapshotIterator.html">SnapshotIterator</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="PartitionFiltering.html">PartitionFiltering</a>
   </li>
 </ul>
   </li>
@@ -297,9 +303,6 @@
   </li>
   <li class="nav-item" data-depth="1">
     <a class="nav-link" href="DeltaSource.html">DeltaSource</a>
-  </li>
-  <li class="nav-item" data-depth="1">
-    <a class="nav-link" href="PartitionFiltering.html">PartitionFiltering</a>
   </li>
   <li class="nav-item" data-depth="1">
     <a class="nav-link" href="DeltaHistoryManager.html">DeltaHistoryManager</a>
@@ -421,7 +424,7 @@
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>snapshotPartitions</code></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="snapshotPartitions"></a><a id="DELTA_SNAPSHOT_PARTITIONS"></a> <strong>(internal)</strong> Number of partitions to use when building a Delta Lake <a href="Snapshot.html" class="page">snapshot</a>.</p>
+<p><a id="snapshotPartitions"></a><a id="DELTA_SNAPSHOT_PARTITIONS"></a> <strong>(internal)</strong> Number of partitions to use for <strong>state reconstruction</strong> (when <a href="Snapshot.html#stateReconstruction" class="page">building</a> a <a href="Snapshot.html" class="page">snapshot</a> of a delta table).</p>
 </div>
 <div class="paragraph">
 <p>Default: <code>50</code></p>

@@ -3,8 +3,8 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title> DeltaFileFormat Contract :: The Internals of Delta Lake</title>
-    <link rel="canonical" href="https://delta.japila.pl/delta/0.5.0/DeltaFileFormat.html">
+    <title>InMemoryLogReplay :: The Internals of Delta Lake</title>
+    <link rel="canonical" href="https://delta.japila.pl/delta/0.5.0/InMemoryLogReplay.html">
     <meta name="generator" content="Antora 2.2.0">
     <link rel="stylesheet" href="../../_/css/site.css">
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-151208281-1"></script>
@@ -224,7 +224,7 @@
     <button class="nav-item-toggle"></button>
     <a class="nav-link" href="Snapshot.html">Snapshot</a>
 <ul class="nav-list">
-  <li class="nav-item" data-depth="2">
+  <li class="nav-item is-current-page" data-depth="2">
     <a class="nav-link" href="InMemoryLogReplay.html">InMemoryLogReplay</a>
   </li>
   <li class="nav-item" data-depth="2">
@@ -247,7 +247,7 @@
   <li class="nav-item" data-depth="1">
     <a class="nav-link" href="DeltaSQLConf.html">DeltaSQLConf</a>
   </li>
-  <li class="nav-item is-current-page" data-depth="1">
+  <li class="nav-item" data-depth="1">
     <a class="nav-link" href="DeltaFileFormat.html">DeltaFileFormat</a>
   </li>
   <li class="nav-item" data-depth="1">
@@ -380,41 +380,183 @@
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="index.html">Delta Lake</a></li>
-    <li><a href="DeltaFileFormat.html">DeltaFileFormat</a></li>
+    <li><a href="Snapshot.html">Snapshot</a></li>
+    <li><a href="InMemoryLogReplay.html">InMemoryLogReplay</a></li>
   </ul>
 </nav>
-  <div class="edit-this-page"><a href="file:///antora/modules/ROOT/pages/DeltaFileFormat.adoc">Edit this Page</a></div>
+  <div class="edit-this-page"><a href="file:///antora/modules/ROOT/pages/InMemoryLogReplay.adoc">Edit this Page</a></div>
 </div>
 <article class="doc">
-<h1 class="page"><a id="DeltaFileFormat"></a> DeltaFileFormat Contract</h1>
+<h1 class="page">InMemoryLogReplay</h1>
+<div id="preamble">
+<div class="sectionbody">
 <div class="paragraph">
-<p><code>DeltaFileFormat</code> is the <a href="#contract">abstraction</a> of <a href="#implementations">FileFormat "descriptors"</a> that can <a href="#fileFormat">specify the underlying FileFormat of Spark</a> that describes a Delta table.</p>
+<p><code>InMemoryLogReplay</code> is used for <a href="Snapshot.html#stateReconstruction" class="page">state reconstruction</a> (of the <a href="Snapshot.html#cachedState" class="page">cached delta state</a>).</p>
 </div>
-<table id="contract" class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 1. DeltaFileFormat Contract</caption>
+<div class="paragraph">
+<p><code>InMemoryLogReplay</code> is <a href="#creating-instance">created</a> for every partition of the <a href="Snapshot.html#stateReconstruction" class="page">stateReconstruction</a> dataset (<code>Dataset[SingleAction]</code>) that is based on the <a href="DeltaSQLConf.html#DELTA_SNAPSHOT_PARTITIONS" class="page">spark.databricks.delta.snapshotPartitions</a> configuration property (default: <code>50</code>).</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="creating-inmemorylogreplay-instance"><a class="anchor" href="#creating-inmemorylogreplay-instance"></a><a class="link" href="#creating-inmemorylogreplay-instance"><a id="creating-instance"></a> Creating InMemoryLogReplay Instance</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><code>InMemoryLogReplay</code> takes the following to be created:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a id="minFileRetentionTimestamp"></a> <code>minFileRetentionTimestamp</code> (that is exactly <a href="Snapshot.html#minFileRetentionTimestamp" class="page">Snapshot.minFileRetentionTimestamp</a>)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><code>InMemoryLogReplay</code> initializes the <a href="#internal-properties">internal properties</a>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="append-method"><a class="anchor" href="#append-method"></a><a class="link" href="#append-method"><a id="append"></a> <code>append</code> Method</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">append(
+  version: Long,
+  actions: Iterator[Action]): Unit</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>append</code>&#8230;&#8203;FIXME</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>append</code> is used when <code>Snapshot</code> is created (and initializes the <a href="Snapshot.html#stateReconstruction" class="page">stateReconstruction</a> for the <a href="Snapshot.html#cachedState" class="page">cached delta state</a>).
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="current-state-of-delta-tablecheckpoint-method"><a class="anchor" href="#current-state-of-delta-tablecheckpoint-method"></a><a class="link" href="#current-state-of-delta-tablecheckpoint-method"><a id="checkpoint"></a> Current State Of Delta Table&#8201;&#8212;&#8201;<code>checkpoint</code> Method</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">checkpoint: Iterator[Action]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>checkpoint</code>&#8230;&#8203;FIXME</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>checkpoint</code> is used when <code>Snapshot</code> is created (and initializes the <a href="Snapshot.html#stateReconstruction" class="page">stateReconstruction</a> for the <a href="Snapshot.html#cachedState" class="page">cached delta state</a>).
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="gettombstones-internal-method"><a class="anchor" href="#gettombstones-internal-method"></a><a class="link" href="#gettombstones-internal-method"><a id="getTombstones"></a> <code>getTombstones</code> Internal Method</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">getTombstones: Iterable[FileAction]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>getTombstones</code>&#8230;&#8203;FIXME</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>getTombstones</code> is used when <code>InMemoryLogReplay</code> is requested to <a href="#checkpoint">checkpoint</a>.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="internal-properties"><a class="anchor" href="#internal-properties"></a><a class="link" href="#internal-properties"><a id="internal-properties"></a> Internal Properties</a></h2>
+<div class="sectionbody">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 30%;">
 <col style="width: 70%;">
 </colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-left valign-top">Method</th>
+<th class="tableblock halign-left valign-top">Name</th>
 <th class="tableblock halign-left valign-top">Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>fileFormat</code></p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div id="fileFormat" class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">fileFormat: FileFormat</code></pre>
-</div>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>currentProtocolVersion</code></p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="currentProtocolVersion"></a> <a href="Protocol.html" class="page">Protocol</a> (default: <code>null</code>)</p>
 </div>
 <div class="paragraph">
-<p>Spark SQL&#8217;s <code>FileFormat</code> of the delta table</p>
+<p>Used when&#8230;&#8203;FIXME</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>currentVersion</code></p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="currentVersion"></a> Version (default: <code>-1</code>)</p>
 </div>
 <div class="paragraph">
-<p>Default: <code>ParquetFileFormat</code></p>
+<p>Used when&#8230;&#8203;FIXME</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>currentMetaData</code></p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="currentMetaData"></a> <a href="Metadata.html" class="page">Metadata</a> (default: <code>null</code>)</p>
+</div>
+<div class="paragraph">
+<p>Used when&#8230;&#8203;FIXME</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>transactions</code></p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="transactions"></a> <a href="SetTransaction.html" class="page">SetTransactions</a> per ID (<code>HashMap[String, SetTransaction]</code>)</p>
+</div>
+<div class="paragraph">
+<p>Used when&#8230;&#8203;FIXME</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>activeFiles</code></p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="activeFiles"></a> <a href="FileAction.html#AddFile" class="page">AddFile</a> per URI (<code>HashMap[URI, AddFile]</code>)</p>
+</div>
+<div class="paragraph">
+<p>Used when&#8230;&#8203;FIXME</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>tombstones</code></p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="tombstones"></a> <a href="FileAction.html#RemoveFile" class="page">RemoveFile</a> per URI (<code>HashMap[URI, RemoveFile]</code>)</p>
 </div>
 <div class="paragraph">
 <p>Used when&#8230;&#8203;FIXME</p>
@@ -422,17 +564,7 @@
 </tr>
 </tbody>
 </table>
-<div id="implementations" class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<a href="Snapshot.html" class="page">Snapshot</a> is the only known <code>DeltaFileFormat</code>.
-</td>
-</tr>
-</table>
+</div>
 </div>
 </article>
 </main>

@@ -225,6 +225,9 @@
     <a class="nav-link" href="Snapshot.html">Snapshot</a>
 <ul class="nav-list">
   <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="InMemoryLogReplay.html">InMemoryLogReplay</a>
+  </li>
+  <li class="nav-item" data-depth="2">
     <a class="nav-link" href="StateCache.html">StateCache</a>
   </li>
   <li class="nav-item" data-depth="2">
@@ -235,6 +238,9 @@
   </li>
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="SnapshotIterator.html">SnapshotIterator</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="PartitionFiltering.html">PartitionFiltering</a>
   </li>
 </ul>
   </li>
@@ -297,9 +303,6 @@
   </li>
   <li class="nav-item" data-depth="1">
     <a class="nav-link" href="DeltaSource.html">DeltaSource</a>
-  </li>
-  <li class="nav-item" data-depth="1">
-    <a class="nav-link" href="PartitionFiltering.html">PartitionFiltering</a>
   </li>
   <li class="nav-item" data-depth="1">
     <a class="nav-link" href="DeltaHistoryManager.html">DeltaHistoryManager</a>
@@ -387,7 +390,10 @@
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p><code>Snapshot</code> is <a href="#creating-instance">created</a> when <code>DeltaLog</code> is requested for the <a href="DeltaLog.html#currentSnapshot" class="page">current snapshot</a>, to <a href="DeltaLog.html#update" class="page">update</a>, and <a href="DeltaLog.html#getSnapshotAt" class="page">getSnapshotAt</a></p>
+<p><code>Snapshot</code> is <a href="#creating-instance">created</a> when <code>DeltaLog</code> is requested for the <a href="DeltaLog.html#currentSnapshot" class="page">current snapshot</a>, to <a href="DeltaLog.html#update" class="page">update</a>, and <a href="DeltaLog.html#getSnapshotAt" class="page">getSnapshotAt</a>.</p>
+</div>
+<div class="paragraph">
+<p><code>Snapshot</code> uses the <a href="DeltaSQLConf.html#DELTA_SNAPSHOT_PARTITIONS" class="page">spark.databricks.delta.snapshotPartitions</a> internal configuration property (default: <code>50</code>) for the number of partition for <a href="#stateReconstruction">state reconstruction</a>.</p>
 </div>
 </div>
 </div>
@@ -412,7 +418,7 @@
 <p><a id="files"></a> Files (<code>Seq[Path]</code>)</p>
 </li>
 <li>
-<p><a id="minFileRetentionTimestamp"></a> <code>minFileRetentionTimestamp</code></p>
+<p><a id="minFileRetentionTimestamp"></a> <code>minFileRetentionTimestamp</code> (that is exactly <a href="DeltaLog.html#minFileRetentionTimestamp" class="page">DeltaLog.minFileRetentionTimestamp</a>)</p>
 </li>
 <li>
 <p><a id="deltaLog"></a> <a href="DeltaLog.html" class="page">DeltaLog</a></p>
@@ -517,56 +523,6 @@
 </div>
 </div>
 <div class="sect1">
-<h2 id="dataskippingnumindexedcols-table-propertynumindexedcols-value"><a class="anchor" href="#dataskippingnumindexedcols-table-propertynumindexedcols-value"></a><a class="link" href="#dataskippingnumindexedcols-table-propertynumindexedcols-value"><a id="numIndexedCols"></a> dataSkippingNumIndexedCols Table Property&#8201;&#8212;&#8201;<code>numIndexedCols</code> Value</a></h2>
-<div class="sectionbody">
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">numIndexedCols: Int</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p><code>numIndexedCols</code> simply reads the <a href="DeltaConfigs.html#DATA_SKIPPING_NUM_INDEXED_COLS" class="page">dataSkippingNumIndexedCols</a> table property <a href="DeltaConfigs.html#fromMetaData" class="page">from</a> the <a href="#metadata">Metadata</a>.</p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<code>numIndexedCols</code> seems unused.
-</td>
-</tr>
-</table>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="tombstones-method"><a class="anchor" href="#tombstones-method"></a><a class="link" href="#tombstones-method"><a id="tombstones"></a> <code>tombstones</code> Method</a></h2>
-<div class="sectionbody">
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">tombstones: Dataset[RemoveFile]</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p><code>tombstones</code>&#8230;&#8203;FIXME</p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<code>tombstones</code> seems to be used for testing only.
-</td>
-</tr>
-</table>
-</div>
-</div>
-</div>
-<div class="sect1">
 <h2 id="statereconstruction-internal-property"><a class="anchor" href="#statereconstruction-internal-property"></a><a class="link" href="#statereconstruction-internal-property"><a id="stateReconstruction"></a> <code>stateReconstruction</code> Internal Property</a></h2>
 <div class="sectionbody">
 <div class="listingblock">
@@ -612,6 +568,56 @@
 </td>
 <td class="content">
 <code>load</code> is used when <code>Snapshot</code> is created (and initializes <a href="#stateReconstruction">stateReconstruction</a>).
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="tombstones-method"><a class="anchor" href="#tombstones-method"></a><a class="link" href="#tombstones-method"><a id="tombstones"></a> <code>tombstones</code> Method</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">tombstones: Dataset[RemoveFile]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>tombstones</code>&#8230;&#8203;FIXME</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>tombstones</code> seems to be used for testing only.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="dataskippingnumindexedcols-table-propertynumindexedcols-value"><a class="anchor" href="#dataskippingnumindexedcols-table-propertynumindexedcols-value"></a><a class="link" href="#dataskippingnumindexedcols-table-propertynumindexedcols-value"><a id="numIndexedCols"></a> dataSkippingNumIndexedCols Table Property&#8201;&#8212;&#8201;<code>numIndexedCols</code> Value</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">numIndexedCols: Int</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>numIndexedCols</code> simply reads the <a href="DeltaConfigs.html#DATA_SKIPPING_NUM_INDEXED_COLS" class="page">dataSkippingNumIndexedCols</a> table property <a href="DeltaConfigs.html#fromMetaData" class="page">from</a> the <a href="#metadata">Metadata</a>.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>numIndexedCols</code> seems unused.
 </td>
 </tr>
 </table>
