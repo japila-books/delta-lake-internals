@@ -312,6 +312,9 @@
     <a class="nav-link" href="Action.html">Action</a>
 <ul class="nav-list">
   <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="AddFile.html">AddFile</a>
+  </li>
+  <li class="nav-item" data-depth="2">
     <a class="nav-link" href="CommitInfo.html">CommitInfo</a>
   </li>
   <li class="nav-item" data-depth="2">
@@ -1118,7 +1121,7 @@ forTable(
 <p><code>createDataFrame</code> takes the action name to build the <code>DataFrame</code> for from the <code>actionTypeOpt</code> (if defined), or uses <code>streaming</code> when the given <code>isStreaming</code> flag is on, and <code>batch</code> otherwise.</p>
 </div>
 <div class="paragraph">
-<p><code>createDataFrame</code> creates a new <a href="TahoeBatchFileIndex.html" class="page">TahoeBatchFileIndex</a> (for the given <a href="FileAction.html#AddFile" class="page">AddFiles</a> and <a href="Snapshot.html" class="page">Snapshot</a>).</p>
+<p><code>createDataFrame</code> creates a new <a href="TahoeBatchFileIndex.html" class="page">TahoeBatchFileIndex</a> (for the given <a href="AddFile.html" class="page">AddFiles</a> and <a href="Snapshot.html" class="page">Snapshot</a>).</p>
 </div>
 <div class="paragraph">
 <p>In the end, <code>createDataFrame</code> creates a <code>DataFrame</code> with a logical query plan with a <code>LogicalRelation</code> over a <code>HadoopFsRelation</code> (with the new <code>TahoeBatchFileIndex</code>).</p>

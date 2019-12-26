@@ -312,6 +312,9 @@
     <a class="nav-link" href="Action.html">Action</a>
 <ul class="nav-list">
   <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="AddFile.html">AddFile</a>
+  </li>
+  <li class="nav-item" data-depth="2">
     <a class="nav-link" href="CommitInfo.html">CommitInfo</a>
   </li>
   <li class="nav-item" data-depth="2">
@@ -549,7 +552,7 @@ FIXME When would the optional <code>dir</code> and the <a href="#randomPrefixLen
 <p><code>commitTask</code> returns an empty <code>TaskCommitMessage</code> when the <a href="#addedFiles">addedFiles</a> internal registry has no entries (<a href="#newTaskTempFile">files added</a>).</p>
 </div>
 <div class="paragraph">
-<p><code>commitTask</code> creates a <code>TaskCommitMessage</code> with <a href="FileAction.html#AddFile" class="page">AddFiles</a> for every <a href="#newTaskTempFile">file added</a> by tasks on executors (<code>Seq[AddFile]</code>).</p>
+<p><code>commitTask</code> creates a <code>TaskCommitMessage</code> with an <a href="AddFile.html" class="page">AddFile</a> for every <a href="#newTaskTempFile">file added</a> by tasks on executors (<code>Seq[AddFile]</code>).</p>
 </div>
 </div>
 </div>

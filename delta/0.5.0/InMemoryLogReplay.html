@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>InMemoryLogReplay :: The Internals of Delta Lake</title>
+    <title>InMemoryLogReplay&#8201;&#8212;&#8201;Delta Log Replay :: The Internals of Delta Lake</title>
     <link rel="canonical" href="https://delta.japila.pl/delta/0.5.0/InMemoryLogReplay.html">
     <meta name="generator" content="Antora 2.2.0">
     <link rel="stylesheet" href="../../_/css/site.css">
@@ -312,6 +312,9 @@
     <a class="nav-link" href="Action.html">Action</a>
 <ul class="nav-list">
   <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="AddFile.html">AddFile</a>
+  </li>
+  <li class="nav-item" data-depth="2">
     <a class="nav-link" href="CommitInfo.html">CommitInfo</a>
   </li>
   <li class="nav-item" data-depth="2">
@@ -387,14 +390,30 @@
   <div class="edit-this-page"><a href="file:///antora/modules/ROOT/pages/InMemoryLogReplay.adoc">Edit this Page</a></div>
 </div>
 <article class="doc">
-<h1 class="page">InMemoryLogReplay</h1>
+<h1 class="page">InMemoryLogReplay&#8201;&#8212;&#8201;Delta Log Replay</h1>
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p><code>InMemoryLogReplay</code> is used for <a href="Snapshot.html#stateReconstruction" class="page">state reconstruction</a> (of the <a href="Snapshot.html#cachedState" class="page">cached delta state</a>).</p>
+<p><code>InMemoryLogReplay</code> is used at the very last phase of <a href="Snapshot.html#stateReconstruction" class="page">state reconstruction</a> (of a <a href="Snapshot.html#cachedState" class="page">cached delta state</a>).</p>
 </div>
 <div class="paragraph">
 <p><code>InMemoryLogReplay</code> is <a href="#creating-instance">created</a> for every partition of the <a href="Snapshot.html#stateReconstruction" class="page">stateReconstruction</a> dataset (<code>Dataset[SingleAction]</code>) that is based on the <a href="DeltaSQLConf.html#DELTA_SNAPSHOT_PARTITIONS" class="page">spark.databricks.delta.snapshotPartitions</a> configuration property (default: <code>50</code>).</p>
+</div>
+<div class="paragraph">
+<p>The lifecycle of <code>InMemoryLogReplay</code> is as follows:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><a href="#creating-instance">Created</a> (with <a href="Snapshot.html#minFileRetentionTimestamp" class="page">Snapshot.minFileRetentionTimestamp</a>)</p>
+</li>
+<li>
+<p><a href="#append">Append</a> (with all <a href="SingleAction.html" class="page">SingleActions</a> of a partition)</p>
+</li>
+<li>
+<p><a href="#checkpoint">Checkpoint</a></p>
+</li>
+</ol>
 </div>
 </div>
 </div>
@@ -417,7 +436,7 @@
 </div>
 </div>
 <div class="sect1">
-<h2 id="append-method"><a class="anchor" href="#append-method"></a><a class="link" href="#append-method"><a id="append"></a> <code>append</code> Method</a></h2>
+<h2 id="appending-actionsappend-method"><a class="anchor" href="#appending-actionsappend-method"></a><a class="link" href="#appending-actionsappend-method"><a id="append"></a> Appending Actions&#8201;&#8212;&#8201;<code>append</code> Method</a></h2>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content">
@@ -427,7 +446,60 @@
 </div>
 </div>
 <div class="paragraph">
-<p><code>append</code>&#8230;&#8203;FIXME</p>
+<p><code>append</code> sets the <a href="#currentVersion">currentVersion</a> as the given <code>version</code>.</p>
+</div>
+<div class="paragraph">
+<p><code>append</code> adds <a href="Action.html" class="page">actions</a> to respective registries:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Every <a href="SetTransaction.html" class="page">SetTransaction</a> is registered in the <a href="#transactions">transactions</a> by <a href="SetTransaction.html#appId" class="page">appId</a></p>
+</li>
+<li>
+<p><a href="Metadata.html" class="page">Metadata</a> is registered as the <a href="#currentMetaData">currentMetaData</a></p>
+</li>
+<li>
+<p><a href="Protocol.html" class="page">Protocol</a> is registered as the <a href="#currentProtocolVersion">currentProtocolVersion</a></p>
+</li>
+<li>
+<p>Every <a href="AddFile.html" class="page">AddFile</a> is registered as follows:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Added to <a href="#activeFiles">activeFiles</a> by <code>pathAsUri</code> (with <code>dataChange</code> flag turned off)</p>
+</li>
+<li>
+<p>Removed from <a href="#tombstones">tombstones</a> by <code>pathAsUri</code></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Every <a href="FileAction.html#RemoveFile" class="page">RemoveFile</a> is registered as follows:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Removed from <a href="#activeFiles">activeFiles</a> by <code>pathAsUri</code></p>
+</li>
+<li>
+<p>Added to <a href="#tombstones">tombstones</a> by <code>pathAsUri</code> (with <code>dataChange</code> flag turned off)</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="CommitInfo.html" class="page">CommitInfos</a> are ignored</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><code>append</code> throws an <code>AssertionError</code> when the <a href="#currentVersion">currentVersion</a> is neither <code>-1</code> (the default) nor one before the given <code>version</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code>Attempted to replay version [version], but state is at [currentVersion]</code></pre>
+</div>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -452,7 +524,23 @@
 </div>
 </div>
 <div class="paragraph">
-<p><code>checkpoint</code>&#8230;&#8203;FIXME</p>
+<p><code>checkpoint</code> simply builds a sequence (<code>Iterator[Action]</code>) of the following (in that order):</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#currentProtocolVersion">currentProtocolVersion</a> if defined (non-<code>null</code>)</p>
+</li>
+<li>
+<p><a href="#currentMetaData">currentMetaData</a> if defined (non-<code>null</code>)</p>
+</li>
+<li>
+<p><a href="#transactions">SetTransactions</a></p>
+</li>
+<li>
+<p><a href="#activeFiles">AddFiles</a> and <a href="#getTombstones">RemoveFiles</a> (after the <a href="#minFileRetentionTimestamp">minFileRetentionTimestamp</a>) sorted by <a href="FileAction.html#path" class="page">path</a> (lexicographically)</p>
+</li>
+</ul>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -477,7 +565,7 @@
 </div>
 </div>
 <div class="paragraph">
-<p><code>getTombstones</code>&#8230;&#8203;FIXME</p>
+<p><code>getTombstones</code> returns <a href="FileAction.html#RemoveFile" class="page">RemoveFiles</a> (from the <a href="#tombstones">tombstones</a>) with their <code>delTimestamp</code> after the <a href="#minFileRetentionTimestamp">minFileRetentionTimestamp</a>.</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -547,7 +635,7 @@
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>activeFiles</code></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="activeFiles"></a> <a href="FileAction.html#AddFile" class="page">AddFile</a> per URI (<code>HashMap[URI, AddFile]</code>)</p>
+<p><a id="activeFiles"></a> <a href="AddFile.html" class="page">AddFile</a> per URI (<code>HashMap[URI, AddFile]</code>)</p>
 </div>
 <div class="paragraph">
 <p>Used when&#8230;&#8203;FIXME</p>

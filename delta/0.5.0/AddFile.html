@@ -3,8 +3,8 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title> DeltaTableOperations&#8201;&#8212;&#8201;Delta DML Operations :: The Internals of Delta Lake</title>
-    <link rel="canonical" href="https://delta.japila.pl/delta/0.5.0/DeltaTableOperations.html">
+    <title>AddFile :: The Internals of Delta Lake</title>
+    <link rel="canonical" href="https://delta.japila.pl/delta/0.5.0/AddFile.html">
     <meta name="generator" content="Antora 2.2.0">
     <link rel="stylesheet" href="../../_/css/site.css">
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-151208281-1"></script>
@@ -92,7 +92,7 @@
     <button class="nav-item-toggle"></button>
     <a class="nav-link" href="DeltaTable.html">DeltaTable</a>
 <ul class="nav-list">
-  <li class="nav-item is-current-page" data-depth="2">
+  <li class="nav-item" data-depth="2">
     <a class="nav-link" href="DeltaTableOperations.html">DeltaTableOperations</a>
   </li>
 </ul>
@@ -311,7 +311,7 @@
     <button class="nav-item-toggle"></button>
     <a class="nav-link" href="Action.html">Action</a>
 <ul class="nav-list">
-  <li class="nav-item" data-depth="2">
+  <li class="nav-item is-current-page" data-depth="2">
     <a class="nav-link" href="AddFile.html">AddFile</a>
   </li>
   <li class="nav-item" data-depth="2">
@@ -383,266 +383,64 @@
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="index.html">Delta Lake</a></li>
-    <li><a href="DeltaTable.html">DeltaTable</a></li>
-    <li><a href="DeltaTableOperations.html">DeltaTableOperations</a></li>
+    <li><a href="Action.html">Action</a></li>
+    <li><a href="AddFile.html">AddFile</a></li>
   </ul>
 </nav>
-  <div class="edit-this-page"><a href="file:///antora/modules/ROOT/pages/DeltaTableOperations.adoc">Edit this Page</a></div>
+  <div class="edit-this-page"><a href="file:///antora/modules/ROOT/pages/AddFile.adoc">Edit this Page</a></div>
 </div>
 <article class="doc">
-<h1 class="page"><a id="DeltaTableOperations"></a> DeltaTableOperations&#8201;&#8212;&#8201;Delta DML Operations</h1>
+<h1 class="page">AddFile</h1>
 <div id="preamble">
 <div class="sectionbody">
-<div id="self" class="paragraph">
-<p><code>DeltaTableOperations</code> is the <a href="#contract">abstraction</a> of <a href="#implementations">management services</a> of a <a href="DeltaTable.html" class="page">DeltaTable</a> for executing <a href="#executeDelete">delete</a>, <a href="#executeHistory">history</a>, <a href="#executeUpdate">update</a>, and <a href="#executeVacuum">vacuum</a> commands.</p>
+<div class="paragraph">
+<p><code>AddFile</code> is a <a href="FileAction.html" class="page">file action</a> to denote a file added to a <a href="DeltaLog.html" class="page">delta table</a>.</p>
 </div>
-<div id="implementations" class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<a href="DeltaTable.html" class="page">DeltaTable</a> is the default and only known <code>DeltaTableOperations</code> in Delta Lake.
-</td>
-</tr>
-</table>
+<div class="paragraph">
+<p><code>AddFile</code> is <a href="#creating-instance">created</a> when:</p>
 </div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<a href="#executeDelete">Delete</a> and <a href="#executeUpdate">Update</a> operations do not support subqueries (and <a href="#subqueryNotSupportedCheck">throw an AnalysisException</a> otherwise).
-</td>
-</tr>
-</table>
+<div class="ulist">
+<ul>
+<li>
+<p><code>ConvertToDeltaCommand</code> is requested to <a href="ConvertToDeltaCommand.html#performConvert" class="page">performConvert</a> (for <a href="ConvertToDeltaCommand.html#createAddFile" class="page">every data file to import</a>)</p>
+</li>
+<li>
+<p><code>DelayedCommitProtocol</code> is requested to <a href="DelayedCommitProtocol.html#commitTask" class="page">commitTask</a></p>
+</li>
+</ul>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="executing-generate-commandexecutegenerate-method"><a class="anchor" href="#executing-generate-commandexecutegenerate-method"></a><a class="link" href="#executing-generate-commandexecutegenerate-method"><a id="executeGenerate"></a> Executing Generate Command&#8201;&#8212;&#8201;<code>executeGenerate</code> Method</a></h2>
+<h2 id="creating-addfile-instance"><a class="anchor" href="#creating-addfile-instance"></a><a class="link" href="#creating-addfile-instance"><a id="creating-instance"></a> Creating AddFile Instance</a></h2>
 <div class="sectionbody">
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">executeGenerate(
-  tblIdentifier: String,
-  mode: String): Unit</code></pre>
-</div>
-</div>
 <div class="paragraph">
-<p><code>executeGenerate</code> requests the SQL parser (of the <code>SparkSession</code>) to parse the given table identifier, creates a <a href="DeltaGenerateCommand.html" class="page">DeltaGenerateCommand</a> and runs it.</p>
+<p><code>AddFile</code> takes the following to be created:</p>
 </div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<code>executeGenerate</code> is used in <a href="DeltaTable.html#generate" class="page">DeltaTable.generate</a> operator.
-</td>
-</tr>
-</table>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="executing-delete-commandexecutedelete-method"><a class="anchor" href="#executing-delete-commandexecutedelete-method"></a><a class="link" href="#executing-delete-commandexecutedelete-method"><a id="executeDelete"></a> Executing Delete Command&#8201;&#8212;&#8201;<code>executeDelete</code> Method</a></h2>
-<div class="sectionbody">
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">executeDelete(
-  condition: Option[Expression]): Unit</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p><code>executeDelete</code> creates a <code>QueryExecution</code> for the <code>Delete</code> logical operator with (the analyzed logical plan of) the <a href="#self">DeltaTable</a>. <code>executeDelete</code> requests the <code>QueryExecution</code> for the analyzed logical plan that is (<em>again?!</em>) a <code>Delete</code> unary node.</p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-FIXME What&#8217;s the purpose of all this resolutions?
-</td>
-</tr>
-</table>
-</div>
-<div class="paragraph">
-<p>In the end, <code>executeDelete</code> simply creates a <a href="DeleteCommand.html" class="page">DeleteCommand</a> (for the resolved delete) and <a href="DeleteCommand.html#run" class="page">executes it</a>.</p>
-</div>
-<div class="paragraph">
-<p><code>executeDelete</code> <a href="#subqueryNotSupportedCheck">throws an AnalysisException</a> when the <code>condition</code> expression contains subqueries.</p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<code>executeDelete</code> is used in <a href="DeltaTable.html#delete" class="page">DeltaTable.delete</a> operator.
-</td>
-</tr>
-</table>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="executehistory-method"><a class="anchor" href="#executehistory-method"></a><a class="link" href="#executehistory-method"><a id="executeHistory"></a> <code>executeHistory</code> Method</a></h2>
-<div class="sectionbody">
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">executeHistory(
-  deltaLog: DeltaLog,
-  limit: Option[Int]): DataFrame</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p><code>executeHistory</code>&#8230;&#8203;FIXME</p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<code>executeHistory</code> is used when&#8230;&#8203;FIXME
-</td>
-</tr>
-</table>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="executeupdate-method"><a class="anchor" href="#executeupdate-method"></a><a class="link" href="#executeupdate-method"><a id="executeUpdate"></a> <code>executeUpdate</code> Method</a></h2>
-<div class="sectionbody">
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">executeUpdate(
-  set: Map[String, Column],
-  condition: Option[Column]): Unit</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p><code>executeUpdate</code>&#8230;&#8203;FIXME</p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<code>executeUpdate</code> is used when&#8230;&#8203;FIXME
-</td>
-</tr>
-</table>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="executing-vacuum-commandexecutevacuum-method"><a class="anchor" href="#executing-vacuum-commandexecutevacuum-method"></a><a class="link" href="#executing-vacuum-commandexecutevacuum-method"><a id="executeVacuum"></a> Executing Vacuum Command&#8201;&#8212;&#8201;<code>executeVacuum</code> Method</a></h2>
-<div class="sectionbody">
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">executeVacuum(
-  deltaLog: DeltaLog,
-  retentionHours: Option[Double]): DataFrame</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p><code>executeVacuum</code> simply uses the <code>VacuumCommand</code> utility to <a href="VacuumCommand.html#gc" class="page">gc</a> (with the <code>dryRun</code> flag off) and returns an empty <code>DataFrame</code>.</p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<code>executeVacuum</code> returns an empty <code>DataFrame</code> not the one from <a href="VacuumCommand.html#gc" class="page">VacuumCommand.gc</a>.
-</td>
-</tr>
-</table>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<code>executeVacuum</code> is used exclusively in <a href="DeltaTable.html#vacuum" class="page">DeltaTable.vacuum</a> operator.
-</td>
-</tr>
-</table>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="makeupdatetable-method"><a class="anchor" href="#makeupdatetable-method"></a><a class="link" href="#makeupdatetable-method"><a id="makeUpdateTable"></a> <code>makeUpdateTable</code> Method</a></h2>
-<div class="sectionbody">
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">makeUpdateTable(
-  target: DeltaTable,
-  onCondition: Option[Column],
-  setColumns: Seq[(String, Column)]): UpdateTable</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p><code>makeUpdateTable</code>&#8230;&#8203;FIXME</p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<code>makeUpdateTable</code> is used when&#8230;&#8203;FIXME
-</td>
-</tr>
-</table>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="subquerynotsupportedcheck-internal-method"><a class="anchor" href="#subquerynotsupportedcheck-internal-method"></a><a class="link" href="#subquerynotsupportedcheck-internal-method"><a id="subqueryNotSupportedCheck"></a> <code>subqueryNotSupportedCheck</code> Internal Method</a></h2>
-<div class="sectionbody">
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">subqueryNotSupportedCheck(
-  condition: Option[Expression],
-  op: String): Unit</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p><code>subqueryNotSupportedCheck</code> traverses the <code>condition</code> expression and throws an <code>AnalysisException</code> when it finds a <code>SubqueryExpression</code>:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code>Subqueries are not supported in the [op] (condition = [sql]).</code></pre>
-</div>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<code>subqueryNotSupportedCheck</code> is used when <code>DeltaTableOperations</code> is requested to execute <a href="#executeDelete">delete</a> and <a href="#executeUpdate">update</a> operations.
-</td>
-</tr>
-</table>
+<div class="ulist">
+<ul>
+<li>
+<p><a id="path"></a> Path</p>
+</li>
+<li>
+<p><a id="partitionValues"></a> Partition values (<code>Map[String, String]</code>)</p>
+</li>
+<li>
+<p><a id="size"></a> Size</p>
+</li>
+<li>
+<p><a id="modificationTime"></a> Modification time</p>
+</li>
+<li>
+<p><a id="dataChange"></a> <code>dataChange</code> flag</p>
+</li>
+<li>
+<p><a id="stats"></a> Stats (default: <code>null</code>)</p>
+</li>
+<li>
+<p><a id="tags"></a> Tags (<code>Map[String, String]</code>) (default: <code>null</code>)</p>
+</li>
+</ul>
 </div>
 </div>
 </div>
