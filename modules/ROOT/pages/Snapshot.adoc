@@ -1,6 +1,8 @@
 = [[Snapshot]] Snapshot
 
-`Snapshot` is <<creating-instance, created>> when `DeltaLog` is requested for the <<DeltaLog.adoc#currentSnapshot, current snapshot>>, to <<DeltaLog.adoc#update, update>>, and <<DeltaLog.adoc#getSnapshotAt, getSnapshotAt>>
+`Snapshot` is <<creating-instance, created>> when `DeltaLog` is requested for the <<DeltaLog.adoc#currentSnapshot, current snapshot>>, to <<DeltaLog.adoc#update, update>>, and <<DeltaLog.adoc#getSnapshotAt, getSnapshotAt>>.
+
+`Snapshot` uses the <<DeltaSQLConf.adoc#DELTA_SNAPSHOT_PARTITIONS, spark.databricks.delta.snapshotPartitions>> internal configuration property (default: `50`) for the number of partition for <<stateReconstruction, state reconstruction>>.
 
 == [[creating-instance]] Creating Snapshot Instance
 
@@ -10,7 +12,7 @@
 * [[version]] Version
 * [[previousSnapshot]] Previous snapshot (`Option[Dataset[SingleAction]]`)
 * [[files]] Files (`Seq[Path]`)
-* [[minFileRetentionTimestamp]] `minFileRetentionTimestamp`
+* [[minFileRetentionTimestamp]] `minFileRetentionTimestamp` (that is exactly <<DeltaLog.adoc#minFileRetentionTimestamp, DeltaLog.minFileRetentionTimestamp>>)
 * [[deltaLog]] <<DeltaLog.adoc#, DeltaLog>>
 * [[timestamp]] Timestamp
 * [[lineageLength]] Length of the lineage (default: `1`)
@@ -61,28 +63,6 @@ allFiles: Dataset[AddFile]
 * `DeltaDataSource` is requested to <<DeltaDataSource.adoc#RelationProvider-createRelation, createRelation>>
 ====
 
-== [[numIndexedCols]] dataSkippingNumIndexedCols Table Property -- `numIndexedCols` Value
-
-[source, scala]
-----
-numIndexedCols: Int
-----
-
-`numIndexedCols` simply reads the <<DeltaConfigs.adoc#DATA_SKIPPING_NUM_INDEXED_COLS, dataSkippingNumIndexedCols>> table property <<DeltaConfigs.adoc#fromMetaData, from>> the <<metadata, Metadata>>.
-
-NOTE: `numIndexedCols` seems unused.
-
-== [[tombstones]] `tombstones` Method
-
-[source, scala]
-----
-tombstones: Dataset[RemoveFile]
-----
-
-`tombstones`...FIXME
-
-NOTE: `tombstones` seems to be used for testing only.
-
 == [[stateReconstruction]] `stateReconstruction` Internal Property
 
 [source, scala]
@@ -112,6 +92,28 @@ load(
 `load`...FIXME
 
 NOTE: `load` is used when `Snapshot` is created (and initializes <<stateReconstruction, stateReconstruction>>).
+
+== [[tombstones]] `tombstones` Method
+
+[source, scala]
+----
+tombstones: Dataset[RemoveFile]
+----
+
+`tombstones`...FIXME
+
+NOTE: `tombstones` seems to be used for testing only.
+
+== [[numIndexedCols]] dataSkippingNumIndexedCols Table Property -- `numIndexedCols` Value
+
+[source, scala]
+----
+numIndexedCols: Int
+----
+
+`numIndexedCols` simply reads the <<DeltaConfigs.adoc#DATA_SKIPPING_NUM_INDEXED_COLS, dataSkippingNumIndexedCols>> table property <<DeltaConfigs.adoc#fromMetaData, from>> the <<metadata, Metadata>>.
+
+NOTE: `numIndexedCols` seems unused.
 
 == [[internal-properties]] Internal Properties
 

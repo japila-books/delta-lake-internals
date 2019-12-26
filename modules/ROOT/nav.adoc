@@ -51,10 +51,12 @@
 ** xref:HadoopFileSystemLogStore.adoc[HadoopFileSystemLogStore]
 
 * xref:Snapshot.adoc[Snapshot]
+** xref:InMemoryLogReplay.adoc[InMemoryLogReplay]
 ** xref:StateCache.adoc[StateCache]
 ** xref:CachedDS.adoc[CachedDS]
 ** xref:DeltaSourceSnapshot.adoc[DeltaSourceSnapshot]
 ** xref:SnapshotIterator.adoc[SnapshotIterator]
+** xref:PartitionFiltering.adoc[PartitionFiltering]
 
 * xref:DeltaSQLConf.adoc[DeltaSQLConf]
 * xref:DeltaFileFormat.adoc[DeltaFileFormat]
@@ -79,7 +81,6 @@
 
 * xref:DeltaSource.adoc[DeltaSource]
 
-* xref:PartitionFiltering.adoc[PartitionFiltering]
 * xref:DeltaHistoryManager.adoc[DeltaHistoryManager]
 
 * xref:Action.adoc[Action]

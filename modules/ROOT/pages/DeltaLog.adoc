@@ -346,17 +346,6 @@ checkpointInterval: Int
 
 NOTE: `checkpointInterval` is used when...FIXME
 
-== [[tombstoneRetentionMillis]] `tombstoneRetentionMillis` Method
-
-[source, scala]
-----
-tombstoneRetentionMillis: Long
-----
-
-`tombstoneRetentionMillis` gives the value of <<DeltaConfigs.adoc#TOMBSTONE_RETENTION, deletedFileRetentionDuration>> table property (<<DeltaConfigs.adoc#fromMetaData, from>> the <<metadata, Metadata>>).
-
-NOTE: `tombstoneRetentionMillis` is used when...FIXME
-
 == [[getChanges]] `getChanges` Method
 
 [source, scala]
@@ -417,6 +406,42 @@ lockInterruptibly[T](body: => T): T
 `lockInterruptibly`...FIXME
 
 NOTE: `lockInterruptibly` is used when...FIXME
+
+== [[minFileRetentionTimestamp]] `minFileRetentionTimestamp` Method
+
+[source, scala]
+----
+minFileRetentionTimestamp: Long
+----
+
+`minFileRetentionTimestamp` is the timestamp that is <<tombstoneRetentionMillis, tombstoneRetentionMillis>> before the current time (per the <<clock, Clock>>).
+
+[NOTE]
+====
+`minFileRetentionTimestamp` is used when:
+
+* `DeltaLog` is requested for the <<currentSnapshot, currentSnapshot>>, to <<updateInternal, updateInternal>>, and to <<getSnapshotAt, getSnapshotAt>>
+
+* `VacuumCommand` is requested for <<VacuumCommand.adoc#gc, garbage collecting of a delta table>>
+====
+
+== [[tombstoneRetentionMillis]] `tombstoneRetentionMillis` Method
+
+[source, scala]
+----
+tombstoneRetentionMillis: Long
+----
+
+`tombstoneRetentionMillis` gives the value of <<DeltaConfigs.adoc#TOMBSTONE_RETENTION, deletedFileRetentionDuration>> table property (<<DeltaConfigs.adoc#fromMetaData, from>> the <<metadata, Metadata>>).
+
+[NOTE]
+====
+`tombstoneRetentionMillis` is used when:
+
+* `DeltaLog` is requested for <<minFileRetentionTimestamp, minFileRetentionTimestamp>>
+
+* `VacuumCommand` is requested for <<VacuumCommand.adoc#gc, garbage collecting of a delta table>>
+====
 
 == [[currentSnapshot]] `currentSnapshot` Internal Registry
 

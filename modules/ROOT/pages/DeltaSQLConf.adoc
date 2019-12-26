@@ -19,7 +19,7 @@ a| [[import.batchSize.statsCollection]][[DELTA_IMPORT_BATCH_SIZE_STATS_COLLECTIO
 Default: `50000`
 
 | snapshotPartitions
-a| [[snapshotPartitions]][[DELTA_SNAPSHOT_PARTITIONS]] **(internal)** Number of partitions to use when building a Delta Lake <<Snapshot.adoc#, snapshot>>.
+a| [[snapshotPartitions]][[DELTA_SNAPSHOT_PARTITIONS]] **(internal)** Number of partitions to use for *state reconstruction* (when <<Snapshot.adoc#stateReconstruction, building>> a <<Snapshot.adoc#, snapshot>> of a delta table).
 
 Default: `50`
 
