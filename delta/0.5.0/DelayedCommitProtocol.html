@@ -3,8 +3,8 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title> DelayedCommitProtocol :: The Internals of Delta Lake</title>
-    <link rel="canonical" href="https://delta.japila.pl/delta/0.5.0/DelayedCommitProtocol.html">
+    <title> DelayedCommitProtocol :: The Internals Of Delta Lake</title>
+    <link rel="canonical" href="http://books.japila.pl/delta-lake-internals/delta/0.5.0/DelayedCommitProtocol.html">
     <meta name="generator" content="Antora 2.2.0">
     <link rel="stylesheet" href="../../_/css/site.css">
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-151208281-1"></script>
@@ -14,7 +14,7 @@
 <header class="header">
   <nav class="navbar">
     <div class="navbar-brand">
-      <a class="navbar-item" href="https://delta.japila.pl">The Internals of Delta Lake</a>
+      <a class="navbar-item" href="http://books.japila.pl/delta-lake-internals">The Internals Of Delta Lake</a>
       <button class="navbar-burger" data-target="topbar-nav">
         <span></span>
         <span></span>
@@ -394,7 +394,7 @@
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p><code>DelayedCommitProtocol</code> is a concrete <code>FileCommitProtocol</code> (Spark Core) to write out files to a <a href="#path">path</a> and return a <a href="#addedStatuses">list of them</a>.</p>
+<p><code>DelayedCommitProtocol</code> is a concrete <code>FileCommitProtocol</code> (Spark Core) to write out partitions to a <a href="#path">directory</a> and return a <a href="#addedStatuses">list of files added</a>.</p>
 </div>
 <div class="admonitionblock tip">
 <table>
@@ -403,13 +403,38 @@
 <i class="fa icon-tip" title="Tip"></i>
 </td>
 <td class="content">
-Read up on <a href="https://jaceklaskowski.gitbooks.io/mastering-spark-sql/spark-sql-FileCommitProtocol.html">FileCommitProtocol</a> in <a href="https://bit.ly/spark-sql-internals">The Internals of Spark SQL</a> online book.
+Read up on <a href="https://books.japila.pl/apache-spark-internals/apache-spark-internals/2.4.4/spark-internal-io-FileCommitProtocol.html">FileCommitProtocol</a> in <a href="https://books.japila.pl/apache-spark-internals">The Internals Of Apache Spark</a> online book.
 </td>
 </tr>
 </table>
 </div>
 <div class="paragraph">
-<p><code>DelayedCommitProtocol</code> is <a href="#creating-instance">created</a> exclusively when <code>TransactionalWrite</code> is requested for a <a href="TransactionalWrite.html#getCommitter" class="page">committer for a directory</a>.</p>
+<p><code>DelayedCommitProtocol</code> is <a href="#creating-instance">created</a> exclusively when <code>TransactionalWrite</code> is requested for a <a href="TransactionalWrite.html#getCommitter" class="page">committer to write partitions</a> to the <a href="#path">directory</a>.</p>
+</div>
+<div id="logging" class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Enable <code>ALL</code> logging level for <code>org.apache.spark.sql.delta.files.DelayedCommitProtocol</code> logger to see what happens inside.</p>
+</div>
+<div class="paragraph">
+<p>Add the following line to <code>conf/log4j.properties</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code>log4j.logger.org.apache.spark.sql.delta.files.DelayedCommitProtocol=ALL</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Refer to <a href="logging.html" class="page">Logging</a>.</p>
+</div>
+</td>
+</tr>
+</table>
 </div>
 </div>
 </div>
@@ -453,7 +478,7 @@ Read up on <a href="https://jaceklaskowski.gitbooks.io/mastering-spark-sql/spark
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-<code>setupTask</code> is part of the <code>FileCommitProtocol</code> contract to set up a task within a job.
+<code>setupTask</code> is part of the <code>FileCommitProtocol</code> contract to set up a task for a writing job.
 </td>
 </tr>
 </table>
@@ -557,7 +582,7 @@ FIXME When would the optional <code>dir</code> and the <a href="#randomPrefixLen
 </div>
 </div>
 <div class="sect1">
-<h2 id="commitjob-method"><a class="anchor" href="#commitjob-method"></a><a class="link" href="#commitjob-method"><a id="commitJob"></a> <code>commitJob</code> Method</a></h2>
+<h2 id="committing-spark-job-after-writes-succeedcommitjob-method"><a class="anchor" href="#committing-spark-job-after-writes-succeedcommitjob-method"></a><a class="link" href="#committing-spark-job-after-writes-succeedcommitjob-method"><a id="commitJob"></a> Committing Spark Job (After Writes Succeed)&#8201;&#8212;&#8201;<code>commitJob</code> Method</a></h2>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content">
@@ -579,34 +604,7 @@ FIXME When would the optional <code>dir</code> and the <a href="#randomPrefixLen
 </table>
 </div>
 <div class="paragraph">
-<p><code>commitJob</code>&#8230;&#8203;FIXME</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="getfilename-method"><a class="anchor" href="#getfilename-method"></a><a class="link" href="#getfilename-method"><a id="getFileName"></a> <code>getFileName</code> Method</a></h2>
-<div class="sectionbody">
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">getFileName(
-  taskContext: TaskAttemptContext,
-  ext: String): String</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p><code>getFileName</code>&#8230;&#8203;FIXME</p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<code>getFileName</code> is used exclusively when <code>DelayedCommitProtocol</code> is requested to <a href="#newTaskTempFile">newTaskTempFile</a>.
-</td>
-</tr>
-</table>
+<p><code>commitJob</code> simply adds the <a href="AddFile.html" class="page">AddFiles</a> (from the given <code>taskCommits</code>) to the <a href="#addedStatuses">addedStatuses</a> internal registry.</p>
 </div>
 </div>
 </div>
@@ -630,6 +628,96 @@ FIXME When would the optional <code>dir</code> and the <a href="#randomPrefixLen
 </td>
 <td class="content">
 <code>parsePartitions</code> is used exclusively when <code>DelayedCommitProtocol</code> is requested to <a href="#newTaskTempFile">newTaskTempFile</a>.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="setupjob-method"><a class="anchor" href="#setupjob-method"></a><a class="link" href="#setupjob-method"><a id="setupJob"></a> <code>setupJob</code> Method</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">setupJob(
+  jobContext: JobContext): Unit</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>setupJob</code> is part of the <code>FileCommitProtocol</code> contract to set up a Spark job.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><code>setupJob</code> does nothing.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="abortjob-method"><a class="anchor" href="#abortjob-method"></a><a class="link" href="#abortjob-method"><a id="abortJob"></a> <code>abortJob</code> Method</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">abortJob(
+  jobContext: JobContext): Unit</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>abortJob</code> is part of the <code>FileCommitProtocol</code> contract to abort a Spark job.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><code>abortJob</code> does nothing.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="getfilename-method"><a class="anchor" href="#getfilename-method"></a><a class="link" href="#getfilename-method"><a id="getFileName"></a> <code>getFileName</code> Method</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">getFileName(
+  taskContext: TaskAttemptContext,
+  ext: String): String</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>getFileName</code> takes the task ID from the given <code>TaskAttemptContext</code> (for the <code>split</code> part below).</p>
+</div>
+<div class="paragraph">
+<p><code>getFileName</code> generates a random UUID (for the <code>uuid</code> part below).</p>
+</div>
+<div class="paragraph">
+<p>In the end, <code>getFileName</code> returns a file name of the format:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code>part-[split]%05d-[uuid][ext]</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>getFileName</code> is used exclusively when <code>DelayedCommitProtocol</code> is requested to <a href="#newTaskTempFile">newTaskTempFile</a>.
 </td>
 </tr>
 </table>
