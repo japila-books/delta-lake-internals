@@ -1,6 +1,6 @@
 site:
-  title: The Internals of Delta Lake
-  url: https://delta.japila.pl
+  title: The Internals Of Delta Lake
+  url: http://books.japila.pl/delta-lake-internals
   start_page: delta::index.adoc
   keys:
       google_analytics: 'UA-151208281-1'
