@@ -1,10 +1,24 @@
 = [[DelayedCommitProtocol]] DelayedCommitProtocol
 
-`DelayedCommitProtocol` is a concrete `FileCommitProtocol` (Spark Core) to write out files to a <<path, path>> and return a <<addedStatuses, list of them>>.
+`DelayedCommitProtocol` is a concrete `FileCommitProtocol` (Spark Core) to write out partitions to a <<path, directory>> and return a <<addedStatuses, list of files added>>.
 
-TIP: Read up on https://jaceklaskowski.gitbooks.io/mastering-spark-sql/spark-sql-FileCommitProtocol.html[FileCommitProtocol] in https://bit.ly/spark-sql-internals[The Internals of Spark SQL] online book.
+TIP: Read up on https://books.japila.pl/apache-spark-internals/apache-spark-internals/2.4.4/spark-internal-io-FileCommitProtocol.html[FileCommitProtocol] in https://books.japila.pl/apache-spark-internals[The Internals Of Apache Spark] online book.
 
-`DelayedCommitProtocol` is <<creating-instance, created>> exclusively when `TransactionalWrite` is requested for a <<TransactionalWrite.adoc#getCommitter, committer for a directory>>.
+`DelayedCommitProtocol` is <<creating-instance, created>> exclusively when `TransactionalWrite` is requested for a <<TransactionalWrite.adoc#getCommitter, committer to write partitions>> to the <<path, directory>>.
+
+[[logging]]
+[TIP]
+====
+Enable `ALL` logging level for `org.apache.spark.sql.delta.files.DelayedCommitProtocol` logger to see what happens inside.
+
+Add the following line to `conf/log4j.properties`:
+
+```
+log4j.logger.org.apache.spark.sql.delta.files.DelayedCommitProtocol=ALL
+```
+
+Refer to <<logging.adoc#, Logging>>.
+====
 
 == [[creating-instance]] Creating DelayedCommitProtocol Instance
 
@@ -24,7 +38,7 @@ setupTask(
   taskContext: TaskAttemptContext): Unit
 ----
 
-NOTE: `setupTask` is part of the `FileCommitProtocol` contract to set up a task within a job.
+NOTE: `setupTask` is part of the `FileCommitProtocol` contract to set up a task for a writing job.
 
 `setupTask` simply initializes the <<addedFiles, addedFiles>> internal registry to be empty.
 
@@ -68,7 +82,7 @@ NOTE: `commitTask` is part of the `FileCommitProtocol` contract to commit a task
 
 `commitTask` creates a `TaskCommitMessage` with an <<AddFile.adoc#, AddFile>> for every <<newTaskTempFile, file added>> by tasks on executors (`Seq[AddFile]`).
 
-== [[commitJob]] `commitJob` Method
+== [[commitJob]] Committing Spark Job (After Writes Succeed) -- `commitJob` Method
 
 [source, scala]
 ----
@@ -79,20 +93,7 @@ commitJob(
 
 NOTE: `commitJob` is part of the `FileCommitProtocol` contract to commit a job after the writes succeed.
 
-`commitJob`...FIXME
-
-== [[getFileName]] `getFileName` Method
-
-[source, scala]
-----
-getFileName(
-  taskContext: TaskAttemptContext,
-  ext: String): String
-----
-
-`getFileName`...FIXME
-
-NOTE: `getFileName` is used exclusively when `DelayedCommitProtocol` is requested to <<newTaskTempFile, newTaskTempFile>>.
+`commitJob` simply adds the <<AddFile.adoc#, AddFiles>> (from the given `taskCommits`) to the <<addedStatuses, addedStatuses>> internal registry.
 
 == [[parsePartitions]] `parsePartitions` Method
 
@@ -105,6 +106,51 @@ parsePartitions(
 `parsePartitions`...FIXME
 
 NOTE: `parsePartitions` is used exclusively when `DelayedCommitProtocol` is requested to <<newTaskTempFile, newTaskTempFile>>.
+
+== [[setupJob]] `setupJob` Method
+
+[source, scala]
+----
+setupJob(
+  jobContext: JobContext): Unit
+----
+
+NOTE: `setupJob` is part of the `FileCommitProtocol` contract to set up a Spark job.
+
+`setupJob` does nothing.
+
+== [[abortJob]] `abortJob` Method
+
+[source, scala]
+----
+abortJob(
+  jobContext: JobContext): Unit
+----
+
+NOTE: `abortJob` is part of the `FileCommitProtocol` contract to abort a Spark job.
+
+`abortJob` does nothing.
+
+== [[getFileName]] `getFileName` Method
+
+[source, scala]
+----
+getFileName(
+  taskContext: TaskAttemptContext,
+  ext: String): String
+----
+
+`getFileName` takes the task ID from the given `TaskAttemptContext` (for the `split` part below).
+
+`getFileName` generates a random UUID (for the `uuid` part below).
+
+In the end, `getFileName` returns a file name of the format:
+
+```
+part-[split]%05d-[uuid][ext]
+```
+
+NOTE: `getFileName` is used exclusively when `DelayedCommitProtocol` is requested to <<newTaskTempFile, newTaskTempFile>>.
 
 == [[internal-properties]] Internal Properties
 
