@@ -1,6 +1,6 @@
 = [[MergeIntoCommand]] MergeIntoCommand
 
-`MergeIntoCommand` is a <<DeltaCommand.adoc#, DeltaCommand>> that can...FIXME
+`MergeIntoCommand` is a <<DeltaCommand.adoc#, Delta command>> that can...FIXME
 
 `MergeIntoCommand` is a logical command (`RunnableCommand`).
 

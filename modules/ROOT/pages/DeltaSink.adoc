@@ -21,7 +21,7 @@ DeltaSink[path]
 * [[path]] Hadoop `Path` (corresponds to <<options.adoc#path, path>> option)
 * [[partitionColumns]] Names of the partition columns (`Seq[String]`)
 * [[outputMode]] `OutputMode`
-* [[options]] `DeltaOptions`
+* [[options]] <<DeltaOptions.adoc#, DeltaOptions>>
 
 == [[deltaLog]] `deltaLog` Internal Property
 

@@ -38,7 +38,9 @@
 ** xref:DeltaSqlAstBuilder.adoc[DeltaSqlAstBuilder]
 
 * xref:DeltaDataSource.adoc[DeltaDataSource]
-* xref:DeltaSink.adoc[DeltaSink]
+** xref:DeltaOptions.adoc[DeltaOptions]
+** xref:DeltaSource.adoc[DeltaSource]
+** xref:DeltaSink.adoc[DeltaSink]
 
 * xref:DeltaLog.adoc[DeltaLog]
 ** xref:Checkpoints.adoc[Checkpoints]
@@ -78,8 +80,6 @@
 * xref:TahoeFileIndex.adoc[TahoeFileIndex]
 ** xref:TahoeBatchFileIndex.adoc[TahoeBatchFileIndex]
 ** xref:TahoeLogFileIndex.adoc[TahoeLogFileIndex]
-
-* xref:DeltaSource.adoc[DeltaSource]
 
 * xref:DeltaHistoryManager.adoc[DeltaHistoryManager]
 

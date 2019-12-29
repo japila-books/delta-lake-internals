@@ -244,7 +244,7 @@ snapshot: Snapshot
 
 NOTE: `snapshot` is used when...FIXME
 
-== [[createRelation]] Creating Relation (per Partition Filters and Time Travel) -- `createRelation` Method
+== [[createRelation]] Creating Insertable HadoopFsRelation (With InsertableRelation) -- `createRelation` Method
 
 [source, scala]
 ----

@@ -1,0 +1,93 @@
+= DeltaOptions
+
+`DeltaOptions` is the options for the <<DeltaDataSource.adoc#, Delta data source>>.
+
+`DeltaOptions` is used to create <<WriteIntoDelta.adoc#, WriteIntoDelta>> command, <<DeltaSink.adoc#, DeltaSink>>, and <<DeltaSource.adoc#, DeltaSource>>.
+
+[[validOptionKeys]]
+.Delta Data Source's Options
+[cols="30m,70",options="header",width="100%"]
+|===
+| Name
+| Description
+
+| checkpointLocation
+a| [[checkpointLocation]]
+
+| dataChange
+a| [[DATA_CHANGE_OPTION]][[dataChange]]
+
+| excludeRegex
+a| [[EXCLUDE_REGEX_OPTION]][[excludeRegex]]
+
+| ignoreChanges
+a| [[IGNORE_CHANGES_OPTION]][[ignoreChanges]]
+
+| ignoreDeletes
+a| [[IGNORE_DELETES_OPTION]][[ignoreDeletes]]
+
+| ignoreFileDeletion
+a| [[IGNORE_FILE_DELETION_OPTION]][[ignoreFileDeletion]]
+
+| maxFilesPerTrigger
+a| [[MAX_FILES_PER_TRIGGER_OPTION]][[maxFilesPerTrigger]]
+
+| mergeSchema
+a| [[MERGE_SCHEMA_OPTION]][[mergeSchema]]
+
+| optimizeWrite
+a| [[OPTIMIZE_WRITE_OPTION]][[optimizeWrite]]
+
+| overwriteSchema
+a| [[OVERWRITE_SCHEMA_OPTION]][[overwriteSchema]]
+
+| path
+a| [[path]]
+
+| queryName
+a| [[queryName]]
+
+| replaceWhere
+a| [[REPLACE_WHERE_OPTION]][[replaceWhere]]
+
+| timestampAsOf
+a| [[timestampAsOf]]
+
+| versionAsOf
+a| [[versionAsOf]]
+
+|===
+
+`DeltaOptions` is <<creating-instance, created>> when:
+
+* `DeltaLog` is requested to <<DeltaLog.adoc#createRelation, create a relation>> (for <<DeltaDataSource.adoc#, DeltaDataSource>> as a <<DeltaDataSource.adoc#CreatableRelationProvider, CreatableRelationProvider>> and a <<DeltaDataSource.adoc#RelationProvider, RelationProvider>>)
+
+* `DeltaDataSource` is requested to <<DeltaDataSource.adoc#createSource, create a streaming source>> (to create a <<DeltaSource.adoc#, DeltaSource>> for Structured Streaming), <<DeltaDataSource.adoc#createSink, create a streaming sink>> (to create a <<DeltaSink.adoc#, DeltaSink>> for Structured Streaming), and <<DeltaDataSource.adoc#CreatableRelationProvider-createRelation, create an insertable HadoopFsRelation>>
+
+`DeltaOptions` can be <<verifyOptions, verified>>.
+
+== [[creating-instance]] Creating DeltaOptions Instance
+
+`DeltaOptions` takes the following to be created:
+
+* [[options]] Options (`Map[String, String]` or `CaseInsensitiveMap[String]`)
+* [[sqlConf]] `SQLConf`
+
+== [[verifyOptions]] `verifyOptions` Utility
+
+[source, scala]
+----
+verifyOptions(
+  options: CaseInsensitiveMap[String]): Unit
+----
+
+`verifyOptions`...FIXME
+
+[NOTE]
+====
+`verifyOptions` is used when:
+
+* `DeltaOptions` is <<creating-instance, created>>
+
+* `DeltaDataSource` is requested to <<DeltaDataSource.adoc#RelationProvider-createRelation, create a relation>>
+====
