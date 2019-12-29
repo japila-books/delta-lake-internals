@@ -3,8 +3,8 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title> DeltaTableUtils Utility :: The Internals Of Delta Lake</title>
-    <link rel="canonical" href="http://books.japila.pl/delta-lake-internals/delta/0.5.0/DeltaTableUtils.html">
+    <title>DeltaOptions :: The Internals Of Delta Lake</title>
+    <link rel="canonical" href="http://books.japila.pl/delta-lake-internals/delta/0.5.0/DeltaOptions.html">
     <meta name="generator" content="Antora 2.2.0">
     <link rel="stylesheet" href="../../_/css/site.css">
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-151208281-1"></script>
@@ -188,7 +188,7 @@
     <button class="nav-item-toggle"></button>
     <a class="nav-link" href="DeltaDataSource.html">DeltaDataSource</a>
 <ul class="nav-list">
-  <li class="nav-item" data-depth="2">
+  <li class="nav-item is-current-page" data-depth="2">
     <a class="nav-link" href="DeltaOptions.html">DeltaOptions</a>
   </li>
   <li class="nav-item" data-depth="2">
@@ -289,7 +289,7 @@
   <li class="nav-item" data-depth="1">
     <a class="nav-link" href="DeltaOperations.html">DeltaOperations</a>
   </li>
-  <li class="nav-item is-current-page" data-depth="1">
+  <li class="nav-item" data-depth="1">
     <a class="nav-link" href="DeltaTableUtils.html">DeltaTableUtils</a>
   </li>
   <li class="nav-item" data-depth="1">
@@ -389,75 +389,164 @@
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="index.html">Delta Lake</a></li>
-    <li><a href="DeltaTableUtils.html">DeltaTableUtils</a></li>
+    <li><a href="DeltaDataSource.html">DeltaDataSource</a></li>
+    <li><a href="DeltaOptions.html">DeltaOptions</a></li>
   </ul>
 </nav>
-  <div class="edit-this-page"><a href="file:///antora/modules/ROOT/pages/DeltaTableUtils.adoc">Edit this Page</a></div>
+  <div class="edit-this-page"><a href="file:///antora/modules/ROOT/pages/DeltaOptions.adoc">Edit this Page</a></div>
 </div>
 <article class="doc">
-<h1 class="page"><a id="DeltaTableUtils"></a> DeltaTableUtils Utility</h1>
+<h1 class="page">DeltaOptions</h1>
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p><code>DeltaTableUtils</code> comes with the following utilities:</p>
+<p><code>DeltaOptions</code> is the options for the <a href="DeltaDataSource.html" class="page">Delta data source</a>.</p>
+</div>
+<div class="paragraph">
+<p><code>DeltaOptions</code> is used to create <a href="WriteIntoDelta.html" class="page">WriteIntoDelta</a> command, <a href="DeltaSink.html" class="page">DeltaSink</a>, and <a href="DeltaSource.html" class="page">DeltaSource</a>.</p>
+</div>
+<table id="validOptionKeys" class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. Delta Data Source&#8217;s Options</caption>
+<colgroup>
+<col style="width: 30%;">
+<col style="width: 70%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>checkpointLocation</code></p></td>
+<td class="tableblock halign-left valign-top"><div class="content"></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>dataChange</code></p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="DATA_CHANGE_OPTION"></a><a id="dataChange"></a></p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>excludeRegex</code></p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="EXCLUDE_REGEX_OPTION"></a><a id="excludeRegex"></a></p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ignoreChanges</code></p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="IGNORE_CHANGES_OPTION"></a><a id="ignoreChanges"></a></p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ignoreDeletes</code></p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="IGNORE_DELETES_OPTION"></a><a id="ignoreDeletes"></a></p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ignoreFileDeletion</code></p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="IGNORE_FILE_DELETION_OPTION"></a><a id="ignoreFileDeletion"></a></p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>maxFilesPerTrigger</code></p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="MAX_FILES_PER_TRIGGER_OPTION"></a><a id="maxFilesPerTrigger"></a></p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mergeSchema</code></p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="MERGE_SCHEMA_OPTION"></a><a id="mergeSchema"></a></p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>optimizeWrite</code></p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="OPTIMIZE_WRITE_OPTION"></a><a id="optimizeWrite"></a></p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>overwriteSchema</code></p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="OVERWRITE_SCHEMA_OPTION"></a><a id="overwriteSchema"></a></p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>path</code></p></td>
+<td class="tableblock halign-left valign-top"><div class="content"></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>queryName</code></p></td>
+<td class="tableblock halign-left valign-top"><div class="content"></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>replaceWhere</code></p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="REPLACE_WHERE_OPTION"></a><a id="replaceWhere"></a></p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>timestampAsOf</code></p></td>
+<td class="tableblock halign-left valign-top"><div class="content"></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>versionAsOf</code></p></td>
+<td class="tableblock halign-left valign-top"><div class="content"></div></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><code>DeltaOptions</code> is <a href="#creating-instance">created</a> when:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p><a href="#isDeltaTable">DeltaTableUtils.isDeltaTable</a> for checking out whether a given directory is part of delta table</p>
+<p><code>DeltaLog</code> is requested to <a href="DeltaLog.html#createRelation" class="page">create a relation</a> (for <a href="DeltaDataSource.html" class="page">DeltaDataSource</a> as a <a href="DeltaDataSource.html#CreatableRelationProvider" class="page">CreatableRelationProvider</a> and a <a href="DeltaDataSource.html#RelationProvider" class="page">RelationProvider</a>)</p>
 </li>
 <li>
-<p><a href="#findDeltaTableRoot">DeltaTableUtils.findDeltaTableRoot</a> for finding the root directory of a delta table</p>
+<p><code>DeltaDataSource</code> is requested to <a href="DeltaDataSource.html#createSource" class="page">create a streaming source</a> (to create a <a href="DeltaSource.html" class="page">DeltaSource</a> for Structured Streaming), <a href="DeltaDataSource.html#createSink" class="page">create a streaming sink</a> (to create a <a href="DeltaSink.html" class="page">DeltaSink</a> for Structured Streaming), and <a href="DeltaDataSource.html#CreatableRelationProvider-createRelation" class="page">create an insertable HadoopFsRelation</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><code>DeltaOptions</code> can be <a href="#verifyOptions">verified</a>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="creating-deltaoptions-instance"><a class="anchor" href="#creating-deltaoptions-instance"></a><a class="link" href="#creating-deltaoptions-instance"><a id="creating-instance"></a> Creating DeltaOptions Instance</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><code>DeltaOptions</code> takes the following to be created:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a id="options"></a> Options (<code>Map[String, String]</code> or <code>CaseInsensitiveMap[String]</code>)</p>
 </li>
 <li>
-<p><a href="#combineWithCatalogMetadata">DeltaTableUtils.combineWithCatalogMetadata</a> for finding the root directory of a delta table</p>
+<p><a id="sqlConf"></a> <code>SQLConf</code></p>
 </li>
 </ul>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="checking-out-whether-directory-is-part-of-delta-tableisdeltatable-utility"><a class="anchor" href="#checking-out-whether-directory-is-part-of-delta-tableisdeltatable-utility"></a><a class="link" href="#checking-out-whether-directory-is-part-of-delta-tableisdeltatable-utility"><a id="isDeltaTable"></a> Checking Out Whether Directory Is Part of Delta Table&#8201;&#8212;&#8201;<code>isDeltaTable</code> Utility</a></h2>
+<h2 id="verifyoptions-utility"><a class="anchor" href="#verifyoptions-utility"></a><a class="link" href="#verifyoptions-utility"><a id="verifyOptions"></a> <code>verifyOptions</code> Utility</a></h2>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">isDeltaTable(
-  spark: SparkSession,
-  path: Path): Boolean</code></pre>
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">verifyOptions(
+  options: CaseInsensitiveMap[String]): Unit</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p><code>isDeltaTable</code> tries to <a href="#findDeltaTableRoot">find the root of the delta table</a> for the given path and returns whether it was successful or not.</p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<code>isDeltaTable</code> is used when <code>DeltaTable</code> utility is used to <a href="DeltaTable.html#forPath" class="page">create a DeltaTable</a> or <a href="DeltaTable.html#isDeltaTable" class="page">check out whether a directory is part of delta table</a>.
-</td>
-</tr>
-</table>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="finding-root-directory-of-delta-tablefinddeltatableroot-utility"><a class="anchor" href="#finding-root-directory-of-delta-tablefinddeltatableroot-utility"></a><a class="link" href="#finding-root-directory-of-delta-tablefinddeltatableroot-utility"><a id="findDeltaTableRoot"></a> Finding Root Directory Of Delta Table&#8201;&#8212;&#8201;<code>findDeltaTableRoot</code> Utility</a></h2>
-<div class="sectionbody">
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">findDeltaTableRoot(
-  spark: SparkSession,
-  path: Path): Option[Path]</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p><code>findDeltaTableRoot</code> traverses the Hadoop DFS-compliant path upwards (to the root directory of the file system) until <code>_delta_log</code> or <code>_samples</code> directories are found, or the root directory is reached.</p>
-</div>
-<div class="paragraph">
-<p>For <code>_delta_log</code> or <code>_samples</code> directories, <code>findDeltaTableRoot</code> returns the parent directory.</p>
+<p><code>verifyOptions</code>&#8230;&#8203;FIXME</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -467,76 +556,18 @@
 </td>
 <td class="content">
 <div class="paragraph">
-<p><code>findDeltaTableRoot</code> is used when:</p>
+<p><code>verifyOptions</code> is used when:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p><a href="VacuumTableCommand.html" class="page">VacuumTableCommand</a> is executed</p>
-</li>
-<li>
-<p><code>DeltaTableUtils</code> utility is used to <a href="#isDeltaTable">isDeltaTable</a></p>
+<p><code>DeltaOptions</code> is <a href="#creating-instance">created</a></p>
 </li>
 <li>
 <p><code>DeltaDataSource</code> is requested to <a href="DeltaDataSource.html#RelationProvider-createRelation" class="page">create a relation</a></p>
 </li>
 </ul>
 </div>
-</td>
-</tr>
-</table>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="combinewithcatalogmetadata-utility"><a class="anchor" href="#combinewithcatalogmetadata-utility"></a><a class="link" href="#combinewithcatalogmetadata-utility"><a id="combineWithCatalogMetadata"></a> <code>combineWithCatalogMetadata</code> Utility</a></h2>
-<div class="sectionbody">
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">combineWithCatalogMetadata(
-  sparkSession: SparkSession,
-  table: CatalogTable): CatalogTable</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p><code>combineWithCatalogMetadata</code>&#8230;&#8203;FIXME</p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<code>combineWithCatalogMetadata</code> is used when&#8230;&#8203;FIXME
-</td>
-</tr>
-</table>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="resolvetimetravelversion-utility"><a class="anchor" href="#resolvetimetravelversion-utility"></a><a class="link" href="#resolvetimetravelversion-utility"><a id="resolveTimeTravelVersion"></a> <code>resolveTimeTravelVersion</code> Utility</a></h2>
-<div class="sectionbody">
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">resolveTimeTravelVersion(
-  conf: SQLConf,
-  deltaLog: DeltaLog,
-  tt: DeltaTimeTravelSpec): (Long, String)</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p><code>resolveTimeTravelVersion</code>&#8230;&#8203;FIXME</p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<code>resolveTimeTravelVersion</code> is used exclusively when <code>DeltaLog</code> is requested to <a href="DeltaLog.html#createRelation" class="page">create a relation (per partition filters and time travel)</a>.
 </td>
 </tr>
 </table>

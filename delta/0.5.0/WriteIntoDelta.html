@@ -185,10 +185,19 @@
 </ul>
   </li>
   <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
     <a class="nav-link" href="DeltaDataSource.html">DeltaDataSource</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="DeltaOptions.html">DeltaOptions</a>
   </li>
-  <li class="nav-item" data-depth="1">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="DeltaSource.html">DeltaSource</a>
+  </li>
+  <li class="nav-item" data-depth="2">
     <a class="nav-link" href="DeltaSink.html">DeltaSink</a>
+  </li>
+</ul>
   </li>
   <li class="nav-item" data-depth="1">
     <button class="nav-item-toggle"></button>
@@ -302,9 +311,6 @@
 </ul>
   </li>
   <li class="nav-item" data-depth="1">
-    <a class="nav-link" href="DeltaSource.html">DeltaSource</a>
-  </li>
-  <li class="nav-item" data-depth="1">
     <a class="nav-link" href="DeltaHistoryManager.html">DeltaHistoryManager</a>
   </li>
   <li class="nav-item" data-depth="1">
@@ -394,7 +400,7 @@
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p><code>WriteIntoDelta</code> is a <a href="DeltaCommand.html" class="page">DeltaCommand</a> that can write <a href="#data">data(frame)</a> transactionally into a <a href="#deltaLog">delta table</a>.</p>
+<p><code>WriteIntoDelta</code> is a <a href="DeltaCommand.html" class="page">Delta command</a> that can write <a href="#data">data(frame)</a> transactionally into a <a href="#deltaLog">delta table</a>.</p>
 </div>
 <div class="paragraph">
 <p><code>WriteIntoDelta</code> is a <a href="ImplicitMetadataOperation.html" class="page">ImplicitMetadataOperation</a>.</p>
@@ -444,7 +450,7 @@ Read up on <a href="https://jaceklaskowski.gitbooks.io/mastering-spark-sql/spark
 <p><a id="mode"></a> <code>SaveMode</code></p>
 </li>
 <li>
-<p><a id="options"></a> <code>DeltaOptions</code></p>
+<p><a id="options"></a> <a href="DeltaOptions.html" class="page">DeltaOptions</a></p>
 </li>
 <li>
 <p><a id="partitionColumns"></a> Names of the partition columns (<code>Seq[String]</code>)</p>
