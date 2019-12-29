@@ -70,7 +70,7 @@ snapshot: Snapshot
 
 |===
 
-== [[writeFiles]] Writing Files Out -- `writeFiles` Method
+== [[writeFiles]] Writing Out Streaming Query -- `writeFiles` Method
 
 [source, scala]
 ----
@@ -88,7 +88,14 @@ writeFiles(
   isOptimize: Boolean): Seq[AddFile]
 ----
 
-`writeFiles` creates a <<DeltaInvariantCheckerExec.adoc#, DeltaInvariantCheckerExec>> and a <<DelayedCommitProtocol.adoc#, DelayedCommitProtocol>> to write out files (using `FileFormatWriter.write`) to the <<DeltaLog.adoc#dataPath, data path>> (of the <<deltaLog, DeltaLog>>).
+`writeFiles` creates a <<DeltaInvariantCheckerExec.adoc#, DeltaInvariantCheckerExec>> and a <<DelayedCommitProtocol.adoc#, DelayedCommitProtocol>> to write out files to the <<DeltaLog.adoc#dataPath, data path>> (of the <<deltaLog, DeltaLog>>).
+
+[NOTE]
+====
+`writeFiles` uses Spark SQL's `FileFormatWriter` utility to write out a result of a streaming query.
+
+Read up on https://jaceklaskowski.gitbooks.io/mastering-spark-sql/spark-sql-FileFormatWriter.html[FileFormatWriter] in https://bit.ly/spark-sql-internals[The Internals of Spark SQL] online book.
+====
 
 `writeFiles` is executed within `SQLExecution.withNewExecutionId`.
 
@@ -116,12 +123,12 @@ NOTE: After `writeFiles`, no <<OptimisticTransactionImpl.adoc#updateMetadata-Ass
 ====
 `writeFiles` is used when:
 
-* <<DeleteCommand.adoc#, DeleteCommand>>, <<MergeIntoCommand.adoc#, MergeIntoCommand>>, <<UpdateCommand.adoc#, UpdateCommand>>, and <<WriteIntoDelta.adoc#, WriteIntoDelta>> are requested to run
+* <<DeleteCommand.adoc#, DeleteCommand>>, <<MergeIntoCommand.adoc#, MergeIntoCommand>>, <<UpdateCommand.adoc#, UpdateCommand>>, and <<WriteIntoDelta.adoc#, WriteIntoDelta>> commands are executed
 
-* `DeltaSink` is requested to <<DeltaSink.adoc#addBatch, addBatch>>
+* `DeltaSink` is requested to <<DeltaSink.adoc#addBatch, add a micro-batch>>
 ====
 
-== [[getCommitter]] `getCommitter` Method
+== [[getCommitter]] Creating Committer -- `getCommitter` Method
 
 [source, scala]
 ----
@@ -131,7 +138,7 @@ getCommitter(
 
 `getCommitter` creates a new <<DelayedCommitProtocol.adoc#, DelayedCommitProtocol>> with the *delta* job ID and the given `outputPath` (and no random prefix).
 
-NOTE: `getCommitter` is used exclusively when `TransactionalWrite` is requested to <<writeFiles, write files out>>.
+NOTE: `getCommitter` is used exclusively when `TransactionalWrite` is requested to <<writeFiles, write out a streaming query>>.
 
 == [[makeOutputNullable]] `makeOutputNullable` Method
 

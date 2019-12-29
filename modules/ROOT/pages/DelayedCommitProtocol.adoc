@@ -1,10 +1,10 @@
 = [[DelayedCommitProtocol]] DelayedCommitProtocol
 
-`DelayedCommitProtocol` is a concrete `FileCommitProtocol` (Spark Core) to write out partitions to a <<path, directory>> and return a <<addedStatuses, list of files added>>.
+`DelayedCommitProtocol` is a concrete `FileCommitProtocol` (Spark Core) to write out a result of a structured query to a <<path, directory>> and return a <<addedStatuses, list of files added>>.
 
 TIP: Read up on https://books.japila.pl/apache-spark-internals/apache-spark-internals/2.4.4/spark-internal-io-FileCommitProtocol.html[FileCommitProtocol] in https://books.japila.pl/apache-spark-internals[The Internals Of Apache Spark] online book.
 
-`DelayedCommitProtocol` is <<creating-instance, created>> exclusively when `TransactionalWrite` is requested for a <<TransactionalWrite.adoc#getCommitter, committer to write partitions>> to the <<path, directory>>.
+`DelayedCommitProtocol` is <<creating-instance, created>> exclusively when `TransactionalWrite` is requested for a <<TransactionalWrite.adoc#getCommitter, committer>> to <<TransactionalWrite.adoc#writeFiles, write a structured query>> to the <<path, directory>>.
 
 [[logging]]
 [TIP]
@@ -24,9 +24,9 @@ Refer to <<logging.adoc#, Logging>>.
 
 `DelayedCommitProtocol` takes the following to be created:
 
-* [[jobId]] Job ID (always <<TransactionalWrite.adoc#getCommitter, delta>>)
-* [[path]] Directory
-* [[randomPrefixLength]] Optional length of a random prefix (always <<TransactionalWrite.adoc#getCommitter, empty>>)
+* [[jobId]] Job ID (seems always <<TransactionalWrite.adoc#getCommitter, delta>>)
+* [[path]] Directory (to write files to)
+* [[randomPrefixLength]] Optional length of a random prefix (seems always <<TransactionalWrite.adoc#getCommitter, empty>>)
 
 `DelayedCommitProtocol` initializes the <<internal-properties, internal properties>>.
 
@@ -52,13 +52,13 @@ newTaskTempFile(
   ext: String): String
 ----
 
-NOTE: `newTaskTempFile` is part of the `FileCommitProtocol` contract to inform the commit protocol to add a new file.
+NOTE: `newTaskTempFile` is part of the `FileCommitProtocol` contract to inform the committer to add a new file.
 
 `newTaskTempFile` <<getFileName, creates a file name>> for the given `TaskAttemptContext` and `ext`.
 
 `newTaskTempFile` tries to <<parsePartitions, parsePartitions>> with the given `dir` or falls back to an empty `partitionValues`.
 
-NOTE: The given `dir` defines a partition directory if it is partitioned. (FIXME What's the `it` part?)
+NOTE: The given `dir` defines a partition directory if the streaming query (and hence the write) is partitioned.
 
 `newTaskTempFile` builds a path (based on the given `randomPrefixLength` and the `dir`, or uses the file name directly).
 
@@ -152,25 +152,15 @@ part-[split]%05d-[uuid][ext]
 
 NOTE: `getFileName` is used exclusively when `DelayedCommitProtocol` is requested to <<newTaskTempFile, newTaskTempFile>>.
 
-== [[internal-properties]] Internal Properties
-
-[cols="30m,70",options="header",width="100%"]
-|===
-| Name
-| Description
-
-| addedFiles
-a| [[addedFiles]]
+== [[addedFiles]] `addedFiles` Internal Registry
 
 [source, scala]
 ----
 addedFiles: ArrayBuffer[(Map[String, String], String)]
 ----
 
-Tracks the list of files <<newTaskTempFile, added by tasks>> (on executors)
+`addedFiles` tracks the files <<newTaskTempFile, added by a Spark write task>> (that runs on an executor).
 
-Initialized (as an empty collection) in <<setupTask, setupTask>>
+`addedFiles` is initialized (as an empty collection) in <<setupTask, setupTask>>.
 
-Used exclusively when `DelayedCommitProtocol` is requested to <<commitTask, commit a task>>
-
-|===
+NOTE: `addedFiles` is used when `DelayedCommitProtocol` is requested to <<commitTask, commit a task>> (on an executor and create a `TaskCommitMessage` with the files added while a task was writing out a partition of a streaming query).
