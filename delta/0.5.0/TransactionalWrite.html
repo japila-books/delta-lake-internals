@@ -490,7 +490,7 @@ NOTE: <a href="OptimisticTransaction.html" class="page">OptimisticTransaction</a
 </div>
 </div>
 <div class="sect1">
-<h2 id="writing-files-outwritefiles-method"><a class="anchor" href="#writing-files-outwritefiles-method"></a><a class="link" href="#writing-files-outwritefiles-method"><a id="writeFiles"></a> Writing Files Out&#8201;&#8212;&#8201;<code>writeFiles</code> Method</a></h2>
+<h2 id="writing-out-streaming-querywritefiles-method"><a class="anchor" href="#writing-out-streaming-querywritefiles-method"></a><a class="link" href="#writing-out-streaming-querywritefiles-method"><a id="writeFiles"></a> Writing Out Streaming Query&#8201;&#8212;&#8201;<code>writeFiles</code> Method</a></h2>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content">
@@ -509,7 +509,24 @@ writeFiles(
 </div>
 </div>
 <div class="paragraph">
-<p><code>writeFiles</code> creates a <a href="DeltaInvariantCheckerExec.html" class="page">DeltaInvariantCheckerExec</a> and a <a href="DelayedCommitProtocol.html" class="page">DelayedCommitProtocol</a> to write out files (using <code>FileFormatWriter.write</code>) to the <a href="DeltaLog.html#dataPath" class="page">data path</a> (of the <a href="#deltaLog">DeltaLog</a>).</p>
+<p><code>writeFiles</code> creates a <a href="DeltaInvariantCheckerExec.html" class="page">DeltaInvariantCheckerExec</a> and a <a href="DelayedCommitProtocol.html" class="page">DelayedCommitProtocol</a> to write out files to the <a href="DeltaLog.html#dataPath" class="page">data path</a> (of the <a href="#deltaLog">DeltaLog</a>).</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p><code>writeFiles</code> uses Spark SQL&#8217;s <code>FileFormatWriter</code> utility to write out a result of a streaming query.</p>
+</div>
+<div class="paragraph">
+<p>Read up on <a href="https://jaceklaskowski.gitbooks.io/mastering-spark-sql/spark-sql-FileFormatWriter.html">FileFormatWriter</a> in <a href="https://bit.ly/spark-sql-internals">The Internals of Spark SQL</a> online book.</p>
+</div>
+</td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
 <p><code>writeFiles</code> is executed within <code>SQLExecution.withNewExecutionId</code>.</p>
@@ -573,10 +590,10 @@ After <code>writeFiles</code>, no <a href="OptimisticTransactionImpl.html#update
 <div class="ulist">
 <ul>
 <li>
-<p><a href="DeleteCommand.html" class="page">DeleteCommand</a>, <a href="MergeIntoCommand.html" class="page">MergeIntoCommand</a>, <a href="UpdateCommand.html" class="page">UpdateCommand</a>, and <a href="WriteIntoDelta.html" class="page">WriteIntoDelta</a> are requested to run</p>
+<p><a href="DeleteCommand.html" class="page">DeleteCommand</a>, <a href="MergeIntoCommand.html" class="page">MergeIntoCommand</a>, <a href="UpdateCommand.html" class="page">UpdateCommand</a>, and <a href="WriteIntoDelta.html" class="page">WriteIntoDelta</a> commands are executed</p>
 </li>
 <li>
-<p><code>DeltaSink</code> is requested to <a href="DeltaSink.html#addBatch" class="page">addBatch</a></p>
+<p><code>DeltaSink</code> is requested to <a href="DeltaSink.html#addBatch" class="page">add a micro-batch</a></p>
 </li>
 </ul>
 </div>
@@ -587,7 +604,7 @@ After <code>writeFiles</code>, no <a href="OptimisticTransactionImpl.html#update
 </div>
 </div>
 <div class="sect1">
-<h2 id="getcommitter-method"><a class="anchor" href="#getcommitter-method"></a><a class="link" href="#getcommitter-method"><a id="getCommitter"></a> <code>getCommitter</code> Method</a></h2>
+<h2 id="creating-committergetcommitter-method"><a class="anchor" href="#creating-committergetcommitter-method"></a><a class="link" href="#creating-committergetcommitter-method"><a id="getCommitter"></a> Creating Committer&#8201;&#8212;&#8201;<code>getCommitter</code> Method</a></h2>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content">
@@ -605,7 +622,7 @@ After <code>writeFiles</code>, no <a href="OptimisticTransactionImpl.html#update
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-<code>getCommitter</code> is used exclusively when <code>TransactionalWrite</code> is requested to <a href="#writeFiles">write files out</a>.
+<code>getCommitter</code> is used exclusively when <code>TransactionalWrite</code> is requested to <a href="#writeFiles">write out a streaming query</a>.
 </td>
 </tr>
 </table>

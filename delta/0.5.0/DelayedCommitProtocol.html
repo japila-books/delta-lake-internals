@@ -394,7 +394,7 @@
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p><code>DelayedCommitProtocol</code> is a concrete <code>FileCommitProtocol</code> (Spark Core) to write out partitions to a <a href="#path">directory</a> and return a <a href="#addedStatuses">list of files added</a>.</p>
+<p><code>DelayedCommitProtocol</code> is a concrete <code>FileCommitProtocol</code> (Spark Core) to write out a result of a structured query to a <a href="#path">directory</a> and return a <a href="#addedStatuses">list of files added</a>.</p>
 </div>
 <div class="admonitionblock tip">
 <table>
@@ -409,7 +409,7 @@ Read up on <a href="https://books.japila.pl/apache-spark-internals/apache-spark-
 </table>
 </div>
 <div class="paragraph">
-<p><code>DelayedCommitProtocol</code> is <a href="#creating-instance">created</a> exclusively when <code>TransactionalWrite</code> is requested for a <a href="TransactionalWrite.html#getCommitter" class="page">committer to write partitions</a> to the <a href="#path">directory</a>.</p>
+<p><code>DelayedCommitProtocol</code> is <a href="#creating-instance">created</a> exclusively when <code>TransactionalWrite</code> is requested for a <a href="TransactionalWrite.html#getCommitter" class="page">committer</a> to <a href="TransactionalWrite.html#writeFiles" class="page">write a structured query</a> to the <a href="#path">directory</a>.</p>
 </div>
 <div id="logging" class="admonitionblock tip">
 <table>
@@ -447,13 +447,13 @@ Read up on <a href="https://books.japila.pl/apache-spark-internals/apache-spark-
 <div class="ulist">
 <ul>
 <li>
-<p><a id="jobId"></a> Job ID (always <a href="TransactionalWrite.html#getCommitter" class="page">delta</a>)</p>
+<p><a id="jobId"></a> Job ID (seems always <a href="TransactionalWrite.html#getCommitter" class="page">delta</a>)</p>
 </li>
 <li>
-<p><a id="path"></a> Directory</p>
+<p><a id="path"></a> Directory (to write files to)</p>
 </li>
 <li>
-<p><a id="randomPrefixLength"></a> Optional length of a random prefix (always <a href="TransactionalWrite.html#getCommitter" class="page">empty</a>)</p>
+<p><a id="randomPrefixLength"></a> Optional length of a random prefix (seems always <a href="TransactionalWrite.html#getCommitter" class="page">empty</a>)</p>
 </li>
 </ul>
 </div>
@@ -506,7 +506,7 @@ Read up on <a href="https://books.japila.pl/apache-spark-internals/apache-spark-
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-<code>newTaskTempFile</code> is part of the <code>FileCommitProtocol</code> contract to inform the commit protocol to add a new file.
+<code>newTaskTempFile</code> is part of the <code>FileCommitProtocol</code> contract to inform the committer to add a new file.
 </td>
 </tr>
 </table>
@@ -524,7 +524,7 @@ Read up on <a href="https://books.japila.pl/apache-spark-internals/apache-spark-
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-The given <code>dir</code> defines a partition directory if it is partitioned. (FIXME What&#8217;s the <code>it</code> part?)
+The given <code>dir</code> defines a partition directory if the streaming query (and hence the write) is partitioned.
 </td>
 </tr>
 </table>
@@ -725,39 +725,31 @@ FIXME When would the optional <code>dir</code> and the <a href="#randomPrefixLen
 </div>
 </div>
 <div class="sect1">
-<h2 id="internal-properties"><a class="anchor" href="#internal-properties"></a><a class="link" href="#internal-properties"><a id="internal-properties"></a> Internal Properties</a></h2>
+<h2 id="addedfiles-internal-registry"><a class="anchor" href="#addedfiles-internal-registry"></a><a class="link" href="#addedfiles-internal-registry"><a id="addedFiles"></a> <code>addedFiles</code> Internal Registry</a></h2>
 <div class="sectionbody">
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 30%;">
-<col style="width: 70%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Name</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>addedFiles</code></p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div id="addedFiles" class="listingblock">
+<div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">addedFiles: ArrayBuffer[(Map[String, String], String)]</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Tracks the list of files <a href="#newTaskTempFile">added by tasks</a> (on executors)</p>
+<p><code>addedFiles</code> tracks the files <a href="#newTaskTempFile">added by a Spark write task</a> (that runs on an executor).</p>
 </div>
 <div class="paragraph">
-<p>Initialized (as an empty collection) in <a href="#setupTask">setupTask</a></p>
+<p><code>addedFiles</code> is initialized (as an empty collection) in <a href="#setupTask">setupTask</a>.</p>
 </div>
-<div class="paragraph">
-<p>Used exclusively when <code>DelayedCommitProtocol</code> is requested to <a href="#commitTask">commit a task</a></p>
-</div></div></td>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>addedFiles</code> is used when <code>DelayedCommitProtocol</code> is requested to <a href="#commitTask">commit a task</a> (on an executor and create a <code>TaskCommitMessage</code> with the files added while a task was writing out a partition of a streaming query).
+</td>
 </tr>
-</tbody>
 </table>
+</div>
 </div>
 </div>
 </article>
