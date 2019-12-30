@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title> TransactionalWrite :: The Internals Of Delta Lake</title>
+    <title> TransactionalWrite&#8201;&#8212;&#8201;Optimistic Transactional Writers :: The Internals Of Delta Lake</title>
     <link rel="canonical" href="http://books.japila.pl/delta-lake-internals/delta/0.5.0/TransactionalWrite.html">
     <meta name="generator" content="Antora 2.2.0">
     <link rel="stylesheet" href="../../_/css/site.css">
@@ -399,7 +399,7 @@
   <div class="edit-this-page"><a href="file:///antora/modules/ROOT/pages/TransactionalWrite.adoc">Edit this Page</a></div>
 </div>
 <article class="doc">
-<h1 class="page"><a id="TransactionalWrite"></a> TransactionalWrite</h1>
+<h1 class="page"><a id="TransactionalWrite"></a> TransactionalWrite&#8201;&#8212;&#8201;Optimistic Transactional Writers</h1>
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
@@ -450,7 +450,7 @@ NOTE: <a href="OptimisticTransaction.html" class="page">OptimisticTransaction</a
 <p><code>DeltaLog</code> is requested to <a href="DeltaLog.html#createDataFrame" class="page">createDataFrame</a></p>
 </li>
 <li>
-<p><code>TransactionalWrite</code> is requested to <a href="#writeFiles">write files out</a></p>
+<p><code>TransactionalWrite</code> is requested to <a href="#writeFiles">write a structured query out to a delta table</a></p>
 </li>
 </ul>
 </div></div></td>
@@ -491,7 +491,7 @@ NOTE: <a href="OptimisticTransaction.html" class="page">OptimisticTransaction</a
 </div>
 </div>
 <div class="paragraph">
-<p><a href="Snapshot.html" class="page">Snapshot</a> of the delta table that this transaction is <a href="OptimisticTransactionImpl.html#readVersion" class="page">reading at</a></p>
+<p><a href="Snapshot.html" class="page">Snapshot</a> of the <a href="#deltaLog">delta table</a> that this transaction is <a href="OptimisticTransactionImpl.html#readVersion" class="page">reading at</a></p>
 </div></div></td>
 </tr>
 </tbody>

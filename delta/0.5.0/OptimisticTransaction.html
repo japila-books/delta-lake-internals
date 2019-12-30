@@ -405,7 +405,20 @@
 <p><code>OptimisticTransaction</code> is a concrete <a href="OptimisticTransactionImpl.html" class="page">OptimisticTransactionImpl</a> (which <em>seems</em> more of a class name change than anything more important).</p>
 </div>
 <div class="paragraph">
-<p><code>OptimisticTransaction</code> is <a href="#creating-instance">created</a> when <code>DeltaLog</code> is requested to <a href="DeltaLog.html#startTransaction" class="page">start a new transaction</a> and <a href="DeltaLog.html#withNewTransaction" class="page">execute a single-threaded operation in a new transaction</a>.</p>
+<p><code>OptimisticTransaction</code> is <a href="#creating-instance">created</a> when <code>DeltaLog</code> is used for the following:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="DeltaLog.html#startTransaction" class="page">Starting a new transaction</a> for <a href="ConvertToDeltaCommand.html" class="page">ConvertToDeltaCommand</a></p>
+</li>
+<li>
+<p><a href="DeltaLog.html#withNewTransaction" class="page">Executing a single-threaded operation (in a new transaction)</a> for <a href="DeleteCommand.html" class="page">DeleteCommand</a>, <a href="MergeIntoCommand.html" class="page">MergeIntoCommand</a>, <a href="UpdateCommand.html" class="page">UpdateCommand</a>, and <a href="WriteIntoDelta.html" class="page">WriteIntoDelta</a> commands as well as for <a href="DeltaSink.html" class="page">DeltaSink</a> for <a href="DeltaSink.html#addBatch" class="page">adding a streaming micro-batch</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>When <code>OptimisticTransaction</code> (as a <a href="OptimisticTransactionImpl.html" class="page">OptimisticTransactionImpl</a>) is attempted to be <a href="OptimisticTransactionImpl.html#commit" class="page">committed</a> (that does <a href="OptimisticTransactionImpl.html#doCommit" class="page">doCommit</a> internally), the <a href="LogStore.html" class="page">LogStore</a> (of the <a href="#deltaLog">DeltaLog</a>) is requested to <a href="LogStore.html#write" class="page">write actions to a delta file</a>, e.g. <code>_delta_log/00000000000000000001.json</code> for the attempt version <code>1</code>. Only when a <code>FileAlreadyExistsException</code> is thrown a commit is considered unsuccessful and <a href="OptimisticTransactionImpl.html#checkAndRetry" class="page">retried</a>.</p>
 </div>
 <div class="paragraph">
 <p><code>OptimisticTransaction</code> can be associated with a thread as an <a href="#active">active transaction</a>.</p>
@@ -449,7 +462,7 @@
 <p><a id="deltaLog"></a> <a href="DeltaLog.html" class="page">DeltaLog</a></p>
 </li>
 <li>
-<p><a id="snapshot"></a> <a href="Snapshot.html" class="page">Snapshot</a> (default: the <a href="DeltaLog.html#snapshot" class="page">current snapshot</a> of the <a href="#deltaLog">DeltaLog</a>)</p>
+<p><a id="snapshot"></a> <a href="Snapshot.html" class="page">Snapshot</a></p>
 </li>
 <li>
 <p><a id="clock"></a> <code>Clock</code></p>
