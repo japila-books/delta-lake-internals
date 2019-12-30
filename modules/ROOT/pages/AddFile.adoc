@@ -4,9 +4,9 @@
 
 `AddFile` is <<creating-instance, created>> when:
 
-* `ConvertToDeltaCommand` is requested to <<ConvertToDeltaCommand.adoc#performConvert, performConvert>> (for <<ConvertToDeltaCommand.adoc#createAddFile, every data file to import>>)
+* <<ConvertToDeltaCommand.adoc#, ConvertToDeltaCommand>> is executed (for <<ConvertToDeltaCommand.adoc#createAddFile, every data file to import>>)
 
-* `DelayedCommitProtocol` is requested to <<DelayedCommitProtocol.adoc#commitTask, commitTask>>
+* `DelayedCommitProtocol` is requested to <<DelayedCommitProtocol.adoc#commitTask, commit a task (after successful write)>> (for <<TransactionalWrite.adoc#, optimistic transactional writers>>)
 
 == [[creating-instance]] Creating AddFile Instance
 

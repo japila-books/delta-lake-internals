@@ -1,4 +1,4 @@
-= [[TransactionalWrite]] TransactionalWrite
+= [[TransactionalWrite]] TransactionalWrite -- Optimistic Transactional Writers
 
 `TransactionalWrite` is an <<contract, abstraction>> of <<implementations, optimistic transactional writers>> that can <<writeFiles, write a structured query out>> to a <<deltaLog, Delta table>>.
 
@@ -32,7 +32,7 @@ Used when:
 
 * `DeltaLog` is requested to <<DeltaLog.adoc#createDataFrame, createDataFrame>>
 
-* `TransactionalWrite` is requested to <<writeFiles, write files out>>
+* `TransactionalWrite` is requested to <<writeFiles, write a structured query out to a delta table>>
 
 | metadata
 a| [[metadata]]
@@ -66,7 +66,7 @@ a| [[snapshot]]
 snapshot: Snapshot
 ----
 
-<<Snapshot.adoc#, Snapshot>> of the delta table that this transaction is <<OptimisticTransactionImpl.adoc#readVersion, reading at>>
+<<Snapshot.adoc#, Snapshot>> of the <<deltaLog, delta table>> that this transaction is <<OptimisticTransactionImpl.adoc#readVersion, reading at>>
 
 |===
 

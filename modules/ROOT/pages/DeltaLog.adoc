@@ -105,7 +105,7 @@ In the end, `withNewTransaction` makes the transaction <<OptimisticTransaction.a
 
 * <<DeleteCommand.adoc#, DeleteCommand>>, <<MergeIntoCommand.adoc#, MergeIntoCommand>>, <<UpdateCommand.adoc#, UpdateCommand>>, and <<WriteIntoDelta.adoc#, WriteIntoDelta>> logical commands are executed
 
-* `DeltaSink` is requested to <<DeltaSink.adoc#addBatch, addBatch>>
+* `DeltaSink` is requested to <<DeltaSink.adoc#addBatch, add a streaming micro-batch>>
 ====
 
 == [[startTransaction]] Starting New Transaction -- `startTransaction` Method
@@ -119,14 +119,7 @@ startTransaction(): OptimisticTransaction
 
 NOTE: `startTransaction` is a subset of <<withNewTransaction, withNewTransaction>>.
 
-[NOTE]
-====
-`startTransaction` is used when:
-
-* `DeltaLog` is requested to <<upgradeProtocol, upgradeProtocol>>
-
-* <<ConvertToDeltaCommand.adoc#, ConvertToDeltaCommand>> is executed
-====
+NOTE: `startTransaction` is used when <<ConvertToDeltaCommand.adoc#, ConvertToDeltaCommand>> is executed.
 
 == [[assertRemovable]] Throwing UnsupportedOperationException For appendOnly Table Property Enabled -- `assertRemovable` Method
 
@@ -358,18 +351,6 @@ getChanges(
 
 NOTE: `getChanges` is used when...FIXME
 
-== [[upgradeProtocol]] `upgradeProtocol` Method
-
-[source, scala]
-----
-upgradeProtocol(
-  newVersion: Protocol = Protocol()): Unit
-----
-
-`upgradeProtocol`...FIXME
-
-NOTE: `upgradeProtocol` is used when...FIXME
-
 == [[createDataFrame]] Creating DataFrame For Given AddFiles -- `createDataFrame` Method
 
 [source, scala]
@@ -489,6 +470,18 @@ clearCache(): Unit
 `clearCache`...FIXME
 
 NOTE: `clearCache` seems to be used exclusively in tests.
+
+== [[upgradeProtocol]] `upgradeProtocol` Method
+
+[source, scala]
+----
+upgradeProtocol(
+  newVersion: Protocol = Protocol()): Unit
+----
+
+`upgradeProtocol`...FIXME
+
+NOTE: `upgradeProtocol` seems to be used exclusively in tests.
 
 == [[internal-properties]] Internal Properties
 

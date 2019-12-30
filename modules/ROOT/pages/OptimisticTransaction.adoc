@@ -2,7 +2,13 @@
 
 `OptimisticTransaction` is a concrete <<OptimisticTransactionImpl.adoc#, OptimisticTransactionImpl>> (which _seems_ more of a class name change than anything more important).
 
-`OptimisticTransaction` is <<creating-instance, created>> when `DeltaLog` is requested to <<DeltaLog.adoc#startTransaction, start a new transaction>> and <<DeltaLog.adoc#withNewTransaction, execute a single-threaded operation in a new transaction>>.
+`OptimisticTransaction` is <<creating-instance, created>> when `DeltaLog` is used for the following:
+
+* <<DeltaLog.adoc#startTransaction, Starting a new transaction>> for <<ConvertToDeltaCommand.adoc#, ConvertToDeltaCommand>>
+
+* <<DeltaLog.adoc#withNewTransaction, Executing a single-threaded operation (in a new transaction)>> for <<DeleteCommand.adoc#, DeleteCommand>>, <<MergeIntoCommand.adoc#, MergeIntoCommand>>, <<UpdateCommand.adoc#, UpdateCommand>>, and <<WriteIntoDelta.adoc#, WriteIntoDelta>> commands as well as for <<DeltaSink.adoc#, DeltaSink>> for <<DeltaSink.adoc#addBatch, adding a streaming micro-batch>>
+
+When `OptimisticTransaction` (as a <<OptimisticTransactionImpl.adoc#, OptimisticTransactionImpl>>) is attempted to be <<OptimisticTransactionImpl.adoc#commit, committed>> (that does <<OptimisticTransactionImpl.adoc#doCommit, doCommit>> internally), the <<LogStore.adoc#, LogStore>> (of the <<deltaLog, DeltaLog>>) is requested to <<LogStore.adoc#write, write actions to a delta file>>, e.g. `_delta_log/00000000000000000001.json` for the attempt version `1`. Only when a `FileAlreadyExistsException` is thrown a commit is considered unsuccessful and <<OptimisticTransactionImpl.adoc#checkAndRetry, retried>>.
 
 `OptimisticTransaction` can be associated with a thread as an <<active, active transaction>>.
 
@@ -25,7 +31,7 @@ Refer to <<logging.adoc#, Logging>>.
 `OptimisticTransaction` takes the following to be created:
 
 * [[deltaLog]] <<DeltaLog.adoc#, DeltaLog>>
-* [[snapshot]] <<Snapshot.adoc#, Snapshot>> (default: the <<DeltaLog.adoc#snapshot, current snapshot>> of the <<deltaLog, DeltaLog>>)
+* [[snapshot]] <<Snapshot.adoc#, Snapshot>>
 * [[clock]] `Clock`
 
 NOTE: The <<deltaLog, DeltaLog>> and <<snapshot, Snapshot>> are part of the <<OptimisticTransactionImpl.adoc#, OptimisticTransactionImpl>> contract (which in turn inherits them from the <<TransactionalWrite.adoc#, TransactionalWrite>> contract and changes to `val` from `def`).
