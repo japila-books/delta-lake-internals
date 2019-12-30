@@ -264,9 +264,6 @@
     <a class="nav-link" href="OptimisticTransaction.html">OptimisticTransaction</a>
 <ul class="nav-list">
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="OptimisticTransactionImpl.html">OptimisticTransactionImpl</a>
-  </li>
-  <li class="nav-item" data-depth="2">
     <a class="nav-link" href="TransactionalWrite.html">TransactionalWrite</a>
   </li>
   <li class="nav-item is-current-page" data-depth="2">
@@ -274,6 +271,9 @@
   </li>
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="PostCommitHook.html">Post-Commit Hooks</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="OptimisticTransactionImpl.html">OptimisticTransactionImpl</a>
   </li>
 </ul>
   </li>
@@ -331,6 +331,9 @@
   </li>
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="Protocol.html">Protocol</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="RemoveFile.html">RemoveFile</a>
   </li>
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="SetTransaction.html">SetTransaction</a>
@@ -400,7 +403,13 @@
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
+<p><code>DelayedCommitProtocol</code> is used to model a distributed write that is orchestrated by the Spark driver with the write itself happening on executors.</p>
+</div>
+<div class="paragraph">
 <p><code>DelayedCommitProtocol</code> is a concrete <code>FileCommitProtocol</code> (Spark Core) to write out a result of a structured query to a <a href="#path">directory</a> and return a <a href="#addedStatuses">list of files added</a>.</p>
+</div>
+<div class="paragraph">
+<p><code>FileCommitProtocol</code> (Spark Core) allows to track a write job (with a write task per partition) and inform the driver when all the write tasks finished successfully (and were <a href="#commitTask">committed</a>) to consider the write job <a href="#commitJob">completed</a>. <code>TaskCommitMessage</code> (Spark Core) allows to "transfer" the files added (written out) on the executors to the driver for the <a href="TransactionalWrite.html#writeFiles" class="page">optimistic transactional writer</a>.</p>
 </div>
 <div class="admonitionblock tip">
 <table>
@@ -559,7 +568,7 @@ FIXME When would the optional <code>dir</code> and the <a href="#randomPrefixLen
 </div>
 </div>
 <div class="sect1">
-<h2 id="committask-method"><a class="anchor" href="#committask-method"></a><a class="link" href="#committask-method"><a id="commitTask"></a> <code>commitTask</code> Method</a></h2>
+<h2 id="committing-task-after-successful-writecommittask-method"><a class="anchor" href="#committing-task-after-successful-writecommittask-method"></a><a class="link" href="#committing-task-after-successful-writecommittask-method"><a id="commitTask"></a> Committing Task (After Successful Write)&#8201;&#8212;&#8201;<code>commitTask</code> Method</a></h2>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content">
@@ -580,15 +589,24 @@ FIXME When would the optional <code>dir</code> and the <a href="#randomPrefixLen
 </table>
 </div>
 <div class="paragraph">
-<p><code>commitTask</code> returns an empty <code>TaskCommitMessage</code> when the <a href="#addedFiles">addedFiles</a> internal registry has no entries (<a href="#newTaskTempFile">files added</a>).</p>
+<p><code>commitTask</code> simply creates a <code>TaskCommitMessage</code> with an <a href="AddFile.html" class="page">AddFile</a> for every <a href="#addedFiles">file added</a> if there were any. Otherwise, the <code>TaskCommitMessage</code> is empty.</p>
 </div>
-<div class="paragraph">
-<p><code>commitTask</code> creates a <code>TaskCommitMessage</code> with an <a href="AddFile.html" class="page">AddFile</a> for every <a href="#newTaskTempFile">file added</a> by tasks on executors (<code>Seq[AddFile]</code>).</p>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+A file is added (to <a href="#addedFiles">addedFiles</a> internal registry) when <code>DelayedCommitProtocol</code> is requested for a <a href="#newTaskTempFile">new file (path)</a>.
+</td>
+</tr>
+</table>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="committing-spark-job-after-writes-succeedcommitjob-method"><a class="anchor" href="#committing-spark-job-after-writes-succeedcommitjob-method"></a><a class="link" href="#committing-spark-job-after-writes-succeedcommitjob-method"><a id="commitJob"></a> Committing Spark Job (After Writes Succeed)&#8201;&#8212;&#8201;<code>commitJob</code> Method</a></h2>
+<h2 id="committing-spark-job-after-successful-writecommitjob-method"><a class="anchor" href="#committing-spark-job-after-successful-writecommitjob-method"></a><a class="link" href="#committing-spark-job-after-successful-writecommitjob-method"><a id="commitJob"></a> Committing Spark Job (After Successful Write)&#8201;&#8212;&#8201;<code>commitJob</code> Method</a></h2>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content">
@@ -610,7 +628,7 @@ FIXME When would the optional <code>dir</code> and the <a href="#randomPrefixLen
 </table>
 </div>
 <div class="paragraph">
-<p><code>commitJob</code> simply adds the <a href="AddFile.html" class="page">AddFiles</a> (from the given <code>taskCommits</code>) to the <a href="#addedStatuses">addedStatuses</a> internal registry.</p>
+<p><code>commitJob</code> simply adds the <a href="AddFile.html" class="page">AddFiles</a> (from the given <code>taskCommits</code> from every <a href="#commitTask">commitTask</a>) to the <a href="#addedStatuses">addedStatuses</a> internal registry.</p>
 </div>
 </div>
 </div>
@@ -752,6 +770,43 @@ FIXME When would the optional <code>dir</code> and the <a href="#randomPrefixLen
 </td>
 <td class="content">
 <code>addedFiles</code> is used when <code>DelayedCommitProtocol</code> is requested to <a href="#commitTask">commit a task</a> (on an executor and create a <code>TaskCommitMessage</code> with the files added while a task was writing out a partition of a streaming query).
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="addedstatuses-internal-registry"><a class="anchor" href="#addedstatuses-internal-registry"></a><a class="link" href="#addedstatuses-internal-registry"><a id="addedStatuses"></a> <code>addedStatuses</code> Internal Registry</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">addedStatuses = new ArrayBuffer[AddFile]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>addedStatuses</code> is the files that were added by <a href="#commitTask">write tasks</a> (on executors) once all they finish successfully and the <a href="#commitJob">write job is committed</a> (on a driver).</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p><code>addedStatuses</code> is used when:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>DelayedCommitProtocol</code> is requested to <a href="#commitJob">commit a job</a> (on a driver)</p>
+</li>
+<li>
+<p><code>TransactionalWrite</code> is requested to <a href="TransactionalWrite.html#writeFiles" class="page">write out a structured query</a></p>
+</li>
+</ul>
+</div>
 </td>
 </tr>
 </table>

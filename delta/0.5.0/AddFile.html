@@ -264,9 +264,6 @@
     <a class="nav-link" href="OptimisticTransaction.html">OptimisticTransaction</a>
 <ul class="nav-list">
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="OptimisticTransactionImpl.html">OptimisticTransactionImpl</a>
-  </li>
-  <li class="nav-item" data-depth="2">
     <a class="nav-link" href="TransactionalWrite.html">TransactionalWrite</a>
   </li>
   <li class="nav-item" data-depth="2">
@@ -274,6 +271,9 @@
   </li>
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="PostCommitHook.html">Post-Commit Hooks</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="OptimisticTransactionImpl.html">OptimisticTransactionImpl</a>
   </li>
 </ul>
   </li>
@@ -331,6 +331,9 @@
   </li>
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="Protocol.html">Protocol</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="RemoveFile.html">RemoveFile</a>
   </li>
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="SetTransaction.html">SetTransaction</a>
@@ -400,7 +403,7 @@
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p><code>AddFile</code> is a <a href="FileAction.html" class="page">file action</a> to denote a file added to a <a href="DeltaLog.html" class="page">delta table</a>.</p>
+<p><code>AddFile</code> is a <a href="FileAction.html" class="page">file action</a> to denote a <a href="#path">file</a> added to a <a href="DeltaLog.html" class="page">delta table</a>.</p>
 </div>
 <div class="paragraph">
 <p><code>AddFile</code> is <a href="#creating-instance">created</a> when:</p>
@@ -447,6 +450,110 @@
 <p><a id="tags"></a> Tags (<code>Map[String, String]</code>) (default: <code>null</code>)</p>
 </li>
 </ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="wrap-method"><a class="anchor" href="#wrap-method"></a><a class="link" href="#wrap-method"><a id="wrap"></a> <code>wrap</code> Method</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">wrap: SingleAction</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>wrap</code> is part of the <a href="Action.html#wrap" class="page">Action</a> contract to wrap the action into a <a href="SingleAction.html" class="page">SingleAction</a> for serialization.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><code>wrap</code> simply creates a new <a href="SingleAction.html" class="page">SingleAction</a> with the <code>add</code> field set to this <code>AddFile</code>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="creating-removefile-instance-with-current-timestampremove-method"><a class="anchor" href="#creating-removefile-instance-with-current-timestampremove-method"></a><a class="link" href="#creating-removefile-instance-with-current-timestampremove-method"><a id="remove"></a> Creating RemoveFile Instance With Current Timestamp&#8201;&#8212;&#8201;<code>remove</code> Method</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">remove: RemoveFile</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>remove</code> <a href="#removeWithTimestamp">creates a RemoveFile action</a> with the current timestamp and <code>dataChange</code> flag enabled.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p><code>remove</code> is used when:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="MergeIntoCommand.html" class="page">MergeIntoCommand</a> is executed</p>
+</li>
+<li>
+<p><a href="WriteIntoDelta.html" class="page">WriteIntoDelta</a> is executed (with <code>Overwrite</code> mode)</p>
+</li>
+<li>
+<p><code>DeltaSink</code> is requested to <a href="DeltaSink.html#addBatch" class="page">add a streaming micro-batch</a> (with <code>Complete</code> mode)</p>
+</li>
+</ul>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="creating-removefile-instance-for-given-timestampremovewithtimestamp-method"><a class="anchor" href="#creating-removefile-instance-for-given-timestampremovewithtimestamp-method"></a><a class="link" href="#creating-removefile-instance-for-given-timestampremovewithtimestamp-method"><a id="removeWithTimestamp"></a> Creating RemoveFile Instance For Given Timestamp&#8201;&#8212;&#8201;<code>removeWithTimestamp</code> Method</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">removeWithTimestamp(
+  timestamp: Long = System.currentTimeMillis(),
+  dataChange: Boolean = true): RemoveFile</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>removeWithTimestamp</code> creates a <a href="RemoveFile.html" class="page">RemoveFile</a> action for the <a href="#path">path</a>, and the given <code>timestamp</code> and <code>dataChange</code> flag.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p><code>removeWithTimestamp</code> is used when:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>AddFile</code> is requested to <a href="#remove">create a RemoveFile action with the current timestamp</a></p>
+</li>
+<li>
+<p><a href="DeleteCommand.html" class="page">DeleteCommand</a> and <a href="UpdateCommand.html" class="page">UpdateCommand</a> are executed</p>
+</li>
+</ul>
+</div>
+</td>
+</tr>
+</table>
 </div>
 </div>
 </div>

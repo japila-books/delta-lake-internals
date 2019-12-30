@@ -264,9 +264,6 @@
     <a class="nav-link" href="OptimisticTransaction.html">OptimisticTransaction</a>
 <ul class="nav-list">
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="OptimisticTransactionImpl.html">OptimisticTransactionImpl</a>
-  </li>
-  <li class="nav-item" data-depth="2">
     <a class="nav-link" href="TransactionalWrite.html">TransactionalWrite</a>
   </li>
   <li class="nav-item" data-depth="2">
@@ -274,6 +271,9 @@
   </li>
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="PostCommitHook.html">Post-Commit Hooks</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="OptimisticTransactionImpl.html">OptimisticTransactionImpl</a>
   </li>
 </ul>
   </li>
@@ -331,6 +331,9 @@
   </li>
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="Protocol.html">Protocol</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="RemoveFile.html">RemoveFile</a>
   </li>
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="SetTransaction.html">SetTransaction</a>
@@ -495,10 +498,20 @@ root
 </div>
 </div>
 <div class="paragraph">
-<p>Wraps the action into a <a href="SingleAction.html" class="page">SingleAction</a></p>
+<p>Wraps the action into a <a href="SingleAction.html" class="page">SingleAction</a> for serialization</p>
 </div>
 <div class="paragraph">
-<p>Used when&#8230;&#8203;FIXME</p>
+<p>Used when:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>Snapshot</code> is created (and initializes the <a href="Snapshot.html#stateReconstruction" class="page">state reconstruction</a> for the <a href="Snapshot.html#cachedState" class="page">cached state</a> of a delta table)</p>
+</li>
+<li>
+<p><code>Action</code> is requested to <a href="#json">serialize to JSON format</a></p>
+</li>
+</ul>
 </div></div></td>
 </tr>
 </tbody>

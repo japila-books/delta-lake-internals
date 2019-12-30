@@ -263,9 +263,6 @@
     <button class="nav-item-toggle"></button>
     <a class="nav-link" href="OptimisticTransaction.html">OptimisticTransaction</a>
 <ul class="nav-list">
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="OptimisticTransactionImpl.html">OptimisticTransactionImpl</a>
-  </li>
   <li class="nav-item is-current-page" data-depth="2">
     <a class="nav-link" href="TransactionalWrite.html">TransactionalWrite</a>
   </li>
@@ -274,6 +271,9 @@
   </li>
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="PostCommitHook.html">Post-Commit Hooks</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="OptimisticTransactionImpl.html">OptimisticTransactionImpl</a>
   </li>
 </ul>
   </li>
@@ -331,6 +331,9 @@
   </li>
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="Protocol.html">Protocol</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="RemoveFile.html">RemoveFile</a>
   </li>
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="SetTransaction.html">SetTransaction</a>
@@ -400,7 +403,7 @@
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p><code>TransactionalWrite</code> is an <a href="#contract">abstraction</a> of <a href="#implementations">optimistic transactional writers</a> that can <a href="#writeFiles">write files out</a>.</p>
+<p><code>TransactionalWrite</code> is an <a href="#contract">abstraction</a> of <a href="#implementations">optimistic transactional writers</a> that can <a href="#writeFiles">write a structured query out</a> to a <a href="#deltaLog">Delta table</a>.</p>
 </div>
 <div class="paragraph">
 <p><a id="implementations"></a><a id="self"></a>
@@ -496,7 +499,7 @@ NOTE: <a href="OptimisticTransaction.html" class="page">OptimisticTransaction</a
 </div>
 </div>
 <div class="sect1">
-<h2 id="writing-out-streaming-querywritefiles-method"><a class="anchor" href="#writing-out-streaming-querywritefiles-method"></a><a class="link" href="#writing-out-streaming-querywritefiles-method"><a id="writeFiles"></a> Writing Out Streaming Query&#8201;&#8212;&#8201;<code>writeFiles</code> Method</a></h2>
+<h2 id="writing-out-result-of-structured-querywritefiles-method"><a class="anchor" href="#writing-out-result-of-structured-querywritefiles-method"></a><a class="link" href="#writing-out-result-of-structured-querywritefiles-method"><a id="writeFiles"></a> Writing Out (Result Of) Structured Query&#8201;&#8212;&#8201;<code>writeFiles</code> Method</a></h2>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content">
@@ -599,7 +602,7 @@ After <code>writeFiles</code>, no <a href="OptimisticTransactionImpl.html#update
 <p><a href="DeleteCommand.html" class="page">DeleteCommand</a>, <a href="MergeIntoCommand.html" class="page">MergeIntoCommand</a>, <a href="UpdateCommand.html" class="page">UpdateCommand</a>, and <a href="WriteIntoDelta.html" class="page">WriteIntoDelta</a> commands are executed</p>
 </li>
 <li>
-<p><code>DeltaSink</code> is requested to <a href="DeltaSink.html#addBatch" class="page">add a micro-batch</a></p>
+<p><code>DeltaSink</code> is requested to <a href="DeltaSink.html#addBatch" class="page">add a streaming micro-batch</a></p>
 </li>
 </ul>
 </div>
