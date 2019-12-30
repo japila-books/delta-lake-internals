@@ -1,6 +1,6 @@
 = [[TransactionalWrite]] TransactionalWrite
 
-`TransactionalWrite` is an <<contract, abstraction>> of <<implementations, optimistic transactional writers>> that can <<writeFiles, write files out>>.
+`TransactionalWrite` is an <<contract, abstraction>> of <<implementations, optimistic transactional writers>> that can <<writeFiles, write a structured query out>> to a <<deltaLog, Delta table>>.
 
 [[implementations]][[self]]
 NOTE: <<OptimisticTransaction.adoc#, OptimisticTransaction>> is the default and only known `TransactionalWrite` in Delta Lake (indirectly as a concrete <<OptimisticTransactionImpl.adoc#, OptimisticTransactionImpl>>).
@@ -70,7 +70,7 @@ snapshot: Snapshot
 
 |===
 
-== [[writeFiles]] Writing Out Streaming Query -- `writeFiles` Method
+== [[writeFiles]] Writing Out (Result Of) Structured Query -- `writeFiles` Method
 
 [source, scala]
 ----
@@ -125,7 +125,7 @@ NOTE: After `writeFiles`, no <<OptimisticTransactionImpl.adoc#updateMetadata-Ass
 
 * <<DeleteCommand.adoc#, DeleteCommand>>, <<MergeIntoCommand.adoc#, MergeIntoCommand>>, <<UpdateCommand.adoc#, UpdateCommand>>, and <<WriteIntoDelta.adoc#, WriteIntoDelta>> commands are executed
 
-* `DeltaSink` is requested to <<DeltaSink.adoc#addBatch, add a micro-batch>>
+* `DeltaSink` is requested to <<DeltaSink.adoc#addBatch, add a streaming micro-batch>>
 ====
 
 == [[getCommitter]] Creating Committer -- `getCommitter` Method

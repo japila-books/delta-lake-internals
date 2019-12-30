@@ -82,7 +82,7 @@ removeFilesFromPaths(
 
 `removeFilesFromPaths`...FIXME
 
-NOTE: `removeFilesFromPaths` is used when...FIXME
+NOTE: `removeFilesFromPaths` is used when <<DeleteCommand.adoc#, DeleteCommand>> and <<UpdateCommand.adoc#, UpdateCommand>> are executed.
 
 == [[buildBaseRelation]] `buildBaseRelation` Method
 

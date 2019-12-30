@@ -34,7 +34,7 @@ When <<creating-instance, created>>, `DeltaSink` creates a <<DeltaLog.adoc#forTa
 
 `deltaLog` is used exclusively when `DeltaSink` is requested to <<addBatch, addBatch>>.
 
-== [[addBatch]] `addBatch` Method
+== [[addBatch]] Adding Streaming Micro-Batch -- `addBatch` Method
 
 [source, scala]
 ----

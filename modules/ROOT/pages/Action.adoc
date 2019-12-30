@@ -89,9 +89,13 @@ a| [[wrap]]
 wrap: SingleAction
 ----
 
-Wraps the action into a <<SingleAction.adoc#, SingleAction>>
+Wraps the action into a <<SingleAction.adoc#, SingleAction>> for serialization
 
-Used when...FIXME
+Used when:
+
+* `Snapshot` is created (and initializes the <<Snapshot.adoc#stateReconstruction, state reconstruction>> for the <<Snapshot.adoc#cachedState, cached state>> of a delta table)
+
+* `Action` is requested to <<json, serialize to JSON format>>
 
 |===
 
