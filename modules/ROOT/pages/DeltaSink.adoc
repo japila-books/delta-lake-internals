@@ -18,7 +18,7 @@ DeltaSink[path]
 `DeltaSink` takes the following to be created:
 
 * [[sqlContext]] `SQLContext`
-* [[path]] Hadoop `Path` (corresponds to <<options.adoc#path, path>> option)
+* [[path]] Hadoop `Path` (corresponds to <<DeltaOptions.adoc#path, path>> option)
 * [[partitionColumns]] Names of the partition columns (`Seq[String]`)
 * [[outputMode]] `OutputMode`
 * [[options]] <<DeltaOptions.adoc#, DeltaOptions>>

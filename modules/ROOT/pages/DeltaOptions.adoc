@@ -1,9 +1,13 @@
 = DeltaOptions
 
-`DeltaOptions` is the options for the <<DeltaDataSource.adoc#, Delta data source>>.
+[[DeltaWriteOptionsImpl]][[DeltaWriteOptions]]
+`DeltaOptions` (aka `DeltaWriteOptionsImpl`, `DeltaWriteOptions`) is the options for the <<DeltaDataSource.adoc#, Delta data source>>.
+
+The <<options, options>> can be defined using `option` method of `DataFrameReader`, `DataFrameWriter`, `DataStreamReader`, and `DataStreamWriter`.
 
 `DeltaOptions` is used to create <<WriteIntoDelta.adoc#, WriteIntoDelta>> command, <<DeltaSink.adoc#, DeltaSink>>, and <<DeltaSource.adoc#, DeltaSource>>.
 
+[[options]]
 [[validOptionKeys]]
 .Delta Data Source's Options
 [cols="30m,70",options="header",width="100%"]
@@ -33,7 +37,9 @@ a| [[IGNORE_FILE_DELETION_OPTION]][[ignoreFileDeletion]]
 a| [[MAX_FILES_PER_TRIGGER_OPTION]][[maxFilesPerTrigger]]
 
 | mergeSchema
-a| [[MERGE_SCHEMA_OPTION]][[mergeSchema]]
+a| [[MERGE_SCHEMA_OPTION]][[mergeSchema]][[canMergeSchema]] Enables schema migration (e.g. allows automatic schema merging during a write operation for <<WriteIntoDelta.adoc#, WriteIntoDelta>> and <<DeltaSink.adoc#, DeltaSink>>)
+
+Equivalent SQL Session configuration: <<DeltaSQLConf.adoc#DELTA_SCHEMA_AUTO_MIGRATE, s.d.d.schema.autoMerge.enabled>>
 
 | optimizeWrite
 a| [[OPTIMIZE_WRITE_OPTION]][[optimizeWrite]]
@@ -42,7 +48,11 @@ a| [[OPTIMIZE_WRITE_OPTION]][[optimizeWrite]]
 a| [[OVERWRITE_SCHEMA_OPTION]][[overwriteSchema]]
 
 | path
-a| [[path]]
+a| [[path]] *(required)* Directory on a Hadoop DFS-compliant file system with an optional <<time-travel.adoc#, time travel>> identifier.
+
+Default: (undefined)
+
+Can also be specified using `load` method of `DataFrameReader` and `DataStreamReader`.
 
 | queryName
 a| [[queryName]]
@@ -51,10 +61,16 @@ a| [[queryName]]
 a| [[REPLACE_WHERE_OPTION]][[replaceWhere]]
 
 | timestampAsOf
-a| [[timestampAsOf]]
+a| [[timestampAsOf]] <<time-travel.adoc#, Time traveling>> using a timestamp of a table
+
+Mutually exclusive with <<versionAsOf, versionAsOf>> option and the time travel identifier of the <<path, path>> option.
 
 | versionAsOf
-a| [[versionAsOf]]
+a| [[versionAsOf]] <<time-travel.adoc#, Time traveling>> using a version of a table
+
+Mutually exclusive with <<timestampAsOf, timestampAsOf>> option and the time travel identifier of the <<path, path>> option.
+
+Used exclusively when `DeltaDataSource` is requested for a <<DeltaDataSource.adoc#RelationProvider-createRelation, relation (as a RelationProvider)>>
 
 |===
 

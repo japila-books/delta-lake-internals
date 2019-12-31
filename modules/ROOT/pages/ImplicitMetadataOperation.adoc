@@ -39,7 +39,7 @@ Used when `ImplicitMetadataOperation` is requested to <<updateMetadata, updateMe
 | Description
 
 | <<WriteIntoDelta.adoc#, WriteIntoDelta>>
-| [[WriteIntoDelta]]
+| [[WriteIntoDelta]] Command
 
 | <<DeltaSink.adoc#, DeltaSink>>
 | [[DeltaSink]] Streaming sink

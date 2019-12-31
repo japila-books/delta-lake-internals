@@ -1,6 +1,5 @@
 * xref:index.adoc[Introduction]
 * xref:time-travel.adoc[Time Travel]
-* xref:options.adoc[Options]
 
 * Demos
 ** xref:demo-Converting-Parquet-Dataset-Into-Delta-Format.adoc[Converting Parquet Dataset Into Delta Format]

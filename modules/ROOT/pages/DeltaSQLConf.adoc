@@ -18,6 +18,13 @@ a| [[import.batchSize.statsCollection]][[DELTA_IMPORT_BATCH_SIZE_STATS_COLLECTIO
 
 Default: `50000`
 
+| schema.autoMerge.enabled
+a| [[schema.autoMerge.enabled]][[DELTA_SCHEMA_AUTO_MIGRATE]] Enables schema merging on appends and overwrites.
+
+Equivalent DataFrame option: <<DeltaOptions.adoc#mergeSchema, mergeSchema>>
+
+Default: `false`
+
 | snapshotPartitions
 a| [[snapshotPartitions]][[DELTA_SNAPSHOT_PARTITIONS]] **(internal)** Number of partitions to use for *state reconstruction* (when <<Snapshot.adoc#stateReconstruction, building>> a <<Snapshot.adoc#, snapshot>> of a delta table).
 

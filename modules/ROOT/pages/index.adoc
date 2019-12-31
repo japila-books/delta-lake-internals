@@ -47,4 +47,4 @@ val input = spark
   .load
 ----
 
-`delta` data source requires some <<options.adoc#, options>> (with <<options.adoc#path, path>> option required).
+`delta` data source requires some <<DeltaOptions.adoc#, options>> (with <<options.adoc#path, path>> option required).

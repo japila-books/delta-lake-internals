@@ -2,15 +2,17 @@
 
 `WriteIntoDelta` is a <<DeltaCommand.adoc#, Delta command>> that can write <<data, data(frame)>> transactionally into a <<deltaLog, delta table>>.
 
+[[ImplicitMetadataOperation]]
 `WriteIntoDelta` is a <<ImplicitMetadataOperation.adoc#, ImplicitMetadataOperation>>.
 
+[[RunnableCommand]]
 `WriteIntoDelta` is a logical command (`RunnableCommand`).
 
 TIP: Read up on https://jaceklaskowski.gitbooks.io/mastering-spark-sql/spark-sql-LogicalPlan-RunnableCommand.html[RunnableCommand] in https://bit.ly/spark-sql-internals[The Internals of Spark SQL] online book.
 
 `WriteIntoDelta` is <<creating-instance, created>> when:
 
-* `DeltaLog` is requested to <<DeltaLog.adoc#createRelation, create a relation (per partition filters and time travel)>> (when `DeltaDataSource` is requested to create a relation as a <<DeltaDataSource.adoc#CreatableRelationProvider, CreatableRelationProvider>> or a <<DeltaDataSource.adoc#RelationProvider, RelationProvider>>)
+* `DeltaLog` is requested to <<DeltaLog.adoc#createRelation, create an insertable HadoopFsRelation>> (when `DeltaDataSource` is requested to create a relation as a <<DeltaDataSource.adoc#CreatableRelationProvider, CreatableRelationProvider>> or a <<DeltaDataSource.adoc#RelationProvider, RelationProvider>>)
 
 * `DeltaDataSource` is requested to <<DeltaDataSource.adoc#CreatableRelationProvider-createRelation, create a relation (per save mode and data source-specific parameters)>> (as a <<DeltaDataSource.adoc#CreatableRelationProvider, CreatableRelationProvider>>)
 
