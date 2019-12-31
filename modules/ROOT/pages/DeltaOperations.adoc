@@ -5,3 +5,7 @@
 == [[Convert]] Convert Operation
 
 `Convert` is...FIXME
+
+== [[Write]] Write Operation
+
+`Write` is...FIXME

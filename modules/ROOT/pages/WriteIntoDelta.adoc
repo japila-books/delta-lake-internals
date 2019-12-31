@@ -2,6 +2,27 @@
 
 `WriteIntoDelta` is a <<DeltaCommand.adoc#, Delta command>> that can write <<data, data(frame)>> transactionally into a <<deltaLog, delta table>>.
 
+[source, scala]
+----
+import org.apache.spark.sql.delta.commands.WriteIntoDelta
+import org.apache.spark.sql.delta.DeltaLog
+import org.apache.spark.sql.SaveMode
+import org.apache.spark.sql.delta.DeltaOptions
+val tableName = "/tmp/delta/t1"
+val data = spark.range(5).toDF
+val writeCmd = WriteIntoDelta(
+  deltaLog = DeltaLog.forTable(spark, tableName),
+  mode = SaveMode.Overwrite,
+  options = new DeltaOptions(Map.empty[String, String], spark.sessionState.conf),
+  partitionColumns = Seq.empty[String],
+  configuration = Map.empty[String, String],
+  data)
+
+// Review web UI @ http://localhost:4040
+
+writeCmd.run(spark)
+----
+
 [[ImplicitMetadataOperation]]
 `WriteIntoDelta` is a <<ImplicitMetadataOperation.adoc#, ImplicitMetadataOperation>>.
 
@@ -14,7 +35,7 @@ TIP: Read up on https://jaceklaskowski.gitbooks.io/mastering-spark-sql/spark-sql
 
 * `DeltaLog` is requested to <<DeltaLog.adoc#createRelation, create an insertable HadoopFsRelation>> (when `DeltaDataSource` is requested to create a relation as a <<DeltaDataSource.adoc#CreatableRelationProvider, CreatableRelationProvider>> or a <<DeltaDataSource.adoc#RelationProvider, RelationProvider>>)
 
-* `DeltaDataSource` is requested to <<DeltaDataSource.adoc#CreatableRelationProvider-createRelation, create a relation (per save mode and data source-specific parameters)>> (as a <<DeltaDataSource.adoc#CreatableRelationProvider, CreatableRelationProvider>>)
+* `DeltaDataSource` is requested to <<DeltaDataSource.adoc#CreatableRelationProvider-createRelation, create a relation (for writing)>> (as a <<DeltaDataSource.adoc#CreatableRelationProvider, CreatableRelationProvider>>)
 
 == [[creating-instance]] Creating WriteIntoDelta Instance
 
@@ -31,12 +52,15 @@ TIP: Read up on https://jaceklaskowski.gitbooks.io/mastering-spark-sql/spark-sql
 
 [source, scala]
 ----
-run(sparkSession: SparkSession): Seq[Row]
+run(
+  sparkSession: SparkSession): Seq[Row]
 ----
 
-NOTE: `run` is part of the `RunnableCommand` contract to...FIXME.
+NOTE: `run` is part of the `RunnableCommand` contract to run a command.
 
-`run`...FIXME
+`run` requests the <<deltaLog, DeltaLog>> to <<DeltaLog.adoc#withNewTransaction, start a new transaction>>.
+
+`run` <<write, writes>> and requests the `OptimisticTransaction` to <<OptimisticTransactionImpl.adoc#commit, commit>>.
 
 == [[write]] `write` Method
 
@@ -46,6 +70,20 @@ write(
   txn: OptimisticTransaction,
   sparkSession: SparkSession): Seq[Action]
 ----
+
+`write` checks out whether the write operation is to a delta table that already exists. If so (i.e. the <<OptimisticTransactionImpl.adoc#readVersion, readVersion>> of the transaction is above `-1`), `write` branches per the <<mode, SaveMode>>:
+
+* For `ErrorIfExists`, `write` throws an `AnalysisException`:
++
+```
+[path] already exists.
+```
+
+* For `Ignore`, `write` does nothing
+
+* For `Overwrite`, `write` requests the <<deltaLog, DeltaLog>> to <<DeltaLog.adoc#assertRemovable, assertRemovable>>
+
+`write` <<ImplicitMetadataOperation.adoc#updateMetadata, updateMetadata>>.
 
 `write`...FIXME
 
