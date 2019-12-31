@@ -74,9 +74,6 @@
     <a class="nav-link" href="time-travel.html">Time Travel</a>
   </li>
   <li class="nav-item" data-depth="1">
-    <a class="nav-link" href="options.html">Options</a>
-  </li>
-  <li class="nav-item" data-depth="1">
     <button class="nav-item-toggle"></button>
     <span class="nav-text">Demos</span>
 <ul class="nav-list">
@@ -405,10 +402,10 @@
 <div class="paragraph">
 <p><code>WriteIntoDelta</code> is a <a href="DeltaCommand.html" class="page">Delta command</a> that can write <a href="#data">data(frame)</a> transactionally into a <a href="#deltaLog">delta table</a>.</p>
 </div>
-<div class="paragraph">
+<div id="ImplicitMetadataOperation" class="paragraph">
 <p><code>WriteIntoDelta</code> is a <a href="ImplicitMetadataOperation.html" class="page">ImplicitMetadataOperation</a>.</p>
 </div>
-<div class="paragraph">
+<div id="RunnableCommand" class="paragraph">
 <p><code>WriteIntoDelta</code> is a logical command (<code>RunnableCommand</code>).</p>
 </div>
 <div class="admonitionblock tip">
@@ -429,7 +426,7 @@ Read up on <a href="https://jaceklaskowski.gitbooks.io/mastering-spark-sql/spark
 <div class="ulist">
 <ul>
 <li>
-<p><code>DeltaLog</code> is requested to <a href="DeltaLog.html#createRelation" class="page">create a relation (per partition filters and time travel)</a> (when <code>DeltaDataSource</code> is requested to create a relation as a <a href="DeltaDataSource.html#CreatableRelationProvider" class="page">CreatableRelationProvider</a> or a <a href="DeltaDataSource.html#RelationProvider" class="page">RelationProvider</a>)</p>
+<p><code>DeltaLog</code> is requested to <a href="DeltaLog.html#createRelation" class="page">create an insertable HadoopFsRelation</a> (when <code>DeltaDataSource</code> is requested to create a relation as a <a href="DeltaDataSource.html#CreatableRelationProvider" class="page">CreatableRelationProvider</a> or a <a href="DeltaDataSource.html#RelationProvider" class="page">RelationProvider</a>)</p>
 </li>
 <li>
 <p><code>DeltaDataSource</code> is requested to <a href="DeltaDataSource.html#CreatableRelationProvider-createRelation" class="page">create a relation (per save mode and data source-specific parameters)</a> (as a <a href="DeltaDataSource.html#CreatableRelationProvider" class="page">CreatableRelationProvider</a>)</p>

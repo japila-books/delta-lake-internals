@@ -74,9 +74,6 @@
     <a class="nav-link" href="time-travel.html">Time Travel</a>
   </li>
   <li class="nav-item" data-depth="1">
-    <a class="nav-link" href="options.html">Options</a>
-  </li>
-  <li class="nav-item" data-depth="1">
     <button class="nav-item-toggle"></button>
     <span class="nav-text">Demos</span>
 <ul class="nav-list">
@@ -403,7 +400,11 @@
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p><code>DeltaOptions</code> is the options for the <a href="DeltaDataSource.html" class="page">Delta data source</a>.</p>
+<p><a id="DeltaWriteOptionsImpl"></a><a id="DeltaWriteOptions"></a>
+<code>DeltaOptions</code> (aka <code>DeltaWriteOptionsImpl</code>, <code>DeltaWriteOptions</code>) is the options for the <a href="DeltaDataSource.html" class="page">Delta data source</a>.</p>
+</div>
+<div class="paragraph">
+<p>The <a href="#options">options</a> can be defined using <code>option</code> method of <code>DataFrameReader</code>, <code>DataFrameWriter</code>, <code>DataStreamReader</code>, and <code>DataStreamWriter</code>.</p>
 </div>
 <div class="paragraph">
 <p><code>DeltaOptions</code> is used to create <a href="WriteIntoDelta.html" class="page">WriteIntoDelta</a> command, <a href="DeltaSink.html" class="page">DeltaSink</a>, and <a href="DeltaSource.html" class="page">DeltaSource</a>.</p>
@@ -464,7 +465,10 @@
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>mergeSchema</code></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="MERGE_SCHEMA_OPTION"></a><a id="mergeSchema"></a></p>
+<p><a id="MERGE_SCHEMA_OPTION"></a><a id="mergeSchema"></a><a id="canMergeSchema"></a> Enables schema migration (e.g. allows automatic schema merging during a write operation for <a href="WriteIntoDelta.html" class="page">WriteIntoDelta</a> and <a href="DeltaSink.html" class="page">DeltaSink</a>)</p>
+</div>
+<div class="paragraph">
+<p>Equivalent SQL Session configuration: <a href="DeltaSQLConf.html#DELTA_SCHEMA_AUTO_MIGRATE" class="page">s.d.d.schema.autoMerge.enabled</a></p>
 </div></div></td>
 </tr>
 <tr>
@@ -481,7 +485,15 @@
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>path</code></p></td>
-<td class="tableblock halign-left valign-top"><div class="content"></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="path"></a> <strong>(required)</strong> Directory on a Hadoop DFS-compliant file system with an optional <a href="time-travel.html" class="page">time travel</a> identifier.</p>
+</div>
+<div class="paragraph">
+<p>Default: (undefined)</p>
+</div>
+<div class="paragraph">
+<p>Can also be specified using <code>load</code> method of <code>DataFrameReader</code> and <code>DataStreamReader</code>.</p>
+</div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>queryName</code></p></td>
@@ -495,11 +507,24 @@
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>timestampAsOf</code></p></td>
-<td class="tableblock halign-left valign-top"><div class="content"></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="timestampAsOf"></a> <a href="time-travel.html" class="page">Time traveling</a> using a timestamp of a table</p>
+</div>
+<div class="paragraph">
+<p>Mutually exclusive with <a href="#versionAsOf">versionAsOf</a> option and the time travel identifier of the <a href="#path">path</a> option.</p>
+</div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>versionAsOf</code></p></td>
-<td class="tableblock halign-left valign-top"><div class="content"></div></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="versionAsOf"></a> <a href="time-travel.html" class="page">Time traveling</a> using a version of a table</p>
+</div>
+<div class="paragraph">
+<p>Mutually exclusive with <a href="#timestampAsOf">timestampAsOf</a> option and the time travel identifier of the <a href="#path">path</a> option.</p>
+</div>
+<div class="paragraph">
+<p>Used exclusively when <code>DeltaDataSource</code> is requested for a <a href="DeltaDataSource.html#RelationProvider-createRelation" class="page">relation (as a RelationProvider)</a></p>
+</div></div></td>
 </tr>
 </tbody>
 </table>
