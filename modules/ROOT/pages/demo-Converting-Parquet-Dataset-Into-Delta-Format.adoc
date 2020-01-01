@@ -1,4 +1,4 @@
-= Converting Parquet Dataset Into Delta Format
+= Demo: Converting Parquet Dataset Into Delta Format
 
 [source,scala]
 ----

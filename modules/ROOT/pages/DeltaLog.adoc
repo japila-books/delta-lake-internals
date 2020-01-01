@@ -9,14 +9,32 @@
 import org.apache.spark.sql.SparkSession
 assert(spark.isInstanceOf[SparkSession])
 
+val dataPath = "/tmp/delta/t1"
 import org.apache.spark.sql.delta.DeltaLog
-val deltaLog = DeltaLog.forTable(spark, dataPath = "/tmp/delta/t1")
+val deltaLog = DeltaLog.forTable(spark, dataPath)
 
-scala> println(deltaLog.LAST_CHECKPOINT)
-file:/tmp/delta/t1/_delta_log/_last_checkpoint
+import org.apache.hadoop.fs.Path
+val expected = new Path(s"file:$dataPath/_delta_log/_last_checkpoint")
+assert(deltaLog.LAST_CHECKPOINT == expected)
+
+deltaLog.update(stalenessAcceptable = false)
 ----
 
 `DeltaLog` is a <<LogStoreProvider.adoc#, LogStoreProvider>>.
+
+[[logging]]
+[TIP]
+====
+Enable `ALL` logging level for `org.apache.spark.sql.delta.DeltaLog` logger to see what happens inside.
+
+Add the following line to `conf/log4j.properties`:
+
+```
+log4j.logger.org.apache.spark.sql.delta.DeltaLog=ALL
+```
+
+Refer to <<logging.adoc#, Logging>>.
+====
 
 == [[FileFormats]] FileFormats
 
