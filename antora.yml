@@ -3,3 +3,4 @@ title: Delta Lake
 version: 0.5.0
 nav:
   - modules/ROOT/nav.adoc
+  - modules/demo/nav.adoc
