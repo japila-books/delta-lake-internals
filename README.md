@@ -17,16 +17,17 @@ The project uses the following "toolz":
 I'm on macOS Catalina and use Docker to [run the Antora image](https://docs.antora.org/antora/2.2/antora-container/#run-the-antora-image).
 
 ```
-$ docker run -u $UID --privileged -v `pwd`:/antora --rm -t antora/antora antora-playbook.yml
+$ docker run -u $UID --privileged -v `pwd`:/antora --rm -t antora/antora local-antora-playbook.yml
 
-// alternatively and recommended
+// alternatively and recommended (as it keeps the container up and running)
+// Automating the publishing process is in the works
 $ docker run --entrypoint ash --privileged -v `pwd`:/antora --rm -it antora/antora
 
 // Inside the container
 /antora # antora version
 2.2.0
 
-/antora # antora antora-playbook.yml
+/antora # antora local-antora-playbook.yml
 
 // On your local computer (outside the container)
 $ open .out/local/index.html
