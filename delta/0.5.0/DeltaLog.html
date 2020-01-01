@@ -83,6 +83,9 @@
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="demo-Using-Delta-Lake-as-Streaming-Sink-in-Structured-Streaming.html">Using Delta Lake as Streaming Sink in Structured Streaming</a>
   </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="demo-Debugging-Delta-Lake-Using-IntelliJ-IDEA.html">Debugging Delta Lake Using IntelliJ IDEA</a>
+  </li>
 </ul>
   </li>
   <li class="nav-item" data-depth="1">
@@ -409,15 +412,44 @@
 <pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">import org.apache.spark.sql.SparkSession
 assert(spark.isInstanceOf[SparkSession])
 
+val dataPath = "/tmp/delta/t1"
 import org.apache.spark.sql.delta.DeltaLog
-val deltaLog = DeltaLog.forTable(spark, dataPath = "/tmp/delta/t1")
+val deltaLog = DeltaLog.forTable(spark, dataPath)
 
-scala&gt; println(deltaLog.LAST_CHECKPOINT)
-file:/tmp/delta/t1/_delta_log/_last_checkpoint</code></pre>
+import org.apache.hadoop.fs.Path
+val expected = new Path(s"file:$dataPath/_delta_log/_last_checkpoint")
+assert(deltaLog.LAST_CHECKPOINT == expected)
+
+deltaLog.update(stalenessAcceptable = false)</code></pre>
 </div>
 </div>
 <div class="paragraph">
 <p><code>DeltaLog</code> is a <a href="LogStoreProvider.html" class="page">LogStoreProvider</a>.</p>
+</div>
+<div id="logging" class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Enable <code>ALL</code> logging level for <code>org.apache.spark.sql.delta.DeltaLog</code> logger to see what happens inside.</p>
+</div>
+<div class="paragraph">
+<p>Add the following line to <code>conf/log4j.properties</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code>log4j.logger.org.apache.spark.sql.delta.DeltaLog=ALL</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Refer to <a href="logging.html" class="page">Logging</a>.</p>
+</div>
+</td>
+</tr>
+</table>
 </div>
 </div>
 </div>

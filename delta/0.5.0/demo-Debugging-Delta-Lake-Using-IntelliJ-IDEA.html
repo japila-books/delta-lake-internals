@@ -3,8 +3,8 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>SetTransaction :: The Internals Of Delta Lake</title>
-    <link rel="canonical" href="http://books.japila.pl/delta-lake-internals/delta/0.5.0/SetTransaction.html">
+    <title>Demo: Debugging Delta Lake Using IntelliJ IDEA :: The Internals Of Delta Lake</title>
+    <link rel="canonical" href="http://books.japila.pl/delta-lake-internals/delta/0.5.0/demo-Debugging-Delta-Lake-Using-IntelliJ-IDEA.html">
     <meta name="generator" content="Antora 2.2.0">
     <link rel="stylesheet" href="../../_/css/site.css">
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-151208281-1"></script>
@@ -83,7 +83,7 @@
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="demo-Using-Delta-Lake-as-Streaming-Sink-in-Structured-Streaming.html">Using Delta Lake as Streaming Sink in Structured Streaming</a>
   </li>
-  <li class="nav-item" data-depth="2">
+  <li class="nav-item is-current-page" data-depth="2">
     <a class="nav-link" href="demo-Debugging-Delta-Lake-Using-IntelliJ-IDEA.html">Debugging Delta Lake Using IntelliJ IDEA</a>
   </li>
 </ul>
@@ -335,7 +335,7 @@
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="RemoveFile.html">RemoveFile</a>
   </li>
-  <li class="nav-item is-current-page" data-depth="2">
+  <li class="nav-item" data-depth="2">
     <a class="nav-link" href="SetTransaction.html">SetTransaction</a>
   </li>
   <li class="nav-item" data-depth="2">
@@ -392,16 +392,49 @@
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="index.html">Delta Lake</a></li>
-    <li><a href="Action.html">Action</a></li>
-    <li><a href="SetTransaction.html">SetTransaction</a></li>
+    <li>Demos</li>
+    <li><a href="demo-Debugging-Delta-Lake-Using-IntelliJ-IDEA.html">Debugging Delta Lake Using IntelliJ IDEA</a></li>
   </ul>
 </nav>
-  <div class="edit-this-page"><a href="file:///antora/modules/ROOT/pages/SetTransaction.adoc">Edit this Page</a></div>
+  <div class="edit-this-page"><a href="file:///antora/modules/ROOT/pages/demo-Debugging-Delta-Lake-Using-IntelliJ-IDEA.adoc">Edit this Page</a></div>
 </div>
 <article class="doc">
-<h1 class="page">SetTransaction</h1>
+<h1 class="page">Demo: Debugging Delta Lake Using IntelliJ IDEA</h1>
 <div class="paragraph">
-<p><code>SetTransaction</code> is an <a href="Action.html" class="page">action</a>&#8230;&#8203;FIXME</p>
+<p>Import Delta Lake&#8217;s <a href="https://github.com/delta-io/delta">sources</a> to IntelliJ IDEA.</p>
+</div>
+<div class="paragraph">
+<p>Configure a new Remote debug configuration in IntelliJ IDEA (e.g. Run &gt; Debug &gt; Edit Configurations&#8230;&#8203;) and simply give it a name and save.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+Use <code>Option+Ctrl+D</code> to access Debug menu.
+</td>
+</tr>
+</table>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="_images/demo-remote-jvm.png" alt="demo remote jvm">
+</div>
+<div class="title">Figure 1. Remote JVM Configuration</div>
+</div>
+<div class="paragraph">
+<p>Run <code>spark-shell</code> as follows to enable remote JVM for debugging.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code>$ export SPARK_SUBMIT_OPTS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005
+$ spark-shell \
+  --packages io.delta:delta-core_2.12:0.5.0 \
+  --conf spark.sql.extensions=io.delta.sql.DeltaSparkSessionExtension \
+  --conf spark.databricks.delta.snapshotPartitions=1</code></pre>
+</div>
 </div>
 </article>
 </main>
