@@ -363,6 +363,9 @@
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="demo/Debugging-Delta-Lake-Using-IntelliJ-IDEA.html">Debugging Delta Lake Using IntelliJ IDEA</a>
   </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="demo/Observing-Transaction-Retries.html">Observing Transaction Retries</a>
+  </li>
 </ul>
   </li>
 </ul>
@@ -419,13 +422,13 @@
 <p><a href="https://delta.io/">Delta Lake</a> is an open-source storage management system (storage layer) that brings ACID transactions and time travel to <a href="https://spark.apache.org/">Apache Spark</a> and big data workloads.</p>
 </div>
 <div class="paragraph">
-<p>Delta Lake introduces a concept of <a href="DeltaTable.html" class="page">delta table</a> that is simply a <a href="DeltaFileFormat.html#fileFormat" class="page">parquet table</a> with <a href="DeltaLog.html" class="page">transactional log</a>.</p>
+<p>Delta Lake introduces a concept of <a href="DeltaTable.html" class="page">delta table</a> that is simply a <a href="DeltaFileFormat.html#fileFormat" class="page">parquet table</a> with a <a href="DeltaLog.html" class="page">transactional log</a>.</p>
 </div>
 <div class="paragraph">
-<p>Changes to (the state of) a Delta table are reflected as <a href="Action.html" class="page">actions</a> and persisted to the transactional log (in <a href="Action.html#json" class="page">JSON format</a>).</p>
+<p>Changes to (the state of) a delta table are reflected as <a href="Action.html" class="page">actions</a> and persisted to the transactional log (in <a href="Action.html#json" class="page">JSON format</a>).</p>
 </div>
 <div class="paragraph">
-<p>Delta Lake uses <a href="OptimisticTransaction.html" class="page">OptimisticTransaction</a> for <a href="TransactionalWrite.html" class="page">transactional writes</a>.</p>
+<p>Delta Lake uses <a href="OptimisticTransaction.html" class="page">OptimisticTransaction</a> for <a href="TransactionalWrite.html" class="page">transactional writes</a>. A <a href="OptimisticTransactionImpl.html#commit" class="page">commit</a> is successful when the transaction can <a href="OptimisticTransactionImpl.html#doCommit-write" class="page">write</a> the actions to a delta file (in the <a href="DeltaLog.html" class="page">transactional log</a>). In case the delta file for the commit version already exists, the transaction is <a href="OptimisticTransactionImpl.html#checkAndRetry" class="page">retried</a>.</p>
 </div>
 <div class="paragraph">
 <p>Delta Lake provides <a href="DeltaTable.html" class="page">DeltaTable API</a> to programmatically access Delta tables. A delta table can be created <a href="DeltaTable.html#convertToDelta" class="page">based on a parquet table (DeltaTable.convertToDelta)</a> or <a href="DeltaTable.html#forPath" class="page">from scratch (DeltaTable.forPath)</a>.</p>
@@ -474,7 +477,7 @@
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">/*
 ./bin/spark-shell \
-  --packages io.delta:delta-core_2.12:{page-component-version} \
+  --packages io.delta:delta-core_2.12:0.5.0 \
   --conf spark.sql.extensions=io.delta.sql.DeltaSparkSessionExtension
 */
 assert(spark.isInstanceOf[org.apache.spark.sql.SparkSession])

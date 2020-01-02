@@ -363,6 +363,9 @@
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="demo/Debugging-Delta-Lake-Using-IntelliJ-IDEA.html">Debugging Delta Lake Using IntelliJ IDEA</a>
   </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="demo/Observing-Transaction-Retries.html">Observing Transaction Retries</a>
+  </li>
 </ul>
   </li>
 </ul>
@@ -424,7 +427,7 @@
 <div class="content">
 <pre class="highlightjs highlight"><code>/*
 spark-shell \
-  --packages io.delta:delta-core_2.12:{page-component-version} \
+  --packages io.delta:delta-core_2.12:0.5.0 \
   --conf spark.sql.extensions=io.delta.sql.DeltaSparkSessionExtension
 */
 

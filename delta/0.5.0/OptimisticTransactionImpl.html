@@ -363,6 +363,9 @@
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="demo/Debugging-Delta-Lake-Using-IntelliJ-IDEA.html">Debugging Delta Lake Using IntelliJ IDEA</a>
   </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="demo/Observing-Transaction-Retries.html">Observing Transaction Retries</a>
+  </li>
 </ul>
   </li>
 </ul>
@@ -1027,7 +1030,7 @@ Hooks may create new transactions.
 <pre class="highlightjs highlight"><code>Attempting to commit version [attemptVersion] with [size] actions with [isolationLevel] isolation level</code></pre>
 </div>
 </div>
-<div class="paragraph">
+<div id="doCommit-write" class="paragraph">
 <p><code>doCommit</code> requests the <a href="DeltaLog.html#store" class="page">LogStore</a> (of the <a href="#deltaLog">DeltaLog</a>) to <a href="LogStore.html#write" class="page">write out</a> the given <a href="Action.html" class="page">actions</a> (serialized to <a href="Action.html#json" class="page">JSON format</a>) to a <a href="FileNames.html#deltaFile" class="page">delta file</a> (e.g. <code>00000000000000000001.json</code>) in the <a href="DeltaLog.html#logPath" class="page">log directory</a> (of the <a href="#deltaLog">DeltaLog</a>) with the <code>attemptVersion</code> version.</p>
 </div>
 <div class="admonitionblock note">
