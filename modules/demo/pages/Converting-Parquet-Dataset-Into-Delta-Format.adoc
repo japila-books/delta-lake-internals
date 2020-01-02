@@ -2,7 +2,11 @@
 
 [source,scala]
 ----
-// ./bin/spark-shell --packages io.delta:delta-core_2.12:{page-component-version}
+/*
+./bin/spark-shell \
+  --packages io.delta:delta-core_2.12:0.5.0 \
+  --conf spark.sql.extensions=io.delta.sql.DeltaSparkSessionExtension
+*/
 assert(spark.version.matches("2.4.[2-4]"), "Delta Lake supports Spark 2.4.2+")
 
 import org.apache.spark.sql.SparkSession

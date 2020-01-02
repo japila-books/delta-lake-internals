@@ -2,11 +2,11 @@
 
 https://delta.io/[Delta Lake] is an open-source storage management system (storage layer) that brings ACID transactions and time travel to https://spark.apache.org/[Apache Spark] and big data workloads.
 
-Delta Lake introduces a concept of <<DeltaTable.adoc#, delta table>> that is simply a <<DeltaFileFormat.adoc#fileFormat, parquet table>> with <<DeltaLog.adoc#, transactional log>>.
+Delta Lake introduces a concept of <<DeltaTable.adoc#, delta table>> that is simply a <<DeltaFileFormat.adoc#fileFormat, parquet table>> with a <<DeltaLog.adoc#, transactional log>>.
 
-Changes to (the state of) a Delta table are reflected as <<Action.adoc#, actions>> and persisted to the transactional log (in <<Action.adoc#json, JSON format>>).
+Changes to (the state of) a delta table are reflected as <<Action.adoc#, actions>> and persisted to the transactional log (in <<Action.adoc#json, JSON format>>).
 
-Delta Lake uses <<OptimisticTransaction.adoc#, OptimisticTransaction>> for <<TransactionalWrite.adoc#, transactional writes>>.
+Delta Lake uses <<OptimisticTransaction.adoc#, OptimisticTransaction>> for <<TransactionalWrite.adoc#, transactional writes>>. A <<OptimisticTransactionImpl.adoc#commit, commit>> is successful when the transaction can <<OptimisticTransactionImpl.adoc#doCommit-write, write>> the actions to a delta file (in the <<DeltaLog.adoc#, transactional log>>). In case the delta file for the commit version already exists, the transaction is <<OptimisticTransactionImpl.adoc#checkAndRetry, retried>>.
 
 Delta Lake provides <<DeltaTable.adoc#, DeltaTable API>> to programmatically access Delta tables. A delta table can be created <<DeltaTable.adoc#convertToDelta, based on a parquet table (DeltaTable.convertToDelta)>> or <<DeltaTable.adoc#forPath, from scratch (DeltaTable.forPath)>>.
 
@@ -34,7 +34,7 @@ In order to "install" and use Delta Lake in a Spark application (e.g. `spark-she
 ----
 /*
 ./bin/spark-shell \
-  --packages io.delta:delta-core_2.12:{page-component-version} \
+  --packages io.delta:delta-core_2.12:0.5.0 \
   --conf spark.sql.extensions=io.delta.sql.DeltaSparkSessionExtension
 */
 assert(spark.isInstanceOf[org.apache.spark.sql.SparkSession])

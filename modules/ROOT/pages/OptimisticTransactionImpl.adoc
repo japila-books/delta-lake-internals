@@ -330,6 +330,7 @@ Internally, `doCommit` prints out the following DEBUG message to the logs:
 Attempting to commit version [attemptVersion] with [size] actions with [isolationLevel] isolation level
 ```
 
+[[doCommit-write]]
 `doCommit` requests the <<DeltaLog.adoc#store, LogStore>> (of the <<deltaLog, DeltaLog>>) to <<LogStore.adoc#write, write out>> the given <<Action.adoc#, actions>> (serialized to <<Action.adoc#json, JSON format>>) to a <<FileNames.adoc#deltaFile, delta file>> (e.g. `00000000000000000001.json`) in the <<DeltaLog.adoc#logPath, log directory>> (of the <<deltaLog, DeltaLog>>) with the `attemptVersion` version.
 
 NOTE: <<LogStore.adoc#, LogStores>> must throw a `java.nio.file.FileAlreadyExistsException` exception if the delta file already exists. Any `FileAlreadyExistsExceptions` are caught by <<doCommit-FileAlreadyExistsException, doCommit>> itself to <<checkAndRetry, checkAndRetry>>.
