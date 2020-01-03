@@ -365,6 +365,20 @@ verifyNewMetadata(
 
 NOTE: `verifyNewMetadata` is used when `OptimisticTransactionImpl` is requested to <<prepareCommit, prepareCommit>> and <<updateMetadata, updateMetadata>>.
 
+== [[txnVersion]] Looking Up Transaction Version For Given (Streaming Query) ID -- `txnVersion` Method
+
+[source, scala]
+----
+txnVersion(
+  id: String): Long
+----
+
+`txnVersion` simply registers (_adds_) the given ID in the <<readTxn, readTxn>> internal registry.
+
+In the end, `txnVersion` requests the <<snapshot, Snapshot>> for the <<Snapshot.adoc#transactions, transaction version for the given ID>> or assumes `-1`.
+
+NOTE: `txnVersion` is used when `DeltaSink` is requested to <<DeltaSink.adoc#addBatch, add a streaming micro-batch>>.
+
 == [[internal-properties]] Internal Properties
 
 [cols="30m,70",options="header",width="100%"]
@@ -387,6 +401,13 @@ Default: `false`
 Enabled (set to `true`) in <<filterFiles, filterFiles>>, <<readWholeTable, readWholeTable>>
 
 Used in <<commit, commit>> and <<checkAndRetry, checkAndRetry>>
+
+| readTxn
+a| [[readTxn]] Streaming query IDs that have been seen by this transaction
+
+A new queryId is added when `OptimisticTransactionImpl` is requested for <<txnVersion, txnVersion>>
+
+Used when `OptimisticTransactionImpl` is requested to <<checkAndRetry, checkAndRetry>> (to fail with a `ConcurrentTransactionException` for idempotent transactions that have conflicted)
 
 | snapshotMetadata
 a| [[snapshotMetadata]] <<Metadata.adoc#, Metadata>>

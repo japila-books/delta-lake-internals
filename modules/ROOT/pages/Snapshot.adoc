@@ -19,6 +19,8 @@
 
 `Snapshot` initializes the <<internal-properties, internal properties>>.
 
+While being created, `Snapshot` requests the <<deltaLog, DeltaLog>> to <<DeltaLog.adoc#protocolRead, protocolRead>> with the <<protocol, protocol>>.
+
 == [[state]] `state` Method
 
 [source, scala]
@@ -93,6 +95,19 @@ load(
 
 NOTE: `load` is used when `Snapshot` is created (and initializes <<stateReconstruction, stateReconstruction>>).
 
+== [[transactions]] Transaction Version By App ID -- `transactions` Lookup Table
+
+[source, scala]
+----
+transactions: Map[String, Long]
+----
+
+`transactions` takes the <<setTransactions, SetTransaction>> actions (from the <<state, state>> dataset) and makes them a lookup table of <<SetTransaction.adoc#version, transaction version>> by <<SetTransaction.adoc#appId, appId>>.
+
+NOTE: `transactions` is a Scala lazy value and is not initialized until the first access.
+
+NOTE: `transactions` is used when `OptimisticTransactionImpl` is requested for the <<OptimisticTransactionImpl.adoc#txnVersion, transaction version for a given (streaming query) id>>.
+
 == [[tombstones]] `tombstones` Method
 
 [source, scala]
@@ -132,8 +147,12 @@ a| [[cachedState]] <<CachedDS.adoc#, Cached Delta State>> that is made up of the
 Used when `Snapshot` is requested for the <<state, state>> (i.e. `Dataset[SingleAction]`)
 
 | metadata
-a| [[metadata]] <<Metadata.adoc#, Metadata>> of the <<deltaLog, delta table>>
+a| [[metadata]] <<Metadata.adoc#, Metadata>> of the current <<state, state>> of the <<deltaLog, delta table>>
 
-Used when...FIXME
+| protocol
+a| [[protocol]] <<Protocol.adoc#, Protocol>> of the current <<state, state>> of the <<deltaLog, delta table>>
+
+| setTransactions
+a| [[setTransactions]] <<SetTransaction.adoc#, SetTransactions>> of the current <<state, state>> of the <<deltaLog, delta table>>
 
 |===
