@@ -1103,6 +1103,35 @@ Hooks may create new transactions.
 </div>
 </div>
 <div class="sect1">
+<h2 id="looking-up-transaction-version-for-given-streaming-query-idtxnversion-method"><a class="anchor" href="#looking-up-transaction-version-for-given-streaming-query-idtxnversion-method"></a><a class="link" href="#looking-up-transaction-version-for-given-streaming-query-idtxnversion-method"><a id="txnVersion"></a> Looking Up Transaction Version For Given (Streaming Query) ID&#8201;&#8212;&#8201;<code>txnVersion</code> Method</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">txnVersion(
+  id: String): Long</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>txnVersion</code> simply registers (<em>adds</em>) the given ID in the <a href="#readTxn">readTxn</a> internal registry.</p>
+</div>
+<div class="paragraph">
+<p>In the end, <code>txnVersion</code> requests the <a href="#snapshot">Snapshot</a> for the <a href="Snapshot.html#transactions" class="page">transaction version for the given ID</a> or assumes <code>-1</code>.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>txnVersion</code> is used when <code>DeltaSink</code> is requested to <a href="DeltaSink.html#addBatch" class="page">add a streaming micro-batch</a>.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
 <h2 id="internal-properties"><a class="anchor" href="#internal-properties"></a><a class="link" href="#internal-properties"><a id="internal-properties"></a> Internal Properties</a></h2>
 <div class="sectionbody">
 <table class="tableblock frame-all grid-all stretch">
@@ -1142,6 +1171,18 @@ Hooks may create new transactions.
 </div>
 <div class="paragraph">
 <p>Used in <a href="#commit">commit</a> and <a href="#checkAndRetry">checkAndRetry</a></p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>readTxn</code></p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="readTxn"></a> Streaming query IDs that have been seen by this transaction</p>
+</div>
+<div class="paragraph">
+<p>A new queryId is added when <code>OptimisticTransactionImpl</code> is requested for <a href="#txnVersion">txnVersion</a></p>
+</div>
+<div class="paragraph">
+<p>Used when <code>OptimisticTransactionImpl</code> is requested to <a href="#checkAndRetry">checkAndRetry</a> (to fail with a <code>ConcurrentTransactionException</code> for idempotent transactions that have conflicted)</p>
 </div></div></td>
 </tr>
 <tr>
