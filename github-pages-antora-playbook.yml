@@ -27,3 +27,4 @@ output:
   dir: .out/github-pages
 runtime:
   cache_dir: .out/cache
+  fetch: true
