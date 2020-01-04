@@ -803,34 +803,6 @@ filterFiles(
 </div>
 </div>
 <div class="sect1">
-<h2 id="checkandretry-method"><a class="anchor" href="#checkandretry-method"></a><a class="link" href="#checkandretry-method"><a id="checkAndRetry"></a> <code>checkAndRetry</code> Method</a></h2>
-<div class="sectionbody">
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">checkAndRetry(
-  checkVersion: Long,
-  actions: Seq[Action],
-  attemptNumber: Int): Long</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p><code>checkAndRetry</code>&#8230;&#8203;FIXME</p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<code>checkAndRetry</code> is used exclusively when <code>OptimisticTransactionImpl</code> is requested to <a href="#doCommit">attempt to commit</a> (that failed with an <code>FileAlreadyExistsException</code>).
-</td>
-</tr>
-</table>
-</div>
-</div>
-</div>
-<div class="sect1">
 <h2 id="preparing-commitpreparecommit-method"><a class="anchor" href="#preparing-commitpreparecommit-method"></a><a class="link" href="#preparing-commitpreparecommit-method"><a id="prepareCommit"></a> Preparing Commit&#8201;&#8212;&#8201;<code>prepareCommit</code> Method</a></h2>
 <div class="sectionbody">
 <div class="listingblock">
@@ -1069,7 +1041,35 @@ Hooks may create new transactions.
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-<code>doCommit</code> is used when <code>OptimisticTransactionImpl</code> is requested to <a href="#commit">commit</a> and <a href="#checkAndRetry">checkAndRetry</a>.
+<code>doCommit</code> is used when <code>OptimisticTransactionImpl</code> is requested to <a href="#commit">commit</a> (and <a href="#checkAndRetry">checkAndRetry</a>).
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="validating-and-retrying-commitcheckandretry-internal-method"><a class="anchor" href="#validating-and-retrying-commitcheckandretry-internal-method"></a><a class="link" href="#validating-and-retrying-commitcheckandretry-internal-method"><a id="checkAndRetry"></a> Validating And Retrying Commit&#8201;&#8212;&#8201;<code>checkAndRetry</code> Internal Method</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">checkAndRetry(
+  checkVersion: Long,
+  actions: Seq[Action],
+  attemptNumber: Int): Long</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>checkAndRetry</code>&#8230;&#8203;FIXME</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>checkAndRetry</code> is used when <code>OptimisticTransactionImpl</code> is requested to <a href="#commit">commit</a> (and <a href="#doCommit">attempts a commit</a> that failed with an <code>FileAlreadyExistsException</code>).
 </td>
 </tr>
 </table>
