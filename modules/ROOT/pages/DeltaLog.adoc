@@ -501,6 +501,27 @@ upgradeProtocol(
 
 NOTE: `upgradeProtocol` seems to be used exclusively in tests.
 
+== [[protocolRead]] `protocolRead` Method
+
+[source, scala]
+----
+protocolRead(
+  protocol: Protocol): Unit
+----
+
+`protocolRead`...FIXME
+
+[NOTE]
+====
+`protocolRead` is used when:
+
+* `OptimisticTransactionImpl` is requested to <<OptimisticTransactionImpl.adoc#checkAndRetry, validate and retry a commit>>
+
+* <<Snapshot.adoc#, Snapshot>> is created
+
+* `DeltaSource` is requested to <<DeltaSource.adoc#verifyStreamHygieneAndFilterAddFiles, verifyStreamHygieneAndFilterAddFiles>>
+====
+
 == [[internal-properties]] Internal Properties
 
 [cols="30m,70",options="header",width="100%"]

@@ -209,20 +209,6 @@ In the end, `commit` <<runPostCommitHooks, runs post-commit hooks>> and returns 
 * `DeltaSink` is requested to <<DeltaSink.adoc#addBatch, addBatch>>
 ====
 
-== [[checkAndRetry]] `checkAndRetry` Method
-
-[source, scala]
-----
-checkAndRetry(
-  checkVersion: Long,
-  actions: Seq[Action],
-  attemptNumber: Int): Long
-----
-
-`checkAndRetry`...FIXME
-
-NOTE: `checkAndRetry` is used exclusively when `OptimisticTransactionImpl` is requested to <<doCommit, attempt to commit>> (that failed with an `FileAlreadyExistsException`).
-
 == [[prepareCommit]] Preparing Commit -- `prepareCommit` Method
 
 [source, scala]
@@ -351,7 +337,21 @@ The committed version is [attemptVersion] but the current version is [version].
 [[doCommit-FileAlreadyExistsException]]
 `doCommit` catches `FileAlreadyExistsExceptions` and <<checkAndRetry, checkAndRetry>>.
 
-NOTE: `doCommit` is used when `OptimisticTransactionImpl` is requested to <<commit, commit>> and <<checkAndRetry, checkAndRetry>>.
+NOTE: `doCommit` is used when `OptimisticTransactionImpl` is requested to <<commit, commit>> (and <<checkAndRetry, checkAndRetry>>).
+
+== [[checkAndRetry]] Validating And Retrying Commit -- `checkAndRetry` Internal Method
+
+[source, scala]
+----
+checkAndRetry(
+  checkVersion: Long,
+  actions: Seq[Action],
+  attemptNumber: Int): Long
+----
+
+`checkAndRetry`...FIXME
+
+NOTE: `checkAndRetry` is used when `OptimisticTransactionImpl` is requested to <<commit, commit>> (and <<doCommit, attempts a commit>> that failed with an `FileAlreadyExistsException`).
 
 == [[verifyNewMetadata]] `verifyNewMetadata` Method
 

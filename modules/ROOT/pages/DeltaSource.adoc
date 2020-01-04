@@ -75,4 +75,16 @@ getSnapshotAt(
 
 `getSnapshotAt`...FIXME
 
-NOTE: `getSnapshotAt` is used exclusively when `DeltaSource` is requested to <<getChanges, getChanges>>.
+NOTE: `getSnapshotAt` is used when `DeltaSource` is requested to <<getChanges, getChanges>>.
+
+== [[verifyStreamHygieneAndFilterAddFiles]] `verifyStreamHygieneAndFilterAddFiles` Internal Method
+
+[source, scala]
+----
+verifyStreamHygieneAndFilterAddFiles(
+  actions: Seq[Action]): Seq[Action]
+----
+
+`verifyStreamHygieneAndFilterAddFiles`...FIXME
+
+NOTE: `verifyStreamHygieneAndFilterAddFiles` is used when `DeltaSource` is requested to <<getChanges, getChanges>>.
