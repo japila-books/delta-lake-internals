@@ -1,6 +1,8 @@
-= [[ImplicitMetadataOperation]] ImplicitMetadataOperation
+= [[ImplicitMetadataOperation]] ImplicitMetadataOperation -- Operations Updating Metadata (Schema And Partitioning)
 
-`ImplicitMetadataOperation` is an <<contract, abstraction>> of <<implementations, metadata operations>> that can <<canMergeSchema, merge>> and <<canOverwriteSchema, overwrite>> schema (while writing out data to a delta table).
+`ImplicitMetadataOperation` is an <<contract, abstraction>> of <<implementations, operations>> that can <<updateMetadata, update metadata>> of a delta table (while writing out a new data to a delta table).
+
+`ImplicitMetadataOperation` operations can update schema by <<canMergeSchema, merging>> and <<canOverwriteSchema, overwriting>> schema.
 
 [[contract]]
 .ImplicitMetadataOperation Contract (Abstract Methods Only)
@@ -39,10 +41,10 @@ Used when `ImplicitMetadataOperation` is requested to <<updateMetadata, updateMe
 | Description
 
 | <<WriteIntoDelta.adoc#, WriteIntoDelta>>
-| [[WriteIntoDelta]] Command
+| [[WriteIntoDelta]] Delta command for batch queries (Spark SQL)
 
 | <<DeltaSink.adoc#, DeltaSink>>
-| [[DeltaSink]] Streaming sink
+| [[DeltaSink]] Streaming sink for streaming queries (Spark Structured Streaming)
 
 |===
 
@@ -64,9 +66,9 @@ updateMetadata(
 ====
 `updateMetadata` is used when:
 
-* `WriteIntoDelta` command is requested to <<WriteIntoDelta.adoc#write, write>> (when requested to <<WriteIntoDelta.adoc#run, run>>)
+* `WriteIntoDelta` command is <<WriteIntoDelta.adoc#run, executed>> (and requested to <<WriteIntoDelta.adoc#write, write>>)
 
-* `DeltaSink` is requested to <<DeltaSink.adoc#addBatch, addBatch>>
+* `DeltaSink` is requested to <<DeltaSink.adoc#addBatch, add a streaming micro-batch>>
 ====
 
 == [[normalizePartitionColumns]] Normalize Partition Columns -- `normalizePartitionColumns` Internal Method

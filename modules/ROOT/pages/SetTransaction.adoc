@@ -1,8 +1,8 @@
 = SetTransaction
 
-`SetTransaction` is an <<Action.adoc#, action>> that denotes the committed <<version, version>> for a <<appId, application>>.
+`SetTransaction` is an <<Action.adoc#, action>> that denotes the committed <<version, version>> for an <<appId, application>>.
 
-`SetTransaction` is <<creating-instance, created>> when `DeltaSink` is requested to <<DeltaSink.adoc#addBatch, add a streaming micro-batch>> (for streaming append idempotence at query restart).
+`SetTransaction` is <<creating-instance, created>> when `DeltaSink` is requested to <<DeltaSink.adoc#addBatch, add a streaming micro-batch>> (for `STREAMING UPDATE` operation idempotence at query restart).
 
 == [[creating-instance]] Creating SetTransaction Instance
 

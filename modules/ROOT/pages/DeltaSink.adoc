@@ -13,12 +13,15 @@ TIP: Read up on https://jaceklaskowski.gitbooks.io/spark-structured-streaming/sp
 DeltaSink[path]
 ```
 
+[[ImplicitMetadataOperation]]
+`DeltaSink` is an <<ImplicitMetadataOperation.adoc#, operation that can update metadata (schema and partitioning)>> of a <<path, delta table>>.
+
 == [[creating-instance]] Creating DeltaSink Instance
 
 `DeltaSink` takes the following to be created:
 
 * [[sqlContext]] `SQLContext`
-* [[path]] Hadoop `Path` (corresponds to <<DeltaOptions.adoc#path, path>> option)
+* [[path]] Hadoop https://hadoop.apache.org/docs/r2.7.3/api/org/apache/hadoop/fs/Path.html[Path] of the delta table (to <<addBatch, write data to>> as configured by the <<DeltaOptions.adoc#path, path>> option)
 * [[partitionColumns]] Names of the partition columns (`Seq[String]`)
 * [[outputMode]] `OutputMode`
 * [[options]] <<DeltaOptions.adoc#, DeltaOptions>>
@@ -30,9 +33,9 @@ DeltaSink[path]
 deltaLog: DeltaLog
 ----
 
-When <<creating-instance, created>>, `DeltaSink` creates a <<DeltaLog.adoc#forTable, DeltaLog>>.
+`deltaLog` is a <<DeltaLog.adoc#, DeltaLog>> that is <<DeltaLog.adoc#forTable, created>> for the <<path, delta table>> when `DeltaSink` is created (when `DeltaDataSource` is requested for a <<DeltaDataSource.adoc#createSink, streaming sink>>).
 
-`deltaLog` is used exclusively when `DeltaSink` is requested to <<addBatch, addBatch>>.
+`deltaLog` is used exclusively when `DeltaSink` is requested to <<addBatch, add a streaming micro-batch>>.
 
 == [[addBatch]] Adding Streaming Micro-Batch -- `addBatch` Method
 

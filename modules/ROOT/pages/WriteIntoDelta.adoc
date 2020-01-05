@@ -26,7 +26,7 @@ writeCmd.run(spark)
 ----
 
 [[ImplicitMetadataOperation]]
-`WriteIntoDelta` is a <<ImplicitMetadataOperation.adoc#, ImplicitMetadataOperation>>.
+`WriteIntoDelta` is an <<ImplicitMetadataOperation.adoc#, operation that can update metadata (schema and partitioning)>> of a <<deltaLog, delta table>>.
 
 [[RunnableCommand]]
 `WriteIntoDelta` is a logical command (`RunnableCommand`).

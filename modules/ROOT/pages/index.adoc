@@ -8,6 +8,14 @@ Changes to (the state of) a delta table are reflected as <<Action.adoc#, actions
 
 Delta Lake uses <<OptimisticTransaction.adoc#, OptimisticTransaction>> for <<TransactionalWrite.adoc#, transactional writes>>. A <<OptimisticTransactionImpl.adoc#commit, commit>> is successful when the transaction can <<OptimisticTransactionImpl.adoc#doCommit-write, write>> the actions to a delta file (in the <<DeltaLog.adoc#, transactional log>>). In case the delta file for the commit version already exists, the transaction is <<OptimisticTransactionImpl.adoc#checkAndRetry, retried>>.
 
+Structured queries can write (transactionally) to a delta table using the following interfaces:
+
+* <<WriteIntoDelta.adoc#, WriteIntoDelta>> command for batch queries (Spark SQL)
+
+* <<DeltaSink.adoc#, DeltaSink>> for streaming queries (Spark Structured Streaming)
+
+More importantly, multiple queries can write to the same delta table simultaneously (at exactly the same time).
+
 Delta Lake provides <<DeltaTable.adoc#, DeltaTable API>> to programmatically access Delta tables. A delta table can be created <<DeltaTable.adoc#convertToDelta, based on a parquet table (DeltaTable.convertToDelta)>> or <<DeltaTable.adoc#forPath, from scratch (DeltaTable.forPath)>>.
 
 Delta Lake supports Spark SQL and Structured Streaming using <<DeltaDataSource.adoc#DataSourceRegister, delta>> format.
