@@ -419,7 +419,7 @@
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p><code>DeltaLog</code> is a transactional log of changes (actions) to the state of a <a href="#dataPath">delta table</a>.</p>
+<p><code>DeltaLog</code> is a <strong>transaction log</strong> (aka <em>change log</em>) of <a href="Action.html" class="page">changes</a> to the state of a <a href="#dataPath">delta table</a>.</p>
 </div>
 <div class="paragraph">
 <p><code>DeltaLog</code> is <a href="#creating-instance">created</a> (indirectly via <a href="#apply">DeltaLog.apply</a> utility) when <a href="#forTable">DeltaLog.forTable</a> utility is used.</p>
@@ -435,9 +435,15 @@ val deltaLog = DeltaLog.forTable(spark, dataPath)
 
 import org.apache.hadoop.fs.Path
 val expected = new Path(s"file:$dataPath/_delta_log/_last_checkpoint")
-assert(deltaLog.LAST_CHECKPOINT == expected)
-
-deltaLog.update(stalenessAcceptable = false)</code></pre>
+assert(deltaLog.LAST_CHECKPOINT == expected)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>When <a href="#creating-instance">created</a>, <code>DeltaLog</code> immediately <a href="#update">updates state of the delta table</a> for no <a href="Checkpoints.html#lastCheckpoint" class="page">metadata checkpoint</a> available (e.g. the version of the <a href="#currentSnapshot">state</a> is <code>-1</code>). In other words, the version of (the <code>DeltaLog</code> of) a delta table is at version <code>0</code> at the very minimum.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">assert(deltaLog.snapshot.version &gt;= 0)</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -951,7 +957,7 @@ forTable(
 </div>
 </div>
 <div class="sect1">
-<h2 id="getsnapshotat-method"><a class="anchor" href="#getsnapshotat-method"></a><a class="link" href="#getsnapshotat-method"><a id="getSnapshotAt"></a> <code>getSnapshotAt</code> Method</a></h2>
+<h2 id="getting-state-of-delta-table-at-given-versiongetsnapshotat-method"><a class="anchor" href="#getting-state-of-delta-table-at-given-versiongetsnapshotat-method"></a><a class="link" href="#getting-state-of-delta-table-at-given-versiongetsnapshotat-method"><a id="getSnapshotAt"></a> Getting State Of Delta Table At Given Version&#8201;&#8212;&#8201;<code>getSnapshotAt</code> Method</a></h2>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content">

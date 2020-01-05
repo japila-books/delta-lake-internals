@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title> Snapshot :: The Internals Of Delta Lake</title>
+    <title> Snapshot&#8201;&#8212;&#8201;Versioned State Of Delta Table :: The Internals Of Delta Lake</title>
     <link rel="canonical" href="https://books.japila.pl/delta-lake-internals/delta/0.5.0/Snapshot.html">
     <meta name="generator" content="Antora 2.2.0">
     <link rel="stylesheet" href="../../_/css/site.css">
@@ -415,11 +415,45 @@
   <div class="edit-this-page"><a href="https://github.com/japila-books/delta-lake-internals/edit/v0.5.0/modules/ROOT/pages/Snapshot.adoc">Edit this Page</a></div>
   </div>
 <article class="doc">
-<h1 class="page"><a id="Snapshot"></a> Snapshot</h1>
+<h1 class="page"><a id="Snapshot"></a> Snapshot&#8201;&#8212;&#8201;Versioned State Of Delta Table</h1>
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p><code>Snapshot</code> is <a href="#creating-instance">created</a> when <code>DeltaLog</code> is requested for the <a href="DeltaLog.html#currentSnapshot" class="page">current snapshot</a>, to <a href="DeltaLog.html#update" class="page">update</a>, and <a href="DeltaLog.html#getSnapshotAt" class="page">getSnapshotAt</a>.</p>
+<p><code>Snapshot</code> is (an immutable snapshot of) the <a href="#state">state</a> of a <a href="#deltaLog">delta table</a> at <a href="#version">some version</a>.</p>
+</div>
+<div class="paragraph">
+<p><code>Snapshot</code> is <a href="#creating-instance">created</a> when <code>DeltaLog</code> is requested for the <a href="DeltaLog.html#currentSnapshot" class="page">current snapshot</a>, to <a href="DeltaLog.html#update" class="page">update</a>, and to <a href="DeltaLog.html#getSnapshotAt" class="page">get the state of a delta table at a given version</a>.</p>
+</div>
+<div class="paragraph">
+<p><code>Snapshot</code> can be requested for <a href="#allFiles">all data files</a>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">scala&gt; deltaLog.snapshot.allFiles.show(false)
++-------------------------------------------------------------------+---------------+----+----------------+----------+-----+----+
+|path                                                               |partitionValues|size|modificationTime|dataChange|stats|tags|
++-------------------------------------------------------------------+---------------+----+----------------+----------+-----+----+
+|part-00000-4050db39-e0f5-485d-ab3b-3ca72307f621-c000.snappy.parquet|[]             |262 |1578083748000   |false     |null |null|
+|part-00000-ba39f292-2970-4528-a40c-8f0aa5f796de-c000.snappy.parquet|[]             |262 |1578083570000   |false     |null |null|
+|part-00003-99f9d902-24a7-4f76-a15a-6971940bc245-c000.snappy.parquet|[]             |429 |1578083748000   |false     |null |null|
+|part-00007-03d987f1-5bb3-4b5b-8db9-97b6667107e2-c000.snappy.parquet|[]             |429 |1578083748000   |false     |null |null|
+|part-00011-a759a8c2-507d-46dd-9da7-dc722316214b-c000.snappy.parquet|[]             |429 |1578083748000   |false     |null |null|
+|part-00015-2e685d29-25ed-4262-90a7-5491847fd8d0-c000.snappy.parquet|[]             |429 |1578083748000   |false     |null |null|
+|part-00015-ee0ac1af-e1e0-4422-8245-12da91ced0a2-c000.snappy.parquet|[]             |429 |1578083570000   |false     |null |null|
++-------------------------------------------------------------------+---------------+----+----------------+----------+-----+----+</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>Snapshot</code> can be requested for <a href="#tombstones">removed data files</a> (aka <em>tombstones</em>).</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">scala&gt; deltaLog.snapshot.tombstones.show(false)
++----+-----------------+----------+
+|path|deletionTimestamp|dataChange|
++----+-----------------+----------+
++----+-----------------+----------+</code></pre>
+</div>
 </div>
 <div class="paragraph">
 <p><code>Snapshot</code> uses the <a href="DeltaSQLConf.html#DELTA_SNAPSHOT_PARTITIONS" class="page">spark.databricks.delta.snapshotPartitions</a> internal configuration property (default: <code>50</code>) for the number of partition for <a href="#stateReconstruction">state reconstruction</a>.</p>
@@ -435,7 +469,7 @@
 <div class="ulist">
 <ul>
 <li>
-<p><a id="path"></a> <code>Path</code></p>
+<p><a id="path"></a> Hadoop <a href="https://hadoop.apache.org/docs/r2.6.5/api/org/apache/hadoop/fs/Path.html">Path</a> to the <a href="DeltaLog.html#logPath" class="page">log directory</a></p>
 </li>
 <li>
 <p><a id="version"></a> Version</p>
