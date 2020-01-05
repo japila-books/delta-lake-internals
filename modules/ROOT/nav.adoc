@@ -1,6 +1,20 @@
 * xref:index.adoc[Introduction]
 * xref:time-travel.adoc[Time Travel]
 
+* xref:DeltaLog.adoc[DeltaLog]
+** xref:Checkpoints.adoc[Checkpoints]
+** xref:MetadataCleanup.adoc[MetadataCleanup]
+** xref:LogStoreProvider.adoc[LogStoreProvider]
+** xref:VerifyChecksum.adoc[VerifyChecksum]
+
+* xref:Snapshot.adoc[Snapshot]
+** xref:InMemoryLogReplay.adoc[InMemoryLogReplay]
+** xref:StateCache.adoc[StateCache]
+** xref:CachedDS.adoc[CachedDS]
+** xref:DeltaSourceSnapshot.adoc[DeltaSourceSnapshot]
+** xref:SnapshotIterator.adoc[SnapshotIterator]
+** xref:PartitionFiltering.adoc[PartitionFiltering]
+
 * xref:DeltaTable.adoc[DeltaTable]
 ** xref:DeltaTableOperations.adoc[DeltaTableOperations]
 
@@ -37,32 +51,17 @@
 ** xref:DeltaSource.adoc[DeltaSource]
 ** xref:DeltaSink.adoc[DeltaSink]
 
-* xref:DeltaLog.adoc[DeltaLog]
-** xref:Checkpoints.adoc[Checkpoints]
-** xref:MetadataCleanup.adoc[MetadataCleanup]
-** xref:LogStoreProvider.adoc[LogStoreProvider]
-** xref:VerifyChecksum.adoc[VerifyChecksum]
-
-* xref:LogStore.adoc[LogStore]
-** xref:HDFSLogStore.adoc[HDFSLogStore]
-** xref:HadoopFileSystemLogStore.adoc[HadoopFileSystemLogStore]
-
-* xref:Snapshot.adoc[Snapshot]
-** xref:InMemoryLogReplay.adoc[InMemoryLogReplay]
-** xref:StateCache.adoc[StateCache]
-** xref:CachedDS.adoc[CachedDS]
-** xref:DeltaSourceSnapshot.adoc[DeltaSourceSnapshot]
-** xref:SnapshotIterator.adoc[SnapshotIterator]
-** xref:PartitionFiltering.adoc[PartitionFiltering]
-
 * xref:DeltaSQLConf.adoc[DeltaSQLConf]
-* xref:DeltaFileFormat.adoc[DeltaFileFormat]
 
 * xref:OptimisticTransaction.adoc[OptimisticTransaction]
 ** xref:TransactionalWrite.adoc[TransactionalWrite]
 ** xref:DelayedCommitProtocol.adoc[DelayedCommitProtocol]
 ** xref:PostCommitHook.adoc[Post-Commit Hooks]
 ** xref:OptimisticTransactionImpl.adoc[OptimisticTransactionImpl]
+
+* xref:LogStore.adoc[LogStore]
+** xref:HDFSLogStore.adoc[HDFSLogStore]
+** xref:HadoopFileSystemLogStore.adoc[HadoopFileSystemLogStore]
 
 * xref:ImplicitMetadataOperation.adoc[ImplicitMetadataOperation]
 * xref:DeltaFileOperations.adoc[DeltaFileOperations]
@@ -93,6 +92,7 @@
 * xref:FileNames.adoc[FileNames]
 * xref:DeltaLogFileIndex.adoc[DeltaLogFileIndex]
 
+* xref:DeltaFileFormat.adoc[DeltaFileFormat]
 * xref:DeltaErrors.adoc[DeltaErrors]
 
 * xref:logging.adoc[Logging]
