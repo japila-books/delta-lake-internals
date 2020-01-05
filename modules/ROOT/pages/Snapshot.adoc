@@ -1,6 +1,37 @@
-= [[Snapshot]] Snapshot
+= [[Snapshot]] Snapshot -- Versioned State Of Delta Table
 
-`Snapshot` is <<creating-instance, created>> when `DeltaLog` is requested for the <<DeltaLog.adoc#currentSnapshot, current snapshot>>, to <<DeltaLog.adoc#update, update>>, and <<DeltaLog.adoc#getSnapshotAt, getSnapshotAt>>.
+`Snapshot` is (an immutable snapshot of) the <<state, state>> of a <<deltaLog, delta table>> at <<version, some version>>.
+
+`Snapshot` is <<creating-instance, created>> when `DeltaLog` is requested for the <<DeltaLog.adoc#currentSnapshot, current snapshot>>, to <<DeltaLog.adoc#update, update>>, and to <<DeltaLog.adoc#getSnapshotAt, get the state of a delta table at a given version>>.
+
+`Snapshot` can be requested for <<allFiles, all data files>>.
+
+[source, scala]
+----
+scala> deltaLog.snapshot.allFiles.show(false)
++-------------------------------------------------------------------+---------------+----+----------------+----------+-----+----+
+|path                                                               |partitionValues|size|modificationTime|dataChange|stats|tags|
++-------------------------------------------------------------------+---------------+----+----------------+----------+-----+----+
+|part-00000-4050db39-e0f5-485d-ab3b-3ca72307f621-c000.snappy.parquet|[]             |262 |1578083748000   |false     |null |null|
+|part-00000-ba39f292-2970-4528-a40c-8f0aa5f796de-c000.snappy.parquet|[]             |262 |1578083570000   |false     |null |null|
+|part-00003-99f9d902-24a7-4f76-a15a-6971940bc245-c000.snappy.parquet|[]             |429 |1578083748000   |false     |null |null|
+|part-00007-03d987f1-5bb3-4b5b-8db9-97b6667107e2-c000.snappy.parquet|[]             |429 |1578083748000   |false     |null |null|
+|part-00011-a759a8c2-507d-46dd-9da7-dc722316214b-c000.snappy.parquet|[]             |429 |1578083748000   |false     |null |null|
+|part-00015-2e685d29-25ed-4262-90a7-5491847fd8d0-c000.snappy.parquet|[]             |429 |1578083748000   |false     |null |null|
+|part-00015-ee0ac1af-e1e0-4422-8245-12da91ced0a2-c000.snappy.parquet|[]             |429 |1578083570000   |false     |null |null|
++-------------------------------------------------------------------+---------------+----+----------------+----------+-----+----+
+----
+
+`Snapshot` can be requested for <<tombstones, removed data files>> (aka _tombstones_).
+
+[source, scala]
+----
+scala> deltaLog.snapshot.tombstones.show(false)
++----+-----------------+----------+
+|path|deletionTimestamp|dataChange|
++----+-----------------+----------+
++----+-----------------+----------+
+----
 
 `Snapshot` uses the <<DeltaSQLConf.adoc#DELTA_SNAPSHOT_PARTITIONS, spark.databricks.delta.snapshotPartitions>> internal configuration property (default: `50`) for the number of partition for <<stateReconstruction, state reconstruction>>.
 
@@ -8,7 +39,7 @@
 
 `Snapshot` takes the following to be created:
 
-* [[path]] `Path`
+* [[path]] Hadoop https://hadoop.apache.org/docs/r2.6.5/api/org/apache/hadoop/fs/Path.html[Path] to the <<DeltaLog.adoc#logPath, log directory>>
 * [[version]] Version
 * [[previousSnapshot]] Previous snapshot (`Option[Dataset[SingleAction]]`)
 * [[files]] Files (`Seq[Path]`)

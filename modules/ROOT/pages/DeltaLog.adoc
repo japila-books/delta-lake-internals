@@ -1,6 +1,6 @@
 = [[DeltaLog]] DeltaLog
 
-`DeltaLog` is a transactional log of changes (actions) to the state of a <<dataPath, delta table>>.
+`DeltaLog` is a *transaction log* (aka _change log_) of <<Action.adoc#, changes>> to the state of a <<dataPath, delta table>>.
 
 `DeltaLog` is <<creating-instance, created>> (indirectly via <<apply, DeltaLog.apply>> utility) when <<forTable, DeltaLog.forTable>> utility is used.
 
@@ -16,8 +16,13 @@ val deltaLog = DeltaLog.forTable(spark, dataPath)
 import org.apache.hadoop.fs.Path
 val expected = new Path(s"file:$dataPath/_delta_log/_last_checkpoint")
 assert(deltaLog.LAST_CHECKPOINT == expected)
+----
 
-deltaLog.update(stalenessAcceptable = false)
+When <<creating-instance, created>>, `DeltaLog` immediately <<update, updates state of the delta table>> for no <<Checkpoints.adoc#lastCheckpoint, metadata checkpoint>> available (e.g. the version of the <<currentSnapshot, state>> is `-1`). In other words, the version of (the `DeltaLog` of) a delta table is at version `0` at the very minimum.
+
+[source, scala]
+----
+assert(deltaLog.snapshot.version >= 0)
 ----
 
 `DeltaLog` is a <<LogStoreProvider.adoc#, LogStoreProvider>>.
@@ -287,7 +292,7 @@ NOTE: `insert` is part of the `InsertableRelation` contract to...FIXME.
 
 `insert`...FIXME
 
-== [[getSnapshotAt]] `getSnapshotAt` Method
+== [[getSnapshotAt]] Getting State Of Delta Table At Given Version -- `getSnapshotAt` Method
 
 [source, scala]
 ----
