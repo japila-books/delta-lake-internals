@@ -445,6 +445,9 @@ Read up on <a href="https://jaceklaskowski.gitbooks.io/spark-structured-streamin
 <pre class="highlightjs highlight"><code>DeltaSink[path]</code></pre>
 </div>
 </div>
+<div id="ImplicitMetadataOperation" class="paragraph">
+<p><code>DeltaSink</code> is an <a href="ImplicitMetadataOperation.html" class="page">operation that can update metadata (schema and partitioning)</a> of a <a href="#path">delta table</a>.</p>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -459,7 +462,7 @@ Read up on <a href="https://jaceklaskowski.gitbooks.io/spark-structured-streamin
 <p><a id="sqlContext"></a> <code>SQLContext</code></p>
 </li>
 <li>
-<p><a id="path"></a> Hadoop <code>Path</code> (corresponds to <a href="DeltaOptions.html#path" class="page">path</a> option)</p>
+<p><a id="path"></a> Hadoop <a href="https://hadoop.apache.org/docs/r2.7.3/api/org/apache/hadoop/fs/Path.html">Path</a> of the delta table (to <a href="#addBatch">write data to</a> as configured by the <a href="DeltaOptions.html#path" class="page">path</a> option)</p>
 </li>
 <li>
 <p><a id="partitionColumns"></a> Names of the partition columns (<code>Seq[String]</code>)</p>
@@ -483,10 +486,10 @@ Read up on <a href="https://jaceklaskowski.gitbooks.io/spark-structured-streamin
 </div>
 </div>
 <div class="paragraph">
-<p>When <a href="#creating-instance">created</a>, <code>DeltaSink</code> creates a <a href="DeltaLog.html#forTable" class="page">DeltaLog</a>.</p>
+<p><code>deltaLog</code> is a <a href="DeltaLog.html" class="page">DeltaLog</a> that is <a href="DeltaLog.html#forTable" class="page">created</a> for the <a href="#path">delta table</a> when <code>DeltaSink</code> is created (when <code>DeltaDataSource</code> is requested for a <a href="DeltaDataSource.html#createSink" class="page">streaming sink</a>).</p>
 </div>
 <div class="paragraph">
-<p><code>deltaLog</code> is used exclusively when <code>DeltaSink</code> is requested to <a href="#addBatch">addBatch</a>.</p>
+<p><code>deltaLog</code> is used exclusively when <code>DeltaSink</code> is requested to <a href="#addBatch">add a streaming micro-batch</a>.</p>
 </div>
 </div>
 </div>

@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title> ImplicitMetadataOperation :: The Internals Of Delta Lake</title>
+    <title> ImplicitMetadataOperation&#8201;&#8212;&#8201;Operations Updating Metadata (Schema And Partitioning) :: The Internals Of Delta Lake</title>
     <link rel="canonical" href="https://books.japila.pl/delta-lake-internals/delta/0.5.0/ImplicitMetadataOperation.html">
     <meta name="generator" content="Antora 2.2.0">
     <link rel="stylesheet" href="../../_/css/site.css">
@@ -415,11 +415,14 @@
   <div class="edit-this-page"><a href="https://github.com/japila-books/delta-lake-internals/edit/v0.5.0/modules/ROOT/pages/ImplicitMetadataOperation.adoc">Edit this Page</a></div>
   </div>
 <article class="doc">
-<h1 class="page"><a id="ImplicitMetadataOperation"></a> ImplicitMetadataOperation</h1>
+<h1 class="page"><a id="ImplicitMetadataOperation"></a> ImplicitMetadataOperation&#8201;&#8212;&#8201;Operations Updating Metadata (Schema And Partitioning)</h1>
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p><code>ImplicitMetadataOperation</code> is an <a href="#contract">abstraction</a> of <a href="#implementations">metadata operations</a> that can <a href="#canMergeSchema">merge</a> and <a href="#canOverwriteSchema">overwrite</a> schema (while writing out data to a delta table).</p>
+<p><code>ImplicitMetadataOperation</code> is an <a href="#contract">abstraction</a> of <a href="#implementations">operations</a> that can <a href="#updateMetadata">update metadata</a> of a delta table (while writing out a new data to a delta table).</p>
+</div>
+<div class="paragraph">
+<p><code>ImplicitMetadataOperation</code> operations can update schema by <a href="#canMergeSchema">merging</a> and <a href="#canOverwriteSchema">overwriting</a> schema.</p>
 </div>
 <table id="contract" class="tableblock frame-all grid-all stretch">
 <caption class="title">Table 1. ImplicitMetadataOperation Contract (Abstract Methods Only)</caption>
@@ -473,11 +476,11 @@
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a href="WriteIntoDelta.html" class="page">WriteIntoDelta</a></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><a id="WriteIntoDelta"></a> Command</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a id="WriteIntoDelta"></a> Delta command for batch queries (Spark SQL)</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a href="DeltaSink.html" class="page">DeltaSink</a></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><a id="DeltaSink"></a> Streaming sink</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a id="DeltaSink"></a> Streaming sink for streaming queries (Spark Structured Streaming)</p></td>
 </tr>
 </tbody>
 </table>
@@ -512,10 +515,10 @@
 <div class="ulist">
 <ul>
 <li>
-<p><code>WriteIntoDelta</code> command is requested to <a href="WriteIntoDelta.html#write" class="page">write</a> (when requested to <a href="WriteIntoDelta.html#run" class="page">run</a>)</p>
+<p><code>WriteIntoDelta</code> command is <a href="WriteIntoDelta.html#run" class="page">executed</a> (and requested to <a href="WriteIntoDelta.html#write" class="page">write</a>)</p>
 </li>
 <li>
-<p><code>DeltaSink</code> is requested to <a href="DeltaSink.html#addBatch" class="page">addBatch</a></p>
+<p><code>DeltaSink</code> is requested to <a href="DeltaSink.html#addBatch" class="page">add a streaming micro-batch</a></p>
 </li>
 </ul>
 </div>

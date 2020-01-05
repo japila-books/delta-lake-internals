@@ -431,6 +431,22 @@
 <p>Delta Lake uses <a href="OptimisticTransaction.html" class="page">OptimisticTransaction</a> for <a href="TransactionalWrite.html" class="page">transactional writes</a>. A <a href="OptimisticTransactionImpl.html#commit" class="page">commit</a> is successful when the transaction can <a href="OptimisticTransactionImpl.html#doCommit-write" class="page">write</a> the actions to a delta file (in the <a href="DeltaLog.html" class="page">transactional log</a>). In case the delta file for the commit version already exists, the transaction is <a href="OptimisticTransactionImpl.html#checkAndRetry" class="page">retried</a>.</p>
 </div>
 <div class="paragraph">
+<p>Structured queries can write (transactionally) to a delta table using the following interfaces:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="WriteIntoDelta.html" class="page">WriteIntoDelta</a> command for batch queries (Spark SQL)</p>
+</li>
+<li>
+<p><a href="DeltaSink.html" class="page">DeltaSink</a> for streaming queries (Spark Structured Streaming)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>More importantly, multiple queries can write to the same delta table simultaneously (at exactly the same time).</p>
+</div>
+<div class="paragraph">
 <p>Delta Lake provides <a href="DeltaTable.html" class="page">DeltaTable API</a> to programmatically access Delta tables. A delta table can be created <a href="DeltaTable.html#convertToDelta" class="page">based on a parquet table (DeltaTable.convertToDelta)</a> or <a href="DeltaTable.html#forPath" class="page">from scratch (DeltaTable.forPath)</a>.</p>
 </div>
 <div class="paragraph">

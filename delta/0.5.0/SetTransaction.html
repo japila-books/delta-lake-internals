@@ -420,10 +420,10 @@
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p><code>SetTransaction</code> is an <a href="Action.html" class="page">action</a> that denotes the committed <a href="#version">version</a> for a <a href="#appId">application</a>.</p>
+<p><code>SetTransaction</code> is an <a href="Action.html" class="page">action</a> that denotes the committed <a href="#version">version</a> for an <a href="#appId">application</a>.</p>
 </div>
 <div class="paragraph">
-<p><code>SetTransaction</code> is <a href="#creating-instance">created</a> when <code>DeltaSink</code> is requested to <a href="DeltaSink.html#addBatch" class="page">add a streaming micro-batch</a> (for streaming append idempotence at query restart).</p>
+<p><code>SetTransaction</code> is <a href="#creating-instance">created</a> when <code>DeltaSink</code> is requested to <a href="DeltaSink.html#addBatch" class="page">add a streaming micro-batch</a> (for <code>STREAMING UPDATE</code> operation idempotence at query restart).</p>
 </div>
 </div>
 </div>
