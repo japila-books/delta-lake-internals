@@ -442,7 +442,23 @@ assert(deltaLog.LAST_CHECKPOINT == expected)</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>When <a href="#creating-instance">created</a>, <code>DeltaLog</code> immediately <a href="#update">updates state of the delta table</a> for no <a href="Checkpoints.html#lastCheckpoint" class="page">metadata checkpoint</a> available (e.g. the version of the <a href="#currentSnapshot">state</a> is <code>-1</code>). In other words, the version of (the <code>DeltaLog</code> of) a delta table is at version <code>0</code> at the very minimum.</p>
+<p>While being <a href="#creating-instance">created</a>, <code>DeltaLog</code> does the following:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Creates the <a href="#store">LogStore</a> based on <a href="LogStoreProvider.html#spark.delta.logStore.class" class="page">spark.delta.logStore.class</a> configuration property (default: <a href="HDFSLogStore.html" class="page">HDFSLogStore</a>)</p>
+</li>
+<li>
+<p>Initializes the <a href="#currentSnapshot">current snapshot</a> based on the <a href="Checkpoints.html#lastCheckpoint" class="page">metadata checkpoint</a></p>
+</li>
+<li>
+<p><a href="#update">Updates state of the delta table</a> when there is no <a href="Checkpoints.html#lastCheckpoint" class="page">metadata checkpoint</a> (e.g. the version of the <a href="#currentSnapshot">state</a> is <code>-1</code>)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>In other words, the version of (the <code>DeltaLog</code> of) a delta table is at version <code>0</code> at the very minimum.</p>
 </div>
 <div class="listingblock">
 <div class="content">
