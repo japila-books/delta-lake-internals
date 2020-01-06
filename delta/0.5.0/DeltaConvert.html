@@ -422,6 +422,9 @@
 <div class="paragraph">
 <p><code>DeltaConvert</code> utility is used exclusively for <a href="#executeConvert">importing a parquet table into Delta Lake (DeltaConvert.executeConvert)</a>.</p>
 </div>
+<div class="paragraph">
+<p><code>DeltaConvert</code> utility can be used directly or indirectly via <a href="DeltaTable.html#convertToDelta" class="page">DeltaTable.convertToDelta</a> utility.</p>
+</div>
 <div class="listingblock">
 <div class="title">Demo of DeltaConvert</div>
 <div class="content">
@@ -443,6 +446,9 @@ val deltaPath: Option[String] = None
 import io.delta.tables.execution.DeltaConvert
 DeltaConvert.executeConvert(spark, table, partitionSchema, deltaPath)</code></pre>
 </div>
+</div>
+<div id="DeltaConvertBase" class="paragraph">
+<p><code>DeltaConvert</code> utility is a concrete <code>DeltaConvertBase</code>.</p>
 </div>
 </div>
 </div>

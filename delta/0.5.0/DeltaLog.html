@@ -421,6 +421,9 @@
 <div class="paragraph">
 <p><code>DeltaLog</code> is a <strong>transaction log</strong> (aka <em>change log</em>) of <a href="Action.html" class="page">changes</a> to the state of a <a href="#dataPath">delta table</a>.</p>
 </div>
+<div id="_delta_log" class="paragraph">
+<p><code>DeltaLog</code> uses <strong>_delta_log</strong> directory for (the files of) the transaction log of a delta table (that is given when <a href="#forTable">DeltaLog.forTable</a> utility is used to create an instance).</p>
+</div>
 <div class="paragraph">
 <p><code>DeltaLog</code> is <a href="#creating-instance">created</a> (indirectly via <a href="#apply">DeltaLog.apply</a> utility) when <a href="#forTable">DeltaLog.forTable</a> utility is used.</p>
 </div>
@@ -591,6 +594,18 @@ assert(deltaLog.LAST_CHECKPOINT == expected)</code></pre>
   rawPath: Path,
   clock: Clock = new SystemClock): DeltaLog</code></pre>
 </div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>rawPath</code> is a Hadoop <a href="https://hadoop.apache.org/docs/r2.7.3/api/org/apache/hadoop/fs/Path.html">Path</a> to the <a href="#_delta_log">_delta_log</a> directory at the root of the data of a delta table.
+</td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
 <p><code>apply</code>&#8230;&#8203;FIXME</p>

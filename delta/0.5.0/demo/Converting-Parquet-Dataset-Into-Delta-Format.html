@@ -420,35 +420,43 @@
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">/*
-./bin/spark-shell \
+spark-shell \
   --packages io.delta:delta-core_2.12:0.5.0 \
-  --conf spark.sql.extensions=io.delta.sql.DeltaSparkSessionExtension
+  --conf spark.sql.extensions=io.delta.sql.DeltaSparkSessionExtension \
+  --conf spark.databricks.delta.snapshotPartitions=1
 */
 assert(spark.version.matches("2.4.[2-4]"), "Delta Lake supports Spark 2.4.2+")
 
 import org.apache.spark.sql.SparkSession
 assert(spark.isInstanceOf[SparkSession])
 
-val deltaLake = "/tmp/delta-lake"
+val deltaLake = "/tmp/delta"
 
 // Create parquet table
 val users = s"$deltaLake/users"
 import spark.implicits._
-val data = Seq((0, "Agata"), (1, "Jacek")).toDF("id", "name")
+val data = Seq(
+  (0L, "Agata", "Warsaw", "Poland"),
+  (1L, "Jacek", "Warsaw", "Poland"),
+  (2L, "Bartosz", "Paris", "France")
+).toDF("id", "name", "city", "country")
 data
   .write
   .format("parquet")
-  .partitionBy("name")
+  .partitionBy("city", "country")
   .mode("overwrite")
   .save(users)
 
-// TIP: You could use git to version the users directory
-//      and track the changes for import
+// TIP: Use git to version the users directory
+//      to track the changes for import
+
+// CONVERT TO DELTA only supports parquet tables
+// TableIdentifier should be parquet.`users`
 
 // Use TableIdentifier to refer to the parquet table
 // The path itself would work too
 val tableId = s"parquet.`$users`"
-val partitionSchema = "name STRING"
+val partitionSchema = "city STRING, country STRING"
 
 // Import users table into Delta Lake
 // Well, convert the parquet table into delta table
