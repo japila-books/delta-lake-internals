@@ -3,8 +3,8 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Demo: Using Delta Lake as Streaming Sink in Structured Streaming :: The Internals Of Delta Lake</title>
-    <link rel="canonical" href="https://books.japila.pl/delta-lake-internals/delta/0.5.0/demo/Using-Delta-Lake-as-Streaming-Sink-in-Structured-Streaming.html">
+    <title>Demo: DeltaTable, DeltaLog And Snapshots :: The Internals Of Delta Lake</title>
+    <link rel="canonical" href="https://books.japila.pl/delta-lake-internals/delta/0.5.0/demo/DeltaTable-DeltaLog-And-Snapshots.html">
     <meta name="generator" content="Antora 2.2.0">
     <link rel="stylesheet" href="../../../_/css/site.css">
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-151208281-1"></script>
@@ -357,7 +357,7 @@
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="Converting-Parquet-Dataset-Into-Delta-Format.html">Converting Parquet Dataset Into Delta Format</a>
   </li>
-  <li class="nav-item is-current-page" data-depth="2">
+  <li class="nav-item" data-depth="2">
     <a class="nav-link" href="Using-Delta-Lake-as-Streaming-Sink-in-Structured-Streaming.html">Using Delta Lake as Streaming Sink in Structured Streaming</a>
   </li>
   <li class="nav-item" data-depth="2">
@@ -366,7 +366,7 @@
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="Observing-Transaction-Retries.html">Observing Transaction Retries</a>
   </li>
-  <li class="nav-item" data-depth="2">
+  <li class="nav-item is-current-page" data-depth="2">
     <a class="nav-link" href="DeltaTable-DeltaLog-And-Snapshots.html">DeltaTable, DeltaLog And Snapshots</a>
   </li>
 </ul>
@@ -406,115 +406,110 @@
   <ul>
     <li><a href="../index.html">Delta Lake</a></li>
     <li>Demos</li>
-    <li><a href="Using-Delta-Lake-as-Streaming-Sink-in-Structured-Streaming.html">Using Delta Lake as Streaming Sink in Structured Streaming</a></li>
+    <li><a href="DeltaTable-DeltaLog-And-Snapshots.html">DeltaTable, DeltaLog And Snapshots</a></li>
   </ul>
 </nav>
 <div class="page-versions">
   <button class="version-menu-toggle" title="Show other versions of page">0.5.0</button>
   <div class="version-menu">
-    <a class="version is-current" href="Using-Delta-Lake-as-Streaming-Sink-in-Structured-Streaming.html">0.5.0</a>
+    <a class="version is-current" href="DeltaTable-DeltaLog-And-Snapshots.html">0.5.0</a>
     <a class="version is-missing" href="../../0.4.0/index.html">0.4.0</a>
   </div>
 </div>
-  <div class="edit-this-page"><a href="https://github.com/japila-books/delta-lake-internals/edit/v0.5.0/modules/demo/pages/Using-Delta-Lake-as-Streaming-Sink-in-Structured-Streaming.adoc">Edit this Page</a></div>
+  <div class="edit-this-page"><a href="https://github.com/japila-books/delta-lake-internals/edit/v0.5.0/modules/demo/pages/DeltaTable-DeltaLog-And-Snapshots.adoc">Edit this Page</a></div>
   </div>
 <article class="doc">
-<h1 class="page">Demo: Using Delta Lake as Streaming Sink in Structured Streaming</h1>
+<h1 class="page">Demo: DeltaTable, DeltaLog And Snapshots</h1>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Use <a href="Converting-Parquet-Dataset-Into-Delta-Format.html" class="page">Demo: Converting Parquet Dataset Into Delta Format</a> to create the delta table for the demo.
+</td>
+</tr>
+</table>
+</div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code>/*
-./bin/spark-shell \
-  --packages io.delta:delta-core_2.12:0.5.0 \
-  --conf spark.sql.extensions=io.delta.sql.DeltaSparkSessionExtension
-*/
-assert(spark.isInstanceOf[org.apache.spark.sql.SparkSession])
-assert(spark.version.matches("2.4.[2-4]"), "Delta Lake supports Spark 2.4.2+")
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">import org.apache.spark.sql.SparkSession
+assert(spark.isInstanceOf[SparkSession])
 
-// Input data "format"
-case class User(id: Long, name: String, city: String)
+val dataPath = "/tmp/delta/users"
+import org.apache.spark.sql.delta.DeltaLog
+val deltaLog = DeltaLog.forTable(spark, dataPath)
 
-// Any streaming data source would work
-// Using memory data source
-// Gives control over the input stream
-implicit val ctx = spark.sqlContext
-import org.apache.spark.sql.execution.streaming.MemoryStream
-val usersIn = MemoryStream[User]
-val users = usersIn.toDF
+// Review the cached RDD for the state (snapshot)
+// Use http://localhost:4040/storage/
 
-val deltaLake = "/tmp/delta-lake"
-val checkpointLocation = "/tmp/delta-checkpointLocation"
-val path = s"$deltaLake/users"
-val partitionBy = "city"
+assert(deltaLog.snapshot.version == 0)
 
-// The streaming query that writes out to Delta Lake
-val sq = users
-  .writeStream
-  .format("delta")
-  .option("checkpointLocation", checkpointLocation)
-  .option("path", path)
-  .partitionBy(partitionBy)
-  .start
+// Show the changes (actions)
+scala&gt; deltaLog.snapshot.state.toDF.show
++----+--------------------+------+--------------------+--------+----------+
+| txn|                 add|remove|            metaData|protocol|commitInfo|
++----+--------------------+------+--------------------+--------+----------+
+|null|                null|  null|                null|  [1, 2]|      null|
+|null|                null|  null|[3799b291-dbfa-4f...|    null|      null|
+|null|[city=Paris/count...|  null|                null|    null|      null|
+|null|[city=Warsaw/coun...|  null|                null|    null|      null|
+|null|[city=Warsaw/coun...|  null|                null|    null|      null|
++----+--------------------+------+--------------------+--------+----------+
 
-// TIP: You could use git to version the path directory
-//      and track the changes of every micro-batch
+val dt = DeltaTable.forPath(deltaLog.dataPath.toString)
+scala&gt; dt.history.show
++-------+-------------------+------+--------+---------+--------------------+----+--------+---------+-----------+--------------+-------------+
+|version|          timestamp|userId|userName|operation| operationParameters| job|notebook|clusterId|readVersion|isolationLevel|isBlindAppend|
++-------+-------------------+------+--------+---------+--------------------+----+--------+---------+-----------+--------------+-------------+
+|      0|2020-01-06 17:08:02|  null|    null|  CONVERT|[numFiles -&gt; 3, p...|null|    null|     null|       null|          null|         null|
++-------+-------------------+------+--------+---------+--------------------+----+--------+---------+-----------+--------------+-------------+
 
-// TIP: Use web UI to monitor execution, e.g. http://localhost:4040
+// Show the data (for the changes)
+val users = dt.toDF
+scala&gt; users.show
++---+-------+------+-------+
+| id|   name|  city|country|
++---+-------+------+-------+
+|  2|Bartosz| Paris| France|
+|  0|  Agata|Warsaw| Poland|
+|  1|  Jacek|Warsaw| Poland|
++---+-------+------+-------+
 
-// FIXME: Use DESCRIBE HISTORY every micro-batch
+// Add a new user
+val loic = Seq((3L, "Loic", "Paris", "France")).toDF("id", "name", "city", "country")
+scala&gt; loic.show
++---+----+-----+-------+
+| id|name| city|country|
++---+----+-----+-------+
+|  3|Loic|Paris| France|
++---+----+-----+-------+
 
-val batch1 = Seq(
-  User(0, "Agata", "Warsaw"),
-  User(1, "Jacek", "Warsaw"))
-val offset = usersIn.addData(batch1)
-sq.processAllAvailable()
+loic.write.format("delta").mode("append").save(deltaLog.dataPath.toString)
 
-val history = s"DESCRIBE HISTORY delta.`$path`"
-val clmns = Seq($"version", $"timestamp", $"operation", $"operationParameters", $"isBlindAppend")
+// Review the cached RDD for the state (snapshot)
+// Use http://localhost:4040/storage/
 
-val h = sql(history).select(clmns: _*).orderBy($"version".asc)
-scala&gt; h.show(truncate = false)
-+-------+-------------------+----------------+-------------------------------------------------------------------------------------+-------------+
-|version|timestamp          |operation       |operationParameters                                                                  |isBlindAppend|
-+-------+-------------------+----------------+-------------------------------------------------------------------------------------+-------------+
-|0      |2019-12-06 10:06:20|STREAMING UPDATE|[outputMode -&gt; Append, queryId -&gt; f3990048-f0b7-48b6-9bf6-397004c36e53, epochId -&gt; 0]|true         |
-+-------+-------------------+----------------+-------------------------------------------------------------------------------------+-------------+
+assert(deltaLog.snapshot.version == 1)
 
-val batch2 = Seq(
-  User(2, "Bartek", "Paris"),
-  User(3, "Jacek", "Paris"))
-val offset = usersIn.addData(batch2)
-sq.processAllAvailable()
+scala&gt; users.show
++---+-------+------+-------+
+| id|   name|  city|country|
++---+-------+------+-------+
+|  2|Bartosz| Paris| France|
+|  0|  Agata|Warsaw| Poland|
+|  1|  Jacek|Warsaw| Poland|
+|  3|   Loic| Paris| France|
++---+-------+------+-------+
 
-// You have to execute the history SQL command again
-// It materializes immediately with whatever data is available at the time
-val h = sql(history).select(clmns: _*).orderBy($"version".asc)
-scala&gt; h.show(truncate = false)
-+-------+-------------------+----------------+-------------------------------------------------------------------------------------+-------------+
-|version|timestamp          |operation       |operationParameters                                                                  |isBlindAppend|
-+-------+-------------------+----------------+-------------------------------------------------------------------------------------+-------------+
-|0      |2019-12-06 10:06:20|STREAMING UPDATE|[outputMode -&gt; Append, queryId -&gt; f3990048-f0b7-48b6-9bf6-397004c36e53, epochId -&gt; 0]|true         |
-|1      |2019-12-06 10:13:27|STREAMING UPDATE|[outputMode -&gt; Append, queryId -&gt; f3990048-f0b7-48b6-9bf6-397004c36e53, epochId -&gt; 1]|true         |
-+-------+-------------------+----------------+-------------------------------------------------------------------------------------+-------------+
-
-val batch3 = Seq(
-  User(4, "Gorazd", "Ljubljana"))
-val offset = usersIn.addData(batch3)
-sq.processAllAvailable()
-
-// Let's use DeltaTable API instead
-
-import io.delta.tables.DeltaTable
-val usersDT = DeltaTable.forPath(path)
-
-val h = usersDT.history.select(clmns: _*).orderBy($"version".asc)
-scala&gt; h.show(truncate = false)
-+-------+-------------------+----------------+-------------------------------------------------------------------------------------+-------------+
-|version|timestamp          |operation       |operationParameters                                                                  |isBlindAppend|
-+-------+-------------------+----------------+-------------------------------------------------------------------------------------+-------------+
-|0      |2019-12-06 10:06:20|STREAMING UPDATE|[outputMode -&gt; Append, queryId -&gt; f3990048-f0b7-48b6-9bf6-397004c36e53, epochId -&gt; 0]|true         |
-|1      |2019-12-06 10:13:27|STREAMING UPDATE|[outputMode -&gt; Append, queryId -&gt; f3990048-f0b7-48b6-9bf6-397004c36e53, epochId -&gt; 1]|true         |
-|2      |2019-12-06 10:20:56|STREAMING UPDATE|[outputMode -&gt; Append, queryId -&gt; f3990048-f0b7-48b6-9bf6-397004c36e53, epochId -&gt; 2]|true         |
-+-------+-------------------+----------------+-------------------------------------------------------------------------------------+-------------+</code></pre>
+scala&gt; dt.history.show
++-------+-------------------+------+--------+---------+--------------------+----+--------+---------+-----------+--------------+-------------+
+|version|          timestamp|userId|userName|operation| operationParameters| job|notebook|clusterId|readVersion|isolationLevel|isBlindAppend|
++-------+-------------------+------+--------+---------+--------------------+----+--------+---------+-----------+--------------+-------------+
+|      1|2020-01-06 17:12:28|  null|    null|    WRITE|[mode -&gt; Append, ...|null|    null|     null|          0|          null|         true|
+|      0|2020-01-06 17:08:02|  null|    null|  CONVERT|[numFiles -&gt; 3, p...|null|    null|     null|       null|          null|         null|
++-------+-------------------+------+--------+---------+--------------------+----+--------+---------+-----------+--------------+-------------+</code></pre>
 </div>
 </div>
 </article>
