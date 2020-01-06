@@ -421,8 +421,8 @@
 <div class="paragraph">
 <p><code>DeltaLog</code> is a <strong>transaction log</strong> (aka <em>change log</em>) of <a href="Action.html" class="page">changes</a> to the state of a <a href="#dataPath">delta table</a>.</p>
 </div>
-<div id="_delta_log" class="paragraph">
-<p><code>DeltaLog</code> uses <strong>_delta_log</strong> directory for (the files of) the transaction log of a delta table (that is given when <a href="#forTable">DeltaLog.forTable</a> utility is used to create an instance).</p>
+<div class="paragraph">
+<p><code>DeltaLog</code> uses <a href="#_delta_log">_delta_log</a> directory for (the files of) the transaction log of a delta table (that is given when <a href="#forTable">DeltaLog.forTable</a> utility is used to create an instance).</p>
 </div>
 <div class="paragraph">
 <p><code>DeltaLog</code> is <a href="#creating-instance">created</a> (indirectly via <a href="#apply">DeltaLog.apply</a> utility) when <a href="#forTable">DeltaLog.forTable</a> utility is used.</p>
@@ -501,7 +501,7 @@ assert(deltaLog.LAST_CHECKPOINT == expected)</code></pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_delta_log-metadata-directory"><a class="anchor" href="#_delta_log-metadata-directory"></a><a class="link" href="#_delta_log-metadata-directory"><a id="_delta_log"></a> _delta_log Metadata Directory</a></h2>
+<h2 id="_delta_log-directory"><a class="anchor" href="#_delta_log-directory"></a><a class="link" href="#_delta_log-directory"><a id="_delta_log"></a> _delta_log Directory</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p><code>DeltaLog</code> uses <strong>_delta_log</strong> metadata directory under the <a href="#dataPath">data path</a> directory (that is specified using <a href="#forTable">DeltaLog.forTable</a> utility).</p>
@@ -529,7 +529,7 @@ assert(deltaLog.LAST_CHECKPOINT == expected)</code></pre>
 </table>
 </div>
 <div class="paragraph">
-<p>Once resolved and turned into a qualified path, the <code>_delta_log</code> directory for the delta table (under the <a href="#dataPath">data path</a> directory) is <a href="#deltaLogCache">cached</a> for later reuse.</p>
+<p>Once resolved and turned into a qualified path, the <code>_delta_log</code> directory of the delta table (under the <a href="#dataPath">data path</a> directory) is <a href="#deltaLogCache">cached</a> for later reuse.</p>
 </div>
 </div>
 </div>
@@ -542,21 +542,40 @@ assert(deltaLog.LAST_CHECKPOINT == expected)</code></pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="deltalogcache-cache-of-_delta_log-fully-qualified-paths"><a class="anchor" href="#deltalogcache-cache-of-_delta_log-fully-qualified-paths"></a><a class="link" href="#deltalogcache-cache-of-_delta_log-fully-qualified-paths"><a id="deltaLogCache"></a> <code>deltaLogCache</code> Cache of <code>_delta_log</code> Fully-Qualified Paths</a></h2>
+<h2 id="transaction-logs-deltalogs-per-fully-qualified-pathdeltalogcache-internal-registry"><a class="anchor" href="#transaction-logs-deltalogs-per-fully-qualified-pathdeltalogcache-internal-registry"></a><a class="link" href="#transaction-logs-deltalogs-per-fully-qualified-pathdeltalogcache-internal-registry"><a id="deltaLogCache"></a> Transaction Logs (DeltaLogs) per Fully-Qualified Path&#8201;&#8212;&#8201;<code>deltaLogCache</code> Internal Registry</a></h2>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">deltaLogCache: Cache[Path, DeltaLog]</code></pre>
 </div>
 </div>
-<div class="paragraph">
-<p><code>deltaLogCache</code> is a cache of <a href="#DeltaLog">DeltaLogs</a> by their fully-qualified <a href="#_delta_log">_delta_log</a> metadata directories.</p>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>deltaLogCache</code> is part of <code>DeltaLog</code> Scala object which makes it an application-wide cache. Once used, <code>deltaLogCache</code> will only be one until the application that uses it stops.
+</td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
-<p><code>deltaLogCache</code> has a new <code>DeltaLog</code> added in <a href="#apply">DeltaLog.apply</a> utility.</p>
+<p><code>deltaLogCache</code> is a registry of <code>DeltaLogs</code> by their fully-qualified <a href="#_delta_log">_delta_log</a> directories. A new instance of <code>DeltaLog</code> is added when <a href="#apply">DeltaLog.apply</a> utility is used and the instance hasn&#8217;t been created before for a path.</p>
 </div>
 <div class="paragraph">
-<p><code>deltaLogCache</code> is invalidated for a <code>Path</code> in <a href="#apply">DeltaLog.apply</a>, <a href="#invalidateCache">DeltaLog.invalidateCache</a> utilities and all <code>Paths</code> in <a href="#clearCache">DeltaLog.clearCache</a> utility.</p>
+<p><code>deltaLogCache</code> is invalidated:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>For a delta table using <a href="#invalidateCache">DeltaLog.invalidateCache</a> utility (and <a href="#apply">DeltaLog.apply</a> when the cached reference is no longer <a href="#isValid">valid</a>)</p>
+</li>
+<li>
+<p>For all delta tables using <a href="#clearCache">DeltaLog.clearCache</a> utility</p>
+</li>
+</ul>
 </div>
 </div>
 </div>
@@ -585,7 +604,7 @@ assert(deltaLog.LAST_CHECKPOINT == expected)</code></pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="creating-deltalog-instanceapply-utility"><a class="anchor" href="#creating-deltalog-instanceapply-utility"></a><a class="link" href="#creating-deltalog-instanceapply-utility"><a id="apply"></a> Creating DeltaLog Instance&#8201;&#8212;&#8201;<code>apply</code> Utility</a></h2>
+<h2 id="looking-up-or-creating-deltalog-instanceapply-utility"><a class="anchor" href="#looking-up-or-creating-deltalog-instanceapply-utility"></a><a class="link" href="#looking-up-or-creating-deltalog-instanceapply-utility"><a id="apply"></a> Looking Up Or Creating DeltaLog Instance&#8201;&#8212;&#8201;<code>apply</code> Utility</a></h2>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content">
@@ -1341,7 +1360,7 @@ forTable(
 </div>
 </div>
 <div class="sect1">
-<h2 id="invalidating-cached-deltalog-instanceinvalidatecache-utility"><a class="anchor" href="#invalidating-cached-deltalog-instanceinvalidatecache-utility"></a><a class="link" href="#invalidating-cached-deltalog-instanceinvalidatecache-utility"><a id="invalidateCache"></a> Invalidating Cached DeltaLog Instance&#8201;&#8212;&#8201;<code>invalidateCache</code> Utility</a></h2>
+<h2 id="invalidating-cached-deltalog-instance-by-pathinvalidatecache-utility"><a class="anchor" href="#invalidating-cached-deltalog-instance-by-pathinvalidatecache-utility"></a><a class="link" href="#invalidating-cached-deltalog-instance-by-pathinvalidatecache-utility"><a id="invalidateCache"></a> Invalidating Cached DeltaLog Instance By Path&#8201;&#8212;&#8201;<code>invalidateCache</code> Utility</a></h2>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content">
@@ -1360,7 +1379,7 @@ forTable(
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-<code>invalidateCache</code> does not seem to be used at all.
+<code>invalidateCache</code> is a public API and does not seem to be used at all.
 </td>
 </tr>
 </table>
@@ -1385,7 +1404,7 @@ forTable(
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-<code>clearCache</code> seems to be used exclusively in tests.
+<code>clearCache</code> is a public API and is used exclusively in tests.
 </td>
 </tr>
 </table>
@@ -1453,6 +1472,31 @@ forTable(
 </li>
 </ul>
 </div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="isvalid-method"><a class="anchor" href="#isvalid-method"></a><a class="link" href="#isvalid-method"><a id="isValid"></a> <code>isValid</code> Method</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">isValid(): Boolean</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>isValid</code>&#8230;&#8203;FIXME</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>isValid</code> is used when <code>DeltaLog</code> utility is used to <a href="#apply">get or create a transaction log for a delta table</a>.
 </td>
 </tr>
 </table>
