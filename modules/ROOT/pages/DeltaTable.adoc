@@ -198,7 +198,7 @@ forPath(
   sparkSession: SparkSession,
   path: String): DeltaTable
 ----
-<1> Uses `SparkSession.getActiveSession`
+<1> Uses `SparkSession.getActiveSession` to access the `SparkSession`
 
 `forPath` creates a `DeltaTable` instance for data in the given directory (`path`) when the given <<DeltaTableUtils.adoc#isDeltaTable, directory is part of a delta table>> already (as the root or a child directory).
 
@@ -224,9 +224,9 @@ Internally, `forPath` creates a new <<DeltaTable, DeltaTable>> with the followin
 
 * `Dataset` that represents loading data from the specified `path` using <<DeltaDataSource.adoc#delta-format, delta>> data source
 
-* <<DeltaLog.adoc#, DeltaLog>> for the <<DeltaLog.adoc#forTable, table in the specified path>>
+* <<DeltaLog.adoc#, DeltaLog>> for the <<DeltaLog.adoc#forTable, (transaction log in) the specified path>>
 
-NOTE: `forPath` is used when `DeltaTable` utility is used to <<convertToDelta, convert a parquet table to delta format (DeltaTable.convertToDelta)>>.
+NOTE: `forPath` is a public API, and is also used internally for <<convertToDelta, DeltaTable.convertToDelta>> (via <<DeltaConvert.adoc#, DeltaConvert>> utility).
 
 == [[convertToDelta]] Converting Parquet Table To Delta Format (Importing Parquet Table Into Delta Lake) -- `DeltaTable.convertToDelta` Utility
 
@@ -248,7 +248,7 @@ convertToDelta(
 
 `convertToDelta` converts a parquet table to delta format (and makes the table available in Delta Lake).
 
-TIP: Refer to xref:demo-Converting-Parquet-Dataset-Into-Delta-Format.adoc[Demo: Converting Parquet Dataset Into Delta Format] for a demo of `DeltaTable.convertToDelta`.
+TIP: Refer to xref:demo:Converting-Parquet-Dataset-Into-Delta-Format.adoc[Demo: Converting Parquet Dataset Into Delta Format] for a demo of `DeltaTable.convertToDelta`.
 
 Internally, `convertToDelta` requests the `SparkSession` for the SQL parser (`ParserInterface`) that is in turn requested to parse the given table identifier (to get a `TableIdentifier`).
 

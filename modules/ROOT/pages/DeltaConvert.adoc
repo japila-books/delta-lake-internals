@@ -2,6 +2,8 @@
 
 `DeltaConvert` utility is used exclusively for <<executeConvert, importing a parquet table into Delta Lake (DeltaConvert.executeConvert)>>.
 
+`DeltaConvert` utility can be used directly or indirectly via <<DeltaTable.adoc#convertToDelta, DeltaTable.convertToDelta>> utility.
+
 .Demo of DeltaConvert
 [source,scala]
 ----
@@ -23,6 +25,9 @@ val deltaPath: Option[String] = None
 import io.delta.tables.execution.DeltaConvert
 DeltaConvert.executeConvert(spark, table, partitionSchema, deltaPath)
 ----
+
+[[DeltaConvertBase]]
+`DeltaConvert` utility is a concrete `DeltaConvertBase`.
 
 == [[executeConvert]] Importing Parquet Table Into Delta Lake (Converting Parquet Table To Delta Format) -- `executeConvert` Method
 
