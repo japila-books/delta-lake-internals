@@ -1132,6 +1132,32 @@ Hooks may create new transactions.
 </div>
 </div>
 <div class="sect1">
+<h2 id="getnextattemptversion-internal-method"><a class="anchor" href="#getnextattemptversion-internal-method"></a><a class="link" href="#getnextattemptversion-internal-method"><a id="getNextAttemptVersion"></a> <code>getNextAttemptVersion</code> Internal Method</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">getNextAttemptVersion(
+  previousAttemptVersion: Long): Long</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>getNextAttemptVersion</code>&#8230;&#8203;FIXME</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>getNextAttemptVersion</code> is used when <code>OptimisticTransactionImpl</code> is requested to <a href="#checkAndRetry">checkAndRetry</a>.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
 <h2 id="internal-properties"><a class="anchor" href="#internal-properties"></a><a class="link" href="#internal-properties"><a id="internal-properties"></a> Internal Properties</a></h2>
 <div class="sectionbody">
 <table class="tableblock frame-all grid-all stretch">

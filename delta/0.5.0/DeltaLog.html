@@ -450,7 +450,7 @@ assert(deltaLog.LAST_CHECKPOINT == expected)</code></pre>
 <p>Creates the <a href="#store">LogStore</a> based on <a href="LogStoreProvider.html#spark.delta.logStore.class" class="page">spark.delta.logStore.class</a> configuration property (default: <a href="HDFSLogStore.html" class="page">HDFSLogStore</a>)</p>
 </li>
 <li>
-<p>Initializes the <a href="#currentSnapshot">current snapshot</a> based on the <a href="Checkpoints.html#lastCheckpoint" class="page">metadata checkpoint</a></p>
+<p>Initializes the <a href="#currentSnapshot">current snapshot</a></p>
 </li>
 <li>
 <p><a href="#update">Updates state of the delta table</a> when there is no <a href="Checkpoints.html#lastCheckpoint" class="page">metadata checkpoint</a> (e.g. the version of the <a href="#currentSnapshot">state</a> is <code>-1</code>)</p>
@@ -921,7 +921,7 @@ forTable(
 </div>
 </div>
 <div class="sect1">
-<h2 id="current-snapshotsnapshot-method"><a class="anchor" href="#current-snapshotsnapshot-method"></a><a class="link" href="#current-snapshotsnapshot-method"><a id="snapshot"></a> Current Snapshot&#8201;&#8212;&#8201;<code>snapshot</code> Method</a></h2>
+<h2 id="current-state-snapshotsnapshot-method"><a class="anchor" href="#current-state-snapshotsnapshot-method"></a><a class="link" href="#current-state-snapshotsnapshot-method"><a id="snapshot"></a> Current State Snapshot&#8201;&#8212;&#8201;<code>snapshot</code> Method</a></h2>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content">
@@ -938,7 +938,95 @@ forTable(
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-<code>snapshot</code> is used when&#8230;&#8203;FIXME
+<div class="paragraph">
+<p><code>snapshot</code> is used when:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="OptimisticTransaction.html" class="page">OptimisticTransaction</a> is created</p>
+</li>
+<li>
+<p><code>Checkpoints</code> is requested to <a href="#checkpoint">checkpoint</a></p>
+</li>
+<li>
+<p><code>DeltaLog</code> is requested for the <a href="#metadata">metadata</a>, to <a href="#upgradeProtocol">upgradeProtocol</a>, <a href="#getSnapshotAt">getSnapshotAt</a>, <a href="#createRelation">createRelation</a></p>
+</li>
+<li>
+<p><code>OptimisticTransactionImpl</code> is requested to <a href="OptimisticTransactionImpl.html#getNextAttemptVersion" class="page">getNextAttemptVersion</a></p>
+</li>
+<li>
+<p><a href="DeleteCommand.html" class="page">DeleteCommand</a>, <a href="DeltaGenerateCommand.html" class="page">DeltaGenerateCommand</a>, <a href="DescribeDeltaDetailCommand.html" class="page">DescribeDeltaDetailCommand</a>, <a href="UpdateCommand.html" class="page">UpdateCommand</a>, <a href="GenerateSymlinkManifest.html" class="page">GenerateSymlinkManifest</a> are executed</p>
+</li>
+<li>
+<p>DeltaCommand is requested to <a href="DeltaCommand.html#buildBaseRelation" class="page">buildBaseRelation</a></p>
+</li>
+<li>
+<p><code>TahoeFileIndex</code> is requested for the <a href="TahoeFileIndex.html#tableVersion" class="page">table version</a>, <a href="TahoeFileIndex.html#partitionSchema" class="page">partitionSchema</a></p>
+</li>
+<li>
+<p><code>TahoeLogFileIndex</code> is requested for the <a href="TahoeLogFileIndex.html#sizeInBytes" class="page">table size</a></p>
+</li>
+<li>
+<p><code>DeltaDataSource</code> is requested for the <a href="DeltaDataSource.html#sourceSchema" class="page">schema of the streaming delta source</a></p>
+</li>
+<li>
+<p><a href="DeltaSource.html" class="page">DeltaSource</a> is created and requested for the <a href="DeltaSource.html#getStartingOffset" class="page">getStartingOffset</a>, <a href="DeltaSource.html#getBatch" class="page">getBatch</a></p>
+</li>
+</ul>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="current-state-snapshotcurrentsnapshot-internal-registry"><a class="anchor" href="#current-state-snapshotcurrentsnapshot-internal-registry"></a><a class="link" href="#current-state-snapshotcurrentsnapshot-internal-registry"><a id="currentSnapshot"></a> Current State Snapshot&#8201;&#8212;&#8201;<code>currentSnapshot</code> Internal Registry</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">currentSnapshot: Snapshot</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>currentSnapshot</code> is a <a href="Snapshot.html" class="page">Snapshot</a> based on the <a href="Checkpoints.html#lastCheckpoint" class="page">metadata checkpoint</a> if available or a new <code>Snapshot</code> instance (with version being <code>-1</code>).</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+For a new <code>Snapshot</code> instance (with version being <code>-1</code>) <code>DeltaLog</code> immediately <a href="#update">updates the state</a>.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Internally, <code>currentSnapshot</code>&#8230;&#8203;FIXME</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>currentSnapshot</code> is available using <a href="#snapshot">snapshot</a> method.
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>currentSnapshot</code> is used when <code>DeltaLog</code> is requested to <a href="#updateInternal">updateInternal</a>, <a href="#update">update</a>, <a href="#tryUpdate">tryUpdate</a>, and &lt;&lt;isValid, isValid&gt;.
 </td>
 </tr>
 </table>
@@ -1318,31 +1406,6 @@ forTable(
 </li>
 </ul>
 </div>
-</td>
-</tr>
-</table>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="currentsnapshot-internal-registry"><a class="anchor" href="#currentsnapshot-internal-registry"></a><a class="link" href="#currentsnapshot-internal-registry"><a id="currentSnapshot"></a> <code>currentSnapshot</code> Internal Registry</a></h2>
-<div class="sectionbody">
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">currentSnapshot: Snapshot</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p><code>currentSnapshot</code>&#8230;&#8203;FIXME</p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<code>currentSnapshot</code> is used when&#8230;&#8203;FIXME
 </td>
 </tr>
 </table>

@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title> DeltaSource :: The Internals Of Delta Lake</title>
+    <title> DeltaSource&#8201;&#8212;&#8201;Streaming Source of Delta Data Source :: The Internals Of Delta Lake</title>
     <link rel="canonical" href="https://books.japila.pl/delta-lake-internals/delta/0.5.0/DeltaSource.html">
     <meta name="generator" content="Antora 2.2.0">
     <link rel="stylesheet" href="../../_/css/site.css">
@@ -416,11 +416,23 @@
   <div class="edit-this-page"><a href="https://github.com/japila-books/delta-lake-internals/edit/v0.5.0/modules/ROOT/pages/DeltaSource.adoc">Edit this Page</a></div>
   </div>
 <article class="doc">
-<h1 class="page"><a id="DeltaSource"></a> DeltaSource</h1>
+<h1 class="page"><a id="DeltaSource"></a> DeltaSource&#8201;&#8212;&#8201;Streaming Source of Delta Data Source</h1>
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p><code>DeltaSource</code> is&#8230;&#8203;FIXME</p>
+<p><code>DeltaSource</code> is the source of <a href="DeltaDataSource.html" class="page">delta data source</a> for streaming queries in Spark Structured Streaming.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+Read up on <a href="https://jaceklaskowski.gitbooks.io/spark-structured-streaming/spark-sql-streaming-Source.html">Streaming Source</a> in <a href="https://bit.ly/spark-structured-streaming">The Internals of Spark Structured Streaming</a> online book.
+</td>
+</tr>
+</table>
 </div>
 </div>
 </div>
@@ -473,6 +485,31 @@
 </div>
 <div class="paragraph">
 <p><code>getOffset</code>&#8230;&#8203;FIXME</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="stopping-streaming-sourcestop-method"><a class="anchor" href="#stopping-streaming-sourcestop-method"></a><a class="link" href="#stopping-streaming-sourcestop-method"><a id="stop"></a> Stopping Streaming Source&#8201;&#8212;&#8201;<code>stop</code> Method</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">stop(): Unit</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>stop</code> is part of the streaming <code>Source</code> contract (Spark Structured Streaming) to stop this source and free up any resources allocated.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><code>stop</code> simply <a href="#cleanUpSnapshotResources">cleanUpSnapshotResources</a>.</p>
 </div>
 </div>
 </div>
@@ -603,6 +640,31 @@
 </td>
 <td class="content">
 <code>verifyStreamHygieneAndFilterAddFiles</code> is used when <code>DeltaSource</code> is requested to <a href="#getChanges">getChanges</a>.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="cleanupsnapshotresources-internal-method"><a class="anchor" href="#cleanupsnapshotresources-internal-method"></a><a class="link" href="#cleanupsnapshotresources-internal-method"><a id="cleanUpSnapshotResources"></a> <code>cleanUpSnapshotResources</code> Internal Method</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">cleanUpSnapshotResources(): Unit</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>cleanUpSnapshotResources</code>&#8230;&#8203;FIXME</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>cleanUpSnapshotResources</code> is used when <code>DeltaSource</code> is requested to <a href="#getSnapshotAt">getSnapshotAt</a>, <a href="#getBatch">getBatch</a> and <a href="#stop">stop</a>.
 </td>
 </tr>
 </table>
