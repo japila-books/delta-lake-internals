@@ -67,6 +67,17 @@ getSnapshot(stalenessAcceptable: Boolean): Snapshot
 
 NOTE: `getSnapshot` is used when `TahoeLogFileIndex` is requested for the <<matchingFiles, matching files>> and the <<inputFiles, input files>>.
 
+== [[sizeInBytes]] `sizeInBytes` Property
+
+[source, scala]
+----
+sizeInBytes: Long
+----
+
+NOTE: `sizeInBytes` is part of the `FileIndex` contract for the table size (in bytes).
+
+`sizeInBytes`...FIXME
+
 == [[internal-properties]] Internal Properties
 
 [cols="30m,70",options="header",width="100%"]

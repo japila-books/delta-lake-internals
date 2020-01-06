@@ -379,6 +379,18 @@ In the end, `txnVersion` requests the <<snapshot, Snapshot>> for the <<Snapshot.
 
 NOTE: `txnVersion` is used when `DeltaSink` is requested to <<DeltaSink.adoc#addBatch, add a streaming micro-batch>>.
 
+== [[getNextAttemptVersion]] `getNextAttemptVersion` Internal Method
+
+[source, scala]
+----
+getNextAttemptVersion(
+  previousAttemptVersion: Long): Long
+----
+
+`getNextAttemptVersion`...FIXME
+
+NOTE: `getNextAttemptVersion` is used when `OptimisticTransactionImpl` is requested to <<checkAndRetry, checkAndRetry>>.
+
 == [[internal-properties]] Internal Properties
 
 [cols="30m,70",options="header",width="100%"]

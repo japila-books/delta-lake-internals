@@ -1,6 +1,6 @@
 = [[DeltaSink]] DeltaSink -- Streaming Sink of Delta Data Source
 
-`DeltaSink` is a streaming sink of <<DeltaDataSource.adoc#, delta data source>> for Spark Structured Streaming.
+`DeltaSink` is the sink of <<DeltaDataSource.adoc#, delta data source>> for streaming queries in Spark Structured Streaming.
 
 TIP: Read up on https://jaceklaskowski.gitbooks.io/spark-structured-streaming/spark-sql-streaming-Sink.html[Streaming Sink] in https://bit.ly/spark-structured-streaming[The Internals of Spark Structured Streaming] online book.
 

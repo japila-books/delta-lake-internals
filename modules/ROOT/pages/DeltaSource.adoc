@@ -1,6 +1,8 @@
-= [[DeltaSource]] DeltaSource
+= [[DeltaSource]] DeltaSource -- Streaming Source of Delta Data Source
 
-`DeltaSource` is...FIXME
+`DeltaSource` is the source of <<DeltaDataSource.adoc#, delta data source>> for streaming queries in Spark Structured Streaming.
+
+TIP: Read up on https://jaceklaskowski.gitbooks.io/spark-structured-streaming/spark-sql-streaming-Source.html[Streaming Source] in https://bit.ly/spark-structured-streaming[The Internals of Spark Structured Streaming] online book.
 
 == [[getBatch]] `getBatch` Method
 
@@ -25,6 +27,17 @@ getOffset: Option[Offset]
 NOTE: `getOffset` is part of the streaming `Source` contract (Spark Structured Streaming) to get the maximum available offset for this source.
 
 `getOffset`...FIXME
+
+== [[stop]] Stopping Streaming Source -- `stop` Method
+
+[source, scala]
+----
+stop(): Unit
+----
+
+NOTE: `stop` is part of the streaming `Source` contract (Spark Structured Streaming) to stop this source and free up any resources allocated.
+
+`stop` simply <<cleanUpSnapshotResources, cleanUpSnapshotResources>>.
 
 == [[getStartingOffset]] `getStartingOffset` Internal Method
 
@@ -88,3 +101,14 @@ verifyStreamHygieneAndFilterAddFiles(
 `verifyStreamHygieneAndFilterAddFiles`...FIXME
 
 NOTE: `verifyStreamHygieneAndFilterAddFiles` is used when `DeltaSource` is requested to <<getChanges, getChanges>>.
+
+== [[cleanUpSnapshotResources]] `cleanUpSnapshotResources` Internal Method
+
+[source, scala]
+----
+cleanUpSnapshotResources(): Unit
+----
+
+`cleanUpSnapshotResources`...FIXME
+
+NOTE: `cleanUpSnapshotResources` is used when `DeltaSource` is requested to <<getSnapshotAt, getSnapshotAt>>, <<getBatch, getBatch>> and <<stop, stop>>.

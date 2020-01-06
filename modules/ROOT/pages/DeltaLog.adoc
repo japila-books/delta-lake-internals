@@ -24,7 +24,7 @@ While being <<creating-instance, created>>, `DeltaLog` does the following:
 
 * Creates the <<store, LogStore>> based on <<LogStoreProvider.adoc#spark.delta.logStore.class, spark.delta.logStore.class>> configuration property (default: <<HDFSLogStore.adoc#, HDFSLogStore>>)
 
-* Initializes the <<currentSnapshot, current snapshot>> based on the <<Checkpoints.adoc#lastCheckpoint, metadata checkpoint>>
+* Initializes the <<currentSnapshot, current snapshot>>
 
 * <<update, Updates state of the delta table>> when there is no <<Checkpoints.adoc#lastCheckpoint, metadata checkpoint>> (e.g. the version of the <<currentSnapshot, state>> is `-1`)
 
@@ -265,7 +265,7 @@ For all other cases, `update`...FIXME
 * `DeltaDataSource` is requested for a <<DeltaDataSource.adoc#RelationProvider-createRelation, relation>>
 ====
 
-== [[snapshot]] Current Snapshot -- `snapshot` Method
+== [[snapshot]] Current State Snapshot -- `snapshot` Method
 
 [source, scala]
 ----
@@ -274,7 +274,47 @@ snapshot: Snapshot
 
 `snapshot` returns the <<currentSnapshot, current snapshot>>.
 
-NOTE: `snapshot` is used when...FIXME
+[NOTE]
+====
+`snapshot` is used when:
+
+* <<OptimisticTransaction.adoc#, OptimisticTransaction>> is created
+
+* `Checkpoints` is requested to <<checkpoint, checkpoint>>
+
+* `DeltaLog` is requested for the <<metadata, metadata>>, to <<upgradeProtocol, upgradeProtocol>>, <<getSnapshotAt, getSnapshotAt>>, <<createRelation, createRelation>>
+
+* `OptimisticTransactionImpl` is requested to <<OptimisticTransactionImpl.adoc#getNextAttemptVersion, getNextAttemptVersion>>
+
+* <<DeleteCommand.adoc#, DeleteCommand>>, <<DeltaGenerateCommand.adoc#, DeltaGenerateCommand>>, <<DescribeDeltaDetailCommand.adoc#, DescribeDeltaDetailCommand>>, <<UpdateCommand.adoc#, UpdateCommand>>, <<GenerateSymlinkManifest.adoc#, GenerateSymlinkManifest>> are executed
+
+* DeltaCommand is requested to <<DeltaCommand.adoc#buildBaseRelation, buildBaseRelation>>
+
+* `TahoeFileIndex` is requested for the <<TahoeFileIndex.adoc#tableVersion, table version>>, <<TahoeFileIndex.adoc#partitionSchema, partitionSchema>>
+
+* `TahoeLogFileIndex` is requested for the <<TahoeLogFileIndex.adoc#sizeInBytes, table size>>
+
+* `DeltaDataSource` is requested for the <<DeltaDataSource.adoc#sourceSchema, schema of the streaming delta source>>
+
+* <<DeltaSource.adoc#, DeltaSource>> is created and requested for the <<DeltaSource.adoc#getStartingOffset, getStartingOffset>>, <<DeltaSource.adoc#getBatch, getBatch>>
+====
+
+== [[currentSnapshot]] Current State Snapshot -- `currentSnapshot` Internal Registry
+
+[source, scala]
+----
+currentSnapshot: Snapshot
+----
+
+`currentSnapshot` is a <<Snapshot.adoc#, Snapshot>> based on the <<Checkpoints.adoc#lastCheckpoint, metadata checkpoint>> if available or a new `Snapshot` instance (with version being `-1`).
+
+NOTE: For a new `Snapshot` instance (with version being `-1`) `DeltaLog` immediately <<update, updates the state>>.
+
+Internally, `currentSnapshot`...FIXME
+
+NOTE: `currentSnapshot` is available using <<snapshot, snapshot>> method.
+
+NOTE: `currentSnapshot` is used when `DeltaLog` is requested to <<updateInternal, updateInternal>>, <<update, update>>, <<tryUpdate, tryUpdate>>, and <<isValid, isValid>.
 
 == [[createRelation]] Creating Insertable HadoopFsRelation (With InsertableRelation) -- `createRelation` Method
 
@@ -462,17 +502,6 @@ tombstoneRetentionMillis: Long
 
 * `VacuumCommand` is requested for <<VacuumCommand.adoc#gc, garbage collecting of a delta table>>
 ====
-
-== [[currentSnapshot]] `currentSnapshot` Internal Registry
-
-[source, scala]
-----
-currentSnapshot: Snapshot
-----
-
-`currentSnapshot`...FIXME
-
-NOTE: `currentSnapshot` is used when...FIXME
 
 == [[updateInternal]] `updateInternal` Internal Method
 
