@@ -20,7 +20,15 @@ val expected = new Path(s"file:$dataPath/_delta_log/_last_checkpoint")
 assert(deltaLog.LAST_CHECKPOINT == expected)
 ----
 
-When <<creating-instance, created>>, `DeltaLog` immediately <<update, updates state of the delta table>> for no <<Checkpoints.adoc#lastCheckpoint, metadata checkpoint>> available (e.g. the version of the <<currentSnapshot, state>> is `-1`). In other words, the version of (the `DeltaLog` of) a delta table is at version `0` at the very minimum.
+While being <<creating-instance, created>>, `DeltaLog` does the following:
+
+* Creates the <<store, LogStore>> based on <<LogStoreProvider.adoc#spark.delta.logStore.class, spark.delta.logStore.class>> configuration property (default: <<HDFSLogStore.adoc#, HDFSLogStore>>)
+
+* Initializes the <<currentSnapshot, current snapshot>> based on the <<Checkpoints.adoc#lastCheckpoint, metadata checkpoint>>
+
+* <<update, Updates state of the delta table>> when there is no <<Checkpoints.adoc#lastCheckpoint, metadata checkpoint>> (e.g. the version of the <<currentSnapshot, state>> is `-1`)
+
+In other words, the version of (the `DeltaLog` of) a delta table is at version `0` at the very minimum.
 
 [source, scala]
 ----

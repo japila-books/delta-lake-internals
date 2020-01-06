@@ -2,7 +2,7 @@
 
 `LogStoreProvider` is an abstraction of <<implementations, providers>> of <<createLogStore, LogStores>>.
 
-[[logStoreClassConfKey]][[defaultLogStoreClass]]
+[[logStoreClassConfKey]][[defaultLogStoreClass]][[spark.delta.logStore.class]]
 `LogStoreProvider` uses the *spark.delta.logStore.class* configuration property (default: <<HDFSLogStore.adoc#, HDFSLogStore>>) for the fully-qualified class name of the <<LogStore.adoc#, LogStore>> to <<createLogStore, create>> (for a <<DeltaLog.adoc#, DeltaLog>>, a <<DeltaHistoryManager.adoc#, DeltaHistoryManager>>, and <<DeltaFileOperations.adoc#, DeltaFileOperations>>).
 
 == [[createLogStore]] Creating LogStore -- `createLogStore` Method
