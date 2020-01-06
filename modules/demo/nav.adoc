@@ -3,3 +3,4 @@
 ** xref:Using-Delta-Lake-as-Streaming-Sink-in-Structured-Streaming.adoc[Using Delta Lake as Streaming Sink in Structured Streaming]
 ** xref:Debugging-Delta-Lake-Using-IntelliJ-IDEA.adoc[Debugging Delta Lake Using IntelliJ IDEA]
 ** xref:Observing-Transaction-Retries.adoc[Observing Transaction Retries]
+** xref:DeltaTable-DeltaLog-And-Snapshots.adoc[DeltaTable, DeltaLog And Snapshots]
