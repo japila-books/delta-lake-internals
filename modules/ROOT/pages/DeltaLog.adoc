@@ -2,8 +2,7 @@
 
 `DeltaLog` is a *transaction log* (aka _change log_) of <<Action.adoc#, changes>> to the state of a <<dataPath, delta table>>.
 
-[[_delta_log]]
-`DeltaLog` uses *_delta_log* directory for (the files of) the transaction log of a delta table (that is given when <<forTable, DeltaLog.forTable>> utility is used to create an instance).
+`DeltaLog` uses <<_delta_log, _delta_log>> directory for (the files of) the transaction log of a delta table (that is given when <<forTable, DeltaLog.forTable>> utility is used to create an instance).
 
 `DeltaLog` is <<creating-instance, created>> (indirectly via <<apply, DeltaLog.apply>> utility) when <<forTable, DeltaLog.forTable>> utility is used.
 
@@ -54,7 +53,7 @@ Refer to <<logging.adoc#, Logging>>.
 
 The `FileFormats` are used to create <<DeltaLogFileIndex.adoc#, DeltaLogFileIndices>> for <<Snapshot.adoc#files, Snapshots>> that in turn used them for <<Snapshot.adoc#stateReconstruction, stateReconstruction>>.
 
-== [[_delta_log]] _delta_log Metadata Directory
+== [[_delta_log]] _delta_log Directory
 
 `DeltaLog` uses *_delta_log* metadata directory under the <<dataPath, data path>> directory (that is specified using <<forTable, DeltaLog.forTable>> utility).
 
@@ -70,24 +69,28 @@ spark.sessionState.newHadoopConf()
 ----
 ====
 
-Once resolved and turned into a qualified path, the `_delta_log` directory for the delta table (under the <<dataPath, data path>> directory) is <<deltaLogCache, cached>> for later reuse.
+Once resolved and turned into a qualified path, the `_delta_log` directory of the delta table (under the <<dataPath, data path>> directory) is <<deltaLogCache, cached>> for later reuse.
 
 == [[store]] LogStore
 
 `DeltaLog` uses an <<LogStore.adoc#, LogStore>> for...FIXME
 
-== [[deltaLogCache]] `deltaLogCache` Cache of `_delta_log` Fully-Qualified Paths
+== [[deltaLogCache]] Transaction Logs (DeltaLogs) per Fully-Qualified Path -- `deltaLogCache` Internal Registry
 
 [source, scala]
 ----
 deltaLogCache: Cache[Path, DeltaLog]
 ----
 
-`deltaLogCache` is a cache of <<DeltaLog, DeltaLogs>> by their fully-qualified <<_delta_log, _delta_log>> metadata directories.
+NOTE: `deltaLogCache` is part of `DeltaLog` Scala object which makes it an application-wide cache. Once used, `deltaLogCache` will only be one until the application that uses it stops.
 
-`deltaLogCache` has a new `DeltaLog` added in <<apply, DeltaLog.apply>> utility.
+`deltaLogCache` is a registry of `DeltaLogs` by their fully-qualified <<_delta_log, _delta_log>> directories. A new instance of `DeltaLog` is added when <<apply, DeltaLog.apply>> utility is used and the instance hasn't been created before for a path.
 
-`deltaLogCache` is invalidated for a `Path` in <<apply, DeltaLog.apply>>, <<invalidateCache, DeltaLog.invalidateCache>> utilities and all `Paths` in <<clearCache, DeltaLog.clearCache>> utility.
+`deltaLogCache` is invalidated:
+
+* For a delta table using <<invalidateCache, DeltaLog.invalidateCache>> utility (and <<apply, DeltaLog.apply>> when the cached reference is no longer <<isValid, valid>>)
+
+* For all delta tables using <<clearCache, DeltaLog.clearCache>> utility
 
 == [[creating-instance]] Creating DeltaLog Instance
 
@@ -99,7 +102,7 @@ deltaLogCache: Cache[Path, DeltaLog]
 
 `DeltaLog` initializes the <<internal-properties, internal properties>>.
 
-== [[apply]] Creating DeltaLog Instance -- `apply` Utility
+== [[apply]] Looking Up Or Creating DeltaLog Instance -- `apply` Utility
 
 [source, scala]
 ----
@@ -475,7 +478,7 @@ updateInternal(
 
 NOTE: `updateInternal` is used when `DeltaLog` is requested to <<update, update>> (directly or via <<tryUpdate, tryUpdate>>).
 
-== [[invalidateCache]] Invalidating Cached DeltaLog Instance -- `invalidateCache` Utility
+== [[invalidateCache]] Invalidating Cached DeltaLog Instance By Path -- `invalidateCache` Utility
 
 [source, scala]
 ----
@@ -486,7 +489,7 @@ invalidateCache(
 
 `invalidateCache`...FIXME
 
-NOTE: `invalidateCache` does not seem to be used at all.
+NOTE: `invalidateCache` is a public API and does not seem to be used at all.
 
 == [[clearCache]] Removing (Clearing) All Cached DeltaLog Instances -- `clearCache` Utility
 
@@ -497,7 +500,7 @@ clearCache(): Unit
 
 `clearCache`...FIXME
 
-NOTE: `clearCache` seems to be used exclusively in tests.
+NOTE: `clearCache` is a public API and is used exclusively in tests.
 
 == [[upgradeProtocol]] `upgradeProtocol` Method
 
@@ -531,6 +534,17 @@ protocolRead(
 
 * `DeltaSource` is requested to <<DeltaSource.adoc#verifyStreamHygieneAndFilterAddFiles, verifyStreamHygieneAndFilterAddFiles>>
 ====
+
+== [[isValid]] `isValid` Method
+
+[source, scala]
+----
+isValid(): Boolean
+----
+
+`isValid`...FIXME
+
+NOTE: `isValid` is used when `DeltaLog` utility is used to <<apply, get or create a transaction log for a delta table>>.
 
 == [[internal-properties]] Internal Properties
 
