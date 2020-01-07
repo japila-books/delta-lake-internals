@@ -422,7 +422,7 @@
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p><code>TahoeFileIndex</code> is an <a href="#contract">extension</a> of the Spark SQL <code>FileIndex</code> contract for <a href="#implementations">file indices</a> of delta tables that can <a href="#listFiles">list data files</a> to scan based on <a href="#matchingFiles">partition and data filters</a>.</p>
+<p><code>TahoeFileIndex</code> is an <a href="#contract">extension</a> of the Spark SQL <code>FileIndex</code> contract for <a href="#implementations">file indices</a> of delta tables that can <a href="#listFiles">list data files</a> to scan (based on <a href="#matchingFiles">partition and data filters</a>).</p>
 </div>
 <div class="admonitionblock tip">
 <table>
@@ -583,13 +583,38 @@ The aim of <code>TahoeFileIndex</code> is to reduce usage of very expensive disk
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-<code>listFiles</code> is part of the <code>FileIndex</code> contract (Spark SQL) to&#8230;&#8203;FIXME.
+<code>listFiles</code> is part of the <code>FileIndex</code> contract for the file names (grouped into partitions when the data is partitioned).
 </td>
 </tr>
 </table>
 </div>
 <div class="paragraph">
 <p><code>listFiles</code>&#8230;&#8203;FIXME</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="partition-schemapartitionschema-method"><a class="anchor" href="#partition-schemapartitionschema-method"></a><a class="link" href="#partition-schemapartitionschema-method"><a id="partitionSchema"></a> Partition Schema&#8201;&#8212;&#8201;<code>partitionSchema</code> Method</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">partitionSchema: StructType</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>partitionSchema</code> is part of the <code>FileIndex</code> contract for the partition schema.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><code>partitionSchema</code> simply requests the <a href="#deltaLog">DeltaLog</a> for the <a href="DeltaLog.html#snapshot" class="page">Snapshot</a> and then requests the <code>Snapshot</code> for <a href="Snapshot.html#metadata" class="page">Metadata</a> that in turn is requested for the <a href="Metadata.html#partitionSchema" class="page">partitionSchema</a>.</p>
 </div>
 </div>
 </div>

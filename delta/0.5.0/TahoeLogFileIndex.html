@@ -426,7 +426,21 @@
 <p><code>TahoeLogFileIndex</code> is a concrete <a href="TahoeFileIndex.html" class="page">file index</a>.</p>
 </div>
 <div class="paragraph">
-<p><code>TahoeLogFileIndex</code> is <a href="#creating-instance">created</a> exclusively when <code>DeltaLog</code> is requested for a <a href="DeltaLog.html#createRelation" class="page">relation</a> (when <code>DeltaDataSource</code> is requested for one as a <a href="DeltaDataSource.html#CreatableRelationProvider" class="page">CreatableRelationProvider</a> and a <a href="DeltaDataSource.html#RelationProvider" class="page">RelationProvider</a>).</p>
+<p><code>TahoeLogFileIndex</code> is <a href="#creating-instance">created</a> when <code>DeltaLog</code> is requested for a <a href="DeltaLog.html#createRelation" class="page">relation</a> (when <code>DeltaDataSource</code> is requested for one as a <a href="DeltaDataSource.html#CreatableRelationProvider" class="page">CreatableRelationProvider</a> and a <a href="DeltaDataSource.html#RelationProvider" class="page">RelationProvider</a>).</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code>val q = spark.read.format("delta").load("/tmp/delta/users")
+val plan = q.queryExecution.executedPlan
+
+import org.apache.spark.sql.execution.FileSourceScanExec
+val scan = plan.collect { case e: FileSourceScanExec =&gt; e }.head
+
+import org.apache.spark.sql.delta.files.TahoeLogFileIndex
+val index = scan.relation.location.asInstanceOf[TahoeLogFileIndex]
+scala&gt; println(index)
+Delta[version=1, file:/tmp/delta/users]</code></pre>
+</div>
 </div>
 </div>
 </div>
@@ -445,7 +459,7 @@
 <p><a id="deltaLog"></a> <a href="DeltaLog.html" class="page">DeltaLog</a></p>
 </li>
 <li>
-<p><a id="dataPath"></a> Data path (Hadoop <code>Path</code>)</p>
+<p><a id="dataPath"></a> Data directory of the delta table (as Hadoop <a href="https://hadoop.apache.org/docs/r2.6.5/api/org/apache/hadoop/fs/Path.html">Path</a>)</p>
 </li>
 <li>
 <p><a id="partitionFilters"></a> Partition filters (default: <code>empty</code>) (as Catalyst expressions, i.e. <code>Seq[Expression]</code>)</p>
@@ -567,7 +581,8 @@
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">getSnapshot(stalenessAcceptable: Boolean): Snapshot</code></pre>
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">getSnapshot(
+  stalenessAcceptable: Boolean): Snapshot</code></pre>
 </div>
 </div>
 <div class="paragraph">
