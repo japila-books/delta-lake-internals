@@ -420,8 +420,189 @@
   </div>
 <article class="doc">
 <h1 class="page"><a id="TahoeBatchFileIndex"></a> TahoeBatchFileIndex</h1>
+<div id="preamble">
+<div class="sectionbody">
 <div class="paragraph">
-<p><code>TahoeBatchFileIndex</code> is&#8230;&#8203;FIXME</p>
+<p><code>TahoeBatchFileIndex</code> is a concrete <a href="TahoeFileIndex.html" class="page">file index</a> for a given <a href="#snapshot">version</a> of a <a href="#deltaLog">delta table</a>.</p>
+</div>
+<div class="paragraph">
+<p><code>TahoeBatchFileIndex</code> is <a href="#creating-instance">created</a> when:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>DeltaLog</code> is requested for a <a href="DeltaLog.html#createDataFrame" class="page">DataFrame for given AddFiles</a> (for <a href="MergeIntoCommand.html" class="page">MergeIntoCommand</a> and <a href="DeltaSource.html#getBatch" class="page">DeltaSource</a>)</p>
+</li>
+<li>
+<p><a href="DeleteCommand.html" class="page">DeleteCommand</a> and <a href="UpdateCommand.html" class="page">UpdateCommand</a> are executed</p>
+</li>
+<li>
+<p><code>DeltaCommand</code> is requested for a <a href="DeltaCommand.html#buildBaseRelation" class="page">HadoopFsRelation</a> (for <a href="DeleteCommand.html" class="page">DeleteCommand</a> and <a href="UpdateCommand.html" class="page">UpdateCommand</a>)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="creating-tahoebatchfileindex-instance"><a class="anchor" href="#creating-tahoebatchfileindex-instance"></a><a class="link" href="#creating-tahoebatchfileindex-instance"><a id="creating-instance"></a> Creating TahoeBatchFileIndex Instance</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><code>TahoeBatchFileIndex</code> takes the following to be created:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a id="spark"></a> <code>SparkSession</code></p>
+</li>
+<li>
+<p><a id="actionType"></a> Action type</p>
+</li>
+<li>
+<p><a id="addFiles"></a> <a href="AddFile.html" class="page">AddFiles</a> (<code>Seq[AddFile]</code>)</p>
+</li>
+<li>
+<p><a id="deltaLog"></a> <a href="DeltaLog.html" class="page">DeltaLog</a></p>
+</li>
+<li>
+<p><a id="path"></a> Hadoop <a href="https://hadoop.apache.org/docs/r2.6.5/api/org/apache/hadoop/fs/Path.html">Path</a></p>
+</li>
+<li>
+<p><a id="snapshot"></a> <a href="Snapshot.html" class="page">Snapshot</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><code>TahoeBatchFileIndex</code> initializes the <a href="#internal-properties">internal properties</a>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="tableversion-method"><a class="anchor" href="#tableversion-method"></a><a class="link" href="#tableversion-method"><a id="tableVersion"></a> <code>tableVersion</code> Method</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">tableVersion: Long</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>tableVersion</code> is part of the <a href="TahoeFileIndex.html#tableVersion" class="page">TahoeFileIndex</a> contract for the version of the delta table.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><code>tableVersion</code>&#8230;&#8203;FIXME</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="matchingfiles-method"><a class="anchor" href="#matchingfiles-method"></a><a class="link" href="#matchingfiles-method"><a id="matchingFiles"></a> <code>matchingFiles</code> Method</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">matchingFiles(
+  partitionFilters: Seq[Expression],
+  dataFilters: Seq[Expression],
+  keepStats: Boolean = false): Seq[AddFile]</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>matchingFiles</code> is part of the <a href="TahoeFileIndex.html#matchingFiles" class="page">TahoeFileIndex Contract</a> for the matching (valid) files by the given filtering expressions.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><code>matchingFiles</code>&#8230;&#8203;FIXME</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="inputfiles-method"><a class="anchor" href="#inputfiles-method"></a><a class="link" href="#inputfiles-method"><a id="inputFiles"></a> <code>inputFiles</code> Method</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">inputFiles: Array[String]</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>inputFiles</code> is part of the <code>FileIndex</code> contract to&#8230;&#8203;FIXME
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><code>inputFiles</code>&#8230;&#8203;FIXME</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="schema-of-partition-columnspartitionschema-method"><a class="anchor" href="#schema-of-partition-columnspartitionschema-method"></a><a class="link" href="#schema-of-partition-columnspartitionschema-method"><a id="partitionSchema"></a> Schema of Partition Columns&#8201;&#8212;&#8201;<code>partitionSchema</code> Method</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">partitionSchema: StructType</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>partitionSchema</code> is part of the <code>FileIndex</code> contract (Spark SQL) to get the schema of the partition columns (if used).
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><code>partitionSchema</code> simply requests the <a href="#snapshot">Snapshot</a> for the <a href="Snapshot.html#metadata" class="page">metadata</a> that is in turn requested for the <a href="Metadata.html#partitionSchema" class="page">partitionSchema</a>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="sizeinbytes-property"><a class="anchor" href="#sizeinbytes-property"></a><a class="link" href="#sizeinbytes-property"><a id="sizeInBytes"></a> <code>sizeInBytes</code> Property</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">sizeInBytes: Long</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>sizeInBytes</code> is part of the <code>FileIndex</code> contract (Spark SQL) for the table size (in bytes).
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><code>sizeInBytes</code> is simply a sum of the <a href="AddFile.html#size" class="page">size</a> of all <a href="#addFiles">AddFiles</a>.</p>
+</div>
+</div>
 </div>
 </article>
 </main>
