@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title> DeltaFileFormat Contract :: The Internals Of Delta Lake</title>
+    <title> DeltaFileFormat Contract&#8201;&#8212;&#8201;Spark FileFormat Of Delta Table :: The Internals Of Delta Lake</title>
     <link rel="canonical" href="https://books.japila.pl/delta-lake-internals/delta/0.5.0/DeltaFileFormat.html">
     <meta name="generator" content="Antora 2.2.0">
     <link rel="stylesheet" href="../../_/css/site.css">
@@ -112,6 +112,9 @@
   </li>
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="PartitionFiltering.html">PartitionFiltering</a>
+  </li>
+  <li class="nav-item is-current-page" data-depth="2">
+    <a class="nav-link" href="DeltaFileFormat.html">DeltaFileFormat</a>
   </li>
 </ul>
   </li>
@@ -334,9 +337,6 @@
   <li class="nav-item" data-depth="1">
     <a class="nav-link" href="DeltaLogFileIndex.html">DeltaLogFileIndex</a>
   </li>
-  <li class="nav-item is-current-page" data-depth="1">
-    <a class="nav-link" href="DeltaFileFormat.html">DeltaFileFormat</a>
-  </li>
   <li class="nav-item" data-depth="1">
     <a class="nav-link" href="DeltaErrors.html">DeltaErrors</a>
   </li>
@@ -405,6 +405,7 @@
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="index.html">Delta Lake</a></li>
+    <li><a href="Snapshot.html">Snapshot</a></li>
     <li><a href="DeltaFileFormat.html">DeltaFileFormat</a></li>
   </ul>
 </nav>
@@ -418,9 +419,9 @@
   <div class="edit-this-page"><a href="https://github.com/japila-books/delta-lake-internals/edit/v0.5.0/modules/ROOT/pages/DeltaFileFormat.adoc">Edit this Page</a></div>
   </div>
 <article class="doc">
-<h1 class="page"><a id="DeltaFileFormat"></a> DeltaFileFormat Contract</h1>
+<h1 class="page"><a id="DeltaFileFormat"></a> DeltaFileFormat Contract&#8201;&#8212;&#8201;Spark FileFormat Of Delta Table</h1>
 <div class="paragraph">
-<p><code>DeltaFileFormat</code> is the <a href="#contract">abstraction</a> of <a href="#implementations">FileFormat "descriptors"</a> that can <a href="#fileFormat">specify the underlying FileFormat of Spark</a> that describes a Delta table.</p>
+<p><code>DeltaFileFormat</code> is the <a href="#contract">abstraction</a> of <a href="#implementations">FileFormat "descriptors"</a> that can <a href="#fileFormat">specify the Spark FileFormat of a Delta table</a>.</p>
 </div>
 <table id="contract" class="tableblock frame-all grid-all stretch">
 <caption class="title">Table 1. DeltaFileFormat Contract</caption>
@@ -443,13 +444,26 @@
 </div>
 </div>
 <div class="paragraph">
-<p>Spark SQL&#8217;s <code>FileFormat</code> of the delta table</p>
+<p>Spark SQL&#8217;s <code>FileFormat</code> of a delta table</p>
 </div>
 <div class="paragraph">
 <p>Default: <code>ParquetFileFormat</code></p>
 </div>
 <div class="paragraph">
-<p>Used when&#8230;&#8203;FIXME</p>
+<p>Used when:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>DeltaLog</code> is requested for a <a href="DeltaLog.html#createRelation" class="page">relation</a> (in batch queries) and <a href="#createDataFrame">DataFrame</a></p>
+</li>
+<li>
+<p><code>DeltaCommand</code> is requested for a <a href="DeltaCommand.html#buildBaseRelation" class="page">relation</a></p>
+</li>
+<li>
+<p><code>TransactionalWrite</code> is requested to <a href="TransactionalWrite.html#writeFiles" class="page">write data out</a></p>
+</li>
+</ul>
 </div></div></td>
 </tr>
 </tbody>

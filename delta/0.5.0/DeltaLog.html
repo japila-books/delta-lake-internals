@@ -113,6 +113,9 @@
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="PartitionFiltering.html">PartitionFiltering</a>
   </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="DeltaFileFormat.html">DeltaFileFormat</a>
+  </li>
 </ul>
   </li>
   <li class="nav-item" data-depth="1">
@@ -333,9 +336,6 @@
   </li>
   <li class="nav-item" data-depth="1">
     <a class="nav-link" href="DeltaLogFileIndex.html">DeltaLogFileIndex</a>
-  </li>
-  <li class="nav-item" data-depth="1">
-    <a class="nav-link" href="DeltaFileFormat.html">DeltaFileFormat</a>
   </li>
   <li class="nav-item" data-depth="1">
     <a class="nav-link" href="DeltaErrors.html">DeltaErrors</a>
@@ -1037,7 +1037,7 @@ For a new <code>Snapshot</code> instance (with version being <code>-1</code>) <c
 </div>
 </div>
 <div class="sect1">
-<h2 id="creating-insertable-hadoopfsrelation-with-insertablerelationcreaterelation-method"><a class="anchor" href="#creating-insertable-hadoopfsrelation-with-insertablerelationcreaterelation-method"></a><a class="link" href="#creating-insertable-hadoopfsrelation-with-insertablerelationcreaterelation-method"><a id="createRelation"></a> Creating Insertable HadoopFsRelation (With InsertableRelation)&#8201;&#8212;&#8201;<code>createRelation</code> Method</a></h2>
+<h2 id="creating-relation-for-batch-queries-hadoopfsrelation-with-insertablerelationcreaterelation-method"><a class="anchor" href="#creating-relation-for-batch-queries-hadoopfsrelation-with-insertablerelationcreaterelation-method"></a><a class="link" href="#creating-relation-for-batch-queries-hadoopfsrelation-with-insertablerelationcreaterelation-method"><a id="createRelation"></a> Creating Relation For Batch Queries (HadoopFsRelation With InsertableRelation)&#8201;&#8212;&#8201;<code>createRelation</code> Method</a></h2>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content">
@@ -1065,7 +1065,7 @@ For a new <code>Snapshot</code> instance (with version being <code>-1</code>) <c
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-<code>createRelation</code> is used when <code>DeltaDataSource</code> is requested to create a relation as a <a href="DeltaDataSource.html#CreatableRelationProvider" class="page">CreatableRelationProvider</a> and a <a href="DeltaDataSource.html#RelationProvider" class="page">RelationProvider</a>
+<code>createRelation</code> is used when <code>DeltaDataSource</code> is requested for a relation as a <a href="DeltaDataSource.html#CreatableRelationProvider" class="page">CreatableRelationProvider</a> and a <a href="DeltaDataSource.html#RelationProvider" class="page">RelationProvider</a> (for batch queries).
 </td>
 </tr>
 </table>
@@ -1282,13 +1282,50 @@ For a new <code>Snapshot</code> instance (with version being <code>-1</code>) <c
 </div>
 </div>
 <div class="paragraph">
-<p><code>createDataFrame</code> takes the action name to build the <code>DataFrame</code> for from the <code>actionTypeOpt</code> (if defined), or uses <code>streaming</code> when the given <code>isStreaming</code> flag is on, and <code>batch</code> otherwise.</p>
+<p><code>createDataFrame</code> takes the action name to build the result <code>DataFrame</code> for from the <code>actionTypeOpt</code> (if defined), or uses the following per <code>isStreaming</code> flag:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>streaming</strong> when <code>isStreaming</code> flag is enabled (<code>true</code>)</p>
+</li>
+<li>
+<p><strong>batch</strong> when <code>isStreaming</code> flag is disabled (<code>false</code>)</p>
+</li>
+</ul>
 </div>
 <div class="paragraph">
-<p><code>createDataFrame</code> creates a new <a href="TahoeBatchFileIndex.html" class="page">TahoeBatchFileIndex</a> (for the given <a href="AddFile.html" class="page">AddFiles</a> and <a href="Snapshot.html" class="page">Snapshot</a>).</p>
+<p><code>createDataFrame</code> creates a new <a href="TahoeBatchFileIndex.html" class="page">TahoeBatchFileIndex</a> (for the action type, and the given <a href="AddFile.html" class="page">AddFiles</a> and <a href="Snapshot.html" class="page">Snapshot</a>).</p>
 </div>
 <div class="paragraph">
-<p>In the end, <code>createDataFrame</code> creates a <code>DataFrame</code> with a logical query plan with a <code>LogicalRelation</code> over a <code>HadoopFsRelation</code> (with the new <code>TahoeBatchFileIndex</code>).</p>
+<p><code>createDataFrame</code> creates a <code>HadoopFsRelation</code> with the <code>TahoeBatchFileIndex</code> and the other properties based on the given <a href="Snapshot.html" class="page">Snapshot</a> (and its <a href="Snapshot.html#metadata" class="page">Metadata</a>).</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+Read up on <a href="https://jaceklaskowski.gitbooks.io/mastering-spark-sql/spark-sql-BaseRelation-HadoopFsRelation.html">HadoopFsRelation</a> in <a href="https://bit.ly/spark-sql-internals">The Internals of Spark SQL</a> online book.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>In the end, <code>createDataFrame</code> creates a <code>DataFrame</code> with a logical query plan with a <code>LogicalRelation</code> over the <code>HadoopFsRelation</code>.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+Read up on <a href="https://jaceklaskowski.gitbooks.io/mastering-spark-sql/spark-sql-LogicalPlan-LogicalRelation.html">LogicalRelation</a> in <a href="https://bit.ly/spark-sql-internals">The Internals of Spark SQL</a> online book.
+</td>
+</tr>
+</table>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -1306,7 +1343,7 @@ For a new <code>Snapshot</code> instance (with version being <code>-1</code>) <c
 <p><a href="MergeIntoCommand.html" class="page">MergeIntoCommand</a> is executed</p>
 </li>
 <li>
-<p><code>DeltaSource</code> is requested to <a href="DeltaSource.html#getBatch" class="page">getBatch</a></p>
+<p><code>DeltaSource</code> is requested for a <a href="DeltaSource.html#getBatch" class="page">DataFrame for data between start and end offsets</a></p>
 </li>
 </ul>
 </div>

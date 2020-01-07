@@ -113,6 +113,9 @@
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="PartitionFiltering.html">PartitionFiltering</a>
   </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="DeltaFileFormat.html">DeltaFileFormat</a>
+  </li>
 </ul>
   </li>
   <li class="nav-item" data-depth="1">
@@ -335,9 +338,6 @@
     <a class="nav-link" href="DeltaLogFileIndex.html">DeltaLogFileIndex</a>
   </li>
   <li class="nav-item" data-depth="1">
-    <a class="nav-link" href="DeltaFileFormat.html">DeltaFileFormat</a>
-  </li>
-  <li class="nav-item" data-depth="1">
     <a class="nav-link" href="DeltaErrors.html">DeltaErrors</a>
   </li>
   <li class="nav-item" data-depth="1">
@@ -475,7 +475,7 @@ Read up on <a href="https://jaceklaskowski.gitbooks.io/mastering-spark-sql/spark
 <div class="sect2">
 <h3 id="relationprovider"><a class="anchor" href="#relationprovider"></a><a class="link" href="#relationprovider"><a id="RelationProvider"></a><a id="RelationProvider-createRelation"></a> RelationProvider</a></h3>
 <div class="paragraph">
-<p><code>DeltaDataSource</code> is a <code>RelationProvider</code>.</p>
+<p><code>DeltaDataSource</code> is a <code>RelationProvider</code> for reading data in a structured query from a delta table.</p>
 </div>
 <div class="admonitionblock tip">
 <table>
@@ -500,13 +500,13 @@ Read up on <a href="https://jaceklaskowski.gitbooks.io/mastering-spark-sql/spark
 <p><code>createRelation</code>&#8230;&#8203;FIXME</p>
 </div>
 <div class="paragraph">
-<p>In the end, <code>createRelation</code> requests the <a href="#RelationProvider-createRelation-deltaLog">DeltaLog</a> to <a href="DeltaLog.html#createRelation" class="page">createRelation</a></p>
+<p>In the end, <code>createRelation</code> requests the <a href="#RelationProvider-createRelation-deltaLog">DeltaLog</a> for a <a href="DeltaLog.html#createRelation" class="page">relation</a> (<code>HadoopFsRelation</code> With <code>InsertableRelation</code>).</p>
 </div>
 </div>
 <div class="sect2">
 <h3 id="creatablerelationprovider"><a class="anchor" href="#creatablerelationprovider"></a><a class="link" href="#creatablerelationprovider"><a id="CreatableRelationProvider"></a><a id="CreatableRelationProvider-createRelation"></a> CreatableRelationProvider</a></h3>
 <div class="paragraph">
-<p><code>DeltaDataSource</code> is a <code>CreatableRelationProvider</code>.</p>
+<p><code>DeltaDataSource</code> is a <code>CreatableRelationProvider</code> for writing out the result of a structured query.</p>
 </div>
 <div class="admonitionblock tip">
 <table>
