@@ -578,7 +578,7 @@
 </div>
 </div>
 <div class="sect1">
-<h2 id="buildbaserelation-method"><a class="anchor" href="#buildbaserelation-method"></a><a class="link" href="#buildbaserelation-method"><a id="buildBaseRelation"></a> <code>buildBaseRelation</code> Method</a></h2>
+<h2 id="creating-hadoopfsrelation-with-tahoebatchfileindexbuildbaserelation-method"><a class="anchor" href="#creating-hadoopfsrelation-with-tahoebatchfileindexbuildbaserelation-method"></a><a class="link" href="#creating-hadoopfsrelation-with-tahoebatchfileindexbuildbaserelation-method"><a id="buildBaseRelation"></a> Creating HadoopFsRelation (With TahoeBatchFileIndex)&#8201;&#8212;&#8201;<code>buildBaseRelation</code> Method</a></h2>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content">
@@ -591,8 +591,14 @@
   nameToAddFileMap: Map[String, AddFile]): HadoopFsRelation</code></pre>
 </div>
 </div>
+<div id="buildBaseRelation-scannedFiles" class="paragraph">
+<p><code>buildBaseRelation</code> converts the given <code>inputLeafFiles</code> to <a href="#getTouchedFile">AddFiles</a> (with the given <code>rootPath</code> and <code>nameToAddFileMap</code>).</p>
+</div>
 <div class="paragraph">
-<p><code>buildBaseRelation</code>&#8230;&#8203;FIXME</p>
+<p><code>buildBaseRelation</code> creates a <a href="TahoeBatchFileIndex.html" class="page">TahoeBatchFileIndex</a> for the <code>actionType</code>, the <a href="#buildBaseRelation-scannedFiles">AddFiles</a> and the <code>rootPath</code>.</p>
+</div>
+<div class="paragraph">
+<p>In the end, <code>buildBaseRelation</code> creates a <code>HadoopFsRelation</code> with the <code>TahoeBatchFileIndex</code> (and the other properties based on the <a href="OptimisticTransactionImpl.html#metadata" class="page">metadata</a> of the given <a href="OptimisticTransaction.html" class="page">OptimisticTransaction</a>).</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -601,7 +607,7 @@
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-<code>buildBaseRelation</code> is used when&#8230;&#8203;FIXME
+<code>buildBaseRelation</code> is used when <a href="DeleteCommand.html" class="page">DeleteCommand</a> and <a href="UpdateCommand.html" class="page">UpdateCommand</a> are executed (with <code>delete</code> and <code>update</code> action types, respectively).
 </td>
 </tr>
 </table>
@@ -629,7 +635,19 @@
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-<code>getTouchedFile</code> is used when&#8230;&#8203;FIXME
+<div class="paragraph">
+<p><code>getTouchedFile</code> is used when:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>DeltaCommand</code> is requested to <a href="#removeFilesFromPaths">removeFilesFromPaths</a> and <a href="#buildBaseRelation">create a HadoopFsRelation</a> (for <a href="DeleteCommand.html" class="page">DeleteCommand</a> and <a href="UpdateCommand.html" class="page">UpdateCommand</a>)</p>
+</li>
+<li>
+<p><a href="MergeIntoCommand.html" class="page">MergeIntoCommand</a> is executed</p>
+</li>
+</ul>
+</div>
 </td>
 </tr>
 </table>
