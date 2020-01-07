@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title> TahoeFileIndex :: The Internals Of Delta Lake</title>
+    <title> TahoeFileIndex&#8201;&#8212;&#8201;Indices Of Files Of Delta Table :: The Internals Of Delta Lake</title>
     <link rel="canonical" href="https://books.japila.pl/delta-lake-internals/delta/0.5.0/TahoeFileIndex.html">
     <meta name="generator" content="Antora 2.2.0">
     <link rel="stylesheet" href="../../_/css/site.css">
@@ -418,11 +418,35 @@
   <div class="edit-this-page"><a href="https://github.com/japila-books/delta-lake-internals/edit/v0.5.0/modules/ROOT/pages/TahoeFileIndex.adoc">Edit this Page</a></div>
   </div>
 <article class="doc">
-<h1 class="page"><a id="TahoeFileIndex"></a> TahoeFileIndex</h1>
+<h1 class="page"><a id="TahoeFileIndex"></a> TahoeFileIndex&#8201;&#8212;&#8201;Indices Of Files Of Delta Table</h1>
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p><code>TahoeFileIndex</code> is an <a href="#contract">extension</a> of the Spark SQL <code>FileIndex</code> contract for <a href="#implementations">file indices</a> that can <a href="#listFiles">list data files</a> based on <a href="#matchingFiles">partition and data filters</a>.</p>
+<p><code>TahoeFileIndex</code> is an <a href="#contract">extension</a> of the Spark SQL <code>FileIndex</code> contract for <a href="#implementations">file indices</a> of delta tables that can <a href="#listFiles">list data files</a> to scan based on <a href="#matchingFiles">partition and data filters</a>.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+Read up on <a href="https://jaceklaskowski.gitbooks.io/mastering-spark-sql/spark-sql-FileIndex.html">FileIndex</a> in <a href="https://bit.ly/spark-sql-internals">The Internals of Spark SQL</a> online book.
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The aim of <code>TahoeFileIndex</code> is to reduce usage of very expensive disk access for file-related information using Hadoop <a href="https://hadoop.apache.org/docs/r2.6.5/api/org/apache/hadoop/fs/FileSystem.html">FileSystem</a> API.
+</td>
+</tr>
+</table>
 </div>
 <table id="contract" class="tableblock frame-all grid-all stretch">
 <caption class="title">Table 1. TahoeFileIndex Contract (Abstract Methods Only)</caption>
@@ -451,13 +475,13 @@
 <p>Matching (valid) files by the given filtering expressions (<code>partitionFilters</code> and <code>dataFilters</code>)</p>
 </div>
 <div class="paragraph">
-<p>Used exclusively while <a href="#listFiles">listing data files</a></p>
+<p>Used for <a href="#listFiles">listing data files</a></p>
 </div></div></td>
 </tr>
 </tbody>
 </table>
 <div id="rootPaths" class="paragraph">
-<p>When requested for root input paths (<code>rootPaths</code>), <code>TahoeFileIndex</code> simply gives the <a href="#path">path</a>.</p>
+<p>When requested for the root input paths (<code>rootPaths</code>), <code>TahoeFileIndex</code> simply gives the <a href="#path">path</a>.</p>
 </div>
 <table id="implementations" class="tableblock frame-all grid-all stretch">
 <caption class="title">Table 2. TahoeFileIndices</caption>
@@ -499,12 +523,9 @@
 <p><a id="deltaLog"></a> <a href="DeltaLog.html" class="page">DeltaLog</a></p>
 </li>
 <li>
-<p><a id="path"></a> Hadoop <code>Path</code></p>
+<p><a id="path"></a> Hadoop <a href="https://hadoop.apache.org/docs/r2.6.5/api/org/apache/hadoop/fs/Path.html">Path</a></p>
 </li>
 </ul>
-</div>
-<div class="paragraph">
-<p><code>TahoeFileIndex</code> initializes the <a href="#internal-properties">internal properties</a>.</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -538,7 +559,7 @@
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-<code>tableVersion</code> is used when <code>TahoeFileIndex</code> is requested for a <a href="#toString">human-friendly textual representation</a>.
+<code>tableVersion</code> is used when <code>TahoeFileIndex</code> is requested for the <a href="#toString">human-friendly textual representation</a>.
 </td>
 </tr>
 </table>
