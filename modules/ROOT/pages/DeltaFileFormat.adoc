@@ -1,6 +1,6 @@
-= [[DeltaFileFormat]] DeltaFileFormat Contract
+= [[DeltaFileFormat]] DeltaFileFormat Contract -- Spark FileFormat Of Delta Table
 
-`DeltaFileFormat` is the <<contract, abstraction>> of <<implementations, FileFormat "descriptors">> that can <<fileFormat, specify the underlying FileFormat of Spark>> that describes a Delta table.
+`DeltaFileFormat` is the <<contract, abstraction>> of <<implementations, FileFormat "descriptors">> that can <<fileFormat, specify the Spark FileFormat of a Delta table>>.
 
 [[contract]]
 .DeltaFileFormat Contract
@@ -17,11 +17,17 @@ a| [[fileFormat]]
 fileFormat: FileFormat
 ----
 
-Spark SQL's `FileFormat` of the delta table
+Spark SQL's `FileFormat` of a delta table
 
 Default: `ParquetFileFormat`
 
-Used when...FIXME
+Used when:
+
+* `DeltaLog` is requested for a <<DeltaLog.adoc#createRelation, relation>> (in batch queries) and <<createDataFrame, DataFrame>>
+
+* `DeltaCommand` is requested for a <<DeltaCommand.adoc#buildBaseRelation, relation>>
+
+* `TransactionalWrite` is requested to <<TransactionalWrite.adoc#writeFiles, write data out>>
 
 |===
 

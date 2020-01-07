@@ -4,7 +4,7 @@
 
 TIP: Read up on https://jaceklaskowski.gitbooks.io/spark-structured-streaming/spark-sql-streaming-Source.html[Streaming Source] in https://bit.ly/spark-structured-streaming[The Internals of Spark Structured Streaming] online book.
 
-== [[getBatch]] `getBatch` Method
+== [[getBatch]] Creating DataFrame For Data Between Start And End Offsets -- `getBatch` Method
 
 [source, scala]
 ----

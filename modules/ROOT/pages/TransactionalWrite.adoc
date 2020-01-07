@@ -70,7 +70,7 @@ snapshot: Snapshot
 
 |===
 
-== [[writeFiles]] Writing Out (Result Of) Structured Query -- `writeFiles` Method
+== [[writeFiles]] Writing Data Out (Result Of Structured Query) -- `writeFiles` Method
 
 [source, scala]
 ----

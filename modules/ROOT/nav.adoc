@@ -14,6 +14,7 @@
 ** xref:DeltaSourceSnapshot.adoc[DeltaSourceSnapshot]
 ** xref:SnapshotIterator.adoc[SnapshotIterator]
 ** xref:PartitionFiltering.adoc[PartitionFiltering]
+** xref:DeltaFileFormat.adoc[DeltaFileFormat]
 
 * xref:DeltaTable.adoc[DeltaTable]
 ** xref:DeltaTableOperations.adoc[DeltaTableOperations]
@@ -92,7 +93,6 @@
 * xref:FileNames.adoc[FileNames]
 * xref:DeltaLogFileIndex.adoc[DeltaLogFileIndex]
 
-* xref:DeltaFileFormat.adoc[DeltaFileFormat]
 * xref:DeltaErrors.adoc[DeltaErrors]
 
 * xref:logging.adoc[Logging]

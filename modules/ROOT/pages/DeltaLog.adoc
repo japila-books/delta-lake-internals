@@ -316,7 +316,7 @@ NOTE: `currentSnapshot` is available using <<snapshot, snapshot>> method.
 
 NOTE: `currentSnapshot` is used when `DeltaLog` is requested to <<updateInternal, updateInternal>>, <<update, update>>, <<tryUpdate, tryUpdate>>, and <<isValid, isValid>.
 
-== [[createRelation]] Creating Insertable HadoopFsRelation (With InsertableRelation) -- `createRelation` Method
+== [[createRelation]] Creating Relation For Batch Queries (HadoopFsRelation With InsertableRelation) -- `createRelation` Method
 
 [source, scala]
 ----
@@ -333,7 +333,7 @@ createRelation(
 
 In the end, `createRelation` creates a `HadoopFsRelation` for the `TahoeLogFileIndex` and...FIXME. The `HadoopFsRelation` is also an <<createRelation-InsertableRelation, InsertableRelation>>.
 
-NOTE: `createRelation` is used when `DeltaDataSource` is requested to create a relation as a <<DeltaDataSource.adoc#CreatableRelationProvider, CreatableRelationProvider>> and a <<DeltaDataSource.adoc#RelationProvider, RelationProvider>>
+NOTE: `createRelation` is used when `DeltaDataSource` is requested for a relation as a <<DeltaDataSource.adoc#CreatableRelationProvider, CreatableRelationProvider>> and a <<DeltaDataSource.adoc#RelationProvider, RelationProvider>> (for batch queries).
 
 === [[createRelation-InsertableRelation]][[createRelation-InsertableRelation-insert]] `insert` Method
 
@@ -441,11 +441,21 @@ createDataFrame(
   actionTypeOpt: Option[String] = None): DataFrame
 ----
 
-`createDataFrame` takes the action name to build the `DataFrame` for from the `actionTypeOpt` (if defined), or uses `streaming` when the given `isStreaming` flag is on, and `batch` otherwise.
+`createDataFrame` takes the action name to build the result `DataFrame` for from the `actionTypeOpt` (if defined), or uses the following per `isStreaming` flag:
 
-`createDataFrame` creates a new <<TahoeBatchFileIndex.adoc#, TahoeBatchFileIndex>> (for the given <<AddFile.adoc#, AddFiles>> and <<Snapshot.adoc#, Snapshot>>).
+* *streaming* when `isStreaming` flag is enabled (`true`)
 
-In the end, `createDataFrame` creates a `DataFrame` with a logical query plan with a `LogicalRelation` over a `HadoopFsRelation` (with the new `TahoeBatchFileIndex`).
+* *batch* when `isStreaming` flag is disabled (`false`)
+
+`createDataFrame` creates a new <<TahoeBatchFileIndex.adoc#, TahoeBatchFileIndex>> (for the action type, and the given <<AddFile.adoc#, AddFiles>> and <<Snapshot.adoc#, Snapshot>>).
+
+`createDataFrame` creates a `HadoopFsRelation` with the `TahoeBatchFileIndex` and the other properties based on the given <<Snapshot.adoc#, Snapshot>> (and its <<Snapshot.adoc#metadata, Metadata>>).
+
+TIP: Read up on https://jaceklaskowski.gitbooks.io/mastering-spark-sql/spark-sql-BaseRelation-HadoopFsRelation.html[HadoopFsRelation] in https://bit.ly/spark-sql-internals[The Internals of Spark SQL] online book.
+
+In the end, `createDataFrame` creates a `DataFrame` with a logical query plan with a `LogicalRelation` over the `HadoopFsRelation`.
+
+TIP: Read up on https://jaceklaskowski.gitbooks.io/mastering-spark-sql/spark-sql-LogicalPlan-LogicalRelation.html[LogicalRelation] in https://bit.ly/spark-sql-internals[The Internals of Spark SQL] online book.
 
 [NOTE]
 ====
@@ -453,7 +463,7 @@ In the end, `createDataFrame` creates a `DataFrame` with a logical query plan wi
 
 * <<MergeIntoCommand.adoc#, MergeIntoCommand>> is executed
 
-* `DeltaSource` is requested to <<DeltaSource.adoc#getBatch, getBatch>>
+* `DeltaSource` is requested for a <<DeltaSource.adoc#getBatch, DataFrame for data between start and end offsets>>
 ====
 
 == [[lockInterruptibly]] Acquiring Interruptible Lock on Log -- `lockInterruptibly` Method
