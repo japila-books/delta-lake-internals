@@ -1,6 +1,6 @@
 = [[Metadata]] Metadata
 
-`Metadata` is an <<Action.adoc#, action>> to describe metadata (update) of a <<DeltaLog.adoc#metadata, delta table>> (indirectly via <<Snapshot.adoc#metadata, Snapshot>>).
+`Metadata` is an <<Action.adoc#, action>> to describe metadata (change) of a <<DeltaLog.adoc#metadata, delta table>> (indirectly via <<Snapshot.adoc#metadata, Snapshot>>).
 
 TIP: Use <<DescribeDeltaDetailCommand.adoc#, DescribeDeltaDetailCommand>> to review the current metadata of a delta table.
 

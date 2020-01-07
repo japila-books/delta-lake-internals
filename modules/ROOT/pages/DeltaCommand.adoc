@@ -84,7 +84,7 @@ removeFilesFromPaths(
 
 NOTE: `removeFilesFromPaths` is used when <<DeleteCommand.adoc#, DeleteCommand>> and <<UpdateCommand.adoc#, UpdateCommand>> are executed.
 
-== [[buildBaseRelation]] `buildBaseRelation` Method
+== [[buildBaseRelation]] Creating HadoopFsRelation (With TahoeBatchFileIndex) -- `buildBaseRelation` Method
 
 [source, scala]
 ----
@@ -97,9 +97,14 @@ buildBaseRelation(
   nameToAddFileMap: Map[String, AddFile]): HadoopFsRelation
 ----
 
-`buildBaseRelation`...FIXME
+[[buildBaseRelation-scannedFiles]]
+`buildBaseRelation` converts the given `inputLeafFiles` to <<getTouchedFile, AddFiles>> (with the given `rootPath` and `nameToAddFileMap`).
 
-NOTE: `buildBaseRelation` is used when...FIXME
+`buildBaseRelation` creates a <<TahoeBatchFileIndex.adoc#, TahoeBatchFileIndex>> for the `actionType`, the <<buildBaseRelation-scannedFiles, AddFiles>> and the `rootPath`.
+
+In the end, `buildBaseRelation` creates a `HadoopFsRelation` with the `TahoeBatchFileIndex` (and the other properties based on the <<OptimisticTransactionImpl.adoc#metadata, metadata>> of the given <<OptimisticTransaction.adoc#, OptimisticTransaction>>).
+
+NOTE: `buildBaseRelation` is used when <<DeleteCommand.adoc#, DeleteCommand>> and <<UpdateCommand.adoc#, UpdateCommand>> are executed (with `delete` and `update` action types, respectively).
 
 == [[getTouchedFile]] `getTouchedFile` Method
 
@@ -113,4 +118,11 @@ getTouchedFile(
 
 `getTouchedFile`...FIXME
 
-NOTE: `getTouchedFile` is used when...FIXME
+[NOTE]
+====
+`getTouchedFile` is used when:
+
+* `DeltaCommand` is requested to <<removeFilesFromPaths, removeFilesFromPaths>> and <<buildBaseRelation, create a HadoopFsRelation>> (for <<DeleteCommand.adoc#, DeleteCommand>> and <<UpdateCommand.adoc#, UpdateCommand>>)
+
+* <<MergeIntoCommand.adoc#, MergeIntoCommand>> is executed
+====
