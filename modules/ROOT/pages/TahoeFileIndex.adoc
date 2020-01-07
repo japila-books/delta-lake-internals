@@ -1,6 +1,10 @@
-= [[TahoeFileIndex]] TahoeFileIndex
+= [[TahoeFileIndex]] TahoeFileIndex -- Indices Of Files Of Delta Table
 
-`TahoeFileIndex` is an <<contract, extension>> of the Spark SQL `FileIndex` contract for <<implementations, file indices>> that can <<listFiles, list data files>> based on <<matchingFiles, partition and data filters>>.
+`TahoeFileIndex` is an <<contract, extension>> of the Spark SQL `FileIndex` contract for <<implementations, file indices>> of delta tables that can <<listFiles, list data files>> to scan based on <<matchingFiles, partition and data filters>>.
+
+TIP: Read up on https://jaceklaskowski.gitbooks.io/mastering-spark-sql/spark-sql-FileIndex.html[FileIndex] in https://bit.ly/spark-sql-internals[The Internals of Spark SQL] online book.
+
+NOTE: The aim of `TahoeFileIndex` is to reduce usage of very expensive disk access for file-related information using Hadoop https://hadoop.apache.org/docs/r2.6.5/api/org/apache/hadoop/fs/FileSystem.html[FileSystem] API.
 
 [[contract]]
 .TahoeFileIndex Contract (Abstract Methods Only)
@@ -22,12 +26,12 @@ matchingFiles(
 
 Matching (valid) files by the given filtering expressions (`partitionFilters` and `dataFilters`)
 
-Used exclusively while <<listFiles, listing data files>>
+Used for <<listFiles, listing data files>>
 
 |===
 
 [[rootPaths]]
-When requested for root input paths (`rootPaths`), `TahoeFileIndex` simply gives the <<path, path>>.
+When requested for the root input paths (`rootPaths`), `TahoeFileIndex` simply gives the <<path, path>>.
 
 [[implementations]]
 .TahoeFileIndices
@@ -50,9 +54,7 @@ When requested for root input paths (`rootPaths`), `TahoeFileIndex` simply gives
 
 * [[spark]] `SparkSession`
 * [[deltaLog]] <<DeltaLog.adoc#, DeltaLog>>
-* [[path]] Hadoop `Path`
-
-`TahoeFileIndex` initializes the <<internal-properties, internal properties>>.
+* [[path]] Hadoop https://hadoop.apache.org/docs/r2.6.5/api/org/apache/hadoop/fs/Path.html[Path]
 
 NOTE: `TahoeFileIndex` is a Scala abstract class and cannot be <<creating-instance, created>> directly. It is created indirectly for the <<implementations, concrete file indices>>.
 
@@ -65,7 +67,7 @@ tableVersion: Long
 
 `tableVersion` is simply the <<Snapshot.adoc#version, version>> of (the <<DeltaLog.adoc#snapshot, snapshot>> of) the <<deltaLog, DeltaLog>>.
 
-NOTE: `tableVersion` is used when `TahoeFileIndex` is requested for a <<toString, human-friendly textual representation>>.
+NOTE: `tableVersion` is used when `TahoeFileIndex` is requested for the <<toString, human-friendly textual representation>>.
 
 == [[listFiles]] Listing Data Files -- `listFiles` Method
 
