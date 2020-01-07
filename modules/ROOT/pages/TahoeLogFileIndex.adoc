@@ -1,6 +1,6 @@
 = [[TahoeLogFileIndex]] TahoeLogFileIndex
 
-`TahoeLogFileIndex` is a concrete <<TahoeFileIndex.adoc#, TahoeFileIndex>>.
+`TahoeLogFileIndex` is a concrete <<TahoeFileIndex.adoc#, file index>>.
 
 `TahoeLogFileIndex` is <<creating-instance, created>> exclusively when `DeltaLog` is requested for a <<DeltaLog.adoc#createRelation, relation>> (when `DeltaDataSource` is requested for one as a <<DeltaDataSource.adoc#CreatableRelationProvider, CreatableRelationProvider>> and a <<DeltaDataSource.adoc#RelationProvider, RelationProvider>>).
 

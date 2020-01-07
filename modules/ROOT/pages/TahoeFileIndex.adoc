@@ -26,9 +26,6 @@ Used exclusively while <<listFiles, listing data files>>
 
 |===
 
-[[tableVersion]]
-`TahoeFileIndex` has `tableVersion` property that is simply the <<Snapshot.adoc#version, version>> of the <<DeltaLog.adoc#snapshot, current snapshot>> of the <<deltaLog, DeltaLog>>.
-
 [[rootPaths]]
 When requested for root input paths (`rootPaths`), `TahoeFileIndex` simply gives the <<path, path>>.
 
@@ -59,6 +56,17 @@ When requested for root input paths (`rootPaths`), `TahoeFileIndex` simply gives
 
 NOTE: `TahoeFileIndex` is a Scala abstract class and cannot be <<creating-instance, created>> directly. It is created indirectly for the <<implementations, concrete file indices>>.
 
+== [[tableVersion]] Version of Delta Table -- `tableVersion` Method
+
+[source, scala]
+----
+tableVersion: Long
+----
+
+`tableVersion` is simply the <<Snapshot.adoc#version, version>> of (the <<DeltaLog.adoc#snapshot, snapshot>> of) the <<deltaLog, DeltaLog>>.
+
+NOTE: `tableVersion` is used when `TahoeFileIndex` is requested for a <<toString, human-friendly textual representation>>.
+
 == [[listFiles]] Listing Data Files -- `listFiles` Method
 
 [source, scala]
@@ -71,3 +79,18 @@ listFiles(
 NOTE: `listFiles` is part of the `FileIndex` contract (Spark SQL) to...FIXME.
 
 `listFiles`...FIXME
+
+== [[toString]] Human-Friendly Textual Representation -- `toString` Method
+
+[source, scala]
+----
+toString: String
+----
+
+NOTE: `toString` is part of the `java.lang.Object` contract for a string representation of the object.
+
+`toString` returns the following text (based on the <<tableVersion, table version>> and the <<path, path>> truncated to 100 characters):
+
+```
+Delta[version=[tableVersion], [truncatedPath]]
+```

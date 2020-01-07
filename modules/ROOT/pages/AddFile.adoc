@@ -14,7 +14,7 @@
 
 * [[path]] Path
 * [[partitionValues]] Partition values (`Map[String, String]`)
-* [[size]] Size
+* [[size]] Size (in bytes)
 * [[modificationTime]] Modification time
 * [[dataChange]] `dataChange` flag
 * [[stats]] Stats (default: `null`)
