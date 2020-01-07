@@ -18,7 +18,7 @@
 * [[actionType]] Action type
 * [[addFiles]] <<AddFile.adoc#, AddFiles>> (`Seq[AddFile]`)
 * [[deltaLog]] <<DeltaLog.adoc#, DeltaLog>>
-* [[path]] Hadoop https://hadoop.apache.org/docs/r2.6.5/api/org/apache/hadoop/fs/Path.html[Path]
+* [[path]] Data directory of the delta table (as Hadoop https://hadoop.apache.org/docs/r2.6.5/api/org/apache/hadoop/fs/Path.html[Path])
 * [[snapshot]] <<Snapshot.adoc#, Snapshot>>
 
 `TahoeBatchFileIndex` initializes the <<internal-properties, internal properties>>.

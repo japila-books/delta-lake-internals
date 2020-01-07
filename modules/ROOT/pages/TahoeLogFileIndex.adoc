@@ -2,7 +2,20 @@
 
 `TahoeLogFileIndex` is a concrete <<TahoeFileIndex.adoc#, file index>>.
 
-`TahoeLogFileIndex` is <<creating-instance, created>> exclusively when `DeltaLog` is requested for a <<DeltaLog.adoc#createRelation, relation>> (when `DeltaDataSource` is requested for one as a <<DeltaDataSource.adoc#CreatableRelationProvider, CreatableRelationProvider>> and a <<DeltaDataSource.adoc#RelationProvider, RelationProvider>>).
+`TahoeLogFileIndex` is <<creating-instance, created>> when `DeltaLog` is requested for a <<DeltaLog.adoc#createRelation, relation>> (when `DeltaDataSource` is requested for one as a <<DeltaDataSource.adoc#CreatableRelationProvider, CreatableRelationProvider>> and a <<DeltaDataSource.adoc#RelationProvider, RelationProvider>>).
+
+```
+val q = spark.read.format("delta").load("/tmp/delta/users")
+val plan = q.queryExecution.executedPlan
+
+import org.apache.spark.sql.execution.FileSourceScanExec
+val scan = plan.collect { case e: FileSourceScanExec => e }.head
+
+import org.apache.spark.sql.delta.files.TahoeLogFileIndex
+val index = scan.relation.location.asInstanceOf[TahoeLogFileIndex]
+scala> println(index)
+Delta[version=1, file:/tmp/delta/users]
+```
 
 == [[creating-instance]] Creating TahoeLogFileIndex Instance
 
@@ -10,7 +23,7 @@
 
 * [[spark]] `SparkSession`
 * [[deltaLog]] <<DeltaLog.adoc#, DeltaLog>>
-* [[dataPath]] Data path (Hadoop `Path`)
+* [[dataPath]] Data directory of the delta table (as Hadoop https://hadoop.apache.org/docs/r2.6.5/api/org/apache/hadoop/fs/Path.html[Path])
 * [[partitionFilters]] Partition filters (default: `empty`) (as Catalyst expressions, i.e. `Seq[Expression]`)
 * [[versionToUse]] Snapshot version (default: `undefined`) (`Option[Long]`)
 
@@ -60,7 +73,8 @@ NOTE: <<inputFiles, inputFiles>> and <<matchingFiles, matchingFiles>> are simila
 
 [source, scala]
 ----
-getSnapshot(stalenessAcceptable: Boolean): Snapshot
+getSnapshot(
+  stalenessAcceptable: Boolean): Snapshot
 ----
 
 `getSnapshot` returns a <<Snapshot.adoc#, Snapshot>> that is either the <<historicalSnapshotOpt, historical snapshot>> (for the <<versionToUse, snapshot version>> if defined) or requests the <<deltaLog, DeltaLog>> to <<DeltaLog.adoc#update, update>> (and give one).

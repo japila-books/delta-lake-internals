@@ -1,6 +1,6 @@
 = [[TahoeFileIndex]] TahoeFileIndex -- Indices Of Files Of Delta Table
 
-`TahoeFileIndex` is an <<contract, extension>> of the Spark SQL `FileIndex` contract for <<implementations, file indices>> of delta tables that can <<listFiles, list data files>> to scan based on <<matchingFiles, partition and data filters>>.
+`TahoeFileIndex` is an <<contract, extension>> of the Spark SQL `FileIndex` contract for <<implementations, file indices>> of delta tables that can <<listFiles, list data files>> to scan (based on <<matchingFiles, partition and data filters>>).
 
 TIP: Read up on https://jaceklaskowski.gitbooks.io/mastering-spark-sql/spark-sql-FileIndex.html[FileIndex] in https://bit.ly/spark-sql-internals[The Internals of Spark SQL] online book.
 
@@ -78,9 +78,20 @@ listFiles(
   dataFilters: Seq[Expression]): Seq[PartitionDirectory]
 ----
 
-NOTE: `listFiles` is part of the `FileIndex` contract (Spark SQL) to...FIXME.
+NOTE: `listFiles` is part of the `FileIndex` contract for the file names (grouped into partitions when the data is partitioned).
 
 `listFiles`...FIXME
+
+== [[partitionSchema]] Partition Schema -- `partitionSchema` Method
+
+[source, scala]
+----
+partitionSchema: StructType
+----
+
+NOTE: `partitionSchema` is part of the `FileIndex` contract for the partition schema.
+
+`partitionSchema` simply requests the <<deltaLog, DeltaLog>> for the <<DeltaLog.adoc#snapshot, Snapshot>> and then requests the `Snapshot` for <<Snapshot.adoc#metadata, Metadata>> that in turn is requested for the <<Metadata.adoc#partitionSchema, partitionSchema>>.
 
 == [[toString]] Human-Friendly Textual Representation -- `toString` Method
 
