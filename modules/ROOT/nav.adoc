@@ -9,10 +9,6 @@
 
 * xref:Snapshot.adoc[Snapshot]
 ** xref:InMemoryLogReplay.adoc[InMemoryLogReplay]
-** xref:StateCache.adoc[StateCache]
-** xref:CachedDS.adoc[CachedDS]
-** xref:DeltaSourceSnapshot.adoc[DeltaSourceSnapshot]
-** xref:SnapshotIterator.adoc[SnapshotIterator]
 ** xref:PartitionFiltering.adoc[PartitionFiltering]
 ** xref:DeltaFileFormat.adoc[DeltaFileFormat]
 
@@ -50,6 +46,8 @@
 * xref:DeltaDataSource.adoc[DeltaDataSource]
 ** xref:DeltaOptions.adoc[DeltaOptions]
 ** xref:DeltaSource.adoc[DeltaSource]
+*** xref:SnapshotIterator.adoc[SnapshotIterator]
+*** xref:DeltaSourceSnapshot.adoc[DeltaSourceSnapshot]
 ** xref:DeltaSink.adoc[DeltaSink]
 
 * xref:DeltaSQLConf.adoc[DeltaSQLConf]
@@ -96,5 +94,8 @@
 * xref:DeltaErrors.adoc[DeltaErrors]
 
 * xref:logging.adoc[Logging]
+
+* xref:StateCache.adoc[StateCache]
+** xref:CachedDS.adoc[CachedDS]
 
 * xref:others.adoc[The Others (Contenders)]

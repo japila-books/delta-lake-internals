@@ -150,6 +150,17 @@ tombstones: Dataset[RemoveFile]
 
 NOTE: `tombstones` seems to be used for testing only.
 
+== [[redactedPath]] `redactedPath` Method
+
+[source, scala]
+----
+redactedPath: String
+----
+
+`redactedPath`...FIXME
+
+NOTE: `redactedPath` is used...FIXME
+
 == [[numIndexedCols]] dataSkippingNumIndexedCols Table Property -- `numIndexedCols` Value
 
 [source, scala]
@@ -173,7 +184,7 @@ a| [[cachedState]] <<CachedDS.adoc#, Cached Delta State>> that is made up of the
 
 * The <<CachedDS.adoc#ds, dataset>> part is the <<stateReconstruction, stateReconstruction>> dataset of <<SingleAction.adoc#, SingleActions>>
 
-* The <<CachedDS.adoc#name, name>> in the format *Delta Table State #version - [redactedPath]* (with the <<version, version>> and the redacted <<path, path>>)
+* The <<CachedDS.adoc#name, name>> in the format *Delta Table State #version - [redactedPath]* (with the <<version, version>> and the <<redactedPath, redacted path>>)
 
 Used when `Snapshot` is requested for the <<state, state>> (i.e. `Dataset[SingleAction]`)
 
