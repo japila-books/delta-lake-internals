@@ -4,6 +4,33 @@
 
 TIP: Read up on https://jaceklaskowski.gitbooks.io/spark-structured-streaming/spark-sql-streaming-Source.html[Streaming Source] in https://bit.ly/spark-structured-streaming[The Internals of Spark Structured Streaming] online book.
 
+[[maxFilesPerTrigger]]
+`DeltaSource` uses <<DeltaOptions.adoc#maxFilesPerTrigger, maxFilesPerTrigger>> option for...FIXME
+
+```
+val q = spark
+  .readStream
+  .format("delta")
+  .load("/tmp/delta/users")
+  .writeStream
+  .format("memory")
+  .option("queryName", "demo")
+  .start
+import org.apache.spark.sql.execution.streaming.{MicroBatchExecution, StreamingQueryWrapper}
+val plan = q.asInstanceOf[StreamingQueryWrapper]
+  .streamingQuery
+  .asInstanceOf[MicroBatchExecution]
+  .logicalPlan
+import org.apache.spark.sql.execution.streaming.StreamingExecutionRelation
+val relation = plan.collect { case r: StreamingExecutionRelation => r }.head
+
+import org.apache.spark.sql.delta.sources.DeltaSource
+assert(relation.source.asInstanceOf[DeltaSource])
+
+scala> println(relation.source)
+DeltaSource[file:/tmp/delta/users]
+```
+
 == [[getBatch]] Creating DataFrame For Data Between Start And End Offsets -- `getBatch` Method
 
 [source, scala]
@@ -13,9 +40,11 @@ getBatch(
   end: Offset): DataFrame
 ----
 
-NOTE: `getBatch` is part of the `Source` contract (Spark Structured Streaming) to...FIXME.
+NOTE: `getBatch` is part of the `Source` contract (Spark Structured Streaming) for a streaming `DataFrame` with data between the start and end offsets.
 
-`getBatch`...FIXME
+`getBatch` creates an `DeltaSourceOffset` for the <<tableId, tableId>> and the given `end` offset.
+
+`getBatch` <<getChanges, gets the changes>> as follows...FIXME
 
 == [[getOffset]] `getOffset` Method
 
@@ -74,11 +103,13 @@ getChanges(
   isStartingVersion: Boolean): Iterator[IndexedFile]
 ----
 
-`getChanges`...FIXME
+`getChanges` branches per the given `isStartingVersion` flag:
+
+* When enabled (`true`), `getChanges` <<getSnapshotAt, gets the state snapshot at>> the version of the given `fromVersion` offset...FIXME
 
 NOTE: `getChanges` is used when `DeltaSource` is requested to <<getChangesWithRateLimit, getChangesWithRateLimit>> and <<getBatch, getBatch>>.
 
-== [[getSnapshotAt]] Looking Up Snapshot By Version -- `getSnapshotAt` Internal Method
+== [[getSnapshotAt]] Finding Snapshot By Version -- `getSnapshotAt` Internal Method
 
 [source, scala]
 ----
@@ -112,3 +143,36 @@ cleanUpSnapshotResources(): Unit
 `cleanUpSnapshotResources`...FIXME
 
 NOTE: `cleanUpSnapshotResources` is used when `DeltaSource` is requested to <<getSnapshotAt, getSnapshotAt>>, <<getBatch, getBatch>> and <<stop, stop>>.
+
+== [[internal-properties]] Internal Properties
+
+[cols="30m,70",options="header",width="100%"]
+|===
+| Name
+| Description
+
+| initialState
+a| [[initialState]] <<DeltaSourceSnapshot.adoc#, DeltaSourceSnapshot>>
+
+Used when...FIXME
+
+| initialStateVersion
+a| [[initialStateVersion]]
+
+[source, scala]
+----
+initialStateVersion: Long = -1L
+----
+
+Version of the state (snapshot) of the <<deltaLog, delta table>>
+
+Initially `-1L` and changes to the version requested when `DeltaSource` is requested for the <<getSnapshotAt, snapshot at a given version>> (only when different)
+
+Used when `DeltaSource` is requested to <<cleanUpSnapshotResources, cleanUpSnapshotResources>> (to unpersist the current snapshot)
+
+| tableId
+a| [[tableId]] Table ID
+
+Used when...FIXME
+
+|===

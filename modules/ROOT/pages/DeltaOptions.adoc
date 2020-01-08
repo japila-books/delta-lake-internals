@@ -1,6 +1,6 @@
 = DeltaOptions
 
-[[DeltaWriteOptionsImpl]][[DeltaWriteOptions]]
+[[DeltaWriteOptionsImpl]][[DeltaWriteOptions]][[DeltaReadOptions]]
 `DeltaOptions` (aka `DeltaWriteOptionsImpl`, `DeltaWriteOptions`) is the options for the <<DeltaDataSource.adoc#, Delta data source>>.
 
 The <<options, options>> can be defined using `option` method of `DataFrameReader`, `DataFrameWriter`, `DataStreamReader`, and `DataStreamWriter`.
