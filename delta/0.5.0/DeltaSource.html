@@ -437,9 +437,6 @@ Read up on <a href="https://jaceklaskowski.gitbooks.io/spark-structured-streamin
 </tr>
 </table>
 </div>
-<div id="maxFilesPerTrigger" class="paragraph">
-<p><code>DeltaSource</code> uses <a href="DeltaOptions.html#maxFilesPerTrigger" class="page">maxFilesPerTrigger</a> option for&#8230;&#8203;FIXME</p>
-</div>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code>val q = spark
@@ -464,6 +461,9 @@ assert(relation.source.asInstanceOf[DeltaSource])
 scala&gt; println(relation.source)
 DeltaSource[file:/tmp/delta/users]</code></pre>
 </div>
+</div>
+<div id="maxFilesPerTrigger" class="paragraph">
+<p><code>DeltaSource</code> uses <a href="DeltaOptions.html#maxFilesPerTrigger" class="page">maxFilesPerTrigger</a> option for&#8230;&#8203;FIXME</p>
 </div>
 </div>
 </div>
@@ -733,24 +733,28 @@ DeltaSource[file:/tmp/delta/users]</code></pre>
 <p><a id="initialState"></a> <a href="DeltaSourceSnapshot.html" class="page">DeltaSourceSnapshot</a></p>
 </div>
 <div class="paragraph">
-<p>Used when&#8230;&#8203;FIXME</p>
+<p>Initially uninitialized (<code>null</code>).</p>
+</div>
+<div class="paragraph">
+<p>Changes (along with the <a href="#initialStateVersion">initialStateVersion</a>) when <code>DeltaSource</code> is requested for the <a href="#getSnapshotAt">snapshot at a given version</a> (only when the versions are different)</p>
+</div>
+<div class="paragraph">
+<p>Used when <code>DeltaSource</code> is requested for the <a href="#getSnapshotAt">snapshot at a given version</a></p>
+</div>
+<div class="paragraph">
+<p>Closed and dereferenced (<code>null</code>) when <code>DeltaSource</code> is requested to <a href="#cleanUpSnapshotResources">cleanUpSnapshotResources</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>initialStateVersion</code></p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div id="initialStateVersion" class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">initialStateVersion: Long = -1L</code></pre>
-</div>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="initialStateVersion"></a> Version of the <a href="#deltaLog">delta table</a></p>
 </div>
 <div class="paragraph">
-<p>Version of the state (snapshot) of the <a href="#deltaLog">delta table</a></p>
+<p>Initially <code>-1L</code> and changes (along with the <a href="#initialState">initialState</a>) to the version requested when <code>DeltaSource</code> is requested for the <a href="#getSnapshotAt">snapshot at a given version</a> (only when the versions are different)</p>
 </div>
 <div class="paragraph">
-<p>Initially <code>-1L</code> and changes to the version requested when <code>DeltaSource</code> is requested for the <a href="#getSnapshotAt">snapshot at a given version</a> (only when different)</p>
-</div>
-<div class="paragraph">
-<p>Used when <code>DeltaSource</code> is requested to <a href="#cleanUpSnapshotResources">cleanUpSnapshotResources</a> (to unpersist the current snapshot)</p>
+<p>Used when <code>DeltaSource</code> is requested to <a href="#cleanUpSnapshotResources">cleanUpSnapshotResources</a> (and unpersist the current snapshot)</p>
 </div></div></td>
 </tr>
 <tr>
