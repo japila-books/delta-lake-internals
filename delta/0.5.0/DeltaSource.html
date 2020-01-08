@@ -437,6 +437,34 @@ Read up on <a href="https://jaceklaskowski.gitbooks.io/spark-structured-streamin
 </tr>
 </table>
 </div>
+<div id="maxFilesPerTrigger" class="paragraph">
+<p><code>DeltaSource</code> uses <a href="DeltaOptions.html#maxFilesPerTrigger" class="page">maxFilesPerTrigger</a> option for&#8230;&#8203;FIXME</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code>val q = spark
+  .readStream
+  .format("delta")
+  .load("/tmp/delta/users")
+  .writeStream
+  .format("memory")
+  .option("queryName", "demo")
+  .start
+import org.apache.spark.sql.execution.streaming.{MicroBatchExecution, StreamingQueryWrapper}
+val plan = q.asInstanceOf[StreamingQueryWrapper]
+  .streamingQuery
+  .asInstanceOf[MicroBatchExecution]
+  .logicalPlan
+import org.apache.spark.sql.execution.streaming.StreamingExecutionRelation
+val relation = plan.collect { case r: StreamingExecutionRelation =&gt; r }.head
+
+import org.apache.spark.sql.delta.sources.DeltaSource
+assert(relation.source.asInstanceOf[DeltaSource])
+
+scala&gt; println(relation.source)
+DeltaSource[file:/tmp/delta/users]</code></pre>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -456,13 +484,16 @@ Read up on <a href="https://jaceklaskowski.gitbooks.io/spark-structured-streamin
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-<code>getBatch</code> is part of the <code>Source</code> contract (Spark Structured Streaming) to&#8230;&#8203;FIXME.
+<code>getBatch</code> is part of the <code>Source</code> contract (Spark Structured Streaming) for a streaming <code>DataFrame</code> with data between the start and end offsets.
 </td>
 </tr>
 </table>
 </div>
 <div class="paragraph">
-<p><code>getBatch</code>&#8230;&#8203;FIXME</p>
+<p><code>getBatch</code> creates an <code>DeltaSourceOffset</code> for the <a href="#tableId">tableId</a> and the given <code>end</code> offset.</p>
+</div>
+<div class="paragraph">
+<p><code>getBatch</code> <a href="#getChanges">gets the changes</a> as follows&#8230;&#8203;FIXME</p>
 </div>
 </div>
 </div>
@@ -581,7 +612,14 @@ Read up on <a href="https://jaceklaskowski.gitbooks.io/spark-structured-streamin
 </div>
 </div>
 <div class="paragraph">
-<p><code>getChanges</code>&#8230;&#8203;FIXME</p>
+<p><code>getChanges</code> branches per the given <code>isStartingVersion</code> flag:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>When enabled (<code>true</code>), <code>getChanges</code> <a href="#getSnapshotAt">gets the state snapshot at</a> the version of the given <code>fromVersion</code> offset&#8230;&#8203;FIXME</p>
+</li>
+</ul>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -598,7 +636,7 @@ Read up on <a href="https://jaceklaskowski.gitbooks.io/spark-structured-streamin
 </div>
 </div>
 <div class="sect1">
-<h2 id="looking-up-snapshot-by-versiongetsnapshotat-internal-method"><a class="anchor" href="#looking-up-snapshot-by-versiongetsnapshotat-internal-method"></a><a class="link" href="#looking-up-snapshot-by-versiongetsnapshotat-internal-method"><a id="getSnapshotAt"></a> Looking Up Snapshot By Version&#8201;&#8212;&#8201;<code>getSnapshotAt</code> Internal Method</a></h2>
+<h2 id="finding-snapshot-by-versiongetsnapshotat-internal-method"><a class="anchor" href="#finding-snapshot-by-versiongetsnapshotat-internal-method"></a><a class="link" href="#finding-snapshot-by-versiongetsnapshotat-internal-method"><a id="getSnapshotAt"></a> Finding Snapshot By Version&#8201;&#8212;&#8201;<code>getSnapshotAt</code> Internal Method</a></h2>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content">
@@ -672,6 +710,60 @@ Read up on <a href="https://jaceklaskowski.gitbooks.io/spark-structured-streamin
 </tr>
 </table>
 </div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="internal-properties"><a class="anchor" href="#internal-properties"></a><a class="link" href="#internal-properties"><a id="internal-properties"></a> Internal Properties</a></h2>
+<div class="sectionbody">
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 30%;">
+<col style="width: 70%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>initialState</code></p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="initialState"></a> <a href="DeltaSourceSnapshot.html" class="page">DeltaSourceSnapshot</a></p>
+</div>
+<div class="paragraph">
+<p>Used when&#8230;&#8203;FIXME</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>initialStateVersion</code></p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div id="initialStateVersion" class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">initialStateVersion: Long = -1L</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Version of the state (snapshot) of the <a href="#deltaLog">delta table</a></p>
+</div>
+<div class="paragraph">
+<p>Initially <code>-1L</code> and changes to the version requested when <code>DeltaSource</code> is requested for the <a href="#getSnapshotAt">snapshot at a given version</a> (only when different)</p>
+</div>
+<div class="paragraph">
+<p>Used when <code>DeltaSource</code> is requested to <a href="#cleanUpSnapshotResources">cleanUpSnapshotResources</a> (to unpersist the current snapshot)</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>tableId</code></p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="tableId"></a> Table ID</p>
+</div>
+<div class="paragraph">
+<p>Used when&#8230;&#8203;FIXME</p>
+</div></div></td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </article>
