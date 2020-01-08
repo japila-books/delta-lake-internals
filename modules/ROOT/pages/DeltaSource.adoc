@@ -4,9 +4,6 @@
 
 TIP: Read up on https://jaceklaskowski.gitbooks.io/spark-structured-streaming/spark-sql-streaming-Source.html[Streaming Source] in https://bit.ly/spark-structured-streaming[The Internals of Spark Structured Streaming] online book.
 
-[[maxFilesPerTrigger]]
-`DeltaSource` uses <<DeltaOptions.adoc#maxFilesPerTrigger, maxFilesPerTrigger>> option for...FIXME
-
 ```
 val q = spark
   .readStream
@@ -30,6 +27,9 @@ assert(relation.source.asInstanceOf[DeltaSource])
 scala> println(relation.source)
 DeltaSource[file:/tmp/delta/users]
 ```
+
+[[maxFilesPerTrigger]]
+`DeltaSource` uses <<DeltaOptions.adoc#maxFilesPerTrigger, maxFilesPerTrigger>> option for...FIXME
 
 == [[getBatch]] Creating DataFrame For Data Between Start And End Offsets -- `getBatch` Method
 
@@ -154,21 +154,20 @@ NOTE: `cleanUpSnapshotResources` is used when `DeltaSource` is requested to <<ge
 | initialState
 a| [[initialState]] <<DeltaSourceSnapshot.adoc#, DeltaSourceSnapshot>>
 
-Used when...FIXME
+Initially uninitialized (`null`).
+
+Changes (along with the <<initialStateVersion, initialStateVersion>>) when `DeltaSource` is requested for the <<getSnapshotAt, snapshot at a given version>> (only when the versions are different)
+
+Used when `DeltaSource` is requested for the <<getSnapshotAt, snapshot at a given version>>
+
+Closed and dereferenced (`null`) when `DeltaSource` is requested to <<cleanUpSnapshotResources, cleanUpSnapshotResources>>
 
 | initialStateVersion
-a| [[initialStateVersion]]
+a| [[initialStateVersion]] Version of the <<deltaLog, delta table>>
 
-[source, scala]
-----
-initialStateVersion: Long = -1L
-----
+Initially `-1L` and changes (along with the <<initialState, initialState>>) to the version requested when `DeltaSource` is requested for the <<getSnapshotAt, snapshot at a given version>> (only when the versions are different)
 
-Version of the state (snapshot) of the <<deltaLog, delta table>>
-
-Initially `-1L` and changes to the version requested when `DeltaSource` is requested for the <<getSnapshotAt, snapshot at a given version>> (only when different)
-
-Used when `DeltaSource` is requested to <<cleanUpSnapshotResources, cleanUpSnapshotResources>> (to unpersist the current snapshot)
+Used when `DeltaSource` is requested to <<cleanUpSnapshotResources, cleanUpSnapshotResources>> (and unpersist the current snapshot)
 
 | tableId
 a| [[tableId]] Table ID
