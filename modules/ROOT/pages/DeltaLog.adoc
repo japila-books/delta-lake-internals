@@ -348,7 +348,7 @@ NOTE: `insert` is part of the `InsertableRelation` contract to...FIXME.
 
 `insert`...FIXME
 
-== [[getSnapshotAt]] Getting State Of Delta Table At Given Version -- `getSnapshotAt` Method
+== [[getSnapshotAt]] Retrieving State Of Delta Table At Given Version -- `getSnapshotAt` Method
 
 [source, scala]
 ----

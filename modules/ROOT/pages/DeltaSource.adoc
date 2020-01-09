@@ -109,7 +109,7 @@ getChanges(
 
 NOTE: `getChanges` is used when `DeltaSource` is requested to <<getChangesWithRateLimit, getChangesWithRateLimit>> and <<getBatch, getBatch>>.
 
-== [[getSnapshotAt]] Finding Snapshot By Version -- `getSnapshotAt` Internal Method
+== [[getSnapshotAt]] Retrieving State Of Delta Table At Given Version -- `getSnapshotAt` Internal Method
 
 [source, scala]
 ----
@@ -117,9 +117,19 @@ getSnapshotAt(
   version: Long): Iterator[IndexedFile]
 ----
 
-`getSnapshotAt`...FIXME
+`getSnapshotAt` requests the <<initialState, DeltaSourceSnapshot>> for the <<SnapshotIterator.adoc#iterator, data files>> (as indexed <<AddFile.adoc#, AddFiles>>).
 
-NOTE: `getSnapshotAt` is used when `DeltaSource` is requested to <<getChanges, getChanges>>.
+In case the <<initialState, DeltaSourceSnapshot>> hasn't been initialized yet (`null`) or the requested version is different from the <<initialStateVersion, initialStateVersion>>, `getSnapshotAt` does the following:
+
+. <<cleanUpSnapshotResources, cleanUpSnapshotResources>>
+
+. Requests the <<deltaLog, DeltaLog>> for the <<DeltaLog.adoc#getSnapshotAt, state (snapshot) of the delta table>> at the version
+
+. Creates a new <<DeltaSourceSnapshot.adoc#, DeltaSourceSnapshot>> for the state (snapshot) as the current <<initialState, DeltaSourceSnapshot>>
+
+. Changes the <<initialStateVersion, initialStateVersion>> internal registry to the requested version
+
+NOTE: `getSnapshotAt` is used when `DeltaSource` is requested to <<getChanges, getChanges>> (with `isStartingVersion` flag enabled).
 
 == [[verifyStreamHygieneAndFilterAddFiles]] `verifyStreamHygieneAndFilterAddFiles` Internal Method
 
