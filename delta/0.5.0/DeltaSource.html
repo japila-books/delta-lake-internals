@@ -642,7 +642,7 @@ DeltaSource[file:/tmp/delta/users]</code></pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="finding-snapshot-by-versiongetsnapshotat-internal-method"><a class="anchor" href="#finding-snapshot-by-versiongetsnapshotat-internal-method"></a><a class="link" href="#finding-snapshot-by-versiongetsnapshotat-internal-method"><a id="getSnapshotAt"></a> Finding Snapshot By Version&#8201;&#8212;&#8201;<code>getSnapshotAt</code> Internal Method</a></h2>
+<h2 id="retrieving-state-of-delta-table-at-given-versiongetsnapshotat-internal-method"><a class="anchor" href="#retrieving-state-of-delta-table-at-given-versiongetsnapshotat-internal-method"></a><a class="link" href="#retrieving-state-of-delta-table-at-given-versiongetsnapshotat-internal-method"><a id="getSnapshotAt"></a> Retrieving State Of Delta Table At Given Version&#8201;&#8212;&#8201;<code>getSnapshotAt</code> Internal Method</a></h2>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content">
@@ -651,7 +651,26 @@ DeltaSource[file:/tmp/delta/users]</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p><code>getSnapshotAt</code>&#8230;&#8203;FIXME</p>
+<p><code>getSnapshotAt</code> requests the <a href="#initialState">DeltaSourceSnapshot</a> for the <a href="SnapshotIterator.html#iterator" class="page">data files</a> (as indexed <a href="AddFile.html" class="page">AddFiles</a>).</p>
+</div>
+<div class="paragraph">
+<p>In case the <a href="#initialState">DeltaSourceSnapshot</a> hasn&#8217;t been initialized yet (<code>null</code>) or the requested version is different from the <a href="#initialStateVersion">initialStateVersion</a>, <code>getSnapshotAt</code> does the following:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><a href="#cleanUpSnapshotResources">cleanUpSnapshotResources</a></p>
+</li>
+<li>
+<p>Requests the <a href="#deltaLog">DeltaLog</a> for the <a href="DeltaLog.html#getSnapshotAt" class="page">state (snapshot) of the delta table</a> at the version</p>
+</li>
+<li>
+<p>Creates a new <a href="DeltaSourceSnapshot.html" class="page">DeltaSourceSnapshot</a> for the state (snapshot) as the current <a href="#initialState">DeltaSourceSnapshot</a></p>
+</li>
+<li>
+<p>Changes the <a href="#initialStateVersion">initialStateVersion</a> internal registry to the requested version</p>
+</li>
+</ol>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -660,7 +679,7 @@ DeltaSource[file:/tmp/delta/users]</code></pre>
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-<code>getSnapshotAt</code> is used when <code>DeltaSource</code> is requested to <a href="#getChanges">getChanges</a>.
+<code>getSnapshotAt</code> is used when <code>DeltaSource</code> is requested to <a href="#getChanges">getChanges</a> (with <code>isStartingVersion</code> flag enabled).
 </td>
 </tr>
 </table>
