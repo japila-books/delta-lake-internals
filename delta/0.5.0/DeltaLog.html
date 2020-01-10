@@ -219,6 +219,9 @@
   <li class="nav-item" data-depth="3">
     <a class="nav-link" href="DeltaSourceSnapshot.html">DeltaSourceSnapshot</a>
   </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="DeltaSourceOffset.html">DeltaSourceOffset</a>
+  </li>
 </ul>
   </li>
   <li class="nav-item" data-depth="2">
@@ -448,6 +451,19 @@ val deltaLog = DeltaLog.forTable(spark, dataPath)
 import org.apache.hadoop.fs.Path
 val expected = new Path(s"file:$dataPath/_delta_log/_last_checkpoint")
 assert(deltaLog.LAST_CHECKPOINT == expected)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>A common idiom (if not the only way) to know the current version of the delta table is to request the <code>DeltaLog</code> for the <a href="#snapshot">current state (snapshot)</a> and then for the <a href="Snapshot.html#version" class="page">version</a>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">import org.apache.spark.sql.delta.DeltaLog
+assert(deltaLog.isInstanceOf[DeltaLog])
+
+val deltaVersion = deltaLog.snapshot.version
+scala&gt; println(deltaVersion)
+5</code></pre>
 </div>
 </div>
 <div class="paragraph">

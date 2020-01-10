@@ -219,6 +219,9 @@
   <li class="nav-item" data-depth="3">
     <a class="nav-link" href="DeltaSourceSnapshot.html">DeltaSourceSnapshot</a>
   </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="DeltaSourceOffset.html">DeltaSourceOffset</a>
+  </li>
 </ul>
   </li>
   <li class="nav-item" data-depth="2">
@@ -469,7 +472,7 @@ DeltaSource[file:/tmp/delta/users]</code></pre>
 </div>
 </div>
 <div id="maxFilesPerTrigger" class="paragraph">
-<p><code>DeltaSource</code> uses <a href="DeltaOptions.html#maxFilesPerTrigger" class="page">maxFilesPerTrigger</a> option for&#8230;&#8203;FIXME</p>
+<p><code>DeltaSource</code> uses <a href="DeltaOptions.html#maxFilesPerTrigger" class="page">maxFilesPerTrigger</a> option to limit the number of files added when requested for the <a href="#getChangesWithRateLimit">file additions (with rate limit)</a>.</p>
 </div>
 </div>
 </div>
@@ -554,7 +557,7 @@ DeltaSource[file:/tmp/delta/users]</code></pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="getstartingoffset-internal-method"><a class="anchor" href="#getstartingoffset-internal-method"></a><a class="link" href="#getstartingoffset-internal-method"><a id="getStartingOffset"></a> <code>getStartingOffset</code> Internal Method</a></h2>
+<h2 id="retrieving-starting-offsetgetstartingoffset-internal-method"><a class="anchor" href="#retrieving-starting-offsetgetstartingoffset-internal-method"></a><a class="link" href="#retrieving-starting-offsetgetstartingoffset-internal-method"><a id="getStartingOffset"></a> Retrieving Starting Offset&#8201;&#8212;&#8201;<code>getStartingOffset</code> Internal Method</a></h2>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content">
@@ -562,7 +565,34 @@ DeltaSource[file:/tmp/delta/users]</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p><code>getStartingOffset</code>&#8230;&#8203;FIXME</p>
+<p><code>getStartingOffset</code> requests the <a href="#deltaLog">DeltaLog</a> for the version of the delta table (by requesting for the <a href="DeltaLog.html#snapshot" class="page">current state (snapshot)</a> and then for the <a href="Snapshot.html#version" class="page">version</a>).</p>
+</div>
+<div class="paragraph">
+<p><code>getStartingOffset</code> <a href="#iteratorLast">takes the last file</a> from the <a href="#getChangesWithRateLimit">files added (with rate limit)</a> for the version of the delta table, <code>-1L</code> as the <code>fromIndex</code>, and the <code>isStartingVersion</code> flag enabled (<code>true</code>).</p>
+</div>
+<div class="paragraph">
+<p><code>getStartingOffset</code> returns a new <a href="DeltaSourceOffset.html" class="page">DeltaSourceOffset</a> for the <a href="#tableId">tableId</a>, the version and the index of the last file added, and whether the last file added is the last file of its version.</p>
+</div>
+<div class="paragraph">
+<p><code>getStartingOffset</code> returns <code>None</code> (<em>offset not available</em>) when either happens:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>the version of the delta table is negative (below <code>0</code>)</p>
+</li>
+<li>
+<p>no files were added in the version</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><code>getStartingOffset</code> throws an <code>AssertionError</code> when the version of the last file added is smaller than the delta table&#8217;s version:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code>assertion failed: getChangesWithRateLimit returns an invalid version: [v] (expected: &gt;= [version])</code></pre>
+</div>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -572,34 +602,6 @@ DeltaSource[file:/tmp/delta/users]</code></pre>
 </td>
 <td class="content">
 <code>getStartingOffset</code> is used exclusively when <code>DeltaSource</code> is requested to <a href="#getOffset">getOffset</a>.
-</td>
-</tr>
-</table>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="getchangeswithratelimit-internal-method"><a class="anchor" href="#getchangeswithratelimit-internal-method"></a><a class="link" href="#getchangeswithratelimit-internal-method"><a id="getChangesWithRateLimit"></a> <code>getChangesWithRateLimit</code> Internal Method</a></h2>
-<div class="sectionbody">
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">getChangesWithRateLimit(
-  fromVersion: Long,
-  fromIndex: Long,
-  isStartingVersion: Boolean): Iterator[IndexedFile]</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p><code>getChangesWithRateLimit</code>&#8230;&#8203;FIXME</p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<code>getChangesWithRateLimit</code> is used when <code>DeltaSource</code> is requested to <a href="#getStartingOffset">getStartingOffset</a> and <a href="#getOffset">getOffset</a>.
 </td>
 </tr>
 </table>
@@ -623,7 +625,7 @@ DeltaSource[file:/tmp/delta/users]</code></pre>
 <div class="ulist">
 <ul>
 <li>
-<p>When enabled (<code>true</code>), <code>getChanges</code> <a href="#getSnapshotAt">gets the state snapshot at</a> the version of the given <code>fromVersion</code> offset&#8230;&#8203;FIXME</p>
+<p>When enabled (<code>true</code>), <code>getChanges</code> <a href="#getSnapshotAt">gets the state (snapshot)</a> for the given <code>fromVersion</code>&#8230;&#8203;FIXME</p>
 </li>
 </ul>
 </div>
@@ -634,7 +636,38 @@ DeltaSource[file:/tmp/delta/users]</code></pre>
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-<code>getChanges</code> is used when <code>DeltaSource</code> is requested to <a href="#getChangesWithRateLimit">getChangesWithRateLimit</a> and <a href="#getBatch">getBatch</a>.
+<code>getChanges</code> is used when <code>DeltaSource</code> is requested for the <a href="#getChangesWithRateLimit">files added (with rate limit)</a> and <a href="#getBatch">getBatch</a>.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="retrieving-file-additions-with-rate-limitgetchangeswithratelimit-internal-method"><a class="anchor" href="#retrieving-file-additions-with-rate-limitgetchangeswithratelimit-internal-method"></a><a class="link" href="#retrieving-file-additions-with-rate-limitgetchangeswithratelimit-internal-method"><a id="getChangesWithRateLimit"></a> Retrieving File Additions (With Rate Limit)&#8201;&#8212;&#8201;<code>getChangesWithRateLimit</code> Internal Method</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">getChangesWithRateLimit(
+  fromVersion: Long,
+  fromIndex: Long,
+  isStartingVersion: Boolean): Iterator[IndexedFile]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>getChangesWithRateLimit</code> <a href="#getChanges">get the changes</a> (as indexed <a href="AddFile.html" class="page">AddFiles</a>) for the given <code>fromVersion</code>, <code>fromIndex</code>, and <code>isStartingVersion</code> flag.</p>
+</div>
+<div class="paragraph">
+<p><code>getChangesWithRateLimit</code> takes the configured number of <code>AddFiles</code> (up to the <a href="#maxFilesPerTrigger">maxFilesPerTrigger</a> option (if defined) or <a href="DeltaOptions.html#MAX_FILES_PER_TRIGGER_OPTION_DEFAULT" class="page">1000</a>).</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>getChangesWithRateLimit</code> is used when <code>DeltaSource</code> is requested to <a href="#getStartingOffset">getStartingOffset</a> and <a href="#getOffset">getOffset</a>.
 </td>
 </tr>
 </table>
@@ -731,6 +764,32 @@ DeltaSource[file:/tmp/delta/users]</code></pre>
 </td>
 <td class="content">
 <code>cleanUpSnapshotResources</code> is used when <code>DeltaSource</code> is requested to <a href="#getSnapshotAt">getSnapshotAt</a>, <a href="#getBatch">getBatch</a> and <a href="#stop">stop</a>.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="retrieving-last-element-from-iteratoriteratorlast-internal-method"><a class="anchor" href="#retrieving-last-element-from-iteratoriteratorlast-internal-method"></a><a class="link" href="#retrieving-last-element-from-iteratoriteratorlast-internal-method"><a id="iteratorLast"></a> Retrieving Last Element From Iterator&#8201;&#8212;&#8201;<code>iteratorLast</code> Internal Method</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">iteratorLast[T](
+  iter: Iterator[T]): Option[T]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>iteratorLast</code> simply returns the last element in the given <code>Iterator</code> or <code>None</code>.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>iteratorLast</code> is used when <code>DeltaSource</code> is requested to <a href="#getStartingOffset">getStartingOffset</a> and <a href="#getOffset">getOffset</a>.
 </td>
 </tr>
 </table>

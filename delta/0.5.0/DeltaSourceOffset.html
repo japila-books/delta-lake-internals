@@ -3,8 +3,8 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title> TahoeLogFileIndex :: The Internals Of Delta Lake</title>
-    <link rel="canonical" href="https://books.japila.pl/delta-lake-internals/delta/0.5.0/TahoeLogFileIndex.html">
+    <title>DeltaSourceOffset :: The Internals Of Delta Lake</title>
+    <link rel="canonical" href="https://books.japila.pl/delta-lake-internals/delta/0.5.0/DeltaSourceOffset.html">
     <meta name="generator" content="Antora 2.2.0">
     <link rel="stylesheet" href="../../_/css/site.css">
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-151208281-1"></script>
@@ -219,7 +219,7 @@
   <li class="nav-item" data-depth="3">
     <a class="nav-link" href="DeltaSourceSnapshot.html">DeltaSourceSnapshot</a>
   </li>
-  <li class="nav-item" data-depth="3">
+  <li class="nav-item is-current-page" data-depth="3">
     <a class="nav-link" href="DeltaSourceOffset.html">DeltaSourceOffset</a>
   </li>
 </ul>
@@ -290,7 +290,7 @@
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="TahoeBatchFileIndex.html">TahoeBatchFileIndex</a>
   </li>
-  <li class="nav-item is-current-page" data-depth="2">
+  <li class="nav-item" data-depth="2">
     <a class="nav-link" href="TahoeLogFileIndex.html">TahoeLogFileIndex</a>
   </li>
 </ul>
@@ -414,255 +414,24 @@
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="index.html">Delta Lake</a></li>
-    <li><a href="TahoeFileIndex.html">TahoeFileIndex</a></li>
-    <li><a href="TahoeLogFileIndex.html">TahoeLogFileIndex</a></li>
+    <li><a href="DeltaDataSource.html">DeltaDataSource</a></li>
+    <li><a href="DeltaSource.html">DeltaSource</a></li>
+    <li><a href="DeltaSourceOffset.html">DeltaSourceOffset</a></li>
   </ul>
 </nav>
 <div class="page-versions">
   <button class="version-menu-toggle" title="Show other versions of page">0.5.0</button>
   <div class="version-menu">
-    <a class="version is-current" href="TahoeLogFileIndex.html">0.5.0</a>
-    <a class="version" href="../0.4.0/TahoeLogFileIndex.html">0.4.0</a>
+    <a class="version is-current" href="DeltaSourceOffset.html">0.5.0</a>
+    <a class="version is-missing" href="../0.4.0/index.html">0.4.0</a>
   </div>
 </div>
-  <div class="edit-this-page"><a href="https://github.com/japila-books/delta-lake-internals/edit/v0.5.0/modules/ROOT/pages/TahoeLogFileIndex.adoc">Edit this Page</a></div>
+  <div class="edit-this-page"><a href="https://github.com/japila-books/delta-lake-internals/edit/v0.5.0/modules/ROOT/pages/DeltaSourceOffset.adoc">Edit this Page</a></div>
   </div>
 <article class="doc">
-<h1 class="page"><a id="TahoeLogFileIndex"></a> TahoeLogFileIndex</h1>
-<div id="preamble">
-<div class="sectionbody">
+<h1 class="page">DeltaSourceOffset</h1>
 <div class="paragraph">
-<p><code>TahoeLogFileIndex</code> is a concrete <a href="TahoeFileIndex.html" class="page">file index</a>.</p>
-</div>
-<div class="paragraph">
-<p><code>TahoeLogFileIndex</code> is <a href="#creating-instance">created</a> when <code>DeltaLog</code> is requested for a <a href="DeltaLog.html#createRelation" class="page">relation</a> (when <code>DeltaDataSource</code> is requested for one as a <a href="DeltaDataSource.html#CreatableRelationProvider" class="page">CreatableRelationProvider</a> and a <a href="DeltaDataSource.html#RelationProvider" class="page">RelationProvider</a>).</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code>val q = spark.read.format("delta").load("/tmp/delta/users")
-val plan = q.queryExecution.executedPlan
-
-import org.apache.spark.sql.execution.FileSourceScanExec
-val scan = plan.collect { case e: FileSourceScanExec =&gt; e }.head
-
-import org.apache.spark.sql.delta.files.TahoeLogFileIndex
-val index = scan.relation.location.asInstanceOf[TahoeLogFileIndex]
-scala&gt; println(index)
-Delta[version=1, file:/tmp/delta/users]</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="creating-tahoelogfileindex-instance"><a class="anchor" href="#creating-tahoelogfileindex-instance"></a><a class="link" href="#creating-tahoelogfileindex-instance"><a id="creating-instance"></a> Creating TahoeLogFileIndex Instance</a></h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p><code>TahoeLogFileIndex</code> takes the following to be created:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><a id="spark"></a> <code>SparkSession</code></p>
-</li>
-<li>
-<p><a id="deltaLog"></a> <a href="DeltaLog.html" class="page">DeltaLog</a></p>
-</li>
-<li>
-<p><a id="dataPath"></a> Data directory of the delta table (as Hadoop <a href="https://hadoop.apache.org/docs/r2.6.5/api/org/apache/hadoop/fs/Path.html">Path</a>)</p>
-</li>
-<li>
-<p><a id="partitionFilters"></a> Partition filters (default: <code>empty</code>) (as Catalyst expressions, i.e. <code>Seq[Expression]</code>)</p>
-</li>
-<li>
-<p><a id="versionToUse"></a> Snapshot version (default: <code>undefined</code>) (<code>Option[Long]</code>)</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p><code>TahoeLogFileIndex</code> initializes the <a href="#internal-properties">internal properties</a>.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="schema-of-partition-columnspartitionschema-method"><a class="anchor" href="#schema-of-partition-columnspartitionschema-method"></a><a class="link" href="#schema-of-partition-columnspartitionschema-method"><a id="partitionSchema"></a> Schema of Partition Columns&#8201;&#8212;&#8201;<code>partitionSchema</code> Method</a></h2>
-<div class="sectionbody">
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">partitionSchema: StructType</code></pre>
-</div>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<code>partitionSchema</code> is part of the <code>FileIndex</code> contract (Spark SQL) to get the schema of the partition columns (if used).
-</td>
-</tr>
-</table>
-</div>
-<div class="paragraph">
-<p><code>partitionSchema</code>&#8230;&#8203;FIXME</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="matchingfiles-method"><a class="anchor" href="#matchingfiles-method"></a><a class="link" href="#matchingfiles-method"><a id="matchingFiles"></a> <code>matchingFiles</code> Method</a></h2>
-<div class="sectionbody">
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">matchingFiles(
-  partitionFilters: Seq[Expression],
-  dataFilters: Seq[Expression],
-  keepStats: Boolean = false): Seq[AddFile]</code></pre>
-</div>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<code>matchingFiles</code> is part of the <a href="TahoeFileIndex.html#matchingFiles" class="page">TahoeFileIndex Contract</a> for the matching (valid) files by the given filtering expressions.
-</td>
-</tr>
-</table>
-</div>
-<div class="paragraph">
-<p><code>matchingFiles</code> <a href="#getSnapshot">gets the snapshot</a> (with <code>stalenessAcceptable</code> flag off) and requests it for the <a href="PartitionFiltering.html#filesForScan" class="page">files to scan</a> (for the index&#8217;s <a href="#partitionFilters">partition filters</a>, the given <code>partitionFilters</code> and <code>dataFilters</code>).</p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<a href="#inputFiles">inputFiles</a> and <a href="#matchingFiles">matchingFiles</a> are similar. Both <a href="#getSnapshot">get the snapshot</a> (of the delta table), but they use different filtering expressions and return value types.
-</td>
-</tr>
-</table>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="inputfiles-method"><a class="anchor" href="#inputfiles-method"></a><a class="link" href="#inputfiles-method"><a id="inputFiles"></a> <code>inputFiles</code> Method</a></h2>
-<div class="sectionbody">
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">inputFiles: Array[String]</code></pre>
-</div>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<code>inputFiles</code> is part of the <code>FileIndex</code> contract to&#8230;&#8203;FIXME
-</td>
-</tr>
-</table>
-</div>
-<div class="paragraph">
-<p><code>inputFiles</code> <a href="#getSnapshot">gets the snapshot</a> (with <code>stalenessAcceptable</code> flag off) and requests it for the <a href="PartitionFiltering.html#filesForScan" class="page">files to scan</a> (for the index&#8217;s <a href="#partitionFilters">partition filters</a>).</p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<a href="#inputFiles">inputFiles</a> and <a href="#matchingFiles">matchingFiles</a> are similar. Both <a href="#getSnapshot">get the snapshot</a> (of the delta table), but they use different filtering expressions and return value types.
-</td>
-</tr>
-</table>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="historical-or-latest-snapshotgetsnapshot-method"><a class="anchor" href="#historical-or-latest-snapshotgetsnapshot-method"></a><a class="link" href="#historical-or-latest-snapshotgetsnapshot-method"><a id="getSnapshot"></a> Historical Or Latest Snapshot&#8201;&#8212;&#8201;<code>getSnapshot</code> Method</a></h2>
-<div class="sectionbody">
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">getSnapshot(
-  stalenessAcceptable: Boolean): Snapshot</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p><code>getSnapshot</code> returns a <a href="Snapshot.html" class="page">Snapshot</a> that is either the <a href="#historicalSnapshotOpt">historical snapshot</a> (for the <a href="#versionToUse">snapshot version</a> if defined) or requests the <a href="#deltaLog">DeltaLog</a> to <a href="DeltaLog.html#update" class="page">update</a> (and give one).</p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<code>getSnapshot</code> is used when <code>TahoeLogFileIndex</code> is requested for the <a href="#matchingFiles">matching files</a> and the <a href="#inputFiles">input files</a>.
-</td>
-</tr>
-</table>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="sizeinbytes-property"><a class="anchor" href="#sizeinbytes-property"></a><a class="link" href="#sizeinbytes-property"><a id="sizeInBytes"></a> <code>sizeInBytes</code> Property</a></h2>
-<div class="sectionbody">
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">sizeInBytes: Long</code></pre>
-</div>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<code>sizeInBytes</code> is part of the <code>FileIndex</code> contract for the table size (in bytes).
-</td>
-</tr>
-</table>
-</div>
-<div class="paragraph">
-<p><code>sizeInBytes</code>&#8230;&#8203;FIXME</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="internal-properties"><a class="anchor" href="#internal-properties"></a><a class="link" href="#internal-properties"><a id="internal-properties"></a> Internal Properties</a></h2>
-<div class="sectionbody">
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 30%;">
-<col style="width: 70%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Name</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>historicalSnapshotOpt</code></p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="historicalSnapshotOpt"></a> <strong>Historical snapshot</strong>, i.e. <a href="Snapshot.html" class="page">Snapshot</a> for the <a href="#versionToUse">versionToUse</a> (if defined)</p>
-</div>
-<div class="paragraph">
-<p>Used when <code>TahoeLogFileIndex</code> is requested for the <a href="#getSnapshot">(historical or latest) snapshot</a> and the <a href="#partitionSchema">schema of the partition columns</a></p>
-</div></div></td>
-</tr>
-</tbody>
-</table>
-</div>
+<p><code>DeltaSourceOffset</code> is&#8230;&#8203;FIXME</p>
 </div>
 </article>
 </main>
