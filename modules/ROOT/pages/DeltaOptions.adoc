@@ -34,7 +34,9 @@ a| [[IGNORE_DELETES_OPTION]][[ignoreDeletes]]
 a| [[IGNORE_FILE_DELETION_OPTION]][[ignoreFileDeletion]]
 
 | maxFilesPerTrigger
-a| [[MAX_FILES_PER_TRIGGER_OPTION]][[maxFilesPerTrigger]]
+a| [[MAX_FILES_PER_TRIGGER_OPTION]][[maxFilesPerTrigger]][[MAX_FILES_PER_TRIGGER_OPTION_DEFAULT]]
+
+Default: `1000`
 
 | mergeSchema
 a| [[MERGE_SCHEMA_OPTION]][[mergeSchema]][[canMergeSchema]] Enables schema migration (e.g. allows automatic schema merging during a write operation for <<WriteIntoDelta.adoc#, WriteIntoDelta>> and <<DeltaSink.adoc#, DeltaSink>>)

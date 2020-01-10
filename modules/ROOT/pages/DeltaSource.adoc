@@ -29,7 +29,7 @@ DeltaSource[file:/tmp/delta/users]
 ```
 
 [[maxFilesPerTrigger]]
-`DeltaSource` uses <<DeltaOptions.adoc#maxFilesPerTrigger, maxFilesPerTrigger>> option for...FIXME
+`DeltaSource` uses <<DeltaOptions.adoc#maxFilesPerTrigger, maxFilesPerTrigger>> option to limit the number of files added when requested for the <<getChangesWithRateLimit, changes (with rate limit)>>.
 
 == [[getBatch]] Creating DataFrame For Data Between Start And End Offsets -- `getBatch` Method
 
@@ -79,20 +79,6 @@ getStartingOffset(): Option[Offset]
 
 NOTE: `getStartingOffset` is used exclusively when `DeltaSource` is requested to <<getOffset, getOffset>>.
 
-== [[getChangesWithRateLimit]] `getChangesWithRateLimit` Internal Method
-
-[source, scala]
-----
-getChangesWithRateLimit(
-  fromVersion: Long,
-  fromIndex: Long,
-  isStartingVersion: Boolean): Iterator[IndexedFile]
-----
-
-`getChangesWithRateLimit`...FIXME
-
-NOTE: `getChangesWithRateLimit` is used when `DeltaSource` is requested to <<getStartingOffset, getStartingOffset>> and <<getOffset, getOffset>>.
-
 == [[getChanges]] `getChanges` Internal Method
 
 [source, scala]
@@ -108,6 +94,22 @@ getChanges(
 * When enabled (`true`), `getChanges` <<getSnapshotAt, gets the state snapshot at>> the version of the given `fromVersion` offset...FIXME
 
 NOTE: `getChanges` is used when `DeltaSource` is requested to <<getChangesWithRateLimit, getChangesWithRateLimit>> and <<getBatch, getBatch>>.
+
+== [[getChangesWithRateLimit]] `getChangesWithRateLimit` Internal Method
+
+[source, scala]
+----
+getChangesWithRateLimit(
+  fromVersion: Long,
+  fromIndex: Long,
+  isStartingVersion: Boolean): Iterator[IndexedFile]
+----
+
+`getChangesWithRateLimit` <<getChanges, get the changes>> (as indexed <<AddFile.adoc#, AddFiles>>) for the given `fromVersion`, `fromIndex`, and `isStartingVersion` flag.
+
+`getChangesWithRateLimit` takes the configured number of `AddFiles` (up to the <<maxFilesPerTrigger, maxFilesPerTrigger>> option (if defined) or <<DeltaOptions.adoc#MAX_FILES_PER_TRIGGER_OPTION_DEFAULT, 1000>>).
+
+NOTE: `getChangesWithRateLimit` is used when `DeltaSource` is requested to <<getStartingOffset, getStartingOffset>> and <<getOffset, getOffset>>.
 
 == [[getSnapshotAt]] Retrieving State Of Delta Table At Given Version -- `getSnapshotAt` Internal Method
 
