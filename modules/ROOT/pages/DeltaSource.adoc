@@ -29,7 +29,7 @@ DeltaSource[file:/tmp/delta/users]
 ```
 
 [[maxFilesPerTrigger]]
-`DeltaSource` uses <<DeltaOptions.adoc#maxFilesPerTrigger, maxFilesPerTrigger>> option to limit the number of files added when requested for the <<getChangesWithRateLimit, changes (with rate limit)>>.
+`DeltaSource` uses <<DeltaOptions.adoc#maxFilesPerTrigger, maxFilesPerTrigger>> option to limit the number of files added when requested for the <<getChangesWithRateLimit, file additions (with rate limit)>>.
 
 == [[getBatch]] Creating DataFrame For Data Between Start And End Offsets -- `getBatch` Method
 
@@ -68,14 +68,30 @@ NOTE: `stop` is part of the streaming `Source` contract (Spark Structured Stream
 
 `stop` simply <<cleanUpSnapshotResources, cleanUpSnapshotResources>>.
 
-== [[getStartingOffset]] `getStartingOffset` Internal Method
+== [[getStartingOffset]] Retrieving Starting Offset -- `getStartingOffset` Internal Method
 
 [source, scala]
 ----
 getStartingOffset(): Option[Offset]
 ----
 
-`getStartingOffset`...FIXME
+`getStartingOffset` requests the <<deltaLog, DeltaLog>> for the version of the delta table (by requesting for the <<DeltaLog.adoc#snapshot, current state (snapshot)>> and then for the <<Snapshot.adoc#version, version>>).
+
+`getStartingOffset` <<iteratorLast, takes the last file>> from the <<getChangesWithRateLimit, files added (with rate limit)>> for the version of the delta table, `-1L` as the `fromIndex`, and the `isStartingVersion` flag enabled (`true`).
+
+`getStartingOffset` returns a new <<DeltaSourceOffset.adoc#, DeltaSourceOffset>> for the <<tableId, tableId>>, the version and the index of the last file added, and whether the last file added is the last file of its version.
+
+`getStartingOffset` returns `None` (_offset not available_) when either happens:
+
+* the version of the delta table is negative (below `0`)
+
+* no files were added in the version
+
+`getStartingOffset` throws an `AssertionError` when the version of the last file added is smaller than the delta table's version:
+
+```
+assertion failed: getChangesWithRateLimit returns an invalid version: [v] (expected: >= [version])
+```
 
 NOTE: `getStartingOffset` is used exclusively when `DeltaSource` is requested to <<getOffset, getOffset>>.
 
@@ -91,11 +107,11 @@ getChanges(
 
 `getChanges` branches per the given `isStartingVersion` flag:
 
-* When enabled (`true`), `getChanges` <<getSnapshotAt, gets the state snapshot at>> the version of the given `fromVersion` offset...FIXME
+* When enabled (`true`), `getChanges` <<getSnapshotAt, gets the state (snapshot)>> for the given `fromVersion`...FIXME
 
-NOTE: `getChanges` is used when `DeltaSource` is requested to <<getChangesWithRateLimit, getChangesWithRateLimit>> and <<getBatch, getBatch>>.
+NOTE: `getChanges` is used when `DeltaSource` is requested for the <<getChangesWithRateLimit, files added (with rate limit)>> and <<getBatch, getBatch>>.
 
-== [[getChangesWithRateLimit]] `getChangesWithRateLimit` Internal Method
+== [[getChangesWithRateLimit]] Retrieving File Additions (With Rate Limit) -- `getChangesWithRateLimit` Internal Method
 
 [source, scala]
 ----
@@ -155,6 +171,18 @@ cleanUpSnapshotResources(): Unit
 `cleanUpSnapshotResources`...FIXME
 
 NOTE: `cleanUpSnapshotResources` is used when `DeltaSource` is requested to <<getSnapshotAt, getSnapshotAt>>, <<getBatch, getBatch>> and <<stop, stop>>.
+
+== [[iteratorLast]] Retrieving Last Element From Iterator -- `iteratorLast` Internal Method
+
+[source, scala]
+----
+iteratorLast[T](
+  iter: Iterator[T]): Option[T]
+----
+
+`iteratorLast` simply returns the last element in the given `Iterator` or `None`.
+
+NOTE: `iteratorLast` is used when `DeltaSource` is requested to <<getStartingOffset, getStartingOffset>> and <<getOffset, getOffset>>.
 
 == [[internal-properties]] Internal Properties
 

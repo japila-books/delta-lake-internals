@@ -20,6 +20,18 @@ val expected = new Path(s"file:$dataPath/_delta_log/_last_checkpoint")
 assert(deltaLog.LAST_CHECKPOINT == expected)
 ----
 
+A common idiom (if not the only way) to know the current version of the delta table is to request the `DeltaLog` for the <<snapshot, current state (snapshot)>> and then for the <<Snapshot.adoc#version, version>>.
+
+[source, scala]
+----
+import org.apache.spark.sql.delta.DeltaLog
+assert(deltaLog.isInstanceOf[DeltaLog])
+
+val deltaVersion = deltaLog.snapshot.version
+scala> println(deltaVersion)
+5
+----
+
 While being <<creating-instance, created>>, `DeltaLog` does the following:
 
 * Creates the <<store, LogStore>> based on <<LogStoreProvider.adoc#spark.delta.logStore.class, spark.delta.logStore.class>> configuration property (default: <<HDFSLogStore.adoc#, HDFSLogStore>>)
