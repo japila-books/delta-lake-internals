@@ -46,9 +46,9 @@
 * xref:DeltaDataSource.adoc[DeltaDataSource]
 ** xref:DeltaOptions.adoc[DeltaOptions]
 ** xref:DeltaSource.adoc[DeltaSource]
+*** xref:DeltaSourceOffset.adoc[DeltaSourceOffset]
 *** xref:SnapshotIterator.adoc[SnapshotIterator]
 *** xref:DeltaSourceSnapshot.adoc[DeltaSourceSnapshot]
-*** xref:DeltaSourceOffset.adoc[DeltaSourceOffset]
 ** xref:DeltaSink.adoc[DeltaSink]
 
 * xref:DeltaSQLConf.adoc[DeltaSQLConf]

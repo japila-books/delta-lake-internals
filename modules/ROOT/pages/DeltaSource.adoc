@@ -46,14 +46,14 @@ NOTE: `getBatch` is part of the `Source` contract (Spark Structured Streaming) f
 
 `getBatch` <<getChanges, gets the changes>> as follows...FIXME
 
-== [[getOffset]] `getOffset` Method
+== [[getOffset]] Retrieving Latest Offset -- `getOffset` Method
 
 [source, scala]
 ----
 getOffset: Option[Offset]
 ----
 
-NOTE: `getOffset` is part of the streaming `Source` contract (Spark Structured Streaming) to get the maximum available offset for this source.
+NOTE: `getOffset` is part of the streaming `Source` contract (Spark Structured Streaming) to retrieve the latest available offset for this source.
 
 `getOffset`...FIXME
 
