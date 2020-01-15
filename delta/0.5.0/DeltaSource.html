@@ -214,13 +214,13 @@
     <a class="nav-link" href="DeltaSource.html">DeltaSource</a>
 <ul class="nav-list">
   <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="DeltaSourceOffset.html">DeltaSourceOffset</a>
+  </li>
+  <li class="nav-item" data-depth="3">
     <a class="nav-link" href="SnapshotIterator.html">SnapshotIterator</a>
   </li>
   <li class="nav-item" data-depth="3">
     <a class="nav-link" href="DeltaSourceSnapshot.html">DeltaSourceSnapshot</a>
-  </li>
-  <li class="nav-item" data-depth="3">
-    <a class="nav-link" href="DeltaSourceOffset.html">DeltaSourceOffset</a>
   </li>
 </ul>
   </li>
@@ -507,7 +507,7 @@ DeltaSource[file:/tmp/delta/users]</code></pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="getoffset-method"><a class="anchor" href="#getoffset-method"></a><a class="link" href="#getoffset-method"><a id="getOffset"></a> <code>getOffset</code> Method</a></h2>
+<h2 id="retrieving-latest-offsetgetoffset-method"><a class="anchor" href="#retrieving-latest-offsetgetoffset-method"></a><a class="link" href="#retrieving-latest-offsetgetoffset-method"><a id="getOffset"></a> Retrieving Latest Offset&#8201;&#8212;&#8201;<code>getOffset</code> Method</a></h2>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content">
@@ -521,7 +521,7 @@ DeltaSource[file:/tmp/delta/users]</code></pre>
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-<code>getOffset</code> is part of the streaming <code>Source</code> contract (Spark Structured Streaming) to get the maximum available offset for this source.
+<code>getOffset</code> is part of the streaming <code>Source</code> contract (Spark Structured Streaming) to retrieve the latest available offset for this source.
 </td>
 </tr>
 </table>
