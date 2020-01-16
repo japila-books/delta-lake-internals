@@ -1,14 +1,14 @@
 = [[DeltaSource]] DeltaSource -- Streaming Source of Delta Data Source
 
-`DeltaSource` is the source of <<DeltaDataSource.adoc#, delta data source>> for streaming queries in Spark Structured Streaming.
+`DeltaSource` is the streaming source of <<DeltaDataSource.adoc#, delta data source>> that can be used for streaming queries in Spark Structured Streaming.
 
 TIP: Read up on https://jaceklaskowski.gitbooks.io/spark-structured-streaming/spark-sql-streaming-Source.html[Streaming Source] in https://bit.ly/spark-structured-streaming[The Internals of Spark Structured Streaming] online book.
 
 ```
 val q = spark
-  .readStream
-  .format("delta")
-  .load("/tmp/delta/users")
+  .readStream               // Creating a streaming query
+  .format("delta")          // Using delta data source
+  .load("/tmp/delta/users") // Over data in a delta table
   .writeStream
   .format("memory")
   .option("queryName", "demo")
@@ -29,7 +29,21 @@ DeltaSource[file:/tmp/delta/users]
 ```
 
 [[maxFilesPerTrigger]]
-`DeltaSource` uses <<DeltaOptions.adoc#maxFilesPerTrigger, maxFilesPerTrigger>> option to limit the number of files added when requested for the <<getChangesWithRateLimit, file additions (with rate limit)>>.
+`DeltaSource` uses <<DeltaOptions.adoc#maxFilesPerTrigger, maxFilesPerTrigger>> option to limit the number of files to process when requested for the <<getChangesWithRateLimit, file additions (with rate limit)>>.
+
+[[logging]]
+[TIP]
+====
+Enable `ALL` logging level for `org.apache.spark.sql.delta.sources.DeltaSource` logger to see what happens inside.
+
+Add the following line to `conf/log4j.properties`:
+
+```
+log4j.logger.org.apache.spark.sql.delta.sources.DeltaSource=ALL
+```
+
+Refer to <<logging.adoc#, Logging>>.
+====
 
 == [[getBatch]] Creating DataFrame For Data Between Start And End Offsets -- `getBatch` Method
 
@@ -46,18 +60,40 @@ NOTE: `getBatch` is part of the `Source` contract (Spark Structured Streaming) f
 
 `getBatch` <<getChanges, gets the changes>> as follows...FIXME
 
-== [[getOffset]] Retrieving Latest Offset -- `getOffset` Method
+== [[getOffset]] Latest Available Offset -- `getOffset` Method
 
 [source, scala]
 ----
 getOffset: Option[Offset]
 ----
 
-NOTE: `getOffset` is part of the streaming `Source` contract (Spark Structured Streaming) to retrieve the latest available offset for this source.
+NOTE: `getOffset` is part of the `Source` abstraction (https://jaceklaskowski.gitbooks.io/spark-structured-streaming/spark-sql-streaming-Source.html[Spark Structured Streaming]) for the latest available offset of this streaming source.
 
-`getOffset`...FIXME
+[[getOffset-currentOffset]]
+`getOffset` calculates the latest offset (that a streaming query can use for the data of the next micro-batch) based on the <<previousOffset, previousOffset>> internal registry.
 
-== [[stop]] Stopping Streaming Source -- `stop` Method
+For no <<previousOffset, ending offset of the latest micro-batch>>, `getOffset` simply <<getStartingOffset, retrieves the starting offset>> (based on the latest version of the delta table).
+
+When the <<previousOffset, ending offset of the latest micro-batch>> is defined (which means that the `DeltaSource` is requested for another micro-batch), `getOffset` takes the <<iteratorLast, last indexed AddFile>> from <<getChangesWithRateLimit, getChangesWithRateLimit>> for the <<previousOffset, previous ending offset>>. `getOffset` returns the <<previousOffset, previous ending offset>> when the last element was not available.
+
+With the <<previousOffset, ending offset of the latest micro-batch>> and the <<iteratorLast, last indexed AddFile>> both available, `getOffset` creates a new <<DeltaSourceOffset.adoc#, DeltaSourceOffset>> for the version, index, and `isLast` flag from the last indexed <<AddFile.adoc#, AddFile>>.
+
+[NOTE]
+====
+`isStartingVersion` local value is enabled (`true`) when the following holds:
+
+* Version of the last indexed <<AddFile.adoc#, AddFile>> is equal to the <<DeltaSourceOffset.adoc#reservoirVersion, reservoirVersion>> of the <<previousOffset, previous ending offset>>
+
+* <<DeltaSourceOffset.adoc#isStartingVersion, isStartingVersion>> flag of the <<previousOffset, previous ending offset>> is enabled (`true`)
+====
+
+In the end, `getOffset` prints out the following DEBUG message to the logs (using the <<previousOffset, previousOffset>> internal registry):
+
+```
+previousOffset -> currentOffset: [previousOffset] -> [currentOffset]
+```
+
+== [[stop]] Stopping -- `stop` Method
 
 [source, scala]
 ----
@@ -93,7 +129,7 @@ getStartingOffset(): Option[Offset]
 assertion failed: getChangesWithRateLimit returns an invalid version: [v] (expected: >= [version])
 ```
 
-NOTE: `getStartingOffset` is used exclusively when `DeltaSource` is requested to <<getOffset, getOffset>>.
+NOTE: `getStartingOffset` is used exclusively when `DeltaSource` is requested for the <<getOffset, latest available offset>>.
 
 == [[getChanges]] `getChanges` Internal Method
 
@@ -208,6 +244,13 @@ a| [[initialStateVersion]] Version of the <<deltaLog, delta table>>
 Initially `-1L` and changes (along with the <<initialState, initialState>>) to the version requested when `DeltaSource` is requested for the <<getSnapshotAt, snapshot at a given version>> (only when the versions are different)
 
 Used when `DeltaSource` is requested to <<cleanUpSnapshotResources, cleanUpSnapshotResources>> (and unpersist the current snapshot)
+
+| previousOffset
+a| [[previousOffset]] Ending <<DeltaSourceOffset.adoc#, DeltaSourceOffset>> of the latest <<getBatch, micro-batch>>
+
+Starts uninitialized (`null`).
+
+Used when `DeltaSource` is requested for the <<getOffset, getOffset>>.
 
 | tableId
 a| [[tableId]] Table ID
