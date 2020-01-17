@@ -1,8 +1,10 @@
 = [[DeltaSource]] DeltaSource -- Streaming Source of Delta Data Source
 
-`DeltaSource` is the streaming source of <<DeltaDataSource.adoc#, delta data source>> that can be used for streaming queries in Spark Structured Streaming.
+`DeltaSource` is the streaming source of <<DeltaDataSource.adoc#, delta data source>> for streaming queries in Spark Structured Streaming.
 
 TIP: Read up on https://jaceklaskowski.gitbooks.io/spark-structured-streaming/spark-sql-streaming-Source.html[Streaming Source] in https://bit.ly/spark-structured-streaming[The Internals of Spark Structured Streaming] online book.
+
+`DeltaSource` is <<creating-instance, created>> when `DeltaDataSource` is requested for a <<DeltaDataSource.adoc#createSource, streaming source>>.
 
 ```
 val q = spark
@@ -44,6 +46,17 @@ log4j.logger.org.apache.spark.sql.delta.sources.DeltaSource=ALL
 
 Refer to <<logging.adoc#, Logging>>.
 ====
+
+== [[creating-instance]] Creating DeltaSource Instance
+
+`DeltaSource` takes the following to be created:
+
+* [[spark]] `SparkSession`
+* [[deltaLog]] <<DeltaLog.adoc#, DeltaLog>> of the delta table to read data (as <<getBatch, micro-batches>>) from
+* [[options]] <<DeltaOptions.adoc#, DeltaOptions>>
+* [[filters]] Filter expressions (default: no filters)
+
+`DeltaSource` initializes the <<internal-properties, internal properties>>.
 
 == [[getBatch]] Creating DataFrame For Data Between Start And End Offsets -- `getBatch` Method
 
@@ -250,7 +263,7 @@ a| [[previousOffset]] Ending <<DeltaSourceOffset.adoc#, DeltaSourceOffset>> of t
 
 Starts uninitialized (`null`).
 
-Used when `DeltaSource` is requested for the <<getOffset, getOffset>>.
+Used when `DeltaSource` is requested for the <<getOffset, latest available offset>>.
 
 | tableId
 a| [[tableId]] Table ID
