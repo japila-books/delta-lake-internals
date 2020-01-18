@@ -1,0 +1,64 @@
+= Demo: Stream Processing of Delta Table
+
+[source,plaintext]
+----
+/*
+spark-shell \
+  --packages io.delta:delta-core_2.12:0.5.0 \
+  --conf spark.sql.extensions=io.delta.sql.DeltaSparkSessionExtension \
+  --conf spark.databricks.delta.snapshotPartitions=1
+*/
+assert(spark.version.matches("2.4.[2-4]"), "Delta Lake supports Spark 2.4.2+")
+
+import org.apache.spark.sql.SparkSession
+assert(spark.isInstanceOf[SparkSession])
+
+val deltaTableDir = "/tmp/delta/users"
+
+// Initialize the delta table
+// - No data
+// - Schema only
+case class Person(id: Long, name: String, city: String)
+spark.emptyDataset[Person].write.format("delta").save(deltaTableDir)
+
+val streamOverDelta = spark
+  .readStream
+  .format("delta")
+  .load(deltaTableDir)
+val sq = streamOverDelta
+  .writeStream
+  .format("console")
+  .option("truncate", false)
+  .start
+
+// The streaming query over delta table
+// should display the 0th version as Batch 0
+-------------------------------------------
+Batch: 0
+-------------------------------------------
++---+----+----+
+|id |name|city|
++---+----+----+
++---+----+----+
+
+// Let's write to the delta table
+// Change the default SaveMode.ErrorIfExists to more meaningful save mode
+import org.apache.spark.sql.SaveMode
+Seq(Person(0, "Jacek", "Warsaw"))
+  .toDF
+  .write
+  .format("delta")
+  .mode(SaveMode.Append) // Appending rows
+  .save(deltaTableDir)
+
+// Immediately after the above write finishes
+// Another batch should be printed out the console
+-------------------------------------------
+Batch: 1
+-------------------------------------------
++---+-----+------+
+|id |name |city  |
++---+-----+------+
+|0  |Jacek|Warsaw|
++---+-----+------+
+----
