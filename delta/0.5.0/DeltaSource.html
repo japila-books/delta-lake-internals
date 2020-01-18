@@ -432,7 +432,7 @@
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p><code>DeltaSource</code> is the source of <a href="DeltaDataSource.html" class="page">delta data source</a> for streaming queries in Spark Structured Streaming.</p>
+<p><code>DeltaSource</code> is the streaming source of <a href="DeltaDataSource.html" class="page">delta data source</a> that can be used for streaming queries in Spark Structured Streaming.</p>
 </div>
 <div class="admonitionblock tip">
 <table>
@@ -449,9 +449,9 @@ Read up on <a href="https://jaceklaskowski.gitbooks.io/spark-structured-streamin
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code>val q = spark
-  .readStream
-  .format("delta")
-  .load("/tmp/delta/users")
+  .readStream               // Creating a streaming query
+  .format("delta")          // Using delta data source
+  .load("/tmp/delta/users") // Over data in a delta table
   .writeStream
   .format("memory")
   .option("queryName", "demo")
@@ -472,7 +472,32 @@ DeltaSource[file:/tmp/delta/users]</code></pre>
 </div>
 </div>
 <div id="maxFilesPerTrigger" class="paragraph">
-<p><code>DeltaSource</code> uses <a href="DeltaOptions.html#maxFilesPerTrigger" class="page">maxFilesPerTrigger</a> option to limit the number of files added when requested for the <a href="#getChangesWithRateLimit">file additions (with rate limit)</a>.</p>
+<p><code>DeltaSource</code> uses <a href="DeltaOptions.html#maxFilesPerTrigger" class="page">maxFilesPerTrigger</a> option to limit the number of files to process when requested for the <a href="#getChangesWithRateLimit">file additions (with rate limit)</a>.</p>
+</div>
+<div id="logging" class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Enable <code>ALL</code> logging level for <code>org.apache.spark.sql.delta.sources.DeltaSource</code> logger to see what happens inside.</p>
+</div>
+<div class="paragraph">
+<p>Add the following line to <code>conf/log4j.properties</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code>log4j.logger.org.apache.spark.sql.delta.sources.DeltaSource=ALL</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Refer to <a href="logging.html" class="page">Logging</a>.</p>
+</div>
+</td>
+</tr>
+</table>
 </div>
 </div>
 </div>
@@ -507,7 +532,7 @@ DeltaSource[file:/tmp/delta/users]</code></pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="retrieving-latest-offsetgetoffset-method"><a class="anchor" href="#retrieving-latest-offsetgetoffset-method"></a><a class="link" href="#retrieving-latest-offsetgetoffset-method"><a id="getOffset"></a> Retrieving Latest Offset&#8201;&#8212;&#8201;<code>getOffset</code> Method</a></h2>
+<h2 id="latest-available-offsetgetoffset-method"><a class="anchor" href="#latest-available-offsetgetoffset-method"></a><a class="link" href="#latest-available-offsetgetoffset-method"><a id="getOffset"></a> Latest Available Offset&#8201;&#8212;&#8201;<code>getOffset</code> Method</a></h2>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content">
@@ -521,18 +546,59 @@ DeltaSource[file:/tmp/delta/users]</code></pre>
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-<code>getOffset</code> is part of the streaming <code>Source</code> contract (Spark Structured Streaming) to retrieve the latest available offset for this source.
+<code>getOffset</code> is part of the <code>Source</code> abstraction (<a href="https://jaceklaskowski.gitbooks.io/spark-structured-streaming/spark-sql-streaming-Source.html">Spark Structured Streaming</a>) for the latest available offset of this streaming source.
+</td>
+</tr>
+</table>
+</div>
+<div id="getOffset-currentOffset" class="paragraph">
+<p><code>getOffset</code> calculates the latest offset (that a streaming query can use for the data of the next micro-batch) based on the <a href="#previousOffset">previousOffset</a> internal registry.</p>
+</div>
+<div class="paragraph">
+<p>For no <a href="#previousOffset">ending offset of the latest micro-batch</a>, <code>getOffset</code> simply <a href="#getStartingOffset">retrieves the starting offset</a> (based on the latest version of the delta table).</p>
+</div>
+<div class="paragraph">
+<p>When the <a href="#previousOffset">ending offset of the latest micro-batch</a> is defined (which means that the <code>DeltaSource</code> is requested for another micro-batch), <code>getOffset</code> takes the <a href="#iteratorLast">last indexed AddFile</a> from <a href="#getChangesWithRateLimit">getChangesWithRateLimit</a> for the <a href="#previousOffset">previous ending offset</a>. <code>getOffset</code> returns the <a href="#previousOffset">previous ending offset</a> when the last element was not available.</p>
+</div>
+<div class="paragraph">
+<p>With the <a href="#previousOffset">ending offset of the latest micro-batch</a> and the <a href="#iteratorLast">last indexed AddFile</a> both available, <code>getOffset</code> creates a new <a href="DeltaSourceOffset.html" class="page">DeltaSourceOffset</a> for the version, index, and <code>isLast</code> flag from the last indexed <a href="AddFile.html" class="page">AddFile</a>.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p><code>isStartingVersion</code> local value is enabled (<code>true</code>) when the following holds:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Version of the last indexed <a href="AddFile.html" class="page">AddFile</a> is equal to the <a href="DeltaSourceOffset.html#reservoirVersion" class="page">reservoirVersion</a> of the <a href="#previousOffset">previous ending offset</a></p>
+</li>
+<li>
+<p><a href="DeltaSourceOffset.html#isStartingVersion" class="page">isStartingVersion</a> flag of the <a href="#previousOffset">previous ending offset</a> is enabled (<code>true</code>)</p>
+</li>
+</ul>
+</div>
 </td>
 </tr>
 </table>
 </div>
 <div class="paragraph">
-<p><code>getOffset</code>&#8230;&#8203;FIXME</p>
+<p>In the end, <code>getOffset</code> prints out the following DEBUG message to the logs (using the <a href="#previousOffset">previousOffset</a> internal registry):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code>previousOffset -&gt; currentOffset: [previousOffset] -&gt; [currentOffset]</code></pre>
+</div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="stopping-streaming-sourcestop-method"><a class="anchor" href="#stopping-streaming-sourcestop-method"></a><a class="link" href="#stopping-streaming-sourcestop-method"><a id="stop"></a> Stopping Streaming Source&#8201;&#8212;&#8201;<code>stop</code> Method</a></h2>
+<h2 id="stoppingstop-method"><a class="anchor" href="#stoppingstop-method"></a><a class="link" href="#stoppingstop-method"><a id="stop"></a> Stopping&#8201;&#8212;&#8201;<code>stop</code> Method</a></h2>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content">
@@ -601,7 +667,7 @@ DeltaSource[file:/tmp/delta/users]</code></pre>
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-<code>getStartingOffset</code> is used exclusively when <code>DeltaSource</code> is requested to <a href="#getOffset">getOffset</a>.
+<code>getStartingOffset</code> is used exclusively when <code>DeltaSource</code> is requested for the <a href="#getOffset">latest available offset</a>.
 </td>
 </tr>
 </table>
@@ -839,6 +905,18 @@ DeltaSource[file:/tmp/delta/users]</code></pre>
 </div>
 <div class="paragraph">
 <p>Used when <code>DeltaSource</code> is requested to <a href="#cleanUpSnapshotResources">cleanUpSnapshotResources</a> (and unpersist the current snapshot)</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>previousOffset</code></p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="previousOffset"></a> Ending <a href="DeltaSourceOffset.html" class="page">DeltaSourceOffset</a> of the latest <a href="#getBatch">micro-batch</a></p>
+</div>
+<div class="paragraph">
+<p>Starts uninitialized (<code>null</code>).</p>
+</div>
+<div class="paragraph">
+<p>Used when <code>DeltaSource</code> is requested for the <a href="#getOffset">getOffset</a>.</p>
 </div></div></td>
 </tr>
 <tr>
