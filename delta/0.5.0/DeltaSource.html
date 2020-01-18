@@ -432,7 +432,7 @@
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p><code>DeltaSource</code> is the streaming source of <a href="DeltaDataSource.html" class="page">delta data source</a> that can be used for streaming queries in Spark Structured Streaming.</p>
+<p><code>DeltaSource</code> is the streaming source of <a href="DeltaDataSource.html" class="page">delta data source</a> for streaming queries in Spark Structured Streaming.</p>
 </div>
 <div class="admonitionblock tip">
 <table>
@@ -445,6 +445,9 @@ Read up on <a href="https://jaceklaskowski.gitbooks.io/spark-structured-streamin
 </td>
 </tr>
 </table>
+</div>
+<div class="paragraph">
+<p><code>DeltaSource</code> is <a href="#creating-instance">created</a> when <code>DeltaDataSource</code> is requested for a <a href="DeltaDataSource.html#createSource" class="page">streaming source</a>.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -498,6 +501,33 @@ DeltaSource[file:/tmp/delta/users]</code></pre>
 </td>
 </tr>
 </table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="creating-deltasource-instance"><a class="anchor" href="#creating-deltasource-instance"></a><a class="link" href="#creating-deltasource-instance"><a id="creating-instance"></a> Creating DeltaSource Instance</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><code>DeltaSource</code> takes the following to be created:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a id="spark"></a> <code>SparkSession</code></p>
+</li>
+<li>
+<p><a id="deltaLog"></a> <a href="DeltaLog.html" class="page">DeltaLog</a> of the delta table to read data (as <a href="#getBatch">micro-batches</a>) from</p>
+</li>
+<li>
+<p><a id="options"></a> <a href="DeltaOptions.html" class="page">DeltaOptions</a></p>
+</li>
+<li>
+<p><a id="filters"></a> Filter expressions (default: no filters)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><code>DeltaSource</code> initializes the <a href="#internal-properties">internal properties</a>.</p>
 </div>
 </div>
 </div>
@@ -916,7 +946,7 @@ DeltaSource[file:/tmp/delta/users]</code></pre>
 <p>Starts uninitialized (<code>null</code>).</p>
 </div>
 <div class="paragraph">
-<p>Used when <code>DeltaSource</code> is requested for the <a href="#getOffset">getOffset</a>.</p>
+<p>Used when <code>DeltaSource</code> is requested for the <a href="#getOffset">latest available offset</a>.</p>
 </div></div></td>
 </tr>
 <tr>
