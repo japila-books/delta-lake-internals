@@ -494,10 +494,13 @@
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>maxFilesPerTrigger</code></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="MAX_FILES_PER_TRIGGER_OPTION"></a><a id="maxFilesPerTrigger"></a><a id="MAX_FILES_PER_TRIGGER_OPTION_DEFAULT"></a></p>
+<p><a id="MAX_FILES_PER_TRIGGER_OPTION"></a><a id="maxFilesPerTrigger"></a><a id="MAX_FILES_PER_TRIGGER_OPTION_DEFAULT"></a> Maximum number of files (<a href="AddFile.html" class="page">AddFiles</a>) that <a href="DeltaSource.html" class="page">DeltaSource</a> will <a href="DeltaSource.html#getChangesWithRateLimit" class="page">scan</a> (<em>read</em>) in a streaming micro-batch (<em>trigger</em>)</p>
 </div>
 <div class="paragraph">
 <p>Default: <code>1000</code></p>
+</div>
+<div class="paragraph">
+<p>Must be at least <code>1</code></p>
 </div></div></td>
 </tr>
 <tr>
@@ -506,7 +509,7 @@
 <p><a id="MERGE_SCHEMA_OPTION"></a><a id="mergeSchema"></a><a id="canMergeSchema"></a> Enables schema migration (e.g. allows automatic schema merging during a write operation for <a href="WriteIntoDelta.html" class="page">WriteIntoDelta</a> and <a href="DeltaSink.html" class="page">DeltaSink</a>)</p>
 </div>
 <div class="paragraph">
-<p>Equivalent SQL Session configuration: <a href="DeltaSQLConf.html#DELTA_SCHEMA_AUTO_MIGRATE" class="page">s.d.d.schema.autoMerge.enabled</a></p>
+<p>Equivalent SQL Session configuration: <a href="DeltaSQLConf.html#DELTA_SCHEMA_AUTO_MIGRATE" class="page">spark.databricks.delta.schema.autoMerge.enabled</a></p>
 </div></div></td>
 </tr>
 <tr>
