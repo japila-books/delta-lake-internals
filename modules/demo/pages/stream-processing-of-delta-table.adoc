@@ -21,11 +21,11 @@ val deltaTableDir = "/tmp/delta/users"
 case class Person(id: Long, name: String, city: String)
 spark.emptyDataset[Person].write.format("delta").save(deltaTableDir)
 
-val streamOverDelta = spark
+val sq = spark
   .readStream
   .format("delta")
+  .option("maxFilesPerTrigger", 1) // Maximum number of files to scan per micro-batch
   .load(deltaTableDir)
-val sq = streamOverDelta
   .writeStream
   .format("console")
   .option("truncate", false)

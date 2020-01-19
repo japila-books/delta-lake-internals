@@ -174,7 +174,7 @@ getChangesWithRateLimit(
 
 `getChangesWithRateLimit` takes the configured number of `AddFiles` (up to the <<maxFilesPerTrigger, maxFilesPerTrigger>> option (if defined) or <<DeltaOptions.adoc#MAX_FILES_PER_TRIGGER_OPTION_DEFAULT, 1000>>).
 
-NOTE: `getChangesWithRateLimit` is used when `DeltaSource` is requested to <<getStartingOffset, getStartingOffset>> and <<getOffset, getOffset>>.
+NOTE: `getChangesWithRateLimit` is used when `DeltaSource` is requested for the <<getOffset, latest available offset>>.
 
 == [[getSnapshotAt]] Retrieving State Of Delta Table At Given Version -- `getSnapshotAt` Internal Method
 

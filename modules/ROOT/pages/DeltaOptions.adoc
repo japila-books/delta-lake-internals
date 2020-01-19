@@ -34,14 +34,16 @@ a| [[IGNORE_DELETES_OPTION]][[ignoreDeletes]]
 a| [[IGNORE_FILE_DELETION_OPTION]][[ignoreFileDeletion]]
 
 | maxFilesPerTrigger
-a| [[MAX_FILES_PER_TRIGGER_OPTION]][[maxFilesPerTrigger]][[MAX_FILES_PER_TRIGGER_OPTION_DEFAULT]]
+a| [[MAX_FILES_PER_TRIGGER_OPTION]][[maxFilesPerTrigger]][[MAX_FILES_PER_TRIGGER_OPTION_DEFAULT]] Maximum number of files (<<AddFile.adoc#, AddFiles>>) that <<DeltaSource.adoc#, DeltaSource>> will <<DeltaSource.adoc#getChangesWithRateLimit, scan>> (_read_) in a streaming micro-batch (_trigger_)
 
 Default: `1000`
+
+Must be at least `1`
 
 | mergeSchema
 a| [[MERGE_SCHEMA_OPTION]][[mergeSchema]][[canMergeSchema]] Enables schema migration (e.g. allows automatic schema merging during a write operation for <<WriteIntoDelta.adoc#, WriteIntoDelta>> and <<DeltaSink.adoc#, DeltaSink>>)
 
-Equivalent SQL Session configuration: <<DeltaSQLConf.adoc#DELTA_SCHEMA_AUTO_MIGRATE, s.d.d.schema.autoMerge.enabled>>
+Equivalent SQL Session configuration: <<DeltaSQLConf.adoc#DELTA_SCHEMA_AUTO_MIGRATE, spark.databricks.delta.schema.autoMerge.enabled>>
 
 | optimizeWrite
 a| [[OPTIMIZE_WRITE_OPTION]][[optimizeWrite]]
