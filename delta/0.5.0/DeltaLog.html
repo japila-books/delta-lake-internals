@@ -1269,7 +1269,7 @@ For a new <code>Snapshot</code> instance (with version being <code>-1</code>) <c
 </div>
 </div>
 <div class="sect1">
-<h2 id="getchanges-method"><a class="anchor" href="#getchanges-method"></a><a class="link" href="#getchanges-method"><a id="getChanges"></a> <code>getChanges</code> Method</a></h2>
+<h2 id="changes-actions-of-delta-version-and-latergetchanges-method"><a class="anchor" href="#changes-actions-of-delta-version-and-latergetchanges-method"></a><a class="link" href="#changes-actions-of-delta-version-and-latergetchanges-method"><a id="getChanges"></a> Changes (Actions) Of Delta Version And Later&#8201;&#8212;&#8201;<code>getChanges</code> Method</a></h2>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content">
@@ -1278,7 +1278,22 @@ For a new <code>Snapshot</code> instance (with version being <code>-1</code>) <c
 </div>
 </div>
 <div class="paragraph">
-<p><code>getChanges</code>&#8230;&#8203;FIXME</p>
+<p><code>getChanges</code> gives all <a href="Action.html" class="page">actions</a> (<em>changes</em>) per delta log file for the given <code>startVersion</code> of a delta table and later.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">val dataPath = "/tmp/delta/users"
+import org.apache.spark.sql.delta.DeltaLog
+val deltaLog = DeltaLog.forTable(spark, dataPath)
+assert(deltaLog.isInstanceOf[DeltaLog])
+val changesPerVersion = deltaLog.getChanges(startVersion = 0)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Internally, <code>getChanges</code> requests the <a href="#store">LogStore</a> for <a href="LogStore.html#listFrom" class="page">files</a> that are lexicographically greater or equal to the <a href="FileNames.html#deltaFile" class="page">delta log file</a> for the given <code>startVersion</code> (in the <a href="#logPath">logPath</a>) and leaves only <a href="FileNames.html#isDeltaFile" class="page">delta log files</a> (e.g. files with numbers only as file name and <code>.json</code> file extension).</p>
+</div>
+<div class="paragraph">
+<p>For every delta file, <code>getChanges</code> requests the <a href="#store">LogStore</a> to <a href="LogStore.html#read" class="page">read the JSON content</a> (every line is an <a href="Action.html" class="page">action</a>), and then <a href="Action.html#fromJson" class="page">deserializes it to an action</a>.</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -1287,7 +1302,7 @@ For a new <code>Snapshot</code> instance (with version being <code>-1</code>) <c
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-<code>getChanges</code> is used when&#8230;&#8203;FIXME
+<code>getChanges</code> is used when <code>DeltaSource</code> is requested for the <a href="DeltaSource.html#getChanges" class="page">indexed file additions (FileAdd actions)</a>.
 </td>
 </tr>
 </table>
