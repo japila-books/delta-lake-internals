@@ -474,17 +474,31 @@ Batch: 0
 +---+----+----+
 
 // Let's write to the delta table
+val users = Seq(
+    Person(0, "Jacek", "Warsaw"),
+    Person(1, "Agata", "Warsaw"),
+    Person(2, "Jacek", "Paris"),
+    Person(3, "Domas", "Vilnius")).toDF
+
+// More partitions are more file added
+// And per maxFilesPerTrigger as 1 file addition per micro-batch
+// You should see more micro-batches
+scala&gt; println(users.rdd.getNumPartitions)
+4
+
 // Change the default SaveMode.ErrorIfExists to more meaningful save mode
 import org.apache.spark.sql.SaveMode
-Seq(Person(0, "Jacek", "Warsaw"))
-  .toDF
+users
   .write
   .format("delta")
   .mode(SaveMode.Append) // Appending rows
   .save(deltaTableDir)
 
 // Immediately after the above write finishes
-// Another batch should be printed out the console
+// New batches should be printed out to the console
+// Per the number of partitions of users dataset
+// And per maxFilesPerTrigger as 1 file addition
+// You should see
 -------------------------------------------
 Batch: 1
 -------------------------------------------
@@ -492,7 +506,34 @@ Batch: 1
 |id |name |city  |
 +---+-----+------+
 |0  |Jacek|Warsaw|
-+---+-----+------+</code></pre>
++---+-----+------+
+
+-------------------------------------------
+Batch: 2
+-------------------------------------------
++---+-----+------+
+|id |name |city  |
++---+-----+------+
+|1  |Agata|Warsaw|
++---+-----+------+
+
+-------------------------------------------
+Batch: 3
+-------------------------------------------
++---+-----+-----+
+|id |name |city |
++---+-----+-----+
+|2  |Jacek|Paris|
++---+-----+-----+
+
+-------------------------------------------
+Batch: 4
+-------------------------------------------
++---+-----+-------+
+|id |name |city   |
++---+-----+-------+
+|3  |Domas|Vilnius|
++---+-----+-------+</code></pre>
 </div>
 </div>
 </article>
