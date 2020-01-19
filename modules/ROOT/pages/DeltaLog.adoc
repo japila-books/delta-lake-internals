@@ -430,7 +430,7 @@ checkpointInterval: Int
 
 NOTE: `checkpointInterval` is used when...FIXME
 
-== [[getChanges]] `getChanges` Method
+== [[getChanges]] Changes (Actions) Of Delta Version And Later -- `getChanges` Method
 
 [source, scala]
 ----
@@ -438,9 +438,22 @@ getChanges(
   startVersion: Long): Iterator[(Long, Seq[Action])]
 ----
 
-`getChanges`...FIXME
+`getChanges` gives all <<Action.adoc#, actions>> (_changes_) per delta log file for the given `startVersion` of a delta table and later.
 
-NOTE: `getChanges` is used when...FIXME
+[source,scala]
+----
+val dataPath = "/tmp/delta/users"
+import org.apache.spark.sql.delta.DeltaLog
+val deltaLog = DeltaLog.forTable(spark, dataPath)
+assert(deltaLog.isInstanceOf[DeltaLog])
+val changesPerVersion = deltaLog.getChanges(startVersion = 0)
+----
+
+Internally, `getChanges` requests the <<store, LogStore>> for <<LogStore.adoc#listFrom, files>> that are lexicographically greater or equal to the <<FileNames.adoc#deltaFile, delta log file>> for the given `startVersion` (in the <<logPath, logPath>>) and leaves only <<FileNames.adoc#isDeltaFile, delta log files>> (e.g. files with numbers only as file name and `.json` file extension).
+
+For every delta file, `getChanges` requests the <<store, LogStore>> to <<LogStore.adoc#read, read the JSON content>> (every line is an <<Action.adoc#, action>>), and then <<Action.adoc#fromJson, deserializes it to an action>>.
+
+NOTE: `getChanges` is used when `DeltaSource` is requested for the <<DeltaSource.adoc#getChanges, indexed file additions (FileAdd actions)>>.
 
 == [[createDataFrame]] Creating DataFrame For Given AddFiles -- `createDataFrame` Method
 

@@ -145,3 +145,24 @@ NOTE: `json` uses https://github.com/FasterXML/jackson[Jackson] library (with ht
 
 * `ConvertToDeltaCommand` is requested to <<ConvertToDeltaCommand.adoc#streamWrite, streamWrite>>
 ====
+
+== [[fromJson]] Deserializing Action (From JSON Format) -- `fromJson` Utility
+
+[source, scala]
+----
+fromJson(
+  json: String): Action
+----
+
+`fromJson`...FIXME
+
+[NOTE]
+====
+`fromJson` is used when:
+
+* `DeltaHistoryManager` utility is requested for the <<DeltaHistoryManager.adoc#getCommitInfo, CommitInfo (action) of the given delta file>>
+
+* `DeltaLog` is requested for the <<DeltaLog.adoc#getChanges, changes (actions) of the given delta version and later>>
+
+* `OptimisticTransactionImpl` is requested to <<OptimisticTransactionImpl.adoc#checkAndRetry, retry a commit>>
+====

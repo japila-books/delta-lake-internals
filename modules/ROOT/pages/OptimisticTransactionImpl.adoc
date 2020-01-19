@@ -339,7 +339,7 @@ The committed version is [attemptVersion] but the current version is [version].
 
 NOTE: `doCommit` is used when `OptimisticTransactionImpl` is requested to <<commit, commit>> (and <<checkAndRetry, checkAndRetry>>).
 
-== [[checkAndRetry]] Validating And Retrying Commit -- `checkAndRetry` Internal Method
+== [[checkAndRetry]] Retrying Commit -- `checkAndRetry` Internal Method
 
 [source, scala]
 ----

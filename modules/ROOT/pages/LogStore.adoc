@@ -34,8 +34,10 @@ a| [[listFrom]]
 
 [source, scala]
 ----
-listFrom(path: Path): Iterator[FileStatus]
-listFrom(path: String): Iterator[FileStatus]
+listFrom(
+  path: Path): Iterator[FileStatus]
+listFrom(
+  path: String): Iterator[FileStatus]
 ----
 
 Used when...FIXME

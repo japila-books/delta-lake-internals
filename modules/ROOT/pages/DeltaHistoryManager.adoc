@@ -74,7 +74,7 @@ parallelSearch0(
 
 NOTE: `parallelSearch0` is used exclusively when `DeltaHistoryManager` is requested to <<parallelSearch, parallelSearch>>.
 
-== [[getCommitInfo]] `getCommitInfo` Internal Utility
+== [[getCommitInfo]] CommitInfo Of Delta File -- `getCommitInfo` Internal Utility
 
 [source, scala]
 ----
