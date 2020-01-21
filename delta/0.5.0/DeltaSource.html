@@ -724,7 +724,10 @@ DeltaSource[file:/tmp/delta/users]</code></pre>
 <div class="ulist">
 <ul>
 <li>
-<p>When enabled (<code>true</code>), <code>getChanges</code> <a href="#getSnapshotAt">gets the state (snapshot)</a> for the given <code>fromVersion</code>&#8230;&#8203;FIXME</p>
+<p>For <code>isStartingVersion</code> flag enabled (<code>true</code>), <code>getChanges</code> <a href="#getSnapshotAt">gets the state (snapshot)</a> for the given <code>fromVersion</code> followed by <a href="#getChanges-filterAndIndexDeltaLogs">(filtered out) indexed AddFiles</a> for the next version after the given <code>fromVersion</code></p>
+</li>
+<li>
+<p>For <code>isStartingVersion</code> flag disabled (<code>false</code>), <code>getChanges</code> simply gives <a href="#getChanges-filterAndIndexDeltaLogs">(filtered out) indexed AddFiles</a> for the given <code>fromVersion</code></p>
 </li>
 </ul>
 </div>
@@ -735,10 +738,37 @@ DeltaSource[file:/tmp/delta/users]</code></pre>
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-<code>getChanges</code> is used when <code>DeltaSource</code> is requested for the <a href="#getChangesWithRateLimit">files added (with rate limit)</a> and <a href="#getBatch">getBatch</a>.
+<code>isStartingVersion</code> flag simply adds <a href="#getSnapshotAt">gets the state (snapshot)</a> before <a href="#getChanges-filterAndIndexDeltaLogs">(filtered out) indexed AddFiles</a> (when enabled) or not.
 </td>
 </tr>
 </table>
+</div>
+<div class="paragraph">
+<p>In the end, <code>getChanges</code> filters out (<em>excludes</em>) indexed <a href="AddFile.html" class="page">AddFiles</a> that are not with the version later than the given <code>fromVersion</code> or the index greater than the given <code>fromIndex</code>.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>getChanges</code> is used when <code>DeltaSource</code> is requested for the <a href="#getOffset">latest available offset</a> (when requested for the <a href="#getChangesWithRateLimit">files added (with rate limit)</a>) and <a href="#getBatch">getBatch</a>.
+</td>
+</tr>
+</table>
+</div>
+<div class="sect2">
+<h3 id="filterandindexdeltalogs-internal-method"><a class="anchor" href="#filterandindexdeltalogs-internal-method"></a><a class="link" href="#filterandindexdeltalogs-internal-method"><a id="getChanges-filterAndIndexDeltaLogs"></a> <code>filterAndIndexDeltaLogs</code> Internal Method</a></h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">filterAndIndexDeltaLogs(
+  startVersion: Long): Iterator[IndexedFile]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>filterAndIndexDeltaLogs</code>&#8230;&#8203;FIXME</p>
+</div>
 </div>
 </div>
 </div>
