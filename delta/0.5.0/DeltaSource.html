@@ -535,7 +535,7 @@ DeltaSource[file:/tmp/delta/users]</code></pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="creating-dataframe-for-data-between-start-and-end-offsetsgetbatch-method"><a class="anchor" href="#creating-dataframe-for-data-between-start-and-end-offsetsgetbatch-method"></a><a class="link" href="#creating-dataframe-for-data-between-start-and-end-offsetsgetbatch-method"><a id="getBatch"></a> Creating DataFrame For Data Between Start And End Offsets&#8201;&#8212;&#8201;<code>getBatch</code> Method</a></h2>
+<h2 id="micro-batch-dataframe-with-data-between-start-and-end-offsetsgetbatch-method"><a class="anchor" href="#micro-batch-dataframe-with-data-between-start-and-end-offsetsgetbatch-method"></a><a class="link" href="#micro-batch-dataframe-with-data-between-start-and-end-offsetsgetbatch-method"><a id="getBatch"></a> Micro-Batch DataFrame With Data Between Start And End Offsets&#8201;&#8212;&#8201;<code>getBatch</code> Method</a></h2>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content">
@@ -719,7 +719,7 @@ DeltaSource[file:/tmp/delta/users]</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p><code>getChanges</code> branches per the given <code>isStartingVersion</code> flag:</p>
+<p><code>getChanges</code> branches per the given <code>isStartingVersion</code> flag (enabled or not):</p>
 </div>
 <div class="ulist">
 <ul>
@@ -738,7 +738,22 @@ DeltaSource[file:/tmp/delta/users]</code></pre>
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-<code>isStartingVersion</code> flag simply adds <a href="#getSnapshotAt">gets the state (snapshot)</a> before <a href="#getChanges-filterAndIndexDeltaLogs">(filtered out) indexed AddFiles</a> (when enabled) or not.
+<div class="paragraph">
+<p><code>isStartingVersion</code> flag simply adds <a href="#getSnapshotAt">the state (snapshot)</a> before <a href="#getChanges-filterAndIndexDeltaLogs">(filtered out) indexed AddFiles</a> when enabled (<code>true</code>).</p>
+</div>
+<div class="paragraph">
+<p><code>isStartingVersion</code> flag is enabled when <code>DeltaSource</code> is requested for the following:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#getBatch">Micro-batch with data between start and end offsets</a> and the start offset is not given or is for the <a href="DeltaSourceOffset.html#isStartingVersion" class="page">starting version</a></p>
+</li>
+<li>
+<p><a href="#getOffset">Latest available offset</a> with no <a href="#previousOffset">end offset of the latest micro-batch</a> or the <a href="#previousOffset">end offset of the latest micro-batch</a> for the <a href="DeltaSourceOffset.html#isStartingVersion" class="page">starting version</a></p>
+</li>
+</ul>
+</div>
 </td>
 </tr>
 </table>
