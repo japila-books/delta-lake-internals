@@ -58,7 +58,7 @@ Refer to <<logging.adoc#, Logging>>.
 
 `DeltaSource` initializes the <<internal-properties, internal properties>>.
 
-== [[getBatch]] Creating DataFrame For Data Between Start And End Offsets -- `getBatch` Method
+== [[getBatch]] Micro-Batch DataFrame With Data Between Start And End Offsets -- `getBatch` Method
 
 [source, scala]
 ----
@@ -154,13 +154,22 @@ getChanges(
   isStartingVersion: Boolean): Iterator[IndexedFile]
 ----
 
-`getChanges` branches per the given `isStartingVersion` flag:
+`getChanges` branches per the given `isStartingVersion` flag (enabled or not):
 
 * For `isStartingVersion` flag enabled (`true`), `getChanges` <<getSnapshotAt, gets the state (snapshot)>> for the given `fromVersion` followed by <<getChanges-filterAndIndexDeltaLogs, (filtered out) indexed AddFiles>> for the next version after the given `fromVersion`
 
 * For `isStartingVersion` flag disabled (`false`), `getChanges` simply gives <<getChanges-filterAndIndexDeltaLogs, (filtered out) indexed AddFiles>> for the given `fromVersion`
 
-NOTE: `isStartingVersion` flag simply adds <<getSnapshotAt, gets the state (snapshot)>> before <<getChanges-filterAndIndexDeltaLogs, (filtered out) indexed AddFiles>> (when enabled) or not.
+[NOTE]
+====
+`isStartingVersion` flag simply adds <<getSnapshotAt, the state (snapshot)>> before <<getChanges-filterAndIndexDeltaLogs, (filtered out) indexed AddFiles>> when enabled (`true`).
+
+`isStartingVersion` flag is enabled when `DeltaSource` is requested for the following:
+
+* <<getBatch, Micro-batch with data between start and end offsets>> and the start offset is not given or is for the <<DeltaSourceOffset.adoc#isStartingVersion, starting version>>
+
+* <<getOffset, Latest available offset>> with no <<previousOffset, end offset of the latest micro-batch>> or the <<previousOffset, end offset of the latest micro-batch>> for the <<DeltaSourceOffset.adoc#isStartingVersion, starting version>>
+====
 
 In the end, `getChanges` filters out (_excludes_) indexed <<AddFile.adoc#, AddFiles>> that are not with the version later than the given `fromVersion` or the index greater than the given `fromIndex`.
 
