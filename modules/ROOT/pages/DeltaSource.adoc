@@ -156,9 +156,25 @@ getChanges(
 
 `getChanges` branches per the given `isStartingVersion` flag:
 
-* When enabled (`true`), `getChanges` <<getSnapshotAt, gets the state (snapshot)>> for the given `fromVersion`...FIXME
+* For `isStartingVersion` flag enabled (`true`), `getChanges` <<getSnapshotAt, gets the state (snapshot)>> for the given `fromVersion` followed by <<getChanges-filterAndIndexDeltaLogs, (filtered out) indexed AddFiles>> for the next version after the given `fromVersion`
 
-NOTE: `getChanges` is used when `DeltaSource` is requested for the <<getChangesWithRateLimit, files added (with rate limit)>> and <<getBatch, getBatch>>.
+* For `isStartingVersion` flag disabled (`false`), `getChanges` simply gives <<getChanges-filterAndIndexDeltaLogs, (filtered out) indexed AddFiles>> for the given `fromVersion`
+
+NOTE: `isStartingVersion` flag simply adds <<getSnapshotAt, gets the state (snapshot)>> before <<getChanges-filterAndIndexDeltaLogs, (filtered out) indexed AddFiles>> (when enabled) or not.
+
+In the end, `getChanges` filters out (_excludes_) indexed <<AddFile.adoc#, AddFiles>> that are not with the version later than the given `fromVersion` or the index greater than the given `fromIndex`.
+
+NOTE: `getChanges` is used when `DeltaSource` is requested for the <<getOffset, latest available offset>> (when requested for the <<getChangesWithRateLimit, files added (with rate limit)>>) and <<getBatch, getBatch>>.
+
+=== [[getChanges-filterAndIndexDeltaLogs]] `filterAndIndexDeltaLogs` Internal Method
+
+[source, scala]
+----
+filterAndIndexDeltaLogs(
+  startVersion: Long): Iterator[IndexedFile]
+----
+
+`filterAndIndexDeltaLogs`...FIXME
 
 == [[getChangesWithRateLimit]] Retrieving File Additions (With Rate Limit) -- `getChangesWithRateLimit` Internal Method
 
