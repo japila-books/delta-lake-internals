@@ -446,6 +446,7 @@ import org.apache.spark.sql.SparkSession
 assert(spark.isInstanceOf[SparkSession])
 
 val deltaTableDir = "/tmp/delta/users"
+val checkpointLocation = "/tmp/checkpointLocation"
 
 // Initialize the delta table
 // - No data
@@ -453,6 +454,8 @@ val deltaTableDir = "/tmp/delta/users"
 case class Person(id: Long, name: String, city: String)
 spark.emptyDataset[Person].write.format("delta").save(deltaTableDir)
 
+import org.apache.spark.sql.streaming.Trigger
+import scala.concurrent.duration._
 val sq = spark
   .readStream
   .format("delta")
@@ -461,6 +464,8 @@ val sq = spark
   .writeStream
   .format("console")
   .option("truncate", false)
+  .option("checkpointLocation", checkpointLocation)
+  .trigger(Trigger.ProcessingTime(10.seconds)) // Useful for debugging
   .start
 
 // The streaming query over delta table
