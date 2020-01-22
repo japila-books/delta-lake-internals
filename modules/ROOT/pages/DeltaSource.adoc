@@ -58,7 +58,7 @@ Refer to <<logging.adoc#, Logging>>.
 
 `DeltaSource` initializes the <<internal-properties, internal properties>>.
 
-== [[getBatch]] Micro-Batch DataFrame With Data Between Start And End Offsets -- `getBatch` Method
+== [[getBatch]] Micro-Batch With Data Between Start And End Offsets (Streaming DataFrame) -- `getBatch` Method
 
 [source, scala]
 ----
@@ -67,7 +67,7 @@ getBatch(
   end: Offset): DataFrame
 ----
 
-NOTE: `getBatch` is part of the `Source` contract (Spark Structured Streaming) for a streaming `DataFrame` with data between the start and end offsets.
+NOTE: `getBatch` is part of the `Source` contract (https://jaceklaskowski.gitbooks.io/spark-structured-streaming/spark-sql-streaming-Source.html[Spark Structured Streaming]) for a streaming `DataFrame` with data between the start and end offsets.
 
 `getBatch` creates an `DeltaSourceOffset` for the <<tableId, tableId>> and the given `end` offset.
 
@@ -113,7 +113,7 @@ previousOffset -> currentOffset: [previousOffset] -> [currentOffset]
 stop(): Unit
 ----
 
-NOTE: `stop` is part of the streaming `Source` contract (Spark Structured Streaming) to stop this source and free up any resources allocated.
+NOTE: `stop` is part of the streaming `Source` contract (https://jaceklaskowski.gitbooks.io/spark-structured-streaming/spark-sql-streaming-Source.html[Spark Structured Streaming]) to stop this source and free up any resources allocated.
 
 `stop` simply <<cleanUpSnapshotResources, cleanUpSnapshotResources>>.
 
