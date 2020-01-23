@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>DeltaConfigs&#8201;&#8212;&#8201;Table Property :: The Internals Of Delta Lake</title>
+    <title>DeltaConfigs&#8201;&#8212;&#8201;Configuration Properties Of Delta Table (Metadata) :: The Internals Of Delta Lake</title>
     <link rel="canonical" href="https://books.japila.pl/delta-lake-internals/delta/0.5.0/DeltaConfigs.html">
     <meta name="generator" content="Antora 2.2.0">
     <link rel="stylesheet" href="../../_/css/site.css">
@@ -329,7 +329,13 @@
 </ul>
   </li>
   <li class="nav-item is-current-page" data-depth="1">
+    <button class="nav-item-toggle"></button>
     <a class="nav-link" href="DeltaConfigs.html">DeltaConfigs</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="DeltaConfig.html">DeltaConfig</a>
+  </li>
+</ul>
   </li>
   <li class="nav-item" data-depth="1">
     <a class="nav-link" href="FileNames.html">FileNames</a>
@@ -430,25 +436,26 @@
   <div class="edit-this-page"><a href="https://github.com/japila-books/delta-lake-internals/edit/v0.5.0/modules/ROOT/pages/DeltaConfigs.adoc">Edit this Page</a></div>
   </div>
 <article class="doc">
-<h1 class="page">DeltaConfigs&#8201;&#8212;&#8201;Table Property</h1>
+<h1 class="page">DeltaConfigs&#8201;&#8212;&#8201;Configuration Properties Of Delta Table (Metadata)</h1>
 <div id="preamble">
 <div class="sectionbody">
-<div id="T" class="paragraph">
-<p><code>DeltaConfigs</code> (of type <code>T</code>) represents a <a href="#key">named property</a> of a delta table with values (of type <code>T</code>) in a <a href="#validationFunction">validated range</a>.</p>
+<div class="paragraph">
+<p><code>DeltaConfigs</code> defines <a href="#configuration-properties">reservoir configuration properties</a> (aka <em>table properties</em>).</p>
 </div>
 <div class="paragraph">
-<p><code>DeltaConfigs</code> is persisted to the <a href="#fromMetaData">Metadata</a>.</p>
-</div>
-<div class="paragraph">
-<p><code>DeltaConfigs</code> table property can be assigned a value using <code>ALTER TABLE</code> SQL command:</p>
+<p>Table properties can be assigned a value using <code>ALTER TABLE</code> SQL command:</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code>ALTER TABLE &lt;table_name&gt; SET TBLPROPERTIES (&lt;key&gt;=&lt;value&gt;)</code></pre>
 </div>
 </div>
-<table id="metadata-configuration" class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 1. DeltaConfigs</caption>
+<div class="paragraph">
+<p><a id="sqlConfPrefix"></a><a id="spark.databricks.delta.properties.defaults"></a>
+<code>DeltaConfigs</code> uses <strong>spark.databricks.delta.properties.defaults</strong> prefix for <a href="#mergeGlobalConfigs">global configuration properties</a>.</p>
+</div>
+<table id="configuration-properties" class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. Reservoir Configuration Properties</caption>
 <colgroup>
 <col style="width: 30%;">
 <col style="width: 70%;">
@@ -460,6 +467,15 @@
 </tr>
 </thead>
 <tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>appendOnly</code></p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="appendOnly"></a><a id="IS_APPEND_ONLY"></a> Whether a delta table is append-only (<code>true</code>) or not (<code>false</code>). When enabled, a table allows appends only and no updates or deletes.</p>
+</div>
+<div class="paragraph">
+<p>Default: <code>false</code></p>
+</div></div></td>
+</tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>autoOptimize</code></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
@@ -491,12 +507,30 @@
 </div></div></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>compatibility.symlinkFormatManifest.enabled</code></p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="compatibility.symlinkFormatManifest"></a><a id="SYMLINK_FORMAT_MANIFEST_ENABLED"></a> Whether to register the <a href="GenerateSymlinkManifest.html" class="page">GenerateSymlinkManifest</a> post-commit hook while <a href="OptimisticTransactionImpl.html#commit" class="page">committing a transaction</a> or not</p>
+</div>
+<div class="paragraph">
+<p>Default: <code>false</code></p>
+</div></div></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>dataSkippingNumIndexedCols</code></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a id="dataSkippingNumIndexedCols"></a><a id="DATA_SKIPPING_NUM_INDEXED_COLS"></a> The number of columns to collect stats on for data skipping. <code>-1</code> means collecting stats for all columns.</p>
 </div>
 <div class="paragraph">
 <p>Default: <code>32</code></p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>deletedFileRetentionDuration</code></p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="deletedFileRetentionDuration"></a><a id="TOMBSTONE_RETENTION"></a> How long to keep logically deleted data files around before deleting them physically (to prevent failures in stale readers after compactions or partition overwrites)</p>
+</div>
+<div class="paragraph">
+<p>Default: <code>interval 1 week</code></p>
 </div></div></td>
 </tr>
 <tr>
@@ -515,15 +549,6 @@
 </div>
 <div class="paragraph">
 <p>Default: <code>true</code></p>
-</div></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>appendOnly</code></p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="appendOnly"></a><a id="IS_APPEND_ONLY"></a> Whether a delta table is append-only (<code>true</code>) or not (<code>false</code>). When enabled, a table allows appends only and no updates or deletes.</p>
-</div>
-<div class="paragraph">
-<p>Default: <code>false</code></p>
 </div></div></td>
 </tr>
 <tr>
@@ -562,102 +587,8 @@
 <p>Default: <code>interval 7 days</code></p>
 </div></div></td>
 </tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>compatibility.symlinkFormatManifest.enabled</code></p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="compatibility-symlinkFormatManifest-enabled"></a><a id="SYMLINK_FORMAT_MANIFEST_ENABLED"></a> Whether to register the <a href="GenerateSymlinkManifest.html" class="page">GenerateSymlinkManifest</a> post-commit hook while <a href="OptimisticTransactionImpl.html#commit" class="page">committing a transaction</a> or not</p>
-</div>
-<div class="paragraph">
-<p>Default: <code>false</code></p>
-</div></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>deletedFileRetentionDuration</code></p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="deletedFileRetentionDuration"></a><a id="TOMBSTONE_RETENTION"></a> How long to keep logically deleted data files around before deleting them physically (to prevent failures in stale readers after compactions or partition overwrites)</p>
-</div>
-<div class="paragraph">
-<p>Default: <code>interval 1 week</code></p>
-</div></div></td>
-</tr>
 </tbody>
 </table>
-</div>
-</div>
-<div class="sect1">
-<h2 id="creating-deltaconfigs-instance"><a class="anchor" href="#creating-deltaconfigs-instance"></a><a class="link" href="#creating-deltaconfigs-instance"><a id="creating-instance"></a> Creating DeltaConfigs Instance</a></h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p><code>DeltaConfigs</code> takes the following to be created:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><a id="key"></a> Key</p>
-</li>
-<li>
-<p><a id="defaultValue"></a> Default value</p>
-</li>
-<li>
-<p><a id="fromString"></a> Conversion function (from text representation of the <code>DeltaConfigs</code> to the <a href="#T">type</a>, i.e. <code>String &#8658; T</code>)</p>
-</li>
-<li>
-<p><a id="validationFunction"></a> Validation function (that guards from incorrect values, i.e. <code>T &#8658; Boolean</code>)</p>
-</li>
-<li>
-<p><a id="helpMessage"></a> Help message</p>
-</li>
-<li>
-<p><a id="minimumProtocolVersion"></a> (optional) Minimum version of <a href="Protocol.html" class="page">protocol</a> supported</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p><code>DeltaConfigs</code> initializes the <a href="#internal-properties">internal properties</a>.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="reading-configuration-property-from-metadatafrommetadata-method"><a class="anchor" href="#reading-configuration-property-from-metadatafrommetadata-method"></a><a class="link" href="#reading-configuration-property-from-metadatafrommetadata-method"><a id="fromMetaData"></a> Reading Configuration Property From Metadata&#8201;&#8212;&#8201;<code>fromMetaData</code> Method</a></h2>
-<div class="sectionbody">
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">fromMetaData(metadata: Metadata): T</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p><code>fromMetaData</code> looks up the <a href="#key">key</a> of the <code>DeltaConfigs</code> configuration in the <a href="Metadata.html#configuration" class="page">configuration</a> of the given <a href="Metadata.html" class="page">Metadata</a>. If not found, <code>fromMetaData</code> takes the <a href="#defaultValue">default value</a>.</p>
-</div>
-<div class="paragraph">
-<p>In the end, <code>fromMetaData</code> converts the text representation to the proper type using <a href="#fromString">fromString</a> conversion function.</p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<div class="paragraph">
-<p><code>fromMetaData</code> is used when:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><code>DeltaLog</code> is requested for <a href="DeltaLog.html#checkpointInterval" class="page">checkpointInterval</a> and <a href="DeltaLog.html#tombstoneRetentionMillis" class="page">deletedFileRetentionDuration</a> table properties, and to <a href="DeltaLog.html#assertRemovable" class="page">assert a table can be modified (not read-only)</a></p>
-</li>
-<li>
-<p><code>MetadataCleanup</code> is requested for the <a href="MetadataCleanup.html#enableExpiredLogCleanup" class="page">enableExpiredLogCleanup</a> and the <a href="MetadataCleanup.html#deltaRetentionMillis" class="page">deltaRetentionMillis</a></p>
-</li>
-<li>
-<p><code>Snapshot</code> is requested for the <a href="Snapshot.html#numIndexedCols" class="page">numIndexedCols</a></p>
-</li>
-</ul>
-</div>
-</td>
-</tr>
-</table>
-</div>
 </div>
 </div>
 <div class="sect1">
@@ -672,7 +603,7 @@
 </div>
 </div>
 <div class="paragraph">
-<p><code>mergeGlobalConfigs</code>&#8230;&#8203;FIXME</p>
+<p><code>mergeGlobalConfigs</code> finds all <a href="#sqlConfPrefix">spark.databricks.delta.properties.defaults</a>-prefixed configuration properties among the <a href="#entries">entries</a>.</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -681,11 +612,69 @@
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-<code>mergeGlobalConfigs</code> is used when&#8230;&#8203;FIXME
+<code>mergeGlobalConfigs</code> is used when <code>OptimisticTransactionImpl</code> is requested for the <a href="OptimisticTransactionImpl.html#snapshotMetadata" class="page">metadata</a>, to <a href="OptimisticTransactionImpl.html#updateMetadata" class="page">update the metadata</a>, and <a href="OptimisticTransactionImpl.html#prepareCommit" class="page">prepare a commit</a> (for new delta tables).
 </td>
 </tr>
 </table>
 </div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="creating-deltaconfig-instancebuildconfig-internal-utility"><a class="anchor" href="#creating-deltaconfig-instancebuildconfig-internal-utility"></a><a class="link" href="#creating-deltaconfig-instancebuildconfig-internal-utility"><a id="buildConfig"></a> Creating DeltaConfig Instance&#8201;&#8212;&#8201;<code>buildConfig</code> Internal Utility</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">buildConfig[T](
+  key: String,
+  defaultValue: String,
+  fromString: String =&gt; T,
+  validationFunction: T =&gt; Boolean,
+  helpMessage: String,
+  minimumProtocolVersion: Option[Protocol] = None): DeltaConfig[T]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>buildConfig</code> creates a <a href="DeltaConfig.html" class="page">DeltaConfig</a> for the given <code>key</code> (with <strong>delta</strong> prefix) and adds it to the <a href="#entries">entries</a> internal registry.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>buildConfig</code> is used to define all of the <a href="#configuration-properties">reservoir configuration properties</a>.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="internal-properties"><a class="anchor" href="#internal-properties"></a><a class="link" href="#internal-properties"><a id="internal-properties"></a> Internal Properties</a></h2>
+<div class="sectionbody">
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 30%;">
+<col style="width: 70%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>entries</code></p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div id="entries" class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">HashMap[String, DeltaConfig[_]]</code></pre>
+</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </article>

@@ -3,8 +3,8 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title> DeltaConvert Utility :: The Internals Of Delta Lake</title>
-    <link rel="canonical" href="https://books.japila.pl/delta-lake-internals/delta/0.5.0/DeltaConvert.html">
+    <title>DeltaConfig&#8201;&#8212;&#8201;Configuration Property Of Delta Table (Metadata) :: The Internals Of Delta Lake</title>
+    <link rel="canonical" href="https://books.japila.pl/delta-lake-internals/delta/0.5.0/DeltaConfig.html">
     <meta name="generator" content="Antora 2.2.0">
     <link rel="stylesheet" href="../../_/css/site.css">
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-151208281-1"></script>
@@ -119,7 +119,7 @@
     <button class="nav-item-toggle"></button>
     <a class="nav-link" href="commands.html">Commands</a>
 <ul class="nav-list">
-  <li class="nav-item is-current-page" data-depth="2">
+  <li class="nav-item" data-depth="2">
     <button class="nav-item-toggle"></button>
     <a class="nav-link" href="DeltaConvert.html">DeltaConvert</a>
 <ul class="nav-list">
@@ -332,7 +332,7 @@
     <button class="nav-item-toggle"></button>
     <a class="nav-link" href="DeltaConfigs.html">DeltaConfigs</a>
 <ul class="nav-list">
-  <li class="nav-item" data-depth="2">
+  <li class="nav-item is-current-page" data-depth="2">
     <a class="nav-link" href="DeltaConfig.html">DeltaConfig</a>
   </li>
 </ul>
@@ -423,70 +423,78 @@
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="index.html">Delta Lake</a></li>
-    <li><a href="commands.html">Commands</a></li>
-    <li><a href="DeltaConvert.html">DeltaConvert</a></li>
+    <li><a href="DeltaConfigs.html">DeltaConfigs</a></li>
+    <li><a href="DeltaConfig.html">DeltaConfig</a></li>
   </ul>
 </nav>
 <div class="page-versions">
   <button class="version-menu-toggle" title="Show other versions of page">0.5.0</button>
   <div class="version-menu">
-    <a class="version is-current" href="DeltaConvert.html">0.5.0</a>
-    <a class="version" href="../0.4.0/DeltaConvert.html">0.4.0</a>
+    <a class="version is-current" href="DeltaConfig.html">0.5.0</a>
+    <a class="version is-missing" href="../0.4.0/index.html">0.4.0</a>
   </div>
 </div>
-  <div class="edit-this-page"><a href="https://github.com/japila-books/delta-lake-internals/edit/v0.5.0/modules/ROOT/pages/DeltaConvert.adoc">Edit this Page</a></div>
+  <div class="edit-this-page"><a href="https://github.com/japila-books/delta-lake-internals/edit/v0.5.0/modules/ROOT/pages/DeltaConfig.adoc">Edit this Page</a></div>
   </div>
 <article class="doc">
-<h1 class="page"><a id="DeltaConvert"></a> DeltaConvert Utility</h1>
+<h1 class="page">DeltaConfig&#8201;&#8212;&#8201;Configuration Property Of Delta Table (Metadata)</h1>
 <div id="preamble">
 <div class="sectionbody">
-<div class="paragraph">
-<p><code>DeltaConvert</code> utility is used exclusively for <a href="#executeConvert">importing a parquet table into Delta Lake (DeltaConvert.executeConvert)</a>.</p>
+<div id="T" class="paragraph">
+<p><code>DeltaConfig</code> (of type <code>T</code>) represents a <a href="#key">named configuration property</a> of a delta table with values (of type <code>T</code>) in an <a href="#validationFunction">acceptable range</a>.</p>
 </div>
 <div class="paragraph">
-<p><code>DeltaConvert</code> utility can be used directly or indirectly via <a href="DeltaTable.html#convertToDelta" class="page">DeltaTable.convertToDelta</a> utility.</p>
-</div>
-<div class="listingblock">
-<div class="title">Demo of DeltaConvert</div>
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">import org.apache.spark.sql.SparkSession
-assert(spark.isInstanceOf[SparkSession])
-
-// CONVERT TO DELTA only supports parquet tables
-// TableIdentifier should be parquet.`users`
-import org.apache.spark.sql.catalyst.TableIdentifier
-val table = TableIdentifier(table = "users", database = Some("parquet"))
-
-import org.apache.spark.sql.types.{StringType, StructField, StructType}
-val partitionSchema: Option[StructType] = Some(
-  new StructType().add(StructField("country", StringType)))
-
-val deltaPath: Option[String] = None
-
-// Use web UI to monitor execution, e.g. http://localhost:4040
-import io.delta.tables.execution.DeltaConvert
-DeltaConvert.executeConvert(spark, table, partitionSchema, deltaPath)</code></pre>
-</div>
-</div>
-<div id="DeltaConvertBase" class="paragraph">
-<p><code>DeltaConvert</code> utility is a concrete <code>DeltaConvertBase</code>.</p>
+<p><code>DeltaConfig</code> can be <a href="#fromMetaData">read from a metadata</a>.</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="importing-parquet-table-into-delta-lake-converting-parquet-table-to-delta-formatexecuteconvert-method"><a class="anchor" href="#importing-parquet-table-into-delta-lake-converting-parquet-table-to-delta-formatexecuteconvert-method"></a><a class="link" href="#importing-parquet-table-into-delta-lake-converting-parquet-table-to-delta-formatexecuteconvert-method"><a id="executeConvert"></a> Importing Parquet Table Into Delta Lake (Converting Parquet Table To Delta Format)&#8201;&#8212;&#8201;<code>executeConvert</code> Method</a></h2>
+<h2 id="creating-deltaconfig-instance"><a class="anchor" href="#creating-deltaconfig-instance"></a><a class="link" href="#creating-deltaconfig-instance"><a id="creating-instance"></a> Creating DeltaConfig Instance</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><code>DeltaConfig</code> takes the following to be created:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a id="key"></a> Key</p>
+</li>
+<li>
+<p><a id="defaultValue"></a> Default value</p>
+</li>
+<li>
+<p><a id="fromString"></a> Conversion function (from text representation of the <code>DeltaConfig</code> to the <a href="#T">type</a>, i.e. <code>String &#8658; T</code>)</p>
+</li>
+<li>
+<p><a id="validationFunction"></a> Validation function (that guards from incorrect values, i.e. <code>T &#8658; Boolean</code>)</p>
+</li>
+<li>
+<p><a id="helpMessage"></a> Help message</p>
+</li>
+<li>
+<p><a id="minimumProtocolVersion"></a> (optional) Minimum version of <a href="Protocol.html" class="page">protocol</a> supported</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><code>DeltaConfig</code> initializes the <a href="#internal-properties">internal properties</a>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="reading-configuration-property-from-metadatafrommetadata-method"><a class="anchor" href="#reading-configuration-property-from-metadatafrommetadata-method"></a><a class="link" href="#reading-configuration-property-from-metadatafrommetadata-method"><a id="fromMetaData"></a> Reading Configuration Property From Metadata&#8201;&#8212;&#8201;<code>fromMetaData</code> Method</a></h2>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">executeConvert(
-  spark: SparkSession,
-  tableIdentifier: TableIdentifier,
-  partitionSchema: Option[StructType],
-  deltaPath: Option[String]): Unit</code></pre>
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">fromMetaData(
+  metadata: Metadata): T</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p><code>executeConvert</code> simply creates a new <a href="ConvertToDeltaCommand.html" class="page">ConvertToDeltaCommand</a> and <a href="ConvertToDeltaCommand.html#run" class="page">executes it</a>.</p>
+<p><code>fromMetaData</code> looks up the <a href="#key">key</a> in the <a href="Metadata.html#configuration" class="page">configuration</a> of the given <a href="Metadata.html" class="page">Metadata</a>. If not found, <code>fromMetaData</code> gives the <a href="#defaultValue">default value</a>.</p>
+</div>
+<div class="paragraph">
+<p>In the end, <code>fromMetaData</code> converts the text representation to the proper type using <a href="#fromString">fromString</a> conversion function.</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -495,7 +503,22 @@ DeltaConvert.executeConvert(spark, table, partitionSchema, deltaPath)</code></pr
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-<code>executeConvert</code> is used when <code>DeltaTable</code> utility is requested to <a href="DeltaTable.html#convertToDelta" class="page">convert a parquet table to delta format (DeltaTable.convertToDelta)</a>.
+<div class="paragraph">
+<p><code>fromMetaData</code> is used when:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>DeltaLog</code> is requested for <a href="DeltaLog.html#checkpointInterval" class="page">checkpointInterval</a> and <a href="DeltaLog.html#tombstoneRetentionMillis" class="page">deletedFileRetentionDuration</a> table properties, and to <a href="DeltaLog.html#assertRemovable" class="page">assert a table can be modified (not read-only)</a></p>
+</li>
+<li>
+<p><code>MetadataCleanup</code> is requested for the <a href="MetadataCleanup.html#enableExpiredLogCleanup" class="page">enableExpiredLogCleanup</a> and the <a href="MetadataCleanup.html#deltaRetentionMillis" class="page">deltaRetentionMillis</a></p>
+</li>
+<li>
+<p><code>Snapshot</code> is requested for the <a href="Snapshot.html#numIndexedCols" class="page">numIndexedCols</a></p>
+</li>
+</ul>
+</div>
 </td>
 </tr>
 </table>
