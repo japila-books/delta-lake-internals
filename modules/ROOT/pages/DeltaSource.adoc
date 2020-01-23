@@ -69,7 +69,7 @@ getBatch(
 
 NOTE: `getBatch` is part of the `Source` contract (https://jaceklaskowski.gitbooks.io/spark-structured-streaming/spark-sql-streaming-Source.html[Spark Structured Streaming]) for a streaming `DataFrame` with data between the start and end offsets.
 
-`getBatch` creates an `DeltaSourceOffset` for the <<tableId, tableId>> and the given `end` offset.
+`getBatch` creates an <<DeltaSourceOffset.adoc#, DeltaSourceOffset>> for the <<tableId, tableId>> (aka <<DeltaSourceOffset.adoc#reservoirId, reservoirId>>) and the given `end` offset.
 
 `getBatch` <<getChanges, gets the changes>> as follows...FIXME
 

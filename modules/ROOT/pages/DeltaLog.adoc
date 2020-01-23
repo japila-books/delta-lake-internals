@@ -328,7 +328,7 @@ NOTE: `currentSnapshot` is available using <<snapshot, snapshot>> method.
 
 NOTE: `currentSnapshot` is used when `DeltaLog` is requested to <<updateInternal, updateInternal>>, <<update, update>>, <<tryUpdate, tryUpdate>>, and <<isValid, isValid>.
 
-== [[createRelation]] Creating Relation For Batch Queries (HadoopFsRelation With InsertableRelation) -- `createRelation` Method
+== [[createRelation]] Creating Insertable HadoopFsRelation For Batch Queries -- `createRelation` Method
 
 [source, scala]
 ----

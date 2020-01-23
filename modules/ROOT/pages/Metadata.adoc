@@ -20,7 +20,7 @@ TIP: Use <<DescribeDeltaDetailCommand.adoc#, DescribeDeltaDetailCommand>> to rev
 
 `Metadata` takes the following to be created:
 
-* [[id]] Table ID (default: a random UUID)
+* [[id]] Table ID (aka <<DeltaSourceOffset.adoc#reservoirId, reservoirId>>) (default: a random UUID)
 * [[name]] Name of the delta table (default: `null`)
 * [[description]] Description (default: `null`)
 * [[format]] `Format`
