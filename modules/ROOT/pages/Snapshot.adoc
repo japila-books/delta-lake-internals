@@ -1,8 +1,8 @@
 = [[Snapshot]] Snapshot -- Versioned State Of Delta Table
 
-`Snapshot` is (an immutable snapshot of) the <<state, state>> of a <<deltaLog, delta table>> at <<version, some version>>.
+`Snapshot` is an immutable snapshot of the <<state, state>> of a <<deltaLog, delta table>> at <<version, some version>>.
 
-`Snapshot` is <<creating-instance, created>> when `DeltaLog` is requested for the <<DeltaLog.adoc#currentSnapshot, current snapshot>>, to <<DeltaLog.adoc#update, update>>, and to <<DeltaLog.adoc#getSnapshotAt, get the state of a delta table at a given version>>.
+`Snapshot` is <<creating-instance, created>> when `DeltaLog` is requested for the <<DeltaLog.adoc#currentSnapshot, current snapshot>> or <<DeltaLog.adoc#getSnapshotAt, at a given version>>, and to <<DeltaLog.adoc#update, update>>.
 
 `Snapshot` can be requested for <<allFiles, all data files>>.
 
@@ -74,26 +74,50 @@ state: Dataset[SingleAction]
 * `VacuumCommand` is requested for <<VacuumCommand.adoc#gc, garbage collecting of a delta table>>
 ====
 
-== [[allFiles]] `allFiles` Method
+== [[allFiles]] All AddFiles -- `allFiles` Method
 
 [source, scala]
 ----
 allFiles: Dataset[AddFile]
 ----
 
-`allFiles`...FIXME
+`allFiles` simply takes the <<state, state dataset>> and selects xref:AddFile.adoc[AddFiles] (adds `where` clause for `add IS NOT NULL` and `select` over the fields of xref:AddFile.adoc[AddFiles]).
+
+NOTE: `allFiles` simply adds `where` and `select` clauses. No computation as it is (a description of) a distributed computation as a `Dataset[AddFile]`.
+
+[source, scala]
+----
+import org.apache.spark.sql.delta.DeltaLog
+val deltaLog = DeltaLog.forTable(spark, "/tmp/delta/users")
+val files = deltaLog.snapshot.allFiles
+
+scala> :type files
+org.apache.spark.sql.Dataset[org.apache.spark.sql.delta.actions.AddFile]
+
+scala> files.show
++--------------------+---------------+----+----------------+----------+-----+----+
+|                path|partitionValues|size|modificationTime|dataChange|stats|tags|
++--------------------+---------------+----+----------------+----------+-----+----+
+|part-00000-68a7ce...|             []| 875|   1579789902000|     false| null|null|
+|part-00000-73e140...|             []| 419|   1579723382000|     false| null|null|
+|part-00000-7a01b0...|             []| 875|   1579877119000|     false| null|null|
+|part-00001-8a2ece...|             []| 875|   1579789902000|     false| null|null|
+|part-00002-0fc3da...|             []| 866|   1579789902000|     false| null|null|
+|part-00003-c0fc5f...|             []| 884|   1579789902000|     false| null|null|
++--------------------+---------------+----+----------------+----------+-----+----+
+----
 
 [NOTE]
 ====
 `allFiles` is used when:
 
-* `PartitionFiltering` is requested to <<PartitionFiltering.adoc#filesForScan, filesForScan>>
+* `PartitionFiltering` is requested for the <<PartitionFiltering.adoc#filesForScan, files to scan (matching projection attributes and predicates)>>
 
-* `DeltaSourceSnapshot` is requested to <<DeltaSourceSnapshot.adoc#initialFiles, initialFiles>>
+* `DeltaSourceSnapshot` is requested for the <<DeltaSourceSnapshot.adoc#initialFiles, initial files>> (indexed xref:AddFile.adoc[AddFiles])
 
 * `GenerateSymlinkManifestImpl` is requested to <<GenerateSymlinkManifest.adoc#generateIncrementalManifest, generateIncrementalManifest>> and <<GenerateSymlinkManifest.adoc#generateFullManifest, generateFullManifest>>
 
-* `DeltaDataSource` is requested to <<DeltaDataSource.adoc#RelationProvider-createRelation, createRelation>>
+* `DeltaDataSource` is requested for an <<DeltaDataSource.adoc#RelationProvider-createRelation, insertable HadoopFsRelation for batch queries>>
 ====
 
 == [[stateReconstruction]] `stateReconstruction` Internal Property

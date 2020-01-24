@@ -16,7 +16,7 @@ When <<creating-instance, created>>, `DeltaSourceSnapshot` requests the <<snapsh
 * [[snapshot]] <<Snapshot.adoc#, Snapshot>>
 * [[filters]] Filter expressions (`Seq[Expression]`)
 
-== [[initialFiles]] Indexed AddFile Actions -- `initialFiles` Method
+== [[initialFiles]] Initial Files (Indexed AddFiles) -- `initialFiles` Method
 
 [source, scala]
 ----
