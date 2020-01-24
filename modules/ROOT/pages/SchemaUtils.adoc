@@ -13,4 +13,11 @@ mergeSchemas(
 
 `mergeSchemas`...FIXME
 
-NOTE: `mergeSchemas` is used when...FIXME
+[NOTE]
+====
+`mergeSchemas` is used when:
+
+* `ConvertToDeltaCommand` is requested to xref:ConvertToDeltaCommand.adoc#performConvert[performConvert] and xref:ConvertToDeltaCommand.adoc#mergeSchemasInParallel[mergeSchemasInParallel]
+
+* `ImplicitMetadataOperation` is requested to xref:ImplicitMetadataOperation.adoc#updateMetadata[update metadata]
+====

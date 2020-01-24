@@ -2,6 +2,14 @@
 
 `Metadata` is an <<Action.adoc#, action>> that describes metadata (change) of a <<DeltaLog.adoc#metadata, delta table>> (indirectly via <<Snapshot.adoc#metadata, Snapshot>>).
 
+[source,plaintext]
+----
+import org.apache.spark.sql.delta.DeltaLog
+val deltaLog = DeltaLog.forTable(spark, "/tmp/delta/users")
+scala> :type deltaLog.snapshot.metadata
+org.apache.spark.sql.delta.actions.Metadata
+----
+
 `Metadata` contains all the non-data information (_metadata_) like <<name, name>>, <<description, description>>, <<format, format>>, <<schemaString, schema>>, <<partitionColumns, partition columns>>, <<configuration, table properties>> and <<createdTime, created time>>. These can be changed (e.g., schema evolution).
 
 TIP: Use <<DescribeDeltaDetailCommand.adoc#, DescribeDeltaDetailCommand>> to review the metadata of a delta table.
@@ -19,6 +27,11 @@ When I asked the question https://groups.google.com/forum/#!topic/delta-users/5O
 ====
 
 `Metadata` can be <<OptimisticTransactionImpl.adoc#updateMetadata, updated>> in a xref:OptimisticTransactionImpl.adoc[transaction] once (and only when created for an uninitialized table, when <<OptimisticTransactionImpl.adoc#readVersion, readVersion>> is `-1`).
+
+[source,scala]
+----
+txn.metadata
+----
 
 `Metadata` is <<creating-instance, created>> when:
 
@@ -39,7 +52,7 @@ When I asked the question https://groups.google.com/forum/#!topic/delta-users/5O
 * [[description]] Description (default: `null`)
 * [[format]] `Format`
 * [[schemaString]] Schema (default: `null`)
-* [[partitionColumns]] Names of the partition columns (default: `Nil`)
+* [[partitionColumns]] Partition columns (default: `Nil`)
 * [[configuration]] Configuration (default: `empty`)
 * [[createdTime]] Created time (in millis since the epoch)
 
@@ -53,3 +66,51 @@ wrap: SingleAction
 NOTE: `wrap` is part of the <<Action.adoc#wrap, Action>> contract to wrap the action into a <<SingleAction.adoc#, SingleAction>>.
 
 `wrap` simply creates a new <<SingleAction.adoc#, SingleAction>> with the `metaData` field set to this `Metadata`.
+
+== [[partitionSchema]] `partitionSchema` (Lazy) Property
+
+[source, scala]
+----
+partitionSchema: StructType
+----
+
+`partitionSchema` is the <<partitionColumns, partition columns>> as `StructFields` (and defined in the <<schemaString, schema>>).
+
+NOTE: `partitionSchema` throws an `IllegalArgumentException` for undefined fields that were used for the <<partitionColumns, partition columns>> but not defined in the <<schemaString, schema>>.
+
+NOTE: `partitionSchema` is used when...FIXME
+
+== [[dataSchema]] `dataSchema` (Lazy) Property
+
+[source, scala]
+----
+dataSchema: StructType
+----
+
+`dataSchema`...FIXME
+
+NOTE: `dataSchema` is used when...FIXME
+
+== [[schema]] `schema` (Lazy) Property
+
+[source, scala]
+----
+schema: StructType
+----
+
+`schema` is a deserialized <<schemaString, schema>> (from JSON format) to `StructType`.
+
+[NOTE]
+====
+`schema` is used when:
+
+* `Metadata` is requested for the schema of the <<partitionSchema, partitions>> and the <<dataSchema, data>>
+
+* `DeltaLog` is requested for an xref:DeltaLog.adoc#createRelation[insertable HadoopFsRelation for batch queries] (for the data schema), to xref:DeltaLog.adoc#upgradeProtocol[upgrade protocol], a xref:DeltaLog.adoc#createDataFrame[DataFrame for given AddFiles]
+
+* `DeltaTableUtils` utility is used to xref:DeltaTableUtils.adoc#combineWithCatalogMetadata[combineWithCatalogMetadata]
+
+* `OptimisticTransactionImpl` is requested to xref:OptimisticTransactionImpl.adoc#verifyNewMetadata[verifyNewMetadata]
+
+* ...FIXME (there are other uses)
+====
