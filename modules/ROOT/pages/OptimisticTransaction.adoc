@@ -10,6 +10,13 @@
 
 When `OptimisticTransaction` (as a <<OptimisticTransactionImpl.adoc#, OptimisticTransactionImpl>>) is attempted to be <<OptimisticTransactionImpl.adoc#commit, committed>> (that does <<OptimisticTransactionImpl.adoc#doCommit, doCommit>> internally), the <<LogStore.adoc#, LogStore>> (of the <<deltaLog, DeltaLog>>) is requested to <<LogStore.adoc#write, write actions to a delta file>>, e.g. `_delta_log/00000000000000000001.json` for the attempt version `1`. Only when a `FileAlreadyExistsException` is thrown a commit is considered unsuccessful and <<OptimisticTransactionImpl.adoc#checkAndRetry, retried>>.
 
+[source, scala]
+----
+import org.apache.spark.sql.delta.DeltaLog
+val deltaLog = DeltaLog.forTable(spark, "/tmp/delta/users")
+val txn = deltaLog.startTransaction
+----
+
 `OptimisticTransaction` can be associated with a thread as an <<active, active transaction>>.
 
 [[logging]]

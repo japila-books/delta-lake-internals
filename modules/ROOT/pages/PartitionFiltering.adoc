@@ -14,4 +14,11 @@ filesForScan(
 
 `filesForScan`...FIXME
 
-NOTE: `filesForScan` is used when...FIXME
+[NOTE]
+====
+`filesForScan` is used when:
+
+* `OptimisticTransactionImpl` is requested to xref:OptimisticTransactionImpl.adoc#filterFiles[filterFiles]
+
+* `TahoeLogFileIndex` is requested for the xref:TahoeLogFileIndex.adoc#matchingFiles[matchingFiles] and the xref:TahoeLogFileIndex.adoc#inputFiles[inputFiles]
+====

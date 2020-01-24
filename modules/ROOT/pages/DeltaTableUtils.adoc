@@ -6,7 +6,7 @@
 
 * <<findDeltaTableRoot, DeltaTableUtils.findDeltaTableRoot>> for finding the root directory of a delta table
 
-* <<combineWithCatalogMetadata, DeltaTableUtils.combineWithCatalogMetadata>> for finding the root directory of a delta table
+* <<splitMetadataAndDataPredicates, splitMetadataAndDataPredicates>>
 
 == [[isDeltaTable]] Checking Out Whether Directory Is Part of Delta Table -- `isDeltaTable` Utility
 
@@ -17,9 +17,9 @@ isDeltaTable(
   path: Path): Boolean
 ----
 
-`isDeltaTable` tries to <<findDeltaTableRoot, find the root of the delta table>> for the given path and returns whether it was successful or not.
+`isDeltaTable` tries to <<findDeltaTableRoot, find the root directory of the delta table>> for the given path and returns whether it was successful or not.
 
-NOTE: `isDeltaTable` is used when `DeltaTable` utility is used to <<DeltaTable.adoc#forPath, create a DeltaTable>> or <<DeltaTable.adoc#isDeltaTable, check out whether a directory is part of delta table>>.
+NOTE: `isDeltaTable` is used when `DeltaTable` utility is used to <<DeltaTable.adoc#forPath, create a DeltaTable>> or <<DeltaTable.adoc#isDeltaTable, check whether a directory is part of delta table or not>>.
 
 == [[findDeltaTableRoot]] Finding Root Directory Of Delta Table -- `findDeltaTableRoot` Utility
 
@@ -45,19 +45,6 @@ For `_delta_log` or `_samples` directories, `findDeltaTableRoot` returns the par
 * `DeltaDataSource` is requested to <<DeltaDataSource.adoc#RelationProvider-createRelation, create a relation>>
 ====
 
-== [[combineWithCatalogMetadata]] `combineWithCatalogMetadata` Utility
-
-[source, scala]
-----
-combineWithCatalogMetadata(
-  sparkSession: SparkSession,
-  table: CatalogTable): CatalogTable
-----
-
-`combineWithCatalogMetadata`...FIXME
-
-NOTE: `combineWithCatalogMetadata` is used when...FIXME
-
 == [[resolveTimeTravelVersion]] `resolveTimeTravelVersion` Utility
 
 [source, scala]
@@ -71,3 +58,54 @@ resolveTimeTravelVersion(
 `resolveTimeTravelVersion`...FIXME
 
 NOTE: `resolveTimeTravelVersion` is used exclusively when `DeltaLog` is requested to <<DeltaLog.adoc#createRelation, create a relation (per partition filters and time travel)>>.
+
+== [[splitMetadataAndDataPredicates]] `splitMetadataAndDataPredicates` Utility
+
+[source, scala]
+----
+splitMetadataAndDataPredicates(
+  condition: Expression,
+  partitionColumns: Seq[String],
+  spark: SparkSession): (Seq[Expression], Seq[Expression])
+----
+
+`splitMetadataAndDataPredicates`...FIXME
+
+[NOTE]
+====
+`splitMetadataAndDataPredicates` is used when:
+
+* `PartitionFiltering` is requested to xref:PartitionFiltering.adoc#filesForScan[filesForScan]
+
+* xref:DeleteCommand.adoc[DeleteCommand] and xref:UpdateCommand.adoc[UpdateCommand] are executed
+====
+
+== [[isPredicatePartitionColumnsOnly]] `isPredicatePartitionColumnsOnly` Utility
+
+[source, scala]
+----
+isPredicatePartitionColumnsOnly(
+  condition: Expression,
+  partitionColumns: Seq[String],
+  spark: SparkSession): Boolean
+----
+
+`isPredicatePartitionColumnsOnly`...FIXME
+
+[NOTE]
+====
+`isPredicatePartitionColumnsOnly` is used when...FIXME
+====
+
+== [[combineWithCatalogMetadata]] `combineWithCatalogMetadata` Utility
+
+[source, scala]
+----
+combineWithCatalogMetadata(
+  sparkSession: SparkSession,
+  table: CatalogTable): CatalogTable
+----
+
+`combineWithCatalogMetadata`...FIXME
+
+NOTE: `combineWithCatalogMetadata` _seems_ unused.

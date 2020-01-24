@@ -133,18 +133,34 @@ Cannot change the metadata more than once in a transaction.
 * `ImplicitMetadataOperation` is requested to <<ImplicitMetadataOperation.adoc#updateMetadata, updateMetadata>>
 ====
 
-== [[filterFiles]] `filterFiles` Method
+== [[filterFiles]] Files To Scan Matching Given Predicates -- `filterFiles` Method
 
 [source, scala]
 ----
-filterFiles(): Seq[AddFile]
+filterFiles(): Seq[AddFile] // <1>
 filterFiles(
   filters: Seq[Expression]): Seq[AddFile]
 ----
+<1> Uses `true` literal to mean that all files match
 
-`filterFiles`...FIXME
+`filterFiles` gives the xref:AddFile.adoc[files] to scan based on the given predicates (filter expressions).
 
-NOTE: `filterFiles` is used when...FIXME
+Internally, `filterFiles` requests the <<snapshot, Snapshot>> for the xref:PartitionFiltering.adoc#filesForScan[filesForScan] (for no projection attributes and the given filters).
+
+`filterFiles` finds the xref:DeltaTableUtils.adoc#isPredicatePartitionColumnsOnly[partition predicates] among the given filters (and the xref:Metadata.adoc#partitionColumns[partition columns] of the <<metadata, Metadata>>).
+
+`filterFiles` registers (_adds_) the partition predicates (in the <<readPredicates, readPredicates>> internal registry) and the files to scan (in the <<readFiles, readFiles>> internal registry).
+
+[NOTE]
+====
+`filterFiles` is used when:
+
+* `WriteIntoDelta` is requested to xref:WriteIntoDelta.adoc#write[write]
+
+* `DeltaSink` is requested to xref:DeltaSink.adoc#addBatch[add a streaming micro-batch] (with `Complete` output mode to mark all to be removed)
+
+* xref:DeleteCommand.adoc[DeleteCommand], xref:MergeIntoCommand.adoc[MergeIntoCommand] and xref:UpdateCommand.adoc[UpdateCommand] are executed
+====
 
 == [[readWholeTable]] `readWholeTable` Method
 
@@ -413,6 +429,12 @@ Default: `false`
 Enabled (set to `true`) in <<filterFiles, filterFiles>>, <<readWholeTable, readWholeTable>>
 
 Used in <<commit, commit>> and <<checkAndRetry, checkAndRetry>>
+
+| readFiles
+a| [[readFiles]]
+
+| readPredicates
+a| [[readPredicates]]
 
 | readTxn
 a| [[readTxn]] Streaming query IDs that have been seen by this transaction
