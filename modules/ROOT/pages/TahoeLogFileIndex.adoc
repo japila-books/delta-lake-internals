@@ -50,7 +50,7 @@ matchingFiles(
   keepStats: Boolean = false): Seq[AddFile]
 ----
 
-NOTE: `matchingFiles` is part of the <<TahoeFileIndex.adoc#matchingFiles, TahoeFileIndex Contract>> for the matching (valid) files by the given filtering expressions.
+NOTE: `matchingFiles` is part of the <<TahoeFileIndex.adoc#matchingFiles, TahoeFileIndex Contract>> for the xref:AddFile.adoc[files] matching given predicates.
 
 `matchingFiles` <<getSnapshot, gets the snapshot>> (with `stalenessAcceptable` flag off) and requests it for the <<PartitionFiltering.adoc#filesForScan, files to scan>> (for the index's <<partitionFilters, partition filters>>, the given `partitionFilters` and `dataFilters`).
 

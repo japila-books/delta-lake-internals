@@ -1,8 +1,12 @@
-= [[PartitionFiltering]] PartitionFiltering
+= [[PartitionFiltering]] PartitionFiltering -- Snapshots With Partition Filtering
 
-`PartitionFiltering`...FIXME
+[[self]]
+`PartitionFiltering` is an abstraction of <<implementations, snapshots>> with <<filesForScan, partition filtering for scan>>.
 
-== [[filesForScan]] `filesForScan` Method
+[[implementations]]
+NOTE: xref:Snapshot.adoc[Snapshot] is the default and only known `PartitionFiltering` in Delta Lake.
+
+== [[filesForScan]] Files to Scan (Matching Projection Attributes and Predicates) -- `filesForScan` Method
 
 [source, scala]
 ----
@@ -18,7 +22,7 @@ filesForScan(
 ====
 `filesForScan` is used when:
 
-* `OptimisticTransactionImpl` is requested to xref:OptimisticTransactionImpl.adoc#filterFiles[filterFiles]
+* `OptimisticTransactionImpl` is requested for the xref:OptimisticTransactionImpl.adoc#filterFiles[files to scan matching given predicates]
 
-* `TahoeLogFileIndex` is requested for the xref:TahoeLogFileIndex.adoc#matchingFiles[matchingFiles] and the xref:TahoeLogFileIndex.adoc#inputFiles[inputFiles]
+* `TahoeLogFileIndex` is requested for the xref:TahoeLogFileIndex.adoc#matchingFiles[files matching predicates] and the xref:TahoeLogFileIndex.adoc#inputFiles[input files]
 ====

@@ -24,7 +24,7 @@ matchingFiles(
   keepStats: Boolean = false): Seq[AddFile]
 ----
 
-Matching (valid) files by the given filtering expressions (`partitionFilters` and `dataFilters`)
+Files (xref:AddFile.adoc[AddFiles]) matching given partition and data predicates
 
 Used for <<listFiles, listing data files>>
 
