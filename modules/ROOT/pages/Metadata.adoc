@@ -1,10 +1,24 @@
 = [[Metadata]] Metadata
 
-`Metadata` is an <<Action.adoc#, action>> to describe metadata (change) of a <<DeltaLog.adoc#metadata, delta table>> (indirectly via <<Snapshot.adoc#metadata, Snapshot>>).
+`Metadata` is an <<Action.adoc#, action>> that describes metadata (change) of a <<DeltaLog.adoc#metadata, delta table>> (indirectly via <<Snapshot.adoc#metadata, Snapshot>>).
 
-TIP: Use <<DescribeDeltaDetailCommand.adoc#, DescribeDeltaDetailCommand>> to review the current metadata of a delta table.
+`Metadata` contains all the non-data information (_metadata_) like <<name, name>>, <<description, description>>, <<format, format>>, <<schemaString, schema>>, <<partitionColumns, partition columns>>, <<configuration, table properties>> and <<createdTime, created time>>. These can be changed (e.g., schema evolution).
 
-`Metadata` can be <<OptimisticTransactionImpl.adoc#updateMetadata, updated>> for a `OptimisticTransactionImpl` once (and only when created for the very first time, when <<OptimisticTransactionImpl.adoc#readVersion, readVersion>> is `-1`).
+TIP: Use <<DescribeDeltaDetailCommand.adoc#, DescribeDeltaDetailCommand>> to review the metadata of a delta table.
+
+`Metadata` uses <<id, id>> to uniquely identify a delta table. The ID is never going to change through the history of the table (unless the entire directory, along with the transaction log is deleted). It is known as *tableId* or <<DeltaSourceOffset.adoc#reservoirId, reservoirId>>.
+
+[NOTE]
+====
+When I asked the question https://groups.google.com/forum/#!topic/delta-users/5OKEFvVKiew[tableId and reservoirId - Why two different names for metadata ID?] on delta-users mailing list, Tathagata Das wrote:
+
+> Any reference to "reservoir" is just legacy code. In the early days of this project, the project was called "Tahoe" and each table is called a "reservoir" (Tahoe is one of the 2nd deepest lake in US, and is a very large reservoir of water ;) ). So you may still find those two terms all around the codebase.
+
+> In some cases, like DeltaSourceOffset, the term `reservoirId` is in the json that is written to the streaming checkpoint directory. So we cannot change that for backward compatibility.
+
+====
+
+`Metadata` can be <<OptimisticTransactionImpl.adoc#updateMetadata, updated>> in a xref:OptimisticTransactionImpl.adoc[transaction] once (and only when created for an uninitialized table, when <<OptimisticTransactionImpl.adoc#readVersion, readVersion>> is `-1`).
 
 `Metadata` is <<creating-instance, created>> when:
 
@@ -20,7 +34,7 @@ TIP: Use <<DescribeDeltaDetailCommand.adoc#, DescribeDeltaDetailCommand>> to rev
 
 `Metadata` takes the following to be created:
 
-* [[id]] Table ID (aka <<DeltaSourceOffset.adoc#reservoirId, reservoirId>>) (default: a random UUID)
+* [[id]] Table ID (default: a random UUID)
 * [[name]] Name of the delta table (default: `null`)
 * [[description]] Description (default: `null`)
 * [[format]] `Format`
