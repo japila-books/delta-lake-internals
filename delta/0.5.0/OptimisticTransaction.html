@@ -458,6 +458,13 @@
 <div class="paragraph">
 <p>When <code>OptimisticTransaction</code> (as a <a href="OptimisticTransactionImpl.html" class="page">OptimisticTransactionImpl</a>) is attempted to be <a href="OptimisticTransactionImpl.html#commit" class="page">committed</a> (that does <a href="OptimisticTransactionImpl.html#doCommit" class="page">doCommit</a> internally), the <a href="LogStore.html" class="page">LogStore</a> (of the <a href="#deltaLog">DeltaLog</a>) is requested to <a href="LogStore.html#write" class="page">write actions to a delta file</a>, e.g. <code>_delta_log/00000000000000000001.json</code> for the attempt version <code>1</code>. Only when a <code>FileAlreadyExistsException</code> is thrown a commit is considered unsuccessful and <a href="OptimisticTransactionImpl.html#checkAndRetry" class="page">retried</a>.</p>
 </div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">import org.apache.spark.sql.delta.DeltaLog
+val deltaLog = DeltaLog.forTable(spark, "/tmp/delta/users")
+val txn = deltaLog.startTransaction</code></pre>
+</div>
+</div>
 <div class="paragraph">
 <p><code>OptimisticTransaction</code> can be associated with a thread as an <a href="#active">active transaction</a>.</p>
 </div>

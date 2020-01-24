@@ -451,7 +451,7 @@
 <p><a href="#findDeltaTableRoot">DeltaTableUtils.findDeltaTableRoot</a> for finding the root directory of a delta table</p>
 </li>
 <li>
-<p><a href="#combineWithCatalogMetadata">DeltaTableUtils.combineWithCatalogMetadata</a> for finding the root directory of a delta table</p>
+<p><a href="#splitMetadataAndDataPredicates">splitMetadataAndDataPredicates</a></p>
 </li>
 </ul>
 </div>
@@ -468,7 +468,7 @@
 </div>
 </div>
 <div class="paragraph">
-<p><code>isDeltaTable</code> tries to <a href="#findDeltaTableRoot">find the root of the delta table</a> for the given path and returns whether it was successful or not.</p>
+<p><code>isDeltaTable</code> tries to <a href="#findDeltaTableRoot">find the root directory of the delta table</a> for the given path and returns whether it was successful or not.</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -477,7 +477,7 @@
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-<code>isDeltaTable</code> is used when <code>DeltaTable</code> utility is used to <a href="DeltaTable.html#forPath" class="page">create a DeltaTable</a> or <a href="DeltaTable.html#isDeltaTable" class="page">check out whether a directory is part of delta table</a>.
+<code>isDeltaTable</code> is used when <code>DeltaTable</code> utility is used to <a href="DeltaTable.html#forPath" class="page">create a DeltaTable</a> or <a href="DeltaTable.html#isDeltaTable" class="page">check whether a directory is part of delta table or not</a>.
 </td>
 </tr>
 </table>
@@ -530,33 +530,6 @@
 </div>
 </div>
 <div class="sect1">
-<h2 id="combinewithcatalogmetadata-utility"><a class="anchor" href="#combinewithcatalogmetadata-utility"></a><a class="link" href="#combinewithcatalogmetadata-utility"><a id="combineWithCatalogMetadata"></a> <code>combineWithCatalogMetadata</code> Utility</a></h2>
-<div class="sectionbody">
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">combineWithCatalogMetadata(
-  sparkSession: SparkSession,
-  table: CatalogTable): CatalogTable</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p><code>combineWithCatalogMetadata</code>&#8230;&#8203;FIXME</p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<code>combineWithCatalogMetadata</code> is used when&#8230;&#8203;FIXME
-</td>
-</tr>
-</table>
-</div>
-</div>
-</div>
-<div class="sect1">
 <h2 id="resolvetimetravelversion-utility"><a class="anchor" href="#resolvetimetravelversion-utility"></a><a class="link" href="#resolvetimetravelversion-utility"><a id="resolveTimeTravelVersion"></a> <code>resolveTimeTravelVersion</code> Utility</a></h2>
 <div class="sectionbody">
 <div class="listingblock">
@@ -578,6 +551,103 @@
 </td>
 <td class="content">
 <code>resolveTimeTravelVersion</code> is used exclusively when <code>DeltaLog</code> is requested to <a href="DeltaLog.html#createRelation" class="page">create a relation (per partition filters and time travel)</a>.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="splitmetadataanddatapredicates-utility"><a class="anchor" href="#splitmetadataanddatapredicates-utility"></a><a class="link" href="#splitmetadataanddatapredicates-utility"><a id="splitMetadataAndDataPredicates"></a> <code>splitMetadataAndDataPredicates</code> Utility</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">splitMetadataAndDataPredicates(
+  condition: Expression,
+  partitionColumns: Seq[String],
+  spark: SparkSession): (Seq[Expression], Seq[Expression])</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>splitMetadataAndDataPredicates</code>&#8230;&#8203;FIXME</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p><code>splitMetadataAndDataPredicates</code> is used when:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>PartitionFiltering</code> is requested to <a href="PartitionFiltering.html#filesForScan" class="page">filesForScan</a></p>
+</li>
+<li>
+<p><a href="DeleteCommand.html" class="page">DeleteCommand</a> and <a href="UpdateCommand.html" class="page">UpdateCommand</a> are executed</p>
+</li>
+</ul>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="ispredicatepartitioncolumnsonly-utility"><a class="anchor" href="#ispredicatepartitioncolumnsonly-utility"></a><a class="link" href="#ispredicatepartitioncolumnsonly-utility"><a id="isPredicatePartitionColumnsOnly"></a> <code>isPredicatePartitionColumnsOnly</code> Utility</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">isPredicatePartitionColumnsOnly(
+  condition: Expression,
+  partitionColumns: Seq[String],
+  spark: SparkSession): Boolean</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>isPredicatePartitionColumnsOnly</code>&#8230;&#8203;FIXME</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p><code>isPredicatePartitionColumnsOnly</code> is used when&#8230;&#8203;FIXME</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="combinewithcatalogmetadata-utility"><a class="anchor" href="#combinewithcatalogmetadata-utility"></a><a class="link" href="#combinewithcatalogmetadata-utility"><a id="combineWithCatalogMetadata"></a> <code>combineWithCatalogMetadata</code> Utility</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">combineWithCatalogMetadata(
+  sparkSession: SparkSession,
+  table: CatalogTable): CatalogTable</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>combineWithCatalogMetadata</code>&#8230;&#8203;FIXME</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>combineWithCatalogMetadata</code> <em>seems</em> unused.
 </td>
 </tr>
 </table>

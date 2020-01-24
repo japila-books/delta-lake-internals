@@ -689,17 +689,34 @@
 </div>
 </div>
 <div class="sect1">
-<h2 id="filterfiles-method"><a class="anchor" href="#filterfiles-method"></a><a class="link" href="#filterfiles-method"><a id="filterFiles"></a> <code>filterFiles</code> Method</a></h2>
+<h2 id="files-to-scan-matching-given-predicatesfilterfiles-method"><a class="anchor" href="#files-to-scan-matching-given-predicatesfilterfiles-method"></a><a class="link" href="#files-to-scan-matching-given-predicatesfilterfiles-method"><a id="filterFiles"></a> Files To Scan Matching Given Predicates&#8201;&#8212;&#8201;<code>filterFiles</code> Method</a></h2>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">filterFiles(): Seq[AddFile]
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">filterFiles(): Seq[AddFile] <i class="conum" data-value="1"></i><b>(1)</b>
 filterFiles(
   filters: Seq[Expression]): Seq[AddFile]</code></pre>
 </div>
 </div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Uses <code>true</code> literal to mean that all files match</td>
+</tr>
+</table>
+</div>
 <div class="paragraph">
-<p><code>filterFiles</code>&#8230;&#8203;FIXME</p>
+<p><code>filterFiles</code> gives the <a href="AddFile.html" class="page">files</a> to scan based on the given predicates (filter expressions).</p>
+</div>
+<div class="paragraph">
+<p>Internally, <code>filterFiles</code> requests the <a href="#snapshot">Snapshot</a> for the <a href="PartitionFiltering.html#filesForScan" class="page">filesForScan</a> (for no projection attributes and the given filters).</p>
+</div>
+<div class="paragraph">
+<p><code>filterFiles</code> finds the <a href="DeltaTableUtils.html#isPredicatePartitionColumnsOnly" class="page">partition predicates</a> among the given filters (and the <a href="Metadata.html#partitionColumns" class="page">partition columns</a> of the <a href="#metadata">Metadata</a>).</p>
+</div>
+<div class="paragraph">
+<p><code>filterFiles</code> registers (<em>adds</em>) the partition predicates (in the <a href="#readPredicates">readPredicates</a> internal registry) and the files to scan (in the <a href="#readFiles">readFiles</a> internal registry).</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -708,7 +725,22 @@ filterFiles(
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-<code>filterFiles</code> is used when&#8230;&#8203;FIXME
+<div class="paragraph">
+<p><code>filterFiles</code> is used when:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>WriteIntoDelta</code> is requested to <a href="WriteIntoDelta.html#write" class="page">write</a></p>
+</li>
+<li>
+<p><code>DeltaSink</code> is requested to <a href="DeltaSink.html#addBatch" class="page">add a streaming micro-batch</a> (with <code>Complete</code> output mode to mark all to be removed)</p>
+</li>
+<li>
+<p><a href="DeleteCommand.html" class="page">DeleteCommand</a>, <a href="MergeIntoCommand.html" class="page">MergeIntoCommand</a> and <a href="UpdateCommand.html" class="page">UpdateCommand</a> are executed</p>
+</li>
+</ul>
+</div>
 </td>
 </tr>
 </table>
@@ -1219,6 +1251,14 @@ Hooks may create new transactions.
 <div class="paragraph">
 <p>Used in <a href="#commit">commit</a> and <a href="#checkAndRetry">checkAndRetry</a></p>
 </div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>readFiles</code></p></td>
+<td class="tableblock halign-left valign-top"><div class="content"></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>readPredicates</code></p></td>
+<td class="tableblock halign-left valign-top"><div class="content"></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>readTxn</code></p></td>
