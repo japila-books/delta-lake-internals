@@ -443,6 +443,14 @@
 <div class="paragraph">
 <p><code>Metadata</code> is an <a href="Action.html" class="page">action</a> that describes metadata (change) of a <a href="DeltaLog.html#metadata" class="page">delta table</a> (indirectly via <a href="Snapshot.html#metadata" class="page">Snapshot</a>).</p>
 </div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-plaintext hljs" data-lang="plaintext">import org.apache.spark.sql.delta.DeltaLog
+val deltaLog = DeltaLog.forTable(spark, "/tmp/delta/users")
+scala&gt; :type deltaLog.snapshot.metadata
+org.apache.spark.sql.delta.actions.Metadata</code></pre>
+</div>
+</div>
 <div class="paragraph">
 <p><code>Metadata</code> contains all the non-data information (<em>metadata</em>) like <a href="#name">name</a>, <a href="#description">description</a>, <a href="#format">format</a>, <a href="#schemaString">schema</a>, <a href="#partitionColumns">partition columns</a>, <a href="#configuration">table properties</a> and <a href="#createdTime">created time</a>. These can be changed (e.g., schema evolution).</p>
 </div>
@@ -457,9 +465,6 @@ Use <a href="DescribeDeltaDetailCommand.html" class="page">DescribeDeltaDetailCo
 </td>
 </tr>
 </table>
-</div>
-<div class="paragraph">
-<p><code>Metadata</code> can be <a href="OptimisticTransactionImpl.html#updateMetadata" class="page">updated</a> for a <code>OptimisticTransactionImpl</code> once (and only when created for the very first time, when <a href="OptimisticTransactionImpl.html#readVersion" class="page">readVersion</a> is <code>-1</code>).</p>
 </div>
 <div class="paragraph">
 <p><code>Metadata</code> uses <a href="#id">id</a> to uniquely identify a delta table. The ID is never going to change through the history of the table (unless the entire directory, along with the transaction log is deleted). It is known as <strong>tableId</strong> or <a href="DeltaSourceOffset.html#reservoirId" class="page">reservoirId</a>.</p>
@@ -491,6 +496,14 @@ Use <a href="DescribeDeltaDetailCommand.html" class="page">DescribeDeltaDetailCo
 </td>
 </tr>
 </table>
+</div>
+<div class="paragraph">
+<p><code>Metadata</code> can be <a href="OptimisticTransactionImpl.html#updateMetadata" class="page">updated</a> in a <a href="OptimisticTransactionImpl.html" class="page">transaction</a> once (and only when created for an uninitialized table, when <a href="OptimisticTransactionImpl.html#readVersion" class="page">readVersion</a> is <code>-1</code>).</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">txn.metadata</code></pre>
+</div>
 </div>
 <div class="paragraph">
 <p><code>Metadata</code> is <a href="#creating-instance">created</a> when:</p>
@@ -537,7 +550,7 @@ Use <a href="DescribeDeltaDetailCommand.html" class="page">DescribeDeltaDetailCo
 <p><a id="schemaString"></a> Schema (default: <code>null</code>)</p>
 </li>
 <li>
-<p><a id="partitionColumns"></a> Names of the partition columns (default: <code>Nil</code>)</p>
+<p><a id="partitionColumns"></a> Partition columns (default: <code>Nil</code>)</p>
 </li>
 <li>
 <p><a id="configuration"></a> Configuration (default: <code>empty</code>)</p>
@@ -571,6 +584,114 @@ Use <a href="DescribeDeltaDetailCommand.html" class="page">DescribeDeltaDetailCo
 </div>
 <div class="paragraph">
 <p><code>wrap</code> simply creates a new <a href="SingleAction.html" class="page">SingleAction</a> with the <code>metaData</code> field set to this <code>Metadata</code>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="partitionschema-lazy-property"><a class="anchor" href="#partitionschema-lazy-property"></a><a class="link" href="#partitionschema-lazy-property"><a id="partitionSchema"></a> <code>partitionSchema</code> (Lazy) Property</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">partitionSchema: StructType</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>partitionSchema</code> is the <a href="#partitionColumns">partition columns</a> as <code>StructFields</code> (and defined in the <a href="#schemaString">schema</a>).</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>partitionSchema</code> throws an <code>IllegalArgumentException</code> for undefined fields that were used for the <a href="#partitionColumns">partition columns</a> but not defined in the <a href="#schemaString">schema</a>.
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>partitionSchema</code> is used when&#8230;&#8203;FIXME
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="dataschema-lazy-property"><a class="anchor" href="#dataschema-lazy-property"></a><a class="link" href="#dataschema-lazy-property"><a id="dataSchema"></a> <code>dataSchema</code> (Lazy) Property</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">dataSchema: StructType</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>dataSchema</code>&#8230;&#8203;FIXME</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>dataSchema</code> is used when&#8230;&#8203;FIXME
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="schema-lazy-property"><a class="anchor" href="#schema-lazy-property"></a><a class="link" href="#schema-lazy-property"><a id="schema"></a> <code>schema</code> (Lazy) Property</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">schema: StructType</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>schema</code> is a deserialized <a href="#schemaString">schema</a> (from JSON format) to <code>StructType</code>.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p><code>schema</code> is used when:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>Metadata</code> is requested for the schema of the <a href="#partitionSchema">partitions</a> and the <a href="#dataSchema">data</a></p>
+</li>
+<li>
+<p><code>DeltaLog</code> is requested for an <a href="DeltaLog.html#createRelation" class="page">insertable HadoopFsRelation for batch queries</a> (for the data schema), to <a href="DeltaLog.html#upgradeProtocol" class="page">upgrade protocol</a>, a <a href="DeltaLog.html#createDataFrame" class="page">DataFrame for given AddFiles</a></p>
+</li>
+<li>
+<p><code>DeltaTableUtils</code> utility is used to <a href="DeltaTableUtils.html#combineWithCatalogMetadata" class="page">combineWithCatalogMetadata</a></p>
+</li>
+<li>
+<p><code>OptimisticTransactionImpl</code> is requested to <a href="OptimisticTransactionImpl.html#verifyNewMetadata" class="page">verifyNewMetadata</a></p>
+</li>
+<li>
+<p>&#8230;&#8203;FIXME (there are other uses)</p>
+</li>
+</ul>
+</div>
+</td>
+</tr>
+</table>
 </div>
 </div>
 </div>
