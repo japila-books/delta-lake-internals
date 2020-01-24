@@ -440,10 +440,10 @@
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p><code>Snapshot</code> is (an immutable snapshot of) the <a href="#state">state</a> of a <a href="#deltaLog">delta table</a> at <a href="#version">some version</a>.</p>
+<p><code>Snapshot</code> is an immutable snapshot of the <a href="#state">state</a> of a <a href="#deltaLog">delta table</a> at <a href="#version">some version</a>.</p>
 </div>
 <div class="paragraph">
-<p><code>Snapshot</code> is <a href="#creating-instance">created</a> when <code>DeltaLog</code> is requested for the <a href="DeltaLog.html#currentSnapshot" class="page">current snapshot</a>, to <a href="DeltaLog.html#update" class="page">update</a>, and to <a href="DeltaLog.html#getSnapshotAt" class="page">get the state of a delta table at a given version</a>.</p>
+<p><code>Snapshot</code> is <a href="#creating-instance">created</a> when <code>DeltaLog</code> is requested for the <a href="DeltaLog.html#currentSnapshot" class="page">current snapshot</a> or <a href="DeltaLog.html#getSnapshotAt" class="page">at a given version</a>, and to <a href="DeltaLog.html#update" class="page">update</a>.</p>
 </div>
 <div class="paragraph">
 <p><code>Snapshot</code> can be requested for <a href="#allFiles">all data files</a>.</p>
@@ -567,7 +567,7 @@
 </div>
 </div>
 <div class="sect1">
-<h2 id="allfiles-method"><a class="anchor" href="#allfiles-method"></a><a class="link" href="#allfiles-method"><a id="allFiles"></a> <code>allFiles</code> Method</a></h2>
+<h2 id="all-addfilesallfiles-method"><a class="anchor" href="#all-addfilesallfiles-method"></a><a class="link" href="#all-addfilesallfiles-method"><a id="allFiles"></a> All AddFiles&#8201;&#8212;&#8201;<code>allFiles</code> Method</a></h2>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content">
@@ -575,7 +575,41 @@
 </div>
 </div>
 <div class="paragraph">
-<p><code>allFiles</code>&#8230;&#8203;FIXME</p>
+<p><code>allFiles</code> simply takes the <a href="#state">state dataset</a> and selects <a href="AddFile.html" class="page">AddFiles</a> (adds <code>where</code> clause for <code>add IS NOT NULL</code> and <code>select</code> over the fields of <a href="AddFile.html" class="page">AddFiles</a>).</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>allFiles</code> simply adds <code>where</code> and <code>select</code> clauses. No computation as it is (a description of) a distributed computation as a <code>Dataset[AddFile]</code>.
+</td>
+</tr>
+</table>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">import org.apache.spark.sql.delta.DeltaLog
+val deltaLog = DeltaLog.forTable(spark, "/tmp/delta/users")
+val files = deltaLog.snapshot.allFiles
+
+scala&gt; :type files
+org.apache.spark.sql.Dataset[org.apache.spark.sql.delta.actions.AddFile]
+
+scala&gt; files.show
++--------------------+---------------+----+----------------+----------+-----+----+
+|                path|partitionValues|size|modificationTime|dataChange|stats|tags|
++--------------------+---------------+----+----------------+----------+-----+----+
+|part-00000-68a7ce...|             []| 875|   1579789902000|     false| null|null|
+|part-00000-73e140...|             []| 419|   1579723382000|     false| null|null|
+|part-00000-7a01b0...|             []| 875|   1579877119000|     false| null|null|
+|part-00001-8a2ece...|             []| 875|   1579789902000|     false| null|null|
+|part-00002-0fc3da...|             []| 866|   1579789902000|     false| null|null|
+|part-00003-c0fc5f...|             []| 884|   1579789902000|     false| null|null|
++--------------------+---------------+----+----------------+----------+-----+----+</code></pre>
+</div>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -590,16 +624,16 @@
 <div class="ulist">
 <ul>
 <li>
-<p><code>PartitionFiltering</code> is requested to <a href="PartitionFiltering.html#filesForScan" class="page">filesForScan</a></p>
+<p><code>PartitionFiltering</code> is requested for the <a href="PartitionFiltering.html#filesForScan" class="page">files to scan (matching projection attributes and predicates)</a></p>
 </li>
 <li>
-<p><code>DeltaSourceSnapshot</code> is requested to <a href="DeltaSourceSnapshot.html#initialFiles" class="page">initialFiles</a></p>
+<p><code>DeltaSourceSnapshot</code> is requested for the <a href="DeltaSourceSnapshot.html#initialFiles" class="page">initial files</a> (indexed <a href="AddFile.html" class="page">AddFiles</a>)</p>
 </li>
 <li>
 <p><code>GenerateSymlinkManifestImpl</code> is requested to <a href="GenerateSymlinkManifest.html#generateIncrementalManifest" class="page">generateIncrementalManifest</a> and <a href="GenerateSymlinkManifest.html#generateFullManifest" class="page">generateFullManifest</a></p>
 </li>
 <li>
-<p><code>DeltaDataSource</code> is requested to <a href="DeltaDataSource.html#RelationProvider-createRelation" class="page">createRelation</a></p>
+<p><code>DeltaDataSource</code> is requested for an <a href="DeltaDataSource.html#RelationProvider-createRelation" class="page">insertable HadoopFsRelation for batch queries</a></p>
 </li>
 </ul>
 </div>

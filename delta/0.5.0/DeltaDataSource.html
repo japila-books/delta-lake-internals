@@ -495,10 +495,10 @@ Read up on <a href="https://jaceklaskowski.gitbooks.io/mastering-spark-sql/spark
 </div>
 </div>
 <div class="sect1">
-<h2 id="relationprovider"><a class="anchor" href="#relationprovider"></a><a class="link" href="#relationprovider"><a id="RelationProvider"></a><a id="RelationProvider-createRelation"></a> RelationProvider</a></h2>
+<h2 id="relationprovidercreating-insertable-hadoopfsrelation-for-batch-queries"><a class="anchor" href="#relationprovidercreating-insertable-hadoopfsrelation-for-batch-queries"></a><a class="link" href="#relationprovidercreating-insertable-hadoopfsrelation-for-batch-queries"><a id="RelationProvider"></a><a id="RelationProvider-createRelation"></a> RelationProvider&#8201;&#8212;&#8201;Creating Insertable HadoopFsRelation For Batch Queries</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p><code>DeltaDataSource</code> is a <code>RelationProvider</code> for reading data in a structured query from a delta table.</p>
+<p><code>DeltaDataSource</code> is a <code>RelationProvider</code> for reading (<em>loading</em>) data from a delta table in a structured query.</p>
 </div>
 <div class="admonitionblock tip">
 <table>
@@ -523,7 +523,7 @@ Read up on <a href="https://jaceklaskowski.gitbooks.io/mastering-spark-sql/spark
 <p><code>createRelation</code>&#8230;&#8203;FIXME</p>
 </div>
 <div class="paragraph">
-<p>In the end, <code>createRelation</code> requests the <a href="#RelationProvider-createRelation-deltaLog">DeltaLog</a> for a <a href="DeltaLog.html#createRelation" class="page">relation</a> (<code>HadoopFsRelation</code> With <code>InsertableRelation</code>).</p>
+<p>In the end, <code>createRelation</code> requests the <a href="#RelationProvider-createRelation-deltaLog">DeltaLog</a> for an <a href="DeltaLog.html#createRelation" class="page">insertable HadoopFsRelation</a>.</p>
 </div>
 </div>
 </div>
