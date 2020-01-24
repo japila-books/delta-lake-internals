@@ -441,7 +441,10 @@
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p><code>Metadata</code> is an <a href="Action.html" class="page">action</a> to describe metadata (change) of a <a href="DeltaLog.html#metadata" class="page">delta table</a> (indirectly via <a href="Snapshot.html#metadata" class="page">Snapshot</a>).</p>
+<p><code>Metadata</code> is an <a href="Action.html" class="page">action</a> that describes metadata (change) of a <a href="DeltaLog.html#metadata" class="page">delta table</a> (indirectly via <a href="Snapshot.html#metadata" class="page">Snapshot</a>).</p>
+</div>
+<div class="paragraph">
+<p><code>Metadata</code> contains all the non-data information (<em>metadata</em>) like <a href="#name">name</a>, <a href="#description">description</a>, <a href="#format">format</a>, <a href="#schemaString">schema</a>, <a href="#partitionColumns">partition columns</a>, <a href="#configuration">table properties</a> and <a href="#createdTime">created time</a>. These can be changed (e.g., schema evolution).</p>
 </div>
 <div class="admonitionblock tip">
 <table>
@@ -450,13 +453,44 @@
 <i class="fa icon-tip" title="Tip"></i>
 </td>
 <td class="content">
-Use <a href="DescribeDeltaDetailCommand.html" class="page">DescribeDeltaDetailCommand</a> to review the current metadata of a delta table.
+Use <a href="DescribeDeltaDetailCommand.html" class="page">DescribeDeltaDetailCommand</a> to review the metadata of a delta table.
 </td>
 </tr>
 </table>
 </div>
 <div class="paragraph">
 <p><code>Metadata</code> can be <a href="OptimisticTransactionImpl.html#updateMetadata" class="page">updated</a> for a <code>OptimisticTransactionImpl</code> once (and only when created for the very first time, when <a href="OptimisticTransactionImpl.html#readVersion" class="page">readVersion</a> is <code>-1</code>).</p>
+</div>
+<div class="paragraph">
+<p><code>Metadata</code> uses <a href="#id">id</a> to uniquely identify a delta table. The ID is never going to change through the history of the table (unless the entire directory, along with the transaction log is deleted). It is known as <strong>tableId</strong> or <a href="DeltaSourceOffset.html#reservoirId" class="page">reservoirId</a>.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>When I asked the question <a href="https://groups.google.com/forum/#!topic/delta-users/5OKEFvVKiew">tableId and reservoirId - Why two different names for metadata ID?</a> on delta-users mailing list, Tathagata Das wrote:</p>
+</div>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>Any reference to "reservoir" is just legacy code. In the early days of this project, the project was called "Tahoe" and each table is called a "reservoir" (Tahoe is one of the 2nd deepest lake in US, and is a very large reservoir of water ;) ). So you may still find those two terms all around the codebase.</p>
+</div>
+</blockquote>
+</div>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>In some cases, like DeltaSourceOffset, the term <code>reservoirId</code> is in the json that is written to the streaming checkpoint directory. So we cannot change that for backward compatibility.</p>
+</div>
+</blockquote>
+</div>
+</td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
 <p><code>Metadata</code> is <a href="#creating-instance">created</a> when:</p>
@@ -488,7 +522,7 @@ Use <a href="DescribeDeltaDetailCommand.html" class="page">DescribeDeltaDetailCo
 <div class="ulist">
 <ul>
 <li>
-<p><a id="id"></a> Table ID (aka <a href="DeltaSourceOffset.html#reservoirId" class="page">reservoirId</a>) (default: a random UUID)</p>
+<p><a id="id"></a> Table ID (default: a random UUID)</p>
 </li>
 <li>
 <p><a id="name"></a> Name of the delta table (default: <code>null</code>)</p>
