@@ -8,6 +8,7 @@ site:
 content:
   sources:
     - url: https://github.com/japila-books/delta-lake-internals.git
+      branches: master
 asciidoc:
   attributes:
     experimental: ''
