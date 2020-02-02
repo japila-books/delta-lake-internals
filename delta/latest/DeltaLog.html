@@ -1,0 +1,1699 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title> DeltaLog :: The Internals Of Delta Lake</title>
+    <link rel="canonical" href="https://books.japila.pl/delta-lake-internals/delta/latest/DeltaLog.html">
+    <meta name="generator" content="Antora 2.2.0">
+    <link rel="stylesheet" href="../../_/css/site.css">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-151208281-1"></script>
+    <script>function gtag(){dataLayer.push(arguments)};window.dataLayer=window.dataLayer||[];gtag('js',new Date());gtag('config','UA-151208281-1')</script>
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="https://books.japila.pl/delta-lake-internals">The Internals Of Delta Lake</a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="#">Home</a>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Products</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="#">Product A</a>
+            <a class="navbar-item" href="#">Product B</a>
+            <a class="navbar-item" href="#">Product C</a>
+          </div>
+        </div>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Services</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="#">Service A</a>
+            <a class="navbar-item" href="#">Service B</a>
+            <a class="navbar-item" href="#">Service C</a>
+          </div>
+        </div>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Resources</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="#">Resource A</a>
+            <a class="navbar-item" href="#">Resource B</a>
+            <a class="navbar-item" href="#">Resource C</a>
+          </div>
+        </div>
+        <div class="navbar-item">
+          <span class="control">
+            <a class="button is-primary" href="#">Download</a>
+          </span>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="delta" data-version="latest">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="index.html">Delta Lake</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="index.html">Introduction</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="time-travel.html">Time Travel</a>
+  </li>
+  <li class="nav-item is-current-page" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="DeltaLog.html">DeltaLog</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="Checkpoints.html">Checkpoints</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="MetadataCleanup.html">MetadataCleanup</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="LogStoreProvider.html">LogStoreProvider</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="VerifyChecksum.html">VerifyChecksum</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="Snapshot.html">Snapshot</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="InMemoryLogReplay.html">InMemoryLogReplay</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="PartitionFiltering.html">PartitionFiltering</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="DeltaFileFormat.html">DeltaFileFormat</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="DeltaTable.html">DeltaTable</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="DeltaTableOperations.html">DeltaTableOperations</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="commands.html">Commands</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="DeltaConvert.html">DeltaConvert</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="ConvertToDeltaCommand.html">ConvertToDeltaCommand</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="DeleteCommand.html">DeleteCommand</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="DeltaCommand.html">DeltaCommand</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="DeltaGenerateCommand.html">DeltaGenerateCommand</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="DeltaGenerateCommandBase.html">DeltaGenerateCommandBase</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="GenerateSymlinkManifest.html">GenerateSymlinkManifest</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="DescribeDeltaDetailCommand.html">DescribeDeltaDetailCommand</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="DescribeDeltaHistoryCommand.html">DescribeDeltaHistoryCommand</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="MergeIntoCommand.html">MergeIntoCommand</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="DeltaMergeBuilder.html">DeltaMergeBuilder</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="PreprocessTableMerge.html">PreprocessTableMerge</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="UpdateCommand.html">UpdateCommand</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="vacuum.html">Vacuum</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="VacuumCommand.html">VacuumCommand</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="VacuumCommandImpl.html">VacuumCommandImpl</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="VacuumTableCommand.html">VacuumTableCommand</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="WriteIntoDelta.html">WriteIntoDelta</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="delta-sql-commands.html">Delta SQL Commands</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="DeltaSparkSessionExtension.html">DeltaSparkSessionExtension</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="DeltaSqlParser.html">DeltaSqlParser</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="DeltaSqlAstBuilder.html">DeltaSqlAstBuilder</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="DeltaDataSource.html">DeltaDataSource</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="DeltaOptions.html">DeltaOptions</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="DeltaSource.html">DeltaSource</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="DeltaSourceOffset.html">DeltaSourceOffset</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="SnapshotIterator.html">SnapshotIterator</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="DeltaSourceSnapshot.html">DeltaSourceSnapshot</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="DeltaSink.html">DeltaSink</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="DeltaSQLConf.html">DeltaSQLConf</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="OptimisticTransaction.html">OptimisticTransaction</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="TransactionalWrite.html">TransactionalWrite</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="DelayedCommitProtocol.html">DelayedCommitProtocol</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="PostCommitHook.html">Post-Commit Hooks</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="OptimisticTransactionImpl.html">OptimisticTransactionImpl</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="LogStore.html">LogStore</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="HDFSLogStore.html">HDFSLogStore</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="HadoopFileSystemLogStore.html">HadoopFileSystemLogStore</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="ImplicitMetadataOperation.html">ImplicitMetadataOperation</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="DeltaFileOperations.html">DeltaFileOperations</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="SchemaUtils.html">SchemaUtils</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="DeltaOperations.html">DeltaOperations</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="DeltaTableUtils.html">DeltaTableUtils</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="Invariants.html">Invariants</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="DeltaInvariantCheckerExec.html">DeltaInvariantCheckerExec</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="TahoeFileIndex.html">TahoeFileIndex</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="TahoeBatchFileIndex.html">TahoeBatchFileIndex</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="TahoeLogFileIndex.html">TahoeLogFileIndex</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="DeltaHistoryManager.html">DeltaHistoryManager</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="Action.html">Action</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="AddFile.html">AddFile</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="CommitInfo.html">CommitInfo</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="FileAction.html">FileAction</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="Metadata.html">Metadata</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="Protocol.html">Protocol</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="RemoveFile.html">RemoveFile</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="SetTransaction.html">SetTransaction</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="SingleAction.html">SingleAction</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="DeltaConfigs.html">DeltaConfigs</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="DeltaConfig.html">DeltaConfig</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="FileNames.html">FileNames</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="DeltaLogFileIndex.html">DeltaLogFileIndex</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="DeltaErrors.html">DeltaErrors</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="logging.html">Logging</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="StateCache.html">StateCache</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="CachedDS.html">CachedDS</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="others.html">The Others (Contenders)</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">Demos</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="demo/Converting-Parquet-Dataset-Into-Delta-Format.html">Converting Parquet Dataset Into Delta Format</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="demo/stream-processing-of-delta-table.html">Stream Processing of Delta Table</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="demo/Using-Delta-Lake-as-Streaming-Sink-in-Structured-Streaming.html">Using Delta Lake as Streaming Sink in Structured Streaming</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="demo/Debugging-Delta-Lake-Using-IntelliJ-IDEA.html">Debugging Delta Lake Using IntelliJ IDEA</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="demo/Observing-Transaction-Retries.html">Observing Transaction Retries</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="demo/DeltaTable-DeltaLog-And-Snapshots.html">DeltaTable, DeltaLog And Snapshots</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">Delta Lake</span>
+    <span class="version">latest</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <span class="title">Delta Lake</span>
+      <ul class="versions">
+        <li class="version is-current is-latest">
+          <a href="index.html">latest</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main>
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="index.html" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="index.html">Delta Lake</a></li>
+    <li><a href="DeltaLog.html">DeltaLog</a></li>
+  </ul>
+</nav>
+  <div class="edit-this-page"><a href="https://github.com/japila-books/delta-lake-internals/edit/master/modules/ROOT/pages/DeltaLog.adoc">Edit this Page</a></div>
+  </div>
+<article class="doc">
+<h1 class="page"><a id="DeltaLog"></a> DeltaLog</h1>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p><code>DeltaLog</code> is a <strong>transaction log</strong> (aka <em>change log</em>) of <a href="Action.html" class="page">changes</a> to the state of a <a href="#dataPath">delta table</a>.</p>
+</div>
+<div class="paragraph">
+<p><code>DeltaLog</code> uses <a href="#_delta_log">_delta_log</a> directory for (the files of) the transaction log of a delta table (that is given when <a href="#forTable">DeltaLog.forTable</a> utility is used to create an instance).</p>
+</div>
+<div class="paragraph">
+<p><code>DeltaLog</code> is <a href="#creating-instance">created</a> (indirectly via <a href="#apply">DeltaLog.apply</a> utility) when <a href="#forTable">DeltaLog.forTable</a> utility is used.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">import org.apache.spark.sql.SparkSession
+assert(spark.isInstanceOf[SparkSession])
+
+val dataPath = "/tmp/delta/t1"
+import org.apache.spark.sql.delta.DeltaLog
+val deltaLog = DeltaLog.forTable(spark, dataPath)
+
+import org.apache.hadoop.fs.Path
+val expected = new Path(s"file:$dataPath/_delta_log/_last_checkpoint")
+assert(deltaLog.LAST_CHECKPOINT == expected)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>A common idiom (if not the only way) to know the current version of the delta table is to request the <code>DeltaLog</code> for the <a href="#snapshot">current state (snapshot)</a> and then for the <a href="Snapshot.html#version" class="page">version</a>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">import org.apache.spark.sql.delta.DeltaLog
+assert(deltaLog.isInstanceOf[DeltaLog])
+
+val deltaVersion = deltaLog.snapshot.version
+scala&gt; println(deltaVersion)
+5</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>While being <a href="#creating-instance">created</a>, <code>DeltaLog</code> does the following:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Creates the <a href="#store">LogStore</a> based on <a href="LogStoreProvider.html#spark.delta.logStore.class" class="page">spark.delta.logStore.class</a> configuration property (default: <a href="HDFSLogStore.html" class="page">HDFSLogStore</a>)</p>
+</li>
+<li>
+<p>Initializes the <a href="#currentSnapshot">current snapshot</a></p>
+</li>
+<li>
+<p><a href="#update">Updates state of the delta table</a> when there is no <a href="Checkpoints.html#lastCheckpoint" class="page">metadata checkpoint</a> (e.g. the version of the <a href="#currentSnapshot">state</a> is <code>-1</code>)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>In other words, the version of (the <code>DeltaLog</code> of) a delta table is at version <code>0</code> at the very minimum.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">assert(deltaLog.snapshot.version &gt;= 0)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>DeltaLog</code> is a <a href="LogStoreProvider.html" class="page">LogStoreProvider</a>.</p>
+</div>
+<div id="logging" class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Enable <code>ALL</code> logging level for <code>org.apache.spark.sql.delta.DeltaLog</code> logger to see what happens inside.</p>
+</div>
+<div class="paragraph">
+<p>Add the following line to <code>conf/log4j.properties</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code>log4j.logger.org.apache.spark.sql.delta.DeltaLog=ALL</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Refer to <a href="logging.html" class="page">Logging</a>.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="fileformats"><a class="anchor" href="#fileformats"></a><a class="link" href="#fileformats"><a id="FileFormats"></a> FileFormats</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><code>DeltaLog</code> defines two <code>FileFormats</code>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a id="CHECKPOINT_FILE_FORMAT"></a> <code>ParquetFileFormat</code> for indices of delta files</p>
+</li>
+<li>
+<p><a id="COMMIT_FILE_FORMAT"></a> <code>JsonFileFormat</code> for indices of checkpoint files</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The <code>FileFormats</code> are used to create <a href="DeltaLogFileIndex.html" class="page">DeltaLogFileIndices</a> for <a href="Snapshot.html#files" class="page">Snapshots</a> that in turn used them for <a href="Snapshot.html#stateReconstruction" class="page">stateReconstruction</a>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_delta_log-directory"><a class="anchor" href="#_delta_log-directory"></a><a class="link" href="#_delta_log-directory"><a id="_delta_log"></a> _delta_log Directory</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><code>DeltaLog</code> uses <strong>_delta_log</strong> metadata directory under the <a href="#dataPath">data path</a> directory (that is specified using <a href="#forTable">DeltaLog.forTable</a> utility).</p>
+</div>
+<div class="paragraph">
+<p>The <code>_delta_log</code> directory is resolved (in the <a href="#apply">DeltaLog.apply</a> utility) using the application-wide Hadoop <a href="https://hadoop.apache.org/docs/current2/api/org/apache/hadoop/conf/Configuration.html">Configuration</a>.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p><a href="#apply">DeltaLog.apply</a> utility uses the given <code>SparkSession</code> to create an Hadoop <code>Configuration</code> instance.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">spark.sessionState.newHadoopConf()</code></pre>
+</div>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Once resolved and turned into a qualified path, the <code>_delta_log</code> directory of the delta table (under the <a href="#dataPath">data path</a> directory) is <a href="#deltaLogCache">cached</a> for later reuse.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="logstore"><a class="anchor" href="#logstore"></a><a class="link" href="#logstore"><a id="store"></a> LogStore</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><code>DeltaLog</code> uses an <a href="LogStore.html" class="page">LogStore</a> for&#8230;&#8203;FIXME</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="transaction-logs-deltalogs-per-fully-qualified-pathdeltalogcache-internal-registry"><a class="anchor" href="#transaction-logs-deltalogs-per-fully-qualified-pathdeltalogcache-internal-registry"></a><a class="link" href="#transaction-logs-deltalogs-per-fully-qualified-pathdeltalogcache-internal-registry"><a id="deltaLogCache"></a> Transaction Logs (DeltaLogs) per Fully-Qualified Path&#8201;&#8212;&#8201;<code>deltaLogCache</code> Internal Registry</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">deltaLogCache: Cache[Path, DeltaLog]</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>deltaLogCache</code> is part of <code>DeltaLog</code> Scala object which makes it an application-wide cache. Once used, <code>deltaLogCache</code> will only be one until the application that uses it stops.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><code>deltaLogCache</code> is a registry of <code>DeltaLogs</code> by their fully-qualified <a href="#_delta_log">_delta_log</a> directories. A new instance of <code>DeltaLog</code> is added when <a href="#apply">DeltaLog.apply</a> utility is used and the instance hasn&#8217;t been created before for a path.</p>
+</div>
+<div class="paragraph">
+<p><code>deltaLogCache</code> is invalidated:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>For a delta table using <a href="#invalidateCache">DeltaLog.invalidateCache</a> utility (and <a href="#apply">DeltaLog.apply</a> when the cached reference is no longer <a href="#isValid">valid</a>)</p>
+</li>
+<li>
+<p>For all delta tables using <a href="#clearCache">DeltaLog.clearCache</a> utility</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="creating-deltalog-instance"><a class="anchor" href="#creating-deltalog-instance"></a><a class="link" href="#creating-deltalog-instance"><a id="creating-instance"></a> Creating DeltaLog Instance</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><code>DeltaLog</code> takes the following to be created:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a id="logPath"></a> Log directory (Hadoop <a href="https://hadoop.apache.org/docs/r2.6.5/api/org/apache/hadoop/fs/Path.html">Path</a>)</p>
+</li>
+<li>
+<p><a id="dataPath"></a> Data directory (Hadoop <a href="https://hadoop.apache.org/docs/r2.6.5/api/org/apache/hadoop/fs/Path.html">Path</a>)</p>
+</li>
+<li>
+<p><a id="clock"></a> <code>Clock</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><code>DeltaLog</code> initializes the <a href="#internal-properties">internal properties</a>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="looking-up-or-creating-deltalog-instanceapply-utility"><a class="anchor" href="#looking-up-or-creating-deltalog-instanceapply-utility"></a><a class="link" href="#looking-up-or-creating-deltalog-instanceapply-utility"><a id="apply"></a> Looking Up Or Creating DeltaLog Instance&#8201;&#8212;&#8201;<code>apply</code> Utility</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">apply(
+  spark: SparkSession,
+  rawPath: Path,
+  clock: Clock = new SystemClock): DeltaLog</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>rawPath</code> is a Hadoop <a href="https://hadoop.apache.org/docs/r2.7.3/api/org/apache/hadoop/fs/Path.html">Path</a> to the <a href="#_delta_log">_delta_log</a> directory at the root of the data of a delta table.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><code>apply</code>&#8230;&#8203;FIXME</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>apply</code> is used when <code>DeltaLog</code> is requested to <a href="#forTable">forTable</a>.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="executing-single-threaded-operation-block-in-new-transactionwithnewtransaction-method"><a class="anchor" href="#executing-single-threaded-operation-block-in-new-transactionwithnewtransaction-method"></a><a class="link" href="#executing-single-threaded-operation-block-in-new-transactionwithnewtransaction-method"><a id="withNewTransaction"></a> Executing Single-Threaded Operation (Block) in New Transaction&#8201;&#8212;&#8201;<code>withNewTransaction</code> Method</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">withNewTransaction[T](
+  thunk: OptimisticTransaction =&gt; T): T</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>withNewTransaction</code> <a href="#startTransaction">starts a new transaction</a> (that is <a href="OptimisticTransaction.html#setActive" class="page">active</a> for the whole thread) and executes the given <code>thunk</code> block.</p>
+</div>
+<div class="paragraph">
+<p>In the end, <code>withNewTransaction</code> makes the transaction <a href="OptimisticTransaction.html#clearActive" class="page">no longer active</a>.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p><code>withNewTransaction</code> is used when:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="DeleteCommand.html" class="page">DeleteCommand</a>, <a href="MergeIntoCommand.html" class="page">MergeIntoCommand</a>, <a href="UpdateCommand.html" class="page">UpdateCommand</a>, and <a href="WriteIntoDelta.html" class="page">WriteIntoDelta</a> logical commands are executed</p>
+</li>
+<li>
+<p><code>DeltaSink</code> is requested to <a href="DeltaSink.html#addBatch" class="page">add a streaming micro-batch</a></p>
+</li>
+</ul>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="starting-new-transactionstarttransaction-method"><a class="anchor" href="#starting-new-transactionstarttransaction-method"></a><a class="link" href="#starting-new-transactionstarttransaction-method"><a id="startTransaction"></a> Starting New Transaction&#8201;&#8212;&#8201;<code>startTransaction</code> Method</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">startTransaction(): OptimisticTransaction</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>startTransaction</code> <a href="#update">updates</a> and creates a new <a href="OptimisticTransaction.html" class="page">OptimisticTransaction</a> (for this <code>DeltaLog</code>).</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>startTransaction</code> is a subset of <a href="#withNewTransaction">withNewTransaction</a>.
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>startTransaction</code> is used when <a href="ConvertToDeltaCommand.html" class="page">ConvertToDeltaCommand</a> is executed.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="throwing-unsupportedoperationexception-for-appendonly-table-property-enabledassertremovable-method"><a class="anchor" href="#throwing-unsupportedoperationexception-for-appendonly-table-property-enabledassertremovable-method"></a><a class="link" href="#throwing-unsupportedoperationexception-for-appendonly-table-property-enabledassertremovable-method"><a id="assertRemovable"></a> Throwing UnsupportedOperationException For appendOnly Table Property Enabled&#8201;&#8212;&#8201;<code>assertRemovable</code> Method</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">assertRemovable(): Unit</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>assertRemovable</code> throws an <code>UnsupportedOperationException</code> for the <a href="DeltaConfigs.html#IS_APPEND_ONLY" class="page">appendOnly</a> table property (<a href="DeltaConfigs.html#fromMetaData" class="page">in</a> the <a href="#metadata">Metadata</a>) enabled (<code>true</code>):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code>This table is configured to only allow appends. If you would like to permit updates or deletes, use 'ALTER TABLE &lt;table_name&gt; SET TBLPROPERTIES (appendOnly=false)'.</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>assertRemovable</code> is used when&#8230;&#8203;FIXME
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="metadata-method"><a class="anchor" href="#metadata-method"></a><a class="link" href="#metadata-method"><a id="metadata"></a> <code>metadata</code> Method</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">metadata: Metadata</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>metadata</code> is part of the <a href="Checkpoints.html#metadata" class="page">Checkpoints Contract</a> to&#8230;&#8203;FIXME.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><code>metadata</code> requests the <a href="#snapshot">current Snapshot</a> for the <a href="Snapshot.html#metadata" class="page">metadata</a> or creates a new <a href="Metadata.html" class="page">one</a> (if the <a href="#snapshot">current Snapshot</a> is not initialized).</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="creating-deltalog-instancefortable-utility"><a class="anchor" href="#creating-deltalog-instancefortable-utility"></a><a class="link" href="#creating-deltalog-instancefortable-utility"><a id="forTable"></a> Creating DeltaLog Instance&#8201;&#8212;&#8201;<code>forTable</code> Utility</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">forTable(
+  spark: SparkSession,
+  dataPath: File): DeltaLog
+forTable(
+  spark: SparkSession,
+  dataPath: File,
+  clock: Clock): DeltaLog
+forTable(
+  spark: SparkSession,
+  dataPath: Path): DeltaLog
+forTable(
+  spark: SparkSession,
+  dataPath: Path,
+  clock: Clock): DeltaLog
+forTable(
+  spark: SparkSession,
+  dataPath: String): DeltaLog
+forTable(
+  spark: SparkSession,
+  dataPath: String,
+  clock: Clock): DeltaLog</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>forTable</code> creates a <a href="#apply">DeltaLog</a> with <strong>_delta_log</strong> directory (in the given <code>dataPath</code> directory).</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p><code>forTable</code> is used when:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="DeltaTable.html#forPath" class="page">DeltaTable.forPath</a> utility is used to create a <a href="DeltaTable.html" class="page">DeltaTable</a></p>
+</li>
+<li>
+<p><a href="ConvertToDeltaCommand.html" class="page">ConvertToDeltaCommand</a>, <a href="DescribeDeltaHistoryCommand.html" class="page">DescribeDeltaHistoryCommand</a>, <a href="VacuumTableCommand.html" class="page">VacuumTableCommand</a> are requested to <code>run</code></p>
+</li>
+<li>
+<p><code>DeltaDataSource</code> is requested to <a href="DeltaDataSource.html#sourceSchema" class="page">sourceSchema</a>, <a href="DeltaDataSource.html#createSource" class="page">createSource</a>, and create a relation (as <a href="DeltaDataSource.html#CreatableRelationProvider-createRelation" class="page">CreatableRelationProvider</a> and <a href="DeltaDataSource.html#RelationProvider-createRelation" class="page">RelationProvider</a>)</p>
+</li>
+<li>
+<p><a href="DeltaTableUtils.html#combineWithCatalogMetadata" class="page">DeltaTableUtils.combineWithCatalogMetadata</a> utility is used</p>
+</li>
+<li>
+<p><code>DeltaTableIdentifier</code> is requested to <code>getDeltaLog</code></p>
+</li>
+<li>
+<p><a href="DeltaSink.html" class="page">DeltaSink</a> is created</p>
+</li>
+</ul>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="update-method"><a class="anchor" href="#update-method"></a><a class="link" href="#update-method"><a id="update"></a> <code>update</code> Method</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">update(
+  stalenessAcceptable: Boolean = false): Snapshot</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>update</code> branches off based on a combination of flags: the given <code>stalenessAcceptable</code> and <a href="#isSnapshotStale">isSnapshotStale</a> flags.</p>
+</div>
+<div class="paragraph">
+<p>For the <code>stalenessAcceptable</code> not acceptable (default) and the <a href="#isSnapshotStale">snapshot not stale</a>, <code>update</code> simply acquires the <a href="#deltaLogLock">deltaLogLock</a> lock and <a href="#updateInternal">updateInternal</a> (with <code>isAsync</code> flag off).</p>
+</div>
+<div class="paragraph">
+<p>For all other cases, <code>update</code>&#8230;&#8203;FIXME</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p><code>update</code> is used when:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>DeltaHistoryManager</code> is requested to <a href="DeltaHistoryManager.html#getHistory" class="page">getHistory</a>, <a href="DeltaHistoryManager.html#getActiveCommitAtTime" class="page">getActiveCommitAtTime</a>, and <a href="DeltaHistoryManager.html#checkVersionExists" class="page">checkVersionExists</a></p>
+</li>
+<li>
+<p><code>DeltaLog</code> is <a href="#creating-instance">created</a> (with no <a href="Checkpoints.html#lastCheckpoint" class="page">checkpoint</a> created), and requested to <a href="#startTransaction">startTransaction</a> and <a href="#withNewTransaction">withNewTransaction</a></p>
+</li>
+<li>
+<p><code>OptimisticTransactionImpl</code> is requested to <a href="OptimisticTransactionImpl.html#doCommit" class="page">doCommit</a> and <a href="OptimisticTransactionImpl.html#checkAndRetry" class="page">checkAndRetry</a></p>
+</li>
+<li>
+<p><code>ConvertToDeltaCommand</code> is requested to <a href="ConvertToDeltaCommand.html#run" class="page">run</a> and <a href="ConvertToDeltaCommand.html#streamWrite" class="page">streamWrite</a></p>
+</li>
+<li>
+<p><code>VacuumCommand</code> utility is used to <a href="VacuumCommand.html#gc" class="page">gc</a></p>
+</li>
+<li>
+<p><code>TahoeLogFileIndex</code> is requested for the <a href="TahoeLogFileIndex.html#getSnapshot" class="page">(historical or latest) snapshot</a></p>
+</li>
+<li>
+<p><code>DeltaDataSource</code> is requested for a <a href="DeltaDataSource.html#RelationProvider-createRelation" class="page">relation</a></p>
+</li>
+</ul>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="current-state-snapshotsnapshot-method"><a class="anchor" href="#current-state-snapshotsnapshot-method"></a><a class="link" href="#current-state-snapshotsnapshot-method"><a id="snapshot"></a> Current State Snapshot&#8201;&#8212;&#8201;<code>snapshot</code> Method</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">snapshot: Snapshot</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>snapshot</code> returns the <a href="#currentSnapshot">current snapshot</a>.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p><code>snapshot</code> is used when:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="OptimisticTransaction.html" class="page">OptimisticTransaction</a> is created</p>
+</li>
+<li>
+<p><code>Checkpoints</code> is requested to <a href="#checkpoint">checkpoint</a></p>
+</li>
+<li>
+<p><code>DeltaLog</code> is requested for the <a href="#metadata">metadata</a>, to <a href="#upgradeProtocol">upgradeProtocol</a>, <a href="#getSnapshotAt">getSnapshotAt</a>, <a href="#createRelation">createRelation</a></p>
+</li>
+<li>
+<p><code>OptimisticTransactionImpl</code> is requested to <a href="OptimisticTransactionImpl.html#getNextAttemptVersion" class="page">getNextAttemptVersion</a></p>
+</li>
+<li>
+<p><a href="DeleteCommand.html" class="page">DeleteCommand</a>, <a href="DeltaGenerateCommand.html" class="page">DeltaGenerateCommand</a>, <a href="DescribeDeltaDetailCommand.html" class="page">DescribeDeltaDetailCommand</a>, <a href="UpdateCommand.html" class="page">UpdateCommand</a>, <a href="GenerateSymlinkManifest.html" class="page">GenerateSymlinkManifest</a> are executed</p>
+</li>
+<li>
+<p>DeltaCommand is requested to <a href="DeltaCommand.html#buildBaseRelation" class="page">buildBaseRelation</a></p>
+</li>
+<li>
+<p><code>TahoeFileIndex</code> is requested for the <a href="TahoeFileIndex.html#tableVersion" class="page">table version</a>, <a href="TahoeFileIndex.html#partitionSchema" class="page">partitionSchema</a></p>
+</li>
+<li>
+<p><code>TahoeLogFileIndex</code> is requested for the <a href="TahoeLogFileIndex.html#sizeInBytes" class="page">table size</a></p>
+</li>
+<li>
+<p><code>DeltaDataSource</code> is requested for the <a href="DeltaDataSource.html#sourceSchema" class="page">schema of the streaming delta source</a></p>
+</li>
+<li>
+<p><a href="DeltaSource.html" class="page">DeltaSource</a> is created and requested for the <a href="DeltaSource.html#getStartingOffset" class="page">getStartingOffset</a>, <a href="DeltaSource.html#getBatch" class="page">getBatch</a></p>
+</li>
+</ul>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="current-state-snapshotcurrentsnapshot-internal-registry"><a class="anchor" href="#current-state-snapshotcurrentsnapshot-internal-registry"></a><a class="link" href="#current-state-snapshotcurrentsnapshot-internal-registry"><a id="currentSnapshot"></a> Current State Snapshot&#8201;&#8212;&#8201;<code>currentSnapshot</code> Internal Registry</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">currentSnapshot: Snapshot</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>currentSnapshot</code> is a <a href="Snapshot.html" class="page">Snapshot</a> based on the <a href="Checkpoints.html#lastCheckpoint" class="page">metadata checkpoint</a> if available or a new <code>Snapshot</code> instance (with version being <code>-1</code>).</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+For a new <code>Snapshot</code> instance (with version being <code>-1</code>) <code>DeltaLog</code> immediately <a href="#update">updates the state</a>.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Internally, <code>currentSnapshot</code>&#8230;&#8203;FIXME</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>currentSnapshot</code> is available using <a href="#snapshot">snapshot</a> method.
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>currentSnapshot</code> is used when <code>DeltaLog</code> is requested to <a href="#updateInternal">updateInternal</a>, <a href="#update">update</a>, <a href="#tryUpdate">tryUpdate</a>, and &lt;&lt;isValid, isValid&gt;.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="creating-insertable-hadoopfsrelation-for-batch-queriescreaterelation-method"><a class="anchor" href="#creating-insertable-hadoopfsrelation-for-batch-queriescreaterelation-method"></a><a class="link" href="#creating-insertable-hadoopfsrelation-for-batch-queriescreaterelation-method"><a id="createRelation"></a> Creating Insertable HadoopFsRelation For Batch Queries&#8201;&#8212;&#8201;<code>createRelation</code> Method</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">createRelation(
+  partitionFilters: Seq[Expression] = Nil,
+  timeTravel: Option[DeltaTimeTravelSpec] = None): BaseRelation</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>createRelation</code>&#8230;&#8203;FIXME</p>
+</div>
+<div class="paragraph">
+<p><code>createRelation</code> creates a <a href="TahoeLogFileIndex.html" class="page">TahoeLogFileIndex</a> for the <a href="#dataPath">data path</a>, the given <code>partitionFilters</code> and a version (if defined).</p>
+</div>
+<div class="paragraph">
+<p><code>createRelation</code>&#8230;&#8203;FIXME</p>
+</div>
+<div class="paragraph">
+<p>In the end, <code>createRelation</code> creates a <code>HadoopFsRelation</code> for the <code>TahoeLogFileIndex</code> and&#8230;&#8203;FIXME. The <code>HadoopFsRelation</code> is also an <a href="#createRelation-InsertableRelation">InsertableRelation</a>.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>createRelation</code> is used when <code>DeltaDataSource</code> is requested for a relation as a <a href="DeltaDataSource.html#CreatableRelationProvider" class="page">CreatableRelationProvider</a> and a <a href="DeltaDataSource.html#RelationProvider" class="page">RelationProvider</a> (for batch queries).
+</td>
+</tr>
+</table>
+</div>
+<div class="sect2">
+<h3 id="insert-method"><a class="anchor" href="#insert-method"></a><a class="link" href="#insert-method"><a id="createRelation-InsertableRelation"></a><a id="createRelation-InsertableRelation-insert"></a> <code>insert</code> Method</a></h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">insert(
+  data: DataFrame,
+  overwrite: Boolean): Unit</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>insert</code> is part of the <code>InsertableRelation</code> contract to&#8230;&#8203;FIXME.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><code>insert</code>&#8230;&#8203;FIXME</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="retrieving-state-of-delta-table-at-given-versiongetsnapshotat-method"><a class="anchor" href="#retrieving-state-of-delta-table-at-given-versiongetsnapshotat-method"></a><a class="link" href="#retrieving-state-of-delta-table-at-given-versiongetsnapshotat-method"><a id="getSnapshotAt"></a> Retrieving State Of Delta Table At Given Version&#8201;&#8212;&#8201;<code>getSnapshotAt</code> Method</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">getSnapshotAt(
+  version: Long,
+  commitTimestamp: Option[Long] = None,
+  lastCheckpointHint: Option[CheckpointInstance] = None): Snapshot</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>getSnapshotAt</code>&#8230;&#8203;FIXME</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p><code>getSnapshotAt</code> is used when:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>DeltaLog</code> is requested for a <a href="#createRelation">relation</a>, and to <a href="#updateInternal">updateInternal</a></p>
+</li>
+<li>
+<p><code>DeltaSource</code> is requested to <a href="DeltaSource.html#getSnapshotAt" class="page">getSnapshotAt</a></p>
+</li>
+<li>
+<p><code>TahoeLogFileIndex</code> is requested for <a href="TahoeLogFileIndex.html#historicalSnapshotOpt" class="page">historicalSnapshotOpt</a></p>
+</li>
+</ul>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="tryupdate-method"><a class="anchor" href="#tryupdate-method"></a><a class="link" href="#tryupdate-method"><a id="tryUpdate"></a> <code>tryUpdate</code> Method</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">tryUpdate(
+  isAsync: Boolean = false): Snapshot</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>tryUpdate</code>&#8230;&#8203;FIXME</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>tryUpdate</code> is used exclusively when <code>DeltaLog</code> is requested to <a href="#update">update</a>.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="ensurelogdirectoryexist-method"><a class="anchor" href="#ensurelogdirectoryexist-method"></a><a class="link" href="#ensurelogdirectoryexist-method"><a id="ensureLogDirectoryExist"></a> <code>ensureLogDirectoryExist</code> Method</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">ensureLogDirectoryExist(): Unit</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>ensureLogDirectoryExist</code>&#8230;&#8203;FIXME</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>ensureLogDirectoryExist</code> is used when&#8230;&#8203;FIXME
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="protocolwrite-method"><a class="anchor" href="#protocolwrite-method"></a><a class="link" href="#protocolwrite-method"><a id="protocolWrite"></a> <code>protocolWrite</code> Method</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">protocolWrite(
+  protocol: Protocol,
+  logUpgradeMessage: Boolean = true): Unit</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>protocolWrite</code>&#8230;&#8203;FIXME</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>protocolWrite</code> is used when&#8230;&#8203;FIXME
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="checkpointinterval-method"><a class="anchor" href="#checkpointinterval-method"></a><a class="link" href="#checkpointinterval-method"><a id="checkpointInterval"></a> <code>checkpointInterval</code> Method</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">checkpointInterval: Int</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>checkpointInterval</code> gives the value of <a href="DeltaConfigs.html#CHECKPOINT_INTERVAL" class="page">checkpointInterval</a> table property (<a href="DeltaConfigs.html#fromMetaData" class="page">from</a> the <a href="#metadata">Metadata</a>).</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>checkpointInterval</code> is used when&#8230;&#8203;FIXME
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="changes-actions-of-delta-version-and-latergetchanges-method"><a class="anchor" href="#changes-actions-of-delta-version-and-latergetchanges-method"></a><a class="link" href="#changes-actions-of-delta-version-and-latergetchanges-method"><a id="getChanges"></a> Changes (Actions) Of Delta Version And Later&#8201;&#8212;&#8201;<code>getChanges</code> Method</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">getChanges(
+  startVersion: Long): Iterator[(Long, Seq[Action])]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>getChanges</code> gives all <a href="Action.html" class="page">actions</a> (<em>changes</em>) per delta log file for the given <code>startVersion</code> of a delta table and later.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">val dataPath = "/tmp/delta/users"
+import org.apache.spark.sql.delta.DeltaLog
+val deltaLog = DeltaLog.forTable(spark, dataPath)
+assert(deltaLog.isInstanceOf[DeltaLog])
+val changesPerVersion = deltaLog.getChanges(startVersion = 0)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Internally, <code>getChanges</code> requests the <a href="#store">LogStore</a> for <a href="LogStore.html#listFrom" class="page">files</a> that are lexicographically greater or equal to the <a href="FileNames.html#deltaFile" class="page">delta log file</a> for the given <code>startVersion</code> (in the <a href="#logPath">logPath</a>) and leaves only <a href="FileNames.html#isDeltaFile" class="page">delta log files</a> (e.g. files with numbers only as file name and <code>.json</code> file extension).</p>
+</div>
+<div class="paragraph">
+<p>For every delta file, <code>getChanges</code> requests the <a href="#store">LogStore</a> to <a href="LogStore.html#read" class="page">read the JSON content</a> (every line is an <a href="Action.html" class="page">action</a>), and then <a href="Action.html#fromJson" class="page">deserializes it to an action</a>.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>getChanges</code> is used when <code>DeltaSource</code> is requested for the <a href="DeltaSource.html#getChanges" class="page">indexed file additions (FileAdd actions)</a>.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="creating-dataframe-for-given-addfilescreatedataframe-method"><a class="anchor" href="#creating-dataframe-for-given-addfilescreatedataframe-method"></a><a class="link" href="#creating-dataframe-for-given-addfilescreatedataframe-method"><a id="createDataFrame"></a> Creating DataFrame For Given AddFiles&#8201;&#8212;&#8201;<code>createDataFrame</code> Method</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">createDataFrame(
+  snapshot: Snapshot,
+  addFiles: Seq[AddFile],
+  isStreaming: Boolean = false,
+  actionTypeOpt: Option[String] = None): DataFrame</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>createDataFrame</code> takes the action name to build the result <code>DataFrame</code> for from the <code>actionTypeOpt</code> (if defined), or uses the following per <code>isStreaming</code> flag:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>streaming</strong> when <code>isStreaming</code> flag is enabled (<code>true</code>)</p>
+</li>
+<li>
+<p><strong>batch</strong> when <code>isStreaming</code> flag is disabled (<code>false</code>)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><code>createDataFrame</code> creates a new <a href="TahoeBatchFileIndex.html" class="page">TahoeBatchFileIndex</a> (for the action type, and the given <a href="AddFile.html" class="page">AddFiles</a> and <a href="Snapshot.html" class="page">Snapshot</a>).</p>
+</div>
+<div class="paragraph">
+<p><code>createDataFrame</code> creates a <code>HadoopFsRelation</code> with the <code>TahoeBatchFileIndex</code> and the other properties based on the given <a href="Snapshot.html" class="page">Snapshot</a> (and its <a href="Snapshot.html#metadata" class="page">Metadata</a>).</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+Read up on <a href="https://jaceklaskowski.gitbooks.io/mastering-spark-sql/spark-sql-BaseRelation-HadoopFsRelation.html">HadoopFsRelation</a> in <a href="https://bit.ly/spark-sql-internals">The Internals of Spark SQL</a> online book.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>In the end, <code>createDataFrame</code> creates a <code>DataFrame</code> with a logical query plan with a <code>LogicalRelation</code> over the <code>HadoopFsRelation</code>.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+Read up on <a href="https://jaceklaskowski.gitbooks.io/mastering-spark-sql/spark-sql-LogicalPlan-LogicalRelation.html">LogicalRelation</a> in <a href="https://bit.ly/spark-sql-internals">The Internals of Spark SQL</a> online book.
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p><code>createDataFrame</code> is used when:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="MergeIntoCommand.html" class="page">MergeIntoCommand</a> is executed</p>
+</li>
+<li>
+<p><code>DeltaSource</code> is requested for a <a href="DeltaSource.html#getBatch" class="page">DataFrame for data between start and end offsets</a></p>
+</li>
+</ul>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="acquiring-interruptible-lock-on-loglockinterruptibly-method"><a class="anchor" href="#acquiring-interruptible-lock-on-loglockinterruptibly-method"></a><a class="link" href="#acquiring-interruptible-lock-on-loglockinterruptibly-method"><a id="lockInterruptibly"></a> Acquiring Interruptible Lock on Log&#8201;&#8212;&#8201;<code>lockInterruptibly</code> Method</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">lockInterruptibly[T](body: =&gt; T): T</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>lockInterruptibly</code>&#8230;&#8203;FIXME</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>lockInterruptibly</code> is used when&#8230;&#8203;FIXME
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="minfileretentiontimestamp-method"><a class="anchor" href="#minfileretentiontimestamp-method"></a><a class="link" href="#minfileretentiontimestamp-method"><a id="minFileRetentionTimestamp"></a> <code>minFileRetentionTimestamp</code> Method</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">minFileRetentionTimestamp: Long</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>minFileRetentionTimestamp</code> is the timestamp that is <a href="#tombstoneRetentionMillis">tombstoneRetentionMillis</a> before the current time (per the <a href="#clock">Clock</a>).</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p><code>minFileRetentionTimestamp</code> is used when:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>DeltaLog</code> is requested for the <a href="#currentSnapshot">currentSnapshot</a>, to <a href="#updateInternal">updateInternal</a>, and to <a href="#getSnapshotAt">getSnapshotAt</a></p>
+</li>
+<li>
+<p><code>VacuumCommand</code> is requested for <a href="VacuumCommand.html#gc" class="page">garbage collecting of a delta table</a></p>
+</li>
+</ul>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="tombstoneretentionmillis-method"><a class="anchor" href="#tombstoneretentionmillis-method"></a><a class="link" href="#tombstoneretentionmillis-method"><a id="tombstoneRetentionMillis"></a> <code>tombstoneRetentionMillis</code> Method</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">tombstoneRetentionMillis: Long</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>tombstoneRetentionMillis</code> gives the value of <a href="DeltaConfigs.html#TOMBSTONE_RETENTION" class="page">deletedFileRetentionDuration</a> table property (<a href="DeltaConfigs.html#fromMetaData" class="page">from</a> the <a href="#metadata">Metadata</a>).</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p><code>tombstoneRetentionMillis</code> is used when:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>DeltaLog</code> is requested for <a href="#minFileRetentionTimestamp">minFileRetentionTimestamp</a></p>
+</li>
+<li>
+<p><code>VacuumCommand</code> is requested for <a href="VacuumCommand.html#gc" class="page">garbage collecting of a delta table</a></p>
+</li>
+</ul>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="updateinternal-internal-method"><a class="anchor" href="#updateinternal-internal-method"></a><a class="link" href="#updateinternal-internal-method"><a id="updateInternal"></a> <code>updateInternal</code> Internal Method</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">updateInternal(
+  isAsync: Boolean): Snapshot</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>updateInternal</code>&#8230;&#8203;FIXME</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>updateInternal</code> is used when <code>DeltaLog</code> is requested to <a href="#update">update</a> (directly or via <a href="#tryUpdate">tryUpdate</a>).
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="invalidating-cached-deltalog-instance-by-pathinvalidatecache-utility"><a class="anchor" href="#invalidating-cached-deltalog-instance-by-pathinvalidatecache-utility"></a><a class="link" href="#invalidating-cached-deltalog-instance-by-pathinvalidatecache-utility"><a id="invalidateCache"></a> Invalidating Cached DeltaLog Instance By Path&#8201;&#8212;&#8201;<code>invalidateCache</code> Utility</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">invalidateCache(
+  spark: SparkSession,
+  dataPath: Path): Unit</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>invalidateCache</code>&#8230;&#8203;FIXME</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>invalidateCache</code> is a public API and does not seem to be used at all.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="removing-clearing-all-cached-deltalog-instancesclearcache-utility"><a class="anchor" href="#removing-clearing-all-cached-deltalog-instancesclearcache-utility"></a><a class="link" href="#removing-clearing-all-cached-deltalog-instancesclearcache-utility"><a id="clearCache"></a> Removing (Clearing) All Cached DeltaLog Instances&#8201;&#8212;&#8201;<code>clearCache</code> Utility</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">clearCache(): Unit</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>clearCache</code>&#8230;&#8203;FIXME</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>clearCache</code> is a public API and is used exclusively in tests.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="upgradeprotocol-method"><a class="anchor" href="#upgradeprotocol-method"></a><a class="link" href="#upgradeprotocol-method"><a id="upgradeProtocol"></a> <code>upgradeProtocol</code> Method</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">upgradeProtocol(
+  newVersion: Protocol = Protocol()): Unit</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>upgradeProtocol</code>&#8230;&#8203;FIXME</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>upgradeProtocol</code> seems to be used exclusively in tests.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="protocolread-method"><a class="anchor" href="#protocolread-method"></a><a class="link" href="#protocolread-method"><a id="protocolRead"></a> <code>protocolRead</code> Method</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">protocolRead(
+  protocol: Protocol): Unit</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>protocolRead</code>&#8230;&#8203;FIXME</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p><code>protocolRead</code> is used when:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>OptimisticTransactionImpl</code> is requested to <a href="OptimisticTransactionImpl.html#checkAndRetry" class="page">validate and retry a commit</a></p>
+</li>
+<li>
+<p><a href="Snapshot.html" class="page">Snapshot</a> is created</p>
+</li>
+<li>
+<p><code>DeltaSource</code> is requested to <a href="DeltaSource.html#verifyStreamHygieneAndFilterAddFiles" class="page">verifyStreamHygieneAndFilterAddFiles</a></p>
+</li>
+</ul>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="isvalid-method"><a class="anchor" href="#isvalid-method"></a><a class="link" href="#isvalid-method"><a id="isValid"></a> <code>isValid</code> Method</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">isValid(): Boolean</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>isValid</code>&#8230;&#8203;FIXME</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>isValid</code> is used when <code>DeltaLog</code> utility is used to <a href="#apply">get or create a transaction log for a delta table</a>.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="internal-properties"><a class="anchor" href="#internal-properties"></a><a class="link" href="#internal-properties"><a id="internal-properties"></a> Internal Properties</a></h2>
+<div class="sectionbody">
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 30%;">
+<col style="width: 70%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>deltaLogLock</code></p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a id="deltaLogLock"></a> Lock</p>
+</div>
+<div class="paragraph">
+<p>Used when&#8230;&#8203;FIXME</p>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</article>
+</main>
+</div>
+<footer class="footer">
+  <p>This page was built using the Antora default UI.</p>
+  <p>The source code for this UI is licensed under the terms of the MPL-2.0 license.</p>
+</footer>
+<script src="../../_/js/site.js"></script>
+<script async src="../../_/js/vendor/highlight.js"></script>
+  </body>
+</html>
