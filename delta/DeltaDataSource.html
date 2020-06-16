@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title> DeltaDataSource&#8201;&#8212;&#8201;Entry Point of Delta Data Source :: The Internals Of Delta Lake</title>
+    <link rel="canonical" href="https://books.japila.pl/delta-lake-internals/delta/DeltaDataSource.html">
+    <meta name="generator" content="Antora 2.3.3">
+    <link rel="stylesheet" href="../_/css/site.css">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-151208281-1"></script>
+    <script>function gtag(){dataLayer.push(arguments)};window.dataLayer=window.dataLayer||[];gtag('js',new Date());gtag('config','UA-151208281-1')</script>
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="https://books.japila.pl/delta-lake-internals">The Internals Of Delta Lake</a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="#">Home</a>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Products</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="#">Product A</a>
+            <a class="navbar-item" href="#">Product B</a>
+            <a class="navbar-item" href="#">Product C</a>
+          </div>
+        </div>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Services</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="#">Service A</a>
+            <a class="navbar-item" href="#">Service B</a>
+            <a class="navbar-item" href="#">Service C</a>
+          </div>
+        </div>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Resources</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="#">Resource A</a>
+            <a class="navbar-item" href="#">Resource B</a>
+            <a class="navbar-item" href="#">Resource C</a>
+          </div>
+        </div>
+        <div class="navbar-item">
+          <span class="control">
+            <a class="button is-primary" href="#">Download</a>
+          </span>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="delta" data-version="master">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="index.html">Delta Lake</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="overview.html">Overview</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="time-travel.html">Time Travel</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="DeltaLog.html">DeltaLog</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="Checkpoints.html">Checkpoints</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="MetadataCleanup.html">MetadataCleanup</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="LogStoreProvider.html">LogStoreProvider</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="VerifyChecksum.html">VerifyChecksum</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="Snapshot.html">Snapshot</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="InMemoryLogReplay.html">InMemoryLogReplay</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="PartitionFiltering.html">PartitionFiltering</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="DeltaFileFormat.html">DeltaFileFormat</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="DeltaTable.html">DeltaTable</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="DeltaTableOperations.html">DeltaTableOperations</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="commands.html">Commands</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="DeltaConvert.html">DeltaConvert</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="ConvertToDeltaCommand.html">ConvertToDeltaCommand</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="DeleteCommand.html">DeleteCommand</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="DeltaCommand.html">DeltaCommand</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="DeltaGenerateCommand.html">DeltaGenerateCommand</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="DeltaGenerateCommandBase.html">DeltaGenerateCommandBase</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="GenerateSymlinkManifest.html">GenerateSymlinkManifest</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="DescribeDeltaDetailCommand.html">DescribeDeltaDetailCommand</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="DescribeDeltaHistoryCommand.html">DescribeDeltaHistoryCommand</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="MergeIntoCommand.html">MergeIntoCommand</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="DeltaMergeBuilder.html">DeltaMergeBuilder</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="PreprocessTableMerge.html">PreprocessTableMerge</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="UpdateCommand.html">UpdateCommand</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="vacuum.html">Vacuum</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="VacuumCommand.html">VacuumCommand</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="VacuumCommandImpl.html">VacuumCommandImpl</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="VacuumTableCommand.html">VacuumTableCommand</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="WriteIntoDelta.html">WriteIntoDelta</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="delta-sql-commands.html">Delta SQL Commands</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="DeltaSparkSessionExtension.html">DeltaSparkSessionExtension</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="DeltaSqlParser.html">DeltaSqlParser</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="DeltaSqlAstBuilder.html">DeltaSqlAstBuilder</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item is-current-page" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="DeltaDataSource.html">DeltaDataSource</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="DeltaOptions.html">DeltaOptions</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="DeltaSource.html">DeltaSource</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="DeltaSourceOffset.html">DeltaSourceOffset</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="SnapshotIterator.html">SnapshotIterator</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="DeltaSourceSnapshot.html">DeltaSourceSnapshot</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="DeltaSink.html">DeltaSink</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="DeltaSQLConf.html">DeltaSQLConf</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="OptimisticTransaction.html">OptimisticTransaction</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="TransactionalWrite.html">TransactionalWrite</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="DelayedCommitProtocol.html">DelayedCommitProtocol</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="PostCommitHook.html">Post-Commit Hooks</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="OptimisticTransactionImpl.html">OptimisticTransactionImpl</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="LogStore.html">LogStore</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="HDFSLogStore.html">HDFSLogStore</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="HadoopFileSystemLogStore.html">HadoopFileSystemLogStore</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="ImplicitMetadataOperation.html">ImplicitMetadataOperation</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="DeltaFileOperations.html">DeltaFileOperations</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="SchemaUtils.html">SchemaUtils</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="DeltaOperations.html">DeltaOperations</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="DeltaTableUtils.html">DeltaTableUtils</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="Invariants.html">Invariants</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="DeltaInvariantCheckerExec.html">DeltaInvariantCheckerExec</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="TahoeFileIndex.html">TahoeFileIndex</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="TahoeBatchFileIndex.html">TahoeBatchFileIndex</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="TahoeLogFileIndex.html">TahoeLogFileIndex</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="DeltaHistoryManager.html">DeltaHistoryManager</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="Action.html">Action</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="AddFile.html">AddFile</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="CommitInfo.html">CommitInfo</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="FileAction.html">FileAction</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="Metadata.html">Metadata</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="Protocol.html">Protocol</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="RemoveFile.html">RemoveFile</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="SetTransaction.html">SetTransaction</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="SingleAction.html">SingleAction</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="DeltaConfigs.html">DeltaConfigs</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="DeltaConfig.html">DeltaConfig</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="FileNames.html">FileNames</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="DeltaLogFileIndex.html">DeltaLogFileIndex</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="DeltaErrors.html">DeltaErrors</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="logging.html">Logging</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="StateCache.html">StateCache</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="CachedDS.html">CachedDS</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="others.html">The Others (Contenders)</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">Demos</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="demo/Converting-Parquet-Dataset-Into-Delta-Format.html">Converting Parquet Dataset Into Delta Format</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="demo/stream-processing-of-delta-table.html">Stream Processing of Delta Table</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="demo/Using-Delta-Lake-as-Streaming-Sink-in-Structured-Streaming.html">Using Delta Lake as Streaming Sink in Structured Streaming</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="demo/Debugging-Delta-Lake-Using-IntelliJ-IDEA.html">Debugging Delta Lake Using IntelliJ IDEA</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="demo/Observing-Transaction-Retries.html">Observing Transaction Retries</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="demo/DeltaTable-DeltaLog-And-Snapshots.html">DeltaTable, DeltaLog And Snapshots</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">Delta Lake</span>
+    <span class="version">0.6.1</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <span class="title">Delta Lake</span>
+      <ul class="versions">
+        <li class="version is-current is-latest">
+          <a href="index.html">0.6.1</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="index.html" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="index.html">Delta Lake</a></li>
+    <li><a href="DeltaDataSource.html">DeltaDataSource</a></li>
+  </ul>
+</nav>
+  <div class="edit-this-page"><a href="https://github.com/japila-books/delta-lake-internals/edit/master/modules/ROOT/pages/DeltaDataSource.adoc">Edit this Page</a></div>
+  </div>
+  <div class="content">
+<article class="doc">
+<h1 class="page"><a id="DeltaDataSource"></a> DeltaDataSource&#8201;&#8212;&#8201;Entry Point of Delta Data Source</h1>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p><code>DeltaDataSource</code> is a <a href="#DataSourceRegister">DataSourceRegister</a> and acts as the entry point to all features provided by <code>delta</code> data source.</p>
+</div>
+<div class="paragraph">
+<p><code>DeltaDataSource</code> is a <a href="#RelationProvider">RelationProvider</a>.</p>
+</div>
+<div class="paragraph">
+<p><code>DeltaDataSource</code> is a <a href="#StreamSinkProvider">StreamSinkProvider</a> for a streaming sink for streaming queries (Structured Streaming).</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="datasourceregister-for-delta-alias"><a class="anchor" href="#datasourceregister-for-delta-alias"></a><a class="link" href="#datasourceregister-for-delta-alias"><a id="delta-format"></a><a id="DataSourceRegister"></a> DataSourceRegister for delta alias</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><code>DeltaDataSource</code> is a <code>DataSourceRegister</code> and registers itself to be available using <code>delta</code> alias.</p>
+</div>
+<div class="listingblock">
+<div class="title">Reading From Delta Table</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">assert(spark.isInstanceOf[org.apache.spark.sql.SparkSession])
+spark.read.format("delta")
+spark.readStream.format("delta")</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Writing To Delta Table</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">assert(df.isInstanceOf[org.apache.spark.sql.Dataset[_]])
+df.write.format("delta")
+df.writeStream.format("delta")</code></pre>
+</div>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+Read up on <a href="https://jaceklaskowski.gitbooks.io/mastering-spark-sql/spark-sql-DataSourceRegister.html">DataSourceRegister</a> in <a href="https://bit.ly/spark-sql-internals">The Internals of Spark SQL</a> online book.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><code>DeltaDataSource</code> is registered using <code>META-INF/services/org.apache.spark.sql.sources.DataSourceRegister</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">org.apache.spark.sql.delta.sources.DeltaDataSource</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="relationprovidercreating-insertable-hadoopfsrelation-for-batch-queries"><a class="anchor" href="#relationprovidercreating-insertable-hadoopfsrelation-for-batch-queries"></a><a class="link" href="#relationprovidercreating-insertable-hadoopfsrelation-for-batch-queries"><a id="RelationProvider"></a><a id="RelationProvider-createRelation"></a> RelationProvider&#8201;&#8212;&#8201;Creating Insertable HadoopFsRelation For Batch Queries</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><code>DeltaDataSource</code> is a <code>RelationProvider</code> for reading (<em>loading</em>) data from a delta table in a structured query.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+Read up on <a href="https://jaceklaskowski.gitbooks.io/mastering-spark-sql/spark-sql-RelationProvider.html">RelationProvider</a> in <a href="https://bit.ly/spark-sql-internals">The Internals of Spark SQL</a> online book.
+</td>
+</tr>
+</table>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">createRelation(
+  sqlContext: SQLContext,
+  parameters: Map[String, String]): BaseRelation</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>createRelation</code>&#8230;&#8203;FIXME</p>
+</div>
+<div class="paragraph">
+<p>In the end, <code>createRelation</code> requests the <a href="#RelationProvider-createRelation-deltaLog">DeltaLog</a> for an <a href="DeltaLog.html#createRelation" class="page">insertable HadoopFsRelation</a>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="creatablerelationprovider"><a class="anchor" href="#creatablerelationprovider"></a><a class="link" href="#creatablerelationprovider"><a id="CreatableRelationProvider"></a><a id="CreatableRelationProvider-createRelation"></a> CreatableRelationProvider</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><code>DeltaDataSource</code> is a <code>CreatableRelationProvider</code> for writing out the result of a structured query.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+Read up on <a href="https://jaceklaskowski.gitbooks.io/mastering-spark-sql/spark-sql-CreatableRelationProvider.html">CreatableRelationProvider</a> in <a href="https://bit.ly/spark-sql-internals">The Internals of Spark SQL</a> online book.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="creating-streaming-source-structured-streamingcreatesource-method"><a class="anchor" href="#creating-streaming-source-structured-streamingcreatesource-method"></a><a class="link" href="#creating-streaming-source-structured-streamingcreatesource-method"><a id="StreamSourceProvider"></a><a id="createSource"></a> Creating Streaming Source (Structured Streaming)&#8201;&#8212;&#8201;<code>createSource</code> Method</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><code>DeltaDataSource</code> is a <code>StreamSourceProvider</code>.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+Read up on <a href="https://jaceklaskowski.gitbooks.io/spark-structured-streaming/spark-sql-streaming-StreamSourceProvider.html">StreamSourceProvider</a> in <a href="https://bit.ly/spark-structured-streaming">The Internals of Spark Structured Streaming</a> online book.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="creating-streaming-sink-structured-streamingcreatesink-method"><a class="anchor" href="#creating-streaming-sink-structured-streamingcreatesink-method"></a><a class="link" href="#creating-streaming-sink-structured-streamingcreatesink-method"><a id="StreamSinkProvider"></a><a id="createSink"></a> Creating Streaming Sink (Structured Streaming)&#8201;&#8212;&#8201;<code>createSink</code> Method</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><code>DeltaDataSource</code> is a <code>StreamSinkProvider</code> for a streaming sink for Structured Streaming.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+Read up on <a href="https://jaceklaskowski.gitbooks.io/spark-structured-streaming/spark-sql-streaming-StreamSinkProvider.html">StreamSinkProvider</a> in <a href="https://bit.ly/spark-structured-streaming">The Internals of Spark Structured Streaming</a> online book.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><code>DeltaDataSource</code> supports <code>Append</code> and <code>Complete</code> output modes only.</p>
+</div>
+<div class="paragraph">
+<p>In the end, <code>DeltaDataSource</code> creates a <a href="DeltaSink.html" class="page">DeltaSink</a>.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+Consult the demo <a href="#demo-Using-Delta-Lake-as-Streaming-Sink-in-Structured-Streaming.adoc" class="page unresolved">Using Delta Lake (as Streaming Sink) in Streaming Queries</a>.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="sourceschema-method"><a class="anchor" href="#sourceschema-method"></a><a class="link" href="#sourceschema-method"><a id="sourceSchema"></a> <code>sourceSchema</code> Method</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">sourceSchema(
+  sqlContext: SQLContext,
+  schema: Option[StructType],
+  providerName: String,
+  parameters: Map[String, String]): (String, StructType)</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>sourceSchema</code> is part of the <code>StreamSourceProvider</code> contract (Spark Structured Streaming) for the name and schema of the streaming source.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><code>sourceSchema</code>&#8230;&#8203;FIXME</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="gettimetravelversion-internal-method"><a class="anchor" href="#gettimetravelversion-internal-method"></a><a class="link" href="#gettimetravelversion-internal-method"><a id="getTimeTravelVersion"></a> <code>getTimeTravelVersion</code> Internal Method</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">getTimeTravelVersion(
+  parameters: Map[String, String]): Option[DeltaTimeTravelSpec]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>getTimeTravelVersion</code>&#8230;&#8203;FIXME</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>getTimeTravelVersion</code> is used exclusively when <code>DeltaDataSource</code> is requested to <a href="#RelationProvider-createRelation">create a relation (as a RelationProvider)</a>.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="extractdeltapath-utility"><a class="anchor" href="#extractdeltapath-utility"></a><a class="link" href="#extractdeltapath-utility"><a id="extractDeltaPath"></a> <code>extractDeltaPath</code> Utility</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">extractDeltaPath(
+  dataset: Dataset[_]): Option[String]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>extractDeltaPath</code>&#8230;&#8203;FIXME</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<code>extractDeltaPath</code> does not seem to be used whatsoever.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</article>
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <p>This page was built using the Antora default UI.</p>
+  <p>The source code for this UI is licensed under the terms of the MPL-2.0 license.</p>
+</footer>
+<script src="../_/js/site.js"></script>
+<script async src="../_/js/vendor/highlight.js"></script>
+  </body>
+</html>
