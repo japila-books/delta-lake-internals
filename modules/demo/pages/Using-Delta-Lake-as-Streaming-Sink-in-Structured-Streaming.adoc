@@ -3,7 +3,7 @@
 ```
 /*
 ./bin/spark-shell \
-  --packages io.delta:delta-core_2.12:0.5.0 \
+  --packages io.delta:delta-core_2.12:0.6.1 \
   --conf spark.sql.extensions=io.delta.sql.DeltaSparkSessionExtension
 */
 assert(spark.isInstanceOf[org.apache.spark.sql.SparkSession])
