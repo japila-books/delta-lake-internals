@@ -1,6 +1,8 @@
 name: delta
 title: Delta Lake
-version: latest
+version: master
+display_version: '0.6.1'
+start_page: index.adoc
 nav:
   - modules/ROOT/nav.adoc
   - modules/demo/nav.adoc

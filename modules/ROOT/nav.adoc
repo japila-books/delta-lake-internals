@@ -1,4 +1,4 @@
-* xref:index.adoc[Introduction]
+* xref:overview.adoc[]
 * xref:time-travel.adoc[Time Travel]
 
 * xref:DeltaLog.adoc[DeltaLog]

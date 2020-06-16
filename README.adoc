@@ -1,0 +1,50 @@
+= The Internals of Delta Lake Online Book
+
+The project contains the sources of https://books.japila.pl/delta-lake-internals[The Internals of Delta Lake] online book.
+
+== Toolz
+
+The project uses the following "toolz":
+
+* https://delta.io/[Delta Lake] as it comes from my gurus from the Spark SQL / Structured Streaming crew at https://databricks.com/[Databricks] (Michael, TD, Burak, zsxwing, and others)
+
+* https://antora.org/[Antora] which is touted as _The Static Site Generator for Tech Writers_.
+
+* http://asciidoc.org/[Asciidoc] (with some https://asciidoctor.org/[Asciidoctor])
+
+* https://help.github.com/en/github/working-with-github-pages[GitHub Pages]
+
+* https://atom.io/[Atom editor] with https://github.com/asciidoctor/atom-asciidoc-preview[Asciidoc preview] plugin
+
+* https://www.docker.com/[Docker] to https://docs.antora.org/antora/latest/antora-container/#run-the-antora-image[run the Antora image]
+
+It's all to make things harder..._ekhm_...reach higher levels of writing zen.
+
+== Generating Book
+
+In order to generate the book, use the commands as described in https://docs.antora.org/antora/latest/antora-container/[Run Antora in a Container].
+
+Below are the steps I'm taking to deploy a new version of the site.
+
+[source,plaintext]
+----
+$ docker run -u $UID --privileged -v `pwd`:/antora --rm -t antora/antora antora-playbook.yml
+
+// alternatively and recommended
+$ docker run --entrypoint ash --privileged -v `pwd`:/antora --rm -it antora/antora
+
+// Inside the container
+/antora # antora version
+2.3.1
+
+/antora # antora local-antora-playbook.yml
+
+// On your local computer (outside the container)
+$ open .out/local/index.html
+----
+
+**IMPORTANT**: If your Antora build does not seem to work properly, use `docker run ... --pull`. This resets your cache.
+
+## Not Sphinx?! Why?
+
+Read https://medium.com/@jaceklaskowski/giving-up-on-read-the-docs-restructuredtext-and-sphinx-674961804641[Giving up on Read the Docs, reStructuredText and Sphinx].
