@@ -18,7 +18,9 @@ More importantly, multiple queries can write to the same delta table simultaneou
 
 Delta Lake provides <<DeltaTable.adoc#, DeltaTable API>> to programmatically access Delta tables. A delta table can be created <<DeltaTable.adoc#convertToDelta, based on a parquet table (DeltaTable.convertToDelta)>> or <<DeltaTable.adoc#forPath, from scratch (DeltaTable.forPath)>>.
 
-Delta Lake supports Spark SQL and Structured Streaming using <<DeltaDataSource.adoc#DataSourceRegister, delta>> format.
+Delta Lake supports batch and streaming queries (Spark SQL and Structured Streaming, respectively) using <<DeltaDataSource.adoc#DataSourceRegister, delta>> format.
+
+In order to fine tune queries over data in Delta Lake use <<DeltaOptions.adoc#, options>>. Among the options <<options.adoc#path, path>> option is mandatory.
 
 Delta Lake supports reading and writing in batch queries:
 
@@ -33,26 +35,3 @@ Delta Lake supports reading and writing in streaming queries:
 * <<DeltaDataSource.adoc#StreamSinkProvider, Stream writes>> (as a `Sink`)
 
 Delta Lake uses <<DeltaLog.adoc#store, LogStore>> abstraction to read and write physical log files and checkpoints (using https://hadoop.apache.org/docs/current2/hadoop-project-dist/hadoop-common/filesystem/index.html[Hadoop FileSystem API]).
-
-== Installing Delta Lake
-
-In order to "install" and use Delta Lake in a Spark application (e.g. `spark-shell`), use `--packages` command-line option.
-
-[source, scala]
-----
-/*
-./bin/spark-shell \
-  --packages io.delta:delta-core_2.12:0.6.1 \
-  --conf spark.sql.extensions=io.delta.sql.DeltaSparkSessionExtension
-*/
-assert(spark.isInstanceOf[org.apache.spark.sql.SparkSession])
-assert(spark.version.matches("2.4.[2-4]"), "Delta Lake supports Spark 2.4.2+")
-
-val input = spark
-  .read
-  .format("delta")
-  .option("path", "delta")
-  .load
-----
-
-`delta` data source requires some <<DeltaOptions.adoc#, options>> (with <<options.adoc#path, path>> option required).

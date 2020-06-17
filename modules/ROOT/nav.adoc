@@ -1,5 +1,8 @@
 * xref:overview.adoc[]
-* xref:time-travel.adoc[Time Travel]
+* xref:installation.adoc[]
+
+* Features
+** xref:time-travel.adoc[]
 
 * xref:DeltaLog.adoc[DeltaLog]
 ** xref:Checkpoints.adoc[Checkpoints]
