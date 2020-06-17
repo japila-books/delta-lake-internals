@@ -3,8 +3,8 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Demo: DeltaTable, DeltaLog And Snapshots :: The Internals Of Delta Lake</title>
-    <link rel="canonical" href="https://books.japila.pl/delta-lake-internals/delta/demo/DeltaTable-DeltaLog-And-Snapshots.html">
+    <title>Schema Evolution :: The Internals Of Delta Lake</title>
+    <link rel="canonical" href="https://books.japila.pl/delta-lake-internals/delta/demo/schema-evolution.html">
     <meta name="generator" content="Antora 2.3.3">
     <link rel="stylesheet" href="../../_/css/site.css">
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-151208281-1"></script>
@@ -393,10 +393,10 @@
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="Observing-Transaction-Retries.html">Observing Transaction Retries</a>
   </li>
-  <li class="nav-item is-current-page" data-depth="2">
+  <li class="nav-item" data-depth="2">
     <a class="nav-link" href="DeltaTable-DeltaLog-And-Snapshots.html">DeltaTable, DeltaLog And Snapshots</a>
   </li>
-  <li class="nav-item" data-depth="2">
+  <li class="nav-item is-current-page" data-depth="2">
     <a class="nav-link" href="schema-evolution.html">Schema Evolution</a>
   </li>
 </ul>
@@ -433,104 +433,98 @@
   <ul>
     <li><a href="../index.html">Delta Lake</a></li>
     <li>Demos</li>
-    <li><a href="DeltaTable-DeltaLog-And-Snapshots.html">DeltaTable, DeltaLog And Snapshots</a></li>
+    <li><a href="schema-evolution.html">Schema Evolution</a></li>
   </ul>
 </nav>
-  <div class="edit-this-page"><a href="https://github.com/japila-books/delta-lake-internals/edit/master/modules/demo/pages/DeltaTable-DeltaLog-And-Snapshots.adoc">Edit this Page</a></div>
+  <div class="edit-this-page"><a href="https://github.com/japila-books/delta-lake-internals/edit/master/modules/demo/pages/schema-evolution.adoc">Edit this Page</a></div>
   </div>
   <div class="content">
 <article class="doc">
-<h1 class="page">Demo: DeltaTable, DeltaLog And Snapshots</h1>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-Use <a href="Converting-Parquet-Dataset-Into-Delta-Format.html" class="page">Demo: Converting Parquet Dataset Into Delta Format</a> to create the delta table for the demo.
-</td>
-</tr>
-</table>
-</div>
+<h1 class="page">Schema Evolution</h1>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">import org.apache.spark.sql.SparkSession
-assert(spark.isInstanceOf[SparkSession])
+<pre class="highlightjs highlight"><code class="language-plaintext hljs" data-lang="plaintext">/*
+spark-shell \
+  --packages io.delta:delta-core_2.12:0.6.1 \
+  --conf spark.sql.extensions=io.delta.sql.DeltaSparkSessionExtension \
+  --conf spark.databricks.delta.snapshotPartitions=1
+*/
+assert(spark.version.matches("2.4.[2-6]"), "Delta Lake supports Spark 2.4.2+")
 
-val dataPath = "/tmp/delta/users"
+case class PersonV1(id: Long, name: String)
+import org.apache.spark.sql.Encoders
+val schemaV1 = Encoders.product[PersonV1].schema
+scala&gt; schemaV1.printTreeString
+root
+ |-- id: long (nullable = false)
+ |-- name: string (nullable = true)
+
+val dataPath = "/tmp/delta/people"
+
+// Write data
+Seq(PersonV1(0, "Zero"), PersonV1(1, "One"))
+  .toDF
+  .write
+  .format("delta")
+  .mode("overwrite")
+  .option("overwriteSchema", "true")
+  .save(dataPath)
+
+// Committed delta #0 to file:/tmp/delta/people/_delta_log
+
 import org.apache.spark.sql.delta.DeltaLog
 val deltaLog = DeltaLog.forTable(spark, dataPath)
-
-// Review the cached RDD for the state (snapshot)
-// Use http://localhost:4040/storage/
-
 assert(deltaLog.snapshot.version == 0)
 
-// Show the changes (actions)
-scala&gt; deltaLog.snapshot.state.toDF.show
-+----+--------------------+------+--------------------+--------+----------+
-| txn|                 add|remove|            metaData|protocol|commitInfo|
-+----+--------------------+------+--------------------+--------+----------+
-|null|                null|  null|                null|  [1, 2]|      null|
-|null|                null|  null|[3799b291-dbfa-4f...|    null|      null|
-|null|[city=Paris/count...|  null|                null|    null|      null|
-|null|[city=Warsaw/coun...|  null|                null|    null|      null|
-|null|[city=Warsaw/coun...|  null|                null|    null|      null|
-+----+--------------------+------+--------------------+--------+----------+
+scala&gt; deltaLog.snapshot.dataSchema.printTreeString
+root
+ |-- id: long (nullable = true)
+ |-- name: string (nullable = true)
 
-val dt = DeltaTable.forPath(deltaLog.dataPath.toString)
-scala&gt; dt.history.show
-+-------+-------------------+------+--------+---------+--------------------+----+--------+---------+-----------+--------------+-------------+
-|version|          timestamp|userId|userName|operation| operationParameters| job|notebook|clusterId|readVersion|isolationLevel|isBlindAppend|
-+-------+-------------------+------+--------+---------+--------------------+----+--------+---------+-----------+--------------+-------------+
-|      0|2020-01-06 17:08:02|  null|    null|  CONVERT|[numFiles -&gt; 3, p...|null|    null|     null|       null|          null|         null|
-+-------+-------------------+------+--------+---------+--------------------+----+--------+---------+-----------+--------------+-------------+
+import io.delta.tables.DeltaTable
+val dt = DeltaTable.forPath(dataPath)
+scala&gt; dt.toDF.show
++---+----+
+| id|name|
++---+----+
+|  0|Zero|
+|  1| One|
++---+----+
 
-// Show the data (for the changes)
-val users = dt.toDF
-scala&gt; users.show
-+---+-------+------+-------+
-| id|   name|  city|country|
-+---+-------+------+-------+
-|  2|Bartosz| Paris| France|
-|  0|  Agata|Warsaw| Poland|
-|  1|  Jacek|Warsaw| Poland|
-+---+-------+------+-------+
+val main = dt.as("main")
 
-// Add a new user
-val loic = Seq((3L, "Loic", "Paris", "France")).toDF("id", "name", "city", "country")
-scala&gt; loic.show
-+---+----+-----+-------+
-| id|name| city|country|
-+---+----+-----+-------+
-|  3|Loic|Paris| France|
-+---+----+-----+-------+
+case class PersonV2(id: Long, name: String, newField: Boolean)
+val schemaV2 = Encoders.product[PersonV2].schema
+scala&gt; schemaV2.printTreeString
+root
+ |-- id: long (nullable = false)
+ |-- name: string (nullable = true)
+ |-- newField: boolean (nullable = false)
 
-loic.write.format("delta").mode("append").save(deltaLog.dataPath.toString)
+val updates = Seq(
+  PersonV2(0, "ZERO", newField = true),
+  PersonV2(2, "TWO", newField = false)).toDF
 
-// Review the cached RDD for the state (snapshot)
-// Use http://localhost:4040/storage/
+// Merge two datasets and create a new version
+// Schema evolution in play
+main.merge(
+    source = updates.as("updates"),
+    condition = $"main.id" === $"updates.id")
+  .whenMatched
+  .updateAll
+  .execute
 
-assert(deltaLog.snapshot.version == 1)
-
-scala&gt; users.show
-+---+-------+------+-------+
-| id|   name|  city|country|
-+---+-------+------+-------+
-|  2|Bartosz| Paris| France|
-|  0|  Agata|Warsaw| Poland|
-|  1|  Jacek|Warsaw| Poland|
-|  3|   Loic| Paris| France|
-+---+-------+------+-------+
-
-scala&gt; dt.history.show
-+-------+-------------------+------+--------+---------+--------------------+----+--------+---------+-----------+--------------+-------------+
-|version|          timestamp|userId|userName|operation| operationParameters| job|notebook|clusterId|readVersion|isolationLevel|isBlindAppend|
-+-------+-------------------+------+--------+---------+--------------------+----+--------+---------+-----------+--------------+-------------+
-|      1|2020-01-06 17:12:28|  null|    null|    WRITE|[mode -&gt; Append, ...|null|    null|     null|          0|          null|         true|
-|      0|2020-01-06 17:08:02|  null|    null|  CONVERT|[numFiles -&gt; 3, p...|null|    null|     null|       null|          null|         null|
-+-------+-------------------+------+--------+---------+--------------------+----+--------+---------+-----------+--------------+-------------+</code></pre>
+val latestPeople = spark
+  .read
+  .format("delta")
+  .load(dataPath)
+scala&gt; latestPeople.show
++---+----+
+| id|name|
++---+----+
+|  0|ZERO|
+|  1| One|
++---+----+</code></pre>
 </div>
 </div>
 </article>

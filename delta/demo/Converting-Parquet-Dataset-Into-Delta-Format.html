@@ -71,7 +71,16 @@
     <a class="nav-link" href="../overview.html">Overview</a>
   </li>
   <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../installation.html">Installation</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">Features</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
     <a class="nav-link" href="../time-travel.html">Time Travel</a>
+  </li>
+</ul>
   </li>
   <li class="nav-item" data-depth="1">
     <button class="nav-item-toggle"></button>
@@ -387,6 +396,9 @@
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="DeltaTable-DeltaLog-And-Snapshots.html">DeltaTable, DeltaLog And Snapshots</a>
   </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="schema-evolution.html">Schema Evolution</a>
+  </li>
 </ul>
   </li>
 </ul>
@@ -437,7 +449,7 @@ spark-shell \
   --conf spark.sql.extensions=io.delta.sql.DeltaSparkSessionExtension \
   --conf spark.databricks.delta.snapshotPartitions=1
 */
-assert(spark.version.matches("2.4.[2-4]"), "Delta Lake supports Spark 2.4.2+")
+assert(spark.version.matches("2.4.[2-6]"), "Delta Lake supports Spark 2.4.2+")
 
 import org.apache.spark.sql.SparkSession
 assert(spark.isInstanceOf[SparkSession])

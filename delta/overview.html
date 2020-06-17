@@ -71,7 +71,16 @@
     <a class="nav-link" href="overview.html">Overview</a>
   </li>
   <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="installation.html">Installation</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">Features</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
     <a class="nav-link" href="time-travel.html">Time Travel</a>
+  </li>
+</ul>
   </li>
   <li class="nav-item" data-depth="1">
     <button class="nav-item-toggle"></button>
@@ -387,6 +396,9 @@
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="demo/DeltaTable-DeltaLog-And-Snapshots.html">DeltaTable, DeltaLog And Snapshots</a>
   </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="demo/schema-evolution.html">Schema Evolution</a>
+  </li>
 </ul>
   </li>
 </ul>
@@ -428,8 +440,6 @@
   <div class="content">
 <article class="doc">
 <h1 class="page">Overview</h1>
-<div id="preamble">
-<div class="sectionbody">
 <div class="paragraph">
 <p><a href="https://delta.io/">Delta Lake</a> is an open-source storage management system (storage layer) that brings ACID transactions and time travel to <a href="https://spark.apache.org/">Apache Spark</a> and big data workloads.</p>
 </div>
@@ -462,7 +472,10 @@
 <p>Delta Lake provides <a href="DeltaTable.html" class="page">DeltaTable API</a> to programmatically access Delta tables. A delta table can be created <a href="DeltaTable.html#convertToDelta" class="page">based on a parquet table (DeltaTable.convertToDelta)</a> or <a href="DeltaTable.html#forPath" class="page">from scratch (DeltaTable.forPath)</a>.</p>
 </div>
 <div class="paragraph">
-<p>Delta Lake supports Spark SQL and Structured Streaming using <a href="DeltaDataSource.html#DataSourceRegister" class="page">delta</a> format.</p>
+<p>Delta Lake supports batch and streaming queries (Spark SQL and Structured Streaming, respectively) using <a href="DeltaDataSource.html#DataSourceRegister" class="page">delta</a> format.</p>
+</div>
+<div class="paragraph">
+<p>In order to fine tune queries over data in Delta Lake use <a href="DeltaOptions.html" class="page">options</a>. Among the options <a href="#options.adoc#path" class="page unresolved">path</a> option is mandatory.</p>
 </div>
 <div class="paragraph">
 <p>Delta Lake supports reading and writing in batch queries:</p>
@@ -492,36 +505,6 @@
 </div>
 <div class="paragraph">
 <p>Delta Lake uses <a href="DeltaLog.html#store" class="page">LogStore</a> abstraction to read and write physical log files and checkpoints (using <a href="https://hadoop.apache.org/docs/current2/hadoop-project-dist/hadoop-common/filesystem/index.html">Hadoop FileSystem API</a>).</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="installing-delta-lake"><a class="anchor" href="#installing-delta-lake"></a><a class="link" href="#installing-delta-lake">Installing Delta Lake</a></h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>In order to "install" and use Delta Lake in a Spark application (e.g. <code>spark-shell</code>), use <code>--packages</code> command-line option.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">/*
-./bin/spark-shell \
-  --packages io.delta:delta-core_2.12:0.6.1 \
-  --conf spark.sql.extensions=io.delta.sql.DeltaSparkSessionExtension
-*/
-assert(spark.isInstanceOf[org.apache.spark.sql.SparkSession])
-assert(spark.version.matches("2.4.[2-4]"), "Delta Lake supports Spark 2.4.2+")
-
-val input = spark
-  .read
-  .format("delta")
-  .option("path", "delta")
-  .load</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p><code>delta</code> data source requires some <a href="DeltaOptions.html" class="page">options</a> (with <a href="#options.adoc#path" class="page unresolved">path</a> option required).</p>
-</div>
-</div>
 </div>
 </article>
 <aside class="toc sidebar" data-title="Contents" data-levels="2">
