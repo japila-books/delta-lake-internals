@@ -32,7 +32,8 @@
 
 ** xref:DescribeDeltaHistoryCommand.adoc[DescribeDeltaHistoryCommand]
 ** xref:MergeIntoCommand.adoc[MergeIntoCommand]
-*** xref:DeltaMergeBuilder.adoc[DeltaMergeBuilder]
+*** xref:DeltaMergeBuilder.adoc[]
+*** xref:DeltaMergeMatchedActionBuilder.adoc[]
 *** xref:PreprocessTableMerge.adoc[PreprocessTableMerge]
 ** xref:UpdateCommand.adoc[UpdateCommand]
 ** xref:vacuum.adoc[Vacuum]

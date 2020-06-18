@@ -1,18 +1,48 @@
 = DeltaMergeBuilder
 
-`DeltaMergeBuilder` is a <<operators, builder interface>> to specify how to merge data from a <<source, source>> DataFrame into the <<targetTable, target>> delta table.
+*DeltaMergeBuilder* is a <<operators, builder interface>> to specify how to merge data from a <<source, source>> DataFrame into the <<targetTable, target>> delta table.
 
-`DeltaMergeBuilder` is supposed to be <<creating-instance, created>> exclusively using <<DeltaTable.adoc#merge, DeltaTable.merge>> operator.
+DeltaMergeBuilder is created using xref:DeltaTable.adoc#merge[DeltaTable.merge] operator.
 
-[[operators]]
-.DeltaMergeBuilder API / Operators
-[cols="30m,70",options="header",width="100%"]
-|===
-| Name
-| Description
+[source,plaintext]
+----
+// Create a delta table
+val path = "/tmp/delta/demo"
+val data = spark.range(5)
+data.write.format("delta").save(path)
 
-| whenMatched
-a| [[whenMatched]]
+// Manage the delta table
+import io.delta.tables.DeltaTable
+val target = DeltaTable.forPath(path)
+
+case class Person(id: Long, name: String)
+val source = Seq(Person(0, "Zero"), Person(1, "One")).toDF
+
+// Note the difference in schemas
+
+scala> target.toDF.printSchema
+root
+ |-- id: long (nullable = true)
+
+scala> source.printSchema
+root
+ |-- id: long (nullable = false)
+ |-- name: string (nullable = true)
+
+// Not only do we update the matching rows
+// But also update the schema (schema evolution)
+
+val mergeBuilder = target.as("to").merge(
+  source.as("from"),
+  condition = $"to.id" === $"from.id")
+
+scala> :type mergeBuilder
+io.delta.tables.DeltaMergeBuilder
+----
+
+== [[operators]] Operators
+
+=== [[whenMatched]] whenMatched
 
 [source, scala]
 ----
@@ -23,8 +53,9 @@ whenMatched(
   condition: String): DeltaMergeMatchedActionBuilder
 ----
 
-| whenNotMatched
-a| [[whenNotMatched]]
+Creates a xref:DeltaMergeMatchedActionBuilder.adoc[] (for the DeltaMergeBuilder and a match condition)
+
+=== [[whenNotMatched]] whenNotMatched
 
 [source, scala]
 ----
@@ -35,24 +66,22 @@ whenNotMatched(
   condition: String): DeltaMergeNotMatchedActionBuilder
 ----
 
-|===
+== [[creating-instance]] Creating Instance
 
-== [[creating-instance]] Creating DeltaMergeBuilder Instance
-
-`DeltaMergeBuilder` takes the following to be created:
+DeltaMergeBuilder takes the following to be created:
 
 * [[targetTable]] Target <<DeltaTable.adoc#, DeltaTable>>
 * [[source]] Source Data (`DataFrame`)
 * [[onCondition]] Condition (`Column`)
 * [[whenClauses]] When Clauses (`Seq[MergeIntoClause]`)
 
-== [[execute]] Executing Merge Operation -- `execute` Method
+== [[execute]] Executing Merge Operation
 
 [source, scala]
 ----
 execute(): Unit
 ----
 
-`execute` resolves column references (and creates a `MergeInto`).
+execute resolves column references (and creates a `MergeInto`).
 
-In the end, `execute` creates a <<PreprocessTableMerge.adoc#, PreprocessTableMerge>> to <<PreprocessTableMerge.adoc#apply, create a MergeIntoCommand>> that is <<MergeIntoCommand.adoc#run, executed>> right away.
+In the end, execute creates a <<PreprocessTableMerge.adoc#, PreprocessTableMerge>> to <<PreprocessTableMerge.adoc#apply, create a MergeIntoCommand>> that is <<MergeIntoCommand.adoc#run, executed>> right away.
