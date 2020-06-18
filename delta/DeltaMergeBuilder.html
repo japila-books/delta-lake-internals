@@ -169,6 +169,9 @@
     <a class="nav-link" href="DeltaMergeBuilder.html">DeltaMergeBuilder</a>
   </li>
   <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="DeltaMergeMatchedActionBuilder.html">DeltaMergeMatchedActionBuilder</a>
+  </li>
+  <li class="nav-item" data-depth="3">
     <a class="nav-link" href="PreprocessTableMerge.html">PreprocessTableMerge</a>
   </li>
 </ul>
@@ -445,27 +448,55 @@
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p><code>DeltaMergeBuilder</code> is a <a href="#operators">builder interface</a> to specify how to merge data from a <a href="#source">source</a> DataFrame into the <a href="#targetTable">target</a> delta table.</p>
+<p><strong>DeltaMergeBuilder</strong> is a <a href="#operators">builder interface</a> to specify how to merge data from a <a href="#source">source</a> DataFrame into the <a href="#targetTable">target</a> delta table.</p>
 </div>
 <div class="paragraph">
-<p><code>DeltaMergeBuilder</code> is supposed to be <a href="#creating-instance">created</a> exclusively using <a href="DeltaTable.html#merge" class="page">DeltaTable.merge</a> operator.</p>
+<p>DeltaMergeBuilder is created using <a href="DeltaTable.html#merge" class="page">DeltaTable.merge</a> operator.</p>
 </div>
-<table id="operators" class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 1. DeltaMergeBuilder API / Operators</caption>
-<colgroup>
-<col style="width: 30%;">
-<col style="width: 70%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Name</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>whenMatched</code></p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div id="whenMatched" class="listingblock">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-plaintext hljs" data-lang="plaintext">// Create a delta table
+val path = "/tmp/delta/demo"
+val data = spark.range(5)
+data.write.format("delta").save(path)
+
+// Manage the delta table
+import io.delta.tables.DeltaTable
+val target = DeltaTable.forPath(path)
+
+case class Person(id: Long, name: String)
+val source = Seq(Person(0, "Zero"), Person(1, "One")).toDF
+
+// Note the difference in schemas
+
+scala&gt; target.toDF.printSchema
+root
+ |-- id: long (nullable = true)
+
+scala&gt; source.printSchema
+root
+ |-- id: long (nullable = false)
+ |-- name: string (nullable = true)
+
+// Not only do we update the matching rows
+// But also update the schema (schema evolution)
+
+val mergeBuilder = target.as("to").merge(
+  source.as("from"),
+  condition = $"to.id" === $"from.id")
+
+scala&gt; :type mergeBuilder
+io.delta.tables.DeltaMergeBuilder</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="operators"><a class="anchor" href="#operators"></a><a class="link" href="#operators"><a id="operators"></a> Operators</a></h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="whenmatched"><a class="anchor" href="#whenmatched"></a><a class="link" href="#whenmatched"><a id="whenMatched"></a> whenMatched</a></h3>
+<div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">whenMatched(): DeltaMergeMatchedActionBuilder
 whenMatched(
@@ -473,11 +504,14 @@ whenMatched(
 whenMatched(
   condition: String): DeltaMergeMatchedActionBuilder</code></pre>
 </div>
-</div></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>whenNotMatched</code></p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div id="whenNotMatched" class="listingblock">
+</div>
+<div class="paragraph">
+<p>Creates a <a href="DeltaMergeMatchedActionBuilder.html" class="page">DeltaMergeMatchedActionBuilder</a> (for the DeltaMergeBuilder and a match condition)</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="whennotmatched"><a class="anchor" href="#whennotmatched"></a><a class="link" href="#whennotmatched"><a id="whenNotMatched"></a> whenNotMatched</a></h3>
+<div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">whenNotMatched(): DeltaMergeNotMatchedActionBuilder
 whenNotMatched(
@@ -485,17 +519,15 @@ whenNotMatched(
 whenNotMatched(
   condition: String): DeltaMergeNotMatchedActionBuilder</code></pre>
 </div>
-</div></div></td>
-</tr>
-</tbody>
-</table>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="creating-deltamergebuilder-instance"><a class="anchor" href="#creating-deltamergebuilder-instance"></a><a class="link" href="#creating-deltamergebuilder-instance"><a id="creating-instance"></a> Creating DeltaMergeBuilder Instance</a></h2>
+<h2 id="creating-instance"><a class="anchor" href="#creating-instance"></a><a class="link" href="#creating-instance"><a id="creating-instance"></a> Creating Instance</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p><code>DeltaMergeBuilder</code> takes the following to be created:</p>
+<p>DeltaMergeBuilder takes the following to be created:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -516,7 +548,7 @@ whenNotMatched(
 </div>
 </div>
 <div class="sect1">
-<h2 id="executing-merge-operationexecute-method"><a class="anchor" href="#executing-merge-operationexecute-method"></a><a class="link" href="#executing-merge-operationexecute-method"><a id="execute"></a> Executing Merge Operation&#8201;&#8212;&#8201;<code>execute</code> Method</a></h2>
+<h2 id="executing-merge-operation"><a class="anchor" href="#executing-merge-operation"></a><a class="link" href="#executing-merge-operation"><a id="execute"></a> Executing Merge Operation</a></h2>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content">
@@ -524,10 +556,10 @@ whenNotMatched(
 </div>
 </div>
 <div class="paragraph">
-<p><code>execute</code> resolves column references (and creates a <code>MergeInto</code>).</p>
+<p>execute resolves column references (and creates a <code>MergeInto</code>).</p>
 </div>
 <div class="paragraph">
-<p>In the end, <code>execute</code> creates a <a href="PreprocessTableMerge.html" class="page">PreprocessTableMerge</a> to <a href="PreprocessTableMerge.html#apply" class="page">create a MergeIntoCommand</a> that is <a href="MergeIntoCommand.html#run" class="page">executed</a> right away.</p>
+<p>In the end, execute creates a <a href="PreprocessTableMerge.html" class="page">PreprocessTableMerge</a> to <a href="PreprocessTableMerge.html#apply" class="page">create a MergeIntoCommand</a> that is <a href="MergeIntoCommand.html#run" class="page">executed</a> right away.</p>
 </div>
 </div>
 </div>
