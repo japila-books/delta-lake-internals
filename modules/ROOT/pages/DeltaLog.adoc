@@ -1,4 +1,4 @@
-= [[DeltaLog]] DeltaLog
+= DeltaLog
 
 `DeltaLog` is a *transaction log* (aka _change log_) of <<Action.adoc#, changes>> to the state of a <<dataPath, delta table>>.
 

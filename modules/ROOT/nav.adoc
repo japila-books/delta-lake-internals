@@ -15,7 +15,7 @@
 ** xref:PartitionFiltering.adoc[PartitionFiltering]
 ** xref:DeltaFileFormat.adoc[DeltaFileFormat]
 
-* xref:DeltaTable.adoc[DeltaTable]
+* xref:DeltaTable.adoc[]
 ** xref:DeltaTableOperations.adoc[DeltaTableOperations]
 
 * xref:commands.adoc[Commands]

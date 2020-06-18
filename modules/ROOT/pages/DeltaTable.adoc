@@ -1,92 +1,73 @@
-= [[DeltaTable]] DeltaTable -- Management Interface Of Delta Tables
+= DeltaTable
 
-`DeltaTable` is the <<operators, management interface of Delta tables>> (with the <<DeltaTableOperations.adoc#, Delta DML Operations>>).
+*DeltaTable* is the <<operators, management interface>> of a Delta table (with the <<DeltaTableOperations.adoc#, Delta DML Operations>>).
 
-`DeltaTable` instances are created for existing Delta tables using <<forPath, DeltaTable.forPath>> utility (static method).
-
-[source, scala]
-----
-import org.apache.spark.sql.SparkSession
-assert(spark.isInstanceOf[SparkSession])
-
-val path = "/tmp/delta/t1"
-
-// random data to create a delta table from scratch
-val data = spark.range(5)
-data.write.format("delta").save(path)
-
-import io.delta.tables.DeltaTable
-val dt = DeltaTable.forPath(spark, path)
-
-val history = dt.history.select('version, 'timestamp, 'operation, 'operationParameters, 'isBlindAppend)
-scala> history.show(truncate = false)
-+-------+-------------------+---------+------------------------------------------+-------------+
-|version|timestamp          |operation|operationParameters                       |isBlindAppend|
-+-------+-------------------+---------+------------------------------------------+-------------+
-|0      |2019-12-23 22:24:40|WRITE    |[mode -> ErrorIfExists, partitionBy -> []]|true         |
-+-------+-------------------+---------+------------------------------------------+-------------+
-----
+DeltaTable instances are created for existing Delta tables using <<forPath, DeltaTable.forPath>> utility (static method).
 
 You can convert parquet tables to delta format (by importing the tables into Delta Lake) using <<convertToDelta, DeltaTable.convertToDelta>> utility (static method).
 
 You can check whether a directory is part of a delta table using <<isDeltaTable, DeltaTable.isDeltaTable>> utility (static method).
 
-[[operators]]
-.DeltaTable API / Operators
-[cols="30m,70",options="header",width="100%"]
-|===
-| Name
-| Description
+== [[creating-instance]] Creating Instance
 
-| alias
-a| [[alias]]
+DeltaTable takes the following to be created:
 
-[source, scala]
-----
-alias(alias: String): DeltaTable
-----
+* [[df]] Distributed structured query to access table data (`Dataset[Row]`)
+* [[deltaLog]] xref:DeltaLog.adoc[]
 
-Applies an alias to the `DeltaTable` (equivalent to <<as, as>>)
+NOTE: New DeltaTable instances should be created using <<forPath, DeltaTable.forPath>> and <<convertToDelta, DeltaTable.convertToDelta>> utilities.
 
-| as
-a| [[as]]
+== [[operators]] Operators
+
+=== [[alias]] alias
 
 [source, scala]
 ----
-as(alias: String): DeltaTable
+alias(
+  alias: String): DeltaTable
 ----
 
-Applies an alias to the `DeltaTable` (equivalent to <<alias, alias>>)
+Applies an alias to the DeltaTable (equivalent to <<as, as>>)
 
-| delete
-a| [[delete]]
+=== [[as]] as
+
+[source, scala]
+----
+as(
+  alias: String): DeltaTable
+----
+
+Applies an alias to the DeltaTable (equivalent to <<alias, alias>>)
+
+=== [[delete]] delete
 
 [source, scala]
 ----
 delete(): Unit // <1>
-delete(condition: Column): Unit
-delete(condition: String): Unit
+delete(
+  condition: Column): Unit
+delete(
+  condition: String): Unit
 ----
 <1> Undefined condition
 
-Deletes data from the `DeltaTable` that matches the given `condition`.
+Deletes data from the DeltaTable that matches the given `condition`.
 
 IMPORTANT: <<delete, delete>> and <<update, update>> operators do not support subqueries (and <<DeltaTableOperations.adoc#subqueryNotSupportedCheck, throw an AnalysisException>> otherwise).
 
-| generate
-a| [[generate]]
+=== [[generate]] generate
 
 [source, scala]
 ----
-generate(mode: String): Unit
+generate(
+  mode: String): Unit
 ----
 
 Generates a manifest for the delta table
 
 Internally, `generate` <<DeltaTableOperations.adoc#executeGenerate, executeGenerate>> with the table ID of the format `++delta.`path`++` (where the path is the <<DeltaLog.adoc#dataPath, data directory>> of the <<deltaLog, DeltaLog>>) and the given mode.
 
-| history
-a| [[history]]
+=== [[history]] history
 
 [source, scala]
 ----
@@ -96,10 +77,9 @@ history(
 ----
 <1> Unlimited history
 
-Gets available commits (_history_) on the `DeltaTable`
+Gets available commits (_history_) on the DeltaTable
 
-| merge
-a| [[merge]]
+=== [[merge]] merge
 
 [source, scala]
 ----
@@ -113,18 +93,16 @@ merge(
 
 Creates a <<DeltaMergeBuilder.adoc#, DeltaMergeBuilder>> to specify how to merge the data from the source `DataFrame` into this delta table based on the condition.
 
-| toDF
-a| [[toDF]]
+=== [[toDF]] toDF
 
 [source, scala]
 ----
 toDF: Dataset[Row]
 ----
 
-Gets the DataFrame representation of the `DeltaTable`
+Gets the DataFrame representation of the DeltaTable
 
-| update
-a| [[update]]
+=== [[update]] update
 
 [source, scala]
 ----
@@ -140,12 +118,11 @@ update(
   set: java.util.Map[String, Column]): Unit
 ----
 
-Updates data in the `DeltaTable` on the rows that match the given `condition` based on the rules defined by `set`
+Updates data in the DeltaTable on the rows that match the given `condition` based on the rules defined by `set`
 
 IMPORTANT: <<delete, delete>> and <<update, update>> operators do not support subqueries (and <<DeltaTableOperations.adoc#subqueryNotSupportedCheck, throw an AnalysisException>> otherwise).
 
-| updateExpr
-a| [[updateExpr]]
+=== [[updateExpr]] updateExpr
 
 [source, scala]
 ----
@@ -161,34 +138,23 @@ updateExpr(
   set: java.util.Map[String, String]): Unit
 ----
 
-Updates data in the `DeltaTable` on the rows that match the given `condition` based on the rules defined by `set`
+Updates data in the DeltaTable on the rows that match the given `condition` based on the rules defined by `set`
 
-| vacuum
-a| [[vacuum]]
+=== [[vacuum]] vacuum
 
 [source, scala]
 ----
 vacuum(): DataFrame // <1>
-vacuum(retentionHours: Double): DataFrame
+vacuum(
+  retentionHours: Double): DataFrame
 ----
 <1> Undefined retention threshold
 
-Deletes files and directories (recursively) in the `DeltaTable` that are not needed by the table (and maintains older versions up to the given retention threshold).
+Deletes files and directories (recursively) in the DeltaTable that are not needed by the table (and maintains older versions up to the given retention threshold).
 
 Internally, `vacuum` simply <<DeltaTableOperations.adoc#executeVacuum, executes vacuum command>>.
 
-|===
-
-== [[creating-instance]] Creating DeltaTable Instance
-
-`DeltaTable` takes the following to be created:
-
-* [[df]] Distributed structured query to access table data (`Dataset[Row]`)
-* [[deltaLog]] <<DeltaLog.adoc#, DeltaLog>>
-
-NOTE: You should create new `DeltaTable` instances using <<forPath, DeltaTable.forPath>> and <<convertToDelta, DeltaTable.convertToDelta>> utilities.
-
-== [[forPath]] Creating DeltaTable -- `DeltaTable.forPath` Utility
+== [[forPath]] DeltaTable.forPath Utility
 
 [source, scala]
 ----
@@ -200,7 +166,7 @@ forPath(
 ----
 <1> Uses `SparkSession.getActiveSession` to access the `SparkSession`
 
-`forPath` creates a `DeltaTable` instance for data in the given directory (`path`) when the given <<DeltaTableUtils.adoc#isDeltaTable, directory is part of a delta table>> already (as the root or a child directory).
+`forPath` creates a DeltaTable instance for data in the given directory (`path`) when the given <<DeltaTableUtils.adoc#isDeltaTable, directory is part of a delta table>> already (as the root or a child directory).
 
 [source]
 ----
@@ -228,7 +194,7 @@ Internally, `forPath` creates a new <<DeltaTable, DeltaTable>> with the followin
 
 NOTE: `forPath` is a public API, and is also used internally for <<convertToDelta, DeltaTable.convertToDelta>> (via <<DeltaConvert.adoc#, DeltaConvert>> utility).
 
-== [[convertToDelta]] Converting Parquet Table To Delta Format (Importing Parquet Table Into Delta Lake) -- `DeltaTable.convertToDelta` Utility
+== [[convertToDelta]] DeltaTable.convertToDelta Utility
 
 [source, scala]
 ----
@@ -256,7 +222,7 @@ TIP: Read up on https://jaceklaskowski.gitbooks.io/mastering-spark-sql/spark-sql
 
 In the end, `convertToDelta` uses the `DeltaConvert` utility to <<DeltaConvert.adoc#executeConvert, convert the parquet table to delta format>> and <<forPath, creates a DeltaTable>>.
 
-== [[isDeltaTable]] Checking Out Whether Directory Is Part of Delta Table -- `isDeltaTable` Utility
+== [[isDeltaTable]] DeltaTable.isDeltaTable Utility
 
 [source, scala]
 ----
@@ -271,7 +237,7 @@ isDeltaTable(
 
 Internally, `isDeltaTable` simply relays to <<DeltaTableUtils.adoc#isDeltaTable, DeltaTableUtils.isDeltaTable>> utility.
 
-== [[unapply]] `unapply` Extractor Utility
+== [[unapply]] unapply Extractor Utility
 
 [source, scala]
 ----
@@ -289,3 +255,28 @@ unapply(
 
 * `DeltaDataSource` utility is used to <<DeltaDataSource.adoc#extractDeltaPath, extractDeltaPath>> (but does not seem to be used whatsoever)
 ====
+
+== [[demo]] Demo
+
+[source, scala]
+----
+import org.apache.spark.sql.SparkSession
+assert(spark.isInstanceOf[SparkSession])
+
+val path = "/tmp/delta/t1"
+
+// random data to create a delta table from scratch
+val data = spark.range(5)
+data.write.format("delta").save(path)
+
+import io.delta.tables.DeltaTable
+val dt = DeltaTable.forPath(spark, path)
+
+val history = dt.history.select('version, 'timestamp, 'operation, 'operationParameters, 'isBlindAppend)
+scala> history.show(truncate = false)
++-------+-------------------+---------+------------------------------------------+-------------+
+|version|timestamp          |operation|operationParameters                       |isBlindAppend|
++-------+-------------------+---------+------------------------------------------+-------------+
+|0      |2019-12-23 22:24:40|WRITE    |[mode -> ErrorIfExists, partitionBy -> []]|true         |
++-------+-------------------+---------+------------------------------------------+-------------+
+----
