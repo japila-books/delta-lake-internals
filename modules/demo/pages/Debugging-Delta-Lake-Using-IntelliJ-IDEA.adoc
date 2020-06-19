@@ -15,7 +15,7 @@ Run `spark-shell` as follows to enable remote JVM for debugging.
 ----
 $ export SPARK_SUBMIT_OPTS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005
 $ spark-shell \
-  --packages io.delta:delta-core_2.12:0.6.1 \
+  --packages io.delta:delta-core_2.12:0.7.0 \
   --conf spark.sql.extensions=io.delta.sql.DeltaSparkSessionExtension \
   --conf spark.databricks.delta.snapshotPartitions=1
 ----

@@ -6,7 +6,7 @@ Delta Lake is a Spark data source and as such installation boils down to using s
 ----
 /*
 ./bin/spark-shell \
-  --packages io.delta:delta-core_2.12:0.6.1 \
+  --packages io.delta:delta-core_2.12:0.7.0 \
   --conf spark.sql.extensions=io.delta.sql.DeltaSparkSessionExtension
 */
 assert(spark.isInstanceOf[org.apache.spark.sql.SparkSession])
