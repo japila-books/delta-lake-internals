@@ -8,7 +8,7 @@
 
 * <<splitMetadataAndDataPredicates, splitMetadataAndDataPredicates>>
 
-== [[isDeltaTable]] Checking Out Whether Directory Is Part of Delta Table -- `isDeltaTable` Utility
+== [[isDeltaTable]] isDeltaTable Utility
 
 [source, scala]
 ----
@@ -21,7 +21,7 @@ isDeltaTable(
 
 NOTE: `isDeltaTable` is used when `DeltaTable` utility is used to <<DeltaTable.adoc#forPath, create a DeltaTable>> or <<DeltaTable.adoc#isDeltaTable, check whether a directory is part of delta table or not>>.
 
-== [[findDeltaTableRoot]] Finding Root Directory Of Delta Table -- `findDeltaTableRoot` Utility
+== [[findDeltaTableRoot]] findDeltaTableRoot Utility
 
 [source, scala]
 ----
@@ -45,7 +45,7 @@ For `_delta_log` or `_samples` directories, `findDeltaTableRoot` returns the par
 * `DeltaDataSource` is requested to <<DeltaDataSource.adoc#RelationProvider-createRelation, create a relation>>
 ====
 
-== [[resolveTimeTravelVersion]] `resolveTimeTravelVersion` Utility
+== [[resolveTimeTravelVersion]] resolveTimeTravelVersion Utility
 
 [source, scala]
 ----
@@ -59,7 +59,7 @@ resolveTimeTravelVersion(
 
 NOTE: `resolveTimeTravelVersion` is used exclusively when `DeltaLog` is requested to <<DeltaLog.adoc#createRelation, create a relation (per partition filters and time travel)>>.
 
-== [[splitMetadataAndDataPredicates]] `splitMetadataAndDataPredicates` Utility
+== [[splitMetadataAndDataPredicates]] splitMetadataAndDataPredicates Utility
 
 [source, scala]
 ----
@@ -80,7 +80,7 @@ splitMetadataAndDataPredicates(
 * xref:DeleteCommand.adoc[DeleteCommand] and xref:UpdateCommand.adoc[UpdateCommand] are executed
 ====
 
-== [[isPredicatePartitionColumnsOnly]] `isPredicatePartitionColumnsOnly` Utility
+== [[isPredicatePartitionColumnsOnly]] isPredicatePartitionColumnsOnly Utility
 
 [source, scala]
 ----
@@ -97,7 +97,7 @@ isPredicatePartitionColumnsOnly(
 `isPredicatePartitionColumnsOnly` is used when...FIXME
 ====
 
-== [[combineWithCatalogMetadata]] `combineWithCatalogMetadata` Utility
+== [[combineWithCatalogMetadata]] combineWithCatalogMetadata Utility
 
 [source, scala]
 ----

@@ -154,47 +154,9 @@ Deletes files and directories (recursively) in the DeltaTable that are not neede
 
 Internally, `vacuum` simply <<DeltaTableOperations.adoc#executeVacuum, executes vacuum command>>.
 
-== [[forPath]] DeltaTable.forPath Utility
+== [[utilities]] Utilities
 
-[source, scala]
-----
-forPath(
-  path: String): DeltaTable // <1>
-forPath(
-  sparkSession: SparkSession,
-  path: String): DeltaTable
-----
-<1> Uses `SparkSession.getActiveSession` to access the `SparkSession`
-
-`forPath` creates a DeltaTable instance for data in the given directory (`path`) when the given <<DeltaTableUtils.adoc#isDeltaTable, directory is part of a delta table>> already (as the root or a child directory).
-
-[source]
-----
-assert(spark.isInstanceOf[org.apache.spark.sql.SparkSession])
-
-val tableId = "/tmp/delta-table/users"
-
-import io.delta.tables.DeltaTable
-assert(DeltaTable.isDeltaTable(tableId), s"$tableId should be a Delta table")
-
-val dt = DeltaTable.forPath("delta-table")
-----
-
-`forPath` throws an `AnalysisException` when the given `path` does not belong to a delta table:
-
-```
-[deltaTableIdentifier] is not a Delta table.
-```
-
-Internally, `forPath` creates a new <<DeltaTable, DeltaTable>> with the following:
-
-* `Dataset` that represents loading data from the specified `path` using <<DeltaDataSource.adoc#delta-format, delta>> data source
-
-* <<DeltaLog.adoc#, DeltaLog>> for the <<DeltaLog.adoc#forTable, (transaction log in) the specified path>>
-
-NOTE: `forPath` is a public API, and is also used internally for <<convertToDelta, DeltaTable.convertToDelta>> (via <<DeltaConvert.adoc#, DeltaConvert>> utility).
-
-== [[convertToDelta]] DeltaTable.convertToDelta Utility
+=== [[convertToDelta]] convertToDelta
 
 [source, scala]
 ----
@@ -222,7 +184,78 @@ TIP: Read up on https://jaceklaskowski.gitbooks.io/mastering-spark-sql/spark-sql
 
 In the end, `convertToDelta` uses the `DeltaConvert` utility to <<DeltaConvert.adoc#executeConvert, convert the parquet table to delta format>> and <<forPath, creates a DeltaTable>>.
 
-== [[isDeltaTable]] DeltaTable.isDeltaTable Utility
+=== [[forName]] forName
+
+[source, scala]
+----
+forName(
+  tableOrViewName: String): DeltaTable // <1>
+forName(
+  sparkSession: SparkSession,
+  tableName: String): DeltaTable
+----
+<1> Uses the active SparkSession
+
+forName uses ParserInterface (of the given SparkSession) to parse the given table name.
+
+forName xref:DeltaTableUtils.adoc#isDeltaTable[checks whether the given table name is of a Delta table] and, if so, creates a DeltaTable with the following:
+
+* Dataset that represents loading data from the specified table name (using `SparkSession.table` operator)
+
+* xref:DeltaLog.adoc#forTable[DeltaLog] of the specified table
+
+forName throws an AnalysisException when the given table name is for non-Delta table:
+
+[source,plaintext]
+----
+[deltaTableIdentifier] is not a Delta table.
+----
+
+forName is used internally when DeltaConvert utility is used to xref:DeltaConvert.adoc#executeConvert[executeConvert].
+
+=== [[forPath]] forPath
+
+[source, scala]
+----
+forPath(
+  path: String): DeltaTable // <1>
+forPath(
+  sparkSession: SparkSession,
+  path: String): DeltaTable
+----
+<1> Uses the active SparkSession
+
+forPath creates a DeltaTable instance for data in the given directory (`path`) when the given <<DeltaTableUtils.adoc#isDeltaTable, directory is part of a delta table>> already (as the root or a child directory).
+
+[source]
+----
+assert(spark.isInstanceOf[org.apache.spark.sql.SparkSession])
+
+val tableId = "/tmp/delta-table/users"
+
+import io.delta.tables.DeltaTable
+assert(DeltaTable.isDeltaTable(tableId), s"$tableId should be a Delta table")
+
+val dt = DeltaTable.forPath("delta-table")
+----
+
+forPath throws an `AnalysisException` when the given `path` does not belong to a delta table:
+
+
+[source,plaintext]
+----
+[deltaTableIdentifier] is not a Delta table.
+----
+
+Internally, forPath creates a new <<DeltaTable, DeltaTable>> with the following:
+
+* `Dataset` that represents loading data from the specified `path` using <<DeltaDataSource.adoc#delta-format, delta>> data source
+
+* <<DeltaLog.adoc#, DeltaLog>> for the <<DeltaLog.adoc#forTable, (transaction log in) the specified path>>
+
+forPath is used internally in <<convertToDelta, DeltaTable.convertToDelta>> (via xref:DeltaConvert.adoc[] utility).
+
+=== [[isDeltaTable]] isDeltaTable
 
 [source, scala]
 ----
@@ -233,9 +266,9 @@ isDeltaTable(
   identifier: String): Boolean
 ----
 
-`isDeltaTable` checks whether or not the provided `identifier` string is a file path that points to the root of a Delta table or one of the subdirectories.
+isDeltaTable checks whether or not the provided `identifier` string is a file path that points to the root of a Delta table or one of the subdirectories.
 
-Internally, `isDeltaTable` simply relays to <<DeltaTableUtils.adoc#isDeltaTable, DeltaTableUtils.isDeltaTable>> utility.
+Internally, isDeltaTable simply relays to <<DeltaTableUtils.adoc#isDeltaTable, DeltaTableUtils.isDeltaTable>> utility.
 
 == [[unapply]] unapply Extractor Utility
 
