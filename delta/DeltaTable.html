@@ -693,78 +693,10 @@ vacuum(
 </div>
 </div>
 <div class="sect1">
-<h2 id="deltatable-forpath-utility"><a class="anchor" href="#deltatable-forpath-utility"></a><a class="link" href="#deltatable-forpath-utility"><a id="forPath"></a> DeltaTable.forPath Utility</a></h2>
+<h2 id="utilities"><a class="anchor" href="#utilities"></a><a class="link" href="#utilities"><a id="utilities"></a> Utilities</a></h2>
 <div class="sectionbody">
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">forPath(
-  path: String): DeltaTable <i class="conum" data-value="1"></i><b>(1)</b>
-forPath(
-  sparkSession: SparkSession,
-  path: String): DeltaTable</code></pre>
-</div>
-</div>
-<div class="colist arabic">
-<table>
-<tr>
-<td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>Uses <code>SparkSession.getActiveSession</code> to access the <code>SparkSession</code></td>
-</tr>
-</table>
-</div>
-<div class="paragraph">
-<p><code>forPath</code> creates a DeltaTable instance for data in the given directory (<code>path</code>) when the given <a href="DeltaTableUtils.html#isDeltaTable" class="page">directory is part of a delta table</a> already (as the root or a child directory).</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code>assert(spark.isInstanceOf[org.apache.spark.sql.SparkSession])
-
-val tableId = "/tmp/delta-table/users"
-
-import io.delta.tables.DeltaTable
-assert(DeltaTable.isDeltaTable(tableId), s"$tableId should be a Delta table")
-
-val dt = DeltaTable.forPath("delta-table")</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p><code>forPath</code> throws an <code>AnalysisException</code> when the given <code>path</code> does not belong to a delta table:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code>[deltaTableIdentifier] is not a Delta table.</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Internally, <code>forPath</code> creates a new <a href="#DeltaTable">DeltaTable</a> with the following:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><code>Dataset</code> that represents loading data from the specified <code>path</code> using <a href="DeltaDataSource.html#delta-format" class="page">delta</a> data source</p>
-</li>
-<li>
-<p><a href="DeltaLog.html" class="page">DeltaLog</a> for the <a href="DeltaLog.html#forTable" class="page">(transaction log in) the specified path</a></p>
-</li>
-</ul>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<code>forPath</code> is a public API, and is also used internally for <a href="#convertToDelta">DeltaTable.convertToDelta</a> (via <a href="DeltaConvert.html" class="page">DeltaConvert</a> utility).
-</td>
-</tr>
-</table>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="deltatable-converttodelta-utility"><a class="anchor" href="#deltatable-converttodelta-utility"></a><a class="link" href="#deltatable-converttodelta-utility"><a id="convertToDelta"></a> DeltaTable.convertToDelta Utility</a></h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="converttodelta"><a class="anchor" href="#converttodelta"></a><a class="link" href="#converttodelta"><a id="convertToDelta"></a> convertToDelta</a></h3>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">convertToDelta(
@@ -822,10 +754,114 @@ Read up on <a href="https://jaceklaskowski.gitbooks.io/mastering-spark-sql/spark
 <p>In the end, <code>convertToDelta</code> uses the <code>DeltaConvert</code> utility to <a href="DeltaConvert.html#executeConvert" class="page">convert the parquet table to delta format</a> and <a href="#forPath">creates a DeltaTable</a>.</p>
 </div>
 </div>
+<div class="sect2">
+<h3 id="forname"><a class="anchor" href="#forname"></a><a class="link" href="#forname"><a id="forName"></a> forName</a></h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">forName(
+  tableOrViewName: String): DeltaTable <i class="conum" data-value="1"></i><b>(1)</b>
+forName(
+  sparkSession: SparkSession,
+  tableName: String): DeltaTable</code></pre>
 </div>
-<div class="sect1">
-<h2 id="deltatable-isdeltatable-utility"><a class="anchor" href="#deltatable-isdeltatable-utility"></a><a class="link" href="#deltatable-isdeltatable-utility"><a id="isDeltaTable"></a> DeltaTable.isDeltaTable Utility</a></h2>
-<div class="sectionbody">
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Uses the active SparkSession</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>forName uses ParserInterface (of the given SparkSession) to parse the given table name.</p>
+</div>
+<div class="paragraph">
+<p>forName <a href="DeltaTableUtils.html#isDeltaTable" class="page">checks whether the given table name is of a Delta table</a> and, if so, creates a DeltaTable with the following:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Dataset that represents loading data from the specified table name (using <code>SparkSession.table</code> operator)</p>
+</li>
+<li>
+<p><a href="DeltaLog.html#forTable" class="page">DeltaLog</a> of the specified table</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>forName throws an AnalysisException when the given table name is for non-Delta table:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-plaintext hljs" data-lang="plaintext">[deltaTableIdentifier] is not a Delta table.</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>forName is used internally when DeltaConvert utility is used to <a href="DeltaConvert.html#executeConvert" class="page">executeConvert</a>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="forpath"><a class="anchor" href="#forpath"></a><a class="link" href="#forpath"><a id="forPath"></a> forPath</a></h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">forPath(
+  path: String): DeltaTable <i class="conum" data-value="1"></i><b>(1)</b>
+forPath(
+  sparkSession: SparkSession,
+  path: String): DeltaTable</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Uses the active SparkSession</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>forPath creates a DeltaTable instance for data in the given directory (<code>path</code>) when the given <a href="DeltaTableUtils.html#isDeltaTable" class="page">directory is part of a delta table</a> already (as the root or a child directory).</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code>assert(spark.isInstanceOf[org.apache.spark.sql.SparkSession])
+
+val tableId = "/tmp/delta-table/users"
+
+import io.delta.tables.DeltaTable
+assert(DeltaTable.isDeltaTable(tableId), s"$tableId should be a Delta table")
+
+val dt = DeltaTable.forPath("delta-table")</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>forPath throws an <code>AnalysisException</code> when the given <code>path</code> does not belong to a delta table:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-plaintext hljs" data-lang="plaintext">[deltaTableIdentifier] is not a Delta table.</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Internally, forPath creates a new <a href="#DeltaTable">DeltaTable</a> with the following:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>Dataset</code> that represents loading data from the specified <code>path</code> using <a href="DeltaDataSource.html#delta-format" class="page">delta</a> data source</p>
+</li>
+<li>
+<p><a href="DeltaLog.html" class="page">DeltaLog</a> for the <a href="DeltaLog.html#forTable" class="page">(transaction log in) the specified path</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>forPath is used internally in <a href="#convertToDelta">DeltaTable.convertToDelta</a> (via <a href="DeltaConvert.html" class="page"><a id="DeltaConvert"></a> DeltaConvert Utility</a> utility).</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="isdeltatable"><a class="anchor" href="#isdeltatable"></a><a class="link" href="#isdeltatable"><a id="isDeltaTable"></a> isDeltaTable</a></h3>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">isDeltaTable(
@@ -836,10 +872,11 @@ isDeltaTable(
 </div>
 </div>
 <div class="paragraph">
-<p><code>isDeltaTable</code> checks whether or not the provided <code>identifier</code> string is a file path that points to the root of a Delta table or one of the subdirectories.</p>
+<p>isDeltaTable checks whether or not the provided <code>identifier</code> string is a file path that points to the root of a Delta table or one of the subdirectories.</p>
 </div>
 <div class="paragraph">
-<p>Internally, <code>isDeltaTable</code> simply relays to <a href="DeltaTableUtils.html#isDeltaTable" class="page">DeltaTableUtils.isDeltaTable</a> utility.</p>
+<p>Internally, isDeltaTable simply relays to <a href="DeltaTableUtils.html#isDeltaTable" class="page">DeltaTableUtils.isDeltaTable</a> utility.</p>
+</div>
 </div>
 </div>
 </div>
