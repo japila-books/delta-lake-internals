@@ -1,7 +1,7 @@
 * xref:overview.adoc[]
 * xref:installation.adoc[]
 
-* Features
+.Features
 ** xref:time-travel.adoc[]
 
 * xref:DeltaLog.adoc[DeltaLog]
