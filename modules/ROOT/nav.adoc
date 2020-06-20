@@ -3,9 +3,11 @@
 
 * Features
 ** xref:time-travel.adoc[]
+** xref:delta-sql-commands.adoc[]
 
 * xref:DeltaSparkSessionExtension.adoc[]
 ** xref:DeltaSqlParser.adoc[]
+*** xref:DeltaSqlAstBuilder.adoc[]
 ** xref:DeltaAnalysis.adoc[]
 ** xref:DeltaUnsupportedOperationsCheck.adoc[]
 ** xref:PreprocessTableDelete.adoc[]
@@ -51,9 +53,6 @@
 *** xref:VacuumCommandImpl.adoc[VacuumCommandImpl]
 *** xref:VacuumTableCommand.adoc[VacuumTableCommand]
 ** xref:WriteIntoDelta.adoc[WriteIntoDelta]
-
-* xref:delta-sql-commands.adoc[Delta SQL Commands]
-** xref:DeltaSqlAstBuilder.adoc[DeltaSqlAstBuilder]
 
 * xref:DeltaDataSource.adoc[DeltaDataSource]
 ** xref:DeltaOptions.adoc[DeltaOptions]

@@ -1,6 +1,7 @@
 = DeltaSparkSessionExtension
 
-*DeltaSparkSessionExtension* is an extension of Spark SQL to activate xref:DeltaSqlParser.adoc[] (for xref:delta-sql-commands.adoc[]).
+[[apply]]
+*DeltaSparkSessionExtension* is an extension of Spark SQL to register xref:DeltaSqlParser.adoc[] (for xref:delta-sql-commands.adoc[]).
 
 DeltaSparkSessionExtension is registered using *spark.sql.extensions* configuration property while creating a `SparkSession` in a Spark application.
 
