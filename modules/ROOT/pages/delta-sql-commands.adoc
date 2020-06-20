@@ -1,6 +1,6 @@
 = Delta SQL Commands
 
-Delta Lake supports the <<commands, SQL commands>>. They can be registered in a Spark application using <<DeltaSparkSessionExtension.adoc#, DeltaSparkSessionExtension>>.
+Delta Lake registers custom <<commands, SQL commands>> using xref:DeltaSparkSessionExtension.adoc[].
 
 The SQL commands support `table` of the format `++delta.`path`++` (with backticks), e.g. `++delta.`/tmp/delta/t1`++` while `path` is between single quotes, e.g. `'/tmp/delta/t1'`.
 

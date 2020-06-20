@@ -13,9 +13,9 @@ PreprocessTableMerge is created when:
 
 * DeltaMergeBuilder is requested to xref:DeltaMergeBuilder.adoc#execute[execute]
 
-* DeltaSparkSessionExtension is requested to xref:DeltaSparkSessionExtension.adoc#apply[apply] (and inject the PreprocessTableMerge rule into a SparkSession)
+* DeltaSparkSessionExtension is requested to xref:DeltaSparkSessionExtension.adoc#apply[register Delta SQL support]
 
-== [[apply]] Resolving DeltaMergeInto Commands
+== [[apply]] Executing Rule
 
 [source, scala]
 ----
