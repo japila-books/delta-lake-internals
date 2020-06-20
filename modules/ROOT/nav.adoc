@@ -1,8 +1,16 @@
 * xref:overview.adoc[]
 * xref:installation.adoc[]
 
-.Features
+* Features
 ** xref:time-travel.adoc[]
+
+* xref:DeltaSparkSessionExtension.adoc[]
+** xref:DeltaSqlParser.adoc[]
+** xref:DeltaAnalysis.adoc[]
+** xref:DeltaUnsupportedOperationsCheck.adoc[]
+** xref:PreprocessTableDelete.adoc[]
+** xref:PreprocessTableMerge.adoc[]
+** xref:PreprocessTableUpdate.adoc[]
 
 * xref:DeltaLog.adoc[DeltaLog]
 ** xref:Checkpoints.adoc[Checkpoints]
@@ -31,10 +39,12 @@
 ** xref:DescribeDeltaDetailCommand.adoc[DescribeDeltaDetailCommand]
 
 ** xref:DescribeDeltaHistoryCommand.adoc[DescribeDeltaHistoryCommand]
-** xref:MergeIntoCommand.adoc[MergeIntoCommand]
+
+** xref:MergeIntoCommand.adoc[]
 *** xref:DeltaMergeBuilder.adoc[]
 *** xref:DeltaMergeMatchedActionBuilder.adoc[]
-*** xref:PreprocessTableMerge.adoc[PreprocessTableMerge]
+** xref:DeltaMergeInto.adoc[DeltaMergeInto]
+
 ** xref:UpdateCommand.adoc[UpdateCommand]
 ** xref:vacuum.adoc[Vacuum]
 *** xref:VacuumCommand.adoc[VacuumCommand]
@@ -43,8 +53,6 @@
 ** xref:WriteIntoDelta.adoc[WriteIntoDelta]
 
 * xref:delta-sql-commands.adoc[Delta SQL Commands]
-** xref:DeltaSparkSessionExtension.adoc[DeltaSparkSessionExtension]
-** xref:DeltaSqlParser.adoc[DeltaSqlParser]
 ** xref:DeltaSqlAstBuilder.adoc[DeltaSqlAstBuilder]
 
 * xref:DeltaDataSource.adoc[DeltaDataSource]

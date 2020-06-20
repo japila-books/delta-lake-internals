@@ -1,19 +1,28 @@
-= PreprocessTableMerge
+= PreprocessTableMerge Logical Resolution Rule
+:navtitle: PreprocessTableMerge
 
-`PreprocessTableMerge` is...FIXME
+*PreprocessTableMerge* is a post-hoc logical resolution rule (`Rule[LogicalPlan]`) to <<apply, resolve DeltaMergeInto logical commands>> in a query plan into xref:MergeIntoCommand.adoc[]s.
 
-`PreprocessTableMerge` is <<creating-instance, created>> when `DeltaMergeBuilder` is requested to <<DeltaMergeBuilder.adoc#execute, execute>>
+PreprocessTableMerge is _installed_ (injected) into a SparkSession using xref:DeltaSparkSessionExtension.adoc[].
 
-[[creating-instance]][[conf]]
-`PreprocessTableMerge` takes a single `SQLConf` to be created.
+== [[creating-instance]][[conf]] Creating Instance
 
-== [[apply]] Creating MergeIntoCommand Instance -- `apply` Method
+PreprocessTableMerge takes a single `SQLConf` to be created.
+
+PreprocessTableMerge is created when:
+
+* DeltaMergeBuilder is requested to xref:DeltaMergeBuilder.adoc#execute[execute]
+
+* DeltaSparkSessionExtension is requested to xref:DeltaSparkSessionExtension.adoc#apply[apply] (and inject the PreprocessTableMerge rule into a SparkSession)
+
+== [[apply]] Resolving DeltaMergeInto Commands
 
 [source, scala]
 ----
-apply(mergeInto: MergeInto): MergeIntoCommand
+apply(
+  plan: LogicalPlan): LogicalPlan
 ----
 
-`apply`...FIXME
+apply resolves (_replaces_) xref:DeltaMergeInto.adoc[] logical commands (in a logical query plan) into corresponding xref:MergeIntoCommand.adoc[]s.
 
-NOTE: `apply` is used when...FIXME
+apply is part of the Spark SQL's `Rule` abstraction.

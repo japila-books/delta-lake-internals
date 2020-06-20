@@ -1,0 +1,3 @@
+= DeltaUnsupportedOperationsCheck
+
+*DeltaUnsupportedOperationsCheck* is...FIXME
