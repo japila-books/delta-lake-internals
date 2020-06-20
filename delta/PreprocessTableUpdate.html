@@ -3,10 +3,10 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>DeltaMergeMatchedActionBuilder :: The Internals Of Delta Lake</title>
-    <link rel="canonical" href="https://books.japila.pl/delta-lake-internals/delta/DeltaMergeMatchedActionBuilder.html">
-    <link rel="prev" href="DeltaMergeBuilder.html">
-    <link rel="next" href="DeltaMergeInto.html">
+    <title>PreprocessTableUpdate :: The Internals Of Delta Lake</title>
+    <link rel="canonical" href="https://books.japila.pl/delta-lake-internals/delta/PreprocessTableUpdate.html">
+    <link rel="prev" href="PreprocessTableMerge.html">
+    <link rel="next" href="DeltaLog.html">
     <meta name="generator" content="Antora 2.3.3">
     <link rel="stylesheet" href="../_/css/site.css">
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-151208281-1"></script>
@@ -103,7 +103,7 @@
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="PreprocessTableMerge.html">PreprocessTableMerge</a>
   </li>
-  <li class="nav-item" data-depth="2">
+  <li class="nav-item is-current-page" data-depth="2">
     <a class="nav-link" href="PreprocessTableUpdate.html">PreprocessTableUpdate</a>
   </li>
 </ul>
@@ -194,7 +194,7 @@
   <li class="nav-item" data-depth="3">
     <a class="nav-link" href="DeltaMergeBuilder.html">DeltaMergeBuilder</a>
   </li>
-  <li class="nav-item is-current-page" data-depth="3">
+  <li class="nav-item" data-depth="3">
     <a class="nav-link" href="DeltaMergeMatchedActionBuilder.html">DeltaMergeMatchedActionBuilder</a>
   </li>
 </ul>
@@ -451,76 +451,21 @@
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="index.html">Delta Lake</a></li>
-    <li><a href="commands.html">Commands</a></li>
-    <li><a href="MergeIntoCommand.html">MergeIntoCommand</a></li>
-    <li><a href="DeltaMergeMatchedActionBuilder.html">DeltaMergeMatchedActionBuilder</a></li>
+    <li><a href="DeltaSparkSessionExtension.html">DeltaSparkSessionExtension</a></li>
+    <li><a href="PreprocessTableUpdate.html">PreprocessTableUpdate</a></li>
   </ul>
 </nav>
-  <div class="edit-this-page"><a href="https://github.com/japila-books/delta-lake-internals/edit/master/modules/ROOT/pages/DeltaMergeMatchedActionBuilder.adoc">Edit this Page</a></div>
+  <div class="edit-this-page"><a href="https://github.com/japila-books/delta-lake-internals/edit/master/modules/ROOT/pages/PreprocessTableUpdate.adoc">Edit this Page</a></div>
   </div>
   <div class="content">
 <article class="doc">
-<h1 class="page">DeltaMergeMatchedActionBuilder</h1>
-<div id="preamble">
-<div class="sectionbody">
+<h1 class="page">PreprocessTableUpdate</h1>
 <div class="paragraph">
-<p><strong>DeltaMergeMatchedActionBuilder</strong> is a merge action builder for <a href="DeltaMergeBuilder.html#whenMatched" class="page">DeltaMergeBuilder.whenMatched</a> operator.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-plaintext hljs" data-lang="plaintext">scala&gt; :type mergeBuilder
-io.delta.tables.DeltaMergeBuilder
-
-val mergeMatchedBuilder = mergeBuilder.whenMatched
-
-scala&gt; :type mergeMatchedBuilder
-io.delta.tables.DeltaMergeMatchedActionBuilder</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="creating-instance"><a class="anchor" href="#creating-instance"></a><a class="link" href="#creating-instance"><a id="creating-instance"></a> Creating Instance</a></h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>DeltaMergeMatchedActionBuilder takes the following to be created:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><a id="mergeBuilder"></a> <a href="DeltaMergeBuilder.html" class="page">DeltaMergeBuilder</a></p>
-</li>
-<li>
-<p><a id="matchCondition"></a> Optional match condition (<code>Column</code> expression)</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>DeltaMergeMatchedActionBuilder is created using <a href="#apply">apply</a> factory method.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="apply-factory-method"><a class="anchor" href="#apply-factory-method"></a><a class="link" href="#apply-factory-method"><a id="apply"></a> apply Factory Method</a></h2>
-<div class="sectionbody">
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">apply(
-  mergeBuilder: DeltaMergeBuilder,
-  matchCondition: Option[Column]): DeltaMergeMatchedActionBuilder</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>apply creates a DeltaMergeMatchedActionBuilder (for the arguments given).</p>
-</div>
-<div class="paragraph">
-<p>apply is used when DeltaMergeBuilder is requested to <a href="DeltaMergeBuilder.html#whenMatched" class="page">whenMatched</a>.</p>
-</div>
-</div>
+<p><strong>PreprocessTableUpdate</strong> is&#8230;&#8203;FIXME</p>
 </div>
 <nav class="pagination">
-  <span class="prev"><a href="DeltaMergeBuilder.html">DeltaMergeBuilder</a></span>
-  <span class="next"><a href="DeltaMergeInto.html">DeltaMergeInto</a></span>
+  <span class="prev"><a href="PreprocessTableMerge.html">PreprocessTableMerge</a></span>
+  <span class="next"><a href="DeltaLog.html">DeltaLog</a></span>
 </nav>
 </article>
 <aside class="toc sidebar" data-title="Contents" data-levels="2">

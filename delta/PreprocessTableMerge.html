@@ -3,8 +3,10 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>PreprocessTableMerge :: The Internals Of Delta Lake</title>
+    <title>PreprocessTableMerge Logical Resolution Rule :: The Internals Of Delta Lake</title>
     <link rel="canonical" href="https://books.japila.pl/delta-lake-internals/delta/PreprocessTableMerge.html">
+    <link rel="prev" href="PreprocessTableDelete.html">
+    <link rel="next" href="PreprocessTableUpdate.html">
     <meta name="generator" content="Antora 2.3.3">
     <link rel="stylesheet" href="../_/css/site.css">
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-151208281-1"></script>
@@ -79,6 +81,30 @@
 <ul class="nav-list">
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="time-travel.html">Time Travel</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="DeltaSparkSessionExtension.html">DeltaSparkSessionExtension</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="DeltaSqlParser.html">DeltaSqlParser</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="DeltaAnalysis.html">DeltaAnalysis</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="DeltaUnsupportedOperationsCheck.html">DeltaUnsupportedOperationsCheck</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="PreprocessTableDelete.html">PreprocessTableDelete</a>
+  </li>
+  <li class="nav-item is-current-page" data-depth="2">
+    <a class="nav-link" href="PreprocessTableMerge.html">PreprocessTableMerge</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="PreprocessTableUpdate.html">PreprocessTableUpdate</a>
   </li>
 </ul>
   </li>
@@ -171,10 +197,10 @@
   <li class="nav-item" data-depth="3">
     <a class="nav-link" href="DeltaMergeMatchedActionBuilder.html">DeltaMergeMatchedActionBuilder</a>
   </li>
-  <li class="nav-item is-current-page" data-depth="3">
-    <a class="nav-link" href="PreprocessTableMerge.html">PreprocessTableMerge</a>
-  </li>
 </ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="DeltaMergeInto.html">DeltaMergeInto</a>
   </li>
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="UpdateCommand.html">UpdateCommand</a>
@@ -203,12 +229,6 @@
     <button class="nav-item-toggle"></button>
     <a class="nav-link" href="delta-sql-commands.html">Delta SQL Commands</a>
 <ul class="nav-list">
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="DeltaSparkSessionExtension.html">DeltaSparkSessionExtension</a>
-  </li>
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="DeltaSqlParser.html">DeltaSqlParser</a>
-  </li>
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="DeltaSqlAstBuilder.html">DeltaSqlAstBuilder</a>
   </li>
@@ -376,33 +396,29 @@
 </ul>
   </li>
   <li class="nav-item" data-depth="0">
-<ul class="nav-list">
-  <li class="nav-item" data-depth="1">
     <button class="nav-item-toggle"></button>
     <span class="nav-text">Demos</span>
 <ul class="nav-list">
-  <li class="nav-item" data-depth="2">
+  <li class="nav-item" data-depth="1">
     <a class="nav-link" href="demo/Converting-Parquet-Dataset-Into-Delta-Format.html">Converting Parquet Dataset Into Delta Format</a>
   </li>
-  <li class="nav-item" data-depth="2">
+  <li class="nav-item" data-depth="1">
     <a class="nav-link" href="demo/stream-processing-of-delta-table.html">Stream Processing of Delta Table</a>
   </li>
-  <li class="nav-item" data-depth="2">
+  <li class="nav-item" data-depth="1">
     <a class="nav-link" href="demo/Using-Delta-Lake-as-Streaming-Sink-in-Structured-Streaming.html">Using Delta Lake as Streaming Sink in Structured Streaming</a>
   </li>
-  <li class="nav-item" data-depth="2">
+  <li class="nav-item" data-depth="1">
     <a class="nav-link" href="demo/Debugging-Delta-Lake-Using-IntelliJ-IDEA.html">Debugging Delta Lake Using IntelliJ IDEA</a>
   </li>
-  <li class="nav-item" data-depth="2">
+  <li class="nav-item" data-depth="1">
     <a class="nav-link" href="demo/Observing-Transaction-Retries.html">Observing Transaction Retries</a>
   </li>
-  <li class="nav-item" data-depth="2">
+  <li class="nav-item" data-depth="1">
     <a class="nav-link" href="demo/DeltaTable-DeltaLog-And-Snapshots.html">DeltaTable, DeltaLog And Snapshots</a>
   </li>
-  <li class="nav-item" data-depth="2">
+  <li class="nav-item" data-depth="1">
     <a class="nav-link" href="demo/schema-evolution.html">Schema Evolution</a>
-  </li>
-</ul>
   </li>
 </ul>
   </li>
@@ -435,8 +451,7 @@
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="index.html">Delta Lake</a></li>
-    <li><a href="commands.html">Commands</a></li>
-    <li><a href="MergeIntoCommand.html">MergeIntoCommand</a></li>
+    <li><a href="DeltaSparkSessionExtension.html">DeltaSparkSessionExtension</a></li>
     <li><a href="PreprocessTableMerge.html">PreprocessTableMerge</a></li>
   </ul>
 </nav>
@@ -444,46 +459,59 @@
   </div>
   <div class="content">
 <article class="doc">
-<h1 class="page">PreprocessTableMerge</h1>
+<h1 class="page">PreprocessTableMerge Logical Resolution Rule</h1>
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p><code>PreprocessTableMerge</code> is&#8230;&#8203;FIXME</p>
+<p><strong>PreprocessTableMerge</strong> is a post-hoc logical resolution rule (<code>Rule[LogicalPlan]</code>) to <a href="#apply">resolve DeltaMergeInto logical commands</a> in a query plan into <a href="MergeIntoCommand.html" class="page">MergeIntoCommand</a>s.</p>
 </div>
 <div class="paragraph">
-<p><code>PreprocessTableMerge</code> is <a href="#creating-instance">created</a> when <code>DeltaMergeBuilder</code> is requested to <a href="DeltaMergeBuilder.html#execute" class="page">execute</a></p>
-</div>
-<div class="paragraph">
-<p><a id="creating-instance"></a><a id="conf"></a>
-<code>PreprocessTableMerge</code> takes a single <code>SQLConf</code> to be created.</p>
+<p>PreprocessTableMerge is <em>installed</em> (injected) into a SparkSession using <a href="DeltaSparkSessionExtension.html" class="page">DeltaSparkSessionExtension</a>.</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="creating-mergeintocommand-instanceapply-method"><a class="anchor" href="#creating-mergeintocommand-instanceapply-method"></a><a class="link" href="#creating-mergeintocommand-instanceapply-method"><a id="apply"></a> Creating MergeIntoCommand Instance&#8201;&#8212;&#8201;<code>apply</code> Method</a></h2>
+<h2 id="creating-instance"><a class="anchor" href="#creating-instance"></a><a class="link" href="#creating-instance"><a id="creating-instance"></a><a id="conf"></a> Creating Instance</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>PreprocessTableMerge takes a single <code>SQLConf</code> to be created.</p>
+</div>
+<div class="paragraph">
+<p>PreprocessTableMerge is created when:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>DeltaMergeBuilder is requested to <a href="DeltaMergeBuilder.html#execute" class="page">execute</a></p>
+</li>
+<li>
+<p>DeltaSparkSessionExtension is requested to <a href="DeltaSparkSessionExtension.html#apply" class="page">apply</a> (and inject the PreprocessTableMerge rule into a SparkSession)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="resolving-deltamergeinto-commands"><a class="anchor" href="#resolving-deltamergeinto-commands"></a><a class="link" href="#resolving-deltamergeinto-commands"><a id="apply"></a> Resolving DeltaMergeInto Commands</a></h2>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">apply(mergeInto: MergeInto): MergeIntoCommand</code></pre>
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">apply(
+  plan: LogicalPlan): LogicalPlan</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p><code>apply</code>&#8230;&#8203;FIXME</p>
+<p>apply resolves (<em>replaces</em>) <a href="DeltaMergeInto.html" class="page">DeltaMergeInto</a> logical commands (in a logical query plan) into corresponding <a href="MergeIntoCommand.html" class="page">MergeIntoCommand</a>s.</p>
 </div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<code>apply</code> is used when&#8230;&#8203;FIXME
-</td>
-</tr>
-</table>
+<div class="paragraph">
+<p>apply is part of the Spark SQL&#8217;s <code>Rule</code> abstraction.</p>
 </div>
 </div>
 </div>
+<nav class="pagination">
+  <span class="prev"><a href="PreprocessTableDelete.html">PreprocessTableDelete</a></span>
+  <span class="next"><a href="PreprocessTableUpdate.html">PreprocessTableUpdate</a></span>
+</nav>
 </article>
 <aside class="toc sidebar" data-title="Contents" data-levels="2">
   <div class="toc-menu"></div>

@@ -3,8 +3,10 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title> MergeIntoCommand :: The Internals Of Delta Lake</title>
+    <title>MergeIntoCommand :: The Internals Of Delta Lake</title>
     <link rel="canonical" href="https://books.japila.pl/delta-lake-internals/delta/MergeIntoCommand.html">
+    <link rel="prev" href="DescribeDeltaHistoryCommand.html">
+    <link rel="next" href="DeltaMergeBuilder.html">
     <meta name="generator" content="Antora 2.3.3">
     <link rel="stylesheet" href="../_/css/site.css">
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-151208281-1"></script>
@@ -79,6 +81,30 @@
 <ul class="nav-list">
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="time-travel.html">Time Travel</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="DeltaSparkSessionExtension.html">DeltaSparkSessionExtension</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="DeltaSqlParser.html">DeltaSqlParser</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="DeltaAnalysis.html">DeltaAnalysis</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="DeltaUnsupportedOperationsCheck.html">DeltaUnsupportedOperationsCheck</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="PreprocessTableDelete.html">PreprocessTableDelete</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="PreprocessTableMerge.html">PreprocessTableMerge</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="PreprocessTableUpdate.html">PreprocessTableUpdate</a>
   </li>
 </ul>
   </li>
@@ -171,10 +197,10 @@
   <li class="nav-item" data-depth="3">
     <a class="nav-link" href="DeltaMergeMatchedActionBuilder.html">DeltaMergeMatchedActionBuilder</a>
   </li>
-  <li class="nav-item" data-depth="3">
-    <a class="nav-link" href="PreprocessTableMerge.html">PreprocessTableMerge</a>
-  </li>
 </ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="DeltaMergeInto.html">DeltaMergeInto</a>
   </li>
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="UpdateCommand.html">UpdateCommand</a>
@@ -203,12 +229,6 @@
     <button class="nav-item-toggle"></button>
     <a class="nav-link" href="delta-sql-commands.html">Delta SQL Commands</a>
 <ul class="nav-list">
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="DeltaSparkSessionExtension.html">DeltaSparkSessionExtension</a>
-  </li>
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="DeltaSqlParser.html">DeltaSqlParser</a>
-  </li>
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="DeltaSqlAstBuilder.html">DeltaSqlAstBuilder</a>
   </li>
@@ -376,33 +396,29 @@
 </ul>
   </li>
   <li class="nav-item" data-depth="0">
-<ul class="nav-list">
-  <li class="nav-item" data-depth="1">
     <button class="nav-item-toggle"></button>
     <span class="nav-text">Demos</span>
 <ul class="nav-list">
-  <li class="nav-item" data-depth="2">
+  <li class="nav-item" data-depth="1">
     <a class="nav-link" href="demo/Converting-Parquet-Dataset-Into-Delta-Format.html">Converting Parquet Dataset Into Delta Format</a>
   </li>
-  <li class="nav-item" data-depth="2">
+  <li class="nav-item" data-depth="1">
     <a class="nav-link" href="demo/stream-processing-of-delta-table.html">Stream Processing of Delta Table</a>
   </li>
-  <li class="nav-item" data-depth="2">
+  <li class="nav-item" data-depth="1">
     <a class="nav-link" href="demo/Using-Delta-Lake-as-Streaming-Sink-in-Structured-Streaming.html">Using Delta Lake as Streaming Sink in Structured Streaming</a>
   </li>
-  <li class="nav-item" data-depth="2">
+  <li class="nav-item" data-depth="1">
     <a class="nav-link" href="demo/Debugging-Delta-Lake-Using-IntelliJ-IDEA.html">Debugging Delta Lake Using IntelliJ IDEA</a>
   </li>
-  <li class="nav-item" data-depth="2">
+  <li class="nav-item" data-depth="1">
     <a class="nav-link" href="demo/Observing-Transaction-Retries.html">Observing Transaction Retries</a>
   </li>
-  <li class="nav-item" data-depth="2">
+  <li class="nav-item" data-depth="1">
     <a class="nav-link" href="demo/DeltaTable-DeltaLog-And-Snapshots.html">DeltaTable, DeltaLog And Snapshots</a>
   </li>
-  <li class="nav-item" data-depth="2">
+  <li class="nav-item" data-depth="1">
     <a class="nav-link" href="demo/schema-evolution.html">Schema Evolution</a>
-  </li>
-</ul>
   </li>
 </ul>
   </li>
@@ -443,14 +459,14 @@
   </div>
   <div class="content">
 <article class="doc">
-<h1 class="page"><a id="MergeIntoCommand"></a> MergeIntoCommand</h1>
+<h1 class="page">MergeIntoCommand</h1>
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p><code>MergeIntoCommand</code> is a <a href="DeltaCommand.html" class="page">Delta command</a> that can&#8230;&#8203;FIXME</p>
+<p>MergeIntoCommand is a <a href="DeltaCommand.html" class="page">Delta command</a> that can&#8230;&#8203;FIXME</p>
 </div>
 <div class="paragraph">
-<p><code>MergeIntoCommand</code> is a logical command (<code>RunnableCommand</code>).</p>
+<p>MergeIntoCommand is a logical command (<code>RunnableCommand</code>).</p>
 </div>
 <div class="admonitionblock tip">
 <table>
@@ -465,7 +481,7 @@ Read up on <a href="https://jaceklaskowski.gitbooks.io/mastering-spark-sql/spark
 </table>
 </div>
 <div class="paragraph">
-<p><code>MergeIntoCommand</code> is <a href="#creating-instance">created</a> exclusively when <code>DeltaMergeBuilder</code> is requested to <a href="DeltaMergeBuilder.html#execute" class="page">execute</a> (using <a href="PreprocessTableMerge.html#apply" class="page">PreprocessTableMerge</a>).</p>
+<p>MergeIntoCommand is <a href="#creating-instance">created</a> exclusively when <code>DeltaMergeBuilder</code> is requested to <a href="DeltaMergeBuilder.html#execute" class="page">execute</a> (using <a href="PreprocessTableMerge.html#apply" class="page">PreprocessTableMerge</a>).</p>
 </div>
 </div>
 </div>
@@ -473,7 +489,7 @@ Read up on <a href="https://jaceklaskowski.gitbooks.io/mastering-spark-sql/spark
 <h2 id="creating-mergeintocommand-instance"><a class="anchor" href="#creating-mergeintocommand-instance"></a><a class="link" href="#creating-mergeintocommand-instance"><a id="creating-instance"></a> Creating MergeIntoCommand Instance</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p><code>MergeIntoCommand</code> takes the following to be created:</p>
+<p>MergeIntoCommand takes the following to be created:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -498,7 +514,7 @@ Read up on <a href="https://jaceklaskowski.gitbooks.io/mastering-spark-sql/spark
 </ul>
 </div>
 <div class="paragraph">
-<p><code>MergeIntoCommand</code> initializes the <a href="#internal-properties">internal properties</a>.</p>
+<p>MergeIntoCommand initializes the <a href="#internal-properties">internal properties</a>.</p>
 </div>
 </div>
 </div>
@@ -548,7 +564,7 @@ Read up on <a href="https://jaceklaskowski.gitbooks.io/mastering-spark-sql/spark
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-<code>writeAllChanges</code> is used exclusively when <code>MergeIntoCommand</code> is requested to <a href="#run">run</a>.
+<code>writeAllChanges</code> is used exclusively when MergeIntoCommand is requested to <a href="#run">run</a>.
 </td>
 </tr>
 </table>
@@ -575,7 +591,7 @@ Read up on <a href="https://jaceklaskowski.gitbooks.io/mastering-spark-sql/spark
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-<code>findTouchedFiles</code> is used when <code>MergeIntoCommand</code> is requested to <a href="#run">run</a>.
+<code>findTouchedFiles</code> is used when MergeIntoCommand is requested to <a href="#run">run</a>.
 </td>
 </tr>
 </table>
@@ -602,13 +618,17 @@ Read up on <a href="https://jaceklaskowski.gitbooks.io/mastering-spark-sql/spark
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-<code>buildTargetPlanWithFiles</code> is used when <code>MergeIntoCommand</code> is requested to <a href="#run">run</a> (via <a href="#findTouchedFiles">findTouchedFiles</a> and <a href="#writeAllChanges">writeAllChanges</a>).
+<code>buildTargetPlanWithFiles</code> is used when MergeIntoCommand is requested to <a href="#run">run</a> (via <a href="#findTouchedFiles">findTouchedFiles</a> and <a href="#writeAllChanges">writeAllChanges</a>).
 </td>
 </tr>
 </table>
 </div>
 </div>
 </div>
+<nav class="pagination">
+  <span class="prev"><a href="DescribeDeltaHistoryCommand.html">DescribeDeltaHistoryCommand</a></span>
+  <span class="next"><a href="DeltaMergeBuilder.html">DeltaMergeBuilder</a></span>
+</nav>
 </article>
 <aside class="toc sidebar" data-title="Contents" data-levels="2">
   <div class="toc-menu"></div>

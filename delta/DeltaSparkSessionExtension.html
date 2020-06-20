@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>DeltaSparkSessionExtension :: The Internals Of Delta Lake</title>
     <link rel="canonical" href="https://books.japila.pl/delta-lake-internals/delta/DeltaSparkSessionExtension.html">
+    <link rel="prev" href="time-travel.html">
+    <link rel="next" href="DeltaSqlParser.html">
     <meta name="generator" content="Antora 2.3.3">
     <link rel="stylesheet" href="../_/css/site.css">
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-151208281-1"></script>
@@ -79,6 +81,30 @@
 <ul class="nav-list">
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="time-travel.html">Time Travel</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item is-current-page" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="DeltaSparkSessionExtension.html">DeltaSparkSessionExtension</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="DeltaSqlParser.html">DeltaSqlParser</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="DeltaAnalysis.html">DeltaAnalysis</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="DeltaUnsupportedOperationsCheck.html">DeltaUnsupportedOperationsCheck</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="PreprocessTableDelete.html">PreprocessTableDelete</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="PreprocessTableMerge.html">PreprocessTableMerge</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="PreprocessTableUpdate.html">PreprocessTableUpdate</a>
   </li>
 </ul>
   </li>
@@ -171,10 +197,10 @@
   <li class="nav-item" data-depth="3">
     <a class="nav-link" href="DeltaMergeMatchedActionBuilder.html">DeltaMergeMatchedActionBuilder</a>
   </li>
-  <li class="nav-item" data-depth="3">
-    <a class="nav-link" href="PreprocessTableMerge.html">PreprocessTableMerge</a>
-  </li>
 </ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="DeltaMergeInto.html">DeltaMergeInto</a>
   </li>
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="UpdateCommand.html">UpdateCommand</a>
@@ -203,12 +229,6 @@
     <button class="nav-item-toggle"></button>
     <a class="nav-link" href="delta-sql-commands.html">Delta SQL Commands</a>
 <ul class="nav-list">
-  <li class="nav-item is-current-page" data-depth="2">
-    <a class="nav-link" href="DeltaSparkSessionExtension.html">DeltaSparkSessionExtension</a>
-  </li>
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="DeltaSqlParser.html">DeltaSqlParser</a>
-  </li>
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="DeltaSqlAstBuilder.html">DeltaSqlAstBuilder</a>
   </li>
@@ -376,33 +396,29 @@
 </ul>
   </li>
   <li class="nav-item" data-depth="0">
-<ul class="nav-list">
-  <li class="nav-item" data-depth="1">
     <button class="nav-item-toggle"></button>
     <span class="nav-text">Demos</span>
 <ul class="nav-list">
-  <li class="nav-item" data-depth="2">
+  <li class="nav-item" data-depth="1">
     <a class="nav-link" href="demo/Converting-Parquet-Dataset-Into-Delta-Format.html">Converting Parquet Dataset Into Delta Format</a>
   </li>
-  <li class="nav-item" data-depth="2">
+  <li class="nav-item" data-depth="1">
     <a class="nav-link" href="demo/stream-processing-of-delta-table.html">Stream Processing of Delta Table</a>
   </li>
-  <li class="nav-item" data-depth="2">
+  <li class="nav-item" data-depth="1">
     <a class="nav-link" href="demo/Using-Delta-Lake-as-Streaming-Sink-in-Structured-Streaming.html">Using Delta Lake as Streaming Sink in Structured Streaming</a>
   </li>
-  <li class="nav-item" data-depth="2">
+  <li class="nav-item" data-depth="1">
     <a class="nav-link" href="demo/Debugging-Delta-Lake-Using-IntelliJ-IDEA.html">Debugging Delta Lake Using IntelliJ IDEA</a>
   </li>
-  <li class="nav-item" data-depth="2">
+  <li class="nav-item" data-depth="1">
     <a class="nav-link" href="demo/Observing-Transaction-Retries.html">Observing Transaction Retries</a>
   </li>
-  <li class="nav-item" data-depth="2">
+  <li class="nav-item" data-depth="1">
     <a class="nav-link" href="demo/DeltaTable-DeltaLog-And-Snapshots.html">DeltaTable, DeltaLog And Snapshots</a>
   </li>
-  <li class="nav-item" data-depth="2">
+  <li class="nav-item" data-depth="1">
     <a class="nav-link" href="demo/schema-evolution.html">Schema Evolution</a>
-  </li>
-</ul>
   </li>
 </ul>
   </li>
@@ -435,7 +451,6 @@
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="index.html">Delta Lake</a></li>
-    <li><a href="delta-sql-commands.html">Delta SQL Commands</a></li>
     <li><a href="DeltaSparkSessionExtension.html">DeltaSparkSessionExtension</a></li>
   </ul>
 </nav>
@@ -444,14 +459,22 @@
   <div class="content">
 <article class="doc">
 <h1 class="page">DeltaSparkSessionExtension</h1>
+<div id="preamble">
+<div class="sectionbody">
 <div class="paragraph">
-<p><code>DeltaSparkSessionExtension</code> is an extension of Spark SQL to activate <a href="DeltaSqlParser.html" class="page">DeltaSqlParser</a> for <a href="delta-sql-commands.html" class="page">Delta SQL commands</a>.</p>
+<p><strong>DeltaSparkSessionExtension</strong> is an extension of Spark SQL to activate <a href="DeltaSqlParser.html" class="page">DeltaSqlParser</a> (for <a href="delta-sql-commands.html" class="page">Delta SQL Commands</a>).</p>
 </div>
 <div class="paragraph">
-<p><code>DeltaSparkSessionExtension</code> is registered using <strong>spark.sql.extensions</strong> configuration property while creating a <code>SparkSession</code> in a Spark application.</p>
+<p>DeltaSparkSessionExtension is registered using <strong>spark.sql.extensions</strong> configuration property while creating a <code>SparkSession</code> in a Spark application.</p>
 </div>
-<div id="application" class="listingblock">
-<div class="title">Registering DeltaSparkSessionExtension with Spark SQL Application</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="registering-deltasparksessionextension"><a class="anchor" href="#registering-deltasparksessionextension"></a><a class="link" href="#registering-deltasparksessionextension"><a id="registration"></a> Registering DeltaSparkSessionExtension</a></h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="spark-sql-application"><a class="anchor" href="#spark-sql-application"></a><a class="link" href="#spark-sql-application"><a id="application"></a> Spark SQL Application</a></h3>
+<div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">import org.apache.spark.sql.SparkSession
 val spark = SparkSession
@@ -461,33 +484,23 @@ val spark = SparkSession
   .getOrCreate</code></pre>
 </div>
 </div>
-<div id="spark-shell" class="listingblock">
-<div class="title">Registering DeltaSparkSessionExtension with Spark Shell</div>
+</div>
+<div class="sect2">
+<h3 id="spark-shell"><a class="anchor" href="#spark-shell"></a><a class="link" href="#spark-shell"><a id="spark-shell"></a> Spark Shell</a></h3>
+<div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">/*
-./bin/spark-shell \
+<pre class="highlightjs highlight"><code class="language-plaintext hljs" data-lang="plaintext">./bin/spark-shell \
   --packages io.delta:delta-core_2.12:0.7.0 \
-  --conf spark.sql.extensions=io.delta.sql.DeltaSparkSessionExtension
-*/
-
-assert(spark.conf.get("spark.sql.extensions") == "io.delta.sql.DeltaSparkSessionExtension")
-
-// Create a delta table
-val data = Seq((0,"zero")).toDF("id", "name")
-// note the delta format
-data.write.format("delta").partitionBy("id").save("/tmp/delta/t1")
-import io.delta.tables.DeltaTable
-assert(DeltaTable.isDeltaTable("/tmp/delta/t1"))
-
-val describe = sql("DESCRIBE HISTORY delta.`/tmp/delta/t1`")
-scala&gt; describe.show
-+-------+-------------------+------+--------+---------+--------------------+----+--------+---------+-----------+--------------+-------------+
-|version|          timestamp|userId|userName|operation| operationParameters| job|notebook|clusterId|readVersion|isolationLevel|isBlindAppend|
-+-------+-------------------+------+--------+---------+--------------------+----+--------+---------+-----------+--------------+-------------+
-|      0|2019-12-03 11:40:27|  null|    null|    WRITE|[mode -&gt; ErrorIfE...|null|    null|     null|       null|          null|         true|
-+-------+-------------------+------+--------+---------+--------------------+----+--------+---------+-----------+--------------+-------------+</code></pre>
+  --conf spark.sql.extensions=io.delta.sql.DeltaSparkSessionExtension</code></pre>
 </div>
 </div>
+</div>
+</div>
+</div>
+<nav class="pagination">
+  <span class="prev"><a href="time-travel.html">Time Travel</a></span>
+  <span class="next"><a href="DeltaSqlParser.html">DeltaSqlParser</a></span>
+</nav>
 </article>
 <aside class="toc sidebar" data-title="Contents" data-levels="2">
   <div class="toc-menu"></div>
