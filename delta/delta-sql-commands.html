@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>Delta SQL Commands :: The Internals Of Delta Lake</title>
     <link rel="canonical" href="https://books.japila.pl/delta-lake-internals/delta/delta-sql-commands.html">
-    <link rel="prev" href="WriteIntoDelta.html">
-    <link rel="next" href="DeltaSqlAstBuilder.html">
+    <link rel="prev" href="time-travel.html">
+    <link rel="next" href="DeltaSparkSessionExtension.html">
     <meta name="generator" content="Antora 2.3.3">
     <link rel="stylesheet" href="../_/css/site.css">
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-151208281-1"></script>
@@ -82,6 +82,9 @@
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="time-travel.html">Time Travel</a>
   </li>
+  <li class="nav-item is-current-page" data-depth="2">
+    <a class="nav-link" href="delta-sql-commands.html">Delta SQL Commands</a>
+  </li>
 </ul>
   </li>
   <li class="nav-item" data-depth="1">
@@ -89,7 +92,13 @@
     <a class="nav-link" href="DeltaSparkSessionExtension.html">DeltaSparkSessionExtension</a>
 <ul class="nav-list">
   <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
     <a class="nav-link" href="DeltaSqlParser.html">DeltaSqlParser</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="DeltaSqlAstBuilder.html">DeltaSqlAstBuilder</a>
+  </li>
+</ul>
   </li>
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="DeltaAnalysis.html">DeltaAnalysis</a>
@@ -222,15 +231,6 @@
   </li>
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="WriteIntoDelta.html">WriteIntoDelta</a>
-  </li>
-</ul>
-  </li>
-  <li class="nav-item is-current-page" data-depth="1">
-    <button class="nav-item-toggle"></button>
-    <a class="nav-link" href="delta-sql-commands.html">Delta SQL Commands</a>
-<ul class="nav-list">
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="DeltaSqlAstBuilder.html">DeltaSqlAstBuilder</a>
   </li>
 </ul>
   </li>
@@ -451,6 +451,7 @@
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="index.html">Delta Lake</a></li>
+    <li>Features</li>
     <li><a href="delta-sql-commands.html">Delta SQL Commands</a></li>
   </ul>
 </nav>
@@ -459,88 +460,87 @@
   <div class="content">
 <article class="doc">
 <h1 class="page">Delta SQL Commands</h1>
+<div id="preamble">
+<div class="sectionbody">
 <div class="paragraph">
 <p>Delta Lake supports the <a href="#commands">SQL commands</a>. They can be registered in a Spark application using <a href="DeltaSparkSessionExtension.html" class="page">DeltaSparkSessionExtension</a>.</p>
 </div>
 <div class="paragraph">
 <p>The SQL commands support <code>table</code> of the format <code>delta.`path`</code> (with backticks), e.g. <code>delta.`/tmp/delta/t1`</code> while <code>path</code> is between single quotes, e.g. <code>'/tmp/delta/t1'</code>.</p>
 </div>
-<table id="commands" class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 1. Delta SQL Commands</caption>
-<colgroup>
-<col style="width: 30%;">
-<col style="width: 70%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Name</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>CONVERT TO DELTA</code></p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div id="CONVERT-TO-DELTA" class="listingblock">
+</div>
+</div>
+<div class="sect1">
+<h2 id="convert-to-delta"><a class="anchor" href="#convert-to-delta"></a><a class="link" href="#convert-to-delta"><a id="CONVERT-TO-DELTA"></a> CONVERT TO DELTA</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code>CONVERT TO DELTA table
+<pre class="highlightjs highlight"><code class="language-plaintext hljs" data-lang="plaintext">CONVERT TO DELTA table
   (PARTITIONED BY '(' colTypeList ')')?</code></pre>
 </div>
 </div>
 <div class="paragraph">
 <p>Runs a <a href="ConvertToDeltaCommand.html" class="page">ConvertToDeltaCommand</a></p>
-</div></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>DESCRIBE DETAIL</code></p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div id="DESCRIBE-DETAIL" class="listingblock">
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="describe-detail"><a class="anchor" href="#describe-detail"></a><a class="link" href="#describe-detail"><a id="DESCRIBE-DETAIL"></a> DESCRIBE DETAIL</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code>(DESC | DESCRIBE) DETAIL (path | table)</code></pre>
+<pre class="highlightjs highlight"><code class="language-plaintext hljs" data-lang="plaintext">(DESC | DESCRIBE) DETAIL (path | table)</code></pre>
 </div>
 </div>
 <div class="paragraph">
 <p>Runs a <a href="DescribeDeltaDetailCommand.html" class="page">DescribeDeltaDetailCommand</a></p>
-</div></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>DESCRIBE HISTORY</code></p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div id="DESCRIBE-HISTORY" class="listingblock">
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="describe-history"><a class="anchor" href="#describe-history"></a><a class="link" href="#describe-history"><a id="DESCRIBE-HISTORY"></a> DESCRIBE HISTORY</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code>(DESC | DESCRIBE) HISTORY (path | table)
+<pre class="highlightjs highlight"><code class="language-plaintext hljs" data-lang="plaintext">(DESC | DESCRIBE) HISTORY (path | table)
   (LIMIT limit)?</code></pre>
 </div>
 </div>
 <div class="paragraph">
 <p>Runs a <a href="DescribeDeltaHistoryCommand.html" class="page">DescribeDeltaHistoryCommand</a></p>
-</div></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>GENERATE</code></p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div id="GENERATE" class="listingblock">
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="generate"><a class="anchor" href="#generate"></a><a class="link" href="#generate"><a id="GENERATE"></a> GENERATE</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code>GENERATE modeName FOR TABLE table</code></pre>
+<pre class="highlightjs highlight"><code class="language-plaintext hljs" data-lang="plaintext">GENERATE modeName FOR TABLE table</code></pre>
 </div>
 </div>
 <div class="paragraph">
 <p>Runs a <a href="DeltaGenerateCommand.html" class="page">DeltaGenerateCommand</a></p>
-</div></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>VACUUM</code></p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div id="VACUUM" class="listingblock">
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="vacuum"><a class="anchor" href="#vacuum"></a><a class="link" href="#vacuum"><a id="VACUUM"></a> VACUUM</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code>VACUUM (path | table)
+<pre class="highlightjs highlight"><code class="language-plaintext hljs" data-lang="plaintext">VACUUM (path | table)
   (RETAIN number HOURS)? (DRY RUN)?</code></pre>
 </div>
 </div>
 <div class="paragraph">
 <p>Runs a <a href="VacuumTableCommand.html" class="page">VacuumTableCommand</a></p>
-</div></div></td>
-</tr>
-</tbody>
-</table>
+</div>
+</div>
+</div>
 <nav class="pagination">
-  <span class="prev"><a href="WriteIntoDelta.html">WriteIntoDelta</a></span>
-  <span class="next"><a href="DeltaSqlAstBuilder.html">DeltaSqlAstBuilder</a></span>
+  <span class="prev"><a href="time-travel.html">Time Travel</a></span>
+  <span class="next"><a href="DeltaSparkSessionExtension.html">DeltaSparkSessionExtension</a></span>
 </nav>
 </article>
 <aside class="toc sidebar" data-title="Contents" data-levels="2">

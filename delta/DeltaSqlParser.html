@@ -6,7 +6,7 @@
     <title>DeltaSqlParser :: The Internals Of Delta Lake</title>
     <link rel="canonical" href="https://books.japila.pl/delta-lake-internals/delta/DeltaSqlParser.html">
     <link rel="prev" href="DeltaSparkSessionExtension.html">
-    <link rel="next" href="DeltaAnalysis.html">
+    <link rel="next" href="DeltaSqlAstBuilder.html">
     <meta name="generator" content="Antora 2.3.3">
     <link rel="stylesheet" href="../_/css/site.css">
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-151208281-1"></script>
@@ -82,6 +82,9 @@
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="time-travel.html">Time Travel</a>
   </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="delta-sql-commands.html">Delta SQL Commands</a>
+  </li>
 </ul>
   </li>
   <li class="nav-item" data-depth="1">
@@ -89,7 +92,13 @@
     <a class="nav-link" href="DeltaSparkSessionExtension.html">DeltaSparkSessionExtension</a>
 <ul class="nav-list">
   <li class="nav-item is-current-page" data-depth="2">
+    <button class="nav-item-toggle"></button>
     <a class="nav-link" href="DeltaSqlParser.html">DeltaSqlParser</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="DeltaSqlAstBuilder.html">DeltaSqlAstBuilder</a>
+  </li>
+</ul>
   </li>
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="DeltaAnalysis.html">DeltaAnalysis</a>
@@ -222,15 +231,6 @@
   </li>
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="WriteIntoDelta.html">WriteIntoDelta</a>
-  </li>
-</ul>
-  </li>
-  <li class="nav-item" data-depth="1">
-    <button class="nav-item-toggle"></button>
-    <a class="nav-link" href="delta-sql-commands.html">Delta SQL Commands</a>
-<ul class="nav-list">
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="DeltaSqlAstBuilder.html">DeltaSqlAstBuilder</a>
   </li>
 </ul>
   </li>
@@ -460,18 +460,45 @@
   <div class="content">
 <article class="doc">
 <h1 class="page">DeltaSqlParser</h1>
+<div id="preamble">
+<div class="sectionbody">
 <div class="paragraph">
-<p><strong>DeltaSqlParser</strong> is a SQL command parser for Delta SQL grammar.</p>
+<p><strong>DeltaSqlParser</strong> is a SQL parser (Spark SQL&#8217;s <code>ParserInterface</code>) for <a href="delta-sql-commands.html" class="page">Delta SQL grammar</a>.</p>
 </div>
 <div class="paragraph">
 <p>DeltaSqlParser is registered in a Spark SQL application using <a href="DeltaSparkSessionExtension.html" class="page">DeltaSparkSessionExtension</a>.</p>
 </div>
-<div id="builder" class="paragraph">
+</div>
+</div>
+<div class="sect1">
+<h2 id="creating-instance"><a class="anchor" href="#creating-instance"></a><a class="link" href="#creating-instance"><a id="creating-instance"></a> Creating Instance</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>DeltaSqlParser takes the following to be created:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a id="delegate"></a> ParserInterface (to fall back to for unsupported SQL)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>DeltaSqlParser is created when DeltaSparkSessionExtension is requested to <a href="DeltaSparkSessionExtension.html#apply" class="page">register Delta SQL support</a>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="deltasqlastbuilder"><a class="anchor" href="#deltasqlastbuilder"></a><a class="link" href="#deltasqlastbuilder"><a id="builder"></a> DeltaSqlAstBuilder</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
 <p>DeltaSqlParser uses <a href="DeltaSqlAstBuilder.html" class="page">DeltaSqlAstBuilder</a> for&#8230;&#8203;FIXME</p>
+</div>
+</div>
 </div>
 <nav class="pagination">
   <span class="prev"><a href="DeltaSparkSessionExtension.html">DeltaSparkSessionExtension</a></span>
-  <span class="next"><a href="DeltaAnalysis.html">DeltaAnalysis</a></span>
+  <span class="next"><a href="DeltaSqlAstBuilder.html">DeltaSqlAstBuilder</a></span>
 </nav>
 </article>
 <aside class="toc sidebar" data-title="Contents" data-levels="2">

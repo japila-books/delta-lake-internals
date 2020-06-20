@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>DeltaAnalysis :: The Internals Of Delta Lake</title>
     <link rel="canonical" href="https://books.japila.pl/delta-lake-internals/delta/DeltaAnalysis.html">
-    <link rel="prev" href="DeltaSqlParser.html">
+    <link rel="prev" href="DeltaSqlAstBuilder.html">
     <link rel="next" href="DeltaUnsupportedOperationsCheck.html">
     <meta name="generator" content="Antora 2.3.3">
     <link rel="stylesheet" href="../_/css/site.css">
@@ -82,6 +82,9 @@
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="time-travel.html">Time Travel</a>
   </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="delta-sql-commands.html">Delta SQL Commands</a>
+  </li>
 </ul>
   </li>
   <li class="nav-item" data-depth="1">
@@ -89,7 +92,13 @@
     <a class="nav-link" href="DeltaSparkSessionExtension.html">DeltaSparkSessionExtension</a>
 <ul class="nav-list">
   <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
     <a class="nav-link" href="DeltaSqlParser.html">DeltaSqlParser</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="DeltaSqlAstBuilder.html">DeltaSqlAstBuilder</a>
+  </li>
+</ul>
   </li>
   <li class="nav-item is-current-page" data-depth="2">
     <a class="nav-link" href="DeltaAnalysis.html">DeltaAnalysis</a>
@@ -222,15 +231,6 @@
   </li>
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="WriteIntoDelta.html">WriteIntoDelta</a>
-  </li>
-</ul>
-  </li>
-  <li class="nav-item" data-depth="1">
-    <button class="nav-item-toggle"></button>
-    <a class="nav-link" href="delta-sql-commands.html">Delta SQL Commands</a>
-<ul class="nav-list">
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="DeltaSqlAstBuilder.html">DeltaSqlAstBuilder</a>
   </li>
 </ul>
   </li>
@@ -464,7 +464,7 @@
 <p><strong>DeltaAnalysis</strong> is&#8230;&#8203;FIXME</p>
 </div>
 <nav class="pagination">
-  <span class="prev"><a href="DeltaSqlParser.html">DeltaSqlParser</a></span>
+  <span class="prev"><a href="DeltaSqlAstBuilder.html">DeltaSqlAstBuilder</a></span>
   <span class="next"><a href="DeltaUnsupportedOperationsCheck.html">DeltaUnsupportedOperationsCheck</a></span>
 </nav>
 </article>
