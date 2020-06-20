@@ -460,8 +460,33 @@
   <div class="content">
 <article class="doc">
 <h1 class="page">DeltaAnalysis</h1>
+<div id="preamble">
+<div class="sectionbody">
 <div class="paragraph">
-<p><strong>DeltaAnalysis</strong> is&#8230;&#8203;FIXME</p>
+<p><strong>DeltaAnalysis</strong> is a logical resolution rule (Spark SQL&#8217;s <code>Rule[LogicalPlan]</code>) for INSERT INTO and INSERT OVERWRITE SQL commands (and DeleteFromTable, UpdateTable, MergeIntoTable).</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="creating-instance"><a class="anchor" href="#creating-instance"></a><a class="link" href="#creating-instance"><a id="creating-instance"></a> Creating Instance</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>DeltaAnalysis takes the following to be created:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a id="session"></a> SparkSession</p>
+</li>
+<li>
+<p><a id="conf"></a> SQLConf</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>DeltaAnalysis is created when DeltaSparkSessionExtension is requested to <a href="DeltaSparkSessionExtension.html#apply" class="page">register Delta SQL support</a>.</p>
+</div>
+</div>
 </div>
 <nav class="pagination">
   <span class="prev"><a href="DeltaSqlAstBuilder.html">DeltaSqlAstBuilder</a></span>

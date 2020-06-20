@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>PreprocessTableUpdate :: The Internals Of Delta Lake</title>
+    <title>PreprocessTableUpdate Logical Resolution Rule :: The Internals Of Delta Lake</title>
     <link rel="canonical" href="https://books.japila.pl/delta-lake-internals/delta/PreprocessTableUpdate.html">
     <link rel="prev" href="PreprocessTableMerge.html">
     <link rel="next" href="DeltaLog.html">
@@ -459,9 +459,44 @@
   </div>
   <div class="content">
 <article class="doc">
-<h1 class="page">PreprocessTableUpdate</h1>
+<h1 class="page">PreprocessTableUpdate Logical Resolution Rule</h1>
+<div id="preamble">
+<div class="sectionbody">
 <div class="paragraph">
-<p><strong>PreprocessTableUpdate</strong> is&#8230;&#8203;FIXME</p>
+<p><strong>PreprocessTableUpdate</strong> is a post-hoc logical resolution rule (<code>Rule[LogicalPlan]</code>) to <a href="#apply">resolve DeltaUpdateTable logical commands</a> in a query plan into <a href="UpdateCommand.html" class="page"><a id="UpdateCommand"></a> UpdateCommand</a>s.</p>
+</div>
+<div class="paragraph">
+<p>PreprocessTableUpdate is <em>installed</em> (injected) into a SparkSession using <a href="DeltaSparkSessionExtension.html" class="page">DeltaSparkSessionExtension</a>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="creating-instance"><a class="anchor" href="#creating-instance"></a><a class="link" href="#creating-instance"><a id="creating-instance"></a><a id="conf"></a> Creating Instance</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>PreprocessTableUpdate takes a single <code>SQLConf</code> to be created.</p>
+</div>
+<div class="paragraph">
+<p>PreprocessTableUpdate is created when DeltaSparkSessionExtension is requested to <a href="DeltaSparkSessionExtension.html#apply" class="page">register Delta SQL support</a>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="executing-rule"><a class="anchor" href="#executing-rule"></a><a class="link" href="#executing-rule"><a id="apply"></a> Executing Rule</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">apply(
+  plan: LogicalPlan): LogicalPlan</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>apply resolves (<em>replaces</em>) DeltaUpdateTable logical commands (in a logical query plan) into corresponding <a href="UpdateCommand.html" class="page"><a id="UpdateCommand"></a> UpdateCommand</a>s.</p>
+</div>
+<div class="paragraph">
+<p>apply is part of the Spark SQL&#8217;s <code>Rule</code> abstraction.</p>
+</div>
+</div>
 </div>
 <nav class="pagination">
   <span class="prev"><a href="PreprocessTableMerge.html">PreprocessTableMerge</a></span>
