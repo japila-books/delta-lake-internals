@@ -11,7 +11,7 @@
 deltaLog: DeltaLog
 ----
 
-xref:DeltaLog.adoc[] (of the delta table) that this transaction is changing
+xref:DeltaLog.adoc[] (of a delta table) that this transaction is changing
 
 Used when:
 
@@ -54,7 +54,7 @@ snapshot: Snapshot
 
 xref:Snapshot.adoc[] (of the <<deltaLog, delta table>>) that this transaction is <<OptimisticTransactionImpl.adoc#readVersion, reading at>>
 
-== [[implementations]][[self]] TransactionalWrites
+== [[implementations]][[self]] Implementations
 
 xref:OptimisticTransaction.adoc[] is the default and only known TransactionalWrite in Delta Lake (indirectly as a xref:OptimisticTransactionImpl.adoc[]).
 

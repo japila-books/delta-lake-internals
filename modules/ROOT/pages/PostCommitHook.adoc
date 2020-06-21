@@ -1,6 +1,6 @@
-= PostCommitHook -- Post-Commit Hooks
+= PostCommitHook
 
-`PostCommitHook` is an <<contract, abstraction>> of <<implementations, post-commit hooks>> that have a <<name, user-friendly name>> and can be <<run, executed>> (when `OptimisticTransactionImpl` is <<OptimisticTransactionImpl.adoc#commit, committed>>).
+*PostCommitHook* is an <<contract, abstraction>> of <<implementations, post-commit hooks>> that have a <<name, user-friendly name>> and can be <<run, executed>> (when `OptimisticTransactionImpl` is <<OptimisticTransactionImpl.adoc#commit, committed>>).
 
 [[contract]]
 .PostCommitHook Contract
@@ -59,4 +59,4 @@ Used when `OptimisticTransactionImpl` is requested to <<OptimisticTransactionImp
 |===
 
 [[implementations]]
-NOTE: <<GenerateSymlinkManifest.adoc#GenerateSymlinkManifestImpl, GenerateSymlinkManifestImpl>> is the default and only known `PostCommitHook` in Delta Lake.
+NOTE: <<GenerateSymlinkManifest.adoc#GenerateSymlinkManifestImpl, GenerateSymlinkManifestImpl>> is the default and only known PostCommitHook in Delta Lake.
