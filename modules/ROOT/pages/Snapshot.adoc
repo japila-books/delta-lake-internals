@@ -1,10 +1,10 @@
-= [[Snapshot]] Snapshot -- Versioned State Of Delta Table
+= Snapshot
 
-`Snapshot` is an immutable snapshot of the <<state, state>> of a <<deltaLog, delta table>> at <<version, some version>>.
+*Snapshot* is an immutable snapshot of the <<state, state>> of a <<deltaLog, delta table>> at <<version, some version>>.
 
-`Snapshot` is <<creating-instance, created>> when `DeltaLog` is requested for the <<DeltaLog.adoc#currentSnapshot, current snapshot>> or <<DeltaLog.adoc#getSnapshotAt, at a given version>>, and to <<DeltaLog.adoc#update, update>>.
+Snapshot is <<creating-instance, created>> when `DeltaLog` is requested for the <<DeltaLog.adoc#currentSnapshot, current snapshot>> or <<DeltaLog.adoc#getSnapshotAt, at a given version>>, and to <<DeltaLog.adoc#update, update>>.
 
-`Snapshot` can be requested for <<allFiles, all data files>>.
+Snapshot can be requested for <<allFiles, all data files>>.
 
 [source, scala]
 ----
@@ -22,7 +22,7 @@ scala> deltaLog.snapshot.allFiles.show(false)
 +-------------------------------------------------------------------+---------------+----+----------------+----------+-----+----+
 ----
 
-`Snapshot` can be requested for <<tombstones, removed data files>> (aka _tombstones_).
+Snapshot can be requested for <<tombstones, removed data files>> (aka _tombstones_).
 
 [source, scala]
 ----
@@ -33,11 +33,11 @@ scala> deltaLog.snapshot.tombstones.show(false)
 +----+-----------------+----------+
 ----
 
-`Snapshot` uses the <<DeltaSQLConf.adoc#DELTA_SNAPSHOT_PARTITIONS, spark.databricks.delta.snapshotPartitions>> internal configuration property (default: `50`) for the number of partition for <<stateReconstruction, state reconstruction>>.
+Snapshot uses the <<DeltaSQLConf.adoc#DELTA_SNAPSHOT_PARTITIONS, spark.databricks.delta.snapshotPartitions>> internal configuration property (default: `50`) for the number of partition for <<stateReconstruction, state reconstruction>>.
 
 == [[creating-instance]] Creating Snapshot Instance
 
-`Snapshot` takes the following to be created:
+Snapshot takes the following to be created:
 
 * [[path]] Hadoop https://hadoop.apache.org/docs/r2.6.5/api/org/apache/hadoop/fs/Path.html[Path] to the <<DeltaLog.adoc#logPath, log directory>>
 * [[version]] Version
@@ -48,9 +48,9 @@ scala> deltaLog.snapshot.tombstones.show(false)
 * [[timestamp]] Timestamp
 * [[lineageLength]] Length of the lineage (default: `1`)
 
-`Snapshot` initializes the <<internal-properties, internal properties>>.
+Snapshot initializes the <<internal-properties, internal properties>>.
 
-While being created, `Snapshot` requests the <<deltaLog, DeltaLog>> to <<DeltaLog.adoc#protocolRead, protocolRead>> with the <<protocol, protocol>>.
+While being created, Snapshot requests the <<deltaLog, DeltaLog>> to <<DeltaLog.adoc#protocolRead, protocolRead>> with the <<protocol, protocol>>.
 
 == [[state]] `state` Method
 
@@ -69,7 +69,7 @@ state: Dataset[SingleAction]
 
 * `Checkpoints` is requested to <<Checkpoints.adoc#checkpoint, checkpoint>> (and in turn <<Checkpoints.adoc#writeCheckpoint, writeCheckpoint>>)
 
-* `Snapshot` is created, and requested for <<allFiles, allFiles>> and <<tombstones, tombstones>>
+* Snapshot is created, and requested for <<allFiles, allFiles>> and <<tombstones, tombstones>>
 
 * `VacuumCommand` is requested for <<VacuumCommand.adoc#gc, garbage collecting of a delta table>>
 ====
@@ -148,7 +148,7 @@ load(
 
 `load`...FIXME
 
-NOTE: `load` is used when `Snapshot` is created (and initializes <<stateReconstruction, stateReconstruction>>).
+NOTE: `load` is used when Snapshot is created (and initializes <<stateReconstruction, stateReconstruction>>).
 
 == [[transactions]] Transaction Version By App ID -- `transactions` Lookup Table
 
@@ -210,7 +210,7 @@ a| [[cachedState]] <<CachedDS.adoc#, Cached Delta State>> that is made up of the
 
 * The <<CachedDS.adoc#name, name>> in the format *Delta Table State #version - [redactedPath]* (with the <<version, version>> and the <<redactedPath, redacted path>>)
 
-Used when `Snapshot` is requested for the <<state, state>> (i.e. `Dataset[SingleAction]`)
+Used when Snapshot is requested for the <<state, state>> (i.e. `Dataset[SingleAction]`)
 
 | metadata
 a| [[metadata]] <<Metadata.adoc#, Metadata>> of the current <<state, state>> of the <<deltaLog, delta table>>

@@ -1,6 +1,6 @@
-= DeltaConfigs -- Configuration Properties Of Delta Table (Metadata)
+= DeltaConfigs
 
-`DeltaConfigs` defines <<configuration-properties, reservoir configuration properties>> (aka _table properties_).
+*DeltaConfigs* defines <<configuration-properties, reservoir configuration properties>> (aka _table properties_).
 
 Table properties can be assigned a value using `ALTER TABLE` SQL command:
 
@@ -9,7 +9,7 @@ ALTER TABLE <table_name> SET TBLPROPERTIES (<key>=<value>)
 ```
 
 [[sqlConfPrefix]][[spark.databricks.delta.properties.defaults]]
-`DeltaConfigs` uses *spark.databricks.delta.properties.defaults* prefix for <<mergeGlobalConfigs, global configuration properties>>.
+DeltaConfigs uses *spark.databricks.delta.properties.defaults* prefix for <<mergeGlobalConfigs, global configuration properties>>.
 
 [[configuration-properties]]
 .Reservoir Configuration Properties
@@ -100,6 +100,19 @@ mergeGlobalConfigs(
 `mergeGlobalConfigs` finds all <<sqlConfPrefix, spark.databricks.delta.properties.defaults>>-prefixed configuration properties among the <<entries, entries>>.
 
 NOTE: `mergeGlobalConfigs` is used when `OptimisticTransactionImpl` is requested for the xref:OptimisticTransactionImpl.adoc#snapshotMetadata[metadata], to xref:OptimisticTransactionImpl.adoc#updateMetadata[update the metadata], and xref:OptimisticTransactionImpl.adoc#prepareCommit[prepare a commit] (for new delta tables).
+
+== [[verifyProtocolVersionRequirements]] verifyProtocolVersionRequirements Utility
+
+[source, scala]
+----
+verifyProtocolVersionRequirements(
+  configurations: Map[String, String],
+  current: Protocol): Unit
+----
+
+verifyProtocolVersionRequirements...FIXME
+
+verifyProtocolVersionRequirements is used when...FIXME
 
 == [[buildConfig]] Creating DeltaConfig Instance -- `buildConfig` Internal Utility
 

@@ -1,6 +1,6 @@
-= [[OptimisticTransactionImpl]] OptimisticTransactionImpl
+= OptimisticTransactionImpl
 
-`OptimisticTransactionImpl` is an <<contract, extension>> of the <<TransactionalWrite.adoc#, TransactionalWrite contract>> for <<implementations, optimistic transactions>> that can be <<commit, committed>>.
+*OptimisticTransactionImpl* is an <<contract, extension>> of the xref:TransactionalWrite.adoc[] for <<implementations, optimistic transactions>> that can be <<commit, committed>>.
 
 [[contract]]
 .OptimisticTransactionImpl Contract (Abstract Methods Only)
@@ -36,7 +36,7 @@ NOTE: `snapshot` is part of the <<TransactionalWrite.adoc#snapshot, Transactiona
 |===
 
 [[implementations]]
-NOTE: <<OptimisticTransaction.adoc#, OptimisticTransaction>> is the only known `OptimisticTransactionImpl` in Delta Lake.
+NOTE: <<OptimisticTransaction.adoc#, OptimisticTransaction>> is the only known OptimisticTransactionImpl in Delta Lake.
 
 == [[postCommitHooks]] Post-Commit Hooks -- `postCommitHooks` Internal Registry
 
@@ -45,7 +45,7 @@ NOTE: <<OptimisticTransaction.adoc#, OptimisticTransaction>> is the only known `
 postCommitHooks: ArrayBuffer[PostCommitHook]
 ----
 
-`OptimisticTransactionImpl` manages <<PostCommitHook.adoc#, post-commit hooks>> that will be <<runPostCommitHooks, executed>> after a <<commit, commit>> is successful.
+OptimisticTransactionImpl manages <<PostCommitHook.adoc#, post-commit hooks>> that will be <<runPostCommitHooks, executed>> after a <<commit, commit>> is successful.
 
 Post-commit hooks can be <<registerPostCommitHook, registered>>, but only the <<GenerateSymlinkManifest.adoc#, GenerateSymlinkManifest>> post-commit hook is supported (when...FIXME).
 
@@ -56,7 +56,7 @@ Post-commit hooks can be <<registerPostCommitHook, registered>>, but only the <<
 newMetadata: Option[Metadata]
 ----
 
-`OptimisticTransactionImpl` uses the `newMetadata` internal registry for a new <<Metadata.adoc#, Metadata>> that should be committed with this transaction.
+OptimisticTransactionImpl uses the `newMetadata` internal registry for a new <<Metadata.adoc#, Metadata>> that should be committed with this transaction.
 
 `newMetadata` is initially undefined (`None`). It can be <<updateMetadata, updated>> only once and before the transaction <<TransactionalWrite.adoc#hasWritten, writes out any files>>.
 
@@ -88,7 +88,7 @@ readVersion: Long
 ====
 `readVersion` is used when:
 
-* `OptimisticTransactionImpl` is requested for <<snapshotMetadata, snapshotMetadata>>, to <<updateMetadata, updateMetadata>> and <<commit, commit>>
+* OptimisticTransactionImpl is requested for <<snapshotMetadata, snapshotMetadata>>, to <<updateMetadata, updateMetadata>> and <<commit, commit>>
 
 * `ConvertToDeltaCommand` is requested to <<ConvertToDeltaCommand.adoc#run, run>>
 
@@ -256,7 +256,7 @@ Cannot change the metadata more than once in a transaction.
 Transaction already committed.
 ```
 
-NOTE: `prepareCommit` is used exclusively when `OptimisticTransactionImpl` is requested to <<commit, commit>> (at the beginning).
+NOTE: `prepareCommit` is used exclusively when OptimisticTransactionImpl is requested to <<commit, commit>> (at the beginning).
 
 == [[postCommit]] Performing Post-Commit Operations -- `postCommit` Method
 
@@ -269,7 +269,7 @@ postCommit(
 
 `postCommit`...FIXME
 
-NOTE: `postCommit` is used exclusively when `OptimisticTransactionImpl` is requested to <<commit, commit>> (at the end).
+NOTE: `postCommit` is used exclusively when OptimisticTransactionImpl is requested to <<commit, commit>> (at the end).
 
 == [[registerPostCommitHook]] Registering Post-Commit Hook -- `registerPostCommitHook` Method
 
@@ -283,7 +283,7 @@ registerPostCommitHook(
 
 NOTE: `registerPostCommitHook` adds the hook only once.
 
-NOTE: `registerPostCommitHook` is used when `OptimisticTransactionImpl` is requested to <<commit, commit>> (to register the <<GenerateSymlinkManifest.adoc#, GenerateSymlinkManifest>> post-commit hook).
+NOTE: `registerPostCommitHook` is used when OptimisticTransactionImpl is requested to <<commit, commit>> (to register the <<GenerateSymlinkManifest.adoc#, GenerateSymlinkManifest>> post-commit hook).
 
 == [[runPostCommitHooks]] Running Post-Commit Hooks -- `runPostCommitHooks` Method
 
@@ -312,7 +312,7 @@ Error when executing post-commit hook [name] for commit [version]
 Can't call post commit hooks before committing
 ```
 
-NOTE: `runPostCommitHooks` is used when `OptimisticTransactionImpl` is requested to <<commit, commit>>.
+NOTE: `runPostCommitHooks` is used when OptimisticTransactionImpl is requested to <<commit, commit>>.
 
 == [[doCommit]] Attempting Commit -- `doCommit` Internal Method
 
@@ -353,7 +353,7 @@ The committed version is [attemptVersion] but the current version is [version].
 [[doCommit-FileAlreadyExistsException]]
 `doCommit` catches `FileAlreadyExistsExceptions` and <<checkAndRetry, checkAndRetry>>.
 
-NOTE: `doCommit` is used when `OptimisticTransactionImpl` is requested to <<commit, commit>> (and <<checkAndRetry, checkAndRetry>>).
+NOTE: `doCommit` is used when OptimisticTransactionImpl is requested to <<commit, commit>> (and <<checkAndRetry, checkAndRetry>>).
 
 == [[checkAndRetry]] Retrying Commit -- `checkAndRetry` Internal Method
 
@@ -367,7 +367,7 @@ checkAndRetry(
 
 `checkAndRetry`...FIXME
 
-NOTE: `checkAndRetry` is used when `OptimisticTransactionImpl` is requested to <<commit, commit>> (and <<doCommit, attempts a commit>> that failed with an `FileAlreadyExistsException`).
+NOTE: `checkAndRetry` is used when OptimisticTransactionImpl is requested to <<commit, commit>> (and <<doCommit, attempts a commit>> that failed with an `FileAlreadyExistsException`).
 
 == [[verifyNewMetadata]] `verifyNewMetadata` Method
 
@@ -379,7 +379,7 @@ verifyNewMetadata(
 
 `verifyNewMetadata`...FIXME
 
-NOTE: `verifyNewMetadata` is used when `OptimisticTransactionImpl` is requested to <<prepareCommit, prepareCommit>> and <<updateMetadata, updateMetadata>>.
+NOTE: `verifyNewMetadata` is used when OptimisticTransactionImpl is requested to <<prepareCommit, prepareCommit>> and <<updateMetadata, updateMetadata>>.
 
 == [[txnVersion]] Looking Up Transaction Version For Given (Streaming Query) ID -- `txnVersion` Method
 
@@ -405,7 +405,7 @@ getNextAttemptVersion(
 
 `getNextAttemptVersion`...FIXME
 
-NOTE: `getNextAttemptVersion` is used when `OptimisticTransactionImpl` is requested to <<checkAndRetry, checkAndRetry>>.
+NOTE: `getNextAttemptVersion` is used when OptimisticTransactionImpl is requested to <<checkAndRetry, checkAndRetry>>.
 
 == [[internal-properties]] Internal Properties
 
@@ -439,9 +439,9 @@ a| [[readPredicates]]
 | readTxn
 a| [[readTxn]] Streaming query IDs that have been seen by this transaction
 
-A new queryId is added when `OptimisticTransactionImpl` is requested for <<txnVersion, txnVersion>>
+A new queryId is added when OptimisticTransactionImpl is requested for <<txnVersion, txnVersion>>
 
-Used when `OptimisticTransactionImpl` is requested to <<checkAndRetry, checkAndRetry>> (to fail with a `ConcurrentTransactionException` for idempotent transactions that have conflicted)
+Used when OptimisticTransactionImpl is requested to <<checkAndRetry, checkAndRetry>> (to fail with a `ConcurrentTransactionException` for idempotent transactions that have conflicted)
 
 | snapshotMetadata
 a| [[snapshotMetadata]] <<Metadata.adoc#, Metadata>> of the <<snapshot, Snapshot>>

@@ -45,6 +45,8 @@
 *** xref:VacuumTableCommand.adoc[VacuumTableCommand]
 ** xref:WriteIntoDelta.adoc[WriteIntoDelta]
 
+** xref:AlterTableSetPropertiesDeltaCommand.adoc[]
+
 * xref:DeltaDataSource.adoc[DeltaDataSource]
 ** xref:DeltaOptions.adoc[DeltaOptions]
 ** xref:DeltaSource.adoc[DeltaSource]
@@ -59,7 +61,7 @@
 ** xref:TransactionalWrite.adoc[TransactionalWrite]
 ** xref:DelayedCommitProtocol.adoc[DelayedCommitProtocol]
 ** xref:PostCommitHook.adoc[Post-Commit Hooks]
-** xref:OptimisticTransactionImpl.adoc[OptimisticTransactionImpl]
+** xref:OptimisticTransactionImpl.adoc[]
 
 * xref:LogStore.adoc[LogStore]
 ** xref:HDFSLogStore.adoc[HDFSLogStore]
