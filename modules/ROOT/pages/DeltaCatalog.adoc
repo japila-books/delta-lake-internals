@@ -1,0 +1,5 @@
+= DeltaCatalog
+
+*DeltaCatalog* is an extension of Spark SQL (using DelegatingCatalogExtension and StagingTableCatalog).
+
+DeltaCatalog is registered using *spark.sql.catalog.spark_catalog* configuration property while creating a SparkSession in a Spark application. Consult xref:installation.adoc[].

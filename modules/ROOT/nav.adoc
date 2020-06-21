@@ -5,15 +5,6 @@
 ** xref:time-travel.adoc[]
 ** xref:delta-sql-commands.adoc[]
 
-* xref:DeltaSparkSessionExtension.adoc[]
-** xref:DeltaSqlParser.adoc[]
-*** xref:DeltaSqlAstBuilder.adoc[]
-** xref:DeltaAnalysis.adoc[]
-** xref:DeltaUnsupportedOperationsCheck.adoc[]
-** xref:PreprocessTableDelete.adoc[]
-** xref:PreprocessTableMerge.adoc[]
-** xref:PreprocessTableUpdate.adoc[]
-
 * xref:DeltaLog.adoc[DeltaLog]
 ** xref:Checkpoints.adoc[Checkpoints]
 ** xref:MetadataCleanup.adoc[MetadataCleanup]
@@ -112,3 +103,14 @@
 ** xref:CachedDS.adoc[CachedDS]
 
 * xref:others.adoc[The Others (Contenders)]
+
+.Spark SQL Extensions
+* xref:DeltaCatalog.adoc[]
+* xref:DeltaSparkSessionExtension.adoc[]
+** xref:DeltaSqlParser.adoc[]
+*** xref:DeltaSqlAstBuilder.adoc[]
+** xref:DeltaAnalysis.adoc[]
+** xref:DeltaUnsupportedOperationsCheck.adoc[]
+** xref:PreprocessTableDelete.adoc[]
+** xref:PreprocessTableMerge.adoc[]
+** xref:PreprocessTableUpdate.adoc[]

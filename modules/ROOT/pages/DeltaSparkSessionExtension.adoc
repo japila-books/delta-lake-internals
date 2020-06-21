@@ -3,27 +3,4 @@
 [[apply]]
 *DeltaSparkSessionExtension* is an extension of Spark SQL to register Delta SQL support (using xref:DeltaSqlParser.adoc[]).
 
-DeltaSparkSessionExtension is registered using *spark.sql.extensions* configuration property while creating a `SparkSession` in a Spark application.
-
-== [[registration]] Registering DeltaSparkSessionExtension
-
-=== [[application]] Spark SQL Application
-
-[source,scala]
-----
-import org.apache.spark.sql.SparkSession
-val spark = SparkSession
-  .builder()
-  .appName("...")
-  .config("spark.sql.extensions", "io.delta.sql.DeltaSparkSessionExtension")
-  .getOrCreate
-----
-
-=== [[spark-shell]] Spark Shell
-
-[source,plaintext]
-----
-./bin/spark-shell \
-  --packages io.delta:delta-core_2.12:0.7.0 \
-  --conf spark.sql.extensions=io.delta.sql.DeltaSparkSessionExtension
-----
+DeltaSparkSessionExtension is registered using *spark.sql.extensions* configuration property while creating a SparkSession in a Spark application. Consult xref:installation.adoc[].
