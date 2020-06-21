@@ -475,148 +475,77 @@
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p><strong>OptimisticTransactionImpl</strong> is an <a href="#contract">extension</a> of the <a href="TransactionalWrite.html" class="page">TransactionalWrite</a> for <a href="#implementations">optimistic transactions</a> that can be <a href="#commit">committed</a>.</p>
+<p><strong>OptimisticTransactionImpl</strong> is an <a href="#contract">extension</a> of the <a href="TransactionalWrite.html" class="page">TransactionalWrite</a> abstraction for <a href="#implementations">optimistic transactions</a> that can modify a <a href="#deltaLog">Delta table</a> (at a given <a href="#snapshot">version</a>) and can be <a href="#commit">committed</a> eventually.</p>
 </div>
-<table id="contract" class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 1. OptimisticTransactionImpl Contract (Abstract Methods Only)</caption>
-<colgroup>
-<col style="width: 30%;">
-<col style="width: 70%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Method</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>deltaLog</code></p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div id="deltaLog" class="listingblock">
+</div>
+</div>
+<div class="sect1">
+<h2 id="contract"><a class="anchor" href="#contract"></a><a class="link" href="#contract"><a id="contract"></a> Contract</a></h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="clock"><a class="anchor" href="#clock"></a><a class="link" href="#clock"><a id="clock"></a> clock</a></h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">clock: Clock</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="deltalog"><a class="anchor" href="#deltalog"></a><a class="link" href="#deltalog"><a id="deltaLog"></a> deltaLog</a></h3>
+<div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">deltaLog: DeltaLog</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p><a href="DeltaLog.html" class="page">DeltaLog</a> of a delta table</p>
+<p><a href="DeltaLog.html" class="page">DeltaLog</a> (of the delta table) that this transaction is changing</p>
 </div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<code>deltaLog</code> is part of the <a href="TransactionalWrite.html#deltaLog" class="page">TransactionalWrite</a> contract and seems to change it to <code>val</code> (from <code>def</code>).
-</td>
-</tr>
-</table>
-</div></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>snapshot</code></p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div id="snapshot" class="listingblock">
+<div class="paragraph">
+<p>deltaLog is part of the <a href="TransactionalWrite.html#deltaLog" class="page">TransactionalWrite</a> contract and seems to change it to <code>val</code> (from <code>def</code>).</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="snapshot"><a class="anchor" href="#snapshot"></a><a class="link" href="#snapshot"><a id="snapshot"></a> snapshot</a></h3>
+<div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">snapshot: Snapshot</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p><a href="Snapshot.html" class="page">Snapshot</a> of a delta table</p>
+<p><a href="Snapshot.html" class="page">Snapshot</a> (of the <a href="#deltaLog">delta table</a>) that this transaction is changing</p>
 </div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<code>snapshot</code> is part of the <a href="TransactionalWrite.html#snapshot" class="page">TransactionalWrite</a> contract and seems to change it to <code>val</code> (from <code>def</code>).
-</td>
-</tr>
-</table>
-</div></div></td>
-</tr>
-</tbody>
-</table>
-<div id="implementations" class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<a href="OptimisticTransaction.html" class="page">OptimisticTransaction</a> is the only known OptimisticTransactionImpl in Delta Lake.
-</td>
-</tr>
-</table>
+<div class="paragraph">
+<p>snapshot is part of the <a href="TransactionalWrite.html#deltaLog" class="page">TransactionalWrite</a> contract and seems to change it to <code>val</code> (from <code>def</code>).</p>
+</div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="post-commit-hookspostcommithooks-internal-registry"><a class="anchor" href="#post-commit-hookspostcommithooks-internal-registry"></a><a class="link" href="#post-commit-hookspostcommithooks-internal-registry"><a id="postCommitHooks"></a> Post-Commit Hooks&#8201;&#8212;&#8201;<code>postCommitHooks</code> Internal Registry</a></h2>
+<h2 id="implementations"><a class="anchor" href="#implementations"></a><a class="link" href="#implementations"><a id="implementations"></a> Implementations</a></h2>
 <div class="sectionbody">
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">postCommitHooks: ArrayBuffer[PostCommitHook]</code></pre>
-</div>
-</div>
 <div class="paragraph">
-<p>OptimisticTransactionImpl manages <a href="PostCommitHook.html" class="page">post-commit hooks</a> that will be <a href="#runPostCommitHooks">executed</a> after a <a href="#commit">commit</a> is successful.</p>
-</div>
-<div class="paragraph">
-<p>Post-commit hooks can be <a href="#registerPostCommitHook">registered</a>, but only the <a href="GenerateSymlinkManifest.html" class="page">GenerateSymlinkManifest</a> post-commit hook is supported (when&#8230;&#8203;FIXME).</p>
+<p><a href="OptimisticTransaction.html" class="page">OptimisticTransaction</a> is the default and only known OptimisticTransactionImpl in Delta Lake</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="newmetadata-internal-registry"><a class="anchor" href="#newmetadata-internal-registry"></a><a class="link" href="#newmetadata-internal-registry"><a id="newMetadata"></a> <code>newMetadata</code> Internal Registry</a></h2>
-<div class="sectionbody">
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">newMetadata: Option[Metadata]</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>OptimisticTransactionImpl uses the <code>newMetadata</code> internal registry for a new <a href="Metadata.html" class="page">Metadata</a> that should be committed with this transaction.</p>
-</div>
-<div class="paragraph">
-<p><code>newMetadata</code> is initially undefined (<code>None</code>). It can be <a href="#updateMetadata">updated</a> only once and before the transaction <a href="TransactionalWrite.html#hasWritten" class="page">writes out any files</a>.</p>
-</div>
-<div class="paragraph">
-<p><code>newMetadata</code> is used when <a href="#prepareCommit">prepareCommit</a> (and <a href="#doCommit">doCommit</a> for statistics).</p>
-</div>
-<div class="paragraph">
-<p><code>newMetadata</code> is available using <a href="#metadata">metadata</a> method.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="metadata-method"><a class="anchor" href="#metadata-method"></a><a class="link" href="#metadata-method"><a id="metadata"></a> <code>metadata</code> Method</a></h2>
+<h2 id="metadata-method"><a class="anchor" href="#metadata-method"></a><a class="link" href="#metadata-method"><a id="metadata"></a> metadata Method</a></h2>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">metadata: Metadata</code></pre>
 </div>
 </div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<code>metadata</code> is part of the <a href="TransactionalWrite.html#metadata" class="page">TransactionalWrite Contract</a> to&#8230;&#8203;FIXME.
-</td>
-</tr>
-</table>
+<div class="paragraph">
+<p>metadata is either the <a href="#newMetadata">newMetadata</a> (if defined) or the <a href="#snapshotMetadata">snapshotMetadata</a>.</p>
 </div>
 <div class="paragraph">
-<p><code>metadata</code> is either the <a href="#newMetadata">newMetadata</a> (if defined) or the <a href="#snapshotMetadata">snapshotMetadata</a>.</p>
+<p>metadata is part of the <a href="TransactionalWrite.html#metadata" class="page">TransactionalWrite</a> abstraction.</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="readversion-method"><a class="anchor" href="#readversion-method"></a><a class="link" href="#readversion-method"><a id="readVersion"></a> <code>readVersion</code> Method</a></h2>
+<h2 id="readversion-method"><a class="anchor" href="#readversion-method"></a><a class="link" href="#readversion-method"><a id="readVersion"></a> readVersion Method</a></h2>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content">
@@ -624,17 +553,10 @@
 </div>
 </div>
 <div class="paragraph">
-<p><code>readVersion</code> simply requests the <a href="#snapshot">Snapshot</a> for the <a href="Snapshot.html#version" class="page">version</a>.</p>
+<p>readVersion simply requests the <a href="#snapshot">Snapshot</a> for the <a href="Snapshot.html#version" class="page">version</a>.</p>
 </div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
 <div class="paragraph">
-<p><code>readVersion</code> is used when:</p>
+<p>readVersion is used when:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -652,14 +574,10 @@
 </li>
 </ul>
 </div>
-</td>
-</tr>
-</table>
-</div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="updating-metadataupdatemetadata-method"><a class="anchor" href="#updating-metadataupdatemetadata-method"></a><a class="link" href="#updating-metadataupdatemetadata-method"><a id="updateMetadata"></a> Updating Metadata&#8201;&#8212;&#8201;<code>updateMetadata</code> Method</a></h2>
+<h2 id="updating-metadata"><a class="anchor" href="#updating-metadata"></a><a class="link" href="#updating-metadata"><a id="updateMetadata"></a> Updating Metadata</a></h2>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content">
@@ -668,20 +586,20 @@
 </div>
 </div>
 <div class="paragraph">
-<p><code>updateMetadata</code> updates the <a href="#newMetadata">newMetadata</a> internal property based on the <a href="#readVersion">readVersion</a>:</p>
+<p>updateMetadata updates the <a href="#newMetadata">newMetadata</a> internal property based on the <a href="#readVersion">readVersion</a>:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>For <code>-1</code>, <code>updateMetadata</code> updates the <a href="Metadata.html#configuration" class="page">configuration</a> of the given <code>Metadata</code> with a <a href="DeltaConfigs.html#mergeGlobalConfigs" class="page">new metadata</a> based on the <code>SQLConf</code> (of the active <code>SparkSession</code>), the <a href="Metadata.html#configuration" class="page">configuration</a> of the given <code>Metadata</code> and a new <a href="Protocol.html" class="page">Protocol</a></p>
+<p>For <code>-1</code>, updateMetadata updates the <a href="Metadata.html#configuration" class="page">configuration</a> of the given metadata with a <a href="DeltaConfigs.html#mergeGlobalConfigs" class="page">new metadata</a> based on the <code>SQLConf</code> (of the active <code>SparkSession</code>), the <a href="Metadata.html#configuration" class="page">configuration</a> of the given metadata and a new <a href="Protocol.html" class="page">Protocol</a></p>
 </li>
 <li>
-<p>For other versions, <code>updateMetadata</code> leaves the given <a href="Action.html#Metadata" class="page">Metadata</a> unchanged</p>
+<p>For other versions, updateMetadata leaves the given <a href="Action.html#Metadata" class="page">Metadata</a> unchanged</p>
 </li>
 </ul>
 </div>
 <div id="updateMetadata-AssertionError-hasWritten" class="paragraph">
-<p><code>updateMetadata</code> throws an <code>AssertionError</code> when the <a href="TransactionalWrite.html#hasWritten" class="page">hasWritten</a> flag is enabled (<code>true</code>):</p>
+<p>updateMetadata throws an <code>AssertionError</code> when the <a href="TransactionalWrite.html#hasWritten" class="page">hasWritten</a> flag is enabled (<code>true</code>):</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -689,22 +607,15 @@
 </div>
 </div>
 <div class="paragraph">
-<p><code>updateMetadata</code> throws an <code>AssertionError</code> when the <a href="#newMetadata">newMetadata</a> is not empty:</p>
+<p>updateMetadata throws an <code>AssertionError</code> when the <a href="#newMetadata">newMetadata</a> is not empty:</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code>Cannot change the metadata more than once in a transaction.</code></pre>
 </div>
 </div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
 <div class="paragraph">
-<p><code>updateMetadata</code> is used when:</p>
+<p>updateMetadata is used when:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -716,14 +627,10 @@
 </li>
 </ul>
 </div>
-</td>
-</tr>
-</table>
-</div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="files-to-scan-matching-given-predicatesfilterfiles-method"><a class="anchor" href="#files-to-scan-matching-given-predicatesfilterfiles-method"></a><a class="link" href="#files-to-scan-matching-given-predicatesfilterfiles-method"><a id="filterFiles"></a> Files To Scan Matching Given Predicates&#8201;&#8212;&#8201;<code>filterFiles</code> Method</a></h2>
+<h2 id="files-to-scan-matching-given-predicates"><a class="anchor" href="#files-to-scan-matching-given-predicates"></a><a class="link" href="#files-to-scan-matching-given-predicates"><a id="filterFiles"></a> Files To Scan Matching Given Predicates</a></h2>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content">
@@ -741,26 +648,19 @@ filterFiles(
 </table>
 </div>
 <div class="paragraph">
-<p><code>filterFiles</code> gives the <a href="AddFile.html" class="page">files</a> to scan based on the given predicates (filter expressions).</p>
+<p>filterFiles gives the <a href="AddFile.html" class="page">files</a> to scan based on the given predicates (filter expressions).</p>
 </div>
 <div class="paragraph">
-<p>Internally, <code>filterFiles</code> requests the <a href="#snapshot">Snapshot</a> for the <a href="PartitionFiltering.html#filesForScan" class="page">filesForScan</a> (for no projection attributes and the given filters).</p>
+<p>Internally, filterFiles requests the <a href="#snapshot">Snapshot</a> for the <a href="PartitionFiltering.html#filesForScan" class="page">filesForScan</a> (for no projection attributes and the given filters).</p>
 </div>
 <div class="paragraph">
-<p><code>filterFiles</code> finds the <a href="DeltaTableUtils.html#isPredicatePartitionColumnsOnly" class="page">partition predicates</a> among the given filters (and the <a href="Metadata.html#partitionColumns" class="page">partition columns</a> of the <a href="#metadata">Metadata</a>).</p>
+<p>filterFiles finds the <a href="DeltaTableUtils.html#isPredicatePartitionColumnsOnly" class="page">partition predicates</a> among the given filters (and the <a href="Metadata.html#partitionColumns" class="page">partition columns</a> of the <a href="#metadata">Metadata</a>).</p>
 </div>
 <div class="paragraph">
-<p><code>filterFiles</code> registers (<em>adds</em>) the partition predicates (in the <a href="#readPredicates">readPredicates</a> internal registry) and the files to scan (in the <a href="#readFiles">readFiles</a> internal registry).</p>
+<p>filterFiles registers (<em>adds</em>) the partition predicates (in the <a href="#readPredicates">readPredicates</a> internal registry) and the files to scan (in the <a href="#readFiles">readFiles</a> internal registry).</p>
 </div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
 <div class="paragraph">
-<p><code>filterFiles</code> is used when:</p>
+<p>filterFiles is used when:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -775,14 +675,10 @@ filterFiles(
 </li>
 </ul>
 </div>
-</td>
-</tr>
-</table>
-</div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="readwholetable-method"><a class="anchor" href="#readwholetable-method"></a><a class="link" href="#readwholetable-method"><a id="readWholeTable"></a> <code>readWholeTable</code> Method</a></h2>
+<h2 id="readwholetable-method"><a class="anchor" href="#readwholetable-method"></a><a class="link" href="#readwholetable-method"><a id="readWholeTable"></a> readWholeTable Method</a></h2>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content">
@@ -790,24 +686,15 @@ filterFiles(
 </div>
 </div>
 <div class="paragraph">
-<p><code>readWholeTable</code>&#8230;&#8203;FIXME</p>
+<p>readWholeTable simply adds <code>True</code> literal to the <a href="#readPredicates">readPredicates</a> internal registry.</p>
 </div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<code>readWholeTable</code> is used when&#8230;&#8203;FIXME
-</td>
-</tr>
-</table>
+<div class="paragraph">
+<p>readWholeTable is used when DeltaSink is requested to <a href="DeltaSink.html#addBatch" class="page">add a streaming micro-batch</a> (and the batch reads the same Delta table as this sink is going to write to).</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="committing-transactioncommit-method"><a class="anchor" href="#committing-transactioncommit-method"></a><a class="link" href="#committing-transactioncommit-method"><a id="commit"></a> Committing Transaction&#8201;&#8212;&#8201;<code>commit</code> Method</a></h2>
+<h2 id="committing-transaction"><a class="anchor" href="#committing-transaction"></a><a class="link" href="#committing-transaction"><a id="commit"></a> Committing Transaction</a></h2>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content">
@@ -817,19 +704,19 @@ filterFiles(
 </div>
 </div>
 <div id="commit-prepareCommit" class="paragraph">
-<p><code>commit</code> firstly <a href="#prepareCommit">prepares a commit</a> (that gives the final actions to commit that may be different from the given <a href="Action.html" class="page">actions</a>).</p>
+<p>commit firstly <a href="#prepareCommit">prepares a commit</a> (that gives the final actions to commit that may be different from the given <a href="Action.html" class="page">actions</a>).</p>
 </div>
 <div id="commit-isolationLevelToUse" class="paragraph">
-<p><code>commit</code> determines the isolation level for this commit by checking whether any <a href="FileAction.html" class="page">FileAction</a> (in the given <a href="Action.html" class="page">actions</a>) has the <a href="FileAction.html#dataChange" class="page">dataChange</a> flag on (<code>true</code>). With no data changed, <code>commit</code> uses <code>SnapshotIsolation</code> else <code>Serializable</code>.</p>
+<p>commit determines the isolation level for this commit by checking whether any <a href="FileAction.html" class="page">FileAction</a> (in the given <a href="Action.html" class="page">actions</a>) has the <a href="FileAction.html#dataChange" class="page">dataChange</a> flag on (<code>true</code>). With no data changed, commit uses <code>SnapshotIsolation</code> else <code>Serializable</code>.</p>
 </div>
 <div id="commit-isBlindAppend" class="paragraph">
-<p><code>commit</code>&#8230;&#8203;FIXME</p>
+<p>commit&#8230;&#8203;FIXME</p>
 </div>
 <div id="commit-commitInfo" class="paragraph">
-<p><code>commit</code>&#8230;&#8203;FIXME</p>
+<p>commit&#8230;&#8203;FIXME</p>
 </div>
 <div id="commit-registerPostCommitHook" class="paragraph">
-<p><code>commit</code> <a href="#registerPostCommitHook">registers</a> the <a href="GenerateSymlinkManifest.html" class="page">GenerateSymlinkManifest</a> post-commit hook when there is a <a href="FileAction.html" class="page">FileAction</a> among the actions and the <a href="DeltaConfigs.html#SYMLINK_FORMAT_MANIFEST_ENABLED" class="page">compatibility.symlinkFormatManifest.enabled</a> table property (<a href="DeltaConfigs.html#fromMetaData" class="page">from</a> the <a href="#metadata">Metadata</a>) is enabled (<code>true</code>).</p>
+<p>commit <a href="#registerPostCommitHook">registers</a> the <a href="GenerateSymlinkManifest.html" class="page">GenerateSymlinkManifest</a> post-commit hook when there is a <a href="FileAction.html" class="page">FileAction</a> among the actions and the <a href="DeltaConfigs.html#SYMLINK_FORMAT_MANIFEST_ENABLED" class="page">compatibility.symlinkFormatManifest.enabled</a> table property (<a href="DeltaConfigs.html#fromMetaData" class="page">from</a> the <a href="#metadata">Metadata</a>) is enabled (<code>true</code>).</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -844,10 +731,10 @@ filterFiles(
 </table>
 </div>
 <div id="commit-commitVersion" class="paragraph">
-<p><code>commit</code> <a href="#doCommit">doCommit</a> with the next version, the actions, attempt number <code>0</code>, and the select isolation level.</p>
+<p>commit <a href="#doCommit">doCommit</a> with the next version, the actions, attempt number <code>0</code>, and the select isolation level.</p>
 </div>
 <div class="paragraph">
-<p><code>commit</code> prints out the following INFO message to the logs:</p>
+<p>commit prints out the following INFO message to the logs:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -855,20 +742,13 @@ filterFiles(
 </div>
 </div>
 <div id="commit-postCommit" class="paragraph">
-<p><code>commit</code> <a href="#postCommit">postCommit</a> (with the version committed and the actions).</p>
+<p>commit <a href="#postCommit">postCommit</a> (with the version committed and the actions).</p>
 </div>
 <div id="commit-runPostCommitHooks" class="paragraph">
-<p>In the end, <code>commit</code> <a href="#runPostCommitHooks">runs post-commit hooks</a> and returns the version of the successful commit.</p>
+<p>In the end, commit <a href="#runPostCommitHooks">runs post-commit hooks</a> and returns the version of the successful commit.</p>
 </div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
 <div class="paragraph">
-<p><code>commit</code> is used when:</p>
+<p>commit is used when:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -883,14 +763,10 @@ filterFiles(
 </li>
 </ul>
 </div>
-</td>
-</tr>
-</table>
-</div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="preparing-commitpreparecommit-method"><a class="anchor" href="#preparing-commitpreparecommit-method"></a><a class="link" href="#preparing-commitpreparecommit-method"><a id="prepareCommit"></a> Preparing Commit&#8201;&#8212;&#8201;<code>prepareCommit</code> Method</a></h2>
+<h2 id="preparing-commit"><a class="anchor" href="#preparing-commit"></a><a class="link" href="#preparing-commit"><a id="prepareCommit"></a> Preparing Commit</a></h2>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content">
@@ -900,22 +776,22 @@ filterFiles(
 </div>
 </div>
 <div class="paragraph">
-<p><code>prepareCommit</code> adds the <a href="#newMetadata">newMetadata</a> action (if available) to the given <a href="Action.html" class="page">actions</a>.</p>
+<p>prepareCommit adds the <a href="#newMetadata">newMetadata</a> action (if available) to the given <a href="Action.html" class="page">actions</a>.</p>
 </div>
 <div class="paragraph">
-<p><code>prepareCommit</code> <a href="#verifyNewMetadata">verifyNewMetadata</a> if there was one.</p>
+<p>prepareCommit <a href="#verifyNewMetadata">verifyNewMetadata</a> if there was one.</p>
 </div>
 <div class="paragraph">
-<p><code>prepareCommit</code>&#8230;&#8203;FIXME</p>
+<p>prepareCommit&#8230;&#8203;FIXME</p>
 </div>
 <div class="paragraph">
-<p><code>prepareCommit</code> requests the <a href="#deltaLog">DeltaLog</a> to <a href="DeltaLog.html#protocolWrite" class="page">protocolWrite</a>.</p>
+<p>prepareCommit requests the <a href="#deltaLog">DeltaLog</a> to <a href="DeltaLog.html#protocolWrite" class="page">protocolWrite</a>.</p>
 </div>
 <div class="paragraph">
-<p><code>prepareCommit</code>&#8230;&#8203;FIXME</p>
+<p>prepareCommit&#8230;&#8203;FIXME</p>
 </div>
 <div class="paragraph">
-<p><code>prepareCommit</code> throws an <code>AssertionError</code> when the number of metadata changes in the transaction (by means of <a href="Action.html#Metadata" class="page">Metadata</a> actions) is above <code>1</code>:</p>
+<p>prepareCommit throws an <code>AssertionError</code> when the number of metadata changes in the transaction (by means of <a href="Action.html#Metadata" class="page">Metadata</a> actions) is above <code>1</code>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -923,29 +799,20 @@ filterFiles(
 </div>
 </div>
 <div class="paragraph">
-<p><code>prepareCommit</code> throws an <code>AssertionError</code> when the <a href="#committed">committed</a> internal flag is turned on (<code>true</code>):</p>
+<p>prepareCommit throws an <code>AssertionError</code> when the <a href="#committed">committed</a> internal flag is turned on (<code>true</code>):</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code>Transaction already committed.</code></pre>
 </div>
 </div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<code>prepareCommit</code> is used exclusively when OptimisticTransactionImpl is requested to <a href="#commit">commit</a> (at the beginning).
-</td>
-</tr>
-</table>
+<div class="paragraph">
+<p>prepareCommit is used when OptimisticTransactionImpl is requested to <a href="#commit">commit</a> (at the beginning).</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="performing-post-commit-operationspostcommit-method"><a class="anchor" href="#performing-post-commit-operationspostcommit-method"></a><a class="link" href="#performing-post-commit-operationspostcommit-method"><a id="postCommit"></a> Performing Post-Commit Operations&#8201;&#8212;&#8201;<code>postCommit</code> Method</a></h2>
+<h2 id="performing-post-commit-operations"><a class="anchor" href="#performing-post-commit-operations"></a><a class="link" href="#performing-post-commit-operations"><a id="postCommit"></a> Performing Post-Commit Operations</a></h2>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content">
@@ -955,24 +822,15 @@ filterFiles(
 </div>
 </div>
 <div class="paragraph">
-<p><code>postCommit</code>&#8230;&#8203;FIXME</p>
+<p>postCommit&#8230;&#8203;FIXME</p>
 </div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<code>postCommit</code> is used exclusively when OptimisticTransactionImpl is requested to <a href="#commit">commit</a> (at the end).
-</td>
-</tr>
-</table>
+<div class="paragraph">
+<p>postCommit is used when OptimisticTransactionImpl is requested to <a href="#commit">commit</a> (at the end).</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="registering-post-commit-hookregisterpostcommithook-method"><a class="anchor" href="#registering-post-commit-hookregisterpostcommithook-method"></a><a class="link" href="#registering-post-commit-hookregisterpostcommithook-method"><a id="registerPostCommitHook"></a> Registering Post-Commit Hook&#8201;&#8212;&#8201;<code>registerPostCommitHook</code> Method</a></h2>
+<h2 id="registering-post-commit-hook"><a class="anchor" href="#registering-post-commit-hook"></a><a class="link" href="#registering-post-commit-hook"><a id="registerPostCommitHook"></a> Registering Post-Commit Hook</a></h2>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content">
@@ -981,7 +839,7 @@ filterFiles(
 </div>
 </div>
 <div class="paragraph">
-<p><code>registerPostCommitHook</code> registers (<em>adds</em>) the given <a href="PostCommitHook.html" class="page">PostCommitHook</a> to the <a href="#postCommitHooks">postCommitHooks</a> internal registry.</p>
+<p>registerPostCommitHook registers (<em>adds</em>) the given <a href="PostCommitHook.html" class="page">PostCommitHook</a> to the <a href="#postCommitHooks">postCommitHooks</a> internal registry.</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -990,27 +848,18 @@ filterFiles(
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-<code>registerPostCommitHook</code> adds the hook only once.
+registerPostCommitHook adds the hook only once.
 </td>
 </tr>
 </table>
 </div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<code>registerPostCommitHook</code> is used when OptimisticTransactionImpl is requested to <a href="#commit">commit</a> (to register the <a href="GenerateSymlinkManifest.html" class="page">GenerateSymlinkManifest</a> post-commit hook).
-</td>
-</tr>
-</table>
+<div class="paragraph">
+<p>registerPostCommitHook is used when OptimisticTransactionImpl is requested to <a href="#commit">commit</a> (to register the <a href="GenerateSymlinkManifest.html" class="page">GenerateSymlinkManifest</a> post-commit hook).</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="running-post-commit-hooksrunpostcommithooks-method"><a class="anchor" href="#running-post-commit-hooksrunpostcommithooks-method"></a><a class="link" href="#running-post-commit-hooksrunpostcommithooks-method"><a id="runPostCommitHooks"></a> Running Post-Commit Hooks&#8201;&#8212;&#8201;<code>runPostCommitHooks</code> Method</a></h2>
+<h2 id="running-post-commit-hooks"><a class="anchor" href="#running-post-commit-hooks"></a><a class="link" href="#running-post-commit-hooks"><a id="runPostCommitHooks"></a> Running Post-Commit Hooks</a></h2>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content">
@@ -1020,10 +869,10 @@ filterFiles(
 </div>
 </div>
 <div class="paragraph">
-<p><code>runPostCommitHooks</code> simply <a href="PostCommitHook.html#run" class="page">runs</a> every <a href="PostCommitHook.html" class="page">post-commit hook</a> registered (in the <a href="#postCommitHooks">postCommitHooks</a> internal registry).</p>
+<p>runPostCommitHooks simply <a href="PostCommitHook.html#run" class="page">runs</a> every <a href="PostCommitHook.html" class="page">post-commit hook</a> registered (in the <a href="#postCommitHooks">postCommitHooks</a> internal registry).</p>
 </div>
 <div class="paragraph">
-<p><code>runPostCommitHooks</code> <a href="OptimisticTransaction.html#clearActive" class="page">clears the active transaction</a> (making all follow-up operations non-transactional).</p>
+<p>runPostCommitHooks <a href="OptimisticTransaction.html#clearActive" class="page">clears the active transaction</a> (making all follow-up operations non-transactional).</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -1038,7 +887,7 @@ Hooks may create new transactions.
 </table>
 </div>
 <div class="paragraph">
-<p>For any non-fatal exception, <code>runPostCommitHooks</code> prints out the following ERROR message to the logs, records the delta event, and requests the post-commit hook to <a href="PostCommitHook.html#handleError" class="page">handle the error</a>.</p>
+<p>For any non-fatal exception, runPostCommitHooks prints out the following ERROR message to the logs, records the delta event, and requests the post-commit hook to <a href="PostCommitHook.html#handleError" class="page">handle the error</a>.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1046,29 +895,20 @@ Hooks may create new transactions.
 </div>
 </div>
 <div class="paragraph">
-<p><code>runPostCommitHooks</code> throws an <code>AssertionError</code> when <a href="#committed">committed</a> flag is turned off (<code>false</code>):</p>
+<p>runPostCommitHooks throws an <code>AssertionError</code> when <a href="#committed">committed</a> flag is turned off (<code>false</code>):</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code>Can't call post commit hooks before committing</code></pre>
 </div>
 </div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<code>runPostCommitHooks</code> is used when OptimisticTransactionImpl is requested to <a href="#commit">commit</a>.
-</td>
-</tr>
-</table>
+<div class="paragraph">
+<p>runPostCommitHooks is used when OptimisticTransactionImpl is requested to <a href="#commit">commit</a>.</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="attempting-commitdocommit-internal-method"><a class="anchor" href="#attempting-commitdocommit-internal-method"></a><a class="link" href="#attempting-commitdocommit-internal-method"><a id="doCommit"></a> Attempting Commit&#8201;&#8212;&#8201;<code>doCommit</code> Internal Method</a></h2>
+<h2 id="attempting-commit"><a class="anchor" href="#attempting-commit"></a><a class="link" href="#attempting-commit"><a id="doCommit"></a> Attempting Commit</a></h2>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content">
@@ -1079,10 +919,10 @@ Hooks may create new transactions.
 </div>
 </div>
 <div class="paragraph">
-<p><code>doCommit</code> returns the given <code>attemptVersion</code> as the commit version if successful or <a href="#checkAndRetry">checkAndRetry</a>.</p>
+<p>doCommit returns the given <code>attemptVersion</code> as the commit version if successful or <a href="#checkAndRetry">checkAndRetry</a>.</p>
 </div>
 <div class="paragraph">
-<p>Internally, <code>doCommit</code> prints out the following DEBUG message to the logs:</p>
+<p>Internally, doCommit prints out the following DEBUG message to the logs:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1090,7 +930,7 @@ Hooks may create new transactions.
 </div>
 </div>
 <div id="doCommit-write" class="paragraph">
-<p><code>doCommit</code> requests the <a href="DeltaLog.html#store" class="page">LogStore</a> (of the <a href="#deltaLog">DeltaLog</a>) to <a href="LogStore.html#write" class="page">write out</a> the given <a href="Action.html" class="page">actions</a> (serialized to <a href="Action.html#json" class="page">JSON format</a>) to a <a href="FileNames.html#deltaFile" class="page">delta file</a> (e.g. <code>00000000000000000001.json</code>) in the <a href="DeltaLog.html#logPath" class="page">log directory</a> (of the <a href="#deltaLog">DeltaLog</a>) with the <code>attemptVersion</code> version.</p>
+<p>doCommit requests the <a href="DeltaLog.html#store" class="page">LogStore</a> (of the <a href="#deltaLog">DeltaLog</a>) to <a href="LogStore.html#write" class="page">write out</a> the given <a href="Action.html" class="page">actions</a> (serialized to <a href="Action.html#json" class="page">JSON format</a>) to a <a href="FileNames.html#deltaFile" class="page">delta file</a> (e.g. <code>00000000000000000001.json</code>) in the <a href="DeltaLog.html#logPath" class="page">log directory</a> (of the <a href="#deltaLog">DeltaLog</a>) with the <code>attemptVersion</code> version.</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -1105,10 +945,10 @@ Hooks may create new transactions.
 </table>
 </div>
 <div id="doCommit-postCommitSnapshot" class="paragraph">
-<p><code>doCommit</code> requests the <a href="#deltaLog">DeltaLog</a> to <a href="DeltaLog.html#update" class="page">update</a>.</p>
+<p>doCommit requests the <a href="#deltaLog">DeltaLog</a> to <a href="DeltaLog.html#update" class="page">update</a>.</p>
 </div>
 <div id="doCommit-IllegalStateException" class="paragraph">
-<p><code>doCommit</code> throws an <code>IllegalStateException</code> if the version of the snapshot after update is smaller than the given <code>attemptVersion</code> version.</p>
+<p>doCommit throws an <code>IllegalStateException</code> if the version of the snapshot after update is smaller than the given <code>attemptVersion</code> version.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1116,27 +956,18 @@ Hooks may create new transactions.
 </div>
 </div>
 <div id="doCommit-stats" class="paragraph">
-<p><code>doCommit</code> records a new <code>CommitStats</code> and returns the given <code>attemptVersion</code> as the commit version.</p>
+<p>doCommit records a new <code>CommitStats</code> and returns the given <code>attemptVersion</code> as the commit version.</p>
 </div>
 <div id="doCommit-FileAlreadyExistsException" class="paragraph">
-<p><code>doCommit</code> catches <code>FileAlreadyExistsExceptions</code> and <a href="#checkAndRetry">checkAndRetry</a>.</p>
+<p>doCommit catches <code>FileAlreadyExistsExceptions</code> and <a href="#checkAndRetry">checkAndRetry</a>.</p>
 </div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<code>doCommit</code> is used when OptimisticTransactionImpl is requested to <a href="#commit">commit</a> (and <a href="#checkAndRetry">checkAndRetry</a>).
-</td>
-</tr>
-</table>
+<div class="paragraph">
+<p>doCommit is used when OptimisticTransactionImpl is requested to <a href="#commit">commit</a> (and <a href="#checkAndRetry">checkAndRetry</a>).</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="retrying-commitcheckandretry-internal-method"><a class="anchor" href="#retrying-commitcheckandretry-internal-method"></a><a class="link" href="#retrying-commitcheckandretry-internal-method"><a id="checkAndRetry"></a> Retrying Commit&#8201;&#8212;&#8201;<code>checkAndRetry</code> Internal Method</a></h2>
+<h2 id="retrying-commit"><a class="anchor" href="#retrying-commit"></a><a class="link" href="#retrying-commit"><a id="checkAndRetry"></a> Retrying Commit</a></h2>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content">
@@ -1147,24 +978,15 @@ Hooks may create new transactions.
 </div>
 </div>
 <div class="paragraph">
-<p><code>checkAndRetry</code>&#8230;&#8203;FIXME</p>
+<p>checkAndRetry&#8230;&#8203;FIXME</p>
 </div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<code>checkAndRetry</code> is used when OptimisticTransactionImpl is requested to <a href="#commit">commit</a> (and <a href="#doCommit">attempts a commit</a> that failed with an <code>FileAlreadyExistsException</code>).
-</td>
-</tr>
-</table>
+<div class="paragraph">
+<p>checkAndRetry is used when OptimisticTransactionImpl is requested to <a href="#commit">commit</a> (and <a href="#doCommit">attempts a commit</a> that failed with an FileAlreadyExistsException).</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="verifynewmetadata-method"><a class="anchor" href="#verifynewmetadata-method"></a><a class="link" href="#verifynewmetadata-method"><a id="verifyNewMetadata"></a> <code>verifyNewMetadata</code> Method</a></h2>
+<h2 id="verifynewmetadata-method"><a class="anchor" href="#verifynewmetadata-method"></a><a class="link" href="#verifynewmetadata-method"><a id="verifyNewMetadata"></a> verifyNewMetadata Method</a></h2>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content">
@@ -1173,24 +995,15 @@ Hooks may create new transactions.
 </div>
 </div>
 <div class="paragraph">
-<p><code>verifyNewMetadata</code>&#8230;&#8203;FIXME</p>
+<p>verifyNewMetadata&#8230;&#8203;FIXME</p>
 </div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<code>verifyNewMetadata</code> is used when OptimisticTransactionImpl is requested to <a href="#prepareCommit">prepareCommit</a> and <a href="#updateMetadata">updateMetadata</a>.
-</td>
-</tr>
-</table>
+<div class="paragraph">
+<p>verifyNewMetadata is used when OptimisticTransactionImpl is requested to <a href="#prepareCommit">prepareCommit</a> and <a href="#updateMetadata">updateMetadata</a>.</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="looking-up-transaction-version-for-given-streaming-query-idtxnversion-method"><a class="anchor" href="#looking-up-transaction-version-for-given-streaming-query-idtxnversion-method"></a><a class="link" href="#looking-up-transaction-version-for-given-streaming-query-idtxnversion-method"><a id="txnVersion"></a> Looking Up Transaction Version For Given (Streaming Query) ID&#8201;&#8212;&#8201;<code>txnVersion</code> Method</a></h2>
+<h2 id="looking-up-transaction-version-for-given-streaming-query-id"><a class="anchor" href="#looking-up-transaction-version-for-given-streaming-query-id"></a><a class="link" href="#looking-up-transaction-version-for-given-streaming-query-id"><a id="txnVersion"></a> Looking Up Transaction Version For Given (Streaming Query) ID</a></h2>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content">
@@ -1199,27 +1012,69 @@ Hooks may create new transactions.
 </div>
 </div>
 <div class="paragraph">
-<p><code>txnVersion</code> simply registers (<em>adds</em>) the given ID in the <a href="#readTxn">readTxn</a> internal registry.</p>
+<p>txnVersion simply registers (<em>adds</em>) the given ID in the <a href="#readTxn">readTxn</a> internal registry.</p>
 </div>
 <div class="paragraph">
-<p>In the end, <code>txnVersion</code> requests the <a href="#snapshot">Snapshot</a> for the <a href="Snapshot.html#transactions" class="page">transaction version for the given ID</a> or assumes <code>-1</code>.</p>
+<p>In the end, txnVersion requests the <a href="#snapshot">Snapshot</a> for the <a href="Snapshot.html#transactions" class="page">transaction version for the given ID</a> or assumes <code>-1</code>.</p>
 </div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<code>txnVersion</code> is used when <code>DeltaSink</code> is requested to <a href="DeltaSink.html#addBatch" class="page">add a streaming micro-batch</a>.
-</td>
-</tr>
-</table>
+<div class="paragraph">
+<p>txnVersion is used when <code>DeltaSink</code> is requested to <a href="DeltaSink.html#addBatch" class="page">add a streaming micro-batch</a>.</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="getnextattemptversion-internal-method"><a class="anchor" href="#getnextattemptversion-internal-method"></a><a class="link" href="#getnextattemptversion-internal-method"><a id="getNextAttemptVersion"></a> <code>getNextAttemptVersion</code> Internal Method</a></h2>
+<h2 id="getoperationmetrics-method"><a class="anchor" href="#getoperationmetrics-method"></a><a class="link" href="#getoperationmetrics-method"><a id="getOperationMetrics"></a> getOperationMetrics Method</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">getOperationMetrics(
+  op: Operation): Option[Map[String, String]]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>getOperationMetrics&#8230;&#8203;FIXME</p>
+</div>
+<div class="paragraph">
+<p>getOperationMetrics is used when&#8230;&#8203;FIXME</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="getusermetadata-method"><a class="anchor" href="#getusermetadata-method"></a><a class="link" href="#getusermetadata-method"><a id="getUserMetadata"></a> getUserMetadata Method</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">getUserMetadata(
+  op: Operation): Option[String]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>getUserMetadata&#8230;&#8203;FIXME</p>
+</div>
+<div class="paragraph">
+<p>getUserMetadata is used when&#8230;&#8203;FIXME</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="getprettypartitionmessage-method"><a class="anchor" href="#getprettypartitionmessage-method"></a><a class="link" href="#getprettypartitionmessage-method"><a id="getPrettyPartitionMessage"></a> getPrettyPartitionMessage Method</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">getPrettyPartitionMessage(
+  partitionValues: Map[String, String]): String</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>getPrettyPartitionMessage&#8230;&#8203;FIXME</p>
+</div>
+<div class="paragraph">
+<p>getPrettyPartitionMessage is used when&#8230;&#8203;FIXME</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="getnextattemptversion-internal-method"><a class="anchor" href="#getnextattemptversion-internal-method"></a><a class="link" href="#getnextattemptversion-internal-method"><a id="getNextAttemptVersion"></a> getNextAttemptVersion Internal Method</a></h2>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content">
@@ -1228,19 +1083,66 @@ Hooks may create new transactions.
 </div>
 </div>
 <div class="paragraph">
-<p><code>getNextAttemptVersion</code>&#8230;&#8203;FIXME</p>
+<p>getNextAttemptVersion&#8230;&#8203;FIXME</p>
 </div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<code>getNextAttemptVersion</code> is used when OptimisticTransactionImpl is requested to <a href="#checkAndRetry">checkAndRetry</a>.
-</td>
-</tr>
-</table>
+<div class="paragraph">
+<p>getNextAttemptVersion is used when OptimisticTransactionImpl is requested to <a href="#checkAndRetry">checkAndRetry</a>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="internal-registries"><a class="anchor" href="#internal-registries"></a><a class="link" href="#internal-registries"><a id="internal-registries"></a> Internal Registries</a></h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="post-commit-hooks"><a class="anchor" href="#post-commit-hooks"></a><a class="link" href="#post-commit-hooks"><a id="postCommitHooks"></a> Post-Commit Hooks</a></h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">postCommitHooks: ArrayBuffer[PostCommitHook]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>OptimisticTransactionImpl manages <a href="PostCommitHook.html" class="page">PostCommitHook</a>s that will be <a href="#runPostCommitHooks">executed</a> right after a <a href="#commit">commit</a> is successful.</p>
+</div>
+<div class="paragraph">
+<p>Post-commit hooks can be <a href="#registerPostCommitHook">registered</a>, but only the <a href="GenerateSymlinkManifest.html" class="page">GenerateSymlinkManifest</a> post-commit hook is supported (when&#8230;&#8203;FIXME).</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="newmetadata"><a class="anchor" href="#newmetadata"></a><a class="link" href="#newmetadata"><a id="newMetadata"></a> newMetadata</a></h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">newMetadata: Option[Metadata]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>OptimisticTransactionImpl uses the newMetadata internal registry for a new <a href="Metadata.html" class="page">Metadata</a> that should be committed with this transaction.</p>
+</div>
+<div class="paragraph">
+<p>newMetadata is initially undefined (<code>None</code>). It can be <a href="#updateMetadata">updated</a> only once and before the transaction <a href="TransactionalWrite.html#hasWritten" class="page">writes out any files</a>.</p>
+</div>
+<div class="paragraph">
+<p>newMetadata is used when <a href="#prepareCommit">prepareCommit</a> (and <a href="#doCommit">doCommit</a> for statistics).</p>
+</div>
+<div class="paragraph">
+<p>newMetadata is available using <a href="#metadata">metadata</a> method.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="readpredicates"><a class="anchor" href="#readpredicates"></a><a class="link" href="#readpredicates"><a id="readPredicates"></a> readPredicates</a></h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">readPredicates: ArrayBuffer[Expression]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>readPredicates holds predicate expressions for partitions the transaction is modifying.</p>
+</div>
+<div class="paragraph">
+<p>readPredicates is added a new predicate expression when <a href="#filterFiles">filterFiles</a> and <a href="#readWholeTable">readWholeTable</a>.</p>
+</div>
+<div class="paragraph">
+<p>readPredicates is used when <a href="#checkAndRetry">checkAndRetry</a>.</p>
+</div>
 </div>
 </div>
 </div>
@@ -1288,10 +1190,6 @@ Hooks may create new transactions.
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>readFiles</code></p></td>
-<td class="tableblock halign-left valign-top"><div class="content"></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>readPredicates</code></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"></div></td>
 </tr>
 <tr>

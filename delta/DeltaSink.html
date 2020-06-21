@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title> DeltaSink&#8201;&#8212;&#8201;Streaming Sink of Delta Data Source :: The Internals Of Delta Lake</title>
+    <title>DeltaSink :: The Internals Of Delta Lake</title>
     <link rel="canonical" href="https://books.japila.pl/delta-lake-internals/delta/DeltaSink.html">
     <link rel="prev" href="DeltaSourceSnapshot.html">
     <link rel="next" href="DeltaSQLConf.html">
@@ -471,11 +471,11 @@
   </div>
   <div class="content">
 <article class="doc">
-<h1 class="page"><a id="DeltaSink"></a> DeltaSink&#8201;&#8212;&#8201;Streaming Sink of Delta Data Source</h1>
+<h1 class="page">DeltaSink</h1>
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p><code>DeltaSink</code> is the sink of <a href="DeltaDataSource.html" class="page">delta data source</a> for streaming queries in Spark Structured Streaming.</p>
+<p>DeltaSink is the sink of <a href="DeltaDataSource.html" class="page">delta data source</a> for streaming queries in Spark Structured Streaming.</p>
 </div>
 <div class="admonitionblock tip">
 <table>
@@ -490,10 +490,10 @@ Read up on <a href="https://jaceklaskowski.gitbooks.io/spark-structured-streamin
 </table>
 </div>
 <div class="paragraph">
-<p><code>DeltaSink</code> is <a href="#creating-instance">created</a> exclusively when <code>DeltaDataSource</code> is requested for a <a href="DeltaDataSource.html#createSink" class="page">streaming sink</a> (Structured Streaming).</p>
+<p>DeltaSink is <a href="#creating-instance">created</a> exclusively when <code>DeltaDataSource</code> is requested for a <a href="DeltaDataSource.html#createSink" class="page">streaming sink</a> (Structured Streaming).</p>
 </div>
 <div id="toString" class="paragraph">
-<p><code>DeltaSink</code> uses the following text representation (with the <a href="#path">path</a>):</p>
+<p>DeltaSink uses the following text representation (with the <a href="#path">path</a>):</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -501,15 +501,15 @@ Read up on <a href="https://jaceklaskowski.gitbooks.io/spark-structured-streamin
 </div>
 </div>
 <div id="ImplicitMetadataOperation" class="paragraph">
-<p><code>DeltaSink</code> is an <a href="ImplicitMetadataOperation.html" class="page">operation that can update metadata (schema and partitioning)</a> of a <a href="#path">delta table</a>.</p>
+<p>DeltaSink is an <a href="ImplicitMetadataOperation.html" class="page">operation that can update metadata (schema and partitioning)</a> of a <a href="#path">delta table</a>.</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="creating-deltasink-instance"><a class="anchor" href="#creating-deltasink-instance"></a><a class="link" href="#creating-deltasink-instance"><a id="creating-instance"></a> Creating DeltaSink Instance</a></h2>
+<h2 id="creating-instance"><a class="anchor" href="#creating-instance"></a><a class="link" href="#creating-instance"><a id="creating-instance"></a> Creating Instance</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p><code>DeltaSink</code> takes the following to be created:</p>
+<p>DeltaSink takes the following to be created:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -541,15 +541,15 @@ Read up on <a href="https://jaceklaskowski.gitbooks.io/spark-structured-streamin
 </div>
 </div>
 <div class="paragraph">
-<p><code>deltaLog</code> is a <a href="DeltaLog.html" class="page">DeltaLog</a> that is <a href="DeltaLog.html#forTable" class="page">created</a> for the <a href="#path">delta table</a> when <code>DeltaSink</code> is created (when <code>DeltaDataSource</code> is requested for a <a href="DeltaDataSource.html#createSink" class="page">streaming sink</a>).</p>
+<p><code>deltaLog</code> is a <a href="DeltaLog.html" class="page">DeltaLog</a> that is <a href="DeltaLog.html#forTable" class="page">created</a> for the <a href="#path">delta table</a> when DeltaSink is created (when <code>DeltaDataSource</code> is requested for a <a href="DeltaDataSource.html#createSink" class="page">streaming sink</a>).</p>
 </div>
 <div class="paragraph">
-<p><code>deltaLog</code> is used exclusively when <code>DeltaSink</code> is requested to <a href="#addBatch">add a streaming micro-batch</a>.</p>
+<p><code>deltaLog</code> is used exclusively when DeltaSink is requested to <a href="#addBatch">add a streaming micro-batch</a>.</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="adding-streaming-micro-batchaddbatch-method"><a class="anchor" href="#adding-streaming-micro-batchaddbatch-method"></a><a class="link" href="#adding-streaming-micro-batchaddbatch-method"><a id="addBatch"></a> Adding Streaming Micro-Batch&#8201;&#8212;&#8201;<code>addBatch</code> Method</a></h2>
+<h2 id="adding-streaming-micro-batch"><a class="anchor" href="#adding-streaming-micro-batch"></a><a class="link" href="#adding-streaming-micro-batch"><a id="addBatch"></a> Adding Streaming Micro-Batch</a></h2>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content">
