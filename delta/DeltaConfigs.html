@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>DeltaConfigs&#8201;&#8212;&#8201;Configuration Properties Of Delta Table (Metadata) :: The Internals Of Delta Lake</title>
+    <title>DeltaConfigs :: The Internals Of Delta Lake</title>
     <link rel="canonical" href="https://books.japila.pl/delta-lake-internals/delta/DeltaConfigs.html">
     <link rel="prev" href="SingleAction.html">
     <link rel="next" href="DeltaConfig.html">
@@ -201,6 +201,9 @@
   </li>
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="WriteIntoDelta.html">WriteIntoDelta</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="AlterTableSetPropertiesDeltaCommand.html">AlterTableSetPropertiesDeltaCommand</a>
   </li>
 </ul>
   </li>
@@ -467,11 +470,11 @@
   </div>
   <div class="content">
 <article class="doc">
-<h1 class="page">DeltaConfigs&#8201;&#8212;&#8201;Configuration Properties Of Delta Table (Metadata)</h1>
+<h1 class="page">DeltaConfigs</h1>
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p><code>DeltaConfigs</code> defines <a href="#configuration-properties">reservoir configuration properties</a> (aka <em>table properties</em>).</p>
+<p><strong>DeltaConfigs</strong> defines <a href="#configuration-properties">reservoir configuration properties</a> (aka <em>table properties</em>).</p>
 </div>
 <div class="paragraph">
 <p>Table properties can be assigned a value using <code>ALTER TABLE</code> SQL command:</p>
@@ -483,7 +486,7 @@
 </div>
 <div class="paragraph">
 <p><a id="sqlConfPrefix"></a><a id="spark.databricks.delta.properties.defaults"></a>
-<code>DeltaConfigs</code> uses <strong>spark.databricks.delta.properties.defaults</strong> prefix for <a href="#mergeGlobalConfigs">global configuration properties</a>.</p>
+DeltaConfigs uses <strong>spark.databricks.delta.properties.defaults</strong> prefix for <a href="#mergeGlobalConfigs">global configuration properties</a>.</p>
 </div>
 <table id="configuration-properties" class="tableblock frame-all grid-all stretch">
 <caption class="title">Table 1. Reservoir Configuration Properties</caption>
@@ -647,6 +650,24 @@
 </td>
 </tr>
 </table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="verifyprotocolversionrequirements-utility"><a class="anchor" href="#verifyprotocolversionrequirements-utility"></a><a class="link" href="#verifyprotocolversionrequirements-utility"><a id="verifyProtocolVersionRequirements"></a> verifyProtocolVersionRequirements Utility</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">verifyProtocolVersionRequirements(
+  configurations: Map[String, String],
+  current: Protocol): Unit</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>verifyProtocolVersionRequirements&#8230;&#8203;FIXME</p>
+</div>
+<div class="paragraph">
+<p>verifyProtocolVersionRequirements is used when&#8230;&#8203;FIXME</p>
 </div>
 </div>
 </div>

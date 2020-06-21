@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title> OptimisticTransaction :: The Internals Of Delta Lake</title>
+    <title>OptimisticTransaction :: The Internals Of Delta Lake</title>
     <link rel="canonical" href="https://books.japila.pl/delta-lake-internals/delta/OptimisticTransaction.html">
     <link rel="prev" href="DeltaSQLConf.html">
     <link rel="next" href="TransactionalWrite.html">
@@ -201,6 +201,9 @@
   </li>
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="WriteIntoDelta.html">WriteIntoDelta</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="AlterTableSetPropertiesDeltaCommand.html">AlterTableSetPropertiesDeltaCommand</a>
   </li>
 </ul>
   </li>
@@ -467,27 +470,14 @@
   </div>
   <div class="content">
 <article class="doc">
-<h1 class="page"><a id="OptimisticTransaction"></a> OptimisticTransaction</h1>
+<h1 class="page">OptimisticTransaction</h1>
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p><code>OptimisticTransaction</code> is a concrete <a href="OptimisticTransactionImpl.html" class="page">OptimisticTransactionImpl</a> (which <em>seems</em> more of a class name change than anything more important).</p>
+<p><strong>OptimisticTransaction</strong> is a <a href="OptimisticTransactionImpl.html" class="page">OptimisticTransactionImpl</a> (which <em>seems</em> more of a class name change than anything more important).</p>
 </div>
 <div class="paragraph">
-<p><code>OptimisticTransaction</code> is <a href="#creating-instance">created</a> when <code>DeltaLog</code> is used for the following:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><a href="DeltaLog.html#startTransaction" class="page">Starting a new transaction</a> for <a href="ConvertToDeltaCommand.html" class="page">ConvertToDeltaCommand</a></p>
-</li>
-<li>
-<p><a href="DeltaLog.html#withNewTransaction" class="page">Executing a single-threaded operation (in a new transaction)</a> for <a href="DeleteCommand.html" class="page">DeleteCommand</a>, <a href="MergeIntoCommand.html" class="page">MergeIntoCommand</a>, <a href="UpdateCommand.html" class="page">UpdateCommand</a>, and <a href="WriteIntoDelta.html" class="page">WriteIntoDelta</a> commands as well as for <a href="DeltaSink.html" class="page">DeltaSink</a> for <a href="DeltaSink.html#addBatch" class="page">adding a streaming micro-batch</a></p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>When <code>OptimisticTransaction</code> (as a <a href="OptimisticTransactionImpl.html" class="page">OptimisticTransactionImpl</a>) is attempted to be <a href="OptimisticTransactionImpl.html#commit" class="page">committed</a> (that does <a href="OptimisticTransactionImpl.html#doCommit" class="page">doCommit</a> internally), the <a href="LogStore.html" class="page">LogStore</a> (of the <a href="#deltaLog">DeltaLog</a>) is requested to <a href="LogStore.html#write" class="page">write actions to a delta file</a>, e.g. <code>_delta_log/00000000000000000001.json</code> for the attempt version <code>1</code>. Only when a <code>FileAlreadyExistsException</code> is thrown a commit is considered unsuccessful and <a href="OptimisticTransactionImpl.html#checkAndRetry" class="page">retried</a>.</p>
+<p>When OptimisticTransaction (as a <a href="OptimisticTransactionImpl.html" class="page">OptimisticTransactionImpl</a>) is attempted to be <a href="OptimisticTransactionImpl.html#commit" class="page">committed</a> (that does <a href="OptimisticTransactionImpl.html#doCommit" class="page">doCommit</a> internally), the <a href="LogStore.html" class="page">LogStore</a> (of the <a href="#deltaLog">DeltaLog</a>) is requested to <a href="LogStore.html#write" class="page">write actions to a delta file</a>, e.g. <code>_delta_log/00000000000000000001.json</code> for the attempt version <code>1</code>. Only when a <code>FileAlreadyExistsException</code> is thrown a commit is considered unsuccessful and <a href="OptimisticTransactionImpl.html#checkAndRetry" class="page">retried</a>.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -497,32 +487,7 @@ val txn = deltaLog.startTransaction</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p><code>OptimisticTransaction</code> can be associated with a thread as an <a href="#active">active transaction</a>.</p>
-</div>
-<div id="logging" class="admonitionblock tip">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-tip" title="Tip"></i>
-</td>
-<td class="content">
-<div class="paragraph">
-<p>Enable <code>ALL</code> logging level for <code>org.apache.spark.sql.delta.OptimisticTransaction</code> logger to see what happens inside.</p>
-</div>
-<div class="paragraph">
-<p>Add the following line to <code>conf/log4j.properties</code>:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code>log4j.logger.org.apache.spark.sql.delta.OptimisticTransaction=ALL</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Refer to <a href="logging.html" class="page">Logging</a>.</p>
-</div>
-</td>
-</tr>
-</table>
+<p>OptimisticTransaction can be associated with a thread as an <a href="#active">active transaction</a>.</p>
 </div>
 </div>
 </div>
@@ -530,7 +495,7 @@ val txn = deltaLog.startTransaction</code></pre>
 <h2 id="creating-optimistictransaction-instance"><a class="anchor" href="#creating-optimistictransaction-instance"></a><a class="link" href="#creating-optimistictransaction-instance"><a id="creating-instance"></a> Creating OptimisticTransaction Instance</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p><code>OptimisticTransaction</code> takes the following to be created:</p>
+<p>OptimisticTransaction takes the following to be created:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -556,6 +521,19 @@ The <a href="#deltaLog">DeltaLog</a> and <a href="#snapshot">Snapshot</a> are pa
 </td>
 </tr>
 </table>
+</div>
+<div class="paragraph">
+<p>OptimisticTransaction is created when DeltaLog is used for the following:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="DeltaLog.html#startTransaction" class="page">Starting a new transaction</a> for <a href="ConvertToDeltaCommand.html" class="page">ConvertToDeltaCommand</a></p>
+</li>
+<li>
+<p><a href="DeltaLog.html#withNewTransaction" class="page">Executing a single-threaded operation (in a new transaction)</a> for <a href="DeleteCommand.html" class="page">DeleteCommand</a>, <a href="MergeIntoCommand.html" class="page">MergeIntoCommand</a>, <a href="UpdateCommand.html" class="page">UpdateCommand</a>, and <a href="WriteIntoDelta.html" class="page">WriteIntoDelta</a> commands as well as for <a href="DeltaSink.html" class="page">DeltaSink</a> for <a href="DeltaSink.html#addBatch" class="page">adding a streaming micro-batch</a></p>
+</li>
+</ul>
 </div>
 </div>
 </div>
@@ -591,7 +569,7 @@ The <a href="#deltaLog">DeltaLog</a> and <a href="#snapshot">Snapshot</a> are pa
 <p><code>active</code> is available using <a href="#getActive">getActive</a> utility.</p>
 </div>
 <div class="paragraph">
-<p>There can only be one active <code>OptimisticTransaction</code> (or an <code>IllegalStateException</code> is thrown).</p>
+<p>There can only be one active OptimisticTransaction (or an <code>IllegalStateException</code> is thrown).</p>
 </div>
 </div>
 </div>
@@ -605,10 +583,10 @@ The <a href="#deltaLog">DeltaLog</a> and <a href="#snapshot">Snapshot</a> are pa
 </div>
 </div>
 <div class="paragraph">
-<p><code>setActive</code> simply associates the given <code>OptimisticTransaction</code> as <a href="#active">active</a> with the current thread.</p>
+<p><code>setActive</code> simply associates the given OptimisticTransaction as <a href="#active">active</a> with the current thread.</p>
 </div>
 <div class="paragraph">
-<p><code>setActive</code> throws an <code>IllegalStateException</code> if there is an active <code>OptimisticTransaction</code> already associated:</p>
+<p><code>setActive</code> throws an <code>IllegalStateException</code> if there is an active OptimisticTransaction already associated:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -676,6 +654,25 @@ The <a href="#deltaLog">DeltaLog</a> and <a href="#snapshot">Snapshot</a> are pa
 </td>
 </tr>
 </table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="logging"><a class="anchor" href="#logging"></a><a class="link" href="#logging"><a id="logging"></a> Logging</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Enable <code>ALL</code> logging level for <code>org.apache.spark.sql.delta.OptimisticTransaction</code> logger to see what happens inside.</p>
+</div>
+<div class="paragraph">
+<p>Add the following line to <code>conf/log4j.properties</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-plaintext hljs" data-lang="plaintext">log4j.logger.org.apache.spark.sql.delta.OptimisticTransaction=ALL</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Refer to <a href="logging.html" class="page">Logging</a>.</p>
 </div>
 </div>
 </div>

@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title> Metadata :: The Internals Of Delta Lake</title>
+    <title>Metadata :: The Internals Of Delta Lake</title>
     <link rel="canonical" href="https://books.japila.pl/delta-lake-internals/delta/Metadata.html">
     <link rel="prev" href="FileAction.html">
     <link rel="next" href="Protocol.html">
@@ -201,6 +201,9 @@
   </li>
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="WriteIntoDelta.html">WriteIntoDelta</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="AlterTableSetPropertiesDeltaCommand.html">AlterTableSetPropertiesDeltaCommand</a>
   </li>
 </ul>
   </li>
@@ -468,11 +471,11 @@
   </div>
   <div class="content">
 <article class="doc">
-<h1 class="page"><a id="Metadata"></a> Metadata</h1>
+<h1 class="page">Metadata</h1>
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p><code>Metadata</code> is an <a href="Action.html" class="page">action</a> that describes metadata (change) of a <a href="DeltaLog.html#metadata" class="page">delta table</a> (indirectly via <a href="Snapshot.html#metadata" class="page">Snapshot</a>).</p>
+<p><strong>Metadata</strong> is an <a href="Action.html" class="page">action</a> that describes metadata (change) of a <a href="DeltaLog.html#metadata" class="page">delta table</a> (indirectly via <a href="Snapshot.html#metadata" class="page">Snapshot</a>).</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -483,7 +486,7 @@ org.apache.spark.sql.delta.actions.Metadata</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p><code>Metadata</code> contains all the non-data information (<em>metadata</em>) like <a href="#name">name</a>, <a href="#description">description</a>, <a href="#format">format</a>, <a href="#schemaString">schema</a>, <a href="#partitionColumns">partition columns</a>, <a href="#configuration">table properties</a> and <a href="#createdTime">created time</a>. These can be changed (e.g., schema evolution).</p>
+<p>Metadata contains all the non-data information (<em>metadata</em>) like <a href="#name">name</a>, <a href="#description">description</a>, <a href="#format">format</a>, <a href="#schemaString">schema</a>, <a href="#partitionColumns">partition columns</a>, <a href="#configuration">table properties</a> and <a href="#createdTime">created time</a>. These can be changed (e.g., schema evolution).</p>
 </div>
 <div class="admonitionblock tip">
 <table>
@@ -498,7 +501,7 @@ Use <a href="DescribeDeltaDetailCommand.html" class="page">DescribeDeltaDetailCo
 </table>
 </div>
 <div class="paragraph">
-<p><code>Metadata</code> uses <a href="#id">id</a> to uniquely identify a delta table. The ID is never going to change through the history of the table (unless the entire directory, along with the transaction log is deleted). It is known as <strong>tableId</strong> or <a href="DeltaSourceOffset.html#reservoirId" class="page">reservoirId</a>.</p>
+<p>Metadata uses <a href="#id">id</a> to uniquely identify a delta table. The ID is never going to change through the history of the table (unless the entire directory, along with the transaction log is deleted). It is known as <strong>tableId</strong> or <a href="DeltaSourceOffset.html#reservoirId" class="page">reservoirId</a>.</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -529,7 +532,7 @@ Use <a href="DescribeDeltaDetailCommand.html" class="page">DescribeDeltaDetailCo
 </table>
 </div>
 <div class="paragraph">
-<p><code>Metadata</code> can be <a href="OptimisticTransactionImpl.html#updateMetadata" class="page">updated</a> in a <a href="OptimisticTransactionImpl.html" class="page">transaction</a> once (and only when created for an uninitialized table, when <a href="OptimisticTransactionImpl.html#readVersion" class="page">readVersion</a> is <code>-1</code>).</p>
+<p>Metadata can be <a href="OptimisticTransactionImpl.html#updateMetadata" class="page">updated</a> in a <a href="OptimisticTransactionImpl.html" class="page">transaction</a> once (and only when created for an uninitialized table, when <a href="OptimisticTransactionImpl.html#readVersion" class="page">readVersion</a> is <code>-1</code>).</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -537,7 +540,7 @@ Use <a href="DescribeDeltaDetailCommand.html" class="page">DescribeDeltaDetailCo
 </div>
 </div>
 <div class="paragraph">
-<p><code>Metadata</code> is <a href="#creating-instance">created</a> when:</p>
+<p>Metadata is <a href="#creating-instance">created</a> when:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -561,7 +564,7 @@ Use <a href="DescribeDeltaDetailCommand.html" class="page">DescribeDeltaDetailCo
 <h2 id="creating-metadata-instance"><a class="anchor" href="#creating-metadata-instance"></a><a class="link" href="#creating-metadata-instance"><a id="creating-instance"></a> Creating Metadata Instance</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p><code>Metadata</code> takes the following to be created:</p>
+<p>Metadata takes the following to be created:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -614,7 +617,7 @@ Use <a href="DescribeDeltaDetailCommand.html" class="page">DescribeDeltaDetailCo
 </table>
 </div>
 <div class="paragraph">
-<p><code>wrap</code> simply creates a new <a href="SingleAction.html" class="page">SingleAction</a> with the <code>metaData</code> field set to this <code>Metadata</code>.</p>
+<p><code>wrap</code> simply creates a new <a href="SingleAction.html" class="page">SingleAction</a> with the Metadata field set to this Metadata.</p>
 </div>
 </div>
 </div>
@@ -704,7 +707,7 @@ Use <a href="DescribeDeltaDetailCommand.html" class="page">DescribeDeltaDetailCo
 <div class="ulist">
 <ul>
 <li>
-<p><code>Metadata</code> is requested for the schema of the <a href="#partitionSchema">partitions</a> and the <a href="#dataSchema">data</a></p>
+<p>Metadata is requested for the schema of the <a href="#partitionSchema">partitions</a> and the <a href="#dataSchema">data</a></p>
 </li>
 <li>
 <p><code>DeltaLog</code> is requested for an <a href="DeltaLog.html#createRelation" class="page">insertable HadoopFsRelation for batch queries</a> (for the data schema), to <a href="DeltaLog.html#upgradeProtocol" class="page">upgrade protocol</a>, a <a href="DeltaLog.html#createDataFrame" class="page">DataFrame for given AddFiles</a></p>

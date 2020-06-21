@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title> TransactionalWrite&#8201;&#8212;&#8201;Optimistic Transactional Writers :: The Internals Of Delta Lake</title>
+    <title>TransactionalWrite :: The Internals Of Delta Lake</title>
     <link rel="canonical" href="https://books.japila.pl/delta-lake-internals/delta/TransactionalWrite.html">
     <link rel="prev" href="OptimisticTransaction.html">
     <link rel="next" href="DelayedCommitProtocol.html">
@@ -201,6 +201,9 @@
   </li>
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="WriteIntoDelta.html">WriteIntoDelta</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="AlterTableSetPropertiesDeltaCommand.html">AlterTableSetPropertiesDeltaCommand</a>
   </li>
 </ul>
   </li>
@@ -468,38 +471,26 @@
   </div>
   <div class="content">
 <article class="doc">
-<h1 class="page"><a id="TransactionalWrite"></a> TransactionalWrite&#8201;&#8212;&#8201;Optimistic Transactional Writers</h1>
+<h1 class="page">TransactionalWrite</h1>
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p><code>TransactionalWrite</code> is an <a href="#contract">abstraction</a> of <a href="#implementations">optimistic transactional writers</a> that can <a href="#writeFiles">write a structured query out</a> to a <a href="#deltaLog">Delta table</a>.</p>
+<p><strong>TransactionalWrite</strong> is an <a href="#contract">abstraction</a> of <a href="#implementations">optimistic transactional writers</a> that can <a href="#writeFiles">write a structured query out</a> to a <a href="#deltaLog">Delta table</a>.</p>
 </div>
-<div class="paragraph">
-<p><a id="implementations"></a><a id="self"></a>
-NOTE: <a href="OptimisticTransaction.html" class="page">OptimisticTransaction</a> is the default and only known <code>TransactionalWrite</code> in Delta Lake (indirectly as a concrete <a href="OptimisticTransactionImpl.html" class="page">OptimisticTransactionImpl</a>).</p>
 </div>
-<table id="contract" class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 1. TransactionalWrite Contract (Abstract Methods Only)</caption>
-<colgroup>
-<col style="width: 30%;">
-<col style="width: 70%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Method</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>deltaLog</code></p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div id="deltaLog" class="listingblock">
+</div>
+<div class="sect1">
+<h2 id="contract"><a class="anchor" href="#contract"></a><a class="link" href="#contract"><a id="contract"></a> Contract</a></h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="deltalog"><a class="anchor" href="#deltalog"></a><a class="link" href="#deltalog"><a id="deltaLog"></a> deltaLog</a></h3>
+<div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">deltaLog: DeltaLog</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p><a href="DeltaLog.html" class="page">DeltaLog</a> of the delta table that this transaction is changing</p>
+<p><a href="DeltaLog.html" class="page">DeltaLog</a> (of the delta table) that this transaction is changing</p>
 </div>
 <div class="paragraph">
 <p>Used when:</p>
@@ -519,56 +510,59 @@ NOTE: <a href="OptimisticTransaction.html" class="page">OptimisticTransaction</a
 <p><code>DeltaLog</code> is requested to <a href="DeltaLog.html#createDataFrame" class="page">createDataFrame</a></p>
 </li>
 <li>
-<p><code>TransactionalWrite</code> is requested to <a href="#writeFiles">write a structured query out to a delta table</a></p>
+<p>TransactionalWrite is requested to <a href="#writeFiles">write a structured query out to a delta table</a></p>
 </li>
 </ul>
-</div></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>metadata</code></p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div id="metadata" class="listingblock">
+</div>
+</div>
+<div class="sect2">
+<h3 id="metadata"><a class="anchor" href="#metadata"></a><a class="link" href="#metadata"><a id="metadata"></a> metadata</a></h3>
+<div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">metadata: Metadata</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p><a href="Metadata.html" class="page">Metadata</a> of the delta table that this transaction is changing</p>
+<p><a href="Metadata.html" class="page">Metadata</a> (of the <a href="#deltaLog">delta table</a>) that this transaction is changing</p>
 </div>
-<div class="paragraph">
-<p>Used when&#8230;&#8203;FIXME</p>
-</div></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>protocol</code></p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div id="protocol" class="listingblock">
+</div>
+<div class="sect2">
+<h3 id="protocol"><a class="anchor" href="#protocol"></a><a class="link" href="#protocol"><a id="protocol"></a> protocol</a></h3>
+<div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">protocol: Protocol</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p><a href="Protocol.html" class="page">Protocol</a> of the delta table that this transaction is changing</p>
+<p><a href="Protocol.html" class="page">Protocol</a> (of the <a href="#deltaLog">delta table</a>) that this transaction is changing</p>
 </div>
 <div class="paragraph">
-<p>Used when&#8230;&#8203;FIXME</p>
-</div></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>snapshot</code></p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div id="snapshot" class="listingblock">
+<p>Used when <a href="AlterTableSetPropertiesDeltaCommand.html" class="page">AlterTableSetPropertiesDeltaCommand</a> is executed (to <a href="DeltaConfigs.html#verifyProtocolVersionRequirements" class="page">verifyProtocolVersionRequirements</a>)</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="snapshot"><a class="anchor" href="#snapshot"></a><a class="link" href="#snapshot"><a id="snapshot"></a> snapshot</a></h3>
+<div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">snapshot: Snapshot</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p><a href="Snapshot.html" class="page">Snapshot</a> of the <a href="#deltaLog">delta table</a> that this transaction is <a href="OptimisticTransactionImpl.html#readVersion" class="page">reading at</a></p>
-</div></div></td>
-</tr>
-</tbody>
-</table>
+<p><a href="Snapshot.html" class="page">Snapshot</a> (of the <a href="#deltaLog">delta table</a>) that this transaction is <a href="OptimisticTransactionImpl.html#readVersion" class="page">reading at</a></p>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="writing-data-out-result-of-structured-querywritefiles-method"><a class="anchor" href="#writing-data-out-result-of-structured-querywritefiles-method"></a><a class="link" href="#writing-data-out-result-of-structured-querywritefiles-method"><a id="writeFiles"></a> Writing Data Out (Result Of Structured Query)&#8201;&#8212;&#8201;<code>writeFiles</code> Method</a></h2>
+<h2 id="transactionalwrites"><a class="anchor" href="#transactionalwrites"></a><a class="link" href="#transactionalwrites"><a id="implementations"></a><a id="self"></a> TransactionalWrites</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><a href="OptimisticTransaction.html" class="page">OptimisticTransaction</a> is the default and only known TransactionalWrite in Delta Lake (indirectly as a <a href="OptimisticTransactionImpl.html" class="page">OptimisticTransactionImpl</a>).</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="writing-data-out-result-of-structured-query"><a class="anchor" href="#writing-data-out-result-of-structured-query"></a><a class="link" href="#writing-data-out-result-of-structured-query"><a id="writeFiles"></a> Writing Data Out (Result Of Structured Query)</a></h2>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content">
@@ -587,7 +581,7 @@ writeFiles(
 </div>
 </div>
 <div class="paragraph">
-<p><code>writeFiles</code> creates a <a href="DeltaInvariantCheckerExec.html" class="page">DeltaInvariantCheckerExec</a> and a <a href="DelayedCommitProtocol.html" class="page">DelayedCommitProtocol</a> to write out files to the <a href="DeltaLog.html#dataPath" class="page">data path</a> (of the <a href="#deltaLog">DeltaLog</a>).</p>
+<p>writeFiles creates a <a href="DeltaInvariantCheckerExec.html" class="page">DeltaInvariantCheckerExec</a> and a <a href="DelayedCommitProtocol.html" class="page">DelayedCommitProtocol</a> to write out files to the <a href="DeltaLog.html#dataPath" class="page">data path</a> (of the <a href="#deltaLog">DeltaLog</a>).</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -597,7 +591,7 @@ writeFiles(
 </td>
 <td class="content">
 <div class="paragraph">
-<p><code>writeFiles</code> uses Spark SQL&#8217;s <code>FileFormatWriter</code> utility to write out a result of a streaming query.</p>
+<p>writeFiles uses Spark SQL&#8217;s <code>FileFormatWriter</code> utility to write out a result of a streaming query.</p>
 </div>
 <div class="paragraph">
 <p>Read up on <a href="https://jaceklaskowski.gitbooks.io/mastering-spark-sql/spark-sql-FileFormatWriter.html">FileFormatWriter</a> in <a href="https://bit.ly/spark-sql-internals">The Internals of Spark SQL</a> online book.</p>
@@ -607,7 +601,7 @@ writeFiles(
 </table>
 </div>
 <div class="paragraph">
-<p><code>writeFiles</code> is executed within <code>SQLExecution.withNewExecutionId</code>.</p>
+<p>writeFiles is executed within <code>SQLExecution.withNewExecutionId</code>.</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -616,16 +610,16 @@ writeFiles(
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-<code>writeFiles</code> can be tracked using web UI or <code>SQLAppStatusListener</code> (using <code>SparkListenerSQLExecutionStart</code> and <code>SparkListenerSQLExecutionEnd</code> events).
+writeFiles can be tracked using web UI or <code>SQLAppStatusListener</code> (using <code>SparkListenerSQLExecutionStart</code> and <code>SparkListenerSQLExecutionEnd</code> events).
 </td>
 </tr>
 </table>
 </div>
 <div class="paragraph">
-<p>In the end, <code>writeFiles</code> returns the <a href="DelayedCommitProtocol.html#addedStatuses" class="page">addedStatuses</a> of the <code>DelayedCommitProtocol</code> committer.</p>
+<p>In the end, writeFiles returns the <a href="DelayedCommitProtocol.html#addedStatuses" class="page">addedStatuses</a> of the <code>DelayedCommitProtocol</code> committer.</p>
 </div>
 <div class="paragraph">
-<p>Internally, <code>writeFiles</code> turns the <a href="#hasWritten">hasWritten</a> flag on (<code>true</code>).</p>
+<p>Internally, writeFiles turns the <a href="#hasWritten">hasWritten</a> flag on (<code>true</code>).</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -634,36 +628,29 @@ writeFiles(
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-After <code>writeFiles</code>, no <a href="OptimisticTransactionImpl.html#updateMetadata-AssertionError-hasWritten" class="page">metadata updates</a> in the transaction are permitted.
+After writeFiles, no <a href="OptimisticTransactionImpl.html#updateMetadata-AssertionError-hasWritten" class="page">metadata updates</a> in the transaction are permitted.
 </td>
 </tr>
 </table>
 </div>
 <div class="paragraph">
-<p><code>writeFiles</code> <a href="#normalizeData">normalize</a> the given <code>data</code> dataset (based on the <a href="Metadata.html#partitionColumns" class="page">partitionColumns</a> of the <a href="OptimisticTransactionImpl.html#metadata" class="page">Metadata</a>).</p>
+<p>writeFiles <a href="#normalizeData">normalize</a> the given <code>data</code> dataset (based on the <a href="Metadata.html#partitionColumns" class="page">partitionColumns</a> of the <a href="OptimisticTransactionImpl.html#metadata" class="page">Metadata</a>).</p>
 </div>
 <div class="paragraph">
-<p><code>writeFiles</code> <a href="#getPartitioningColumns">getPartitioningColumns</a> based on the <a href="Metadata.html#partitionSchema" class="page">partitionSchema</a> of the <a href="OptimisticTransactionImpl.html#metadata" class="page">Metadata</a>.</p>
+<p>writeFiles <a href="#getPartitioningColumns">getPartitioningColumns</a> based on the <a href="Metadata.html#partitionSchema" class="page">partitionSchema</a> of the <a href="OptimisticTransactionImpl.html#metadata" class="page">Metadata</a>.</p>
 </div>
 <div id="writeFiles-committer" class="paragraph">
-<p><code>writeFiles</code> <a href="#getCommitter">creates a DelayedCommitProtocol committer</a> for the <a href="DeltaLog.html#dataPath" class="page">data path</a> of the <a href="#deltaLog">DeltaLog</a>.</p>
+<p>writeFiles <a href="#getCommitter">creates a DelayedCommitProtocol committer</a> for the <a href="DeltaLog.html#dataPath" class="page">data path</a> of the <a href="#deltaLog">DeltaLog</a>.</p>
 </div>
 <div class="paragraph">
-<p><code>writeFiles</code> <a href="Invariants.html#getFromSchema" class="page">gets the invariants</a> from the <a href="Metadata.html#schema" class="page">schema</a> of the <a href="OptimisticTransactionImpl.html#metadata" class="page">Metadata</a>.</p>
+<p>writeFiles <a href="Invariants.html#getFromSchema" class="page">gets the invariants</a> from the <a href="Metadata.html#schema" class="page">schema</a> of the <a href="OptimisticTransactionImpl.html#metadata" class="page">Metadata</a>.</p>
 </div>
 <div class="paragraph">
 <p><a id="writeFiles-DeltaInvariantCheckerExec"></a><a id="writeFiles-FileFormatWriter"></a>
-<code>writeFiles</code> requests a new Execution ID (that is used to track all Spark jobs of <code>FileFormatWriter.write</code> in Spark SQL) with a physical query plan of a new <a href="DeltaInvariantCheckerExec.html" class="page">DeltaInvariantCheckerExec</a> unary physical operator (with the executed plan of the normalized query execution as the child operator).</p>
+writeFiles requests a new Execution ID (that is used to track all Spark jobs of <code>FileFormatWriter.write</code> in Spark SQL) with a physical query plan of a new <a href="DeltaInvariantCheckerExec.html" class="page">DeltaInvariantCheckerExec</a> unary physical operator (with the executed plan of the normalized query execution as the child operator).</p>
 </div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
 <div class="paragraph">
-<p><code>writeFiles</code> is used when:</p>
+<p>writeFiles is used when:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -675,14 +662,10 @@ After <code>writeFiles</code>, no <a href="OptimisticTransactionImpl.html#update
 </li>
 </ul>
 </div>
-</td>
-</tr>
-</table>
-</div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="creating-committergetcommitter-method"><a class="anchor" href="#creating-committergetcommitter-method"></a><a class="link" href="#creating-committergetcommitter-method"><a id="getCommitter"></a> Creating Committer&#8201;&#8212;&#8201;<code>getCommitter</code> Method</a></h2>
+<h2 id="creating-committer"><a class="anchor" href="#creating-committer"></a><a class="link" href="#creating-committer"><a id="getCommitter"></a> Creating Committer</a></h2>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content">
@@ -691,49 +674,32 @@ After <code>writeFiles</code>, no <a href="OptimisticTransactionImpl.html#update
 </div>
 </div>
 <div class="paragraph">
-<p><code>getCommitter</code> creates a new <a href="DelayedCommitProtocol.html" class="page">DelayedCommitProtocol</a> with the <strong>delta</strong> job ID and the given <code>outputPath</code> (and no random prefix).</p>
+<p>getCommitter creates a new <a href="DelayedCommitProtocol.html" class="page">DelayedCommitProtocol</a> with the <strong>delta</strong> job ID and the given <code>outputPath</code> (and no random prefix).</p>
 </div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<code>getCommitter</code> is used exclusively when <code>TransactionalWrite</code> is requested to <a href="#writeFiles">write out a streaming query</a>.
-</td>
-</tr>
-</table>
+<div class="paragraph">
+<p>getCommitter is used when TransactionalWrite is requested to <a href="#writeFiles">write out a streaming query</a>.</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="makeoutputnullable-method"><a class="anchor" href="#makeoutputnullable-method"></a><a class="link" href="#makeoutputnullable-method"><a id="makeOutputNullable"></a> <code>makeOutputNullable</code> Method</a></h2>
+<h2 id="makeoutputnullable-method"><a class="anchor" href="#makeoutputnullable-method"></a><a class="link" href="#makeoutputnullable-method"><a id="makeOutputNullable"></a> makeOutputNullable Method</a></h2>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">makeOutputNullable(output: Seq[Attribute]): Seq[Attribute]</code></pre>
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">makeOutputNullable(
+  output: Seq[Attribute]): Seq[Attribute]</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p><code>makeOutputNullable</code>&#8230;&#8203;FIXME</p>
+<p>makeOutputNullable&#8230;&#8203;FIXME</p>
 </div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<code>makeOutputNullable</code> is used when&#8230;&#8203;FIXME
-</td>
-</tr>
-</table>
+<div class="paragraph">
+<p>makeOutputNullable is used when&#8230;&#8203;FIXME</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="normalizedata-method"><a class="anchor" href="#normalizedata-method"></a><a class="link" href="#normalizedata-method"><a id="normalizeData"></a> <code>normalizeData</code> Method</a></h2>
+<h2 id="normalizedata-method"><a class="anchor" href="#normalizedata-method"></a><a class="link" href="#normalizedata-method"><a id="normalizeData"></a> normalizeData Method</a></h2>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content">
@@ -743,24 +709,15 @@ After <code>writeFiles</code>, no <a href="OptimisticTransactionImpl.html#update
 </div>
 </div>
 <div class="paragraph">
-<p><code>normalizeData</code>&#8230;&#8203;FIXME</p>
+<p>normalizeData&#8230;&#8203;FIXME</p>
 </div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<code>normalizeData</code> is used when&#8230;&#8203;FIXME
-</td>
-</tr>
-</table>
+<div class="paragraph">
+<p>normalizeData is used when&#8230;&#8203;FIXME</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="getpartitioningcolumns-method"><a class="anchor" href="#getpartitioningcolumns-method"></a><a class="link" href="#getpartitioningcolumns-method"><a id="getPartitioningColumns"></a> <code>getPartitioningColumns</code> Method</a></h2>
+<h2 id="getpartitioningcolumns-method"><a class="anchor" href="#getpartitioningcolumns-method"></a><a class="link" href="#getpartitioningcolumns-method"><a id="getPartitioningColumns"></a> getPartitioningColumns Method</a></h2>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content">
@@ -771,24 +728,15 @@ After <code>writeFiles</code>, no <a href="OptimisticTransactionImpl.html#update
 </div>
 </div>
 <div class="paragraph">
-<p><code>getPartitioningColumns</code>&#8230;&#8203;FIXME</p>
+<p>getPartitioningColumns&#8230;&#8203;FIXME</p>
 </div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<code>getPartitioningColumns</code> is used when&#8230;&#8203;FIXME
-</td>
-</tr>
-</table>
+<div class="paragraph">
+<p>getPartitioningColumns is used when&#8230;&#8203;FIXME</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="haswritten-flag"><a class="anchor" href="#haswritten-flag"></a><a class="link" href="#haswritten-flag"><a id="hasWritten"></a> <code>hasWritten</code> Flag</a></h2>
+<h2 id="haswritten-flag"><a class="anchor" href="#haswritten-flag"></a><a class="link" href="#haswritten-flag"><a id="hasWritten"></a> hasWritten Flag</a></h2>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content">
@@ -796,10 +744,10 @@ After <code>writeFiles</code>, no <a href="OptimisticTransactionImpl.html#update
 </div>
 </div>
 <div class="paragraph">
-<p><code>TransactionalWrite</code> uses the <code>hasWritten</code> internal registry to prevent <code>OptimisticTransactionImpl</code> from <a href="OptimisticTransactionImpl.html#updateMetadata" class="page">updating metadata</a> after <a href="#writeFiles">having written out any files</a>.</p>
+<p>TransactionalWrite uses the hasWritten internal registry to prevent <code>OptimisticTransactionImpl</code> from <a href="OptimisticTransactionImpl.html#updateMetadata" class="page">updating metadata</a> after <a href="#writeFiles">having written out any files</a>.</p>
 </div>
 <div class="paragraph">
-<p><code>hasWritten</code> is initially turned off (<code>false</code>). It can be turned on (<code>true</code>) when <code>TransactionalWrite</code> is requested to <a href="#writeFiles">write files out</a>.</p>
+<p>hasWritten is initially turned off (<code>false</code>). It can be turned on (<code>true</code>) when TransactionalWrite is requested to <a href="#writeFiles">write files out</a>.</p>
 </div>
 </div>
 </div>

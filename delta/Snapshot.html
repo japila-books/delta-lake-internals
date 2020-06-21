@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title> Snapshot&#8201;&#8212;&#8201;Versioned State Of Delta Table :: The Internals Of Delta Lake</title>
+    <title>Snapshot :: The Internals Of Delta Lake</title>
     <link rel="canonical" href="https://books.japila.pl/delta-lake-internals/delta/Snapshot.html">
     <link rel="prev" href="VerifyChecksum.html">
     <link rel="next" href="InMemoryLogReplay.html">
@@ -201,6 +201,9 @@
   </li>
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="WriteIntoDelta.html">WriteIntoDelta</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="AlterTableSetPropertiesDeltaCommand.html">AlterTableSetPropertiesDeltaCommand</a>
   </li>
 </ul>
   </li>
@@ -467,17 +470,17 @@
   </div>
   <div class="content">
 <article class="doc">
-<h1 class="page"><a id="Snapshot"></a> Snapshot&#8201;&#8212;&#8201;Versioned State Of Delta Table</h1>
+<h1 class="page">Snapshot</h1>
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p><code>Snapshot</code> is an immutable snapshot of the <a href="#state">state</a> of a <a href="#deltaLog">delta table</a> at <a href="#version">some version</a>.</p>
+<p><strong>Snapshot</strong> is an immutable snapshot of the <a href="#state">state</a> of a <a href="#deltaLog">delta table</a> at <a href="#version">some version</a>.</p>
 </div>
 <div class="paragraph">
-<p><code>Snapshot</code> is <a href="#creating-instance">created</a> when <code>DeltaLog</code> is requested for the <a href="DeltaLog.html#currentSnapshot" class="page">current snapshot</a> or <a href="DeltaLog.html#getSnapshotAt" class="page">at a given version</a>, and to <a href="DeltaLog.html#update" class="page">update</a>.</p>
+<p>Snapshot is <a href="#creating-instance">created</a> when <code>DeltaLog</code> is requested for the <a href="DeltaLog.html#currentSnapshot" class="page">current snapshot</a> or <a href="DeltaLog.html#getSnapshotAt" class="page">at a given version</a>, and to <a href="DeltaLog.html#update" class="page">update</a>.</p>
 </div>
 <div class="paragraph">
-<p><code>Snapshot</code> can be requested for <a href="#allFiles">all data files</a>.</p>
+<p>Snapshot can be requested for <a href="#allFiles">all data files</a>.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -496,7 +499,7 @@
 </div>
 </div>
 <div class="paragraph">
-<p><code>Snapshot</code> can be requested for <a href="#tombstones">removed data files</a> (aka <em>tombstones</em>).</p>
+<p>Snapshot can be requested for <a href="#tombstones">removed data files</a> (aka <em>tombstones</em>).</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -508,7 +511,7 @@
 </div>
 </div>
 <div class="paragraph">
-<p><code>Snapshot</code> uses the <a href="DeltaSQLConf.html#DELTA_SNAPSHOT_PARTITIONS" class="page">spark.databricks.delta.snapshotPartitions</a> internal configuration property (default: <code>50</code>) for the number of partition for <a href="#stateReconstruction">state reconstruction</a>.</p>
+<p>Snapshot uses the <a href="DeltaSQLConf.html#DELTA_SNAPSHOT_PARTITIONS" class="page">spark.databricks.delta.snapshotPartitions</a> internal configuration property (default: <code>50</code>) for the number of partition for <a href="#stateReconstruction">state reconstruction</a>.</p>
 </div>
 </div>
 </div>
@@ -516,7 +519,7 @@
 <h2 id="creating-snapshot-instance"><a class="anchor" href="#creating-snapshot-instance"></a><a class="link" href="#creating-snapshot-instance"><a id="creating-instance"></a> Creating Snapshot Instance</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p><code>Snapshot</code> takes the following to be created:</p>
+<p>Snapshot takes the following to be created:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -547,10 +550,10 @@
 </ul>
 </div>
 <div class="paragraph">
-<p><code>Snapshot</code> initializes the <a href="#internal-properties">internal properties</a>.</p>
+<p>Snapshot initializes the <a href="#internal-properties">internal properties</a>.</p>
 </div>
 <div class="paragraph">
-<p>While being created, <code>Snapshot</code> requests the <a href="#deltaLog">DeltaLog</a> to <a href="DeltaLog.html#protocolRead" class="page">protocolRead</a> with the <a href="#protocol">protocol</a>.</p>
+<p>While being created, Snapshot requests the <a href="#deltaLog">DeltaLog</a> to <a href="DeltaLog.html#protocolRead" class="page">protocolRead</a> with the <a href="#protocol">protocol</a>.</p>
 </div>
 </div>
 </div>
@@ -584,7 +587,7 @@
 <p><code>Checkpoints</code> is requested to <a href="Checkpoints.html#checkpoint" class="page">checkpoint</a> (and in turn <a href="Checkpoints.html#writeCheckpoint" class="page">writeCheckpoint</a>)</p>
 </li>
 <li>
-<p><code>Snapshot</code> is created, and requested for <a href="#allFiles">allFiles</a> and <a href="#tombstones">tombstones</a></p>
+<p>Snapshot is created, and requested for <a href="#allFiles">allFiles</a> and <a href="#tombstones">tombstones</a></p>
 </li>
 <li>
 <p><code>VacuumCommand</code> is requested for <a href="VacuumCommand.html#gc" class="page">garbage collecting of a delta table</a></p>
@@ -719,7 +722,7 @@ scala&gt; files.show
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-<code>load</code> is used when <code>Snapshot</code> is created (and initializes <a href="#stateReconstruction">stateReconstruction</a>).
+<code>load</code> is used when Snapshot is created (and initializes <a href="#stateReconstruction">stateReconstruction</a>).
 </td>
 </tr>
 </table>
@@ -869,7 +872,7 @@ scala&gt; files.show
 </ul>
 </div>
 <div class="paragraph">
-<p>Used when <code>Snapshot</code> is requested for the <a href="#state">state</a> (i.e. <code>Dataset[SingleAction]</code>)</p>
+<p>Used when Snapshot is requested for the <a href="#state">state</a> (i.e. <code>Dataset[SingleAction]</code>)</p>
 </div></div></td>
 </tr>
 <tr>

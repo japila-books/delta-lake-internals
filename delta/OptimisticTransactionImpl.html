@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title> OptimisticTransactionImpl :: The Internals Of Delta Lake</title>
+    <title>OptimisticTransactionImpl :: The Internals Of Delta Lake</title>
     <link rel="canonical" href="https://books.japila.pl/delta-lake-internals/delta/OptimisticTransactionImpl.html">
     <link rel="prev" href="PostCommitHook.html">
     <link rel="next" href="LogStore.html">
@@ -201,6 +201,9 @@
   </li>
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="WriteIntoDelta.html">WriteIntoDelta</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="AlterTableSetPropertiesDeltaCommand.html">AlterTableSetPropertiesDeltaCommand</a>
   </li>
 </ul>
   </li>
@@ -468,11 +471,11 @@
   </div>
   <div class="content">
 <article class="doc">
-<h1 class="page"><a id="OptimisticTransactionImpl"></a> OptimisticTransactionImpl</h1>
+<h1 class="page">OptimisticTransactionImpl</h1>
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p><code>OptimisticTransactionImpl</code> is an <a href="#contract">extension</a> of the <a href="TransactionalWrite.html" class="page">TransactionalWrite contract</a> for <a href="#implementations">optimistic transactions</a> that can be <a href="#commit">committed</a>.</p>
+<p><strong>OptimisticTransactionImpl</strong> is an <a href="#contract">extension</a> of the <a href="TransactionalWrite.html" class="page">TransactionalWrite</a> for <a href="#implementations">optimistic transactions</a> that can be <a href="#commit">committed</a>.</p>
 </div>
 <table id="contract" class="tableblock frame-all grid-all stretch">
 <caption class="title">Table 1. OptimisticTransactionImpl Contract (Abstract Methods Only)</caption>
@@ -542,7 +545,7 @@
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-<a href="OptimisticTransaction.html" class="page">OptimisticTransaction</a> is the only known <code>OptimisticTransactionImpl</code> in Delta Lake.
+<a href="OptimisticTransaction.html" class="page">OptimisticTransaction</a> is the only known OptimisticTransactionImpl in Delta Lake.
 </td>
 </tr>
 </table>
@@ -558,7 +561,7 @@
 </div>
 </div>
 <div class="paragraph">
-<p><code>OptimisticTransactionImpl</code> manages <a href="PostCommitHook.html" class="page">post-commit hooks</a> that will be <a href="#runPostCommitHooks">executed</a> after a <a href="#commit">commit</a> is successful.</p>
+<p>OptimisticTransactionImpl manages <a href="PostCommitHook.html" class="page">post-commit hooks</a> that will be <a href="#runPostCommitHooks">executed</a> after a <a href="#commit">commit</a> is successful.</p>
 </div>
 <div class="paragraph">
 <p>Post-commit hooks can be <a href="#registerPostCommitHook">registered</a>, but only the <a href="GenerateSymlinkManifest.html" class="page">GenerateSymlinkManifest</a> post-commit hook is supported (when&#8230;&#8203;FIXME).</p>
@@ -574,7 +577,7 @@
 </div>
 </div>
 <div class="paragraph">
-<p><code>OptimisticTransactionImpl</code> uses the <code>newMetadata</code> internal registry for a new <a href="Metadata.html" class="page">Metadata</a> that should be committed with this transaction.</p>
+<p>OptimisticTransactionImpl uses the <code>newMetadata</code> internal registry for a new <a href="Metadata.html" class="page">Metadata</a> that should be committed with this transaction.</p>
 </div>
 <div class="paragraph">
 <p><code>newMetadata</code> is initially undefined (<code>None</code>). It can be <a href="#updateMetadata">updated</a> only once and before the transaction <a href="TransactionalWrite.html#hasWritten" class="page">writes out any files</a>.</p>
@@ -636,7 +639,7 @@
 <div class="ulist">
 <ul>
 <li>
-<p><code>OptimisticTransactionImpl</code> is requested for <a href="#snapshotMetadata">snapshotMetadata</a>, to <a href="#updateMetadata">updateMetadata</a> and <a href="#commit">commit</a></p>
+<p>OptimisticTransactionImpl is requested for <a href="#snapshotMetadata">snapshotMetadata</a>, to <a href="#updateMetadata">updateMetadata</a> and <a href="#commit">commit</a></p>
 </li>
 <li>
 <p><code>ConvertToDeltaCommand</code> is requested to <a href="ConvertToDeltaCommand.html#run" class="page">run</a></p>
@@ -934,7 +937,7 @@ filterFiles(
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-<code>prepareCommit</code> is used exclusively when <code>OptimisticTransactionImpl</code> is requested to <a href="#commit">commit</a> (at the beginning).
+<code>prepareCommit</code> is used exclusively when OptimisticTransactionImpl is requested to <a href="#commit">commit</a> (at the beginning).
 </td>
 </tr>
 </table>
@@ -961,7 +964,7 @@ filterFiles(
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-<code>postCommit</code> is used exclusively when <code>OptimisticTransactionImpl</code> is requested to <a href="#commit">commit</a> (at the end).
+<code>postCommit</code> is used exclusively when OptimisticTransactionImpl is requested to <a href="#commit">commit</a> (at the end).
 </td>
 </tr>
 </table>
@@ -999,7 +1002,7 @@ filterFiles(
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-<code>registerPostCommitHook</code> is used when <code>OptimisticTransactionImpl</code> is requested to <a href="#commit">commit</a> (to register the <a href="GenerateSymlinkManifest.html" class="page">GenerateSymlinkManifest</a> post-commit hook).
+<code>registerPostCommitHook</code> is used when OptimisticTransactionImpl is requested to <a href="#commit">commit</a> (to register the <a href="GenerateSymlinkManifest.html" class="page">GenerateSymlinkManifest</a> post-commit hook).
 </td>
 </tr>
 </table>
@@ -1057,7 +1060,7 @@ Hooks may create new transactions.
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-<code>runPostCommitHooks</code> is used when <code>OptimisticTransactionImpl</code> is requested to <a href="#commit">commit</a>.
+<code>runPostCommitHooks</code> is used when OptimisticTransactionImpl is requested to <a href="#commit">commit</a>.
 </td>
 </tr>
 </table>
@@ -1125,7 +1128,7 @@ Hooks may create new transactions.
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-<code>doCommit</code> is used when <code>OptimisticTransactionImpl</code> is requested to <a href="#commit">commit</a> (and <a href="#checkAndRetry">checkAndRetry</a>).
+<code>doCommit</code> is used when OptimisticTransactionImpl is requested to <a href="#commit">commit</a> (and <a href="#checkAndRetry">checkAndRetry</a>).
 </td>
 </tr>
 </table>
@@ -1153,7 +1156,7 @@ Hooks may create new transactions.
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-<code>checkAndRetry</code> is used when <code>OptimisticTransactionImpl</code> is requested to <a href="#commit">commit</a> (and <a href="#doCommit">attempts a commit</a> that failed with an <code>FileAlreadyExistsException</code>).
+<code>checkAndRetry</code> is used when OptimisticTransactionImpl is requested to <a href="#commit">commit</a> (and <a href="#doCommit">attempts a commit</a> that failed with an <code>FileAlreadyExistsException</code>).
 </td>
 </tr>
 </table>
@@ -1179,7 +1182,7 @@ Hooks may create new transactions.
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-<code>verifyNewMetadata</code> is used when <code>OptimisticTransactionImpl</code> is requested to <a href="#prepareCommit">prepareCommit</a> and <a href="#updateMetadata">updateMetadata</a>.
+<code>verifyNewMetadata</code> is used when OptimisticTransactionImpl is requested to <a href="#prepareCommit">prepareCommit</a> and <a href="#updateMetadata">updateMetadata</a>.
 </td>
 </tr>
 </table>
@@ -1234,7 +1237,7 @@ Hooks may create new transactions.
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-<code>getNextAttemptVersion</code> is used when <code>OptimisticTransactionImpl</code> is requested to <a href="#checkAndRetry">checkAndRetry</a>.
+<code>getNextAttemptVersion</code> is used when OptimisticTransactionImpl is requested to <a href="#checkAndRetry">checkAndRetry</a>.
 </td>
 </tr>
 </table>
@@ -1297,10 +1300,10 @@ Hooks may create new transactions.
 <p><a id="readTxn"></a> Streaming query IDs that have been seen by this transaction</p>
 </div>
 <div class="paragraph">
-<p>A new queryId is added when <code>OptimisticTransactionImpl</code> is requested for <a href="#txnVersion">txnVersion</a></p>
+<p>A new queryId is added when OptimisticTransactionImpl is requested for <a href="#txnVersion">txnVersion</a></p>
 </div>
 <div class="paragraph">
-<p>Used when <code>OptimisticTransactionImpl</code> is requested to <a href="#checkAndRetry">checkAndRetry</a> (to fail with a <code>ConcurrentTransactionException</code> for idempotent transactions that have conflicted)</p>
+<p>Used when OptimisticTransactionImpl is requested to <a href="#checkAndRetry">checkAndRetry</a> (to fail with a <code>ConcurrentTransactionException</code> for idempotent transactions that have conflicted)</p>
 </div></div></td>
 </tr>
 <tr>

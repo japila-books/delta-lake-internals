@@ -3,10 +3,10 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>FileAction :: The Internals Of Delta Lake</title>
-    <link rel="canonical" href="https://books.japila.pl/delta-lake-internals/delta/FileAction.html">
-    <link rel="prev" href="CommitInfo.html">
-    <link rel="next" href="Metadata.html">
+    <title>AlterTableSetPropertiesDeltaCommand :: The Internals Of Delta Lake</title>
+    <link rel="canonical" href="https://books.japila.pl/delta-lake-internals/delta/AlterTableSetPropertiesDeltaCommand.html">
+    <link rel="prev" href="WriteIntoDelta.html">
+    <link rel="next" href="DeltaDataSource.html">
     <meta name="generator" content="Antora 2.3.3">
     <link rel="stylesheet" href="../_/css/site.css">
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-151208281-1"></script>
@@ -202,7 +202,7 @@
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="WriteIntoDelta.html">WriteIntoDelta</a>
   </li>
-  <li class="nav-item" data-depth="2">
+  <li class="nav-item is-current-page" data-depth="2">
     <a class="nav-link" href="AlterTableSetPropertiesDeltaCommand.html">AlterTableSetPropertiesDeltaCommand</a>
   </li>
 </ul>
@@ -313,7 +313,7 @@
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="CommitInfo.html">CommitInfo</a>
   </li>
-  <li class="nav-item is-current-page" data-depth="2">
+  <li class="nav-item" data-depth="2">
     <a class="nav-link" href="FileAction.html">FileAction</a>
   </li>
   <li class="nav-item" data-depth="2">
@@ -463,93 +463,21 @@
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="index.html">Delta Lake</a></li>
-    <li><a href="Action.html">Action</a></li>
-    <li><a href="FileAction.html">FileAction</a></li>
+    <li><a href="commands.html">Commands</a></li>
+    <li><a href="AlterTableSetPropertiesDeltaCommand.html">AlterTableSetPropertiesDeltaCommand</a></li>
   </ul>
 </nav>
-  <div class="edit-this-page"><a href="https://github.com/japila-books/delta-lake-internals/edit/master/modules/ROOT/pages/FileAction.adoc">Edit this Page</a></div>
+  <div class="edit-this-page"><a href="https://github.com/japila-books/delta-lake-internals/edit/master/modules/ROOT/pages/AlterTableSetPropertiesDeltaCommand.adoc">Edit this Page</a></div>
   </div>
   <div class="content">
 <article class="doc">
-<h1 class="page">FileAction</h1>
+<h1 class="page">AlterTableSetPropertiesDeltaCommand</h1>
 <div class="paragraph">
-<p><code>FileAction</code> is an <a href="#contract">extension</a> of the <a href="Action.html" class="page">Action contract</a> for <a href="#implementations">metadata of file actions</a> with the <a href="#path">path</a> and <a href="#dataChange">dataChange</a> flag.</p>
-</div>
-<table id="contract" class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 1. FileAction Contract (Abstract Methods Only)</caption>
-<colgroup>
-<col style="width: 30%;">
-<col style="width: 70%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Method</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>dataChange</code></p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div id="dataChange" class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">dataChange: Boolean</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Used when&#8230;&#8203;FIXME</p>
-</div></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>path</code></p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div id="path" class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">path: String</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Used when&#8230;&#8203;FIXME</p>
-</div></div></td>
-</tr>
-</tbody>
-</table>
-<table id="implementations" class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 2. FileActions</caption>
-<colgroup>
-<col style="width: 30%;">
-<col style="width: 70%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">FileAction</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code><a href="AddFile.html" class="page">AddFile</a></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><a id="AddFile"></a></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>RemoveFile</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><a id="RemoveFile"></a></p></td>
-</tr>
-</tbody>
-</table>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<code>FileAction</code> is a Scala <strong>sealed trait</strong> which means that all the <a href="#implementations">implementations</a> are in the same compilation unit (a single file).
-</td>
-</tr>
-</table>
+<p><strong>AlterTableSetPropertiesDeltaCommand</strong> is&#8230;&#8203;FIXME</p>
 </div>
 <nav class="pagination">
-  <span class="prev"><a href="CommitInfo.html">CommitInfo</a></span>
-  <span class="next"><a href="Metadata.html">Metadata</a></span>
+  <span class="prev"><a href="WriteIntoDelta.html">WriteIntoDelta</a></span>
+  <span class="next"><a href="DeltaDataSource.html">DeltaDataSource</a></span>
 </nav>
 </article>
 <aside class="toc sidebar" data-title="Contents" data-levels="2">
