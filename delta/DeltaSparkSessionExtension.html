@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>DeltaSparkSessionExtension :: The Internals Of Delta Lake</title>
     <link rel="canonical" href="https://books.japila.pl/delta-lake-internals/delta/DeltaSparkSessionExtension.html">
-    <link rel="prev" href="delta-sql-commands.html">
+    <link rel="prev" href="DeltaCatalog.html">
     <link rel="next" href="DeltaSqlParser.html">
     <meta name="generator" content="Antora 2.3.3">
     <link rel="stylesheet" href="../_/css/site.css">
@@ -84,36 +84,6 @@
   </li>
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="delta-sql-commands.html">Delta SQL Commands</a>
-  </li>
-</ul>
-  </li>
-  <li class="nav-item is-current-page" data-depth="1">
-    <button class="nav-item-toggle"></button>
-    <a class="nav-link" href="DeltaSparkSessionExtension.html">DeltaSparkSessionExtension</a>
-<ul class="nav-list">
-  <li class="nav-item" data-depth="2">
-    <button class="nav-item-toggle"></button>
-    <a class="nav-link" href="DeltaSqlParser.html">DeltaSqlParser</a>
-<ul class="nav-list">
-  <li class="nav-item" data-depth="3">
-    <a class="nav-link" href="DeltaSqlAstBuilder.html">DeltaSqlAstBuilder</a>
-  </li>
-</ul>
-  </li>
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="DeltaAnalysis.html">DeltaAnalysis</a>
-  </li>
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="DeltaUnsupportedOperationsCheck.html">DeltaUnsupportedOperationsCheck</a>
-  </li>
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="PreprocessTableDelete.html">PreprocessTableDelete</a>
-  </li>
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="PreprocessTableMerge.html">PreprocessTableMerge</a>
-  </li>
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="PreprocessTableUpdate.html">PreprocessTableUpdate</a>
   </li>
 </ul>
   </li>
@@ -397,6 +367,45 @@
   </li>
   <li class="nav-item" data-depth="0">
     <button class="nav-item-toggle"></button>
+    <span class="nav-text">Spark SQL Extensions</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="DeltaCatalog.html">DeltaCatalog</a>
+  </li>
+  <li class="nav-item is-current-page" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="DeltaSparkSessionExtension.html">DeltaSparkSessionExtension</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="DeltaSqlParser.html">DeltaSqlParser</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="DeltaSqlAstBuilder.html">DeltaSqlAstBuilder</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="DeltaAnalysis.html">DeltaAnalysis</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="DeltaUnsupportedOperationsCheck.html">DeltaUnsupportedOperationsCheck</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="PreprocessTableDelete.html">PreprocessTableDelete</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="PreprocessTableMerge.html">PreprocessTableMerge</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="PreprocessTableUpdate.html">PreprocessTableUpdate</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+    <button class="nav-item-toggle"></button>
     <span class="nav-text">Demos</span>
 <ul class="nav-list">
   <li class="nav-item" data-depth="1">
@@ -451,6 +460,7 @@
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="index.html">Delta Lake</a></li>
+    <li>Spark SQL Extensions</li>
     <li><a href="DeltaSparkSessionExtension.html">DeltaSparkSessionExtension</a></li>
   </ul>
 </nav>
@@ -459,46 +469,14 @@
   <div class="content">
 <article class="doc">
 <h1 class="page">DeltaSparkSessionExtension</h1>
-<div id="preamble">
-<div class="sectionbody">
 <div id="apply" class="paragraph">
 <p><strong>DeltaSparkSessionExtension</strong> is an extension of Spark SQL to register Delta SQL support (using <a href="DeltaSqlParser.html" class="page">DeltaSqlParser</a>).</p>
 </div>
 <div class="paragraph">
-<p>DeltaSparkSessionExtension is registered using <strong>spark.sql.extensions</strong> configuration property while creating a <code>SparkSession</code> in a Spark application.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="registering-deltasparksessionextension"><a class="anchor" href="#registering-deltasparksessionextension"></a><a class="link" href="#registering-deltasparksessionextension"><a id="registration"></a> Registering DeltaSparkSessionExtension</a></h2>
-<div class="sectionbody">
-<div class="sect2">
-<h3 id="spark-sql-application"><a class="anchor" href="#spark-sql-application"></a><a class="link" href="#spark-sql-application"><a id="application"></a> Spark SQL Application</a></h3>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">import org.apache.spark.sql.SparkSession
-val spark = SparkSession
-  .builder()
-  .appName("...")
-  .config("spark.sql.extensions", "io.delta.sql.DeltaSparkSessionExtension")
-  .getOrCreate</code></pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="spark-shell"><a class="anchor" href="#spark-shell"></a><a class="link" href="#spark-shell"><a id="spark-shell"></a> Spark Shell</a></h3>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-plaintext hljs" data-lang="plaintext">./bin/spark-shell \
-  --packages io.delta:delta-core_2.12:0.7.0 \
-  --conf spark.sql.extensions=io.delta.sql.DeltaSparkSessionExtension</code></pre>
-</div>
-</div>
-</div>
-</div>
+<p>DeltaSparkSessionExtension is registered using <strong>spark.sql.extensions</strong> configuration property while creating a SparkSession in a Spark application. Consult <a href="installation.html" class="page">Installation</a>.</p>
 </div>
 <nav class="pagination">
-  <span class="prev"><a href="delta-sql-commands.html">Delta SQL Commands</a></span>
+  <span class="prev"><a href="DeltaCatalog.html">DeltaCatalog</a></span>
   <span class="next"><a href="DeltaSqlParser.html">DeltaSqlParser</a></span>
 </nav>
 </article>

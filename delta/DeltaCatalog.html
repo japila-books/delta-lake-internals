@@ -3,10 +3,10 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>FileNames Utility :: The Internals Of Delta Lake</title>
-    <link rel="canonical" href="https://books.japila.pl/delta-lake-internals/delta/FileNames.html">
-    <link rel="prev" href="DeltaConfig.html">
-    <link rel="next" href="DeltaLogFileIndex.html">
+    <title>DeltaCatalog :: The Internals Of Delta Lake</title>
+    <link rel="canonical" href="https://books.japila.pl/delta-lake-internals/delta/DeltaCatalog.html">
+    <link rel="prev" href="others.html">
+    <link rel="next" href="DeltaSparkSessionExtension.html">
     <meta name="generator" content="Antora 2.3.3">
     <link rel="stylesheet" href="../_/css/site.css">
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-151208281-1"></script>
@@ -339,7 +339,7 @@
   </li>
 </ul>
   </li>
-  <li class="nav-item is-current-page" data-depth="1">
+  <li class="nav-item" data-depth="1">
     <a class="nav-link" href="FileNames.html">FileNames</a>
   </li>
   <li class="nav-item" data-depth="1">
@@ -369,7 +369,7 @@
     <button class="nav-item-toggle"></button>
     <span class="nav-text">Spark SQL Extensions</span>
 <ul class="nav-list">
-  <li class="nav-item" data-depth="1">
+  <li class="nav-item is-current-page" data-depth="1">
     <a class="nav-link" href="DeltaCatalog.html">DeltaCatalog</a>
   </li>
   <li class="nav-item" data-depth="1">
@@ -460,84 +460,24 @@
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="index.html">Delta Lake</a></li>
-    <li><a href="FileNames.html">FileNames</a></li>
+    <li>Spark SQL Extensions</li>
+    <li><a href="DeltaCatalog.html">DeltaCatalog</a></li>
   </ul>
 </nav>
-  <div class="edit-this-page"><a href="https://github.com/japila-books/delta-lake-internals/edit/master/modules/ROOT/pages/FileNames.adoc">Edit this Page</a></div>
+  <div class="edit-this-page"><a href="https://github.com/japila-books/delta-lake-internals/edit/master/modules/ROOT/pages/DeltaCatalog.adoc">Edit this Page</a></div>
   </div>
   <div class="content">
 <article class="doc">
-<h1 class="page">FileNames Utility</h1>
-<div id="preamble">
-<div class="sectionbody">
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 30%;">
-<col style="width: 70%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Name</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>checkpointPrefix</code></p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="checkpointPrefix"></a> Creates a Hadoop <code>Path</code> for a file name with a given <code>version</code>:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code>[version][%020d].checkpoint</code></pre>
-</div>
+<h1 class="page">DeltaCatalog</h1>
+<div class="paragraph">
+<p><strong>DeltaCatalog</strong> is an extension of Spark SQL (using DelegatingCatalogExtension and StagingTableCatalog).</p>
 </div>
 <div class="paragraph">
-<p>E.g. <code>00000000000000000005.checkpoint</code></p>
-</div></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>isCheckpointFile</code></p></td>
-<td class="tableblock halign-left valign-top"><div class="content"></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>isDeltaFile</code></p></td>
-<td class="tableblock halign-left valign-top"><div class="content"></div></td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<div class="sect1">
-<h2 id="creating-hadoop-path-to-delta-filedeltafile-utility"><a class="anchor" href="#creating-hadoop-path-to-delta-filedeltafile-utility"></a><a class="link" href="#creating-hadoop-path-to-delta-filedeltafile-utility"><a id="deltaFile"></a> Creating Hadoop Path To Delta File&#8201;&#8212;&#8201;<code>deltaFile</code> Utility</a></h2>
-<div class="sectionbody">
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">deltaFile(
-  path: Path,
-  version: Long): Path</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p><code>deltaFile</code> creates a Hadoop <code>Path</code> to a file of the format <code>[version][%020d].json</code> in the <code>path</code> directory, e.g. <code>00000000000000000001.json</code>.</p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<code>deltaFile</code> is used when&#8230;&#8203;FIXME
-</td>
-</tr>
-</table>
-</div>
-</div>
+<p>DeltaCatalog is registered using <strong>spark.sql.catalog.spark_catalog</strong> configuration property while creating a SparkSession in a Spark application. Consult <a href="installation.html" class="page">Installation</a>.</p>
 </div>
 <nav class="pagination">
-  <span class="prev"><a href="DeltaConfig.html">DeltaConfig</a></span>
-  <span class="next"><a href="DeltaLogFileIndex.html">DeltaLogFileIndex</a></span>
+  <span class="prev"><a href="others.html">The Others (Contenders)</a></span>
+  <span class="next"><a href="DeltaSparkSessionExtension.html">DeltaSparkSessionExtension</a></span>
 </nav>
 </article>
 <aside class="toc sidebar" data-title="Contents" data-levels="2">
