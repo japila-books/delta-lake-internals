@@ -576,8 +576,10 @@ The <a href="#deltaLog">DeltaLog</a> and <a href="#snapshot">Snapshot</a> are pa
 </div>
 </div>
 <div class="sect1">
-<h2 id="setactive-utility"><a class="anchor" href="#setactive-utility"></a><a class="link" href="#setactive-utility"><a id="setActive"></a> <code>setActive</code> Utility</a></h2>
+<h2 id="utilities"><a class="anchor" href="#utilities"></a><a class="link" href="#utilities"><a id="utilities"></a> Utilities</a></h2>
 <div class="sectionbody">
+<div class="sect2">
+<h3 id="setactive"><a class="anchor" href="#setactive"></a><a class="link" href="#setactive"><a id="setActive"></a> setActive</a></h3>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">setActive(
@@ -585,77 +587,47 @@ The <a href="#deltaLog">DeltaLog</a> and <a href="#snapshot">Snapshot</a> are pa
 </div>
 </div>
 <div class="paragraph">
-<p><code>setActive</code> simply associates the given OptimisticTransaction as <a href="#active">active</a> with the current thread.</p>
+<p>setActive simply associates the given OptimisticTransaction as <a href="#active">active</a> with the current thread.</p>
 </div>
 <div class="paragraph">
-<p><code>setActive</code> throws an <code>IllegalStateException</code> if there is an active OptimisticTransaction already associated:</p>
+<p>setActive throws an <code>IllegalStateException</code> if there is an active OptimisticTransaction already associated:</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code>Cannot set a new txn as active when one is already active</code></pre>
 </div>
 </div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<code>setActive</code> is used exclusively when <code>DeltaLog</code> is requested to <a href="DeltaLog.html#withNewTransaction" class="page">execute an operation in a new transaction</a>.
-</td>
-</tr>
-</table>
+<div class="paragraph">
+<p>setActive is used when <code>DeltaLog</code> is requested to <a href="DeltaLog.html#withNewTransaction" class="page">execute an operation in a new transaction</a>.</p>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="clearing-active-transactionclearactive-utility"><a class="anchor" href="#clearing-active-transactionclearactive-utility"></a><a class="link" href="#clearing-active-transactionclearactive-utility"><a id="clearActive"></a> Clearing Active Transaction&#8201;&#8212;&#8201;<code>clearActive</code> Utility</a></h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="clearactive"><a class="anchor" href="#clearactive"></a><a class="link" href="#clearactive"><a id="clearActive"></a> clearActive</a></h3>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">clearActive(): Unit</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p><code>clearActive</code> simply clears the <a href="#active">active</a> transaction (so no transaction is associated with a thread).</p>
+<p>clearActive simply clears the <a href="#active">active</a> transaction (so no transaction is associated with a thread).</p>
 </div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<code>clearActive</code> is used exclusively when <code>DeltaLog</code> is requested to <a href="DeltaLog.html#withNewTransaction" class="page">execute an operation in a new transaction</a>.
-</td>
-</tr>
-</table>
+<div class="paragraph">
+<p>clearActive is used when <code>DeltaLog</code> is requested to <a href="DeltaLog.html#withNewTransaction" class="page">execute an operation in a new transaction</a>.</p>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="getactive-utility"><a class="anchor" href="#getactive-utility"></a><a class="link" href="#getactive-utility"><a id="getActive"></a> <code>getActive</code> Utility</a></h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="getactive"><a class="anchor" href="#getactive"></a><a class="link" href="#getactive"><a id="getActive"></a> getActive</a></h3>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">getActive(): Option[OptimisticTransaction]</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p><code>getActive</code> simply returns the <a href="#active">active</a> transaction.</p>
+<p>getActive simply returns the <a href="#active">active</a> transaction.</p>
 </div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<code>getActive</code> seems unused.
-</td>
-</tr>
-</table>
+<div class="paragraph">
+<p>getActive <em>seems</em> unused.</p>
+</div>
 </div>
 </div>
 </div>
