@@ -3,10 +3,10 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>DeltaErrors Utility :: The Internals Of Delta Lake</title>
-    <link rel="canonical" href="https://books.japila.pl/delta-lake-internals/delta/DeltaErrors.html">
-    <link rel="prev" href="DeltaLogFileIndex.html">
-    <link rel="next" href="logging.html">
+    <title>AlterDeltaTableCommand :: The Internals Of Delta Lake</title>
+    <link rel="canonical" href="https://books.japila.pl/delta-lake-internals/delta/AlterDeltaTableCommand.html">
+    <link rel="prev" href="WriteIntoDelta.html">
+    <link rel="next" href="AlterTableSetPropertiesDeltaCommand.html">
     <meta name="generator" content="Antora 2.3.3">
     <link rel="stylesheet" href="../_/css/site.css">
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-151208281-1"></script>
@@ -202,7 +202,7 @@
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="WriteIntoDelta.html">WriteIntoDelta</a>
   </li>
-  <li class="nav-item" data-depth="2">
+  <li class="nav-item is-current-page" data-depth="2">
     <a class="nav-link" href="AlterDeltaTableCommand.html">AlterDeltaTableCommand</a>
   </li>
   <li class="nav-item" data-depth="2">
@@ -354,7 +354,7 @@
   <li class="nav-item" data-depth="1">
     <a class="nav-link" href="DeltaLogFileIndex.html">DeltaLogFileIndex</a>
   </li>
-  <li class="nav-item is-current-page" data-depth="1">
+  <li class="nav-item" data-depth="1">
     <a class="nav-link" href="DeltaErrors.html">DeltaErrors</a>
   </li>
   <li class="nav-item" data-depth="1">
@@ -469,53 +469,21 @@
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="index.html">Delta Lake</a></li>
-    <li><a href="DeltaErrors.html">DeltaErrors</a></li>
+    <li><a href="commands.html">Commands</a></li>
+    <li><a href="AlterDeltaTableCommand.html">AlterDeltaTableCommand</a></li>
   </ul>
 </nav>
-  <div class="edit-this-page"><a href="https://github.com/japila-books/delta-lake-internals/edit/master/modules/ROOT/pages/DeltaErrors.adoc">Edit this Page</a></div>
+  <div class="edit-this-page"><a href="https://github.com/japila-books/delta-lake-internals/edit/master/modules/ROOT/pages/AlterDeltaTableCommand.adoc">Edit this Page</a></div>
   </div>
   <div class="content">
 <article class="doc">
-<h1 class="page">DeltaErrors Utility</h1>
-<div id="preamble">
-<div class="sectionbody">
+<h1 class="page">AlterDeltaTableCommand</h1>
 <div class="paragraph">
-<p><code>DeltaErrors</code> utility is&#8230;&#8203;FIXME</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="reporting-post-commit-hook-failure-runtimeexceptionpostcommithookfailedexception-method"><a class="anchor" href="#reporting-post-commit-hook-failure-runtimeexceptionpostcommithookfailedexception-method"></a><a class="link" href="#reporting-post-commit-hook-failure-runtimeexceptionpostcommithookfailedexception-method"><a id="postCommitHookFailedException"></a> Reporting Post-Commit Hook Failure (RuntimeException)&#8201;&#8212;&#8201;<code>postCommitHookFailedException</code> Method</a></h2>
-<div class="sectionbody">
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">postCommitHookFailedException(
-  failedHook: PostCommitHook,
-  failedOnCommitVersion: Long,
-  extraErrorMessage: String,
-  error: Throwable): Throwable</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p><code>postCommitHookFailedException</code>&#8230;&#8203;FIXME</p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<code>postCommitHookFailedException</code> is used when&#8230;&#8203;FIXME
-</td>
-</tr>
-</table>
-</div>
-</div>
+<p><strong>AlterDeltaTableCommand</strong> is&#8230;&#8203;FIXME</p>
 </div>
 <nav class="pagination">
-  <span class="prev"><a href="DeltaLogFileIndex.html">DeltaLogFileIndex</a></span>
-  <span class="next"><a href="logging.html">Logging</a></span>
+  <span class="prev"><a href="WriteIntoDelta.html">WriteIntoDelta</a></span>
+  <span class="next"><a href="AlterTableSetPropertiesDeltaCommand.html">AlterTableSetPropertiesDeltaCommand</a></span>
 </nav>
 </article>
 <aside class="toc sidebar" data-title="Contents" data-levels="2">

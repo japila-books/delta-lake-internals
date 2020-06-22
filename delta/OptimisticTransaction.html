@@ -203,7 +203,13 @@
     <a class="nav-link" href="WriteIntoDelta.html">WriteIntoDelta</a>
   </li>
   <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="AlterDeltaTableCommand.html">AlterDeltaTableCommand</a>
+  </li>
+  <li class="nav-item" data-depth="2">
     <a class="nav-link" href="AlterTableSetPropertiesDeltaCommand.html">AlterTableSetPropertiesDeltaCommand</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="CreateDeltaTableCommand.html">CreateDeltaTableCommand</a>
   </li>
 </ul>
   </li>
@@ -474,17 +480,13 @@
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p><strong>OptimisticTransaction</strong> is a <a href="OptimisticTransactionImpl.html" class="page">OptimisticTransactionImpl</a> (which <em>seems</em> more of a class name change than anything more important).</p>
+<p><strong>OptimisticTransaction</strong> is an <a href="OptimisticTransactionImpl.html" class="page">OptimisticTransactionImpl</a> (which <em>seems</em> more of a class name change than anything more important).</p>
+</div>
+<div class="paragraph">
+<p>OptimisticTransaction is <a href="#creating-instance">created</a> for changes to a <a href="#deltaLog">delta table</a> at a given <a href="#snapshot">version</a>.</p>
 </div>
 <div class="paragraph">
 <p>When OptimisticTransaction (as a <a href="OptimisticTransactionImpl.html" class="page">OptimisticTransactionImpl</a>) is attempted to be <a href="OptimisticTransactionImpl.html#commit" class="page">committed</a> (that does <a href="OptimisticTransactionImpl.html#doCommit" class="page">doCommit</a> internally), the <a href="LogStore.html" class="page">LogStore</a> (of the <a href="#deltaLog">DeltaLog</a>) is requested to <a href="LogStore.html#write" class="page">write actions to a delta file</a>, e.g. <code>_delta_log/00000000000000000001.json</code> for the attempt version <code>1</code>. Only when a <code>FileAlreadyExistsException</code> is thrown a commit is considered unsuccessful and <a href="OptimisticTransactionImpl.html#checkAndRetry" class="page">retried</a>.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">import org.apache.spark.sql.delta.DeltaLog
-val deltaLog = DeltaLog.forTable(spark, "/tmp/delta/users")
-val txn = deltaLog.startTransaction</code></pre>
-</div>
 </div>
 <div class="paragraph">
 <p>OptimisticTransaction can be associated with a thread as an <a href="#active">active transaction</a>.</p>
@@ -492,7 +494,7 @@ val txn = deltaLog.startTransaction</code></pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="creating-optimistictransaction-instance"><a class="anchor" href="#creating-optimistictransaction-instance"></a><a class="link" href="#creating-optimistictransaction-instance"><a id="creating-instance"></a> Creating OptimisticTransaction Instance</a></h2>
+<h2 id="creating-instance"><a class="anchor" href="#creating-instance"></a><a class="link" href="#creating-instance"><a id="creating-instance"></a> Creating Instance</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>OptimisticTransaction takes the following to be created:</p>
@@ -506,7 +508,7 @@ val txn = deltaLog.startTransaction</code></pre>
 <p><a id="snapshot"></a> <a href="Snapshot.html" class="page">Snapshot</a></p>
 </li>
 <li>
-<p><a id="clock"></a> <code>Clock</code></p>
+<p><a id="clock"></a> Clock</p>
 </li>
 </ul>
 </div>
@@ -517,7 +519,7 @@ val txn = deltaLog.startTransaction</code></pre>
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-The <a href="#deltaLog">DeltaLog</a> and <a href="#snapshot">Snapshot</a> are part of the <a href="OptimisticTransactionImpl.html" class="page">OptimisticTransactionImpl</a> contract (which in turn inherits them from the <a href="TransactionalWrite.html" class="page">TransactionalWrite</a> contract and changes to <code>val</code> from <code>def</code>).
+The <a href="#deltaLog">DeltaLog</a> and <a href="#snapshot">Snapshot</a> are part of the <a href="OptimisticTransactionImpl.html" class="page">OptimisticTransactionImpl</a> contract (which in turn inherits them as a <a href="TransactionalWrite.html" class="page">TransactionalWrite</a> and changes to <code>val</code> from <code>def</code>).
 </td>
 </tr>
 </table>
@@ -528,17 +530,17 @@ The <a href="#deltaLog">DeltaLog</a> and <a href="#snapshot">Snapshot</a> are pa
 <div class="ulist">
 <ul>
 <li>
-<p><a href="DeltaLog.html#startTransaction" class="page">Starting a new transaction</a> for <a href="ConvertToDeltaCommand.html" class="page">ConvertToDeltaCommand</a></p>
+<p><a href="DeltaLog.html#startTransaction" class="page">Starting a new transaction</a></p>
 </li>
 <li>
-<p><a href="DeltaLog.html#withNewTransaction" class="page">Executing a single-threaded operation (in a new transaction)</a> for <a href="DeleteCommand.html" class="page">DeleteCommand</a>, <a href="MergeIntoCommand.html" class="page">MergeIntoCommand</a>, <a href="UpdateCommand.html" class="page">UpdateCommand</a>, and <a href="WriteIntoDelta.html" class="page">WriteIntoDelta</a> commands as well as for <a href="DeltaSink.html" class="page">DeltaSink</a> for <a href="DeltaSink.html#addBatch" class="page">adding a streaming micro-batch</a></p>
+<p><a href="DeltaLog.html#withNewTransaction" class="page">Executing a single-threaded operation (in a new transaction)</a> (for <a href="DeleteCommand.html" class="page">DeleteCommand</a>, <a href="MergeIntoCommand.html" class="page">MergeIntoCommand</a>, <a href="UpdateCommand.html" class="page">UpdateCommand</a>, and <a href="WriteIntoDelta.html" class="page">WriteIntoDelta</a> commands as well as for <a href="DeltaSink.html" class="page">DeltaSink</a> for <a href="DeltaSink.html#addBatch" class="page">adding a streaming micro-batch</a>)</p>
 </li>
 </ul>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="active-thread-local-optimistictransactionactive-internal-registry"><a class="anchor" href="#active-thread-local-optimistictransactionactive-internal-registry"></a><a class="link" href="#active-thread-local-optimistictransactionactive-internal-registry"><a id="active"></a> Active Thread-Local OptimisticTransaction&#8201;&#8212;&#8201;<code>active</code> Internal Registry</a></h2>
+<h2 id="active-thread-local-optimistictransaction"><a class="anchor" href="#active-thread-local-optimistictransaction"></a><a class="link" href="#active-thread-local-optimistictransaction"><a id="active"></a> Active Thread-Local OptimisticTransaction</a></h2>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content">
@@ -673,6 +675,33 @@ The <a href="#deltaLog">DeltaLog</a> and <a href="#snapshot">Snapshot</a> are pa
 </div>
 <div class="paragraph">
 <p>Refer to <a href="logging.html" class="page">Logging</a>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="demo"><a class="anchor" href="#demo"></a><a class="link" href="#demo"><a id="demo"></a> Demo</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">import org.apache.spark.sql.delta.DeltaLog
+val dir = "/tmp/delta/users"
+val log = DeltaLog.forTable(spark, dir)
+
+val txn = log.startTransaction()
+
+// ...changes to a delta table...
+val addFile = AddFile("foo", Map.empty, 1L, System.currentTimeMillis(), dataChange = true)
+val removeFile = addFile.remove
+val actions = addFile :: removeFile :: Nil
+
+txn.commit(actions, op)
+
+// You could do the following instead
+
+deltaLog.withNewTransaction { txn =&gt;
+  // ...transactional changes to a delta table
+}</code></pre>
+</div>
 </div>
 </div>
 </div>

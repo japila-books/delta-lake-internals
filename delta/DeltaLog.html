@@ -203,7 +203,13 @@
     <a class="nav-link" href="WriteIntoDelta.html">WriteIntoDelta</a>
   </li>
   <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="AlterDeltaTableCommand.html">AlterDeltaTableCommand</a>
+  </li>
+  <li class="nav-item" data-depth="2">
     <a class="nav-link" href="AlterTableSetPropertiesDeltaCommand.html">AlterTableSetPropertiesDeltaCommand</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="CreateDeltaTableCommand.html">CreateDeltaTableCommand</a>
   </li>
 </ul>
   </li>
@@ -769,7 +775,7 @@ scala&gt; println(deltaVersion)
 </div>
 </div>
 <div class="sect1">
-<h2 id="starting-new-transactionstarttransaction-method"><a class="anchor" href="#starting-new-transactionstarttransaction-method"></a><a class="link" href="#starting-new-transactionstarttransaction-method"><a id="startTransaction"></a> Starting New Transaction&#8201;&#8212;&#8201;<code>startTransaction</code> Method</a></h2>
+<h2 id="starting-new-transaction"><a class="anchor" href="#starting-new-transaction"></a><a class="link" href="#starting-new-transaction"><a id="startTransaction"></a> Starting New Transaction</a></h2>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content">
@@ -777,7 +783,7 @@ scala&gt; println(deltaVersion)
 </div>
 </div>
 <div class="paragraph">
-<p><code>startTransaction</code> <a href="#update">updates</a> and creates a new <a href="OptimisticTransaction.html" class="page">OptimisticTransaction</a> (for this <code>DeltaLog</code>).</p>
+<p>startTransaction <a href="#update">updates</a> and creates a new <a href="OptimisticTransaction.html" class="page">OptimisticTransaction</a> (for this DeltaLog).</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -786,22 +792,29 @@ scala&gt; println(deltaVersion)
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-<code>startTransaction</code> is a subset of <a href="#withNewTransaction">withNewTransaction</a>.
+startTransaction is a subset of <a href="#withNewTransaction">withNewTransaction</a>.
 </td>
 </tr>
 </table>
 </div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<code>startTransaction</code> is used when <a href="ConvertToDeltaCommand.html" class="page">ConvertToDeltaCommand</a> is executed.
-</td>
-</tr>
-</table>
+<div class="paragraph">
+<p>startTransaction is used when:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>DeltaLog is requested to <a href="#upgradeProtocol">upgradeProtocol</a></p>
+</li>
+<li>
+<p>AlterDeltaTableCommand is requested to <a href="AlterDeltaTableCommand.html#startTransaction" class="page">startTransaction</a></p>
+</li>
+<li>
+<p>ConvertToDeltaCommandBase is <a href="ConvertToDeltaCommand.html#run" class="page">executed</a></p>
+</li>
+<li>
+<p>CreateDeltaTableCommand is <a href="CreateDeltaTableCommand.html#run" class="page">executed</a></p>
+</li>
+</ul>
 </div>
 </div>
 </div>
