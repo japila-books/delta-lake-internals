@@ -159,18 +159,26 @@ In the end, `withNewTransaction` makes the transaction <<OptimisticTransaction.a
 * `DeltaSink` is requested to <<DeltaSink.adoc#addBatch, add a streaming micro-batch>>
 ====
 
-== [[startTransaction]] Starting New Transaction -- `startTransaction` Method
+== [[startTransaction]] Starting New Transaction
 
 [source, scala]
 ----
 startTransaction(): OptimisticTransaction
 ----
 
-`startTransaction` <<update, updates>> and creates a new <<OptimisticTransaction.adoc#, OptimisticTransaction>> (for this `DeltaLog`).
+startTransaction <<update, updates>> and creates a new xref:OptimisticTransaction.adoc[] (for this DeltaLog).
 
-NOTE: `startTransaction` is a subset of <<withNewTransaction, withNewTransaction>>.
+NOTE: startTransaction is a subset of <<withNewTransaction, withNewTransaction>>.
 
-NOTE: `startTransaction` is used when <<ConvertToDeltaCommand.adoc#, ConvertToDeltaCommand>> is executed.
+startTransaction is used when:
+
+* DeltaLog is requested to <<upgradeProtocol, upgradeProtocol>>
+
+* AlterDeltaTableCommand is requested to xref:AlterDeltaTableCommand.adoc#startTransaction[startTransaction]
+
+* ConvertToDeltaCommandBase is xref:ConvertToDeltaCommand.adoc#run[executed]
+
+* CreateDeltaTableCommand is xref:CreateDeltaTableCommand.adoc#run[executed]
 
 == [[assertRemovable]] Throwing UnsupportedOperationException For appendOnly Table Property Enabled -- `assertRemovable` Method
 

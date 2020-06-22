@@ -45,7 +45,9 @@
 *** xref:VacuumTableCommand.adoc[VacuumTableCommand]
 ** xref:WriteIntoDelta.adoc[WriteIntoDelta]
 
+** xref:AlterDeltaTableCommand.adoc[]
 ** xref:AlterTableSetPropertiesDeltaCommand.adoc[]
+** xref:CreateDeltaTableCommand.adoc[]
 
 * xref:DeltaDataSource.adoc[DeltaDataSource]
 ** xref:DeltaOptions.adoc[DeltaOptions]
