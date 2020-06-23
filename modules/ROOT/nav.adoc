@@ -1,9 +1,11 @@
 * xref:overview.adoc[]
 * xref:installation.adoc[]
 
-* Features
-** xref:time-travel.adoc[]
-** xref:delta-sql-commands.adoc[]
+* xref:time-travel.adoc[]
+* xref:delta-sql.adoc[]
+
+* xref:DeltaTable.adoc[]
+** xref:DeltaTableOperations.adoc[DeltaTableOperations]
 
 * xref:DeltaLog.adoc[DeltaLog]
 ** xref:Checkpoints.adoc[Checkpoints]
@@ -15,9 +17,6 @@
 ** xref:InMemoryLogReplay.adoc[InMemoryLogReplay]
 ** xref:PartitionFiltering.adoc[PartitionFiltering]
 ** xref:DeltaFileFormat.adoc[DeltaFileFormat]
-
-* xref:DeltaTable.adoc[]
-** xref:DeltaTableOperations.adoc[DeltaTableOperations]
 
 * xref:commands.adoc[Commands]
 ** xref:DeltaConvert.adoc[DeltaConvert]

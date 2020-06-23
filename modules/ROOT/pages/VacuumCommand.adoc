@@ -75,7 +75,7 @@ In the end, `gc` unpersists the <<gc-allFilesAndDirs, allFilesAndDirs>> dataset.
 
 * `DeltaTableOperations` is requested to <<DeltaTableOperations.adoc#executeVacuum, execute vacuum command>> (for <<DeltaTable.adoc#vacuum, DeltaTable.vacuum>> operator)
 
-* <<VacuumTableCommand.adoc#, VacuumTableCommand>> is executed (for <<delta-sql-commands.adoc#VACUUM, VACUUM>> SQL command)
+* <<VacuumTableCommand.adoc#, VacuumTableCommand>> is executed (for xref:delta-sql.adoc#VACUUM[VACUUM] SQL command)
 ====
 
 == [[checkRetentionPeriodSafety]] `checkRetentionPeriodSafety` Method

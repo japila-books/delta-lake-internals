@@ -1,6 +1,6 @@
 = DeltaSqlParser
 
-*DeltaSqlParser* is a SQL parser (Spark SQL's `ParserInterface`) for xref:delta-sql-commands.adoc[Delta SQL grammar].
+*DeltaSqlParser* is a SQL parser (Spark SQL's `ParserInterface`) for xref:delta-sql.adoc[].
 
 DeltaSqlParser is registered in a Spark SQL application using xref:DeltaSparkSessionExtension.adoc[].
 

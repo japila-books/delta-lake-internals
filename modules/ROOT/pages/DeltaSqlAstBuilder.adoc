@@ -9,19 +9,19 @@
 | Name
 | Description
 
-| <<delta-sql-commands.adoc#CONVERT-TO-DELTA, CONVERT TO DELTA>>
+| xref:delta-sql.adoc#CONVERT-TO-DELTA[CONVERT TO DELTA]
 | [[visitConvert]] Creates a <<ConvertToDeltaCommand.adoc#, ConvertToDeltaCommand>>
 
-| <<delta-sql-commands.adoc#DESCRIBE-DETAIL, DESCRIBE DETAIL>>
+| xref:delta-sql.adoc#DESCRIBE-DETAIL[DESCRIBE DETAIL]
 | [[visitDescribeDeltaDetail]] Creates a <<DescribeDeltaDetailCommand.adoc#, DescribeDeltaDetailCommand>>
 
-| <<delta-sql-commands.adoc#DESCRIBE-HISTORY, DESCRIBE HISTORY>>
+| xref:delta-sql.adoc#DESCRIBE-HISTORY[DESCRIBE HISTORY]
 | [[visitDescribeDeltaHistory]] Creates a <<DescribeDeltaHistoryCommand.adoc#, DescribeDeltaHistoryCommand>>
 
-| <<delta-sql-commands.adoc#GENERATE, GENERATE>>
+| xref:delta-sql.adoc#GENERATE[GENERATE]
 | [[visitGenerate]] Creates a <<DeltaGenerateCommand.adoc#, DeltaGenerateCommand>>
 
-| <<delta-sql-commands.adoc#VACUUM, VACUUM>>
+| xref:delta-sql.adoc#VACUUM[VACUUM]
 | [[visitVacuumTable]] Creates a <<VacuumTableCommand.adoc#, VacuumTableCommand>>
 
 |===

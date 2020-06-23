@@ -1,6 +1,6 @@
 = VacuumTableCommand
 
-`VacuumTableCommand` is a logical command (`RunnableCommand`) for <<delta-sql-commands.adoc#VACUUM, VACUUM>> SQL command.
+`VacuumTableCommand` is a logical command (`RunnableCommand`) for xref:delta-sql.adoc#VACUUM[VACUUM] SQL command.
 
 TIP: Read up on https://jaceklaskowski.gitbooks.io/mastering-spark-sql/spark-sql-LogicalPlan-RunnableCommand.html[RunnableCommand] in https://bit.ly/spark-sql-internals[The Internals of Spark SQL] online book.
 
