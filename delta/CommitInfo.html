@@ -472,8 +472,121 @@
   <div class="content">
 <article class="doc">
 <h1 class="page">CommitInfo</h1>
+<div id="preamble">
+<div class="sectionbody">
 <div class="paragraph">
-<p>CommitInfo is an <a href="Action.html" class="page">Action</a>.</p>
+<p>CommitInfo is an <a href="Action.html" class="page">Action</a> with the following:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a id="version"></a> Version</p>
+</li>
+<li>
+<p><a id="timestamp"></a> Timestamp</p>
+</li>
+<li>
+<p><a id="userId"></a> User ID</p>
+</li>
+<li>
+<p><a id="userName"></a> User Name</p>
+</li>
+<li>
+<p><a id="operation"></a> <a href="Operation.html#name" class="page">Name of the operation</a></p>
+</li>
+<li>
+<p><a id="operationParameters"></a> <a href="Operation.html#parameters" class="page">Parameters of the operation</a></p>
+</li>
+<li>
+<p><a id="job"></a> JobInfo</p>
+</li>
+<li>
+<p><a id="notebook"></a> NotebookInfo</p>
+</li>
+<li>
+<p><a id="clusterId"></a> Cluster ID</p>
+</li>
+<li>
+<p><a id="readVersion"></a> Read Version</p>
+</li>
+<li>
+<p><a id="isolationLevel"></a> Isolation Level</p>
+</li>
+<li>
+<p><a id="isBlindAppend"></a> isBlindAppend flag (to indicate whether a commit has blindly appended without caring about existing files)</p>
+</li>
+<li>
+<p><a id="operationMetrics"></a> Metrics of the operation</p>
+</li>
+<li>
+<p><a id="userMetadata"></a> User metadata</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>CommitInfo is created (using <a href="#apply">apply</a> utility) when:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>OptimisticTransactionImpl is requested to <a href="OptimisticTransactionImpl.html#commit" class="page">commit</a></p>
+</li>
+<li>
+<p>ConvertToDeltaCommand command is requested to <a href="ConvertToDeltaCommand.html#streamWrite" class="page">streamWrite</a> (when executed)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>CommitInfo is used in <a href="OptimisticTransactionImpl.html#commitInfo" class="page">OptimisticTransactionImpl</a> and CommitStats.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="apply-utility"><a class="anchor" href="#apply-utility"></a><a class="link" href="#apply-utility"><a id="apply"></a> apply Utility</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">apply(
+  time: Long,
+  operation: String,
+  operationParameters: Map[String, String],
+  commandContext: Map[String, String],
+  readVersion: Option[Long],
+  isolationLevel: Option[String],
+  isBlindAppend: Option[Boolean],
+  operationMetrics: Option[Map[String, String]],
+  userMetadata: Option[String]): CommitInfo</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>apply creates a CommitInfo (for the given arguments and based on the given <code>commandContext</code> for the user ID, user name, job, notebook, cluster).</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+commandContext is always empty, but could be customized using <a href="ConvertToDeltaCommand.html#ConvertToDeltaCommandBase" class="page">ConvertToDeltaCommandBase</a>.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>apply is used when:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>OptimisticTransactionImpl is requested to <a href="OptimisticTransactionImpl.html#commit" class="page">commit</a></p>
+</li>
+<li>
+<p>ConvertToDeltaCommand command is requested to <a href="ConvertToDeltaCommand.html#streamWrite" class="page">streamWrite</a> (when executed)</p>
+</li>
+</ul>
+</div>
+</div>
 </div>
 <nav class="pagination">
   <span class="prev"><a href="AddFile.html">AddFile</a></span>
