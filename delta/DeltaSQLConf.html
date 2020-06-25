@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>DeltaSQLConf&#8201;&#8212;&#8201;spark.databricks.delta Configuration Properties :: The Internals Of Delta Lake</title>
     <link rel="canonical" href="https://books.japila.pl/delta-lake-internals/delta/DeltaSQLConf.html">
-    <link rel="prev" href="DeltaSink.html">
-    <link rel="next" href="OptimisticTransaction.html">
+    <link rel="prev" href="delta-sql.html">
+    <link rel="next" href="DeltaTable.html">
     <meta name="generator" content="Antora 2.3.3">
     <link rel="stylesheet" href="../_/css/site.css">
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-151208281-1"></script>
@@ -80,6 +80,9 @@
   </li>
   <li class="nav-item" data-depth="1">
     <a class="nav-link" href="delta-sql.html">Delta SQL</a>
+  </li>
+  <li class="nav-item is-current-page" data-depth="1">
+    <a class="nav-link" href="DeltaSQLConf.html">Configuration Properties</a>
   </li>
   <li class="nav-item" data-depth="1">
     <button class="nav-item-toggle"></button>
@@ -236,9 +239,6 @@
     <a class="nav-link" href="DeltaSink.html">DeltaSink</a>
   </li>
 </ul>
-  </li>
-  <li class="nav-item is-current-page" data-depth="1">
-    <a class="nav-link" href="DeltaSQLConf.html">DeltaSQLConf</a>
   </li>
   <li class="nav-item" data-depth="1">
     <button class="nav-item-toggle"></button>
@@ -463,7 +463,7 @@
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="index.html">Delta Lake</a></li>
-    <li><a href="DeltaSQLConf.html">DeltaSQLConf</a></li>
+    <li><a href="DeltaSQLConf.html">Configuration Properties</a></li>
   </ul>
 </nav>
   <div class="edit-this-page"><a href="https://github.com/japila-books/delta-lake-internals/edit/master/modules/ROOT/pages/DeltaSQLConf.adoc">Edit this Page</a></div>
@@ -474,71 +474,8 @@
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>The following table contains <code>spark.databricks.delta.</code>-prefixed configuration properties.</p>
+<p><strong>DeltaSQLConf</strong> contains <strong>spark.databricks.delta</strong>-prefixed configuration properties to configure behaviour of Delta Lake.</p>
 </div>
-<table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 1. spark.databricks.delta Configuration Properties</caption>
-<colgroup>
-<col style="width: 30%;">
-<col style="width: 70%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Name</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>import.batchSize.schemaInference</code></p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="import.batchSize.schemaInference"></a><a id="DELTA_IMPORT_BATCH_SIZE_SCHEMA_INFERENCE"></a> <strong>(internal)</strong> Number of files per batch for schema inference during <a href="ConvertToDeltaCommand.html#performConvert-schemaBatchSize" class="page">import</a>.</p>
-</div>
-<div class="paragraph">
-<p>Default: <code>1000000</code></p>
-</div></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>import.batchSize.statsCollection</code></p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="import.batchSize.statsCollection"></a><a id="DELTA_IMPORT_BATCH_SIZE_STATS_COLLECTION"></a> <strong>(internal)</strong> Number of files per batch for stats collection during <a href="ConvertToDeltaCommand.html#performConvert-schemaBatchSize" class="page">import</a>.</p>
-</div>
-<div class="paragraph">
-<p>Default: <code>50000</code></p>
-</div></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>schema.autoMerge.enabled</code></p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="schema.autoMerge.enabled"></a><a id="DELTA_SCHEMA_AUTO_MIGRATE"></a> Enables schema merging on appends and overwrites.</p>
-</div>
-<div class="paragraph">
-<p>Equivalent DataFrame option: <a href="DeltaOptions.html#mergeSchema" class="page">mergeSchema</a></p>
-</div>
-<div class="paragraph">
-<p>Default: <code>false</code></p>
-</div></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>snapshotPartitions</code></p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="snapshotPartitions"></a><a id="DELTA_SNAPSHOT_PARTITIONS"></a> <strong>(internal)</strong> Number of partitions to use for <strong>state reconstruction</strong> (when <a href="Snapshot.html#stateReconstruction" class="page">building</a> a <a href="Snapshot.html" class="page">snapshot</a> of a delta table).</p>
-</div>
-<div class="paragraph">
-<p>Default: <code>50</code></p>
-</div></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>timeTravel.resolveOnIdentifier.enabled</code></p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="timeTravel.resolveOnIdentifier.enabled"></a> <strong>(internal)</strong> When enabled (<code>true</code>), patterns as <code>@v123</code> in identifiers are considered as <a href="time-travel.html" class="page">time travel</a> nodes.</p>
-</div>
-<div class="paragraph">
-<p>Default: <code>true</code></p>
-</div></div></td>
-</tr>
-</tbody>
-</table>
 </div>
 </div>
 <div class="sect1">
@@ -552,9 +489,363 @@
 </div>
 </div>
 </div>
+<div class="sect1">
+<h2 id="timetravel-resolveonidentifier-enabled"><a class="anchor" href="#timetravel-resolveonidentifier-enabled"></a><a class="link" href="#timetravel-resolveonidentifier-enabled"><a id="timeTravel.resolveOnIdentifier.enabled"></a><a id="RESOLVE_TIME_TRAVEL_ON_IDENTIFIER"></a> timeTravel.resolveOnIdentifier.enabled</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><strong>spark.databricks.delta.timeTravel.resolveOnIdentifier.enabled</strong> (internal) controls whether to resolve patterns as <code>@v123</code> in identifiers as <a href="time-travel.html" class="page">time travel</a> nodes.</p>
+</div>
+<div class="paragraph">
+<p>Default: <code>true</code></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="commitinfo-usermetadata"><a class="anchor" href="#commitinfo-usermetadata"></a><a class="link" href="#commitinfo-usermetadata"><a id="commitInfo.userMetadata"></a><a id="DELTA_USER_METADATA"></a> commitInfo.userMetadata</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><strong>spark.databricks.delta.commitInfo.userMetadata</strong> is an arbitrary user-defined metadata to include in <a href="CommitInfo.html#userMetadata" class="page">CommitInfo</a>. Requires <a href="#commitInfo.enabled">spark.databricks.delta.commitInfo.enabled</a>.</p>
+</div>
+<div class="paragraph">
+<p>Default: (empty)</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="snapshotpartitions"><a class="anchor" href="#snapshotpartitions"></a><a class="link" href="#snapshotpartitions"><a id="snapshotPartitions"></a><a id="DELTA_SNAPSHOT_PARTITIONS"></a> snapshotPartitions</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><strong>spark.databricks.delta.snapshotPartitions</strong> (internal) is the number of partitions to use for <strong>state reconstruction</strong> (when <a href="Snapshot.html#stateReconstruction" class="page">building a snapshot</a> of a Delta table).</p>
+</div>
+<div class="paragraph">
+<p>Default: <code>50</code></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="partitioncolumnvalidity-enabled"><a class="anchor" href="#partitioncolumnvalidity-enabled"></a><a class="link" href="#partitioncolumnvalidity-enabled"><a id="partitionColumnValidity.enabled"></a><a id="DELTA_PARTITION_COLUMN_CHECK_ENABLED"></a> partitionColumnValidity.enabled</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><strong>spark.databricks.delta.partitionColumnValidity.enabled</strong> (internal) enables validation of the partition column names (just like the data columns)</p>
+</div>
+<div class="paragraph">
+<p>Default: <code>true</code></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="statereconstructionvalidation-enabled"><a class="anchor" href="#statereconstructionvalidation-enabled"></a><a class="link" href="#statereconstructionvalidation-enabled"><a id="stateReconstructionValidation.enabled"></a><a id="DELTA_STATE_RECONSTRUCTION_VALIDATION_ENABLED"></a> stateReconstructionValidation.enabled</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><strong>spark.databricks.delta.stateReconstructionValidation.enabled</strong> (internal) controls whether to perform validation checks on the reconstructed state</p>
+</div>
+<div class="paragraph">
+<p>Default: <code>true</code></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="commitvalidation-enabled"><a class="anchor" href="#commitvalidation-enabled"></a><a class="link" href="#commitvalidation-enabled"><a id="commitValidation.enabled"></a><a id="DELTA_COMMIT_VALIDATION_ENABLED"></a> commitValidation.enabled</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><strong>spark.databricks.delta.commitValidation.enabled</strong> (internal) controls whether to perform validation checks before commit or not</p>
+</div>
+<div class="paragraph">
+<p>Default: <code>true</code></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="checklatestschemaonread"><a class="anchor" href="#checklatestschemaonread"></a><a class="link" href="#checklatestschemaonread"><a id="checkLatestSchemaOnRead"></a><a id="DELTA_SCHEMA_ON_READ_CHECK_ENABLED"></a> checkLatestSchemaOnRead</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><strong>spark.databricks.delta.checkLatestSchemaOnRead</strong> (internal) enables a check that ensures that users won&#8217;t read corrupt data if the source schema changes in an incompatible way.</p>
+</div>
+<div class="paragraph">
+<p>Default: <code>true</code></p>
+</div>
+<div class="paragraph">
+<p>In Delta, we always try to give users the latest version of their data without having to call REFRESH TABLE or redefine their DataFrames when used in the context of streaming. There is a possibility that the schema of the latest version of the table may be incompatible with the schema at the time of DataFrame creation.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="stats-collect"><a class="anchor" href="#stats-collect"></a><a class="link" href="#stats-collect"><a id="stats.collect"></a><a id="DELTA_COLLECT_STATS"></a> stats.collect</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><strong>spark.databricks.delta.stats.collect</strong> (internal) enables statistics to be collected while writing files into a Delta table</p>
+</div>
+<div class="paragraph">
+<p>Default: <code>true</code></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="import-batchsize-statscollection"><a class="anchor" href="#import-batchsize-statscollection"></a><a class="link" href="#import-batchsize-statscollection"><a id="import.batchSize.statsCollection"></a><a id="DELTA_IMPORT_BATCH_SIZE_STATS_COLLECTION"></a> import.batchSize.statsCollection</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><strong>spark.databricks.delta.import.batchSize.statsCollection</strong> (internal) is the number of files per batch for stats collection during <a href="ConvertToDeltaCommand.html#performConvert-schemaBatchSize" class="page">import</a>.</p>
+</div>
+<div class="paragraph">
+<p>Default: <code>50000</code></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="import-batchsize-schemainference"><a class="anchor" href="#import-batchsize-schemainference"></a><a class="link" href="#import-batchsize-schemainference"><a id="import.batchSize.schemaInference"></a><a id="DELTA_IMPORT_BATCH_SIZE_SCHEMA_INFERENCE"></a> import.batchSize.schemaInference</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><strong>spark.databricks.delta.import.batchSize.schemaInference</strong> (internal) is the number of files per batch for schema inference during <a href="ConvertToDeltaCommand.html#performConvert-schemaBatchSize" class="page">import</a>.</p>
+</div>
+<div class="paragraph">
+<p>Default: <code>1000000</code></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="sampling-enabled"><a class="anchor" href="#sampling-enabled"></a><a class="link" href="#sampling-enabled"><a id="sampling.enabled"></a><a id="DELTA_SAMPLE_ESTIMATOR_ENABLED"></a> sampling.enabled</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><strong>spark.databricks.delta.sampling.enabled</strong> (internal) enables sample-based estimation</p>
+</div>
+<div class="paragraph">
+<p>Default: <code>false</code></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="convert-metadatacheck-enabled"><a class="anchor" href="#convert-metadatacheck-enabled"></a><a class="link" href="#convert-metadatacheck-enabled"><a id="convert.metadataCheck.enabled"></a><a id="DELTA_CONVERT_METADATA_CHECK_ENABLED"></a> convert.metadataCheck.enabled</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><strong>spark.databricks.delta.convert.metadataCheck.enabled</strong> enables validation during convert to delta, if there is a difference between the catalog table&#8217;s properties and the Delta table&#8217;s configuration, we should error.</p>
+</div>
+<div class="paragraph">
+<p>If disabled, merge the two configurations with the same semantics as update and merge</p>
+</div>
+<div class="paragraph">
+<p>Default: <code>true</code></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="stats-skipping"><a class="anchor" href="#stats-skipping"></a><a class="link" href="#stats-skipping"><a id="stats.skipping"></a><a id="DELTA_STATS_SKIPPING"></a> stats.skipping</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><strong>spark.databricks.delta.stats.skipping</strong> (internal) enables statistics used for skipping</p>
+</div>
+<div class="paragraph">
+<p>Default: <code>true</code></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="stats-limitpushdown-enabled"><a class="anchor" href="#stats-limitpushdown-enabled"></a><a class="link" href="#stats-limitpushdown-enabled"><a id="stats.limitPushdown.enabled"></a><a id="DELTA_LIMIT_PUSHDOWN_ENABLED"></a> stats.limitPushdown.enabled</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><strong>spark.databricks.delta.stats.limitPushdown.enabled</strong> (internal) enables using the limit clause and file statistics to prune files before they are collected to the driver</p>
+</div>
+<div class="paragraph">
+<p>Default: <code>true</code></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="stats-localcache-maxnumfiles"><a class="anchor" href="#stats-localcache-maxnumfiles"></a><a class="link" href="#stats-localcache-maxnumfiles"><a id="stats.localCache.maxNumFiles"></a><a id="DELTA_STATS_SKIPPING_LOCAL_CACHE_MAX_NUM_FILES"></a> stats.localCache.maxNumFiles</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><strong>spark.databricks.delta.stats.localCache.maxNumFiles</strong> (internal) is the maximum number of files for a table to be considered a <strong>delta small table</strong>. Some metadata operations (such as using data skipping) are optimized for small tables using driver local caching and local execution.</p>
+</div>
+<div class="paragraph">
+<p>Default: <code>2000</code></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="snapshotisolation-enabled"><a class="anchor" href="#snapshotisolation-enabled"></a><a class="link" href="#snapshotisolation-enabled"><a id="snapshotIsolation.enabled"></a><a id="DELTA_SNAPSHOT_ISOLATION"></a> snapshotIsolation.enabled</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><strong>spark.databricks.delta.snapshotIsolation.enabled</strong> (internal) controls whether queries on Delta tables are guaranteed to have snapshot isolation</p>
+</div>
+<div class="paragraph">
+<p>Default: <code>true</code></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="maxsnapshotlineagelength"><a class="anchor" href="#maxsnapshotlineagelength"></a><a class="link" href="#maxsnapshotlineagelength"><a id="maxSnapshotLineageLength"></a><a id="DELTA_MAX_SNAPSHOT_LINEAGE_LENGTH"></a> maxSnapshotLineageLength</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><strong>spark.databricks.delta.maxSnapshotLineageLength</strong> (internal) is the maximum lineage length of a Snapshot before Delta forces to build a Snapshot from scratch</p>
+</div>
+<div class="paragraph">
+<p>Default: <code>50</code></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="history-maxkeysperlist"><a class="anchor" href="#history-maxkeysperlist"></a><a class="link" href="#history-maxkeysperlist"><a id="history.maxKeysPerList"></a><a id="DELTA_HISTORY_PAR_SEARCH_THRESHOLD"></a> history.maxKeysPerList</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><strong>spark.databricks.delta.history.maxKeysPerList</strong> (internal) controls how many commits to list when performing a parallel search.</p>
+</div>
+<div class="paragraph">
+<p>The default is the maximum keys returned by S3 per list call. Azure can return 5000, therefore we choose 1000.</p>
+</div>
+<div class="paragraph">
+<p>Default: <code>1000</code></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="history-metricsenabled"><a class="anchor" href="#history-metricsenabled"></a><a class="link" href="#history-metricsenabled"><a id="history.metricsEnabled"></a><a id="DELTA_HISTORY_METRICS_ENABLED"></a> history.metricsEnabled</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><strong>spark.databricks.delta.history.metricsEnabled</strong> enables Metrics reporting in Describe History. <a href="CommitInfo.html" class="page">CommitInfo</a> will now record the Operation Metrics.</p>
+</div>
+<div class="paragraph">
+<p>Default: <code>true</code></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="retentiondurationcheck-enabled"><a class="anchor" href="#retentiondurationcheck-enabled"></a><a class="link" href="#retentiondurationcheck-enabled"><a id="retentionDurationCheck.enabled"></a><a id="DELTA_VACUUM_RETENTION_CHECK_ENABLED"></a> retentionDurationCheck.enabled</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><strong>spark.databricks.delta.retentionDurationCheck.enabled</strong> adds a check preventing users from running vacuum with a very short retention period, which may end up corrupting a Delta log.</p>
+</div>
+<div class="paragraph">
+<p>Default: <code>true</code></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="checkpoint-partsize"><a class="anchor" href="#checkpoint-partsize"></a><a class="link" href="#checkpoint-partsize"><a id="checkpoint.partSize"></a><a id="DELTA_CHECKPOINT_PART_SIZE"></a> checkpoint.partSize</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><strong>spark.databricks.delta.checkpoint.partSize</strong> (internal) is the limit at which we will start parallelizing the checkpoint. We will attempt to write maximum of this many actions per checkpoint.</p>
+</div>
+<div class="paragraph">
+<p>Default: <code>5000000</code></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="schema-automerge-enabled"><a class="anchor" href="#schema-automerge-enabled"></a><a class="link" href="#schema-automerge-enabled"><a id="schema.autoMerge.enabled"></a><a id="DELTA_SCHEMA_AUTO_MIGRATE"></a> schema.autoMerge.enabled</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><strong>spark.databricks.delta.schema.autoMerge.enabled</strong> enables schema merging on appends and overwrites.</p>
+</div>
+<div class="paragraph">
+<p>Equivalent DataFrame option: <a href="DeltaOptions.html#mergeSchema" class="page">mergeSchema</a></p>
+</div>
+<div class="paragraph">
+<p>Default: <code>false</code></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="state-corruptionisfatal"><a class="anchor" href="#state-corruptionisfatal"></a><a class="link" href="#state-corruptionisfatal"><a id="state.corruptionIsFatal"></a><a id="DELTA_STATE_CORRUPTION_IS_FATAL"></a> state.corruptionIsFatal</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><strong>spark.databricks.delta.state.corruptionIsFatal</strong> (internal) throws a fatal error when the recreated Delta State doesn&#8217;t
+match committed checksum file</p>
+</div>
+<div class="paragraph">
+<p>Default: <code>true</code></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="stalenesslimit"><a class="anchor" href="#stalenesslimit"></a><a class="link" href="#stalenesslimit"><a id="stalenessLimit"></a><a id="DELTA_ASYNC_UPDATE_STALENESS_TIME_LIMIT"></a> stalenessLimit</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><strong>spark.databricks.delta.stalenessLimit</strong> (in millis) allows you to query the last loaded state of the Delta table without blocking on a table update. You can use this configuration to reduce the latency on queries when up-to-date results are not a requirement. Table updates will be scheduled on a separate scheduler pool in a FIFO queue, and will share cluster resources fairly with your query. If a table hasn&#8217;t updated past this time limit, we will block on a synchronous state update before running the query.</p>
+</div>
+<div class="paragraph">
+<p>Default: <code>0</code> (no tables can be stale)</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="alterlocation-bypassschemacheck"><a class="anchor" href="#alterlocation-bypassschemacheck"></a><a class="link" href="#alterlocation-bypassschemacheck"><a id="alterLocation.bypassSchemaCheck"></a><a id="DELTA_ALTER_LOCATION_BYPASS_SCHEMA_CHECK"></a> alterLocation.bypassSchemaCheck</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><strong>spark.databricks.delta.alterLocation.bypassSchemaCheck</strong> enables Alter Table Set Location on Delta to go through even if the Delta table in the new location has a different schema from the original Delta table</p>
+</div>
+<div class="paragraph">
+<p>Default: <code>false</code></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="dummyfilemanager-numoffiles"><a class="anchor" href="#dummyfilemanager-numoffiles"></a><a class="link" href="#dummyfilemanager-numoffiles"><a id="dummyFileManager.numOfFiles"></a><a id="DUMMY_FILE_MANAGER_NUM_OF_FILES"></a> dummyFileManager.numOfFiles</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><strong>spark.databricks.delta.dummyFileManager.numOfFiles</strong> (internal) controls how many dummy files to write in DummyFileManager</p>
+</div>
+<div class="paragraph">
+<p>Default: <code>3</code></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="dummyfilemanager-prefix"><a class="anchor" href="#dummyfilemanager-prefix"></a><a class="link" href="#dummyfilemanager-prefix"><a id="dummyFileManager.prefix"></a><a id="DUMMY_FILE_MANAGER_PREFIX"></a> dummyFileManager.prefix</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><strong>spark.databricks.delta.dummyFileManager.prefix</strong> (internal) is the file prefix to use in DummyFileManager</p>
+</div>
+<div class="paragraph">
+<p>Default: <code>.s3-optimization-</code></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="merge-maxinsertcount"><a class="anchor" href="#merge-maxinsertcount"></a><a class="link" href="#merge-maxinsertcount"><a id="merge.maxInsertCount"></a><a id="MERGE_MAX_INSERT_COUNT"></a> merge.maxInsertCount</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><strong>spark.databricks.delta.merge.maxInsertCount</strong> (internal) is the maximum row count of inserts in each MERGE execution</p>
+</div>
+<div class="paragraph">
+<p>Default: <code>10000L</code></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="merge-optimizeinsertonlymerge-enabled"><a class="anchor" href="#merge-optimizeinsertonlymerge-enabled"></a><a class="link" href="#merge-optimizeinsertonlymerge-enabled"><a id="merge.optimizeInsertOnlyMerge.enabled"></a><a id="MERGE_INSERT_ONLY_ENABLED"></a> merge.optimizeInsertOnlyMerge.enabled</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><strong>spark.databricks.delta.merge.optimizeInsertOnlyMerge.enabled</strong> (internal) controls merge without any matched clause (i.e., insert-only merge) will be optimized by avoiding rewriting old files and just inserting new files</p>
+</div>
+<div class="paragraph">
+<p>Default: <code>true</code></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="merge-repartitionbeforewrite-enabled"><a class="anchor" href="#merge-repartitionbeforewrite-enabled"></a><a class="link" href="#merge-repartitionbeforewrite-enabled"><a id="merge.repartitionBeforeWrite.enabled"></a><a id="MERGE_REPARTITION_BEFORE_WRITE"></a> merge.repartitionBeforeWrite.enabled</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><strong>spark.databricks.delta.merge.repartitionBeforeWrite.enabled</strong> (internal) controls merge will repartition the output by the table&#8217;s partition columns before writing the files</p>
+</div>
+<div class="paragraph">
+<p>Default: <code>false</code></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="merge-optimizematchedonlymerge-enabled"><a class="anchor" href="#merge-optimizematchedonlymerge-enabled"></a><a class="link" href="#merge-optimizematchedonlymerge-enabled"><a id="merge.optimizeMatchedOnlyMerge.enabled"></a><a id="MERGE_MATCHED_ONLY_ENABLED"></a> merge.optimizeMatchedOnlyMerge.enabled</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><strong>spark.databricks.delta.merge.optimizeMatchedOnlyMerge.enabled</strong> (internal) controls merge without 'when not matched' clause will be optimized to use a right outer join instead of a full outer join</p>
+</div>
+<div class="paragraph">
+<p>Default: <code>true</code></p>
+</div>
+</div>
+</div>
 <nav class="pagination">
-  <span class="prev"><a href="DeltaSink.html">DeltaSink</a></span>
-  <span class="next"><a href="OptimisticTransaction.html">OptimisticTransaction</a></span>
+  <span class="prev"><a href="delta-sql.html">Delta SQL</a></span>
+  <span class="next"><a href="DeltaTable.html">DeltaTable</a></span>
 </nav>
 </article>
 <aside class="toc sidebar" data-title="Contents" data-levels="2">
