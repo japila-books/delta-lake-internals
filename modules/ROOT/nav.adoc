@@ -4,6 +4,8 @@
 * xref:time-travel.adoc[]
 * xref:delta-sql.adoc[]
 
+* xref:DeltaSQLConf.adoc[Configuration Properties]
+
 * xref:DeltaTable.adoc[]
 ** xref:DeltaTableOperations.adoc[DeltaTableOperations]
 
@@ -56,8 +58,6 @@
 *** xref:SnapshotIterator.adoc[SnapshotIterator]
 *** xref:DeltaSourceSnapshot.adoc[DeltaSourceSnapshot]
 ** xref:DeltaSink.adoc[DeltaSink]
-
-* xref:DeltaSQLConf.adoc[DeltaSQLConf]
 
 * xref:OptimisticTransaction.adoc[OptimisticTransaction]
 ** xref:TransactionalWrite.adoc[TransactionalWrite]
