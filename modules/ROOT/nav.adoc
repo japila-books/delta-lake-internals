@@ -7,7 +7,8 @@
 * xref:DeltaTable.adoc[]
 ** xref:DeltaTableOperations.adoc[DeltaTableOperations]
 
-* xref:DeltaLog.adoc[DeltaLog]
+* xref:DeltaLog.adoc[]
+** xref:Operation.adoc[]
 ** xref:Checkpoints.adoc[Checkpoints]
 ** xref:MetadataCleanup.adoc[MetadataCleanup]
 ** xref:LogStoreProvider.adoc[LogStoreProvider]
@@ -71,7 +72,6 @@
 * xref:ImplicitMetadataOperation.adoc[ImplicitMetadataOperation]
 * xref:DeltaFileOperations.adoc[DeltaFileOperations]
 * xref:SchemaUtils.adoc[SchemaUtils]
-* xref:DeltaOperations.adoc[DeltaOperations]
 * xref:DeltaTableUtils.adoc[DeltaTableUtils]
 * xref:Invariants.adoc[Invariants]
 * xref:DeltaInvariantCheckerExec.adoc[DeltaInvariantCheckerExec]

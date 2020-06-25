@@ -1,4 +1,5 @@
-= [[DeltaConvert]] DeltaConvert Utility
+= DeltaConvert Utility
+:navtitle: DeltaConvert
 
 `DeltaConvert` utility is used exclusively for <<executeConvert, importing a parquet table into Delta Lake (DeltaConvert.executeConvert)>>.
 

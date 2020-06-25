@@ -1,21 +1,21 @@
-= [[ConvertToDeltaCommand]] ConvertToDeltaCommand -- Importing Parquet Table Into Delta Lake (Converting Parquet Table To Delta Format)
+= ConvertToDeltaCommand
 
-`ConvertToDeltaCommand` is a <<DeltaCommand.adoc#, Delta command>> that <<run, converts a parquet table into delta format>> (_imports_ it into Delta).
+*ConvertToDeltaCommand* is a <<DeltaCommand.adoc#, Delta command>> that <<run, converts a parquet table into delta format>> (_imports_ it into Delta).
 
-`ConvertToDeltaCommand` is <<creating-instance, created>> and <<run, executed>> using <<DeltaConvert.adoc#, DeltaConvert>> utility.
-
-`ConvertToDeltaCommand` requires that the <<partitionSchema, partition schema>> matches the partitions of the <<tableIdentifier, parquet table>> (<<createAddFile-unexpectedNumPartitionColumnsFromFileNameException, or an AnalysisException is thrown>>)
+ConvertToDeltaCommand requires that the <<partitionSchema, partition schema>> matches the partitions of the <<tableIdentifier, parquet table>> (<<createAddFile-unexpectedNumPartitionColumnsFromFileNameException, or an AnalysisException is thrown>>)
 
 [[ConvertToDeltaCommandBase]]
-`ConvertToDeltaCommandBase` is the base of `ConvertToDeltaCommand`-like commands with the only known implementation being <<ConvertToDeltaCommand, ConvertToDeltaCommand>> itself.
+`ConvertToDeltaCommandBase` is the base of ConvertToDeltaCommand-like commands with the only known implementation being <<ConvertToDeltaCommand, ConvertToDeltaCommand>> itself.
 
-== [[creating-instance]] Creating ConvertToDeltaCommand Instance
+== [[creating-instance]] Creating Instance
 
-`ConvertToDeltaCommand` takes the following to be created:
+ConvertToDeltaCommand takes the following to be created:
 
 * [[tableIdentifier]] Parquet table (`TableIdentifier`)
 * [[partitionSchema]] Partition schema (`Option[StructType]`)
 * [[deltaPath]] Path (`Option[String]`)
+
+ConvertToDeltaCommand is created and <<run, executed>> using xref:DeltaConvert.adoc[] utility.
 
 == [[run]] Running Command -- `run` Method
 
@@ -48,7 +48,7 @@ In case the <<OptimisticTransactionImpl.adoc#readVersion, readVersion>> of the n
 The table you are trying to convert is already a delta table
 ```
 
-== [[performConvert]] `performConvert` Method
+== [[performConvert]] performConvert Method
 
 [source, scala]
 ----
@@ -58,35 +58,35 @@ performConvert(
   convertProperties: ConvertProperties): Seq[Row]
 ----
 
-`performConvert` makes sure that the directory exists (from the given `ConvertProperties` which is the table part of the <<tableIdentifier, TableIdentifier>> of the command).
+performConvert makes sure that the directory exists (from the given `ConvertProperties` which is the table part of the <<tableIdentifier, TableIdentifier>> of the command).
 
-`performConvert` requests the `OptimisticTransaction` for the <<OptimisticTransaction.adoc#deltaLog, DeltaLog>> that is then requested to <<DeltaLog.adoc#ensureLogDirectoryExist, ensureLogDirectoryExist>>.
+performConvert requests the `OptimisticTransaction` for the <<OptimisticTransaction.adoc#deltaLog, DeltaLog>> that is then requested to <<DeltaLog.adoc#ensureLogDirectoryExist, ensureLogDirectoryExist>>.
 
-`performConvert` <<DeltaFileOperations.adoc#recursiveListDirs, creates a Dataset to recursively list directories and files>> in the directory and leaves only files (by filtering out directories using `WHERE` clause).
+performConvert <<DeltaFileOperations.adoc#recursiveListDirs, creates a Dataset to recursively list directories and files>> in the directory and leaves only files (by filtering out directories using `WHERE` clause).
 
-NOTE: `performConvert` uses `Dataset` API to build a distributed computation to query files.
+NOTE: performConvert uses `Dataset` API to build a distributed computation to query files.
 
 [[performConvert-cache]]
-`performConvert` caches the `Dataset` of file names.
+performConvert caches the `Dataset` of file names.
 
 [[performConvert-schemaBatchSize]]
-`performConvert` uses <<DeltaSQLConf.adoc#import.batchSize.schemaInference, spark.databricks.delta.import.batchSize.schemaInference>> configuration property for the number of files per batch for schema inference. `performConvert` <<mergeSchemasInParallel, mergeSchemasInParallel>> for every batch of files and then <<SchemaUtils#mergeSchemas, mergeSchemas>>.
+performConvert uses <<DeltaSQLConf.adoc#import.batchSize.schemaInference, spark.databricks.delta.import.batchSize.schemaInference>> configuration property for the number of files per batch for schema inference. performConvert <<mergeSchemasInParallel, mergeSchemasInParallel>> for every batch of files and then <<SchemaUtils#mergeSchemas, mergeSchemas>>.
 
-`performConvert` <<constructTableSchema, constructTableSchema>> using the inferred table schema and the <<partitionSchema, partitionSchema>> (if specified).
+performConvert <<constructTableSchema, constructTableSchema>> using the inferred table schema and the <<partitionSchema, partitionSchema>> (if specified).
 
-`performConvert` creates a new <<Metadata.adoc#, Metadata>> using the table schema and the <<partitionSchema, partitionSchema>> (if specified).
+performConvert creates a new <<Metadata.adoc#, Metadata>> using the table schema and the <<partitionSchema, partitionSchema>> (if specified).
 
-`performConvert` requests the `OptimisticTransaction` to <<OptimisticTransactionImpl.adoc.adoc#updateMetadata, update the metadata>>.
+performConvert requests the `OptimisticTransaction` to <<OptimisticTransactionImpl.adoc.adoc#updateMetadata, update the metadata>>.
 
 [[performConvert-statsBatchSize]]
-`performConvert` uses <<DeltaSQLConf.adoc#import.batchSize.statsCollection, spark.databricks.delta.import.batchSize.statsCollection>> configuration property for the number of files per batch for stats collection. `performConvert` <<createAddFile, creates an AddFile>> (in the <<DeltaLog.adoc#dataPath, data path>> of the <<OptimisticTransaction.adoc#deltaLog, DeltaLog>> of the `OptimisticTransaction`) for every file in a batch.
+performConvert uses <<DeltaSQLConf.adoc#import.batchSize.statsCollection, spark.databricks.delta.import.batchSize.statsCollection>> configuration property for the number of files per batch for stats collection. performConvert <<createAddFile, creates an AddFile>> (in the <<DeltaLog.adoc#dataPath, data path>> of the <<OptimisticTransaction.adoc#deltaLog, DeltaLog>> of the `OptimisticTransaction`) for every file in a batch.
 
 [[performConvert-streamWrite]][[performConvert-unpersist]]
-In the end, `performConvert` <<streamWrite, streamWrite>> (with the `OptimisticTransaction`, the ``AddFile``s, and <<DeltaOperations.adoc#Convert, Convert>> operation) and unpersists the `Dataset` of file names.
+In the end, performConvert <<streamWrite, streamWrite>> (with the `OptimisticTransaction`, the ``AddFile``s, and xref:Operation.adoc#Convert[Convert] operation) and unpersists the `Dataset` of file names.
 
-NOTE: `performConvert` is used exclusively when `ConvertToDeltaCommand` is requested to <<run, run>>.
+performConvert is used when ConvertToDeltaCommand is requested to <<run, run>>.
 
-== [[streamWrite]] `streamWrite` Method
+== [[streamWrite]] streamWrite Method
 
 [source, scala]
 ----
@@ -97,9 +97,9 @@ streamWrite(
   op: DeltaOperations.Convert): Long
 ----
 
-`streamWrite`...FIXME
+streamWrite...FIXME
 
-NOTE: `streamWrite` is used exclusively when `ConvertToDeltaCommand` is requested to <<performConvert, performConvert>>.
+streamWrite is used when ConvertToDeltaCommand is requested to <<performConvert, performConvert>>.
 
 == [[createAddFile]] `createAddFile` Method
 
@@ -123,7 +123,7 @@ Internally, `createAddFile`...FIXME
 Expecting [size] partition column(s): [expectedCols], but found [size] partition column(s): [parsedCols] from parsing the file name: [path]
 ```
 
-NOTE: `createAddFile` is used exclusively when `ConvertToDeltaCommand` is requested to <<performConvert, performConvert>> (for every data file to import).
+NOTE: `createAddFile` is used exclusively when ConvertToDeltaCommand is requested to <<performConvert, performConvert>> (for every data file to import).
 
 == [[mergeSchemasInParallel]] `mergeSchemasInParallel` Method
 
@@ -136,7 +136,7 @@ mergeSchemasInParallel(
 
 `mergeSchemasInParallel`...FIXME
 
-NOTE: `mergeSchemasInParallel` is used exclusively when `ConvertToDeltaCommand` is requested to <<performConvert, performConvert>>.
+NOTE: `mergeSchemasInParallel` is used exclusively when ConvertToDeltaCommand is requested to <<performConvert, performConvert>>.
 
 == [[constructTableSchema]] `constructTableSchema` Method
 
@@ -150,7 +150,7 @@ constructTableSchema(
 
 `constructTableSchema`...FIXME
 
-NOTE: `constructTableSchema` is used exclusively when `ConvertToDeltaCommand` is requested to <<performConvert, performConvert>>.
+NOTE: `constructTableSchema` is used exclusively when ConvertToDeltaCommand is requested to <<performConvert, performConvert>>.
 
 == [[getConvertProperties]] Creating ConvertProperties from TableIdentifier -- `getConvertProperties` Method
 
@@ -168,4 +168,4 @@ getConvertProperties(
 * Target directory as the table of the <<tableIdentifier, TableIdentifier>>
 * No properties
 
-NOTE: `getConvertProperties` is used exclusively when `ConvertToDeltaCommand` is requested to <<run, run>>.
+NOTE: `getConvertProperties` is used exclusively when ConvertToDeltaCommand is requested to <<run, run>>.
