@@ -477,6 +477,9 @@
 <div class="paragraph">
 <p><strong>OptimisticTransactionImpl</strong> is an <a href="#contract">extension</a> of the <a href="TransactionalWrite.html" class="page">TransactionalWrite</a> abstraction for <a href="#implementations">optimistic transactions</a> that can modify a <a href="#deltaLog">Delta table</a> (at a given <a href="#snapshot">version</a>) and can be <a href="#commit">committed</a> eventually.</p>
 </div>
+<div class="paragraph">
+<p>In other words, OptimisticTransactionImpl is a set of <a href="Action.html" class="page">actions</a> as part of an <a href="Operation.html" class="page">Operation</a>.</p>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -703,6 +706,9 @@ filterFiles(
   op: DeltaOperations.Operation): Long</code></pre>
 </div>
 </div>
+<div class="paragraph">
+<p>commit commits transaction (<a href="Action.html" class="page">actions</a> for an <a href="Operation.html" class="page">Operation</a>).</p>
+</div>
 <div id="commit-prepareCommit" class="paragraph">
 <p>commit firstly <a href="#prepareCommit">prepares a commit</a> (that gives the final actions to commit that may be different from the given <a href="Action.html" class="page">actions</a>).</p>
 </div>
@@ -833,7 +839,10 @@ filterFiles(
 <h2 id="commitinfo"><a class="anchor" href="#commitinfo"></a><a class="link" href="#commitinfo"><a id="commitInfo"></a> CommitInfo</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>OptimisticTransactionImpl uses a <a href="CommitInfo.html" class="page">CommitInfo</a>&#8230;&#8203;FIXME</p>
+<p>OptimisticTransactionImpl creates a <a href="CommitInfo.html" class="page">CommitInfo</a> when requested to <a href="#commit">commit</a> with <a href="DeltaSQLConf.html#commitInfo.enabled" class="page">spark.databricks.delta.commitInfo.enabled</a> configuration enabled.</p>
+</div>
+<div class="paragraph">
+<p>OptimisticTransactionImpl uses the CommitInfo to recordDeltaEvent (as a CommitStats).</p>
 </div>
 </div>
 </div>
