@@ -25,6 +25,8 @@ CommitInfo is created (using <<apply, apply>> utility) when:
 
 CommitInfo is used in xref:OptimisticTransactionImpl.adoc#commitInfo[OptimisticTransactionImpl] and CommitStats.
 
+CommitInfo is added (_logged_) to a Delta log only for xref:DeltaSQLConf.adoc#commitInfo.enabled[spark.databricks.delta.commitInfo.enabled] configuration enabled.
+
 == [[apply]] apply Utility
 
 [source,scala]

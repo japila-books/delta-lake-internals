@@ -2,6 +2,8 @@
 
 *OptimisticTransactionImpl* is an <<contract, extension>> of the xref:TransactionalWrite.adoc[] abstraction for <<implementations, optimistic transactions>> that can modify a <<deltaLog, Delta table>> (at a given <<snapshot, version>>) and can be <<commit, committed>> eventually.
 
+In other words, OptimisticTransactionImpl is a set of xref:Action.adoc[actions] as part of an xref:Operation.adoc[].
+
 == [[contract]] Contract
 
 === [[clock]] clock
@@ -146,6 +148,8 @@ commit(
   op: DeltaOperations.Operation): Long
 ----
 
+commit commits transaction (xref:Action.adoc[actions] for an xref:Operation.adoc[]).
+
 [[commit-prepareCommit]]
 commit firstly <<prepareCommit, prepares a commit>> (that gives the final actions to commit that may be different from the given <<Action.adoc#, actions>>).
 
@@ -234,7 +238,9 @@ postCommit is used when OptimisticTransactionImpl is requested to <<commit, comm
 
 == [[commitInfo]] CommitInfo
 
-OptimisticTransactionImpl uses a xref:CommitInfo.adoc[]...FIXME
+OptimisticTransactionImpl creates a xref:CommitInfo.adoc[] when requested to <<commit, commit>> with xref:DeltaSQLConf.adoc#commitInfo.enabled[spark.databricks.delta.commitInfo.enabled] configuration enabled.
+
+OptimisticTransactionImpl uses the CommitInfo to recordDeltaEvent (as a CommitStats).
 
 == [[registerPostCommitHook]] Registering Post-Commit Hook
 

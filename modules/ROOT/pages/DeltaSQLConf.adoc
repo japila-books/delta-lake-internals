@@ -36,3 +36,9 @@ a| [[timeTravel.resolveOnIdentifier.enabled]] **(internal)** When enabled (`true
 Default: `true`
 
 |===
+
+== [[commitInfo.enabled]][[DELTA_COMMIT_INFO_ENABLED]] commitInfo.enabled
+
+*spark.databricks.delta.commitInfo.enabled* controls whether to xref:OptimisticTransactionImpl.adoc#commitInfo[log commit information into a Delta log].
+
+Default: `true`
