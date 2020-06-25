@@ -3,10 +3,10 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title> DeltaTableUtils Utility :: The Internals Of Delta Lake</title>
-    <link rel="canonical" href="https://books.japila.pl/delta-lake-internals/delta/DeltaTableUtils.html">
-    <link rel="prev" href="SchemaUtils.html">
-    <link rel="next" href="Invariants.html">
+    <title>Operation :: The Internals Of Delta Lake</title>
+    <link rel="canonical" href="https://books.japila.pl/delta-lake-internals/delta/Operation.html">
+    <link rel="prev" href="DeltaLog.html">
+    <link rel="next" href="Checkpoints.html">
     <meta name="generator" content="Antora 2.3.3">
     <link rel="stylesheet" href="../_/css/site.css">
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-151208281-1"></script>
@@ -94,7 +94,7 @@
     <button class="nav-item-toggle"></button>
     <a class="nav-link" href="DeltaLog.html">DeltaLog</a>
 <ul class="nav-list">
-  <li class="nav-item" data-depth="2">
+  <li class="nav-item is-current-page" data-depth="2">
     <a class="nav-link" href="Operation.html">Operation</a>
   </li>
   <li class="nav-item" data-depth="2">
@@ -279,7 +279,7 @@
   <li class="nav-item" data-depth="1">
     <a class="nav-link" href="SchemaUtils.html">SchemaUtils</a>
   </li>
-  <li class="nav-item is-current-page" data-depth="1">
+  <li class="nav-item" data-depth="1">
     <a class="nav-link" href="DeltaTableUtils.html">DeltaTableUtils</a>
   </li>
   <li class="nav-item" data-depth="1">
@@ -463,234 +463,246 @@
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="index.html">Delta Lake</a></li>
-    <li><a href="DeltaTableUtils.html">DeltaTableUtils</a></li>
+    <li><a href="DeltaLog.html">DeltaLog</a></li>
+    <li><a href="Operation.html">Operation</a></li>
   </ul>
 </nav>
-  <div class="edit-this-page"><a href="https://github.com/japila-books/delta-lake-internals/edit/master/modules/ROOT/pages/DeltaTableUtils.adoc">Edit this Page</a></div>
+  <div class="edit-this-page"><a href="https://github.com/japila-books/delta-lake-internals/edit/master/modules/ROOT/pages/Operation.adoc">Edit this Page</a></div>
   </div>
   <div class="content">
 <article class="doc">
-<h1 class="page"><a id="DeltaTableUtils"></a> DeltaTableUtils Utility</h1>
+<h1 class="page">Operation</h1>
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p><code>DeltaTableUtils</code> comes with the following utilities:</p>
+<p><strong>Operation</strong> is an <a href="#contract">abstraction</a> of <a href="#implementations">operations</a> that can be performed on a Delta table.</p>
+</div>
+<div class="paragraph">
+<p>Operation has a <a href="#name">name</a> and <a href="#parameters">parameters</a>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="contract"><a class="anchor" href="#contract"></a><a class="link" href="#contract"><a id="contract"></a> Contract</a></h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="name"><a class="anchor" href="#name"></a><a class="link" href="#name"><a id="name"></a> name</a></h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">name: String</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Name of the operation (to create a <a href="CommitInfo.html" class="page">CommitInfo</a>)</p>
+</div>
+<div class="paragraph">
+<p>Used when:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p><a href="#isDeltaTable">DeltaTableUtils.isDeltaTable</a> for checking out whether a given directory is part of delta table</p>
+<p>OptimisticTransactionImpl is requested to <a href="OptimisticTransactionImpl.html#commit" class="page">commit</a></p>
 </li>
 <li>
-<p><a href="#findDeltaTableRoot">DeltaTableUtils.findDeltaTableRoot</a> for finding the root directory of a delta table</p>
+<p>ConvertToDeltaCommand command is requested to <a href="ConvertToDeltaCommand.html#streamWrite" class="page">streamWrite</a> (when executed)</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="parameters"><a class="anchor" href="#parameters"></a><a class="link" href="#parameters"><a id="parameters"></a> parameters</a></h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">parameters: Map[String, Any]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Parameters of the operation (to create a <a href="CommitInfo.html" class="page">CommitInfo</a> with the <a href="#jsonEncodedValues">JSON-encoded values</a>)</p>
+</div>
+<div class="paragraph">
+<p>Used when Operation is requested for <a href="#jsonEncodedValues">parameters with the values in JSON format</a>.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="operations"><a class="anchor" href="#operations"></a><a class="link" href="#operations"><a id="implementations"></a> Operations</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Operation is a Scala <strong>sealed trait</strong> which means that all the implementations are in the same compilation unit (a single file).</p>
+</div>
+<div class="sect2">
+<h3 id="addcolumns"><a class="anchor" href="#addcolumns"></a><a class="link" href="#addcolumns"><a id="AddColumns"></a> AddColumns</a></h3>
+
+</div>
+<div class="sect2">
+<h3 id="changecolumn"><a class="anchor" href="#changecolumn"></a><a class="link" href="#changecolumn"><a id="ChangeColumn"></a> ChangeColumn</a></h3>
+
+</div>
+<div class="sect2">
+<h3 id="computestats"><a class="anchor" href="#computestats"></a><a class="link" href="#computestats"><a id="ComputeStats"></a> ComputeStats</a></h3>
+
+</div>
+<div class="sect2">
+<h3 id="convert"><a class="anchor" href="#convert"></a><a class="link" href="#convert"><a id="Convert"></a> Convert</a></h3>
+
+</div>
+<div class="sect2">
+<h3 id="createtable"><a class="anchor" href="#createtable"></a><a class="link" href="#createtable"><a id="CreateTable"></a> CreateTable</a></h3>
+
+</div>
+<div class="sect2">
+<h3 id="delete"><a class="anchor" href="#delete"></a><a class="link" href="#delete"><a id="Delete"></a> Delete</a></h3>
+
+</div>
+<div class="sect2">
+<h3 id="filenotificationretention"><a class="anchor" href="#filenotificationretention"></a><a class="link" href="#filenotificationretention"><a id="FileNotificationRetention"></a> FileNotificationRetention</a></h3>
+
+</div>
+<div class="sect2">
+<h3 id="fsck"><a class="anchor" href="#fsck"></a><a class="link" href="#fsck"><a id="Fsck"></a> Fsck</a></h3>
+
+</div>
+<div class="sect2">
+<h3 id="manualupdate"><a class="anchor" href="#manualupdate"></a><a class="link" href="#manualupdate"><a id="ManualUpdate"></a> ManualUpdate</a></h3>
+
+</div>
+<div class="sect2">
+<h3 id="merge"><a class="anchor" href="#merge"></a><a class="link" href="#merge"><a id="Merge"></a> Merge</a></h3>
+
+</div>
+<div class="sect2">
+<h3 id="optimize"><a class="anchor" href="#optimize"></a><a class="link" href="#optimize"><a id="Optimize"></a> Optimize</a></h3>
+
+</div>
+<div class="sect2">
+<h3 id="replacecolumns"><a class="anchor" href="#replacecolumns"></a><a class="link" href="#replacecolumns"><a id="ReplaceColumns"></a> ReplaceColumns</a></h3>
+
+</div>
+<div class="sect2">
+<h3 id="replacetable"><a class="anchor" href="#replacetable"></a><a class="link" href="#replacetable"><a id="ReplaceTable"></a> ReplaceTable</a></h3>
+
+</div>
+<div class="sect2">
+<h3 id="resetzcubeinfo"><a class="anchor" href="#resetzcubeinfo"></a><a class="link" href="#resetzcubeinfo"><a id="ResetZCubeInfo"></a> ResetZCubeInfo</a></h3>
+
+</div>
+<div class="sect2">
+<h3 id="settableproperties"><a class="anchor" href="#settableproperties"></a><a class="link" href="#settableproperties"><a id="SetTableProperties"></a> SetTableProperties</a></h3>
+
+</div>
+<div class="sect2">
+<h3 id="streamingupdate"><a class="anchor" href="#streamingupdate"></a><a class="link" href="#streamingupdate"><a id="StreamingUpdate"></a> StreamingUpdate</a></h3>
+
+</div>
+<div class="sect2">
+<h3 id="truncate"><a class="anchor" href="#truncate"></a><a class="link" href="#truncate"><a id="Truncate"></a> Truncate</a></h3>
+
+</div>
+<div class="sect2">
+<h3 id="unsettableproperties"><a class="anchor" href="#unsettableproperties"></a><a class="link" href="#unsettableproperties"><a id="UnsetTableProperties"></a> UnsetTableProperties</a></h3>
+
+</div>
+<div class="sect2">
+<h3 id="update"><a class="anchor" href="#update"></a><a class="link" href="#update"><a id="Update"></a> Update</a></h3>
+
+</div>
+<div class="sect2">
+<h3 id="updatecolumnmetadata"><a class="anchor" href="#updatecolumnmetadata"></a><a class="link" href="#updatecolumnmetadata"><a id="UpdateColumnMetadata"></a> UpdateColumnMetadata</a></h3>
+
+</div>
+<div class="sect2">
+<h3 id="updateschema"><a class="anchor" href="#updateschema"></a><a class="link" href="#updateschema"><a id="UpdateSchema"></a> UpdateSchema</a></h3>
+
+</div>
+<div class="sect2">
+<h3 id="upgradeprotocol"><a class="anchor" href="#upgradeprotocol"></a><a class="link" href="#upgradeprotocol"><a id="UpgradeProtocol"></a> UpgradeProtocol</a></h3>
+
+</div>
+<div class="sect2">
+<h3 id="write"><a class="anchor" href="#write"></a><a class="link" href="#write"><a id="Write"></a> Write</a></h3>
+
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="serializing-parameter-values-to-json-format"><a class="anchor" href="#serializing-parameter-values-to-json-format"></a><a class="link" href="#serializing-parameter-values-to-json-format"><a id="jsonEncodedValues"></a> Serializing Parameter Values (to JSON Format)</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">jsonEncodedValues: Map[String, String]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>jsonEncodedValues converts the values of the <a href="#parameters">parameters</a> to JSON format.</p>
+</div>
+<div class="paragraph">
+<p>jsonEncodedValues is used when:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>OptimisticTransactionImpl is requested to <a href="OptimisticTransactionImpl.html#commit" class="page">commit</a> (to create a <a href="CommitInfo.html" class="page">CommitInfo</a>)</p>
 </li>
 <li>
-<p><a href="#splitMetadataAndDataPredicates">splitMetadataAndDataPredicates</a></p>
+<p>ConvertToDeltaCommand command is requested to <a href="ConvertToDeltaCommand.html#streamWrite" class="page">streamWrite</a> (when executed and creates a <a href="CommitInfo.html" class="page">CommitInfo</a>)</p>
 </li>
 </ul>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="isdeltatable-utility"><a class="anchor" href="#isdeltatable-utility"></a><a class="link" href="#isdeltatable-utility"><a id="isDeltaTable"></a> isDeltaTable Utility</a></h2>
+<h2 id="operationmetrics-method"><a class="anchor" href="#operationmetrics-method"></a><a class="link" href="#operationmetrics-method"><a id="operationMetrics"></a> operationMetrics Method</a></h2>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">isDeltaTable(
-  spark: SparkSession,
-  path: Path): Boolean</code></pre>
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">operationMetrics: Set[String]</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p><code>isDeltaTable</code> tries to <a href="#findDeltaTableRoot">find the root directory of the delta table</a> for the given path and returns whether it was successful or not.</p>
+<p>operationMetrics&#8230;&#8203;FIXME</p>
 </div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<code>isDeltaTable</code> is used when <code>DeltaTable</code> utility is used to <a href="DeltaTable.html#forPath" class="page">create a DeltaTable</a> or <a href="DeltaTable.html#isDeltaTable" class="page">check whether a directory is part of delta table or not</a>.
-</td>
-</tr>
-</table>
+<div class="paragraph">
+<p>operationMetrics is used when&#8230;&#8203;FIXME</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="finddeltatableroot-utility"><a class="anchor" href="#finddeltatableroot-utility"></a><a class="link" href="#finddeltatableroot-utility"><a id="findDeltaTableRoot"></a> findDeltaTableRoot Utility</a></h2>
+<h2 id="transformmetrics-method"><a class="anchor" href="#transformmetrics-method"></a><a class="link" href="#transformmetrics-method"><a id="transformMetrics"></a> transformMetrics Method</a></h2>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">findDeltaTableRoot(
-  spark: SparkSession,
-  path: Path): Option[Path]</code></pre>
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">transformMetrics(
+  metrics: Map[String, SQLMetric]): Map[String, String]</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p><code>findDeltaTableRoot</code> traverses the Hadoop DFS-compliant path upwards (to the root directory of the file system) until <code>_delta_log</code> or <code>_samples</code> directories are found, or the root directory is reached.</p>
+<p>transformMetrics&#8230;&#8203;FIXME</p>
 </div>
 <div class="paragraph">
-<p>For <code>_delta_log</code> or <code>_samples</code> directories, <code>findDeltaTableRoot</code> returns the parent directory.</p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<div class="paragraph">
-<p><code>findDeltaTableRoot</code> is used when:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><a href="VacuumTableCommand.html" class="page">VacuumTableCommand</a> is executed</p>
-</li>
-<li>
-<p><code>DeltaTableUtils</code> utility is used to <a href="#isDeltaTable">isDeltaTable</a></p>
-</li>
-<li>
-<p><code>DeltaDataSource</code> is requested to <a href="DeltaDataSource.html#RelationProvider-createRelation" class="page">create a relation</a></p>
-</li>
-</ul>
-</div>
-</td>
-</tr>
-</table>
+<p>transformMetrics is used when&#8230;&#8203;FIXME</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="resolvetimetravelversion-utility"><a class="anchor" href="#resolvetimetravelversion-utility"></a><a class="link" href="#resolvetimetravelversion-utility"><a id="resolveTimeTravelVersion"></a> resolveTimeTravelVersion Utility</a></h2>
+<h2 id="usermetadata-method"><a class="anchor" href="#usermetadata-method"></a><a class="link" href="#usermetadata-method"><a id="userMetadata"></a> userMetadata Method</a></h2>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">resolveTimeTravelVersion(
-  conf: SQLConf,
-  deltaLog: DeltaLog,
-  tt: DeltaTimeTravelSpec): (Long, String)</code></pre>
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">userMetadata: Option[String] = None</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p><code>resolveTimeTravelVersion</code>&#8230;&#8203;FIXME</p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<code>resolveTimeTravelVersion</code> is used exclusively when <code>DeltaLog</code> is requested to <a href="DeltaLog.html#createRelation" class="page">create a relation (per partition filters and time travel)</a>.
-</td>
-</tr>
-</table>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="splitmetadataanddatapredicates-utility"><a class="anchor" href="#splitmetadataanddatapredicates-utility"></a><a class="link" href="#splitmetadataanddatapredicates-utility"><a id="splitMetadataAndDataPredicates"></a> splitMetadataAndDataPredicates Utility</a></h2>
-<div class="sectionbody">
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">splitMetadataAndDataPredicates(
-  condition: Expression,
-  partitionColumns: Seq[String],
-  spark: SparkSession): (Seq[Expression], Seq[Expression])</code></pre>
-</div>
+<p>userMetadata&#8230;&#8203;FIXME</p>
 </div>
 <div class="paragraph">
-<p><code>splitMetadataAndDataPredicates</code>&#8230;&#8203;FIXME</p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<div class="paragraph">
-<p><code>splitMetadataAndDataPredicates</code> is used when:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><code>PartitionFiltering</code> is requested to <a href="PartitionFiltering.html#filesForScan" class="page">filesForScan</a></p>
-</li>
-<li>
-<p><a href="DeleteCommand.html" class="page">DeleteCommand</a> and <a href="UpdateCommand.html" class="page">UpdateCommand</a> are executed</p>
-</li>
-</ul>
-</div>
-</td>
-</tr>
-</table>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="ispredicatepartitioncolumnsonly-utility"><a class="anchor" href="#ispredicatepartitioncolumnsonly-utility"></a><a class="link" href="#ispredicatepartitioncolumnsonly-utility"><a id="isPredicatePartitionColumnsOnly"></a> isPredicatePartitionColumnsOnly Utility</a></h2>
-<div class="sectionbody">
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">isPredicatePartitionColumnsOnly(
-  condition: Expression,
-  partitionColumns: Seq[String],
-  spark: SparkSession): Boolean</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p><code>isPredicatePartitionColumnsOnly</code>&#8230;&#8203;FIXME</p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<div class="paragraph">
-<p><code>isPredicatePartitionColumnsOnly</code> is used when&#8230;&#8203;FIXME</p>
-</div>
-</td>
-</tr>
-</table>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="combinewithcatalogmetadata-utility"><a class="anchor" href="#combinewithcatalogmetadata-utility"></a><a class="link" href="#combinewithcatalogmetadata-utility"><a id="combineWithCatalogMetadata"></a> combineWithCatalogMetadata Utility</a></h2>
-<div class="sectionbody">
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">combineWithCatalogMetadata(
-  sparkSession: SparkSession,
-  table: CatalogTable): CatalogTable</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p><code>combineWithCatalogMetadata</code>&#8230;&#8203;FIXME</p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<code>combineWithCatalogMetadata</code> <em>seems</em> unused.
-</td>
-</tr>
-</table>
+<p>userMetadata is used when&#8230;&#8203;FIXME</p>
 </div>
 </div>
 </div>
 <nav class="pagination">
-  <span class="prev"><a href="SchemaUtils.html">SchemaUtils</a></span>
-  <span class="next"><a href="Invariants.html">Invariants</a></span>
+  <span class="prev"><a href="DeltaLog.html">DeltaLog</a></span>
+  <span class="next"><a href="Checkpoints.html">Checkpoints</a></span>
 </nav>
 </article>
 <aside class="toc sidebar" data-title="Contents" data-levels="2">
