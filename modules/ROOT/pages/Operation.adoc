@@ -2,7 +2,7 @@
 
 *Operation* is an <<contract, abstraction>> of <<implementations, operations>> that can be performed on a Delta table.
 
-Operation has a <<name, name>> and <<parameters, parameters>>.
+Operation has a <<name, name>> and <<parameters, parameters>> (that are simply used to create a xref:CommitInfo.adoc[] for OptimisticTransactionImpl being xref:OptimisticTransactionImpl.adoc#commit[committed] and, as a way to bypass a transaction, xref:ConvertToDeltaCommand.adoc[]).
 
 == [[contract]] Contract
 

@@ -232,6 +232,10 @@ postCommit...FIXME
 
 postCommit is used when OptimisticTransactionImpl is requested to <<commit, commit>> (at the end).
 
+== [[commitInfo]] CommitInfo
+
+OptimisticTransactionImpl uses a xref:CommitInfo.adoc[]...FIXME
+
 == [[registerPostCommitHook]] Registering Post-Commit Hook
 
 [source, scala]
