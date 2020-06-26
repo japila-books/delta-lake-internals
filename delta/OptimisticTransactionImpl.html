@@ -435,6 +435,9 @@
   <li class="nav-item" data-depth="1">
     <a class="nav-link" href="demo/schema-evolution.html">Schema Evolution</a>
   </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="demo/using-user-metadata-to-distinguish-commits-streaming-queries.html">Using User Metadata to Distinguish Commits of Streaming Queries</a>
+  </li>
 </ul>
   </li>
 </ul>
@@ -1060,7 +1063,7 @@ Hooks may create new transactions.
 </div>
 </div>
 <div class="sect1">
-<h2 id="getusermetadata-method"><a class="anchor" href="#getusermetadata-method"></a><a class="link" href="#getusermetadata-method"><a id="getUserMetadata"></a> getUserMetadata Method</a></h2>
+<h2 id="user-defined-metadata"><a class="anchor" href="#user-defined-metadata"></a><a class="link" href="#user-defined-metadata"><a id="getUserMetadata"></a> User-Defined Metadata</a></h2>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content">
@@ -1069,10 +1072,10 @@ Hooks may create new transactions.
 </div>
 </div>
 <div class="paragraph">
-<p>getUserMetadata&#8230;&#8203;FIXME</p>
+<p>getUserMetadata returns the <a href="Operation.html#userMetadata" class="page">userMetadata</a> of the given <a href="Operation.html" class="page">Operation</a> (if defined) or the value of <a href="DeltaSQLConf.html#DELTA_USER_METADATA" class="page">spark.databricks.delta.commitInfo.userMetadata</a> configuration property.</p>
 </div>
 <div class="paragraph">
-<p>getUserMetadata is used when&#8230;&#8203;FIXME</p>
+<p>getUserMetadata is used when OptimisticTransactionImpl is requested to <a href="#commit">commit</a> (and <a href="DeltaSQLConf.html#DELTA_COMMIT_INFO_ENABLED" class="page">spark.databricks.delta.commitInfo.enabled</a> configuration property is enabled).</p>
 </div>
 </div>
 </div>

@@ -435,6 +435,9 @@
   <li class="nav-item" data-depth="1">
     <a class="nav-link" href="demo/schema-evolution.html">Schema Evolution</a>
   </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="demo/using-user-metadata-to-distinguish-commits-streaming-queries.html">Using User Metadata to Distinguish Commits of Streaming Queries</a>
+  </li>
 </ul>
   </li>
 </ul>
@@ -479,141 +482,144 @@
 <div class="sectionbody">
 <div class="paragraph">
 <p><a id="DeltaWriteOptionsImpl"></a><a id="DeltaWriteOptions"></a><a id="DeltaReadOptions"></a>
-<code>DeltaOptions</code> (aka <code>DeltaWriteOptionsImpl</code>, <code>DeltaWriteOptions</code>) is the options for the <a href="DeltaDataSource.html" class="page">Delta data source</a>.</p>
+<strong>DeltaOptions</strong> (aka <code>DeltaWriteOptionsImpl</code>, <code>DeltaWriteOptions</code>) is the options for the <a href="DeltaDataSource.html" class="page">Delta data source</a>.</p>
 </div>
 <div class="paragraph">
 <p>The <a href="#options">options</a> can be defined using <code>option</code> method of <code>DataFrameReader</code>, <code>DataFrameWriter</code>, <code>DataStreamReader</code>, and <code>DataStreamWriter</code>.</p>
 </div>
 <div class="paragraph">
-<p><code>DeltaOptions</code> is used to create <a href="WriteIntoDelta.html" class="page">WriteIntoDelta</a> command, <a href="DeltaSink.html" class="page">DeltaSink</a>, and <a href="DeltaSource.html" class="page">DeltaSource</a>.</p>
+<p>DeltaOptions is used to create <a href="WriteIntoDelta.html" class="page">WriteIntoDelta</a> command, <a href="DeltaSink.html" class="page">DeltaSink</a>, and <a href="DeltaSource.html" class="page">DeltaSource</a>.</p>
 </div>
-<table id="validOptionKeys" class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 1. Delta Data Source&#8217;s Options</caption>
-<colgroup>
-<col style="width: 30%;">
-<col style="width: 70%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Name</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>checkpointLocation</code></p></td>
-<td class="tableblock halign-left valign-top"><div class="content"></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>dataChange</code></p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="DATA_CHANGE_OPTION"></a><a id="dataChange"></a></p>
-</div></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>excludeRegex</code></p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="EXCLUDE_REGEX_OPTION"></a><a id="excludeRegex"></a></p>
-</div></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ignoreChanges</code></p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="IGNORE_CHANGES_OPTION"></a><a id="ignoreChanges"></a></p>
-</div></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ignoreDeletes</code></p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="IGNORE_DELETES_OPTION"></a><a id="ignoreDeletes"></a></p>
-</div></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ignoreFileDeletion</code></p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="IGNORE_FILE_DELETION_OPTION"></a><a id="ignoreFileDeletion"></a></p>
-</div></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>maxFilesPerTrigger</code></p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="MAX_FILES_PER_TRIGGER_OPTION"></a><a id="maxFilesPerTrigger"></a><a id="MAX_FILES_PER_TRIGGER_OPTION_DEFAULT"></a> Maximum number of files (<a href="AddFile.html" class="page">AddFiles</a>) that <a href="DeltaSource.html" class="page">DeltaSource</a> will <a href="DeltaSource.html#getChangesWithRateLimit" class="page">scan</a> (<em>read</em>) in a streaming micro-batch (<em>trigger</em>)</p>
+<div class="paragraph">
+<p>DeltaOptions can be <a href="#verifyOptions">verified</a>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="options"><a class="anchor" href="#options"></a><a class="link" href="#options"><a id="options"></a><a id="validOptionKeys"></a> Options</a></h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="checkpointlocation"><a class="anchor" href="#checkpointlocation"></a><a class="link" href="#checkpointlocation"><a id="checkpointLocation"></a> checkpointLocation</a></h3>
+
+</div>
+<div class="sect2">
+<h3 id="datachange"><a class="anchor" href="#datachange"></a><a class="link" href="#datachange"><a id="DATA_CHANGE_OPTION"></a><a id="dataChange"></a> dataChange</a></h3>
+
+</div>
+<div class="sect2">
+<h3 id="excluderegex"><a class="anchor" href="#excluderegex"></a><a class="link" href="#excluderegex"><a id="EXCLUDE_REGEX_OPTION"></a><a id="excludeRegex"></a> excludeRegex</a></h3>
+
+</div>
+<div class="sect2">
+<h3 id="ignorechanges"><a class="anchor" href="#ignorechanges"></a><a class="link" href="#ignorechanges"><a id="IGNORE_CHANGES_OPTION"></a><a id="ignoreChanges"></a> ignoreChanges</a></h3>
+
+</div>
+<div class="sect2">
+<h3 id="ignoredeletes"><a class="anchor" href="#ignoredeletes"></a><a class="link" href="#ignoredeletes"><a id="IGNORE_DELETES_OPTION"></a><a id="ignoreDeletes"></a> ignoreDeletes</a></h3>
+
+</div>
+<div class="sect2">
+<h3 id="ignorefiledeletion"><a class="anchor" href="#ignorefiledeletion"></a><a class="link" href="#ignorefiledeletion"><a id="IGNORE_FILE_DELETION_OPTION"></a><a id="ignoreFileDeletion"></a> ignoreFileDeletion</a></h3>
+
+</div>
+<div class="sect2">
+<h3 id="maxbytespertrigger"><a class="anchor" href="#maxbytespertrigger"></a><a class="link" href="#maxbytespertrigger"><a id="MAX_BYTES_PER_TRIGGER_OPTION"></a><a id="maxBytesPerTrigger"></a> maxBytesPerTrigger</a></h3>
+
+</div>
+<div class="sect2">
+<h3 id="maxfilespertrigger"><a class="anchor" href="#maxfilespertrigger"></a><a class="link" href="#maxfilespertrigger"><a id="MAX_FILES_PER_TRIGGER_OPTION"></a><a id="maxFilesPerTrigger"></a><a id="MAX_FILES_PER_TRIGGER_OPTION_DEFAULT"></a> maxFilesPerTrigger</a></h3>
+<div class="paragraph">
+<p>Maximum number of files (<a href="AddFile.html" class="page">AddFiles</a>) that <a href="DeltaSource.html" class="page">DeltaSource</a> will <a href="DeltaSource.html#getChangesWithRateLimit" class="page">scan</a> (<em>read</em>) in a streaming micro-batch (<em>trigger</em>)</p>
 </div>
 <div class="paragraph">
 <p>Default: <code>1000</code></p>
 </div>
 <div class="paragraph">
 <p>Must be at least <code>1</code></p>
-</div></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mergeSchema</code></p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="MERGE_SCHEMA_OPTION"></a><a id="mergeSchema"></a><a id="canMergeSchema"></a> Enables schema migration (e.g. allows automatic schema merging during a write operation for <a href="WriteIntoDelta.html" class="page">WriteIntoDelta</a> and <a href="DeltaSink.html" class="page">DeltaSink</a>)</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="mergeschema"><a class="anchor" href="#mergeschema"></a><a class="link" href="#mergeschema"><a id="MERGE_SCHEMA_OPTION"></a><a id="mergeSchema"></a><a id="canMergeSchema"></a> mergeSchema</a></h3>
+<div class="paragraph">
+<p>Enables schema migration (e.g. allows automatic schema merging during a write operation for <a href="WriteIntoDelta.html" class="page">WriteIntoDelta</a> and <a href="DeltaSink.html" class="page">DeltaSink</a>)</p>
 </div>
 <div class="paragraph">
 <p>Equivalent SQL Session configuration: <a href="DeltaSQLConf.html#DELTA_SCHEMA_AUTO_MIGRATE" class="page">spark.databricks.delta.schema.autoMerge.enabled</a></p>
-</div></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>optimizeWrite</code></p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="OPTIMIZE_WRITE_OPTION"></a><a id="optimizeWrite"></a></p>
-</div></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>overwriteSchema</code></p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="OVERWRITE_SCHEMA_OPTION"></a><a id="overwriteSchema"></a></p>
-</div></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>path</code></p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="path"></a> <strong>(required)</strong> Directory on a Hadoop DFS-compliant file system with an optional <a href="time-travel.html" class="page">time travel</a> identifier.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="optimizewrite"><a class="anchor" href="#optimizewrite"></a><a class="link" href="#optimizewrite"><a id="OPTIMIZE_WRITE_OPTION"></a><a id="optimizeWrite"></a> optimizeWrite</a></h3>
+
+</div>
+<div class="sect2">
+<h3 id="overwriteschema"><a class="anchor" href="#overwriteschema"></a><a class="link" href="#overwriteschema"><a id="OVERWRITE_SCHEMA_OPTION"></a><a id="overwriteSchema"></a> overwriteSchema</a></h3>
+
+</div>
+<div class="sect2">
+<h3 id="path"><a class="anchor" href="#path"></a><a class="link" href="#path"><a id="path"></a> path</a></h3>
+<div class="paragraph">
+<p><strong>(required)</strong> Directory on a Hadoop DFS-compliant file system with an optional <a href="time-travel.html" class="page">time travel</a> identifier.</p>
 </div>
 <div class="paragraph">
 <p>Default: (undefined)</p>
 </div>
 <div class="paragraph">
 <p>Can also be specified using <code>load</code> method of <code>DataFrameReader</code> and <code>DataStreamReader</code>.</p>
-</div></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>queryName</code></p></td>
-<td class="tableblock halign-left valign-top"><div class="content"></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>replaceWhere</code></p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="REPLACE_WHERE_OPTION"></a><a id="replaceWhere"></a></p>
-</div></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>timestampAsOf</code></p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="timestampAsOf"></a> <a href="time-travel.html" class="page">Time traveling</a> using a timestamp of a table</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="queryname"><a class="anchor" href="#queryname"></a><a class="link" href="#queryname"><a id="queryName"></a> queryName</a></h3>
+
+</div>
+<div class="sect2">
+<h3 id="replacewhere"><a class="anchor" href="#replacewhere"></a><a class="link" href="#replacewhere"><a id="REPLACE_WHERE_OPTION"></a><a id="replaceWhere"></a> replaceWhere</a></h3>
+
+</div>
+<div class="sect2">
+<h3 id="timestampasof"><a class="anchor" href="#timestampasof"></a><a class="link" href="#timestampasof"><a id="timestampAsOf"></a> timestampAsOf</a></h3>
+<div class="paragraph">
+<p><a href="time-travel.html" class="page">Time traveling</a> using a timestamp of a table</p>
 </div>
 <div class="paragraph">
 <p>Mutually exclusive with <a href="#versionAsOf">versionAsOf</a> option and the time travel identifier of the <a href="#path">path</a> option.</p>
-</div></div></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>versionAsOf</code></p></td>
-<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><a id="versionAsOf"></a> <a href="time-travel.html" class="page">Time traveling</a> using a version of a table</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="usermetadata"><a class="anchor" href="#usermetadata"></a><a class="link" href="#usermetadata"><a id="USER_METADATA_OPTION"></a><a id="userMetadata"></a> userMetadata</a></h3>
+
+</div>
+<div class="sect2">
+<h3 id="versionasof"><a class="anchor" href="#versionasof"></a><a class="link" href="#versionasof"><a id="versionAsOf"></a> versionAsOf</a></h3>
+<div class="paragraph">
+<p><a href="time-travel.html" class="page">Time traveling</a> using a version of a table</p>
 </div>
 <div class="paragraph">
 <p>Mutually exclusive with <a href="#timestampAsOf">timestampAsOf</a> option and the time travel identifier of the <a href="#path">path</a> option.</p>
 </div>
 <div class="paragraph">
 <p>Used exclusively when <code>DeltaDataSource</code> is requested for a <a href="DeltaDataSource.html#RelationProvider-createRelation" class="page">relation (as a RelationProvider)</a></p>
-</div></div></td>
-</tr>
-</tbody>
-</table>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="creating-instance"><a class="anchor" href="#creating-instance"></a><a class="link" href="#creating-instance"><a id="creating-instance"></a> Creating Instance</a></h2>
+<div class="sectionbody">
 <div class="paragraph">
-<p><code>DeltaOptions</code> is <a href="#creating-instance">created</a> when:</p>
+<p>DeltaOptions takes the following to be created:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Options (<code>Map[String, String]</code> or <code>CaseInsensitiveMap[String]</code>)</p>
+</li>
+<li>
+<p><a id="sqlConf"></a> <code>SQLConf</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>DeltaOptions is created when:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -622,27 +628,6 @@
 </li>
 <li>
 <p><code>DeltaDataSource</code> is requested to <a href="DeltaDataSource.html#createSource" class="page">create a streaming source</a> (to create a <a href="DeltaSource.html" class="page">DeltaSource</a> for Structured Streaming), <a href="DeltaDataSource.html#createSink" class="page">create a streaming sink</a> (to create a <a href="DeltaSink.html" class="page">DeltaSink</a> for Structured Streaming), and <a href="DeltaDataSource.html#CreatableRelationProvider-createRelation" class="page">create an insertable HadoopFsRelation</a></p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p><code>DeltaOptions</code> can be <a href="#verifyOptions">verified</a>.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="creating-deltaoptions-instance"><a class="anchor" href="#creating-deltaoptions-instance"></a><a class="link" href="#creating-deltaoptions-instance"><a id="creating-instance"></a> Creating DeltaOptions Instance</a></h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p><code>DeltaOptions</code> takes the following to be created:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><a id="options"></a> Options (<code>Map[String, String]</code> or <code>CaseInsensitiveMap[String]</code>)</p>
-</li>
-<li>
-<p><a id="sqlConf"></a> <code>SQLConf</code></p>
 </li>
 </ul>
 </div>
@@ -673,7 +658,7 @@
 <div class="ulist">
 <ul>
 <li>
-<p><code>DeltaOptions</code> is <a href="#creating-instance">created</a></p>
+<p>DeltaOptions is <a href="#creating-instance">created</a></p>
 </li>
 <li>
 <p><code>DeltaDataSource</code> is requested to <a href="DeltaDataSource.html#RelationProvider-createRelation" class="page">create a relation</a></p>
