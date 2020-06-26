@@ -94,6 +94,9 @@
 </ul>
   </li>
   <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="DeltaTableV2.html">DeltaTableV2</a>
+  </li>
+  <li class="nav-item" data-depth="1">
     <button class="nav-item-toggle"></button>
     <a class="nav-link" href="DeltaLog.html">DeltaLog</a>
 <ul class="nav-list">
@@ -717,6 +720,24 @@ Consult the demo <a href="#demo-Using-Delta-Lake-as-Streaming-Sink-in-Structured
 </td>
 </tr>
 </table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="parsepathidentifier-utility"><a class="anchor" href="#parsepathidentifier-utility"></a><a class="link" href="#parsepathidentifier-utility"><a id="parsePathIdentifier"></a> parsePathIdentifier Utility</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">parsePathIdentifier(
+  spark: SparkSession,
+  userPath: String): (Path, Seq[(String, String)], Option[DeltaTimeTravelSpec])</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>parsePathIdentifier&#8230;&#8203;FIXME</p>
+</div>
+<div class="paragraph">
+<p>parsePathIdentifier is used when DeltaTableV2 is requested for the <a href="DeltaTableV2.html#rootPath" class="page">rootPath, partitionFilters, and timeTravelByPath</a> (for a non-catalog table).</p>
 </div>
 </div>
 </div>
