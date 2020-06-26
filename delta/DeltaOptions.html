@@ -590,10 +590,13 @@
 <div class="sect2">
 <h3 id="usermetadata"><a class="anchor" href="#usermetadata"></a><a class="link" href="#usermetadata"><a id="USER_METADATA_OPTION"></a><a id="userMetadata"></a> userMetadata</a></h3>
 <div class="paragraph">
-<p>Defines a <a href="CommitInfo.html#userMetadata" class="page">user-defined metadata of commits</a> to a Delta table.</p>
+<p>Defines a <a href="CommitInfo.html#userMetadata" class="page">user-defined commit metadata</a></p>
 </div>
 <div class="paragraph">
 <p>Take precedence over <a href="DeltaSQLConf.html#commitInfo.userMetadata" class="page">spark.databricks.delta.commitInfo.userMetadata</a></p>
+</div>
+<div class="paragraph">
+<p>Available by inspecting <a href="CommitInfo.html" class="page">CommitInfo</a>s using <a href="delta-sql.html#DESCRIBE-HISTORY" class="page">DESCRIBE HISTORY</a> or <a href="DeltaTable.html#history" class="page">DeltaTable.history</a>.</p>
 </div>
 </div>
 <div class="sect2">
