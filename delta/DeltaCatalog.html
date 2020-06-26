@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>DeltaCatalog :: The Internals Of Delta Lake</title>
     <link rel="canonical" href="https://books.japila.pl/delta-lake-internals/delta/DeltaCatalog.html">
-    <link rel="prev" href="others.html">
+    <link rel="prev" href="DeltaSink.html">
     <link rel="next" href="DeltaSparkSessionExtension.html">
     <meta name="generator" content="Antora 2.3.3">
     <link rel="stylesheet" href="../_/css/site.css">
@@ -218,33 +218,6 @@
   </li>
   <li class="nav-item" data-depth="1">
     <button class="nav-item-toggle"></button>
-    <a class="nav-link" href="DeltaDataSource.html">DeltaDataSource</a>
-<ul class="nav-list">
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="DeltaOptions.html">DeltaOptions</a>
-  </li>
-  <li class="nav-item" data-depth="2">
-    <button class="nav-item-toggle"></button>
-    <a class="nav-link" href="DeltaSource.html">DeltaSource</a>
-<ul class="nav-list">
-  <li class="nav-item" data-depth="3">
-    <a class="nav-link" href="DeltaSourceOffset.html">DeltaSourceOffset</a>
-  </li>
-  <li class="nav-item" data-depth="3">
-    <a class="nav-link" href="SnapshotIterator.html">SnapshotIterator</a>
-  </li>
-  <li class="nav-item" data-depth="3">
-    <a class="nav-link" href="DeltaSourceSnapshot.html">DeltaSourceSnapshot</a>
-  </li>
-</ul>
-  </li>
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="DeltaSink.html">DeltaSink</a>
-  </li>
-</ul>
-  </li>
-  <li class="nav-item" data-depth="1">
-    <button class="nav-item-toggle"></button>
     <a class="nav-link" href="OptimisticTransaction.html">OptimisticTransaction</a>
 <ul class="nav-list">
   <li class="nav-item" data-depth="2">
@@ -373,6 +346,36 @@
   </li>
   <li class="nav-item" data-depth="0">
     <button class="nav-item-toggle"></button>
+    <span class="nav-text">Delta Data Source</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="DeltaDataSource.html">DeltaDataSource</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="DeltaOptions.html">DeltaOptions</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="DeltaSource.html">DeltaSource</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="DeltaSourceOffset.html">DeltaSourceOffset</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="SnapshotIterator.html">SnapshotIterator</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="DeltaSourceSnapshot.html">DeltaSourceSnapshot</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="DeltaSink.html">DeltaSink</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+    <button class="nav-item-toggle"></button>
     <span class="nav-text">Spark SQL Extensions</span>
 <ul class="nav-list">
   <li class="nav-item is-current-page" data-depth="1">
@@ -485,7 +488,7 @@
 <p>DeltaCatalog is registered using <strong>spark.sql.catalog.spark_catalog</strong> configuration property while creating a SparkSession in a Spark application. Consult <a href="installation.html" class="page">Installation</a>.</p>
 </div>
 <nav class="pagination">
-  <span class="prev"><a href="others.html">The Others (Contenders)</a></span>
+  <span class="prev"><a href="DeltaSink.html">DeltaSink</a></span>
   <span class="next"><a href="DeltaSparkSessionExtension.html">DeltaSparkSessionExtension</a></span>
 </nav>
 </article>
