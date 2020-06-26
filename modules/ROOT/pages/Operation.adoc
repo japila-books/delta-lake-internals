@@ -127,6 +127,6 @@ transformMetrics is used when...FIXME
 userMetadata: Option[String] = None
 ----
 
-userMetadata...FIXME
+userMetadata of the operation.
 
-userMetadata is used when...FIXME
+userMetadata is used when OptimisticTransactionImpl is requested to xref:OptimisticTransactionImpl.adoc#getUserMetadata[getUserMetadata].

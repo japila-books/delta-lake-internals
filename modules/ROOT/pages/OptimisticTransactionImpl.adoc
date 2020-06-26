@@ -378,7 +378,7 @@ getOperationMetrics...FIXME
 
 getOperationMetrics is used when...FIXME
 
-== [[getUserMetadata]] getUserMetadata Method
+== [[getUserMetadata]] User-Defined Metadata
 
 [source,scala]
 ----
@@ -386,9 +386,9 @@ getUserMetadata(
   op: Operation): Option[String]
 ----
 
-getUserMetadata...FIXME
+getUserMetadata returns the xref:Operation.adoc#userMetadata[userMetadata] of the given xref:Operation.adoc[] (if defined) or the value of xref:DeltaSQLConf.adoc#DELTA_USER_METADATA[spark.databricks.delta.commitInfo.userMetadata] configuration property.
 
-getUserMetadata is used when...FIXME
+getUserMetadata is used when OptimisticTransactionImpl is requested to <<commit, commit>> (and xref:DeltaSQLConf.adoc#DELTA_COMMIT_INFO_ENABLED[spark.databricks.delta.commitInfo.enabled] configuration property is enabled).
 
 == [[getPrettyPartitionMessage]] getPrettyPartitionMessage Method
 

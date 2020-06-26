@@ -31,7 +31,7 @@ Default: `true`
 
 == [[commitInfo.userMetadata]][[DELTA_USER_METADATA]] commitInfo.userMetadata
 
-*spark.databricks.delta.commitInfo.userMetadata* is an arbitrary user-defined metadata to include in xref:CommitInfo.adoc#userMetadata[CommitInfo]. Requires <<commitInfo.enabled, spark.databricks.delta.commitInfo.enabled>>.
+*spark.databricks.delta.commitInfo.userMetadata* is an arbitrary user-defined metadata to include in xref:CommitInfo.adoc#userMetadata[CommitInfo] (requires <<commitInfo.enabled, spark.databricks.delta.commitInfo.enabled>>).
 
 Default: (empty)
 

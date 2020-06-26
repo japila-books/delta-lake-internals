@@ -6,3 +6,4 @@
 * xref:Observing-Transaction-Retries.adoc[Observing Transaction Retries]
 * xref:DeltaTable-DeltaLog-And-Snapshots.adoc[DeltaTable, DeltaLog And Snapshots]
 * xref:schema-evolution.adoc[]
+* xref:using-user-metadata-to-distinguish-commits-streaming-queries.adoc[]

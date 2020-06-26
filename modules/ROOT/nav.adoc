@@ -52,14 +52,6 @@
 ** xref:AlterTableSetPropertiesDeltaCommand.adoc[]
 ** xref:CreateDeltaTableCommand.adoc[]
 
-* xref:DeltaDataSource.adoc[DeltaDataSource]
-** xref:DeltaOptions.adoc[DeltaOptions]
-** xref:DeltaSource.adoc[DeltaSource]
-*** xref:DeltaSourceOffset.adoc[DeltaSourceOffset]
-*** xref:SnapshotIterator.adoc[SnapshotIterator]
-*** xref:DeltaSourceSnapshot.adoc[DeltaSourceSnapshot]
-** xref:DeltaSink.adoc[DeltaSink]
-
 * xref:OptimisticTransaction.adoc[OptimisticTransaction]
 ** xref:TransactionalWrite.adoc[TransactionalWrite]
 ** xref:DelayedCommitProtocol.adoc[DelayedCommitProtocol]
@@ -107,6 +99,15 @@
 ** xref:CachedDS.adoc[CachedDS]
 
 * xref:others.adoc[The Others (Contenders)]
+
+.Delta Data Source
+* xref:DeltaDataSource.adoc[DeltaDataSource]
+* xref:DeltaOptions.adoc[]
+* xref:DeltaSource.adoc[DeltaSource]
+** xref:DeltaSourceOffset.adoc[DeltaSourceOffset]
+** xref:SnapshotIterator.adoc[SnapshotIterator]
+** xref:DeltaSourceSnapshot.adoc[DeltaSourceSnapshot]
+* xref:DeltaSink.adoc[DeltaSink]
 
 .Spark SQL Extensions
 * xref:DeltaCatalog.adoc[]
