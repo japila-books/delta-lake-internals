@@ -8,6 +8,7 @@
 
 * xref:DeltaTable.adoc[]
 ** xref:DeltaTableOperations.adoc[DeltaTableOperations]
+* xref:DeltaTableV2.adoc[]
 
 * xref:DeltaLog.adoc[]
 ** xref:Operation.adoc[]

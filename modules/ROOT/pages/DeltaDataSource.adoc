@@ -114,3 +114,16 @@ extractDeltaPath(
 `extractDeltaPath`...FIXME
 
 NOTE: `extractDeltaPath` does not seem to be used whatsoever.
+
+== [[parsePathIdentifier]] parsePathIdentifier Utility
+
+[source, scala]
+----
+parsePathIdentifier(
+  spark: SparkSession,
+  userPath: String): (Path, Seq[(String, String)], Option[DeltaTimeTravelSpec])
+----
+
+parsePathIdentifier...FIXME
+
+parsePathIdentifier is used when DeltaTableV2 is requested for the xref:DeltaTableV2.adoc#rootPath[rootPath, partitionFilters, and timeTravelByPath] (for a non-catalog table).
