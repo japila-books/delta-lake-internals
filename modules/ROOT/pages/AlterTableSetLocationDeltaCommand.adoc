@@ -1,0 +1,3 @@
+= AlterTableSetLocationDeltaCommand
+
+*AlterTableSetLocationDeltaCommand* is...FIXME

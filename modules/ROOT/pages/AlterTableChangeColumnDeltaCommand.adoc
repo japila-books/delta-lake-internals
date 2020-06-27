@@ -1,0 +1,3 @@
+= AlterTableChangeColumnDeltaCommand
+
+*AlterTableChangeColumnDeltaCommand* is...FIXME

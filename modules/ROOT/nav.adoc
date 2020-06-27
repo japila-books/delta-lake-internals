@@ -4,11 +4,21 @@
 * xref:time-travel.adoc[]
 * xref:delta-sql.adoc[]
 
+* xref:delta-sql-spark3.adoc[]
+** xref:DeltaTableV2.adoc[]
+** xref:AlterDeltaTableCommand.adoc[]
+** xref:AlterTableAddColumnsDeltaCommand.adoc[]
+** xref:AlterTableChangeColumnDeltaCommand.adoc[]
+** xref:AlterTableReplaceColumnsDeltaCommand.adoc[]
+** xref:AlterTableSetLocationDeltaCommand.adoc[]
+** xref:AlterTableSetPropertiesDeltaCommand.adoc[]
+** xref:AlterTableUnsetPropertiesDeltaCommand.adoc[]
+** xref:CreateDeltaTableCommand.adoc[]
+
 * xref:DeltaSQLConf.adoc[Configuration Properties]
 
 * xref:DeltaTable.adoc[]
 ** xref:DeltaTableOperations.adoc[DeltaTableOperations]
-* xref:DeltaTableV2.adoc[]
 
 * xref:DeltaLog.adoc[]
 ** xref:Operation.adoc[]
@@ -42,10 +52,6 @@
 *** xref:VacuumCommandImpl.adoc[VacuumCommandImpl]
 *** xref:VacuumTableCommand.adoc[VacuumTableCommand]
 ** xref:WriteIntoDelta.adoc[WriteIntoDelta]
-
-** xref:AlterDeltaTableCommand.adoc[]
-** xref:AlterTableSetPropertiesDeltaCommand.adoc[]
-** xref:CreateDeltaTableCommand.adoc[]
 
 * xref:OptimisticTransaction.adoc[OptimisticTransaction]
 ** xref:TransactionalWrite.adoc[TransactionalWrite]

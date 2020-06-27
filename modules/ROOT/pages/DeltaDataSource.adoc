@@ -1,14 +1,14 @@
-= [[DeltaDataSource]] DeltaDataSource -- Entry Point of Delta Data Source
+= DeltaDataSource
 
-`DeltaDataSource` is a <<DataSourceRegister, DataSourceRegister>> and acts as the entry point to all features provided by `delta` data source.
+*DeltaDataSource* is a <<DataSourceRegister, DataSourceRegister>> and acts as the entry point to all features provided by `delta` data source.
 
-`DeltaDataSource` is a <<RelationProvider, RelationProvider>>.
+DeltaDataSource is a <<RelationProvider, RelationProvider>>.
 
-`DeltaDataSource` is a <<StreamSinkProvider, StreamSinkProvider>> for a streaming sink for streaming queries (Structured Streaming).
+DeltaDataSource is a <<StreamSinkProvider, StreamSinkProvider>> for a streaming sink for streaming queries (Structured Streaming).
 
 == [[delta-format]][[DataSourceRegister]] DataSourceRegister for delta alias
 
-`DeltaDataSource` is a `DataSourceRegister` and registers itself to be available using `delta` alias.
+DeltaDataSource is a `DataSourceRegister` and registers itself to be available using `delta` alias.
 
 .Reading From Delta Table
 [source, scala]
@@ -28,7 +28,7 @@ df.writeStream.format("delta")
 
 TIP: Read up on https://jaceklaskowski.gitbooks.io/mastering-spark-sql/spark-sql-DataSourceRegister.html[DataSourceRegister] in https://bit.ly/spark-sql-internals[The Internals of Spark SQL] online book.
 
-`DeltaDataSource` is registered using `META-INF/services/org.apache.spark.sql.sources.DataSourceRegister`:
+DeltaDataSource is registered using `META-INF/services/org.apache.spark.sql.sources.DataSourceRegister`:
 
 [source, scala]
 ----
@@ -37,7 +37,7 @@ org.apache.spark.sql.delta.sources.DeltaDataSource
 
 == [[RelationProvider]][[RelationProvider-createRelation]] RelationProvider -- Creating Insertable HadoopFsRelation For Batch Queries
 
-`DeltaDataSource` is a `RelationProvider` for reading (_loading_) data from a delta table in a structured query.
+DeltaDataSource is a `RelationProvider` for reading (_loading_) data from a delta table in a structured query.
 
 TIP: Read up on https://jaceklaskowski.gitbooks.io/mastering-spark-sql/spark-sql-RelationProvider.html[RelationProvider] in https://bit.ly/spark-sql-internals[The Internals of Spark SQL] online book.
 
@@ -54,25 +54,25 @@ In the end, `createRelation` requests the <<RelationProvider-createRelation-delt
 
 == [[CreatableRelationProvider]][[CreatableRelationProvider-createRelation]] CreatableRelationProvider
 
-`DeltaDataSource` is a `CreatableRelationProvider` for writing out the result of a structured query.
+DeltaDataSource is a `CreatableRelationProvider` for writing out the result of a structured query.
 
 TIP: Read up on https://jaceklaskowski.gitbooks.io/mastering-spark-sql/spark-sql-CreatableRelationProvider.html[CreatableRelationProvider] in https://bit.ly/spark-sql-internals[The Internals of Spark SQL] online book.
 
 == [[StreamSourceProvider]][[createSource]] Creating Streaming Source (Structured Streaming) -- `createSource` Method
 
-`DeltaDataSource` is a `StreamSourceProvider`.
+DeltaDataSource is a `StreamSourceProvider`.
 
 TIP: Read up on https://jaceklaskowski.gitbooks.io/spark-structured-streaming/spark-sql-streaming-StreamSourceProvider.html[StreamSourceProvider] in https://bit.ly/spark-structured-streaming[The Internals of Spark Structured Streaming] online book.
 
 == [[StreamSinkProvider]][[createSink]] Creating Streaming Sink (Structured Streaming) -- `createSink` Method
 
-`DeltaDataSource` is a `StreamSinkProvider` for a streaming sink for Structured Streaming.
+DeltaDataSource is a `StreamSinkProvider` for a streaming sink for Structured Streaming.
 
 TIP: Read up on https://jaceklaskowski.gitbooks.io/spark-structured-streaming/spark-sql-streaming-StreamSinkProvider.html[StreamSinkProvider] in https://bit.ly/spark-structured-streaming[The Internals of Spark Structured Streaming] online book.
 
-`DeltaDataSource` supports `Append` and `Complete` output modes only.
+DeltaDataSource supports `Append` and `Complete` output modes only.
 
-In the end, `DeltaDataSource` creates a <<DeltaSink.adoc#, DeltaSink>>.
+In the end, DeltaDataSource creates a <<DeltaSink.adoc#, DeltaSink>>.
 
 TIP: Consult the demo <<demo-Using-Delta-Lake-as-Streaming-Sink-in-Structured-Streaming.adoc#, Using Delta Lake (as Streaming Sink) in Streaming Queries>>.
 
@@ -101,7 +101,7 @@ getTimeTravelVersion(
 
 `getTimeTravelVersion`...FIXME
 
-NOTE: `getTimeTravelVersion` is used exclusively when `DeltaDataSource` is requested to <<RelationProvider-createRelation, create a relation (as a RelationProvider)>>.
+NOTE: `getTimeTravelVersion` is used exclusively when DeltaDataSource is requested to <<RelationProvider-createRelation, create a relation (as a RelationProvider)>>.
 
 == [[extractDeltaPath]] `extractDeltaPath` Utility
 
@@ -127,3 +127,17 @@ parsePathIdentifier(
 parsePathIdentifier...FIXME
 
 parsePathIdentifier is used when DeltaTableV2 is requested for the xref:DeltaTableV2.adoc#rootPath[rootPath, partitionFilters, and timeTravelByPath] (for a non-catalog table).
+
+== [[getTable]] Loading Table
+
+[source,scala]
+----
+getTable(
+  schema: StructType,
+  partitioning: Array[Transform],
+  properties: java.util.Map[String, String]): Table
+----
+
+getTable...FIXME
+
+getTable is part of the TableProvider (Spark SQL 3.0.0) abstraction.
