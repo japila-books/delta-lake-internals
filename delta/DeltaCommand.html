@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title> DeltaCommand :: The Internals Of Delta Lake</title>
+    <title>DeltaCommand :: The Internals Of Delta Lake</title>
     <link rel="canonical" href="https://books.japila.pl/delta-lake-internals/delta/DeltaCommand.html">
     <link rel="prev" href="DeleteCommand.html">
     <link rel="next" href="DeltaGenerateCommand.html">
@@ -168,21 +168,6 @@
   </li>
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="DescribeDeltaHistoryCommand.html">DescribeDeltaHistoryCommand</a>
-  </li>
-  <li class="nav-item" data-depth="2">
-    <button class="nav-item-toggle"></button>
-    <a class="nav-link" href="MergeIntoCommand.html">MergeIntoCommand</a>
-<ul class="nav-list">
-  <li class="nav-item" data-depth="3">
-    <a class="nav-link" href="DeltaMergeBuilder.html">DeltaMergeBuilder</a>
-  </li>
-  <li class="nav-item" data-depth="3">
-    <a class="nav-link" href="DeltaMergeMatchedActionBuilder.html">DeltaMergeMatchedActionBuilder</a>
-  </li>
-</ul>
-  </li>
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="DeltaMergeInto.html">DeltaMergeInto</a>
   </li>
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="UpdateCommand.html">UpdateCommand</a>
@@ -415,6 +400,27 @@
   </li>
   <li class="nav-item" data-depth="0">
     <button class="nav-item-toggle"></button>
+    <span class="nav-text">Merge Operation</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="DeltaMergeBuilder.html">DeltaMergeBuilder</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="DeltaMergeMatchedActionBuilder.html">DeltaMergeMatchedActionBuilder</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="DeltaMergeInto.html">DeltaMergeInto</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="MergeIntoCommand.html">MergeIntoCommand</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+    <button class="nav-item-toggle"></button>
     <span class="nav-text">Demos</span>
 <ul class="nav-list">
   <li class="nav-item" data-depth="1">
@@ -480,11 +486,11 @@
   </div>
   <div class="content">
 <article class="doc">
-<h1 class="page"><a id="DeltaCommand"></a> DeltaCommand</h1>
+<h1 class="page">DeltaCommand</h1>
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p><code>DeltaCommand</code> is the <a href="#contract">abstraction</a> of <a href="#implementations">Delta commands</a> that can <a href="#FIXME">FIXME</a>.</p>
+<p><strong>DeltaCommand</strong> is the <a href="#contract">abstraction</a> of <a href="#implementations">Delta commands</a> that can <a href="#FIXME">FIXME</a>.</p>
 </div>
 <table id="implementations" class="tableblock frame-all grid-all stretch">
 <caption class="title">Table 1. DeltaCommands (Direct Implementations and Extensions Only)</caption>
@@ -702,7 +708,7 @@
 <div class="ulist">
 <ul>
 <li>
-<p><code>DeltaCommand</code> is requested to <a href="#removeFilesFromPaths">removeFilesFromPaths</a> and <a href="#buildBaseRelation">create a HadoopFsRelation</a> (for <a href="DeleteCommand.html" class="page">DeleteCommand</a> and <a href="UpdateCommand.html" class="page">UpdateCommand</a>)</p>
+<p>DeltaCommand is requested to <a href="#removeFilesFromPaths">removeFilesFromPaths</a> and <a href="#buildBaseRelation">create a HadoopFsRelation</a> (for <a href="DeleteCommand.html" class="page">DeleteCommand</a> and <a href="UpdateCommand.html" class="page">UpdateCommand</a>)</p>
 </li>
 <li>
 <p><a href="MergeIntoCommand.html" class="page">MergeIntoCommand</a> is executed</p>

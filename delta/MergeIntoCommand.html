@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>MergeIntoCommand :: The Internals Of Delta Lake</title>
     <link rel="canonical" href="https://books.japila.pl/delta-lake-internals/delta/MergeIntoCommand.html">
-    <link rel="prev" href="DescribeDeltaHistoryCommand.html">
-    <link rel="next" href="DeltaMergeBuilder.html">
+    <link rel="prev" href="DeltaMergeInto.html">
+    <link rel="next" href="demo/Converting-Parquet-Dataset-Into-Delta-Format.html">
     <meta name="generator" content="Antora 2.3.3">
     <link rel="stylesheet" href="../_/css/site.css">
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-151208281-1"></script>
@@ -168,21 +168,6 @@
   </li>
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="DescribeDeltaHistoryCommand.html">DescribeDeltaHistoryCommand</a>
-  </li>
-  <li class="nav-item is-current-page" data-depth="2">
-    <button class="nav-item-toggle"></button>
-    <a class="nav-link" href="MergeIntoCommand.html">MergeIntoCommand</a>
-<ul class="nav-list">
-  <li class="nav-item" data-depth="3">
-    <a class="nav-link" href="DeltaMergeBuilder.html">DeltaMergeBuilder</a>
-  </li>
-  <li class="nav-item" data-depth="3">
-    <a class="nav-link" href="DeltaMergeMatchedActionBuilder.html">DeltaMergeMatchedActionBuilder</a>
-  </li>
-</ul>
-  </li>
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="DeltaMergeInto.html">DeltaMergeInto</a>
   </li>
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="UpdateCommand.html">UpdateCommand</a>
@@ -415,6 +400,27 @@
   </li>
   <li class="nav-item" data-depth="0">
     <button class="nav-item-toggle"></button>
+    <span class="nav-text">Merge Operation</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="DeltaMergeBuilder.html">DeltaMergeBuilder</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="DeltaMergeMatchedActionBuilder.html">DeltaMergeMatchedActionBuilder</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="DeltaMergeInto.html">DeltaMergeInto</a>
+  </li>
+  <li class="nav-item is-current-page" data-depth="1">
+    <a class="nav-link" href="MergeIntoCommand.html">MergeIntoCommand</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+    <button class="nav-item-toggle"></button>
     <span class="nav-text">Demos</span>
 <ul class="nav-list">
   <li class="nav-item" data-depth="1">
@@ -472,7 +478,7 @@
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="index.html">Delta Lake</a></li>
-    <li><a href="commands.html">Commands</a></li>
+    <li>Merge Operation</li>
     <li><a href="MergeIntoCommand.html">MergeIntoCommand</a></li>
   </ul>
 </nav>
@@ -484,10 +490,10 @@
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>MergeIntoCommand is a <a href="DeltaCommand.html" class="page">Delta command</a> that can&#8230;&#8203;FIXME</p>
+<p>MergeIntoCommand is a <a href="DeltaCommand.html" class="page">DeltaCommand</a> that can&#8230;&#8203;FIXME</p>
 </div>
 <div class="paragraph">
-<p>MergeIntoCommand is a logical command (<code>RunnableCommand</code>).</p>
+<p>MergeIntoCommand is a logical command (Spark SQL&#8217;s <code>RunnableCommand</code>).</p>
 </div>
 <div class="admonitionblock tip">
 <table>
@@ -501,13 +507,10 @@ Read up on <a href="https://jaceklaskowski.gitbooks.io/mastering-spark-sql/spark
 </tr>
 </table>
 </div>
-<div class="paragraph">
-<p>MergeIntoCommand is <a href="#creating-instance">created</a> exclusively when <code>DeltaMergeBuilder</code> is requested to <a href="DeltaMergeBuilder.html#execute" class="page">execute</a> (using <a href="PreprocessTableMerge.html#apply" class="page">PreprocessTableMerge</a>).</p>
-</div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="creating-mergeintocommand-instance"><a class="anchor" href="#creating-mergeintocommand-instance"></a><a class="link" href="#creating-mergeintocommand-instance"><a id="creating-instance"></a> Creating MergeIntoCommand Instance</a></h2>
+<h2 id="creating-instance"><a class="anchor" href="#creating-instance"></a><a class="link" href="#creating-instance"><a id="creating-instance"></a> Creating Instance</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>MergeIntoCommand takes the following to be created:</p>
@@ -521,51 +524,46 @@ Read up on <a href="https://jaceklaskowski.gitbooks.io/mastering-spark-sql/spark
 <p><a id="target"></a> Target Data (<code>LogicalPlan</code>)</p>
 </li>
 <li>
-<p><a id="targetFileIndex"></a> <a href="TahoeFileIndex.html" class="page">TahoeFileIndex</a></p>
+<p><a id="targetFileIndex"></a> <a href="TahoeFileIndex.html" class="page">TahoeFileIndex&#8201;&#8212;&#8201;Indices Of Files Of Delta Table</a></p>
 </li>
 <li>
-<p><a id="condition"></a> Condition (<code>Expression</code>)</p>
+<p><a id="condition"></a> Condition Expression</p>
 </li>
 <li>
-<p><a id="matchedClauses"></a> Matched Clauses (<code>Seq[MergeIntoMatchedClause]</code>)</p>
+<p><a id="matchedClauses"></a> Matched Clauses (<code>Seq[DeltaMergeIntoMatchedClause]</code>)</p>
 </li>
 <li>
-<p><a id="notMatchedClause"></a> Non-Matched Clauses (<code>Option[MergeIntoInsertClause]</code>)</p>
+<p><a id="notMatchedClause"></a> Optional Non-Matched Clause (<code>Option[DeltaMergeIntoInsertClause]</code>)</p>
+</li>
+<li>
+<p><a id="migratedSchema"></a> Optional Migrated Schema</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p>MergeIntoCommand initializes the <a href="#internal-properties">internal properties</a>.</p>
+<p>MergeIntoCommand is created when PreprocessTableMerge logical resolution rule is requested to <a href="PreprocessTableMerge.html#apply" class="page">execute</a>.</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="running-commandrun-method"><a class="anchor" href="#running-commandrun-method"></a><a class="link" href="#running-commandrun-method"><a id="run"></a> Running Command&#8201;&#8212;&#8201;<code>run</code> Method</a></h2>
+<h2 id="running-command"><a class="anchor" href="#running-command"></a><a class="link" href="#running-command"><a id="run"></a> Running Command</a></h2>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">run(spark: SparkSession): Seq[Row]</code></pre>
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">run(
+  spark: SparkSession): Seq[Row]</code></pre>
 </div>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<code>run</code> is part of the <code>RunnableCommand</code> contract to&#8230;&#8203;FIXME.
-</td>
-</tr>
-</table>
 </div>
 <div class="paragraph">
-<p><code>run</code>&#8230;&#8203;FIXME</p>
+<p>run&#8230;&#8203;FIXME</p>
+</div>
+<div class="paragraph">
+<p>run is part of the RunnableCommand (Spark SQL) abstraction.</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="writeallchanges-internal-method"><a class="anchor" href="#writeallchanges-internal-method"></a><a class="link" href="#writeallchanges-internal-method"><a id="writeAllChanges"></a> <code>writeAllChanges</code> Internal Method</a></h2>
+<h2 id="writeallchanges-internal-method"><a class="anchor" href="#writeallchanges-internal-method"></a><a class="link" href="#writeallchanges-internal-method"><a id="writeAllChanges"></a> writeAllChanges Internal Method</a></h2>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content">
@@ -576,24 +574,15 @@ Read up on <a href="https://jaceklaskowski.gitbooks.io/mastering-spark-sql/spark
 </div>
 </div>
 <div class="paragraph">
-<p><code>writeAllChanges</code>&#8230;&#8203;FIXME</p>
+<p>writeAllChanges&#8230;&#8203;FIXME</p>
 </div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<code>writeAllChanges</code> is used exclusively when MergeIntoCommand is requested to <a href="#run">run</a>.
-</td>
-</tr>
-</table>
+<div class="paragraph">
+<p>writeAllChanges is used when MergeIntoCommand is requested to <a href="#run">run</a>.</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="findtouchedfiles-internal-method"><a class="anchor" href="#findtouchedfiles-internal-method"></a><a class="link" href="#findtouchedfiles-internal-method"><a id="findTouchedFiles"></a> <code>findTouchedFiles</code> Internal Method</a></h2>
+<h2 id="findtouchedfiles-internal-method"><a class="anchor" href="#findtouchedfiles-internal-method"></a><a class="link" href="#findtouchedfiles-internal-method"><a id="findTouchedFiles"></a> findTouchedFiles Internal Method</a></h2>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content">
@@ -603,24 +592,15 @@ Read up on <a href="https://jaceklaskowski.gitbooks.io/mastering-spark-sql/spark
 </div>
 </div>
 <div class="paragraph">
-<p><code>findTouchedFiles</code>&#8230;&#8203;FIXME</p>
+<p>findTouchedFiles&#8230;&#8203;FIXME</p>
 </div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<code>findTouchedFiles</code> is used when MergeIntoCommand is requested to <a href="#run">run</a>.
-</td>
-</tr>
-</table>
+<div class="paragraph">
+<p>findTouchedFiles is used when MergeIntoCommand is requested to <a href="#run">run</a>.</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="buildtargetplanwithfiles-internal-method"><a class="anchor" href="#buildtargetplanwithfiles-internal-method"></a><a class="link" href="#buildtargetplanwithfiles-internal-method"><a id="buildTargetPlanWithFiles"></a> <code>buildTargetPlanWithFiles</code> Internal Method</a></h2>
+<h2 id="buildtargetplanwithfiles-internal-method"><a class="anchor" href="#buildtargetplanwithfiles-internal-method"></a><a class="link" href="#buildtargetplanwithfiles-internal-method"><a id="buildTargetPlanWithFiles"></a> buildTargetPlanWithFiles Internal Method</a></h2>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content">
@@ -630,25 +610,16 @@ Read up on <a href="https://jaceklaskowski.gitbooks.io/mastering-spark-sql/spark
 </div>
 </div>
 <div class="paragraph">
-<p><code>buildTargetPlanWithFiles</code>&#8230;&#8203;FIXME</p>
+<p>buildTargetPlanWithFiles&#8230;&#8203;FIXME</p>
 </div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<code>buildTargetPlanWithFiles</code> is used when MergeIntoCommand is requested to <a href="#run">run</a> (via <a href="#findTouchedFiles">findTouchedFiles</a> and <a href="#writeAllChanges">writeAllChanges</a>).
-</td>
-</tr>
-</table>
+<div class="paragraph">
+<p>buildTargetPlanWithFiles is used when MergeIntoCommand is requested to <a href="#run">run</a> (via <a href="#findTouchedFiles">findTouchedFiles</a> and <a href="#writeAllChanges">writeAllChanges</a>).</p>
 </div>
 </div>
 </div>
 <nav class="pagination">
-  <span class="prev"><a href="DescribeDeltaHistoryCommand.html">DescribeDeltaHistoryCommand</a></span>
-  <span class="next"><a href="DeltaMergeBuilder.html">DeltaMergeBuilder</a></span>
+  <span class="prev"><a href="DeltaMergeInto.html">DeltaMergeInto</a></span>
+  <span class="next"><a href="demo/Converting-Parquet-Dataset-Into-Delta-Format.html">Converting Parquet Dataset Into Delta Format</a></span>
 </nav>
 </article>
 <aside class="toc sidebar" data-title="Contents" data-levels="2">
