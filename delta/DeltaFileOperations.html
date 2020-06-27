@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title> DeltaFileOperations Utility :: The Internals Of Delta Lake</title>
+    <title>DeltaFileOperations Utilities :: The Internals Of Delta Lake</title>
     <link rel="canonical" href="https://books.japila.pl/delta-lake-internals/delta/DeltaFileOperations.html">
     <link rel="prev" href="ImplicitMetadataOperation.html">
     <link rel="next" href="SchemaUtils.html">
@@ -506,17 +506,12 @@
   </div>
   <div class="content">
 <article class="doc">
-<h1 class="page"><a id="DeltaFileOperations"></a> DeltaFileOperations Utility</h1>
-<div id="preamble">
-<div class="sectionbody">
-<div class="paragraph">
-<p><code>DeltaFileOperations</code> is&#8230;&#8203;FIXME</p>
-</div>
-</div>
-</div>
+<h1 class="page">DeltaFileOperations Utilities</h1>
 <div class="sect1">
-<h2 id="recursivelistdirs-utility"><a class="anchor" href="#recursivelistdirs-utility"></a><a class="link" href="#recursivelistdirs-utility"><a id="recursiveListDirs"></a> <code>recursiveListDirs</code> Utility</a></h2>
+<h2 id="utilities"><a class="anchor" href="#utilities"></a><a class="link" href="#utilities"><a id="utilities"></a> Utilities</a></h2>
 <div class="sectionbody">
+<div class="sect2">
+<h3 id="recursivelistdirs"><a class="anchor" href="#recursivelistdirs"></a><a class="link" href="#recursivelistdirs"><a id="recursiveListDirs"></a> recursiveListDirs</a></h3>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">recursiveListDirs(
@@ -528,31 +523,93 @@
 </div>
 </div>
 <div class="paragraph">
-<p><code>recursiveListDirs</code>&#8230;&#8203;FIXME</p>
+<p>recursiveListDirs&#8230;&#8203;FIXME</p>
 </div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
 <div class="paragraph">
-<p><code>recursiveListDirs</code> is used when:</p>
+<p>recursiveListDirs is used when:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p><a href="ConvertToDeltaCommand.html" class="page">ConvertToDeltaCommand</a> is requested to run (and <a href="ConvertToDeltaCommand.html#performConvert" class="page">performConvert</a>)</p>
+<p>ManualListingFileManifest (of ConvertToDeltaCommandBase) is requested to doList</p>
 </li>
 <li>
-<p><code>VacuumCommand</code> utility is used to <a href="VacuumCommand.html#gc" class="page">gc</a></p>
+<p>VacuumCommand utility is used to <a href="VacuumCommand.html#gc" class="page">gc</a></p>
 </li>
 </ul>
 </div>
-</td>
-</tr>
-</table>
+</div>
+<div class="sect2">
+<h3 id="trydeletenonrecursive"><a class="anchor" href="#trydeletenonrecursive"></a><a class="link" href="#trydeletenonrecursive"><a id="tryDeleteNonRecursive"></a> tryDeleteNonRecursive</a></h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">tryDeleteNonRecursive(
+  fs: FileSystem,
+  path: Path,
+  tries: Int = 3): Boolean</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>tryDeleteNonRecursive&#8230;&#8203;FIXME</p>
+</div>
+<div class="paragraph">
+<p>tryDeleteNonRecursive is used when VacuumCommandImpl is requested to <a href="VacuumCommandImpl.html#delete" class="page">delete</a></p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="internal-methods"><a class="anchor" href="#internal-methods"></a><a class="link" href="#internal-methods"><a id="internal-methods"></a> Internal Methods</a></h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="recursedirectories"><a class="anchor" href="#recursedirectories"></a><a class="link" href="#recursedirectories"><a id="recurseDirectories"></a> recurseDirectories</a></h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">recurseDirectories(
+  logStore: LogStore,
+  filesAndDirs: Iterator[SerializableFileStatus],
+  hiddenFileNameFilter: String =&gt; Boolean): Iterator[SerializableFileStatus]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>recurseDirectories&#8230;&#8203;FIXME</p>
+</div>
+<div class="paragraph">
+<p>recurseDirectories is used when DeltaFileOperations is requested to <a href="#recursiveListDirs">recursiveListDirs</a> and <a href="#listUsingLogStore">listUsingLogStore</a>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="listusinglogstore"><a class="anchor" href="#listusinglogstore"></a><a class="link" href="#listusinglogstore"><a id="listUsingLogStore"></a> listUsingLogStore</a></h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">listUsingLogStore(
+  logStore: LogStore,
+  subDirs: Iterator[String],
+  recurse: Boolean,
+  hiddenFileNameFilter: String =&gt; Boolean): Iterator[SerializableFileStatus]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>listUsingLogStore&#8230;&#8203;FIXME</p>
+</div>
+<div class="paragraph">
+<p>listUsingLogStore is used when DeltaFileOperations is requested to <a href="#recursiveListDirs">recursiveListDirs</a> and  <a href="#recurseDirectories">recurseDirectories</a>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="isthrottlingerror"><a class="anchor" href="#isthrottlingerror"></a><a class="link" href="#isthrottlingerror"><a id="isThrottlingError"></a> isThrottlingError</a></h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">isThrottlingError(
+  t: Throwable): Boolean</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>isThrottlingError returns <code>true</code> when the Throwable contains <code>slow down</code>.</p>
+</div>
+<div class="paragraph">
+<p>isThrottlingError is used when DeltaFileOperations is requested to <a href="#listUsingLogStore">listUsingLogStore</a> and <a href="#tryDeleteNonRecursive">tryDeleteNonRecursive</a>.</p>
+</div>
 </div>
 </div>
 </div>

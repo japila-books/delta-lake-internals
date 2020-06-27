@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title> VacuumCommand Utility&#8201;&#8212;&#8201;Garbage Collecting Delta Table :: The Internals Of Delta Lake</title>
+    <title>VacuumCommand Utility&#8201;&#8212;&#8201;Garbage Collecting Delta Table :: The Internals Of Delta Lake</title>
     <link rel="canonical" href="https://books.japila.pl/delta-lake-internals/delta/VacuumCommand.html">
     <link rel="prev" href="vacuum.html">
     <link rel="next" href="VacuumCommandImpl.html">
@@ -508,41 +508,16 @@
   </div>
   <div class="content">
 <article class="doc">
-<h1 class="page"><a id="VacuumCommand"></a> VacuumCommand Utility&#8201;&#8212;&#8201;Garbage Collecting Delta Table</h1>
+<h1 class="page">VacuumCommand Utility&#8201;&#8212;&#8201;Garbage Collecting Delta Table</h1>
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p><code>VacuumCommand</code> is a concrete <a href="VacuumCommandImpl.html" class="page">VacuumCommandImpl</a> for <a href="#gc">gc</a>.</p>
-</div>
-<div id="logging" class="admonitionblock tip">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-tip" title="Tip"></i>
-</td>
-<td class="content">
-<div class="paragraph">
-<p>Enable <code>ALL</code> logging level for <code>org.apache.spark.sql.delta.commands.VacuumCommand</code> logger to see what happens inside.</p>
-</div>
-<div class="paragraph">
-<p>Add the following line to <code>conf/log4j.properties</code>:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code>log4j.logger.org.apache.spark.sql.delta.commands.VacuumCommand=ALL</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Refer to <a href="logging.html" class="page">Logging</a>.</p>
-</div>
-</td>
-</tr>
-</table>
+<p><strong>VacuumCommand</strong> is a concrete <a href="VacuumCommandImpl.html" class="page">VacuumCommandImpl</a> for <a href="#gc">gc</a>.</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="garbage-collecting-of-delta-tablegc-utility"><a class="anchor" href="#garbage-collecting-of-delta-tablegc-utility"></a><a class="link" href="#garbage-collecting-of-delta-tablegc-utility"><a id="gc"></a> Garbage Collecting Of Delta Table&#8201;&#8212;&#8201;<code>gc</code> Utility</a></h2>
+<h2 id="garbage-collecting-of-delta-tablegc-utility"><a class="anchor" href="#garbage-collecting-of-delta-tablegc-utility"></a><a class="link" href="#garbage-collecting-of-delta-tablegc-utility"><a id="gc"></a> Garbage Collecting Of Delta Table&#8201;&#8212;&#8201;gc Utility</a></h2>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content">
@@ -555,13 +530,13 @@
 </div>
 </div>
 <div class="paragraph">
-<p><code>gc</code> requests the given <code>DeltaLog</code> to <a href="DeltaLog.html#update" class="page">update</a> (and give the latest <a href="Snapshot.html" class="page">Snapshot</a> of the delta table).</p>
+<p>gc requests the given <code>DeltaLog</code> to <a href="DeltaLog.html#update" class="page">update</a> (and give the latest <a href="Snapshot.html" class="page">Snapshot</a> of the delta table).</p>
 </div>
 <div id="gc-deleteBeforeTimestamp" class="paragraph">
-<p><code>gc</code>&#8230;&#8203;FIXME (deleteBeforeTimestamp)</p>
+<p>gc&#8230;&#8203;FIXME (deleteBeforeTimestamp)</p>
 </div>
 <div class="paragraph">
-<p><code>gc</code> prints out the following INFO message to the logs:</p>
+<p>gc prints out the following INFO message to the logs:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -569,7 +544,7 @@
 </div>
 </div>
 <div id="gc-validFiles" class="paragraph">
-<p><code>gc</code> requests the <code>Snapshot</code> for the <a href="Snapshot.html#state" class="page">state dataset</a> and defines a function for every action (in a partition) that does the following:</p>
+<p>gc requests the <code>Snapshot</code> for the <a href="Snapshot.html#state" class="page">state dataset</a> and defines a function for every action (in a partition) that does the following:</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
@@ -579,16 +554,16 @@
 </ol>
 </div>
 <div class="paragraph">
-<p><code>gc</code> converts the mapped state dataset (of actions) into a <code>DataFrame</code> with a single <code>path</code> column.</p>
+<p>gc converts the mapped state dataset (of actions) into a <code>DataFrame</code> with a single <code>path</code> column.</p>
 </div>
 <div id="gc-allFilesAndDirs" class="paragraph">
-<p><code>gc</code>&#8230;&#8203;FIXME</p>
+<p>gc&#8230;&#8203;FIXME</p>
 </div>
 <div class="paragraph">
-<p><code>gc</code> caches the <a href="#gc-allFilesAndDirs">allFilesAndDirs</a> dataset.</p>
+<p>gc caches the <a href="#gc-allFilesAndDirs">allFilesAndDirs</a> dataset.</p>
 </div>
 <div class="paragraph">
-<p><code>gc</code> prints out the following INFO message to the logs:</p>
+<p>gc prints out the following INFO message to the logs:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -596,10 +571,10 @@
 </div>
 </div>
 <div class="paragraph">
-<p><code>gc</code>&#8230;&#8203;FIXME</p>
+<p>gc&#8230;&#8203;FIXME</p>
 </div>
 <div class="paragraph">
-<p><code>gc</code> prints out the following message to standard output:</p>
+<p>gc prints out the following message to standard output:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -607,10 +582,10 @@
 </div>
 </div>
 <div class="paragraph">
-<p><code>gc</code>&#8230;&#8203;FIXME</p>
+<p>gc&#8230;&#8203;FIXME</p>
 </div>
 <div class="paragraph">
-<p>In the end, <code>gc</code> unpersists the <a href="#gc-allFilesAndDirs">allFilesAndDirs</a> dataset.</p>
+<p>In the end, gc unpersists the <a href="#gc-allFilesAndDirs">allFilesAndDirs</a> dataset.</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -620,7 +595,7 @@
 </td>
 <td class="content">
 <div class="paragraph">
-<p><code>gc</code> is used when:</p>
+<p>gc is used when:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -659,10 +634,29 @@
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-<code>checkRetentionPeriodSafety</code> is used exclusively when <code>VacuumCommand</code> utility is requested to <a href="#gc">gc</a>.
+<code>checkRetentionPeriodSafety</code> is used exclusively when VacuumCommand utility is requested to <a href="#gc">gc</a>.
 </td>
 </tr>
 </table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="logging"><a class="anchor" href="#logging"></a><a class="link" href="#logging"><a id="logging"></a> Logging</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Enable <code>ALL</code> logging level for <code>org.apache.spark.sql.delta.commands.VacuumCommand</code> logger to see what happens inside.</p>
+</div>
+<div class="paragraph">
+<p>Add the following line to <code>conf/log4j.properties</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-plaintext hljs" data-lang="plaintext">log4j.logger.org.apache.spark.sql.delta.commands.VacuumCommand=ALL</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Refer to <a href="logging.html" class="page">Logging</a>.</p>
 </div>
 </div>
 </div>

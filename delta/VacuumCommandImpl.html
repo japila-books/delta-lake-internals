@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title> VacuumCommandImpl :: The Internals Of Delta Lake</title>
+    <title>VacuumCommandImpl :: The Internals Of Delta Lake</title>
     <link rel="canonical" href="https://books.japila.pl/delta-lake-internals/delta/VacuumCommandImpl.html">
     <link rel="prev" href="VacuumCommand.html">
     <link rel="next" href="VacuumTableCommand.html">
@@ -508,9 +508,31 @@
   </div>
   <div class="content">
 <article class="doc">
-<h1 class="page"><a id="VacuumCommandImpl"></a> VacuumCommandImpl</h1>
+<h1 class="page">VacuumCommandImpl</h1>
+<div id="preamble">
+<div class="sectionbody">
 <div class="paragraph">
-<p><code>VacuumCommandImpl</code> is&#8230;&#8203;FIXME</p>
+<p>VacuumCommandImpl is&#8230;&#8203;FIXME</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="delete-method"><a class="anchor" href="#delete-method"></a><a class="link" href="#delete-method"><a id="delete"></a> delete Method</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">delete(
+  diff: Dataset[String],
+  fs: FileSystem): Long</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>delete&#8230;&#8203;FIXME</p>
+</div>
+<div class="paragraph">
+<p>delete is used when VacuumCommand utility is requested to <a href="VacuumCommand.html#gc" class="page">gc</a></p>
+</div>
+</div>
 </div>
 <nav class="pagination">
   <span class="prev"><a href="VacuumCommand.html">VacuumCommand</a></span>
