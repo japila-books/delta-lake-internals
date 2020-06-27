@@ -54,6 +54,10 @@ Operation is a Scala *sealed trait* which means that all the implementations are
 
 === [[ManualUpdate]] ManualUpdate
 
+<<name, name>>: *Manual Update*
+
+<<parameters, parameters>>: Empty
+
 === [[Merge]] Merge
 
 === [[Optimize]] Optimize

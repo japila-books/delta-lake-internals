@@ -50,6 +50,17 @@ execute resolves column references (and creates a `MergeInto`).
 
 In the end, execute creates a <<PreprocessTableMerge.adoc#, PreprocessTableMerge>> to <<PreprocessTableMerge.adoc#apply, create a MergeIntoCommand>> that is <<MergeIntoCommand.adoc#run, executed>> right away.
 
+== [[mergePlan]] Creating Logical Query Plan for Merge
+
+[source, scala]
+----
+mergePlan: DeltaMergeInto
+----
+
+mergePlan...FIXME
+
+mergePlan is used when DeltaMergeBuilder is requested to <<execute, execute>>.
+
 == [[demo]] Demo
 
 [source,plaintext]
