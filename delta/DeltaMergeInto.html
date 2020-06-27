@@ -481,8 +481,115 @@
   <div class="content">
 <article class="doc">
 <h1 class="page">DeltaMergeInto</h1>
+<div id="preamble">
+<div class="sectionbody">
 <div class="paragraph">
-<p><strong>DeltaMergeInto</strong> is&#8230;&#8203;FIXME</p>
+<p><strong>DeltaMergeInto</strong> is a logical command (Spark SQL).</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="creating-instance"><a class="anchor" href="#creating-instance"></a><a class="link" href="#creating-instance"><a id="creating-instance"></a> Creating Instance</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>DeltaMergeInto takes the following to be created:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a id="target"></a> Target LogicalPlan</p>
+</li>
+<li>
+<p><a id="source"></a> Source LogicalPlan</p>
+</li>
+<li>
+<p><a id="condition"></a> Condition Expression</p>
+</li>
+<li>
+<p><a id="matchedClauses"></a> Matched Clauses (<code>Seq[DeltaMergeIntoMatchedClause]</code>)</p>
+</li>
+<li>
+<p><a id="notMatchedClause"></a> Optional DeltaMergeIntoInsertClause</p>
+</li>
+<li>
+<p><a id="migratedSchema"></a> Optional Migrated Schema (default: <code>None</code>)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>DeltaMergeInto is created (using <a href="#apply">apply</a> and <a href="#resolveReferences">resolveReferences</a> utilities) when:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>DeltaMergeBuilder is requested to <a href="DeltaMergeBuilder.html#execute" class="page">execute</a></p>
+</li>
+<li>
+<p>DeltaAnalysis logical resolution rule is requested to <a href="DeltaAnalysis.html#apply" class="page">execute</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="utilities"><a class="anchor" href="#utilities"></a><a class="link" href="#utilities"><a id="utilities"></a> Utilities</a></h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="apply-factory"><a class="anchor" href="#apply-factory"></a><a class="link" href="#apply-factory"><a id="apply"></a> apply Factory</a></h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">apply(
+  target: LogicalPlan,
+  source: LogicalPlan,
+  condition: Expression,
+  whenClauses: Seq[DeltaMergeIntoClause]): DeltaMergeInto</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>apply&#8230;&#8203;FIXME</p>
+</div>
+<div class="paragraph">
+<p>apply is used when:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>DeltaMergeBuilder is requested to <a href="DeltaMergeBuilder.html#execute" class="page">execute</a> (and for the <a href="DeltaMergeBuilder.html#mergePlan" class="page">logical plan for merge operation</a>)</p>
+</li>
+<li>
+<p>DeltaAnalysis logical resolution rule is requested to <a href="DeltaAnalysis.html#apply" class="page">execute</a></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="resolvereferences"><a class="anchor" href="#resolvereferences"></a><a class="link" href="#resolvereferences"><a id="resolveReferences"></a> resolveReferences</a></h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">resolveReferences(
+  merge: DeltaMergeInto,
+  conf: SQLConf)(
+  resolveExpr: (Expression, LogicalPlan) =&gt; Expression): DeltaMergeInto</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>resolveReferences&#8230;&#8203;FIXME</p>
+</div>
+<div class="paragraph">
+<p>resolveReferences is used when:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>DeltaMergeBuilder is requested to <a href="DeltaMergeBuilder.html#execute" class="page">execute</a></p>
+</li>
+<li>
+<p>DeltaAnalysis logical resolution rule is requested to <a href="DeltaAnalysis.html#apply" class="page">execute</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
 </div>
 <nav class="pagination">
   <span class="prev"><a href="DeltaMergeMatchedActionBuilder.html">DeltaMergeMatchedActionBuilder</a></span>
