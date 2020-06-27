@@ -4,7 +4,7 @@
 
 DeltaCatalog is registered using *spark.sql.catalog.spark_catalog* configuration property while creating a SparkSession in a Spark application. Consult xref:installation.adoc[].
 
-== [[alterTable]] Loading Table
+== [[alterTable]] Altering Table
 
 [source,scala]
 ----
@@ -17,6 +17,21 @@ alterTable...FIXME
 
 alterTable is part of the TableCatalog (Spark SQL 3.0.0) abstraction.
 
+== [[createTable]] Creating Table
+
+[source,scala]
+----
+createTable(
+  ident: Identifier,
+  schema: StructType,
+  partitions: Array[Transform],
+  properties: util.Map[String, String]): Table
+----
+
+createTable...FIXME
+
+createTable is part of the TableCatalog (Spark SQL 3.0.0) abstraction.
+
 == [[loadTable]] Loading Table
 
 [source,scala]
@@ -28,3 +43,24 @@ loadTable(
 loadTable...FIXME
 
 loadTable is part of the TableCatalog (Spark SQL 3.0.0) abstraction.
+
+== [[createDeltaTable]] createDeltaTable Internal Method
+
+[source,scala]
+----
+createDeltaTable(
+  ident: Identifier,
+  schema: StructType,
+  partitions: Array[Transform],
+  properties: util.Map[String, String],
+  sourceQuery: Option[LogicalPlan],
+  operation: TableCreationModes.CreationMode): Table
+----
+
+createDeltaTable...FIXME
+
+createDeltaTable is used when:
+
+* DeltaCatalog is requested to <<createTable, createTable>>
+
+* StagedDeltaTableV2 is requested to xref:StagedDeltaTableV2.adoc#commitStagedChanges[commitStagedChanges]

@@ -112,6 +112,7 @@
 
 .Spark SQL Extensions
 * xref:DeltaCatalog.adoc[]
+** xref:StagedDeltaTableV2.adoc[]
 * xref:DeltaSparkSessionExtension.adoc[]
 ** xref:DeltaSqlParser.adoc[]
 *** xref:DeltaSqlAstBuilder.adoc[]
