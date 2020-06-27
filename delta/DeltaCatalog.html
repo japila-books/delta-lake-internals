@@ -6,7 +6,7 @@
     <title>DeltaCatalog :: The Internals Of Delta Lake</title>
     <link rel="canonical" href="https://books.japila.pl/delta-lake-internals/delta/DeltaCatalog.html">
     <link rel="prev" href="DeltaSink.html">
-    <link rel="next" href="DeltaSparkSessionExtension.html">
+    <link rel="next" href="StagedDeltaTableV2.html">
     <meta name="generator" content="Antora 2.3.3">
     <link rel="stylesheet" href="../_/css/site.css">
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-151208281-1"></script>
@@ -385,7 +385,13 @@
     <span class="nav-text">Spark SQL Extensions</span>
 <ul class="nav-list">
   <li class="nav-item is-current-page" data-depth="1">
+    <button class="nav-item-toggle"></button>
     <a class="nav-link" href="DeltaCatalog.html">DeltaCatalog</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="StagedDeltaTableV2.html">StagedDeltaTableV2</a>
+  </li>
+</ul>
   </li>
   <li class="nav-item" data-depth="1">
     <button class="nav-item-toggle"></button>
@@ -519,7 +525,7 @@
 </div>
 </div>
 <div class="sect1">
-<h2 id="loading-table"><a class="anchor" href="#loading-table"></a><a class="link" href="#loading-table"><a id="alterTable"></a> Loading Table</a></h2>
+<h2 id="altering-table"><a class="anchor" href="#altering-table"></a><a class="link" href="#altering-table"><a id="alterTable"></a> Altering Table</a></h2>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content">
@@ -537,7 +543,27 @@
 </div>
 </div>
 <div class="sect1">
-<h2 id="loading-table-2"><a class="anchor" href="#loading-table-2"></a><a class="link" href="#loading-table-2"><a id="loadTable"></a> Loading Table</a></h2>
+<h2 id="creating-table"><a class="anchor" href="#creating-table"></a><a class="link" href="#creating-table"><a id="createTable"></a> Creating Table</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">createTable(
+  ident: Identifier,
+  schema: StructType,
+  partitions: Array[Transform],
+  properties: util.Map[String, String]): Table</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>createTable&#8230;&#8203;FIXME</p>
+</div>
+<div class="paragraph">
+<p>createTable is part of the TableCatalog (Spark SQL 3.0.0) abstraction.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="loading-table"><a class="anchor" href="#loading-table"></a><a class="link" href="#loading-table"><a id="loadTable"></a> Loading Table</a></h2>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content">
@@ -553,9 +579,41 @@
 </div>
 </div>
 </div>
+<div class="sect1">
+<h2 id="createdeltatable-internal-method"><a class="anchor" href="#createdeltatable-internal-method"></a><a class="link" href="#createdeltatable-internal-method"><a id="createDeltaTable"></a> createDeltaTable Internal Method</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">createDeltaTable(
+  ident: Identifier,
+  schema: StructType,
+  partitions: Array[Transform],
+  properties: util.Map[String, String],
+  sourceQuery: Option[LogicalPlan],
+  operation: TableCreationModes.CreationMode): Table</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>createDeltaTable&#8230;&#8203;FIXME</p>
+</div>
+<div class="paragraph">
+<p>createDeltaTable is used when:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>DeltaCatalog is requested to <a href="#createTable">createTable</a></p>
+</li>
+<li>
+<p>StagedDeltaTableV2 is requested to <a href="StagedDeltaTableV2.html#commitStagedChanges" class="page">commitStagedChanges</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
 <nav class="pagination">
   <span class="prev"><a href="DeltaSink.html">DeltaSink</a></span>
-  <span class="next"><a href="DeltaSparkSessionExtension.html">DeltaSparkSessionExtension</a></span>
+  <span class="next"><a href="StagedDeltaTableV2.html">StagedDeltaTableV2</a></span>
 </nav>
 </article>
 <aside class="toc sidebar" data-title="Contents" data-levels="2">

@@ -3,10 +3,10 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>SingleAction :: The Internals Of Delta Lake</title>
-    <link rel="canonical" href="https://books.japila.pl/delta-lake-internals/delta/SingleAction.html">
-    <link rel="prev" href="SetTransaction.html">
-    <link rel="next" href="DeltaConfigs.html">
+    <title>StagedDeltaTableV2 :: The Internals Of Delta Lake</title>
+    <link rel="canonical" href="https://books.japila.pl/delta-lake-internals/delta/StagedDeltaTableV2.html">
+    <link rel="prev" href="DeltaCatalog.html">
+    <link rel="next" href="DeltaSparkSessionExtension.html">
     <meta name="generator" content="Antora 2.3.3">
     <link rel="stylesheet" href="../_/css/site.css">
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-151208281-1"></script>
@@ -310,7 +310,7 @@
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="SetTransaction.html">SetTransaction</a>
   </li>
-  <li class="nav-item is-current-page" data-depth="2">
+  <li class="nav-item" data-depth="2">
     <a class="nav-link" href="SingleAction.html">SingleAction</a>
   </li>
 </ul>
@@ -388,7 +388,7 @@
     <button class="nav-item-toggle"></button>
     <a class="nav-link" href="DeltaCatalog.html">DeltaCatalog</a>
 <ul class="nav-list">
-  <li class="nav-item" data-depth="2">
+  <li class="nav-item is-current-page" data-depth="2">
     <a class="nav-link" href="StagedDeltaTableV2.html">StagedDeltaTableV2</a>
   </li>
 </ul>
@@ -505,21 +505,105 @@
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="index.html">Delta Lake</a></li>
-    <li><a href="Action.html">Action</a></li>
-    <li><a href="SingleAction.html">SingleAction</a></li>
+    <li>Spark SQL Extensions</li>
+    <li><a href="DeltaCatalog.html">DeltaCatalog</a></li>
+    <li><a href="StagedDeltaTableV2.html">StagedDeltaTableV2</a></li>
   </ul>
 </nav>
-  <div class="edit-this-page"><a href="https://github.com/japila-books/delta-lake-internals/edit/master/modules/ROOT/pages/SingleAction.adoc">Edit this Page</a></div>
+  <div class="edit-this-page"><a href="https://github.com/japila-books/delta-lake-internals/edit/master/modules/ROOT/pages/StagedDeltaTableV2.adoc">Edit this Page</a></div>
   </div>
   <div class="content">
 <article class="doc">
-<h1 class="page">SingleAction</h1>
+<h1 class="page">StagedDeltaTableV2</h1>
+<div id="preamble">
+<div class="sectionbody">
 <div class="paragraph">
-<p><code>SingleAction</code> is&#8230;&#8203;FIXME</p>
+<p><strong>StagedDeltaTableV2</strong> is a StagedTable and a SupportsWrite (both from Spark SQL 3.0.0).</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="creating-instance"><a class="anchor" href="#creating-instance"></a><a class="link" href="#creating-instance"><a id="creating-instance"></a> Creating Instance</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>StagedDeltaTableV2 takes the following to be created:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a id="ident"></a> Identifier</p>
+</li>
+<li>
+<p><a id="schema"></a> Schema</p>
+</li>
+<li>
+<p><a id="partitions"></a> Partitions (<code>Array[Transform]</code>)</p>
+</li>
+<li>
+<p><a id="properties"></a> Properties</p>
+</li>
+<li>
+<p><a id="operation"></a> Operation (one of Create, CreateOrReplace, Replace)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>StagedDeltaTableV2 is created when DeltaCatalog is requested to <a href="DeltaCatalog.html#stageReplace" class="page">stageReplace</a>, <a href="DeltaCatalog.html#stageCreateOrReplace" class="page">stageCreateOrReplace</a> or <a href="DeltaCatalog.html#stageCreate" class="page">stageCreate</a>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="commitstagedchanges"><a class="anchor" href="#commitstagedchanges"></a><a class="link" href="#commitstagedchanges"><a id="commitStagedChanges"></a> commitStagedChanges</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">commitStagedChanges(): Unit</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>commitStagedChanges&#8230;&#8203;FIXME</p>
+</div>
+<div class="paragraph">
+<p>commitStagedChanges is part of the StagedTable (Spark SQL 3.0.0) abstraction.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="abortstagedchanges"><a class="anchor" href="#abortstagedchanges"></a><a class="link" href="#abortstagedchanges"><a id="abortStagedChanges"></a> abortStagedChanges</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">abortStagedChanges(): Unit</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>abortStagedChanges does nothing.</p>
+</div>
+<div class="paragraph">
+<p>abortStagedChanges is part of the StagedTable (Spark SQL 3.0.0) abstraction.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="newwritebuilder"><a class="anchor" href="#newwritebuilder"></a><a class="link" href="#newwritebuilder"><a id="newWriteBuilder"></a> newWriteBuilder</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">newWriteBuilder(
+  info: LogicalWriteInfo): V1WriteBuilder</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>newWriteBuilder&#8230;&#8203;FIXME</p>
+</div>
+<div class="paragraph">
+<p>newWriteBuilder is part of the SupportsWrite (Spark SQL 3.0.0) abstraction.</p>
+</div>
+</div>
 </div>
 <nav class="pagination">
-  <span class="prev"><a href="SetTransaction.html">SetTransaction</a></span>
-  <span class="next"><a href="DeltaConfigs.html">DeltaConfigs</a></span>
+  <span class="prev"><a href="DeltaCatalog.html">DeltaCatalog</a></span>
+  <span class="next"><a href="DeltaSparkSessionExtension.html">DeltaSparkSessionExtension</a></span>
 </nav>
 </article>
 <aside class="toc sidebar" data-title="Contents" data-levels="2">
