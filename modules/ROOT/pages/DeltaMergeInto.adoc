@@ -10,7 +10,7 @@ DeltaMergeInto takes the following to be created:
 * [[source]] Source LogicalPlan
 * [[condition]] Condition Expression
 * [[matchedClauses]] Matched Clauses (`Seq[DeltaMergeIntoMatchedClause]`)
-* [[notMatchedClause]] Optional DeltaMergeIntoInsertClause
+* [[notMatchedClause]] Optional Non-Matched Clause (`Option[DeltaMergeIntoInsertClause]`)
 * [[migratedSchema]] Optional Migrated Schema (default: `None`)
 
 DeltaMergeInto is created (using <<apply, apply>> and <<resolveReferences, resolveReferences>> utilities) when:

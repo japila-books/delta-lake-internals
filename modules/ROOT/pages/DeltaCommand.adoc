@@ -1,6 +1,6 @@
-= [[DeltaCommand]] DeltaCommand
+= DeltaCommand
 
-`DeltaCommand` is the <<contract, abstraction>> of <<implementations, Delta commands>> that can <<FIXME, FIXME>>.
+*DeltaCommand* is the <<contract, abstraction>> of <<implementations, Delta commands>> that can <<FIXME, FIXME>>.
 
 [[implementations]]
 .DeltaCommands (Direct Implementations and Extensions Only)
@@ -122,7 +122,7 @@ getTouchedFile(
 ====
 `getTouchedFile` is used when:
 
-* `DeltaCommand` is requested to <<removeFilesFromPaths, removeFilesFromPaths>> and <<buildBaseRelation, create a HadoopFsRelation>> (for <<DeleteCommand.adoc#, DeleteCommand>> and <<UpdateCommand.adoc#, UpdateCommand>>)
+* DeltaCommand is requested to <<removeFilesFromPaths, removeFilesFromPaths>> and <<buildBaseRelation, create a HadoopFsRelation>> (for <<DeleteCommand.adoc#, DeleteCommand>> and <<UpdateCommand.adoc#, UpdateCommand>>)
 
 * <<MergeIntoCommand.adoc#, MergeIntoCommand>> is executed
 ====
