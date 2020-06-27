@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title> DeltaDataSource&#8201;&#8212;&#8201;Entry Point of Delta Data Source :: The Internals Of Delta Lake</title>
+    <title>DeltaDataSource :: The Internals Of Delta Lake</title>
     <link rel="canonical" href="https://books.japila.pl/delta-lake-internals/delta/DeltaDataSource.html">
     <link rel="prev" href="others.html">
     <link rel="next" href="DeltaOptions.html">
@@ -82,6 +82,39 @@
     <a class="nav-link" href="delta-sql.html">Delta SQL</a>
   </li>
   <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="delta-sql-spark3.html">Delta SQL and Spark 3.0.0</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="DeltaTableV2.html">DeltaTableV2</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="AlterDeltaTableCommand.html">AlterDeltaTableCommand</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="AlterTableAddColumnsDeltaCommand.html">AlterTableAddColumnsDeltaCommand</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="AlterTableChangeColumnDeltaCommand.html">AlterTableChangeColumnDeltaCommand</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="AlterTableReplaceColumnsDeltaCommand.html">AlterTableReplaceColumnsDeltaCommand</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="AlterTableSetLocationDeltaCommand.html">AlterTableSetLocationDeltaCommand</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="AlterTableSetPropertiesDeltaCommand.html">AlterTableSetPropertiesDeltaCommand</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="AlterTableUnsetPropertiesDeltaCommand.html">AlterTableUnsetPropertiesDeltaCommand</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="CreateDeltaTableCommand.html">CreateDeltaTableCommand</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
     <a class="nav-link" href="DeltaSQLConf.html">Configuration Properties</a>
   </li>
   <li class="nav-item" data-depth="1">
@@ -92,9 +125,6 @@
     <a class="nav-link" href="DeltaTableOperations.html">DeltaTableOperations</a>
   </li>
 </ul>
-  </li>
-  <li class="nav-item" data-depth="1">
-    <a class="nav-link" href="DeltaTableV2.html">DeltaTableV2</a>
   </li>
   <li class="nav-item" data-depth="1">
     <button class="nav-item-toggle"></button>
@@ -189,15 +219,6 @@
   </li>
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="WriteIntoDelta.html">WriteIntoDelta</a>
-  </li>
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="AlterDeltaTableCommand.html">AlterDeltaTableCommand</a>
-  </li>
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="AlterTableSetPropertiesDeltaCommand.html">AlterTableSetPropertiesDeltaCommand</a>
-  </li>
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="CreateDeltaTableCommand.html">CreateDeltaTableCommand</a>
   </li>
 </ul>
   </li>
@@ -486,17 +507,17 @@
   </div>
   <div class="content">
 <article class="doc">
-<h1 class="page"><a id="DeltaDataSource"></a> DeltaDataSource&#8201;&#8212;&#8201;Entry Point of Delta Data Source</h1>
+<h1 class="page">DeltaDataSource</h1>
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p><code>DeltaDataSource</code> is a <a href="#DataSourceRegister">DataSourceRegister</a> and acts as the entry point to all features provided by <code>delta</code> data source.</p>
+<p><strong>DeltaDataSource</strong> is a <a href="#DataSourceRegister">DataSourceRegister</a> and acts as the entry point to all features provided by <code>delta</code> data source.</p>
 </div>
 <div class="paragraph">
-<p><code>DeltaDataSource</code> is a <a href="#RelationProvider">RelationProvider</a>.</p>
+<p>DeltaDataSource is a <a href="#RelationProvider">RelationProvider</a>.</p>
 </div>
 <div class="paragraph">
-<p><code>DeltaDataSource</code> is a <a href="#StreamSinkProvider">StreamSinkProvider</a> for a streaming sink for streaming queries (Structured Streaming).</p>
+<p>DeltaDataSource is a <a href="#StreamSinkProvider">StreamSinkProvider</a> for a streaming sink for streaming queries (Structured Streaming).</p>
 </div>
 </div>
 </div>
@@ -504,7 +525,7 @@
 <h2 id="datasourceregister-for-delta-alias"><a class="anchor" href="#datasourceregister-for-delta-alias"></a><a class="link" href="#datasourceregister-for-delta-alias"><a id="delta-format"></a><a id="DataSourceRegister"></a> DataSourceRegister for delta alias</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p><code>DeltaDataSource</code> is a <code>DataSourceRegister</code> and registers itself to be available using <code>delta</code> alias.</p>
+<p>DeltaDataSource is a <code>DataSourceRegister</code> and registers itself to be available using <code>delta</code> alias.</p>
 </div>
 <div class="listingblock">
 <div class="title">Reading From Delta Table</div>
@@ -535,7 +556,7 @@ Read up on <a href="https://jaceklaskowski.gitbooks.io/mastering-spark-sql/spark
 </table>
 </div>
 <div class="paragraph">
-<p><code>DeltaDataSource</code> is registered using <code>META-INF/services/org.apache.spark.sql.sources.DataSourceRegister</code>:</p>
+<p>DeltaDataSource is registered using <code>META-INF/services/org.apache.spark.sql.sources.DataSourceRegister</code>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -548,7 +569,7 @@ Read up on <a href="https://jaceklaskowski.gitbooks.io/mastering-spark-sql/spark
 <h2 id="relationprovidercreating-insertable-hadoopfsrelation-for-batch-queries"><a class="anchor" href="#relationprovidercreating-insertable-hadoopfsrelation-for-batch-queries"></a><a class="link" href="#relationprovidercreating-insertable-hadoopfsrelation-for-batch-queries"><a id="RelationProvider"></a><a id="RelationProvider-createRelation"></a> RelationProvider&#8201;&#8212;&#8201;Creating Insertable HadoopFsRelation For Batch Queries</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p><code>DeltaDataSource</code> is a <code>RelationProvider</code> for reading (<em>loading</em>) data from a delta table in a structured query.</p>
+<p>DeltaDataSource is a <code>RelationProvider</code> for reading (<em>loading</em>) data from a delta table in a structured query.</p>
 </div>
 <div class="admonitionblock tip">
 <table>
@@ -581,7 +602,7 @@ Read up on <a href="https://jaceklaskowski.gitbooks.io/mastering-spark-sql/spark
 <h2 id="creatablerelationprovider"><a class="anchor" href="#creatablerelationprovider"></a><a class="link" href="#creatablerelationprovider"><a id="CreatableRelationProvider"></a><a id="CreatableRelationProvider-createRelation"></a> CreatableRelationProvider</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p><code>DeltaDataSource</code> is a <code>CreatableRelationProvider</code> for writing out the result of a structured query.</p>
+<p>DeltaDataSource is a <code>CreatableRelationProvider</code> for writing out the result of a structured query.</p>
 </div>
 <div class="admonitionblock tip">
 <table>
@@ -601,7 +622,7 @@ Read up on <a href="https://jaceklaskowski.gitbooks.io/mastering-spark-sql/spark
 <h2 id="creating-streaming-source-structured-streamingcreatesource-method"><a class="anchor" href="#creating-streaming-source-structured-streamingcreatesource-method"></a><a class="link" href="#creating-streaming-source-structured-streamingcreatesource-method"><a id="StreamSourceProvider"></a><a id="createSource"></a> Creating Streaming Source (Structured Streaming)&#8201;&#8212;&#8201;<code>createSource</code> Method</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p><code>DeltaDataSource</code> is a <code>StreamSourceProvider</code>.</p>
+<p>DeltaDataSource is a <code>StreamSourceProvider</code>.</p>
 </div>
 <div class="admonitionblock tip">
 <table>
@@ -621,7 +642,7 @@ Read up on <a href="https://jaceklaskowski.gitbooks.io/spark-structured-streamin
 <h2 id="creating-streaming-sink-structured-streamingcreatesink-method"><a class="anchor" href="#creating-streaming-sink-structured-streamingcreatesink-method"></a><a class="link" href="#creating-streaming-sink-structured-streamingcreatesink-method"><a id="StreamSinkProvider"></a><a id="createSink"></a> Creating Streaming Sink (Structured Streaming)&#8201;&#8212;&#8201;<code>createSink</code> Method</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p><code>DeltaDataSource</code> is a <code>StreamSinkProvider</code> for a streaming sink for Structured Streaming.</p>
+<p>DeltaDataSource is a <code>StreamSinkProvider</code> for a streaming sink for Structured Streaming.</p>
 </div>
 <div class="admonitionblock tip">
 <table>
@@ -636,10 +657,10 @@ Read up on <a href="https://jaceklaskowski.gitbooks.io/spark-structured-streamin
 </table>
 </div>
 <div class="paragraph">
-<p><code>DeltaDataSource</code> supports <code>Append</code> and <code>Complete</code> output modes only.</p>
+<p>DeltaDataSource supports <code>Append</code> and <code>Complete</code> output modes only.</p>
 </div>
 <div class="paragraph">
-<p>In the end, <code>DeltaDataSource</code> creates a <a href="DeltaSink.html" class="page">DeltaSink</a>.</p>
+<p>In the end, DeltaDataSource creates a <a href="DeltaSink.html" class="page">DeltaSink</a>.</p>
 </div>
 <div class="admonitionblock tip">
 <table>
@@ -703,7 +724,7 @@ Consult the demo <a href="#demo-Using-Delta-Lake-as-Streaming-Sink-in-Structured
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-<code>getTimeTravelVersion</code> is used exclusively when <code>DeltaDataSource</code> is requested to <a href="#RelationProvider-createRelation">create a relation (as a RelationProvider)</a>.
+<code>getTimeTravelVersion</code> is used exclusively when DeltaDataSource is requested to <a href="#RelationProvider-createRelation">create a relation (as a RelationProvider)</a>.
 </td>
 </tr>
 </table>
@@ -751,6 +772,25 @@ Consult the demo <a href="#demo-Using-Delta-Lake-as-Streaming-Sink-in-Structured
 </div>
 <div class="paragraph">
 <p>parsePathIdentifier is used when DeltaTableV2 is requested for the <a href="DeltaTableV2.html#rootPath" class="page">rootPath, partitionFilters, and timeTravelByPath</a> (for a non-catalog table).</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="loading-table"><a class="anchor" href="#loading-table"></a><a class="link" href="#loading-table"><a id="getTable"></a> Loading Table</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">getTable(
+  schema: StructType,
+  partitioning: Array[Transform],
+  properties: java.util.Map[String, String]): Table</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>getTable&#8230;&#8203;FIXME</p>
+</div>
+<div class="paragraph">
+<p>getTable is part of the TableProvider (Spark SQL 3.0.0) abstraction.</p>
 </div>
 </div>
 </div>

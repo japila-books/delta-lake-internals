@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>OptimisticTransaction :: The Internals Of Delta Lake</title>
     <link rel="canonical" href="https://books.japila.pl/delta-lake-internals/delta/OptimisticTransaction.html">
-    <link rel="prev" href="CreateDeltaTableCommand.html">
+    <link rel="prev" href="WriteIntoDelta.html">
     <link rel="next" href="TransactionalWrite.html">
     <meta name="generator" content="Antora 2.3.3">
     <link rel="stylesheet" href="../_/css/site.css">
@@ -82,6 +82,39 @@
     <a class="nav-link" href="delta-sql.html">Delta SQL</a>
   </li>
   <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="delta-sql-spark3.html">Delta SQL and Spark 3.0.0</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="DeltaTableV2.html">DeltaTableV2</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="AlterDeltaTableCommand.html">AlterDeltaTableCommand</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="AlterTableAddColumnsDeltaCommand.html">AlterTableAddColumnsDeltaCommand</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="AlterTableChangeColumnDeltaCommand.html">AlterTableChangeColumnDeltaCommand</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="AlterTableReplaceColumnsDeltaCommand.html">AlterTableReplaceColumnsDeltaCommand</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="AlterTableSetLocationDeltaCommand.html">AlterTableSetLocationDeltaCommand</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="AlterTableSetPropertiesDeltaCommand.html">AlterTableSetPropertiesDeltaCommand</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="AlterTableUnsetPropertiesDeltaCommand.html">AlterTableUnsetPropertiesDeltaCommand</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="CreateDeltaTableCommand.html">CreateDeltaTableCommand</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
     <a class="nav-link" href="DeltaSQLConf.html">Configuration Properties</a>
   </li>
   <li class="nav-item" data-depth="1">
@@ -92,9 +125,6 @@
     <a class="nav-link" href="DeltaTableOperations.html">DeltaTableOperations</a>
   </li>
 </ul>
-  </li>
-  <li class="nav-item" data-depth="1">
-    <a class="nav-link" href="DeltaTableV2.html">DeltaTableV2</a>
   </li>
   <li class="nav-item" data-depth="1">
     <button class="nav-item-toggle"></button>
@@ -189,15 +219,6 @@
   </li>
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="WriteIntoDelta.html">WriteIntoDelta</a>
-  </li>
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="AlterDeltaTableCommand.html">AlterDeltaTableCommand</a>
-  </li>
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="AlterTableSetPropertiesDeltaCommand.html">AlterTableSetPropertiesDeltaCommand</a>
-  </li>
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="CreateDeltaTableCommand.html">CreateDeltaTableCommand</a>
   </li>
 </ul>
   </li>
@@ -687,7 +708,7 @@ deltaLog.withNewTransaction { txn =&gt;
 </div>
 </div>
 <nav class="pagination">
-  <span class="prev"><a href="CreateDeltaTableCommand.html">CreateDeltaTableCommand</a></span>
+  <span class="prev"><a href="WriteIntoDelta.html">WriteIntoDelta</a></span>
   <span class="next"><a href="TransactionalWrite.html">TransactionalWrite</a></span>
 </nav>
 </article>

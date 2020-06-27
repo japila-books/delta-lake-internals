@@ -82,6 +82,39 @@
     <a class="nav-link" href="delta-sql.html">Delta SQL</a>
   </li>
   <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="delta-sql-spark3.html">Delta SQL and Spark 3.0.0</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="DeltaTableV2.html">DeltaTableV2</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="AlterDeltaTableCommand.html">AlterDeltaTableCommand</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="AlterTableAddColumnsDeltaCommand.html">AlterTableAddColumnsDeltaCommand</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="AlterTableChangeColumnDeltaCommand.html">AlterTableChangeColumnDeltaCommand</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="AlterTableReplaceColumnsDeltaCommand.html">AlterTableReplaceColumnsDeltaCommand</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="AlterTableSetLocationDeltaCommand.html">AlterTableSetLocationDeltaCommand</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="AlterTableSetPropertiesDeltaCommand.html">AlterTableSetPropertiesDeltaCommand</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="AlterTableUnsetPropertiesDeltaCommand.html">AlterTableUnsetPropertiesDeltaCommand</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="CreateDeltaTableCommand.html">CreateDeltaTableCommand</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
     <a class="nav-link" href="DeltaSQLConf.html">Configuration Properties</a>
   </li>
   <li class="nav-item" data-depth="1">
@@ -92,9 +125,6 @@
     <a class="nav-link" href="DeltaTableOperations.html">DeltaTableOperations</a>
   </li>
 </ul>
-  </li>
-  <li class="nav-item" data-depth="1">
-    <a class="nav-link" href="DeltaTableV2.html">DeltaTableV2</a>
   </li>
   <li class="nav-item" data-depth="1">
     <button class="nav-item-toggle"></button>
@@ -189,15 +219,6 @@
   </li>
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="WriteIntoDelta.html">WriteIntoDelta</a>
-  </li>
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="AlterDeltaTableCommand.html">AlterDeltaTableCommand</a>
-  </li>
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="AlterTableSetPropertiesDeltaCommand.html">AlterTableSetPropertiesDeltaCommand</a>
-  </li>
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="CreateDeltaTableCommand.html">CreateDeltaTableCommand</a>
   </li>
 </ul>
   </li>
@@ -487,11 +508,50 @@
   <div class="content">
 <article class="doc">
 <h1 class="page">DeltaCatalog</h1>
+<div id="preamble">
+<div class="sectionbody">
 <div class="paragraph">
 <p><strong>DeltaCatalog</strong> is an extension of Spark SQL (using DelegatingCatalogExtension and StagingTableCatalog).</p>
 </div>
 <div class="paragraph">
 <p>DeltaCatalog is registered using <strong>spark.sql.catalog.spark_catalog</strong> configuration property while creating a SparkSession in a Spark application. Consult <a href="installation.html" class="page">Installation</a>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="loading-table"><a class="anchor" href="#loading-table"></a><a class="link" href="#loading-table"><a id="alterTable"></a> Loading Table</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">alterTable(
+  ident: Identifier,
+  changes: TableChange*): Table</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>alterTable&#8230;&#8203;FIXME</p>
+</div>
+<div class="paragraph">
+<p>alterTable is part of the TableCatalog (Spark SQL 3.0.0) abstraction.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="loading-table-2"><a class="anchor" href="#loading-table-2"></a><a class="link" href="#loading-table-2"><a id="loadTable"></a> Loading Table</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">loadTable(
+  ident: Identifier): Table</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>loadTable&#8230;&#8203;FIXME</p>
+</div>
+<div class="paragraph">
+<p>loadTable is part of the TableCatalog (Spark SQL 3.0.0) abstraction.</p>
+</div>
+</div>
 </div>
 <nav class="pagination">
   <span class="prev"><a href="DeltaSink.html">DeltaSink</a></span>
