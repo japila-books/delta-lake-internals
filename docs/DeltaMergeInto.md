@@ -1,4 +1,4 @@
-= DeltaMergeInto
+# DeltaMergeInto Logical Command
 
 *DeltaMergeInto* is a logical command (Spark SQL).
 
@@ -15,7 +15,7 @@ DeltaMergeInto takes the following to be created:
 
 DeltaMergeInto is created (using <<apply, apply>> and <<resolveReferences, resolveReferences>> utilities) when:
 
-* DeltaMergeBuilder is requested to DeltaMergeBuilder.adoc#execute[execute]
+* [DeltaMergeBuilder](DeltaMergeBuilder.md) is executed
 
 * DeltaAnalysis logical resolution rule is requested to DeltaAnalysis.adoc#apply[execute]
 
@@ -36,7 +36,7 @@ apply...FIXME
 
 apply is used when:
 
-* DeltaMergeBuilder is requested to DeltaMergeBuilder.adoc#execute[execute] (and for the DeltaMergeBuilder.adoc#mergePlan[logical plan for merge operation])
+* [DeltaMergeBuilder](DeltaMergeBuilder.md) is executed (and for the [logical plan for merge operation](DeltaMergeBuilder.md#mergePlan))
 
 * DeltaAnalysis logical resolution rule is requested to DeltaAnalysis.adoc#apply[execute]
 
@@ -54,6 +54,6 @@ resolveReferences...FIXME
 
 resolveReferences is used when:
 
-* DeltaMergeBuilder is requested to DeltaMergeBuilder.adoc#execute[execute]
+* [DeltaMergeBuilder](DeltaMergeBuilder.md) is executed
 
 * DeltaAnalysis logical resolution rule is requested to DeltaAnalysis.adoc#apply[execute]

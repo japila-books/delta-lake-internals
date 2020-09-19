@@ -81,17 +81,16 @@ Gets available commits (_history_) on the DeltaTable
 
 === [[merge]] merge
 
-[source, scala]
-----
+```scala
 merge(
   source: DataFrame,
   condition: Column): DeltaMergeBuilder
 merge(
   source: DataFrame,
   condition: String): DeltaMergeBuilder
-----
+```
 
-Creates a <<DeltaMergeBuilder.adoc#, DeltaMergeBuilder>> to specify how to merge the data from the source `DataFrame` into this delta table based on the condition.
+Creates a [DeltaMergeBuilder](DeltaMergeBuilder.md) to describe how to merge data from a source `DataFrame` into this delta table (based on the condition).
 
 === [[toDF]] toDF
 

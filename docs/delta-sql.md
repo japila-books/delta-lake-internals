@@ -1,4 +1,4 @@
-= Delta SQL
+# Delta SQL
 
 Delta Lake registers custom <<commands, SQL commands>> using DeltaSparkSessionExtension.adoc[].
 

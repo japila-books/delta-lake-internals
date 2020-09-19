@@ -1,3 +1,3 @@
-= DeltaMergeIntoClause
+# DeltaMergeIntoClause
 
 *DeltaMergeIntoClause* is...FIXME

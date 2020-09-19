@@ -1,9 +1,8 @@
-= DeltaMergeMatchedActionBuilder
+# DeltaMergeMatchedActionBuilder
 
-*DeltaMergeMatchedActionBuilder* is a merge action builder for ROOT:DeltaMergeBuilder.adoc#whenMatched[DeltaMergeBuilder.whenMatched] operator.
+**DeltaMergeMatchedActionBuilder** is a merge action builder for [DeltaMergeBuilder.whenMatched](DeltaMergeBuilder.md#whenMatched) operator.
 
-[source,plaintext]
-----
+```text
 scala> :type mergeBuilder
 io.delta.tables.DeltaMergeBuilder
 
@@ -11,26 +10,25 @@ val mergeMatchedBuilder = mergeBuilder.whenMatched
 
 scala> :type mergeMatchedBuilder
 io.delta.tables.DeltaMergeMatchedActionBuilder
-----
+```
 
 == [[creating-instance]] Creating Instance
 
 DeltaMergeMatchedActionBuilder takes the following to be created:
 
-* [[mergeBuilder]] ROOT:DeltaMergeBuilder.adoc[]
+* [[mergeBuilder]] [DeltaMergeBuilder](DeltaMergeBuilder.md)
 * [[matchCondition]] Optional match condition (`Column` expression)
 
 DeltaMergeMatchedActionBuilder is created using <<apply, apply>> factory method.
 
-== [[apply]] apply Factory Method
+## <span id="apply"> Creating DeltaMergeMatchedActionBuilder
 
-[source,scala]
-----
+```scala
 apply(
   mergeBuilder: DeltaMergeBuilder,
   matchCondition: Option[Column]): DeltaMergeMatchedActionBuilder
-----
+```
 
-apply creates a DeltaMergeMatchedActionBuilder (for the arguments given).
+`apply` creates a `DeltaMergeMatchedActionBuilder` (for the given parameters).
 
-apply is used when DeltaMergeBuilder is requested to ROOT:DeltaMergeBuilder.adoc#whenMatched[whenMatched].
+`apply` is used when `DeltaMergeBuilder` is requested to [whenMatched](DeltaMergeBuilder.md#whenMatched).

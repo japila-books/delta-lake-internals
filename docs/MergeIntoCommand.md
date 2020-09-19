@@ -1,4 +1,4 @@
-= MergeIntoCommand
+# MergeIntoCommand
 
 MergeIntoCommand is a DeltaCommand.adoc[] that can...FIXME
 

@@ -1,5 +1,4 @@
-= PreprocessTableMerge Logical Resolution Rule
-:navtitle: PreprocessTableMerge
+# PreprocessTableMerge Logical Resolution Rule
 
 *PreprocessTableMerge* is a post-hoc logical resolution rule (`Rule[LogicalPlan]`) to <<apply, resolve DeltaMergeInto logical commands>> in a query plan into MergeIntoCommand.adoc[]s.
 
@@ -11,7 +10,7 @@ PreprocessTableMerge takes a single `SQLConf` to be created.
 
 PreprocessTableMerge is created when:
 
-* DeltaMergeBuilder is requested to DeltaMergeBuilder.adoc#execute[execute]
+* [DeltaMergeBuilder](DeltaMergeBuilder.md) is executed
 
 * DeltaSparkSessionExtension is requested to DeltaSparkSessionExtension.adoc#apply[register Delta SQL support]
 

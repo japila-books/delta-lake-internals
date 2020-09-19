@@ -79,10 +79,10 @@ google_analytics:
 nav:
   - Home:
     - Welcome: index.md
-    - overview.md
-    - installation.md
-    - time-travel.md
-    - delta-sql.md
+    - Overview: overview.md
+    - Installation: installation.md
+    - Time Travel: time-travel.md
+    - Delta SQL: delta-sql.md
     - Delta SQL and Spark 3.0.0:
       - delta-sql-spark3.md
       - DeltaTableV2.md

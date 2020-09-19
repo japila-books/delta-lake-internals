@@ -1,4 +1,4 @@
-= Time Travel
+# Time Travel
 
 <<DeltaOptions.adoc#path, path>> option may optionally specify *time travel*.
 
