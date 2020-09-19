@@ -1,0 +1,210 @@
+# Based on the following mkdocs.yml's:
+# - https://github.com/squidfunk/mkdocs-material/blob/master/mkdocs.yml
+# - https://github.com/facelessuser/pymdown-extensions/blob/master/docs/src/mkdocs.yml
+
+site_name: The Internals of Delta Lake
+site_url: https://books.japila.pl/delta-lake-internals/
+site_author: Jacek Laskowski
+site_description: Demystifying inner-workings of Delta Lake
+
+# https://squidfunk.github.io/mkdocs-material/setup/adding-a-git-repository/
+repo_name: delta-lake-internals
+repo_url: https://github.com/japila-books/delta-lake-internals
+edit_uri: edit/mkdocs-material/docs/
+
+copyright: |
+  Copyright &copy; 2020 <a href="https://twitter.com/jaceklaskowski" target="_blank" rel="noopener">Jacek Laskowski</a>
+
+theme:
+  name: material
+  language: en
+  icon:
+    logo: material/book-open-page-variant
+    repo: fontawesome/brands/github
+  features:
+    - tabs
+    - instant
+
+markdown_extensions:
+  - admonition
+  - codehilite
+  - footnotes
+  - toc:
+      permalink: true
+  - pymdownx.arithmatex
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret
+  - pymdownx.critic
+  - pymdownx.details
+  - pymdownx.emoji
+  # the following two lines don't seem to work on ReadTheDocs
+  # https://github.com/readthedocs/readthedocs.org/issues/6889
+  #     emoji_index: !!python/name:materialx.emoji.twemoji
+  #     emoji_generator: !!python/name:materialx.emoji.to_svg
+  - pymdownx.inlinehilite
+  - pymdownx.magiclink
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.superfences
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tabbed
+  - pymdownx.tilde
+
+plugins:
+  - search
+  - minify:
+      minify_html: true
+  - git-revision-date:
+      enabled_if_env: CI
+  - awesome-pages
+  - macros
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/jaceklaskowski
+    - icon: fontawesome/brands/twitter
+      link: https://twitter.com/jaceklaskowski
+    - icon: fontawesome/brands/linkedin
+      link: https://linkedin.com/in/jaceklaskowski
+  delta:
+    version: 0.7.0
+
+google_analytics:
+  - !!python/object/apply:os.getenv ["GOOGLE_ANALYTICS_KEY"]
+  - auto
+
+nav:
+  - Home:
+    - Welcome: index.md
+    - overview.md
+    - installation.md
+    - time-travel.md
+    - delta-sql.md
+    - Delta SQL and Spark 3.0.0:
+      - delta-sql-spark3.md
+      - DeltaTableV2.md
+      - AlterDeltaTableCommand.md
+      - AlterTableAddColumnsDeltaCommand.md
+      - AlterTableChangeColumnDeltaCommand.md
+      - AlterTableReplaceColumnsDeltaCommand.md
+      - AlterTableSetLocationDeltaCommand.md
+      - AlterTableSetPropertiesDeltaCommand.md
+      - AlterTableUnsetPropertiesDeltaCommand.md
+      - CreateDeltaTableCommand.md
+    - Configuration Properties: DeltaSQLConf.md
+    - DeltaTable:
+      - DeltaTable: DeltaTable.md
+      - DeltaTableOperations: DeltaTableOperations.md
+    - DeltaLog:
+      - DeltaLog: DeltaLog.md
+      - Operation: Operation.md
+      - Checkpoints: Checkpoints.md
+      - MetadataCleanup: MetadataCleanup.md
+      - LogStoreProvider: LogStoreProvider.md
+      - VerifyChecksum: VerifyChecksum.md
+    - Snapshot:
+      - Snapshot: Snapshot.md
+      - InMemoryLogReplay: InMemoryLogReplay.md
+      - PartitionFiltering: PartitionFiltering.md
+      - DeltaFileFormat: DeltaFileFormat.md
+    - Commands:
+      - Commands: commands.md
+      - DeltaConvert:
+        - DeltaConvert: DeltaConvert.md
+        - ConvertToDeltaCommand: ConvertToDeltaCommand.md
+      - DeleteCommand: DeleteCommand.md
+      - DeltaCommand: DeltaCommand.md
+      - DeltaGenerateCommand:
+        - DeltaGenerateCommand: DeltaGenerateCommand.md
+        - DeltaGenerateCommandBase: DeltaGenerateCommandBase.md
+        - GenerateSymlinkManifest: GenerateSymlinkManifest.md
+      - DescribeDeltaDetailCommand: DescribeDeltaDetailCommand.md
+      - DescribeDeltaHistoryCommand: DescribeDeltaHistoryCommand.md
+      - UpdateCommand: UpdateCommand.md
+      - Vacuum:
+        - Vacuum: vacuum.md
+        - VacuumCommand: VacuumCommand.md
+        - VacuumCommandImpl: VacuumCommandImpl.md
+        - VacuumTableCommand: VacuumTableCommand.md
+      - WriteIntoDelta: WriteIntoDelta.md
+    - OptimisticTransaction:
+      - OptimisticTransaction: OptimisticTransaction.md
+      - TransactionalWrite: TransactionalWrite.md
+      - DelayedCommitProtocol: DelayedCommitProtocol.md
+      - Post-Commit Hooks: PostCommitHook.md
+      - OptimisticTransactionImpl: OptimisticTransactionImpl.md
+    - LogStore:
+      - LogStore: LogStore.md
+      - HDFSLogStore: HDFSLogStore.md
+      - HadoopFileSystemLogStore: HadoopFileSystemLogStore.md
+    - ImplicitMetadataOperation: ImplicitMetadataOperation.md
+    - DeltaFileOperations: DeltaFileOperations.md
+    - SchemaUtils: SchemaUtils.md
+    - DeltaTableUtils: DeltaTableUtils.md
+    - Invariants: Invariants.md
+    - DeltaInvariantCheckerExec: DeltaInvariantCheckerExec.md
+    - TahoeFileIndex:
+      - TahoeFileIndex: TahoeFileIndex.md
+      - TahoeBatchFileIndex: TahoeBatchFileIndex.md
+      - TahoeLogFileIndex: TahoeLogFileIndex.md
+    - DeltaHistoryManager: DeltaHistoryManager.md
+    - Actions:
+      - Action: Action.md
+      - AddFile: AddFile.md
+      - CommitInfo: CommitInfo.md
+      - FileAction: FileAction.md
+      - Metadata: Metadata.md
+      - Protocol: Protocol.md
+      - RemoveFile: RemoveFile.md
+      - SetTransaction: SetTransaction.md
+      - SingleAction: SingleAction.md
+    - DeltaConfigs:
+      - DeltaConfigs: DeltaConfigs.md
+      - DeltaConfig: DeltaConfig.md
+    - FileNames: FileNames.md
+    - DeltaLogFileIndex: DeltaLogFileIndex.md
+    - DeltaErrors: DeltaErrors.md
+    - Logging: logging.md
+    - StateCache:
+      - StateCache: StateCache.md
+      - CachedDS: CachedDS.md
+    - The Others (Contenders): others.md
+    - Delta Data Source:
+      - DeltaDataSource: DeltaDataSource.md
+      - DeltaOptions: DeltaOptions.md
+      - DeltaSource:
+        - DeltaSource: DeltaSource.md
+        - DeltaSourceOffset: DeltaSourceOffset.md
+        - SnapshotIterator: SnapshotIterator.md
+        - DeltaSourceSnapshot: DeltaSourceSnapshot.md
+      - DeltaSink: DeltaSink.md
+    - Spark SQL Extensions:
+      - DeltaCatalog: DeltaCatalog.md
+      - StagedDeltaTableV2: StagedDeltaTableV2.md
+      - DeltaSparkSessionExtension: DeltaSparkSessionExtension.md
+      - DeltaSqlParser: DeltaSqlParser.md
+      - DeltaSqlAstBuilder: DeltaSqlAstBuilder.md
+      - DeltaAnalysis: DeltaAnalysis.md
+      - DeltaUnsupportedOperationsCheck: DeltaUnsupportedOperationsCheck.md
+      - PreprocessTableDelete: PreprocessTableDelete.md
+      - PreprocessTableMerge: PreprocessTableMerge.md
+      - PreprocessTableUpdate: PreprocessTableUpdate.md
+    - Merge Operation:
+      - DeltaMergeBuilder: DeltaMergeBuilder.md
+      - DeltaMergeMatchedActionBuilder: DeltaMergeMatchedActionBuilder.md
+      - DeltaMergeNotMatchedActionBuilder: DeltaMergeNotMatchedActionBuilder.md
+      - DeltaMergeIntoClause: DeltaMergeIntoClause.md
+      - DeltaMergeInto: DeltaMergeInto.md
+      - MergeIntoCommand: MergeIntoCommand.md
+  - Demos:
+    - Converting Parquet Dataset Into Delta Format: demo/Converting-Parquet-Dataset-Into-Delta-Format.md
+    - Stream Processing of Delta Table: demo/stream-processing-of-delta-table.md
+    - Using Delta Lake as Streaming Sink in Structured Streaming: demo/Using-Delta-Lake-as-Streaming-Sink-in-Structured-Streaming.md
+    - Debugging Delta Lake Using IntelliJ IDEA: demo/Debugging-Delta-Lake-Using-IntelliJ-IDEA.md
+    - Observing Transaction Retries: demo/Observing-Transaction-Retries.md
+    - DeltaTable, DeltaLog And Snapshots: demo/DeltaTable-DeltaLog-And-Snapshots.md
+    - Schema Evolution: demo/schema-evolution.md
+    - Using User Metadata to Distinguish Commits of Streaming Queries: demo/using-user-metadata-to-distinguish-commits-streaming-queries.md

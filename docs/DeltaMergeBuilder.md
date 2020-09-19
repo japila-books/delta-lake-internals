@@ -1,0 +1,129 @@
+= DeltaMergeBuilder
+
+*DeltaMergeBuilder* is a <<operators, builder interface>> to specify how to merge data from a <<source, source>> DataFrame into the <<targetTable, target>> delta table.
+
+== [[creating-instance]] Creating Instance
+
+DeltaMergeBuilder takes the following to be created:
+
+* [[targetTable]] Target <<DeltaTable.adoc#, DeltaTable>>
+* [[source]] Source Data (`DataFrame`)
+* [[onCondition]] Condition (`Column`)
+* [[whenClauses]] DeltaMergeIntoClause.adoc[When Clauses]
+
+DeltaMergeBuilder is created using DeltaTable.adoc#merge[DeltaTable.merge] operator.
+
+== [[operators]] Operators
+
+=== [[whenMatched]] whenMatched
+
+[source, scala]
+----
+whenMatched(): DeltaMergeMatchedActionBuilder
+whenMatched(
+  condition: Column): DeltaMergeMatchedActionBuilder
+whenMatched(
+  condition: String): DeltaMergeMatchedActionBuilder
+----
+
+Creates a DeltaMergeMatchedActionBuilder.adoc[] (for the DeltaMergeBuilder and a match condition)
+
+=== [[whenNotMatched]] whenNotMatched
+
+[source, scala]
+----
+whenNotMatched(): DeltaMergeNotMatchedActionBuilder
+whenNotMatched(
+  condition: Column): DeltaMergeNotMatchedActionBuilder
+whenNotMatched(
+  condition: String): DeltaMergeNotMatchedActionBuilder
+----
+
+== [[execute]] Executing Merge Operation
+
+[source, scala]
+----
+execute(): Unit
+----
+
+execute resolves column references (and creates a `MergeInto`).
+
+In the end, execute creates a <<PreprocessTableMerge.adoc#, PreprocessTableMerge>> to <<PreprocessTableMerge.adoc#apply, create a MergeIntoCommand>> that is <<MergeIntoCommand.adoc#run, executed>> right away.
+
+== [[mergePlan]] Creating Logical Plan for Merge
+
+[source, scala]
+----
+mergePlan: DeltaMergeInto
+----
+
+`mergePlan` creates a DeltaMergeInto.adoc[DeltaMergeInto] logical command.
+
+`mergePlan` is used when `DeltaMergeBuilder` is requested to <<execute, execute>>.
+
+== [[apply]] Creating DeltaMergeBuilder
+
+[source, scala]
+----
+apply(
+  targetTable: DeltaTable,
+  source: DataFrame,
+  onCondition: Column): DeltaMergeBuilder
+----
+
+`apply` creates a new `DeltaMergeBuilder` for the given parameters and no <<whenClauses, DeltaMergeIntoClauses>>.
+
+`apply` is used for DeltaTable.adoc#merge[DeltaTable.merge] operator.
+
+== [[withClause]] Adding DeltaMergeIntoClause
+
+[source, scala]
+----
+withClause(
+  clause: DeltaMergeIntoClause): DeltaMergeBuilder
+----
+
+`withClause` creates a new `DeltaMergeBuilder` (based on the existing properties, e.g. the <<targetTable, DeltaTable>>) with the given DeltaMergeIntoClause.adoc[DeltaMergeIntoClause] added to the existing <<whenClauses, DeltaMergeIntoClauses>> (to create a more refined `DeltaMergeBuilder`).
+
+`withClause` is used when:
+
+* DeltaMergeMatchedActionBuilder.adoc[DeltaMergeMatchedActionBuilder] is requested to DeltaMergeMatchedActionBuilder.adoc#updateAll[updateAll], DeltaMergeMatchedActionBuilder.adoc#delete[delete], DeltaMergeMatchedActionBuilder.adoc#addUpdateClause[addUpdateClause]
+* DeltaMergeNotMatchedActionBuilder.adoc[DeltaMergeMatchedActionBuilder] is requested to DeltaMergeNotMatchedActionBuilder.adoc#insertAll[insertAll] and DeltaMergeNotMatchedActionBuilder.adoc#addInsertClause[addInsertClause]
+
+== [[demo]] Demo
+
+[source,plaintext]
+----
+// Create a delta table
+val path = "/tmp/delta/demo"
+val data = spark.range(5)
+data.write.format("delta").save(path)
+
+// Manage the delta table
+import io.delta.tables.DeltaTable
+val target = DeltaTable.forPath(path)
+
+case class Person(id: Long, name: String)
+val source = Seq(Person(0, "Zero"), Person(1, "One")).toDF
+
+// Note the difference in schemas
+
+scala> target.toDF.printSchema
+root
+ |-- id: long (nullable = true)
+
+scala> source.printSchema
+root
+ |-- id: long (nullable = false)
+ |-- name: string (nullable = true)
+
+// Not only do we update the matching rows
+// But also update the schema (schema evolution)
+
+val mergeBuilder = target.as("to").merge(
+  source.as("from"),
+  condition = $"to.id" === $"from.id")
+
+scala> :type mergeBuilder
+io.delta.tables.DeltaMergeBuilder
+----
