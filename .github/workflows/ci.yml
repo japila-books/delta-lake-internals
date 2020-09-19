@@ -31,6 +31,7 @@ jobs:
       - name: Build documentation
         env:
           GOOGLE_ANALYTICS_KEY: ${{ secrets.GOOGLE_ANALYTICS_KEY }}
+          CI: 1
         run: |
           mkdocs gh-deploy --force
           mkdocs --version
