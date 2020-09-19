@@ -416,6 +416,10 @@
      <lastmod>2020-09-19</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
+     <loc>https://books.japila.pl/delta-lake-internals/demo/merge-operation/</loc>
+     <lastmod>2020-09-19</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
      <loc>https://books.japila.pl/delta-lake-internals/demo/Converting-Parquet-Dataset-Into-Delta-Format/</loc>
      <lastmod>2020-09-19</lastmod>
      <changefreq>daily</changefreq>
