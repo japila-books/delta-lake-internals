@@ -436,6 +436,12 @@
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="DeltaMergeMatchedActionBuilder.html">DeltaMergeMatchedActionBuilder</a>
   </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="DeltaMergeNotMatchedActionBuilder.html">DeltaMergeNotMatchedActionBuilder</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="DeltaMergeIntoClause.html">DeltaMergeIntoClause</a>
+  </li>
 </ul>
   </li>
   <li class="nav-item" data-depth="1">
@@ -539,7 +545,7 @@
 <p><a id="onCondition"></a> Condition (<code>Column</code>)</p>
 </li>
 <li>
-<p><a id="whenClauses"></a> When Clauses (<code>Seq[MergeIntoClause]</code>)</p>
+<p><a id="whenClauses"></a> <a href="DeltaMergeIntoClause.html" class="page">When Clauses</a></p>
 </li>
 </ul>
 </div>
@@ -597,7 +603,7 @@ whenNotMatched(
 </div>
 </div>
 <div class="sect1">
-<h2 id="creating-logical-query-plan-for-merge"><a class="anchor" href="#creating-logical-query-plan-for-merge"></a><a class="link" href="#creating-logical-query-plan-for-merge"><a id="mergePlan"></a> Creating Logical Query Plan for Merge</a></h2>
+<h2 id="creating-logical-plan-for-merge"><a class="anchor" href="#creating-logical-plan-for-merge"></a><a class="link" href="#creating-logical-plan-for-merge"><a id="mergePlan"></a> Creating Logical Plan for Merge</a></h2>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content">
@@ -605,10 +611,56 @@ whenNotMatched(
 </div>
 </div>
 <div class="paragraph">
-<p>mergePlan&#8230;&#8203;FIXME</p>
+<p><code>mergePlan</code> creates a <a href="DeltaMergeInto.html" class="page">DeltaMergeInto</a> logical command.</p>
 </div>
 <div class="paragraph">
-<p>mergePlan is used when DeltaMergeBuilder is requested to <a href="#execute">execute</a>.</p>
+<p><code>mergePlan</code> is used when <code>DeltaMergeBuilder</code> is requested to <a href="#execute">execute</a>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="creating-deltamergebuilder"><a class="anchor" href="#creating-deltamergebuilder"></a><a class="link" href="#creating-deltamergebuilder"><a id="apply"></a> Creating DeltaMergeBuilder</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">apply(
+  targetTable: DeltaTable,
+  source: DataFrame,
+  onCondition: Column): DeltaMergeBuilder</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>apply</code> creates a new <code>DeltaMergeBuilder</code> for the given parameters and no <a href="#whenClauses">DeltaMergeIntoClauses</a>.</p>
+</div>
+<div class="paragraph">
+<p><code>apply</code> is used for <a href="DeltaTable.html#merge" class="page">DeltaTable.merge</a> operator.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="adding-deltamergeintoclause"><a class="anchor" href="#adding-deltamergeintoclause"></a><a class="link" href="#adding-deltamergeintoclause"><a id="withClause"></a> Adding DeltaMergeIntoClause</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-scala hljs" data-lang="scala">withClause(
+  clause: DeltaMergeIntoClause): DeltaMergeBuilder</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>withClause</code> creates a new <code>DeltaMergeBuilder</code> (based on the existing properties, e.g. the <a href="#targetTable">DeltaTable</a>) with the given <a href="DeltaMergeIntoClause.html" class="page">DeltaMergeIntoClause</a> added to the existing <a href="#whenClauses">DeltaMergeIntoClauses</a> (to create a more refined <code>DeltaMergeBuilder</code>).</p>
+</div>
+<div class="paragraph">
+<p><code>withClause</code> is used when:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="DeltaMergeMatchedActionBuilder.html" class="page">DeltaMergeMatchedActionBuilder</a> is requested to <a href="DeltaMergeMatchedActionBuilder.html#updateAll" class="page">updateAll</a>, <a href="DeltaMergeMatchedActionBuilder.html#delete" class="page">delete</a>, <a href="DeltaMergeMatchedActionBuilder.html#addUpdateClause" class="page">addUpdateClause</a></p>
+</li>
+<li>
+<p><a href="DeltaMergeNotMatchedActionBuilder.html" class="page">DeltaMergeMatchedActionBuilder</a> is requested to <a href="DeltaMergeNotMatchedActionBuilder.html#insertAll" class="page">insertAll</a> and <a href="DeltaMergeNotMatchedActionBuilder.html#addInsertClause" class="page">addInsertClause</a></p>
+</li>
+</ul>
 </div>
 </div>
 </div>
