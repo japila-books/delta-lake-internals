@@ -1,4 +1,4 @@
-= [[WriteIntoDelta]] WriteIntoDelta Command -- Writing Data(Frame) Transactionally Into Delta Table
+## WriteIntoDelta Command
 
 `WriteIntoDelta` is a <<DeltaCommand.adoc#, Delta command>> that can write <<data, data(frame)>> transactionally into a <<deltaLog, delta table>>.
 

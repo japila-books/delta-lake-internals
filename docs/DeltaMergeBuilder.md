@@ -39,15 +39,17 @@ whenNotMatched(
 
 Creates a [DeltaMergeNotMatchedActionBuilder](DeltaMergeNotMatchedActionBuilder.md) (for the `DeltaMergeBuilder` and a condition)
 
-## <span id="execute"> Executing Merge Operation
+## <span id="execute"> Executing Merge
 
 ```scala
 execute(): Unit
 ```
 
-`execute` resolves column references (and creates a `MergeInto`).
+`execute` resolves column references and creates a [DeltaMergeInto](DeltaMergeInto.md) logical command.
 
-In the end, execute creates a [PreprocessTableMerge](PreprocessTableMerge.md) to create and run a [MergeIntoCommand](MergeIntoCommand.md).
+`execute` creates and executes a [PreprocessTableMerge](PreprocessTableMerge.md) logical resolution rule with the `DeltaMergeInto` logical command (that creates a [MergeIntoCommand](MergeIntoCommand.md) runnable logical command).
+
+In the end, `execute` executes the [MergeIntoCommand](MergeIntoCommand.md) logical command.
 
 ## <span id="mergePlan"> Creating Logical Plan for Merge
 

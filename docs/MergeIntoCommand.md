@@ -1,73 +1,67 @@
 # MergeIntoCommand
 
-MergeIntoCommand is a DeltaCommand.adoc[] that can...FIXME
+`MergeIntoCommand` is a [DeltaCommand](DeltaCommand.md).
 
-MergeIntoCommand is a logical command (Spark SQL's `RunnableCommand`).
+`MergeIntoCommand` is a logical command (Spark SQL's [RunnableCommand](https://jaceklaskowski.github.io/mastering-spark-sql-book/logical-operators/RunnableCommand/)).
 
-TIP: Read up on https://jaceklaskowski.gitbooks.io/mastering-spark-sql/spark-sql-LogicalPlan-RunnableCommand.html[RunnableCommand] in https://bit.ly/spark-sql-internals[The Internals of Spark SQL] online book.
+## Creating Instance
 
-== [[creating-instance]] Creating Instance
+`MergeIntoCommand` takes the following to be created:
 
-MergeIntoCommand takes the following to be created:
+* <span id="source"> Source Data (`LogicalPlan`)
+* <span id="target"> Target Data (`LogicalPlan`)
+* <span id="targetFileIndex"> [TahoeFileIndex](TahoeFileIndex.md)
+* <span id="condition"> Condition Expression
+* <span id="matchedClauses"> Matched Clauses (`Seq[DeltaMergeIntoMatchedClause]`)
+* <span id="notMatchedClause"> Optional Non-Matched Clause (`Option[DeltaMergeIntoInsertClause]`)
+* <span id="migratedSchema"> Migrated Schema
 
-* [[source]] Source Data (`LogicalPlan`)
-* [[target]] Target Data (`LogicalPlan`)
-* [[targetFileIndex]] TahoeFileIndex.adoc[]
-* [[condition]] Condition Expression
-* [[matchedClauses]] Matched Clauses (`Seq[DeltaMergeIntoMatchedClause]`)
-* [[notMatchedClause]] Optional Non-Matched Clause (`Option[DeltaMergeIntoInsertClause]`)
-* [[migratedSchema]] Optional Migrated Schema
+`MergeIntoCommand` is created when [PreprocessTableMerge](PreprocessTableMerge.md) logical resolution rule is executed (on a [DeltaMergeInto](DeltaMergeInto.md) logical command).
 
-MergeIntoCommand is created when PreprocessTableMerge logical resolution rule is requested to PreprocessTableMerge.adoc#apply[execute].
+## <span id="run"> Executing Command
 
-== [[run]] Running Command
-
-[source, scala]
-----
+```scala
 run(
   spark: SparkSession): Seq[Row]
-----
+```
 
-run...FIXME
+`run`...FIXME
 
-run is part of the RunnableCommand (Spark SQL) abstraction.
+`run` is part of the `RunnableCommand` ([Spark SQL](https://jaceklaskowski.github.io/mastering-spark-sql-book/logical-operators/RunnableCommand/)) abstraction.
 
-== [[writeAllChanges]] writeAllChanges Internal Method
+### <span id="writeAllChanges"> writeAllChanges
 
-[source, scala]
-----
+```scala
 writeAllChanges(
   spark: SparkSession,
   deltaTxn: OptimisticTransaction,
   filesToRewrite: Seq[AddFile]): Seq[AddFile]
-----
+```
 
-writeAllChanges...FIXME
+`writeAllChanges`...FIXME
 
-writeAllChanges is used when MergeIntoCommand is requested to <<run, run>>.
+`writeAllChanges` is used when `MergeIntoCommand` is requested to [run](#run).
 
-== [[findTouchedFiles]] findTouchedFiles Internal Method
+### <span id="findTouchedFiles"> findTouchedFiles
 
-[source, scala]
-----
+```scala
 findTouchedFiles(
   deltaTxn: OptimisticTransaction,
   files: Seq[AddFile]): LogicalPlan
-----
+```
 
-findTouchedFiles...FIXME
+`findTouchedFiles`...FIXME
 
-findTouchedFiles is used when MergeIntoCommand is requested to <<run, run>>.
+`findTouchedFiles` is used when `MergeIntoCommand` is requested to [run](#run).
 
-== [[buildTargetPlanWithFiles]] buildTargetPlanWithFiles Internal Method
+### <span id="buildTargetPlanWithFiles"> buildTargetPlanWithFiles
 
-[source, scala]
-----
+```scala
 buildTargetPlanWithFiles(
   deltaTxn: OptimisticTransaction,
   files: Seq[AddFile]): LogicalPlan
-----
+```
 
-buildTargetPlanWithFiles...FIXME
+`buildTargetPlanWithFiles`...FIXME
 
-buildTargetPlanWithFiles is used when MergeIntoCommand is requested to <<run, run>> (via <<findTouchedFiles, findTouchedFiles>> and <<writeAllChanges, writeAllChanges>>).
+`buildTargetPlanWithFiles` is used when `MergeIntoCommand` is requested to [run](#run) (via [findTouchedFiles](#findTouchedFiles) and [writeAllChanges](#writeAllChanges)).

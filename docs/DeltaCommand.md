@@ -1,93 +1,71 @@
-= DeltaCommand
+# DeltaCommand
 
-*DeltaCommand* is the <<contract, abstraction>> of <<implementations, Delta commands>> that can <<FIXME, FIXME>>.
+**DeltaCommand** is a marker interface for [commands](#implementations) to work with data in delta tables.
 
-[[implementations]]
-.DeltaCommands (Direct Implementations and Extensions Only)
-[cols="30,70",options="header",width="100%"]
-|===
-| DeltaCommand
-| Description
+## Implementations
 
-| <<WriteIntoDelta.adoc#, WriteIntoDelta>>
-| [[WriteIntoDelta]]
+* [AlterDeltaTableCommand](AlterDeltaTableCommand.md)
+* [ConvertToDeltaCommand](ConvertToDeltaCommand.md)
+* [DeleteCommand](DeleteCommand.md)
+* [MergeIntoCommand](MergeIntoCommand.md)
+* [UpdateCommand](UpdateCommand.md)
+* [VacuumCommandImpl](VacuumCommandImpl.md)
+* [WriteIntoDelta](WriteIntoDelta.md)
 
-| <<VacuumCommandImpl.adoc#, VacuumCommandImpl>>
-| [[VacuumCommandImpl]]
+## <span id="parsePartitionPredicates"> parsePartitionPredicates Method
 
-| <<UpdateCommand.adoc#, UpdateCommand>>
-| [[UpdateCommand]]
-
-| <<MergeIntoCommand.adoc#, MergeIntoCommand>>
-| [[MergeIntoCommand]]
-
-| <<ConvertToDeltaCommandBase.adoc#, ConvertToDeltaCommandBase>>
-| [[ConvertToDeltaCommandBase]]
-
-| <<DeleteCommand.adoc#, DeleteCommand>>
-| [[DeleteCommand]]
-
-|===
-
-== [[parsePartitionPredicates]] `parsePartitionPredicates` Method
-
-[source, scala]
-----
+```scala
 parsePartitionPredicates(
   spark: SparkSession,
   predicate: String): Seq[Expression]
-----
+```
 
 `parsePartitionPredicates`...FIXME
 
-NOTE: `parsePartitionPredicates` is used when...FIXME
+`parsePartitionPredicates` is used when...FIXME
 
-== [[verifyPartitionPredicates]] `verifyPartitionPredicates` Method
+## <span id="verifyPartitionPredicates"> verifyPartitionPredicates Method
 
-[source, scala]
-----
+```scala
 verifyPartitionPredicates(
   spark: SparkSession,
   partitionColumns: Seq[String],
   predicates: Seq[Expression]): Unit
-----
+```
 
 `verifyPartitionPredicates`...FIXME
 
-NOTE: `verifyPartitionPredicates` is used when...FIXME
+`verifyPartitionPredicates` is used when...FIXME
 
-== [[generateCandidateFileMap]] `generateCandidateFileMap` Method
+## <span id="generateCandidateFileMap"> generateCandidateFileMap Method
 
-[source, scala]
-----
+```scala
 generateCandidateFileMap(
   basePath: Path,
   candidateFiles: Seq[AddFile]): Map[String, AddFile]
-----
+```
 
 `generateCandidateFileMap`...FIXME
 
-NOTE: `generateCandidateFileMap` is used when...FIXME
+`generateCandidateFileMap` is used when...FIXME
 
-== [[removeFilesFromPaths]] `removeFilesFromPaths` Method
+## <span id="removeFilesFromPaths"> removeFilesFromPaths Method
 
-[source, scala]
-----
+```scala
 removeFilesFromPaths(
   deltaLog: DeltaLog,
   nameToAddFileMap: Map[String, AddFile],
   filesToRewrite: Seq[String],
   operationTimestamp: Long): Seq[RemoveFile]
-----
+```
 
 `removeFilesFromPaths`...FIXME
 
-NOTE: `removeFilesFromPaths` is used when <<DeleteCommand.adoc#, DeleteCommand>> and <<UpdateCommand.adoc#, UpdateCommand>> are executed.
+`removeFilesFromPaths` is used when [DeleteCommand](DeleteCommand.md) and [UpdateCommand](UpdateCommand.md) commands are executed.
 
-== [[buildBaseRelation]] Creating HadoopFsRelation (With TahoeBatchFileIndex) -- `buildBaseRelation` Method
+## <span id="buildBaseRelation"> Creating HadoopFsRelation (With TahoeBatchFileIndex)
 
-[source, scala]
-----
+```scala
 buildBaseRelation(
   spark: SparkSession,
   txn: OptimisticTransaction,
@@ -95,7 +73,7 @@ buildBaseRelation(
   rootPath: Path,
   inputLeafFiles: Seq[String],
   nameToAddFileMap: Map[String, AddFile]): HadoopFsRelation
-----
+```
 
 [[buildBaseRelation-scannedFiles]]
 `buildBaseRelation` converts the given `inputLeafFiles` to <<getTouchedFile, AddFiles>> (with the given `rootPath` and `nameToAddFileMap`).
@@ -104,25 +82,44 @@ buildBaseRelation(
 
 In the end, `buildBaseRelation` creates a `HadoopFsRelation` with the `TahoeBatchFileIndex` (and the other properties based on the <<OptimisticTransactionImpl.adoc#metadata, metadata>> of the given <<OptimisticTransaction.adoc#, OptimisticTransaction>>).
 
-NOTE: `buildBaseRelation` is used when <<DeleteCommand.adoc#, DeleteCommand>> and <<UpdateCommand.adoc#, UpdateCommand>> are executed (with `delete` and `update` action types, respectively).
+`buildBaseRelation` is used when [DeleteCommand](DeleteCommand.md) and [UpdateCommand](UpdateCommand.md) commands are executed (with `delete` and `update` action types, respectively).
 
-== [[getTouchedFile]] `getTouchedFile` Method
+## <span id="getTouchedFile"> getTouchedFile Method
 
-[source, scala]
-----
+```scala
 getTouchedFile(
   basePath: Path,
   filePath: String,
   nameToAddFileMap: Map[String, AddFile]): AddFile
-----
+```
 
 `getTouchedFile`...FIXME
 
-[NOTE]
-====
 `getTouchedFile` is used when:
 
-* DeltaCommand is requested to <<removeFilesFromPaths, removeFilesFromPaths>> and <<buildBaseRelation, create a HadoopFsRelation>> (for <<DeleteCommand.adoc#, DeleteCommand>> and <<UpdateCommand.adoc#, UpdateCommand>>)
+* `DeltaCommand` is requested to [removeFilesFromPaths](#removeFilesFromPaths) and [create a HadoopFsRelation](#buildBaseRelation) (for [DeleteCommand](DeleteCommand.md) and [UpdateCommand](UpdateCommand.md) commands)
 
-* <<MergeIntoCommand.adoc#, MergeIntoCommand>> is executed
-====
+* [MergeIntoCommand](MergeIntoCommand.md) is executed
+
+## <span id="isCatalogTable"> isCatalogTable Method
+
+```scala
+isCatalogTable(
+  analyzer: Analyzer,
+  tableIdent: TableIdentifier): Boolean
+```
+
+`isCatalogTable`...FIXME
+
+`isCatalogTable` is used when...FIXME
+
+## <span id="isPathIdentifier"> isPathIdentifier Method
+
+```scala
+isPathIdentifier(
+  tableIdent: TableIdentifier): Boolean
+```
+
+`isPathIdentifier`...FIXME
+
+`isPathIdentifier` is used when...FIXME

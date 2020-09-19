@@ -1,3 +1,3 @@
-= AlterTableSetPropertiesDeltaCommand
+# AlterTableSetPropertiesDeltaCommand
 
-*AlterTableSetPropertiesDeltaCommand* is...FIXME
+**AlterTableSetPropertiesDeltaCommand** is...FIXME

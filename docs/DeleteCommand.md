@@ -1,4 +1,4 @@
-= [[DeleteCommand]] DeleteCommand
+# DeleteCommand
 
 `DeleteCommand` is a <<DeltaCommand.adoc#, Delta command>> that <<run, FIXME>>.
 

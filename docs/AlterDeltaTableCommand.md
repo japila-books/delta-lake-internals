@@ -1,3 +1,3 @@
-= AlterDeltaTableCommand
+# AlterDeltaTableCommand
 
-*AlterDeltaTableCommand* is...FIXME
+**AlterDeltaTableCommand** is...FIXME

@@ -1,3 +1,3 @@
-= AlterTableChangeColumnDeltaCommand
+# AlterTableChangeColumnDeltaCommand
 
-*AlterTableChangeColumnDeltaCommand* is...FIXME
+**AlterTableChangeColumnDeltaCommand** is...FIXME

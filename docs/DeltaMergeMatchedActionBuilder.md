@@ -19,6 +19,8 @@
 delete(): DeltaMergeBuilder
 ```
 
+Adds a `DeltaMergeIntoDeleteClause` (with the [matchCondition](#matchCondition)) to the [DeltaMergeBuilder](#mergeBuilder).
+
 ### <span id="update"> update
 
 ```scala

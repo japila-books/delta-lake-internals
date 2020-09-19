@@ -1,4 +1,4 @@
-= [[UpdateCommand]] UpdateCommand
+# UpdateCommand
 
 `UpdateCommand` is...FIXME
 

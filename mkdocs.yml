@@ -86,14 +86,6 @@ nav:
     - Delta SQL and Spark 3.0.0:
       - delta-sql-spark3.md
       - DeltaTableV2.md
-      - AlterDeltaTableCommand.md
-      - AlterTableAddColumnsDeltaCommand.md
-      - AlterTableChangeColumnDeltaCommand.md
-      - AlterTableReplaceColumnsDeltaCommand.md
-      - AlterTableSetLocationDeltaCommand.md
-      - AlterTableSetPropertiesDeltaCommand.md
-      - AlterTableUnsetPropertiesDeltaCommand.md
-      - CreateDeltaTableCommand.md
     - Configuration Properties: DeltaSQLConf.md
     - DeltaTable:
       - DeltaTable: DeltaTable.md
@@ -110,26 +102,6 @@ nav:
       - InMemoryLogReplay: InMemoryLogReplay.md
       - PartitionFiltering: PartitionFiltering.md
       - DeltaFileFormat: DeltaFileFormat.md
-    - Commands:
-      - Commands: commands.md
-      - DeltaConvert:
-        - DeltaConvert: DeltaConvert.md
-        - ConvertToDeltaCommand: ConvertToDeltaCommand.md
-      - DeleteCommand: DeleteCommand.md
-      - DeltaCommand: DeltaCommand.md
-      - DeltaGenerateCommand:
-        - DeltaGenerateCommand: DeltaGenerateCommand.md
-        - DeltaGenerateCommandBase: DeltaGenerateCommandBase.md
-        - GenerateSymlinkManifest: GenerateSymlinkManifest.md
-      - DescribeDeltaDetailCommand: DescribeDeltaDetailCommand.md
-      - DescribeDeltaHistoryCommand: DescribeDeltaHistoryCommand.md
-      - UpdateCommand: UpdateCommand.md
-      - Vacuum:
-        - Vacuum: vacuum.md
-        - VacuumCommand: VacuumCommand.md
-        - VacuumCommandImpl: VacuumCommandImpl.md
-        - VacuumTableCommand: VacuumTableCommand.md
-      - WriteIntoDelta: WriteIntoDelta.md
     - OptimisticTransaction:
       - OptimisticTransaction: OptimisticTransaction.md
       - TransactionalWrite: TransactionalWrite.md
@@ -192,13 +164,42 @@ nav:
       - PreprocessTableDelete: PreprocessTableDelete.md
       - PreprocessTableMerge: PreprocessTableMerge.md
       - PreprocessTableUpdate: PreprocessTableUpdate.md
-    - Merge Operation:
+  - Commands:
+    - Delta Commands: commands/index.md
+    - DeltaCommand: DeltaCommand.md
+    - AlterDeltaTableCommand:
+      - AlterDeltaTableCommand.md
+      - AlterTableAddColumnsDeltaCommand.md
+      - AlterTableChangeColumnDeltaCommand.md
+      - AlterTableReplaceColumnsDeltaCommand.md
+      - AlterTableSetLocationDeltaCommand.md
+      - AlterTableSetPropertiesDeltaCommand.md
+      - AlterTableUnsetPropertiesDeltaCommand.md
+    - ConvertToDeltaCommand:
+      - ConvertToDeltaCommand: ConvertToDeltaCommand.md
+      - DeltaConvert: DeltaConvert.md
+    - CreateDeltaTableCommand: CreateDeltaTableCommand.md
+    - DeleteCommand: DeleteCommand.md
+    - DeltaGenerateCommand:
+      - DeltaGenerateCommand: DeltaGenerateCommand.md
+      - DeltaGenerateCommandBase: DeltaGenerateCommandBase.md
+      - GenerateSymlinkManifest: GenerateSymlinkManifest.md
+    - DescribeDeltaDetailCommand: DescribeDeltaDetailCommand.md
+    - DescribeDeltaHistoryCommand: DescribeDeltaHistoryCommand.md
+    - MergeIntoCommand:
+      - MergeIntoCommand: MergeIntoCommand.md
       - DeltaMergeBuilder: DeltaMergeBuilder.md
       - DeltaMergeMatchedActionBuilder: DeltaMergeMatchedActionBuilder.md
       - DeltaMergeNotMatchedActionBuilder: DeltaMergeNotMatchedActionBuilder.md
       - DeltaMergeIntoClause: DeltaMergeIntoClause.md
       - DeltaMergeInto: DeltaMergeInto.md
-      - MergeIntoCommand: MergeIntoCommand.md
+    - UpdateCommand: UpdateCommand.md
+    - Vacuum:
+      - Vacuum: vacuum.md
+      - VacuumCommand: VacuumCommand.md
+      - VacuumCommandImpl: VacuumCommandImpl.md
+      - VacuumTableCommand: VacuumTableCommand.md
+    - WriteIntoDelta: WriteIntoDelta.md
   - Demos:
     - Converting Parquet Dataset Into Delta Format: demo/Converting-Parquet-Dataset-Into-Delta-Format.md
     - Stream Processing of Delta Table: demo/stream-processing-of-delta-table.md

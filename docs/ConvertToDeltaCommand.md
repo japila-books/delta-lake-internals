@@ -1,4 +1,4 @@
-= ConvertToDeltaCommand
+# ConvertToDeltaCommand
 
 *ConvertToDeltaCommand* is a <<DeltaCommand.adoc#, Delta command>> that <<run, converts a parquet table into delta format>> (_imports_ it into Delta).
 
