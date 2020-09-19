@@ -9,7 +9,7 @@ DeltaMergeBuilder takes the following to be created:
 * [[targetTable]] Target <<DeltaTable.adoc#, DeltaTable>>
 * [[source]] Source Data (`DataFrame`)
 * [[onCondition]] Condition (`Column`)
-* [[whenClauses]] When Clauses (`Seq[MergeIntoClause]`)
+* [[whenClauses]] xref:DeltaMergeIntoClause.adoc[When Clauses]
 
 DeltaMergeBuilder is created using xref:DeltaTable.adoc#merge[DeltaTable.merge] operator.
 
@@ -50,16 +50,45 @@ execute resolves column references (and creates a `MergeInto`).
 
 In the end, execute creates a <<PreprocessTableMerge.adoc#, PreprocessTableMerge>> to <<PreprocessTableMerge.adoc#apply, create a MergeIntoCommand>> that is <<MergeIntoCommand.adoc#run, executed>> right away.
 
-== [[mergePlan]] Creating Logical Query Plan for Merge
+== [[mergePlan]] Creating Logical Plan for Merge
 
 [source, scala]
 ----
 mergePlan: DeltaMergeInto
 ----
 
-mergePlan...FIXME
+`mergePlan` creates a xref:DeltaMergeInto.adoc[DeltaMergeInto] logical command.
 
-mergePlan is used when DeltaMergeBuilder is requested to <<execute, execute>>.
+`mergePlan` is used when `DeltaMergeBuilder` is requested to <<execute, execute>>.
+
+== [[apply]] Creating DeltaMergeBuilder
+
+[source, scala]
+----
+apply(
+  targetTable: DeltaTable,
+  source: DataFrame,
+  onCondition: Column): DeltaMergeBuilder
+----
+
+`apply` creates a new `DeltaMergeBuilder` for the given parameters and no <<whenClauses, DeltaMergeIntoClauses>>.
+
+`apply` is used for xref:DeltaTable.adoc#merge[DeltaTable.merge] operator.
+
+== [[withClause]] Adding DeltaMergeIntoClause
+
+[source, scala]
+----
+withClause(
+  clause: DeltaMergeIntoClause): DeltaMergeBuilder
+----
+
+`withClause` creates a new `DeltaMergeBuilder` (based on the existing properties, e.g. the <<targetTable, DeltaTable>>) with the given xref:DeltaMergeIntoClause.adoc[DeltaMergeIntoClause] added to the existing <<whenClauses, DeltaMergeIntoClauses>> (to create a more refined `DeltaMergeBuilder`).
+
+`withClause` is used when:
+
+* xref:DeltaMergeMatchedActionBuilder.adoc[DeltaMergeMatchedActionBuilder] is requested to xref:DeltaMergeMatchedActionBuilder.adoc#updateAll[updateAll], xref:DeltaMergeMatchedActionBuilder.adoc#delete[delete], xref:DeltaMergeMatchedActionBuilder.adoc#addUpdateClause[addUpdateClause]
+* xref:DeltaMergeNotMatchedActionBuilder.adoc[DeltaMergeMatchedActionBuilder] is requested to xref:DeltaMergeNotMatchedActionBuilder.adoc#insertAll[insertAll] and xref:DeltaMergeNotMatchedActionBuilder.adoc#addInsertClause[addInsertClause]
 
 == [[demo]] Demo
 

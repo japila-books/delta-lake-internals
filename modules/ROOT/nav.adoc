@@ -125,5 +125,7 @@
 .Merge Operation
 * xref:DeltaMergeBuilder.adoc[]
 ** xref:DeltaMergeMatchedActionBuilder.adoc[]
+** xref:DeltaMergeNotMatchedActionBuilder.adoc[]
+** xref:DeltaMergeIntoClause.adoc[]
 * xref:DeltaMergeInto.adoc[DeltaMergeInto]
 * xref:MergeIntoCommand.adoc[]
