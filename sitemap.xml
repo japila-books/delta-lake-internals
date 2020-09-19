@@ -28,38 +28,6 @@
      <lastmod>2020-09-19</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
-     <loc>https://books.japila.pl/delta-lake-internals/AlterDeltaTableCommand/</loc>
-     <lastmod>2020-09-19</lastmod>
-     <changefreq>daily</changefreq>
-    </url><url>
-     <loc>https://books.japila.pl/delta-lake-internals/AlterTableAddColumnsDeltaCommand/</loc>
-     <lastmod>2020-09-19</lastmod>
-     <changefreq>daily</changefreq>
-    </url><url>
-     <loc>https://books.japila.pl/delta-lake-internals/AlterTableChangeColumnDeltaCommand/</loc>
-     <lastmod>2020-09-19</lastmod>
-     <changefreq>daily</changefreq>
-    </url><url>
-     <loc>https://books.japila.pl/delta-lake-internals/AlterTableReplaceColumnsDeltaCommand/</loc>
-     <lastmod>2020-09-19</lastmod>
-     <changefreq>daily</changefreq>
-    </url><url>
-     <loc>https://books.japila.pl/delta-lake-internals/AlterTableSetLocationDeltaCommand/</loc>
-     <lastmod>2020-09-19</lastmod>
-     <changefreq>daily</changefreq>
-    </url><url>
-     <loc>https://books.japila.pl/delta-lake-internals/AlterTableSetPropertiesDeltaCommand/</loc>
-     <lastmod>2020-09-19</lastmod>
-     <changefreq>daily</changefreq>
-    </url><url>
-     <loc>https://books.japila.pl/delta-lake-internals/AlterTableUnsetPropertiesDeltaCommand/</loc>
-     <lastmod>2020-09-19</lastmod>
-     <changefreq>daily</changefreq>
-    </url><url>
-     <loc>https://books.japila.pl/delta-lake-internals/CreateDeltaTableCommand/</loc>
-     <lastmod>2020-09-19</lastmod>
-     <changefreq>daily</changefreq>
-    </url><url>
      <loc>https://books.japila.pl/delta-lake-internals/DeltaSQLConf/</loc>
      <lastmod>2020-09-19</lastmod>
      <changefreq>daily</changefreq>
@@ -109,70 +77,6 @@
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://books.japila.pl/delta-lake-internals/DeltaFileFormat/</loc>
-     <lastmod>2020-09-19</lastmod>
-     <changefreq>daily</changefreq>
-    </url><url>
-     <loc>https://books.japila.pl/delta-lake-internals/commands/</loc>
-     <lastmod>2020-09-19</lastmod>
-     <changefreq>daily</changefreq>
-    </url><url>
-     <loc>https://books.japila.pl/delta-lake-internals/DeltaConvert/</loc>
-     <lastmod>2020-09-19</lastmod>
-     <changefreq>daily</changefreq>
-    </url><url>
-     <loc>https://books.japila.pl/delta-lake-internals/ConvertToDeltaCommand/</loc>
-     <lastmod>2020-09-19</lastmod>
-     <changefreq>daily</changefreq>
-    </url><url>
-     <loc>https://books.japila.pl/delta-lake-internals/DeleteCommand/</loc>
-     <lastmod>2020-09-19</lastmod>
-     <changefreq>daily</changefreq>
-    </url><url>
-     <loc>https://books.japila.pl/delta-lake-internals/DeltaCommand/</loc>
-     <lastmod>2020-09-19</lastmod>
-     <changefreq>daily</changefreq>
-    </url><url>
-     <loc>https://books.japila.pl/delta-lake-internals/DeltaGenerateCommand/</loc>
-     <lastmod>2020-09-19</lastmod>
-     <changefreq>daily</changefreq>
-    </url><url>
-     <loc>https://books.japila.pl/delta-lake-internals/DeltaGenerateCommandBase/</loc>
-     <lastmod>2020-09-19</lastmod>
-     <changefreq>daily</changefreq>
-    </url><url>
-     <loc>https://books.japila.pl/delta-lake-internals/GenerateSymlinkManifest/</loc>
-     <lastmod>2020-09-19</lastmod>
-     <changefreq>daily</changefreq>
-    </url><url>
-     <loc>https://books.japila.pl/delta-lake-internals/DescribeDeltaDetailCommand/</loc>
-     <lastmod>2020-09-19</lastmod>
-     <changefreq>daily</changefreq>
-    </url><url>
-     <loc>https://books.japila.pl/delta-lake-internals/DescribeDeltaHistoryCommand/</loc>
-     <lastmod>2020-09-19</lastmod>
-     <changefreq>daily</changefreq>
-    </url><url>
-     <loc>https://books.japila.pl/delta-lake-internals/UpdateCommand/</loc>
-     <lastmod>2020-09-19</lastmod>
-     <changefreq>daily</changefreq>
-    </url><url>
-     <loc>https://books.japila.pl/delta-lake-internals/vacuum/</loc>
-     <lastmod>2020-09-19</lastmod>
-     <changefreq>daily</changefreq>
-    </url><url>
-     <loc>https://books.japila.pl/delta-lake-internals/VacuumCommand/</loc>
-     <lastmod>2020-09-19</lastmod>
-     <changefreq>daily</changefreq>
-    </url><url>
-     <loc>https://books.japila.pl/delta-lake-internals/VacuumCommandImpl/</loc>
-     <lastmod>2020-09-19</lastmod>
-     <changefreq>daily</changefreq>
-    </url><url>
-     <loc>https://books.japila.pl/delta-lake-internals/VacuumTableCommand/</loc>
-     <lastmod>2020-09-19</lastmod>
-     <changefreq>daily</changefreq>
-    </url><url>
-     <loc>https://books.japila.pl/delta-lake-internals/WriteIntoDelta/</loc>
      <lastmod>2020-09-19</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
@@ -388,6 +292,82 @@
      <lastmod>2020-09-19</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
+     <loc>https://books.japila.pl/delta-lake-internals/commands/</loc>
+     <lastmod>2020-09-19</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
+     <loc>https://books.japila.pl/delta-lake-internals/DeltaCommand/</loc>
+     <lastmod>2020-09-19</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
+     <loc>https://books.japila.pl/delta-lake-internals/AlterDeltaTableCommand/</loc>
+     <lastmod>2020-09-19</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
+     <loc>https://books.japila.pl/delta-lake-internals/AlterTableAddColumnsDeltaCommand/</loc>
+     <lastmod>2020-09-19</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
+     <loc>https://books.japila.pl/delta-lake-internals/AlterTableChangeColumnDeltaCommand/</loc>
+     <lastmod>2020-09-19</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
+     <loc>https://books.japila.pl/delta-lake-internals/AlterTableReplaceColumnsDeltaCommand/</loc>
+     <lastmod>2020-09-19</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
+     <loc>https://books.japila.pl/delta-lake-internals/AlterTableSetLocationDeltaCommand/</loc>
+     <lastmod>2020-09-19</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
+     <loc>https://books.japila.pl/delta-lake-internals/AlterTableSetPropertiesDeltaCommand/</loc>
+     <lastmod>2020-09-19</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
+     <loc>https://books.japila.pl/delta-lake-internals/AlterTableUnsetPropertiesDeltaCommand/</loc>
+     <lastmod>2020-09-19</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
+     <loc>https://books.japila.pl/delta-lake-internals/ConvertToDeltaCommand/</loc>
+     <lastmod>2020-09-19</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
+     <loc>https://books.japila.pl/delta-lake-internals/DeltaConvert/</loc>
+     <lastmod>2020-09-19</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
+     <loc>https://books.japila.pl/delta-lake-internals/CreateDeltaTableCommand/</loc>
+     <lastmod>2020-09-19</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
+     <loc>https://books.japila.pl/delta-lake-internals/DeleteCommand/</loc>
+     <lastmod>2020-09-19</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
+     <loc>https://books.japila.pl/delta-lake-internals/DeltaGenerateCommand/</loc>
+     <lastmod>2020-09-19</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
+     <loc>https://books.japila.pl/delta-lake-internals/DeltaGenerateCommandBase/</loc>
+     <lastmod>2020-09-19</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
+     <loc>https://books.japila.pl/delta-lake-internals/GenerateSymlinkManifest/</loc>
+     <lastmod>2020-09-19</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
+     <loc>https://books.japila.pl/delta-lake-internals/DescribeDeltaDetailCommand/</loc>
+     <lastmod>2020-09-19</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
+     <loc>https://books.japila.pl/delta-lake-internals/DescribeDeltaHistoryCommand/</loc>
+     <lastmod>2020-09-19</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
+     <loc>https://books.japila.pl/delta-lake-internals/MergeIntoCommand/</loc>
+     <lastmod>2020-09-19</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
      <loc>https://books.japila.pl/delta-lake-internals/DeltaMergeBuilder/</loc>
      <lastmod>2020-09-19</lastmod>
      <changefreq>daily</changefreq>
@@ -408,7 +388,27 @@
      <lastmod>2020-09-19</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
-     <loc>https://books.japila.pl/delta-lake-internals/MergeIntoCommand/</loc>
+     <loc>https://books.japila.pl/delta-lake-internals/UpdateCommand/</loc>
+     <lastmod>2020-09-19</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
+     <loc>https://books.japila.pl/delta-lake-internals/vacuum/</loc>
+     <lastmod>2020-09-19</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
+     <loc>https://books.japila.pl/delta-lake-internals/VacuumCommand/</loc>
+     <lastmod>2020-09-19</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
+     <loc>https://books.japila.pl/delta-lake-internals/VacuumCommandImpl/</loc>
+     <lastmod>2020-09-19</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
+     <loc>https://books.japila.pl/delta-lake-internals/VacuumTableCommand/</loc>
+     <lastmod>2020-09-19</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
+     <loc>https://books.japila.pl/delta-lake-internals/WriteIntoDelta/</loc>
      <lastmod>2020-09-19</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
