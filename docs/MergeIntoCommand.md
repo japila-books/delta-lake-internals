@@ -4,6 +4,20 @@
 
 `MergeIntoCommand` is a logical command (Spark SQL's [RunnableCommand](https://jaceklaskowski.github.io/mastering-spark-sql-book/logical-operators/RunnableCommand/)).
 
+## Performance Metrics
+
+Name     | web UI
+---------|----------
+`numSourceRows` | number of source rows
+`numTargetRowsCopied` | number of target rows rewritten unmodified
+`numTargetRowsInserted` | number of inserted rows
+`numTargetRowsUpdated` | number of updated rows
+`numTargetRowsDeleted` | number of deleted rows
+`numTargetFilesBeforeSkipping` | number of target files before skipping
+`numTargetFilesAfterSkipping` | number of target files after skipping
+`numTargetFilesRemoved` | number of files removed to target
+`numTargetFilesAdded` | number of files added to target
+
 ## Creating Instance
 
 `MergeIntoCommand` takes the following to be created:
@@ -65,7 +79,37 @@ writeAllChanges(
   filesToRewrite: Seq[AddFile]): Seq[AddFile]
 ```
 
-`writeAllChanges`...FIXME
+`writeAllChanges` builds the target output columns (possibly with some `null`s for the target columns that are not in the current schema).
+
+<span id="writeAllChanges-newTarget">
+`writeAllChanges` [buildTargetPlanWithFiles](#buildTargetPlanWithFiles).
+
+<span id="writeAllChanges-joinType">
+`writeAllChanges` determines a join type to use (`rightOuter` or `fullOuter`).
+
+`writeAllChanges` prints out the following DEBUG message to the logs:
+
+```text
+writeAllChanges using [joinType] join:
+source.output: [outputSet]
+target.output: [outputSet]
+condition: [condition]
+newTarget.output: [outputSet]
+```
+
+<span id="writeAllChanges-joinedDF">
+`writeAllChanges` creates a `joinedDF` DataFrame that is a join of the DataFrames for the [source](#source) and the new [target](#writeAllChanges-newTarget) logical plans with the given [join condition](#condition) and the [join type](#writeAllChanges-joinType).
+
+`writeAllChanges` creates a `JoinedRowProcessor` that is then used to map over partitions of the [joined DataFrame](#writeAllChanges-joinedDF).
+
+`writeAllChanges` prints out the following DEBUG message to the logs:
+
+```text
+writeAllChanges: join output plan:
+[outputDF.queryExecution]
+```
+
+`writeAllChanges` requests the input [OptimisticTransaction](OptimisticTransaction.md) to [writeFiles](TransactionalWrite.md#writeFiles) (possibly repartitioning by the partition columns if table is partitioned and [spark.databricks.delta.merge.repartitionBeforeWrite.enabled](DeltaSQLConf.md#MERGE_REPARTITION_BEFORE_WRITE) configuration property is enabled).
 
 `writeAllChanges` is used when `MergeIntoCommand` is requested to [run](#run).
 

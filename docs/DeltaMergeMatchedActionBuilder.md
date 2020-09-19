@@ -52,19 +52,3 @@ apply(
 `apply` creates a `DeltaMergeMatchedActionBuilder` (for the given parameters).
 
 `apply` is used when `DeltaMergeBuilder` is requested to [whenMatched](DeltaMergeBuilder.md#whenMatched).
-
-## Demo
-
-```text
-scala> :type mergeBuilder
-io.delta.tables.DeltaMergeBuilder
-
-val mergeMatchedBuilder = mergeBuilder.whenMatched()
-
-scala> :type mergeMatchedBuilder
-io.delta.tables.DeltaMergeMatchedActionBuilder
-
-val deltaMergeBuilder = mergeMatchedBuilder.delete()
-scala> :type deltaMergeBuilder
-io.delta.tables.DeltaMergeBuilder
-```

@@ -202,6 +202,7 @@ nav:
       - VacuumTableCommand: VacuumTableCommand.md
     - WriteIntoDelta: WriteIntoDelta.md
   - Demos:
+    - Merge Operation: demo/merge-operation.md
     - Converting Parquet Dataset Into Delta Format: demo/Converting-Parquet-Dataset-Into-Delta-Format.md
     - Stream Processing of Delta Table: demo/stream-processing-of-delta-table.md
     - Using Delta Lake as Streaming Sink in Structured Streaming: demo/Using-Delta-Lake-as-Streaming-Sink-in-Structured-Streaming.md

@@ -1,6 +1,6 @@
 # DeltaMergeInto Logical Command
 
-*DeltaMergeInto* is a logical command (Spark SQL).
+**DeltaMergeInto** is a logical command (Spark SQL).
 
 == [[creating-instance]] Creating Instance
 

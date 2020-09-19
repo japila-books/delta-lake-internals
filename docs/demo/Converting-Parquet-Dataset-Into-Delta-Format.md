@@ -1,7 +1,6 @@
-= Demo: Converting Parquet Dataset Into Delta Format
+# Demo: Converting Parquet Dataset Into Delta Format
 
-[source,scala]
-----
+```text
 /*
 spark-shell \
   --packages io.delta:delta-core_2.12:0.7.0 \
@@ -51,4 +50,4 @@ assert(dt.isInstanceOf[DeltaTable])
 
 // users table is now in delta format
 assert(DeltaTable.isDeltaTable(users))
-----
+```

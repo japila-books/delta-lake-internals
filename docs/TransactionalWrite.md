@@ -1,4 +1,4 @@
-= TransactionalWrite
+# TransactionalWrite
 
 *TransactionalWrite* is an <<contract, abstraction>> of <<implementations, optimistic transactional writers>> that can <<writeFiles, write a structured query out>> to a <<deltaLog, Delta table>>.
 
@@ -58,10 +58,9 @@ Snapshot.adoc[] (of the <<deltaLog, delta table>>) that this transaction is <<Op
 
 OptimisticTransaction.adoc[] is the default and only known TransactionalWrite in Delta Lake (indirectly as a OptimisticTransactionImpl.adoc[]).
 
-== [[writeFiles]] Writing Data Out (Result Of Structured Query)
+## <span id="writeFiles"> Writing Data Out (Result Of Structured Query)
 
-[source, scala]
-----
+```scala
 writeFiles(
   data: Dataset[_]): Seq[AddFile]
 writeFiles(
@@ -74,44 +73,42 @@ writeFiles(
   data: Dataset[_],
   writeOptions: Option[DeltaOptions],
   isOptimize: Boolean): Seq[AddFile]
-----
+```
 
-writeFiles creates a <<DeltaInvariantCheckerExec.adoc#, DeltaInvariantCheckerExec>> and a <<DelayedCommitProtocol.adoc#, DelayedCommitProtocol>> to write out files to the <<DeltaLog.adoc#dataPath, data path>> (of the <<deltaLog, DeltaLog>>).
+`writeFiles` creates a [DeltaInvariantCheckerExec](DeltaInvariantCheckerExec.md) and a [DelayedCommitProtocol](DelayedCommitProtocol.md) to write out files to the [data path](DeltaLog.md#dataPath) (of the [DeltaLog](#deltaLog)).
 
-[NOTE]
-====
-writeFiles uses Spark SQL's `FileFormatWriter` utility to write out a result of a streaming query.
+!!! note
+    `writeFiles` uses Spark SQL's `FileFormatWriter` utility to write out a result of a streaming query.
 
-Read up on https://jaceklaskowski.gitbooks.io/mastering-spark-sql/spark-sql-FileFormatWriter.html[FileFormatWriter] in https://bit.ly/spark-sql-internals[The Internals of Spark SQL] online book.
-====
+    Read up on [FileFormatWriter](https://jaceklaskowski.github.io/mastering-spark-sql-book/spark-sql-FileFormatWriter/) in [The Internals of Spark SQL](https://jaceklaskowski.github.io/mastering-spark-sql-book) online book.
 
-writeFiles is executed within `SQLExecution.withNewExecutionId`.
+`writeFiles` is executed within `SQLExecution.withNewExecutionId`.
 
-NOTE: writeFiles can be tracked using web UI or `SQLAppStatusListener` (using `SparkListenerSQLExecutionStart` and `SparkListenerSQLExecutionEnd` events).
+!!! note
+    `writeFiles` can be tracked using web UI or `SQLAppStatusListener` (using `SparkListenerSQLExecutionStart` and `SparkListenerSQLExecutionEnd` events).
 
-In the end, writeFiles returns the <<DelayedCommitProtocol.adoc#addedStatuses, addedStatuses>> of the `DelayedCommitProtocol` committer.
+In the end, `writeFiles` returns the [addedStatuses](DelayedCommitProtocol.md#addedStatuses) of the `DelayedCommitProtocol` committer.
 
-Internally, writeFiles turns the <<hasWritten, hasWritten>> flag on (`true`).
+Internally, `writeFiles` turns the [hasWritten](#hasWritten) flag on (`true`).
 
-NOTE: After writeFiles, no <<OptimisticTransactionImpl.adoc#updateMetadata-AssertionError-hasWritten, metadata updates>> in the transaction are permitted.
+NOTE: After `writeFiles`, no [metadata updates](OptimisticTransactionImpl.md#updateMetadata-AssertionError-hasWritten) in the transaction are permitted.
 
-writeFiles <<normalizeData, normalize>> the given `data` dataset (based on the <<Metadata.adoc#partitionColumns, partitionColumns>> of the <<OptimisticTransactionImpl.adoc#metadata, Metadata>>).
+`writeFiles` [normalize](#normalizeData) the given `data` dataset (based on the [partitionColumns](Metadata.md#partitionColumns) of the [Metadata](OptimisticTransactionImpl.md#metadata)).
 
-writeFiles <<getPartitioningColumns, getPartitioningColumns>> based on the <<Metadata.adoc#partitionSchema, partitionSchema>> of the <<OptimisticTransactionImpl.adoc#metadata, Metadata>>.
+`writeFiles` [getPartitioningColumns](#getPartitioningColumns) based on the [partitionSchema](Metadata.md#partitionSchema) of the [Metadata](OptimisticTransactionImpl.md#metadata).
 
-[[writeFiles-committer]]
-writeFiles <<getCommitter, creates a DelayedCommitProtocol committer>> for the <<DeltaLog.adoc#dataPath, data path>> of the <<deltaLog, DeltaLog>>.
+<span id="writeFiles-committer">
+writeFiles [creates a DelayedCommitProtocol committer](#getCommitter) for the [data path](DeltaLog.md#dataPath) of the [DeltaLog](#deltaLog).
 
-writeFiles <<Invariants.adoc#getFromSchema, gets the invariants>> from the <<Metadata.adoc#schema, schema>> of the <<OptimisticTransactionImpl.adoc#metadata, Metadata>>.
+`writeFiles` [gets the invariants](Invariants.md#getFromSchema) from the [schema](Metadata.md#schema) of the [Metadata](OptimisticTransactionImpl.md#metadata).
 
-[[writeFiles-DeltaInvariantCheckerExec]][[writeFiles-FileFormatWriter]]
-writeFiles requests a new Execution ID (that is used to track all Spark jobs of `FileFormatWriter.write` in Spark SQL) with a physical query plan of a new <<DeltaInvariantCheckerExec.adoc#, DeltaInvariantCheckerExec>> unary physical operator (with the executed plan of the normalized query execution as the child operator).
+<span id="writeFiles-DeltaInvariantCheckerExec"><span id="writeFiles-FileFormatWriter">
+`writeFiles` requests a new Execution ID (that is used to track all Spark jobs of `FileFormatWriter.write` in Spark SQL) with a physical query plan of a new [DeltaInvariantCheckerExec](DeltaInvariantCheckerExec.md) unary physical operator (with the executed plan of the normalized query execution as the child operator).
 
-writeFiles is used when:
+`writeFiles` is used when:
 
-* <<DeleteCommand.adoc#, DeleteCommand>>, <<MergeIntoCommand.adoc#, MergeIntoCommand>>, <<UpdateCommand.adoc#, UpdateCommand>>, and <<WriteIntoDelta.adoc#, WriteIntoDelta>> commands are executed
-
-* `DeltaSink` is requested to <<DeltaSink.adoc#addBatch, add a streaming micro-batch>>
+* [DeleteCommand](DeleteCommand.md), [MergeIntoCommand](MergeIntoCommand.md), [UpdateCommand](UpdateCommand.md), and [WriteIntoDelta](WriteIntoDelta.md) commands are executed
+* `DeltaSink` is requested to [add a streaming micro-batch](DeltaSink.md#addBatch)
 
 == [[getCommitter]] Creating Committer
 
