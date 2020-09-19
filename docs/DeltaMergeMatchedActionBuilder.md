@@ -1,25 +1,43 @@
 # DeltaMergeMatchedActionBuilder
 
-**DeltaMergeMatchedActionBuilder** is a merge action builder for [DeltaMergeBuilder.whenMatched](DeltaMergeBuilder.md#whenMatched) operator.
+**DeltaMergeMatchedActionBuilder** is a [builder interface](#operators) for [DeltaMergeBuilder.whenMatched](DeltaMergeBuilder.md#whenMatched) operator.
 
-```text
-scala> :type mergeBuilder
-io.delta.tables.DeltaMergeBuilder
+## Creating Instance
 
-val mergeMatchedBuilder = mergeBuilder.whenMatched
+`DeltaMergeMatchedActionBuilder` takes the following to be created:
 
-scala> :type mergeMatchedBuilder
-io.delta.tables.DeltaMergeMatchedActionBuilder
+* <span id="mergeBuilder"> [DeltaMergeBuilder](DeltaMergeBuilder.md)
+* <span id="matchCondition"> Optional match condition
+
+`DeltaMergeMatchedActionBuilder` is created when `DeltaMergeBuilder` is requested to [whenMatched](DeltaMergeBuilder.md#whenMatched) (using [apply](#apply) factory method).
+
+## Operators
+
+### <span id="delete"> delete
+
+```scala
+delete(): DeltaMergeBuilder
 ```
 
-== [[creating-instance]] Creating Instance
+### <span id="update"> update
 
-DeltaMergeMatchedActionBuilder takes the following to be created:
+```scala
+update(
+  set: Map[String, Column]): DeltaMergeBuilder
+```
 
-* [[mergeBuilder]] [DeltaMergeBuilder](DeltaMergeBuilder.md)
-* [[matchCondition]] Optional match condition (`Column` expression)
+### <span id="updateAll"> updateAll
 
-DeltaMergeMatchedActionBuilder is created using <<apply, apply>> factory method.
+```scala
+updateAll(): DeltaMergeBuilder
+```
+
+### <span id="updateExpr"> updateExpr
+
+```scala
+updateExpr(
+  set: Map[String, String]): DeltaMergeBuilder
+```
 
 ## <span id="apply"> Creating DeltaMergeMatchedActionBuilder
 
@@ -32,3 +50,19 @@ apply(
 `apply` creates a `DeltaMergeMatchedActionBuilder` (for the given parameters).
 
 `apply` is used when `DeltaMergeBuilder` is requested to [whenMatched](DeltaMergeBuilder.md#whenMatched).
+
+## Demo
+
+```text
+scala> :type mergeBuilder
+io.delta.tables.DeltaMergeBuilder
+
+val mergeMatchedBuilder = mergeBuilder.whenMatched()
+
+scala> :type mergeMatchedBuilder
+io.delta.tables.DeltaMergeMatchedActionBuilder
+
+val deltaMergeBuilder = mergeMatchedBuilder.delete()
+scala> :type deltaMergeBuilder
+io.delta.tables.DeltaMergeBuilder
+```

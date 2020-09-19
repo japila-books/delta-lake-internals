@@ -84,7 +84,7 @@ withClause(
 `withClause` is used when:
 
 * [DeltaMergeMatchedActionBuilder](DeltaMergeMatchedActionBuilder.md) is requested to [updateAll](DeltaMergeMatchedActionBuilder.md#updateAll), [delete](DeltaMergeMatchedActionBuilder.md#delete) and [addUpdateClause](DeltaMergeMatchedActionBuilder.md#addUpdateClause)
-* [DeltaMergeMatchedActionBuilder](DeltaMergeNotMatchedActionBuilder.md) is requested to [insertAll](DeltaMergeNotMatchedActionBuilder.md#insertAll) and [addInsertClause](DeltaMergeNotMatchedActionBuilder.md#addInsertClause)
+* [DeltaMergeNotMatchedActionBuilder](DeltaMergeNotMatchedActionBuilder.md) is requested to [insertAll](DeltaMergeNotMatchedActionBuilder.md#insertAll) and [addInsertClause](DeltaMergeNotMatchedActionBuilder.md#addInsertClause)
 
 ## Demo
 
@@ -100,6 +100,8 @@ val target = DeltaTable.forPath(path)
 
 scala> :type target
 io.delta.tables.DeltaTable
+
+assert(target.history.count == 1, "There must be version 0 only")
 
 case class Person(id: Long, name: String)
 val source = Seq(Person(0, "Zero"), Person(1, "One")).toDF
@@ -136,4 +138,12 @@ org.apache.spark.sql.AnalysisException: There must be at least one WHEN clause i
   at io.delta.tables.DeltaMergeBuilder.improveUnsupportedOpError(DeltaMergeBuilder.scala:121)
   at io.delta.tables.DeltaMergeBuilder.execute(DeltaMergeBuilder.scala:225)
   ... 47 elided
+
+val mergeBuilderDeleteMatched = mergeBuilder.whenMatched().delete()
+scala> :type mergeBuilderDeleteMatched
+io.delta.tables.DeltaMergeBuilder
+
+mergeBuilderDeleteMatched.execute()
+
+assert(target.history.count == 2, "There must be two versions only")
 ```
