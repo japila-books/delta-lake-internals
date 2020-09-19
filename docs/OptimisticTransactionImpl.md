@@ -1,6 +1,6 @@
-= OptimisticTransactionImpl
+# OptimisticTransactionImpl
 
-*OptimisticTransactionImpl* is an <<contract, extension>> of the TransactionalWrite.adoc[] abstraction for <<implementations, optimistic transactions>> that can modify a <<deltaLog, Delta table>> (at a given <<snapshot, version>>) and can be <<commit, committed>> eventually.
+**OptimisticTransactionImpl** is an <<contract, extension>> of the TransactionalWrite.adoc[] abstraction for <<implementations, optimistic transactions>> that can modify a <<deltaLog, Delta table>> (at a given <<snapshot, version>>) and can be <<commit, committed>> eventually.
 
 In other words, OptimisticTransactionImpl is a set of Action.adoc[actions] as part of an Operation.adoc[].
 
@@ -139,16 +139,15 @@ readWholeTable simply adds `True` literal to the <<readPredicates, readPredicate
 
 readWholeTable is used when DeltaSink is requested to DeltaSink.adoc#addBatch[add a streaming micro-batch] (and the batch reads the same Delta table as this sink is going to write to).
 
-== [[commit]] Committing Transaction
+## <span id="commit"> Committing Transaction
 
-[source, scala]
-----
+```scala
 commit(
   actions: Seq[Action],
   op: DeltaOperations.Operation): Long
-----
+```
 
-commit commits transaction (Action.adoc[actions] for an Operation.adoc[]).
+`commit` commits the transaction (with the [Action](Action.md)s and a given [Operation](Operation.md))
 
 [[commit-prepareCommit]]
 commit firstly <<prepareCommit, prepares a commit>> (that gives the final actions to commit that may be different from the given <<Action.adoc#, actions>>).

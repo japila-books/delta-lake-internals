@@ -48,28 +48,23 @@ Used when `ImplicitMetadataOperation` is requested to <<updateMetadata, updateMe
 
 |===
 
-== [[updateMetadata]] Updating Metadata -- `updateMetadata` Method
+## <span id="updateMetadata"> Updating Metadata
 
-[source, scala]
-----
+```scala
 updateMetadata(
   txn: OptimisticTransaction,
   data: Dataset[_],
   partitionColumns: Seq[String],
   configuration: Map[String, String],
   isOverwriteMode: Boolean): Unit
-----
+```
 
 `updateMetadata`...FIXME
 
-[NOTE]
-====
 `updateMetadata` is used when:
 
-* `WriteIntoDelta` command is <<WriteIntoDelta.adoc#run, executed>> (and requested to <<WriteIntoDelta.adoc#write, write>>)
-
-* `DeltaSink` is requested to <<DeltaSink.adoc#addBatch, add a streaming micro-batch>>
-====
+* [WriteIntoDelta](WriteIntoDelta.md) command is executed
+* `DeltaSink` is requested to [add a streaming micro-batch](DeltaSink.md#addBatch)
 
 == [[normalizePartitionColumns]] Normalize Partition Columns -- `normalizePartitionColumns` Internal Method
 

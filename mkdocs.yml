@@ -164,6 +164,7 @@ nav:
       - PreprocessTableDelete: PreprocessTableDelete.md
       - PreprocessTableMerge: PreprocessTableMerge.md
       - PreprocessTableUpdate: PreprocessTableUpdate.md
+    - SQLMetricsReporting: SQLMetricsReporting.md
   - Commands:
     - Delta Commands: commands/index.md
     - DeltaCommand: DeltaCommand.md

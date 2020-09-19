@@ -1,7 +1,6 @@
-= DeltaSQLConf -- spark.databricks.delta Configuration Properties
-:navtitle: DeltaSQLConf
+# DeltaSQLConf &mdash; spark.databricks.delta Configuration Properties
 
-*DeltaSQLConf* contains *spark.databricks.delta*-prefixed configuration properties to configure behaviour of Delta Lake.
+**DeltaSQLConf** contains **spark.databricks.delta**-prefixed configuration properties to configure behaviour of Delta Lake.
 
 == [[alterLocation.bypassSchemaCheck]][[DELTA_ALTER_LOCATION_BYPASS_SCHEMA_CHECK]] alterLocation.bypassSchemaCheck
 
@@ -9,9 +8,9 @@
 
 Default: `false`
 
-== [[checkLatestSchemaOnRead]][[DELTA_SCHEMA_ON_READ_CHECK_ENABLED]] checkLatestSchemaOnRead
+## <span id="checkLatestSchemaOnRead"><span id="DELTA_SCHEMA_ON_READ_CHECK_ENABLED"> checkLatestSchemaOnRead
 
-*spark.databricks.delta.checkLatestSchemaOnRead* (internal) enables a check that ensures that users won't read corrupt data if the source schema changes in an incompatible way.
+**spark.databricks.delta.checkLatestSchemaOnRead** (internal) enables a check that ensures that users won't read corrupt data if the source schema changes in an incompatible way.
 
 Default: `true`
 
@@ -69,9 +68,9 @@ The default is the maximum keys returned by S3 per list call. Azure can return 5
 
 Default: `1000`
 
-== [[history.metricsEnabled]][[DELTA_HISTORY_METRICS_ENABLED]] history.metricsEnabled
+## <span id="history.metricsEnabled"><span id="DELTA_HISTORY_METRICS_ENABLED"> history.metricsEnabled
 
-*spark.databricks.delta.history.metricsEnabled* enables Metrics reporting in Describe History. CommitInfo.adoc[] will now record the Operation Metrics.
+**spark.databricks.delta.history.metricsEnabled** enables Metrics reporting in Describe History. [CommitInfo](CommitInfo.md) will now record the Operation Metrics.
 
 Default: `true`
 
@@ -135,13 +134,13 @@ Default: `true`
 
 Default: `false`
 
-== [[schema.autoMerge.enabled]][[DELTA_SCHEMA_AUTO_MIGRATE]] schema.autoMerge.enabled
+## <span id="schema.autoMerge.enabled"><span id="DELTA_SCHEMA_AUTO_MIGRATE"> schema.autoMerge.enabled
 
-*spark.databricks.delta.schema.autoMerge.enabled* enables schema merging on appends and overwrites.
-
-Equivalent DataFrame option: <<DeltaOptions.adoc#mergeSchema, mergeSchema>>
+**spark.databricks.delta.schema.autoMerge.enabled** enables schema merging on appends and overwrites.
 
 Default: `false`
+
+Equivalent DataFrame option: [mergeSchema](DeltaOptions.adoc#mergeSchema)
 
 == [[snapshotIsolation.enabled]][[DELTA_SNAPSHOT_ISOLATION]] snapshotIsolation.enabled
 

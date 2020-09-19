@@ -1,4 +1,4 @@
-= DeltaLog
+# DeltaLog
 
 `DeltaLog` is a *transaction log* (aka _change log_) of <<Action.adoc#, changes>> to the state of a <<dataPath, delta table>>.
 
@@ -138,33 +138,28 @@ NOTE: `rawPath` is a Hadoop https://hadoop.apache.org/docs/r2.7.3/api/org/apache
 
 NOTE: `apply` is used when `DeltaLog` is requested to <<forTable, forTable>>.
 
-== [[withNewTransaction]] Executing Single-Threaded Operation (Block) in New Transaction -- `withNewTransaction` Method
+## <span id="withNewTransaction"> Executing Single-Threaded Operation in New Transaction
 
-[source, scala]
-----
+```scala
 withNewTransaction[T](
   thunk: OptimisticTransaction => T): T
-----
+```
 
-`withNewTransaction` <<startTransaction, starts a new transaction>> (that is <<OptimisticTransaction.adoc#setActive, active>> for the whole thread) and executes the given `thunk` block.
+`withNewTransaction` [starts a new transaction](#startTransaction) (that is [active](OptimisticTransaction.adoc#setActive) for the whole thread) and executes the given `thunk` block.
 
-In the end, `withNewTransaction` makes the transaction <<OptimisticTransaction.adoc#clearActive, no longer active>>.
+In the end, `withNewTransaction` makes the transaction [no longer active](OptimisticTransaction.adoc#clearActive).
 
-[NOTE]
-====
 `withNewTransaction` is used when:
 
-* <<DeleteCommand.adoc#, DeleteCommand>>, <<MergeIntoCommand.adoc#, MergeIntoCommand>>, <<UpdateCommand.adoc#, UpdateCommand>>, and <<WriteIntoDelta.adoc#, WriteIntoDelta>> logical commands are executed
+* [DeleteCommand](DeleteCommand.md), [MergeIntoCommand](MergeIntoCommand.md), [UpdateCommand](UpdateCommand.md), and [WriteIntoDelta](WriteIntoDelta.md) commands are executed
 
-* `DeltaSink` is requested to <<DeltaSink.adoc#addBatch, add a streaming micro-batch>>
-====
+* `DeltaSink` is requested to [add a streaming micro-batch](DeltaSink.adoc#addBatch)
 
-== [[startTransaction]] Starting New Transaction
+## <span id="startTransaction"> Starting New Transaction
 
-[source, scala]
-----
+```scala
 startTransaction(): OptimisticTransaction
-----
+```
 
 startTransaction <<update, updates>> and creates a new OptimisticTransaction.adoc[] (for this DeltaLog).
 

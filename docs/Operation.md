@@ -1,4 +1,4 @@
-= Operation
+# Operation
 
 *Operation* is an <<contract, abstraction>> of <<implementations, operations>> that can be performed on a Delta table.
 
