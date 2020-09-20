@@ -22,12 +22,26 @@ The project is based on or uses the following tools:
 
 ## Previewing Book
 
-Simply use the [official Docker image](https://squidfunk.github.io/mkdocs-material/getting-started/#with-docker-recommended) to get up and running with the above tools.
+### Custom Docker Image
 
-Start `mkdocs serve` in the project root (the folder with [mkdocs.yml](mkdocs.yml)) as follows:
+This project uses a custom Docker image (based on [Dockerfile](Dockerfile)) since the [official Docker image](https://squidfunk.github.io/mkdocs-material/getting-started/#with-docker-recommended) includes just a few plugins only.
 
-```shell
-$ docker run --rm -it -p 8000:8000 -v ${PWD}:/docs squidfunk/mkdocs-material
+Build the custom Docker image using the following command:
+
+```text
+docker build -t macros-material .
+```
+
+### Building Book
+
+Run the following command to build the book.
+
+```text
+docker run \
+  -it \
+  -p 8000:8000 \
+  -v ${PWD}:/docs macros-material \
+  build --clean
 ```
 
 Consult the [MkDocs documentation](https://www.mkdocs.org/#getting-started) to get started and learn how to [build the project](https://www.mkdocs.org/#building-the-site).
@@ -51,17 +65,21 @@ Commands:
   serve      Run the builtin development server
 ```
 
-Use `mkdocs build --clean` to remove any stale files.
+### Online Editing
 
-Consider `--dirtyreload` for a faster reloads.
+Start `mkdocs serve` (with `--dirtyreload` for faster reloads) as follows:
 
 ```shell
-$ docker run --rm -it \
-    -p 8000:8000 \
-    -v ${PWD}:/docs \
-    squidfunk/mkdocs-material \
-    serve --dirtyreload --verbose --dev-addr 0.0.0.0:8000
+docker run \
+  -it \
+  -p 8000:8000 \
+  -v ${PWD}:/docs macros-material \
+  serve --dirtyreload --verbose --dev-addr 0.0.0.0:8000
 ```
+
+You should start the above command in the project root (the folder with [mkdocs.yml](mkdocs.yml)).
+
+Use `mkdocs build --clean` to remove any stale files.
 
 ## No Sphinx?! Why?
 

@@ -145,15 +145,15 @@ withNewTransaction[T](
   thunk: OptimisticTransaction => T): T
 ```
 
-`withNewTransaction` [starts a new transaction](#startTransaction) (that is [active](OptimisticTransaction.adoc#setActive) for the whole thread) and executes the given `thunk` block.
+`withNewTransaction` [starts a new transaction](#startTransaction) (that is [active](OptimisticTransaction.md#setActive) for the whole thread) and executes the given `thunk` block.
 
-In the end, `withNewTransaction` makes the transaction [no longer active](OptimisticTransaction.adoc#clearActive).
+In the end, `withNewTransaction` makes the transaction [no longer active](OptimisticTransaction.md#clearActive).
 
 `withNewTransaction` is used when:
 
 * [DeleteCommand](DeleteCommand.md), [MergeIntoCommand](MergeIntoCommand.md), [UpdateCommand](UpdateCommand.md), and [WriteIntoDelta](WriteIntoDelta.md) commands are executed
 
-* `DeltaSink` is requested to [add a streaming micro-batch](DeltaSink.adoc#addBatch)
+* `DeltaSink` is requested to [add a streaming micro-batch](DeltaSink.md#addBatch)
 
 ## <span id="startTransaction"> Starting New Transaction
 
@@ -161,7 +161,7 @@ In the end, `withNewTransaction` makes the transaction [no longer active](Optimi
 startTransaction(): OptimisticTransaction
 ```
 
-startTransaction <<update, updates>> and creates a new OptimisticTransaction.adoc[] (for this DeltaLog).
+startTransaction <<update, updates>> and creates a new OptimisticTransaction.md[] (for this DeltaLog).
 
 NOTE: startTransaction is a subset of <<withNewTransaction, withNewTransaction>>.
 
@@ -244,7 +244,7 @@ forTable(
 
 * `DeltaTableIdentifier` is requested to `getDeltaLog`
 
-* <<DeltaSink.adoc#, DeltaSink>> is created
+* <<DeltaSink.md#, DeltaSink>> is created
 ====
 
 == [[update]] `update` Method
@@ -293,7 +293,7 @@ snapshot: Snapshot
 ====
 `snapshot` is used when:
 
-* <<OptimisticTransaction.adoc#, OptimisticTransaction>> is created
+* <<OptimisticTransaction.md#, OptimisticTransaction>> is created
 
 * `Checkpoints` is requested to <<checkpoint, checkpoint>>
 
