@@ -1,6 +1,6 @@
 # MergeIntoCommand
 
-`MergeIntoCommand` is a [DeltaCommand](DeltaCommand.md).
+`MergeIntoCommand` is a [DeltaCommand](DeltaCommand.md) that represents a [DeltaMergeInto](DeltaMergeInto.md) logical command.
 
 `MergeIntoCommand` is a logical command (Spark SQL's [RunnableCommand](https://jaceklaskowski.github.io/mastering-spark-sql-book/logical-operators/RunnableCommand/)).
 

@@ -1,136 +1,94 @@
 # Operation
 
-*Operation* is an <<contract, abstraction>> of <<implementations, operations>> that can be performed on a Delta table.
+**Operation** is an [abstraction](#contract) of [operations](#implementations) that can be executed on Delta tables.
 
-Operation has a <<name, name>> and <<parameters, parameters>> (that are simply used to create a CommitInfo.adoc[] for OptimisticTransactionImpl being OptimisticTransactionImpl.adoc#commit[committed] and, as a way to bypass a transaction, ConvertToDeltaCommand.adoc[]).
+Operation is described by a [name](#name) and [parameters](#parameters) (that are simply used to create a [CommitInfo](CommitInfo.md) for `OptimisticTransactionImpl` when [committed](OptimisticTransactionImpl.md#commit) and, as a way to bypass a transaction, [ConvertToDeltaCommand](ConvertToDeltaCommand.md)).
 
-== [[contract]] Contract
+Operation may have [performance metrics](#operationMetrics).
 
-=== [[name]] name
+## Contract
 
-[source,scala]
-----
-name: String
-----
+### <span id="parameters"> parameters
 
-Name of the operation (to create a CommitInfo.adoc[])
-
-Used when:
-
-* OptimisticTransactionImpl is requested to OptimisticTransactionImpl.adoc#commit[commit]
-
-* ConvertToDeltaCommand command is requested to ConvertToDeltaCommand.adoc#streamWrite[streamWrite] (when executed)
-
-=== [[parameters]] parameters
-
-[source,scala]
-----
+```scala
 parameters: Map[String, Any]
-----
+```
 
-Parameters of the operation (to create a CommitInfo.adoc[] with the <<jsonEncodedValues, JSON-encoded values>>)
+Parameters of the operation (to create a [CommitInfo](CommitInfo.md) with the [JSON-encoded values](#jsonEncodedValues))
 
-Used when Operation is requested for <<jsonEncodedValues, parameters with the values in JSON format>>.
+Used when `Operation` is requested for [parameters with the values in JSON format](#jsonEncodedValues)
 
-== [[implementations]] Operations
+## Implementations
 
-Operation is a Scala *sealed trait* which means that all the implementations are in the same compilation unit (a single file).
+??? note "Sealed Abstract Class"
+    `Operation` is a Scala **sealed abstract class** which means that all of the implementations are in the same compilation unit (a single file).
 
-=== [[AddColumns]] AddColumns
+* AddColumns
+* ChangeColumn
+* ComputeStats
+* Convert
+* CreateTable
+* Delete
+* FileNotificationRetention
+* Fsck
+* ManualUpdate
+* Optimize
+* ReplaceColumns
+* ReplaceTable
+* ResetZCubeInfo
+* SetTableProperties
+* StreamingUpdate
+* Truncate
+* UnsetTableProperties
+* Update
+* UpdateColumnMetadata
+* UpdateSchema
+* UpgradeProtocol
+* Write
 
-=== [[ChangeColumn]] ChangeColumn
+### Merge
 
-=== [[ComputeStats]] ComputeStats
+Recorded when a merge operation is committed to a Delta table (when [MergeIntoCommand](MergeIntoCommand.md) is executed)
 
-=== [[Convert]] Convert
+## Creating Instance
 
-=== [[CreateTable]] CreateTable
+`Operation` takes the following to be created:
 
-=== [[Delete]] Delete
+* <span id="name"> Name
 
-=== [[FileNotificationRetention]] FileNotificationRetention
+??? note "Abstract Class"
+    `Operation` is an abstract class and cannot be created directly. It is created indirectly for the [concrete Operations](#implementations).
 
-=== [[Fsck]] Fsck
+## <span id="jsonEncodedValues"> Serializing Parameter Values (to JSON Format)
 
-=== [[ManualUpdate]] ManualUpdate
-
-<<name, name>>: *Manual Update*
-
-<<parameters, parameters>>: Empty
-
-=== [[Merge]] Merge
-
-=== [[Optimize]] Optimize
-
-=== [[ReplaceColumns]] ReplaceColumns
-
-=== [[ReplaceTable]] ReplaceTable
-
-=== [[ResetZCubeInfo]] ResetZCubeInfo
-
-=== [[SetTableProperties]] SetTableProperties
-
-=== [[StreamingUpdate]] StreamingUpdate
-
-=== [[Truncate]] Truncate
-
-=== [[UnsetTableProperties]] UnsetTableProperties
-
-=== [[Update]] Update
-
-=== [[UpdateColumnMetadata]] UpdateColumnMetadata
-
-=== [[UpdateSchema]] UpdateSchema
-
-=== [[UpgradeProtocol]] UpgradeProtocol
-
-=== [[Write]] Write
-
-== [[jsonEncodedValues]] Serializing Parameter Values (to JSON Format)
-
-[source,scala]
-----
+```scala
 jsonEncodedValues: Map[String, String]
-----
+```
 
-jsonEncodedValues converts the values of the <<parameters, parameters>> to JSON format.
+`jsonEncodedValues` converts the values of the [parameters](#parameters) to JSON format.
 
-jsonEncodedValues is used when:
+`jsonEncodedValues` is used when:
 
-* OptimisticTransactionImpl is requested to OptimisticTransactionImpl.adoc#commit[commit] (to create a CommitInfo.adoc[])
+* `OptimisticTransactionImpl` is requested to [commit](OptimisticTransactionImpl.md#commit)
+* `ConvertToDeltaCommand` command is requested to [streamWrite](ConvertToDeltaCommand.md#streamWrite)
 
-* ConvertToDeltaCommand command is requested to ConvertToDeltaCommand.adoc#streamWrite[streamWrite] (when executed and creates a CommitInfo.adoc[])
+## <span id="operationMetrics"> operationMetrics Registry
 
-== [[operationMetrics]] operationMetrics Method
-
-[source,scala]
-----
+```scala
 operationMetrics: Set[String]
-----
+```
 
-operationMetrics...FIXME
+`operationMetrics` is empty by default (and is expected to be overriden by [concrete operations](#implementations))
 
-operationMetrics is used when...FIXME
+`operationMetrics` is used when `Operation` is requested to [transformMetrics](#transformMetrics).
 
-== [[transformMetrics]] transformMetrics Method
+## <span id="transformMetrics"> transformMetrics Method
 
-[source,scala]
-----
+```scala
 transformMetrics(
   metrics: Map[String, SQLMetric]): Map[String, String]
-----
+```
 
-transformMetrics...FIXME
+`transformMetrics` returns a collection of performance metrics (`SQLMetric`) and their values (as a text) that are defined as the [operationMetrics](#operationMetrics).
 
-transformMetrics is used when...FIXME
-
-== [[userMetadata]] userMetadata Method
-
-[source,scala]
-----
-userMetadata: Option[String] = None
-----
-
-userMetadata of the operation.
-
-userMetadata is used when OptimisticTransactionImpl is requested to OptimisticTransactionImpl.adoc#getUserMetadata[getUserMetadata].
+`transformMetrics` is used when `SQLMetricsReporting` is requested to [getMetricsForOperation](SQLMetricsReporting.md#getMetricsForOperation).

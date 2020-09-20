@@ -74,6 +74,13 @@ Default: `1000`
 
 Default: `true`
 
+Used when:
+
+* `OptimisticTransactionImpl` is requested to [getOperationMetrics](OptimisticTransactionImpl.md#getOperationMetrics)
+* `ConvertToDeltaCommand` is requested to [streamWrite](ConvertToDeltaCommand.md#streamWrite)
+* `SQLMetricsReporting` is requested to [registerSQLMetrics](SQLMetricsReporting.md#registerSQLMetrics)
+* `TransactionalWrite` is requested to [writeFiles](TransactionalWrite.md#writeFiles)
+
 ## <span id="import.batchSize.schemaInference"><span id="DELTA_IMPORT_BATCH_SIZE_SCHEMA_INFERENCE"> import.batchSize.schemaInference
 
 **spark.databricks.delta.import.batchSize.schemaInference** (internal) is the number of files per batch for schema inference during [import](ConvertToDeltaCommand.md#performConvert-schemaBatchSize).

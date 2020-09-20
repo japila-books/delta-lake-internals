@@ -1,59 +1,54 @@
 # DeltaMergeInto Logical Command
 
-**DeltaMergeInto** is a logical command (Spark SQL).
+**DeltaMergeInto** is a logical command (Spark SQL's [Command](https://jaceklaskowski.github.io/mastering-spark-sql-book/logical-operators/Command/)).
 
-== [[creating-instance]] Creating Instance
+## Creating Instance
 
-DeltaMergeInto takes the following to be created:
+`DeltaMergeInto` takes the following to be created:
 
-* [[target]] Target LogicalPlan
-* [[source]] Source LogicalPlan
-* [[condition]] Condition Expression
-* [[matchedClauses]] Matched Clauses (`Seq[DeltaMergeIntoMatchedClause]`)
-* [[notMatchedClause]] Optional Non-Matched Clause (`Option[DeltaMergeIntoInsertClause]`)
-* [[migratedSchema]] Optional Migrated Schema (default: `None`)
+* <span id="target"> Target `LogicalPlan`
+* <span id="source"> Source `LogicalPlan`
+* <span id="condition"> Condition Expression
+* <span id="matchedClauses"> Matched Clauses (`Seq[DeltaMergeIntoMatchedClause]`)
+* <span id="notMatchedClause"> Optional Non-Matched Clause (`Option[DeltaMergeIntoInsertClause]`)
+* <span id="migratedSchema"> Optional Migrated Schema (default: `undefined`)
 
-DeltaMergeInto is created (using <<apply, apply>> and <<resolveReferences, resolveReferences>> utilities) when:
+`DeltaMergeInto` is created (using [apply](#apply) and [resolveReferences](#resolveReferences) utilities) when:
 
-* [DeltaMergeBuilder](DeltaMergeBuilder.md) is executed
+* `DeltaMergeBuilder` is requested to [execute](DeltaMergeBuilder.md#execute)
+* [DeltaAnalysis](DeltaAnalysis.md) logical resolution rule is executed
 
-* DeltaAnalysis logical resolution rule is requested to DeltaAnalysis.adoc#apply[execute]
+## Utilities
 
-== [[utilities]] Utilities
+### <span id="apply"> apply
 
-=== [[apply]] apply Factory
-
-[source,scala]
-----
+```scala
 apply(
   target: LogicalPlan,
   source: LogicalPlan,
   condition: Expression,
   whenClauses: Seq[DeltaMergeIntoClause]): DeltaMergeInto
-----
+```
 
-apply...FIXME
+`apply`...FIXME
 
-apply is used when:
+`apply` is used when:
 
-* [DeltaMergeBuilder](DeltaMergeBuilder.md) is executed (and for the [logical plan for merge operation](DeltaMergeBuilder.md#mergePlan))
+* `DeltaMergeBuilder` is requested to [execute](DeltaMergeBuilder.md#execute) (when [mergePlan](DeltaMergeBuilder.md#mergePlan))
+* [DeltaAnalysis](DeltaAnalysis.md) logical resolution rule is executed (and resolves `MergeIntoTable` logical command)
 
-* DeltaAnalysis logical resolution rule is requested to DeltaAnalysis.adoc#apply[execute]
+### <span id="resolveReferences"> resolveReferences
 
-=== [[resolveReferences]] resolveReferences
-
-[source,scala]
-----
+```scala
 resolveReferences(
   merge: DeltaMergeInto,
   conf: SQLConf)(
   resolveExpr: (Expression, LogicalPlan) => Expression): DeltaMergeInto
-----
+```
 
-resolveReferences...FIXME
+`resolveReferences`...FIXME
 
-resolveReferences is used when:
+`resolveReferences` is used when:
 
-* [DeltaMergeBuilder](DeltaMergeBuilder.md) is executed
-
-* DeltaAnalysis logical resolution rule is requested to DeltaAnalysis.adoc#apply[execute]
+* `DeltaMergeBuilder` is requested to [execute](DeltaMergeBuilder.md#execute)
+* [DeltaAnalysis](DeltaAnalysis.md) logical resolution rule is executed (and resolves `MergeIntoTable` logical command)

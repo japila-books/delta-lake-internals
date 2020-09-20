@@ -1,6 +1,6 @@
 # ConvertToDeltaCommand
 
-*ConvertToDeltaCommand* is a <<DeltaCommand.adoc#, Delta command>> that <<run, converts a parquet table into delta format>> (_imports_ it into Delta).
+**ConvertToDeltaCommand** is a <<DeltaCommand.adoc#, Delta command>> that <<run, converts a parquet table into delta format>> (_imports_ it into Delta).
 
 ConvertToDeltaCommand requires that the <<partitionSchema, partition schema>> matches the partitions of the <<tableIdentifier, parquet table>> (<<createAddFile-unexpectedNumPartitionColumnsFromFileNameException, or an AnalysisException is thrown>>)
 

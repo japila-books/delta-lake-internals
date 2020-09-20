@@ -171,7 +171,7 @@ commit <<doCommit, doCommit>> with the next version, the actions, attempt number
 
 commit prints out the following INFO message to the logs:
 
-```
+```text
 Committed delta #[commitVersion] to [logPath]
 ```
 
@@ -180,14 +180,6 @@ commit <<postCommit, postCommit>> (with the version committed and the actions).
 
 [[commit-runPostCommitHooks]]
 In the end, commit <<runPostCommitHooks, runs post-commit hooks>> and returns the version of the successful commit.
-
-commit is used when:
-
-* `DeltaLog` is requested to <<DeltaLog.adoc#upgradeProtocol, upgradeProtocol>>
-
-* <<DeleteCommand.adoc#, DeleteCommand>>, <<MergeIntoCommand.adoc#, MergeIntoCommand>>, <<UpdateCommand.adoc#, UpdateCommand>>, and <<WriteIntoDelta.adoc#, WriteIntoDelta>> are executed
-
-* `DeltaSink` is requested to <<DeltaSink.adoc#addBatch, addBatch>>
 
 == [[prepareCommit]] Preparing Commit
 
@@ -365,17 +357,16 @@ In the end, txnVersion requests the <<snapshot, Snapshot>> for the <<Snapshot.ad
 
 txnVersion is used when `DeltaSink` is requested to <<DeltaSink.adoc#addBatch, add a streaming micro-batch>>.
 
-== [[getOperationMetrics]] getOperationMetrics Method
+## <span id="getOperationMetrics"> getOperationMetrics Method
 
-[source, scala]
-----
+```scala
 getOperationMetrics(
   op: Operation): Option[Map[String, String]]
-----
+```
 
-getOperationMetrics...FIXME
+`getOperationMetrics`...FIXME
 
-getOperationMetrics is used when...FIXME
+`getOperationMetrics` is used when `OptimisticTransactionImpl` is requested to [commit](#commit).
 
 == [[getUserMetadata]] User-Defined Metadata
 
