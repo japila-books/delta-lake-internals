@@ -368,27 +368,27 @@
      <lastmod>2020-09-20</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
-     <loc>https://books.japila.pl/delta-lake-internals/MergeIntoCommand/</loc>
+     <loc>https://books.japila.pl/delta-lake-internals/commands/DeltaMergeBuilder/</loc>
      <lastmod>2020-09-20</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
-     <loc>https://books.japila.pl/delta-lake-internals/DeltaMergeBuilder/</loc>
+     <loc>https://books.japila.pl/delta-lake-internals/commands/DeltaMergeMatchedActionBuilder/</loc>
      <lastmod>2020-09-20</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
-     <loc>https://books.japila.pl/delta-lake-internals/DeltaMergeMatchedActionBuilder/</loc>
+     <loc>https://books.japila.pl/delta-lake-internals/commands/DeltaMergeNotMatchedActionBuilder/</loc>
      <lastmod>2020-09-20</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
-     <loc>https://books.japila.pl/delta-lake-internals/DeltaMergeNotMatchedActionBuilder/</loc>
+     <loc>https://books.japila.pl/delta-lake-internals/commands/DeltaMergeIntoClause/</loc>
      <lastmod>2020-09-20</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
-     <loc>https://books.japila.pl/delta-lake-internals/DeltaMergeIntoClause/</loc>
+     <loc>https://books.japila.pl/delta-lake-internals/commands/DeltaMergeInto/</loc>
      <lastmod>2020-09-20</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
-     <loc>https://books.japila.pl/delta-lake-internals/DeltaMergeInto/</loc>
+     <loc>https://books.japila.pl/delta-lake-internals/commands/MergeIntoCommand/</loc>
      <lastmod>2020-09-20</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
