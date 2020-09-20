@@ -16,7 +16,7 @@
 `DeltaMergeInto` is created (using [apply](#apply) and [resolveReferences](#resolveReferences) utilities) when:
 
 * `DeltaMergeBuilder` is requested to [execute](DeltaMergeBuilder.md#execute)
-* [DeltaAnalysis](DeltaAnalysis.md) logical resolution rule is executed
+* [DeltaAnalysis](../DeltaAnalysis.md) logical resolution rule is executed
 
 ## Utilities
 
@@ -35,7 +35,7 @@ apply(
 `apply` is used when:
 
 * `DeltaMergeBuilder` is requested to [execute](DeltaMergeBuilder.md#execute) (when [mergePlan](DeltaMergeBuilder.md#mergePlan))
-* [DeltaAnalysis](DeltaAnalysis.md) logical resolution rule is executed (and resolves `MergeIntoTable` logical command)
+* [DeltaAnalysis](../DeltaAnalysis.md) logical resolution rule is executed (and resolves `MergeIntoTable` logical command)
 
 ### <span id="resolveReferences"> resolveReferences
 
@@ -51,4 +51,4 @@ resolveReferences(
 `resolveReferences` is used when:
 
 * `DeltaMergeBuilder` is requested to [execute](DeltaMergeBuilder.md#execute)
-* [DeltaAnalysis](DeltaAnalysis.md) logical resolution rule is executed (and resolves `MergeIntoTable` logical command)
+* [DeltaAnalysis](../DeltaAnalysis.md) logical resolution rule is executed (and resolves `MergeIntoTable` logical command)

@@ -10,7 +10,7 @@ PreprocessTableMerge takes a single `SQLConf` to be created.
 
 PreprocessTableMerge is created when:
 
-* [DeltaMergeBuilder](DeltaMergeBuilder.md) is executed
+* [DeltaMergeBuilder](commands/DeltaMergeBuilder.md) is executed
 
 * DeltaSparkSessionExtension is requested to DeltaSparkSessionExtension.adoc#apply[register Delta SQL support]
 

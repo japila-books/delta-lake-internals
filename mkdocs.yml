@@ -187,13 +187,13 @@ nav:
       - GenerateSymlinkManifest: GenerateSymlinkManifest.md
     - DescribeDeltaDetailCommand: DescribeDeltaDetailCommand.md
     - DescribeDeltaHistoryCommand: DescribeDeltaHistoryCommand.md
-    - MergeIntoCommand:
-      - MergeIntoCommand: MergeIntoCommand.md
-      - DeltaMergeBuilder: DeltaMergeBuilder.md
-      - DeltaMergeMatchedActionBuilder: DeltaMergeMatchedActionBuilder.md
-      - DeltaMergeNotMatchedActionBuilder: DeltaMergeNotMatchedActionBuilder.md
-      - DeltaMergeIntoClause: DeltaMergeIntoClause.md
-      - DeltaMergeInto: DeltaMergeInto.md
+    - Merge:
+      - DeltaMergeBuilder: commands/DeltaMergeBuilder.md
+      - DeltaMergeMatchedActionBuilder: commands/DeltaMergeMatchedActionBuilder.md
+      - DeltaMergeNotMatchedActionBuilder: commands/DeltaMergeNotMatchedActionBuilder.md
+      - DeltaMergeIntoClause: commands/DeltaMergeIntoClause.md
+      - DeltaMergeInto: commands/DeltaMergeInto.md
+      - MergeIntoCommand: commands/MergeIntoCommand.md
     - UpdateCommand: UpdateCommand.md
     - Vacuum:
       - Vacuum: vacuum.md

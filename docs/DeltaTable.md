@@ -1,85 +1,177 @@
 # DeltaTable
 
-*DeltaTable* is the <<operators, management interface>> of a Delta table (with the <<DeltaTableOperations.adoc#, Delta DML Operations>>).
+**DeltaTable** is the [management interface](#operators) of a Delta table (with the [Delta DML Operations](DeltaTableOperations.md)).
 
-DeltaTable instances are created for existing Delta tables using <<forPath, DeltaTable.forPath>> utility (static method).
+DeltaTable instances are created using [utilities](#utilities) (e.g. [DeltaTable.forName](#forName), [DeltaTable.convertToDelta](#convertToDelta)).
 
-You can convert parquet tables to delta format (by importing the tables into Delta Lake) using <<convertToDelta, DeltaTable.convertToDelta>> utility (static method).
+## <span id="utilities"> Utilities (Static Methods)
 
-You can check whether a directory is part of a delta table using <<isDeltaTable, DeltaTable.isDeltaTable>> utility (static method).
+### <span id="convertToDelta"> convertToDelta
 
-== [[creating-instance]] Creating Instance
+```scala
+convertToDelta(
+  spark: SparkSession,
+  identifier: String): DeltaTable
+convertToDelta(
+  spark: SparkSession,
+  identifier: String,
+  partitionSchema: String): DeltaTable
+convertToDelta(
+  spark: SparkSession,
+  identifier: String,
+  partitionSchema: StructType): DeltaTable
+```
 
-DeltaTable takes the following to be created:
+`convertToDelta` converts a parquet table to delta format (and makes the table available in Delta Lake).
 
-* [[df]] Distributed structured query to access table data (`Dataset[Row]`)
-* [[deltaLog]] DeltaLog.adoc[]
+!!! note
+    Refer to [Demo: Converting Parquet Dataset Into Delta Format](demo/Converting-Parquet-Dataset-Into-Delta-Format.md) for a demo of `DeltaTable.convertToDelta`.
 
-NOTE: New DeltaTable instances should be created using <<forPath, DeltaTable.forPath>> and <<convertToDelta, DeltaTable.convertToDelta>> utilities.
+Internally, `convertToDelta` requests the `SparkSession` for the SQL parser (`ParserInterface`) that is in turn requested to parse the given table identifier (to get a `TableIdentifier`).
 
-== [[operators]] Operators
+!!! tip
+    Read up on [ParserInterface](https://jaceklaskowski.github.io/mastering-spark-sql-book/sql/ParserInterface/) in [The Internals of Spark SQL](https://jaceklaskowski.github.io/mastering-spark-sql-book) online book.
 
-=== [[alias]] alias
+In the end, `convertToDelta` uses the `DeltaConvert` utility to [convert the parquet table to delta format](DeltaConvert.md#executeConvert) and [creates a DeltaTable](#forPath).
 
-[source, scala]
-----
+### <span id="forName"> forName
+
+```scala
+forName(
+  sparkSession: SparkSession,
+  tableName: String): DeltaTable
+forName(
+  tableOrViewName: String): DeltaTable
+```
+
+`forName` uses `ParserInterface` (of the given `SparkSession`) to parse the given table name.
+
+`forName` [checks whether the given table name is of a Delta table](DeltaTableUtils.md#isDeltaTable) and, if so, creates a DeltaTable with the following:
+
+* Dataset that represents loading data from the specified table name (using `SparkSession.table` operator)
+* [DeltaLog](DeltaLog.md#forTable) of the specified table
+
+`forName` throws an `AnalysisException` when the given table name is for non-Delta table:
+
+```text
+[deltaTableIdentifier] is not a Delta table.
+```
+
+`forName` is used internally when `DeltaConvert` utility is used to [executeConvert](DeltaConvert.md#executeConvert).
+
+### <span id="forPath"> forPath
+
+```scala
+forPath(
+  sparkSession: SparkSession,
+  path: String): DeltaTable
+forPath(
+  path: String): DeltaTable
+```
+
+`forPath` creates a DeltaTable instance for data in the given directory (`path`) when the given [directory is part of a delta table](DeltaTableUtils.md#isDeltaTable) already (as the root or a child directory).
+
+```text
+assert(spark.isInstanceOf[org.apache.spark.sql.SparkSession])
+
+val tableId = "/tmp/delta-table/users"
+
+import io.delta.tables.DeltaTable
+assert(DeltaTable.isDeltaTable(tableId), s"$tableId should be a Delta table")
+
+val dt = DeltaTable.forPath("delta-table")
+```
+
+`forPath` throws an `AnalysisException` when the given `path` does not belong to a delta table:
+
+```text
+[deltaTableIdentifier] is not a Delta table.
+```
+
+Internally, forPath creates a new `DeltaTable` with the following:
+
+* `Dataset` that represents loading data from the specified `path` using [delta](DeltaDataSource.md#delta-format) data source
+* [DeltaLog](DeltaLog.md) for the [(transaction log in) the specified path](DeltaLog.md#forTable)
+
+`forPath` is used internally in [DeltaTable.convertToDelta](#convertToDelta) (via [DeltaConvert](DeltaConvert.md) utility).
+
+### <span id="isDeltaTable"> isDeltaTable
+
+```scala
+isDeltaTable(
+  sparkSession: SparkSession,
+  identifier: String): Boolean
+isDeltaTable(
+  identifier: String): Boolean
+```
+
+`isDeltaTable` checks whether the provided `identifier` string is a file path that points to the root of a Delta table or one of the subdirectories.
+
+Internally, `isDeltaTable` simply relays to [DeltaTableUtils.isDeltaTable](DeltaTableUtils.md#isDeltaTable) utility.
+
+## Creating Instance
+
+`DeltaTable` takes the following to be created:
+
+* <span id="df"> Table Data (`Dataset[Row]`)
+* <span id="deltaLog"> [DeltaLog](DeltaLog.md)
+
+`DeltaTable` is created using [DeltaTable.forPath](#forPath) or [DeltaTable.forName](#forName) utilities.
+
+## Operators
+
+### <span id="alias"> alias
+
+```scala
 alias(
   alias: String): DeltaTable
-----
+```
 
-Applies an alias to the DeltaTable (equivalent to <<as, as>>)
+Applies an alias to the DeltaTable (equivalent to [as](#as))
 
-=== [[as]] as
+### <span id="as"> as
 
-[source, scala]
-----
+```scala
 as(
   alias: String): DeltaTable
-----
+```
 
-Applies an alias to the DeltaTable (equivalent to <<alias, alias>>)
+Applies an alias to the DeltaTable
 
-=== [[delete]] delete
+### <span id="delete"> delete
 
-[source, scala]
-----
-delete(): Unit // <1>
+```scala
+delete(): Unit
 delete(
   condition: Column): Unit
 delete(
   condition: String): Unit
-----
-<1> Undefined condition
+```
 
 Deletes data from the DeltaTable that matches the given `condition`.
 
-IMPORTANT: <<delete, delete>> and <<update, update>> operators do not support subqueries (and <<DeltaTableOperations.adoc#subqueryNotSupportedCheck, throw an AnalysisException>> otherwise).
+### <span id="generate"> generate
 
-=== [[generate]] generate
-
-[source, scala]
-----
+```scala
 generate(
   mode: String): Unit
-----
+```
 
 Generates a manifest for the delta table
 
-Internally, `generate` <<DeltaTableOperations.adoc#executeGenerate, executeGenerate>> with the table ID of the format `++delta.`path`++` (where the path is the <<DeltaLog.adoc#dataPath, data directory>> of the <<deltaLog, DeltaLog>>) and the given mode.
+`generate` [executeGenerate](DeltaTableOperations.md#executeGenerate) with the table ID of the format `++delta.`path`++` (where the path is the [data directory](DeltaLog.md#dataPath) of the [DeltaLog](#deltaLog)) and the given mode.
 
-=== [[history]] history
+### <span id="history"> history
 
-[source, scala]
-----
-history(): DataFrame // <1>
+```scala
+history(): DataFrame
 history(
   limit: Int): DataFrame
-----
-<1> Unlimited history
+```
 
-Gets available commits (_history_) on the DeltaTable
+Gets available commits (_history_) of the DeltaTable
 
-=== [[merge]] merge
+### <span id="merge"> merge
 
 ```scala
 merge(
@@ -90,208 +182,55 @@ merge(
   condition: String): DeltaMergeBuilder
 ```
 
-Creates a [DeltaMergeBuilder](DeltaMergeBuilder.md) to describe how to merge data from a source `DataFrame` into this delta table (based on the condition).
+Creates a [DeltaMergeBuilder](commands/DeltaMergeBuilder.md)
 
-=== [[toDF]] toDF
+### <span id="toDF"> toDF
 
-[source, scala]
-----
+```scala
 toDF: Dataset[Row]
-----
+```
 
-Gets the DataFrame representation of the DeltaTable
+Returns the [DataFrame](#df) representation of the DeltaTable
 
-=== [[update]] update
+### <span id="update"> update
 
-[source, scala]
-----
+```scala
 update(
   condition: Column,
   set: Map[String, Column]): Unit
 update(
-  condition: Column,
-  set: java.util.Map[String, Column]): Unit
-update(
   set: Map[String, Column]): Unit
-update(
-  set: java.util.Map[String, Column]): Unit
-----
+```
 
 Updates data in the DeltaTable on the rows that match the given `condition` based on the rules defined by `set`
 
-IMPORTANT: <<delete, delete>> and <<update, update>> operators do not support subqueries (and <<DeltaTableOperations.adoc#subqueryNotSupportedCheck, throw an AnalysisException>> otherwise).
+### <span id="updateExpr"> updateExpr
 
-=== [[updateExpr]] updateExpr
-
-[source, scala]
-----
+```scala
 updateExpr(
   set: Map[String, String]): Unit
 updateExpr(
-  set: java.util.Map[String, String]): Unit
-updateExpr(
   condition: String,
   set: Map[String, String]): Unit
-updateExpr(
-  condition: String,
-  set: java.util.Map[String, String]): Unit
-----
+```
 
 Updates data in the DeltaTable on the rows that match the given `condition` based on the rules defined by `set`
 
-=== [[vacuum]] vacuum
+### <span id="vacuum"> vacuum
 
-[source, scala]
-----
-vacuum(): DataFrame // <1>
+```scala
+vacuum(): DataFrame
 vacuum(
   retentionHours: Double): DataFrame
-----
-<1> Undefined retention threshold
+```
 
 Deletes files and directories (recursively) in the DeltaTable that are not needed by the table (and maintains older versions up to the given retention threshold).
 
-Internally, `vacuum` simply <<DeltaTableOperations.adoc#executeVacuum, executes vacuum command>>.
+`vacuum` [executes vacuum command](DeltaTableOperations.md#executeVacuum).
 
-== [[utilities]] Utilities
+## Demo
 
-=== [[convertToDelta]] convertToDelta
-
-[source, scala]
-----
-convertToDelta(
-  spark: SparkSession,
-  identifier: String,
-  partitionSchema: StructType): DeltaTable
-convertToDelta(
-  spark: SparkSession,
-  identifier: String,
-  partitionSchema: String): DeltaTable  // <1>
-convertToDelta(
-  spark: SparkSession,
-  identifier: String): DeltaTable
-----
-<1> Creates `StructType` from the given DDL-formatted `partitionSchema` string
-
-`convertToDelta` converts a parquet table to delta format (and makes the table available in Delta Lake).
-
-TIP: Refer to demo:Converting-Parquet-Dataset-Into-Delta-Format.adoc[Demo: Converting Parquet Dataset Into Delta Format] for a demo of `DeltaTable.convertToDelta`.
-
-Internally, `convertToDelta` requests the `SparkSession` for the SQL parser (`ParserInterface`) that is in turn requested to parse the given table identifier (to get a `TableIdentifier`).
-
-TIP: Read up on https://jaceklaskowski.gitbooks.io/mastering-spark-sql/spark-sql-ParserInterface.html[ParserInterface] in https://bit.ly/spark-sql-internals[The Internals of Spark SQL] online book.
-
-In the end, `convertToDelta` uses the `DeltaConvert` utility to <<DeltaConvert.adoc#executeConvert, convert the parquet table to delta format>> and <<forPath, creates a DeltaTable>>.
-
-=== [[forName]] forName
-
-[source, scala]
-----
-forName(
-  tableOrViewName: String): DeltaTable // <1>
-forName(
-  sparkSession: SparkSession,
-  tableName: String): DeltaTable
-----
-<1> Uses the active SparkSession
-
-forName uses ParserInterface (of the given SparkSession) to parse the given table name.
-
-forName DeltaTableUtils.adoc#isDeltaTable[checks whether the given table name is of a Delta table] and, if so, creates a DeltaTable with the following:
-
-* Dataset that represents loading data from the specified table name (using `SparkSession.table` operator)
-
-* DeltaLog.adoc#forTable[DeltaLog] of the specified table
-
-forName throws an AnalysisException when the given table name is for non-Delta table:
-
-[source,plaintext]
-----
-[deltaTableIdentifier] is not a Delta table.
-----
-
-forName is used internally when DeltaConvert utility is used to DeltaConvert.adoc#executeConvert[executeConvert].
-
-=== [[forPath]] forPath
-
-[source, scala]
-----
-forPath(
-  path: String): DeltaTable // <1>
-forPath(
-  sparkSession: SparkSession,
-  path: String): DeltaTable
-----
-<1> Uses the active SparkSession
-
-forPath creates a DeltaTable instance for data in the given directory (`path`) when the given <<DeltaTableUtils.adoc#isDeltaTable, directory is part of a delta table>> already (as the root or a child directory).
-
-[source]
-----
-assert(spark.isInstanceOf[org.apache.spark.sql.SparkSession])
-
-val tableId = "/tmp/delta-table/users"
-
-import io.delta.tables.DeltaTable
-assert(DeltaTable.isDeltaTable(tableId), s"$tableId should be a Delta table")
-
-val dt = DeltaTable.forPath("delta-table")
-----
-
-forPath throws an `AnalysisException` when the given `path` does not belong to a delta table:
-
-
-[source,plaintext]
-----
-[deltaTableIdentifier] is not a Delta table.
-----
-
-Internally, forPath creates a new <<DeltaTable, DeltaTable>> with the following:
-
-* `Dataset` that represents loading data from the specified `path` using <<DeltaDataSource.adoc#delta-format, delta>> data source
-
-* <<DeltaLog.adoc#, DeltaLog>> for the <<DeltaLog.adoc#forTable, (transaction log in) the specified path>>
-
-forPath is used internally in <<convertToDelta, DeltaTable.convertToDelta>> (via DeltaConvert.adoc[] utility).
-
-=== [[isDeltaTable]] isDeltaTable
-
-[source, scala]
-----
-isDeltaTable(
-  identifier: String): Boolean
-isDeltaTable(
-  sparkSession: SparkSession,
-  identifier: String): Boolean
-----
-
-isDeltaTable checks whether or not the provided `identifier` string is a file path that points to the root of a Delta table or one of the subdirectories.
-
-Internally, isDeltaTable simply relays to <<DeltaTableUtils.adoc#isDeltaTable, DeltaTableUtils.isDeltaTable>> utility.
-
-== [[unapply]] unapply Extractor Utility
-
-[source, scala]
-----
-unapply(
-  a: LogicalRelation): Option[TahoeFileIndex]
-----
-
-`unapply` simply destructures the given `LogicalRelation` and takes out the <<TahoeFileIndex.adoc#, TahoeFileIndex>> from the `HadoopFsRelation` relation.
-
-[NOTE]
-====
-`unapply` is used when:
-
-* `DeltaSink` is requested to <<DeltaSink.adoc#addBatch, addBatch>>
-
-* `DeltaDataSource` utility is used to <<DeltaDataSource.adoc#extractDeltaPath, extractDeltaPath>> (but does not seem to be used whatsoever)
-====
-
-== [[demo]] Demo
-
-[source, scala]
-----
+```text
 import org.apache.spark.sql.SparkSession
 assert(spark.isInstanceOf[SparkSession])
 
@@ -311,4 +250,4 @@ scala> history.show(truncate = false)
 +-------+-------------------+---------+------------------------------------------+-------------+
 |0      |2019-12-23 22:24:40|WRITE    |[mode -> ErrorIfExists, partitionBy -> []]|true         |
 +-------+-------------------+---------+------------------------------------------+-------------+
-----
+```

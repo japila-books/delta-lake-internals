@@ -1,6 +1,6 @@
 # MergeIntoCommand
 
-`MergeIntoCommand` is a [DeltaCommand](DeltaCommand.md) that represents a [DeltaMergeInto](DeltaMergeInto.md) logical command.
+`MergeIntoCommand` is a [DeltaCommand](../DeltaCommand.md) that represents a [DeltaMergeInto](DeltaMergeInto.md) logical command.
 
 `MergeIntoCommand` is a logical command (Spark SQL's [RunnableCommand](https://jaceklaskowski.github.io/mastering-spark-sql-book/logical-operators/RunnableCommand/)).
 
@@ -24,13 +24,13 @@ Name     | web UI
 
 * <span id="source"> Source Data (`LogicalPlan`)
 * <span id="target"> Target Data (`LogicalPlan`)
-* <span id="targetFileIndex"> [TahoeFileIndex](TahoeFileIndex.md)
+* <span id="targetFileIndex"> [TahoeFileIndex](../TahoeFileIndex.md)
 * <span id="condition"> Condition Expression
 * <span id="matchedClauses"> Matched Clauses (`Seq[DeltaMergeIntoMatchedClause]`)
 * <span id="notMatchedClause"> Optional Non-Matched Clause (`Option[DeltaMergeIntoInsertClause]`)
 * <span id="migratedSchema"> Migrated Schema
 
-`MergeIntoCommand` is created when [PreprocessTableMerge](PreprocessTableMerge.md) logical resolution rule is executed (on a [DeltaMergeInto](DeltaMergeInto.md) logical command).
+`MergeIntoCommand` is created when [PreprocessTableMerge](../PreprocessTableMerge.md) logical resolution rule is executed (on a [DeltaMergeInto](DeltaMergeInto.md) logical command).
 
 ## <span id="run"> Executing Command
 
@@ -39,18 +39,18 @@ run(
   spark: SparkSession): Seq[Row]
 ```
 
-`run` requests the [target DeltaLog](#targetDeltaLog) to [start a new transaction](DeltaLog.md#withNewTransaction).
+`run` requests the [target DeltaLog](#targetDeltaLog) to [start a new transaction](../DeltaLog.md#withNewTransaction).
 
-With [spark.databricks.delta.schema.autoMerge.enabled](DeltaSQLConf.md#DELTA_SCHEMA_AUTO_MIGRATE) configuration property enabled, `run` [updates the metadata](ImplicitMetadataOperation.md#updateMetadata) (of the transaction).
+With [spark.databricks.delta.schema.autoMerge.enabled](../DeltaSQLConf.md#DELTA_SCHEMA_AUTO_MIGRATE) configuration property enabled, `run` [updates the metadata](../ImplicitMetadataOperation.md#updateMetadata) (of the transaction).
 
 <span id="run-deltaActions">
-`run` determines Delta actions ([RemoveFile](RemoveFile.md)s and [AddFile](AddFile.md)s).
+`run` determines Delta actions ([RemoveFile](../RemoveFile.md)s and [AddFile](../AddFile.md)s).
 
 ??? todo "Describe `deltaActions` part"
 
-With [spark.databricks.delta.history.metricsEnabled](DeltaSQLConf.md#DELTA_HISTORY_METRICS_ENABLED) configuration property enabled, `run` requests the [current transaction](OptimisticTransaction.md) to [register SQL metrics for the Delta operation](SQLMetricsReporting.md#registerSQLMetrics).
+With [spark.databricks.delta.history.metricsEnabled](../DeltaSQLConf.md#DELTA_HISTORY_METRICS_ENABLED) configuration property enabled, `run` requests the [current transaction](../OptimisticTransaction.md) to [register SQL metrics for the Delta operation](../SQLMetricsReporting.md#registerSQLMetrics).
 
-`run` requests the [current transaction](OptimisticTransaction.md) to [commit](OptimisticTransactionImpl.md#commit) (with the [Delta actions](#run-deltaActions) and `Merge` operation).
+`run` requests the [current transaction](../OptimisticTransaction.md) to [commit](../OptimisticTransactionImpl.md#commit) (with the [Delta actions](#run-deltaActions) and `Merge` operation).
 
 `run` records the Delta event.
 
@@ -109,7 +109,7 @@ writeAllChanges: join output plan:
 [outputDF.queryExecution]
 ```
 
-`writeAllChanges` requests the input [OptimisticTransaction](OptimisticTransaction.md) to [writeFiles](TransactionalWrite.md#writeFiles) (possibly repartitioning by the partition columns if table is partitioned and [spark.databricks.delta.merge.repartitionBeforeWrite.enabled](DeltaSQLConf.md#MERGE_REPARTITION_BEFORE_WRITE) configuration property is enabled).
+`writeAllChanges` requests the input [OptimisticTransaction](../OptimisticTransaction.md) to [writeFiles](../TransactionalWrite.md#writeFiles) (possibly repartitioning by the partition columns if table is partitioned and [spark.databricks.delta.merge.repartitionBeforeWrite.enabled](../DeltaSQLConf.md#MERGE_REPARTITION_BEFORE_WRITE) configuration property is enabled).
 
 `writeAllChanges` is used when `MergeIntoCommand` is requested to [run](#run).
 

@@ -48,7 +48,7 @@ Used when `Operation` is requested for [parameters with the values in JSON forma
 
 ### Merge
 
-Recorded when a merge operation is committed to a Delta table (when [MergeIntoCommand](MergeIntoCommand.md) is executed)
+Recorded when a merge operation is committed to a Delta table (when [MergeIntoCommand](commands/MergeIntoCommand.md) is executed)
 
 ## Creating Instance
 
