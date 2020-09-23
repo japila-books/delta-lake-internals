@@ -32,10 +32,6 @@
      <lastmod>2020-09-23</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
-     <loc>https://books.japila.pl/delta-lake-internals/DeltaTableV2/</loc>
-     <lastmod>2020-09-23</lastmod>
-     <changefreq>daily</changefreq>
-    </url><url>
      <loc>https://books.japila.pl/delta-lake-internals/DeltaLog/</loc>
      <lastmod>2020-09-23</lastmod>
      <changefreq>daily</changefreq>
@@ -249,6 +245,10 @@
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://books.japila.pl/delta-lake-internals/DeltaCatalog/</loc>
+     <lastmod>2020-09-23</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
+     <loc>https://books.japila.pl/delta-lake-internals/DeltaTableV2/</loc>
      <lastmod>2020-09-23</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
