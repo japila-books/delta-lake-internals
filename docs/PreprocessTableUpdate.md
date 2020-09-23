@@ -1,5 +1,4 @@
-= PreprocessTableUpdate Logical Resolution Rule
-:navtitle: PreprocessTableUpdate
+# PreprocessTableUpdate Logical Resolution Rule
 
 *PreprocessTableUpdate* is a post-hoc logical resolution rule (`Rule[LogicalPlan]`) to <<apply, resolve DeltaUpdateTable logical commands>> in a query plan into UpdateCommand.adoc[]s.
 

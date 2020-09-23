@@ -1,5 +1,12 @@
 # DeltaSparkSessionExtension
 
-**DeltaSparkSessionExtension** is an extension of Spark SQL to register Delta SQL support (using [DeltaSqlParser](DeltaSqlParser.md)).
+**DeltaSparkSessionExtension** is used to register (_inject_) the following extensions:
 
-`DeltaSparkSessionExtension` is registered using **spark.sql.extensions** configuration property (while creating a SparkSession in a Spark application). Consult [installation](installation.md).
+* [Delta SQL](delta-sql.md) support (using [DeltaSqlParser](DeltaSqlParser.md))
+* [DeltaAnalysis](DeltaAnalysis.md) logical resolution rule
+* [DeltaUnsupportedOperationsCheck](DeltaUnsupportedOperationsCheck.md)
+* [PreprocessTableUpdate](PreprocessTableUpdate.md) logical resolution rule
+* [PreprocessTableMerge](PreprocessTableMerge.md) logical resolution rule
+* [PreprocessTableDelete](PreprocessTableDelete.md) logical resolution rule
+
+`DeltaSparkSessionExtension` is [registered](installation.md) using **spark.sql.extensions** configuration property (while creating a SparkSession in a Spark application).

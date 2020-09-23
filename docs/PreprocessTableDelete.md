@@ -1,7 +1,6 @@
-= PreprocessTableDelete Logical Resolution Rule
-:navtitle: PreprocessTableDelete
+# PreprocessTableDelete Logical Resolution Rule
 
-*PreprocessTableDelete* is a post-hoc logical resolution rule (`Rule[LogicalPlan]`) to <<apply, resolve DeltaDelete logical commands>> in a query plan into DeleteCommand.adoc[]s.
+**PreprocessTableDelete** is a post-hoc logical resolution rule (`Rule[LogicalPlan]`) to <<apply, resolve DeltaDelete logical commands>> in a query plan into DeleteCommand.adoc[]s.
 
 PreprocessTableDelete is _installed_ (injected) into a SparkSession using DeltaSparkSessionExtension.adoc[].
 

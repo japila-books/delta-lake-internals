@@ -82,7 +82,6 @@ nav:
     - Overview: overview.md
     - Installation: installation.md
     - Time Travel: time-travel.md
-    - Delta SQL: delta-sql.md
     - Configuration Properties: DeltaSQLConf.md
     - DeltaTable:
       - DeltaTable: DeltaTable.md
@@ -163,6 +162,8 @@ nav:
       - PreprocessTableMerge: PreprocessTableMerge.md
       - PreprocessTableUpdate: PreprocessTableUpdate.md
     - SQLMetricsReporting: SQLMetricsReporting.md
+  - Delta SQL:
+    - Delta SQL: delta-sql.md
   - Commands:
     - Delta Commands: commands/index.md
     - DeltaCommand: DeltaCommand.md

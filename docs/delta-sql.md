@@ -2,7 +2,7 @@
 
 Delta Lake registers custom SQL commands (using [DeltaSparkSessionExtension](DeltaSparkSessionExtension.md)).
 
-The SQL commands support `table` of the format `++delta.`path`++` (with backticks), e.g. `++delta.`/tmp/delta/t1`++` while `path` is between single quotes, e.g. `'/tmp/delta/t1'`.
+The SQL commands support `table` of the format `` delta.`path` `` (with backticks), e.g. `` delta.`/tmp/delta/t1` `` while `path` is between single quotes, e.g. `'/tmp/delta/t1'`.
 
 ## <span id="CONVERT-TO-DELTA"> CONVERT TO DELTA
 

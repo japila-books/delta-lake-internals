@@ -1,5 +1,4 @@
-= DeltaAnalysis Logical Resolution Rule
-:navtitle: DeltaAnalysis
+# DeltaAnalysis Logical Resolution Rule
 
 *DeltaAnalysis* is a logical resolution rule (Spark SQL's `Rule[LogicalPlan]`) for INSERT INTO and INSERT OVERWRITE SQL commands (and DeleteFromTable, UpdateTable, MergeIntoTable).
 
