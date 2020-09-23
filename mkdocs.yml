@@ -154,8 +154,6 @@ nav:
       - DeltaTableV2: DeltaTableV2.md
       - StagedDeltaTableV2: StagedDeltaTableV2.md
       - DeltaSparkSessionExtension: DeltaSparkSessionExtension.md
-      - DeltaSqlParser: DeltaSqlParser.md
-      - DeltaSqlAstBuilder: DeltaSqlAstBuilder.md
       - DeltaAnalysis: DeltaAnalysis.md
       - DeltaUnsupportedOperationsCheck: DeltaUnsupportedOperationsCheck.md
       - PreprocessTableDelete: PreprocessTableDelete.md
@@ -163,7 +161,9 @@ nav:
       - PreprocessTableUpdate: PreprocessTableUpdate.md
     - SQLMetricsReporting: SQLMetricsReporting.md
   - Delta SQL:
-    - Delta SQL: delta-sql.md
+    - Delta SQL: sql/index.md
+    - DeltaSqlParser: sql/DeltaSqlParser.md
+    - DeltaSqlAstBuilder: sql/DeltaSqlAstBuilder.md
   - Commands:
     - Delta Commands: commands/index.md
     - DeltaCommand: DeltaCommand.md

@@ -2,7 +2,7 @@
 
 **DeltaSparkSessionExtension** is used to register (_inject_) the following extensions:
 
-* [Delta SQL](delta-sql.md) support (using [DeltaSqlParser](DeltaSqlParser.md))
+* [Delta SQL](sql/index.md) support (using [DeltaSqlParser](sql/DeltaSqlParser.md))
 * [DeltaAnalysis](DeltaAnalysis.md) logical resolution rule
 * [DeltaUnsupportedOperationsCheck](DeltaUnsupportedOperationsCheck.md)
 * [PreprocessTableUpdate](PreprocessTableUpdate.md) logical resolution rule
