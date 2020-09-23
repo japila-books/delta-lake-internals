@@ -83,9 +83,6 @@ nav:
     - Installation: installation.md
     - Time Travel: time-travel.md
     - Delta SQL: delta-sql.md
-    - Delta SQL and Spark 3.0.0:
-      - delta-sql-spark3.md
-      - DeltaTableV2.md
     - Configuration Properties: DeltaSQLConf.md
     - DeltaTable:
       - DeltaTable: DeltaTable.md
@@ -155,6 +152,7 @@ nav:
       - DeltaSink: DeltaSink.md
     - Spark SQL Extensions:
       - DeltaCatalog: DeltaCatalog.md
+      - DeltaTableV2: DeltaTableV2.md
       - StagedDeltaTableV2: StagedDeltaTableV2.md
       - DeltaSparkSessionExtension: DeltaSparkSessionExtension.md
       - DeltaSqlParser: DeltaSqlParser.md

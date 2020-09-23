@@ -1,6 +1,6 @@
-= DeltaDataSource
+# DeltaDataSource
 
-*DeltaDataSource* is a <<DataSourceRegister, DataSourceRegister>> and acts as the entry point to all features provided by `delta` data source.
+**DeltaDataSource** is a <<DataSourceRegister, DataSourceRegister>> and acts as the entry point to all features provided by `delta` data source.
 
 DeltaDataSource is a <<RelationProvider, RelationProvider>>.
 
@@ -35,22 +35,22 @@ DeltaDataSource is registered using `META-INF/services/org.apache.spark.sql.sour
 org.apache.spark.sql.delta.sources.DeltaDataSource
 ----
 
-== [[RelationProvider]][[RelationProvider-createRelation]] RelationProvider -- Creating Insertable HadoopFsRelation For Batch Queries
+## <span id="RelationProvider"><span id="RelationProvider-createRelation"> RelationProvider - Creating Insertable HadoopFsRelation For Batch Queries
 
 DeltaDataSource is a `RelationProvider` for reading (_loading_) data from a delta table in a structured query.
 
-TIP: Read up on https://jaceklaskowski.gitbooks.io/mastering-spark-sql/spark-sql-RelationProvider.html[RelationProvider] in https://bit.ly/spark-sql-internals[The Internals of Spark SQL] online book.
+!!! tip
+    Read up on [RelationProvider](https://jaceklaskowski.github.io/mastering-spark-sql-book/spark-sql-RelationProvider/) in [The Internals of Spark SQL](https://jaceklaskowski.github.io/mastering-spark-sql-book) online book.
 
-[source, scala]
-----
+```scala
 createRelation(
   sqlContext: SQLContext,
   parameters: Map[String, String]): BaseRelation
-----
+```
 
 `createRelation`...FIXME
 
-In the end, `createRelation` requests the <<RelationProvider-createRelation-deltaLog, DeltaLog>> for an <<DeltaLog.adoc#createRelation, insertable HadoopFsRelation>>.
+In the end, `createRelation` requests the [DeltaLog](#RelationProvider-createRelation-deltaLog) for an [insertable HadoopFsRelation](#DeltaLog.adoc#createRelation).
 
 == [[CreatableRelationProvider]][[CreatableRelationProvider-createRelation]] CreatableRelationProvider
 

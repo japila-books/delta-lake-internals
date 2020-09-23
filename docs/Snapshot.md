@@ -1,6 +1,6 @@
-= Snapshot
+# Snapshot
 
-*Snapshot* is an immutable snapshot of the <<state, state>> of a <<deltaLog, delta table>> at <<version, some version>>.
+**Snapshot** is an immutable snapshot of the <<state, state>> of a <<deltaLog, delta table>> at <<version, some version>>.
 
 Snapshot is <<creating-instance, created>> when `DeltaLog` is requested for the <<DeltaLog.adoc#currentSnapshot, current snapshot>> or <<DeltaLog.adoc#getSnapshotAt, at a given version>>, and to <<DeltaLog.adoc#update, update>>.
 
