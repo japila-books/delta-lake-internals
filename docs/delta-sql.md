@@ -1,53 +1,48 @@
 # Delta SQL
 
-Delta Lake registers custom <<commands, SQL commands>> using DeltaSparkSessionExtension.adoc[].
+Delta Lake registers custom SQL commands (using [DeltaSparkSessionExtension](DeltaSparkSessionExtension.md)).
 
 The SQL commands support `table` of the format `++delta.`path`++` (with backticks), e.g. `++delta.`/tmp/delta/t1`++` while `path` is between single quotes, e.g. `'/tmp/delta/t1'`.
 
-== [[CONVERT-TO-DELTA]] CONVERT TO DELTA
+## <span id="CONVERT-TO-DELTA"> CONVERT TO DELTA
 
-[source,plaintext]
-----
+```text
 CONVERT TO DELTA table
   (PARTITIONED BY '(' colTypeList ')')?
-----
+```
 
-Runs a <<ConvertToDeltaCommand.adoc#, ConvertToDeltaCommand>>
+Runs a [ConvertToDeltaCommand](ConvertToDeltaCommand.md)
 
-== [[DESCRIBE-DETAIL]] DESCRIBE DETAIL
+## <span id="DESCRIBE-DETAIL"> DESCRIBE DETAIL
 
-[source,plaintext]
-----
+```text
 (DESC | DESCRIBE) DETAIL (path | table)
-----
+```
 
-Runs a <<DescribeDeltaDetailCommand.adoc#, DescribeDeltaDetailCommand>>
+Runs a [DescribeDeltaDetailCommand](DescribeDeltaDetailCommand.md)
 
-== [[DESCRIBE-HISTORY]] DESCRIBE HISTORY
+## <span id="DESCRIBE-HISTORY"> DESCRIBE HISTORY
 
-[source,plaintext]
-----
+```text
 (DESC | DESCRIBE) HISTORY (path | table)
   (LIMIT limit)?
-----
+```
 
-Runs a <<DescribeDeltaHistoryCommand.adoc#, DescribeDeltaHistoryCommand>>
+Runs a [DescribeDeltaHistoryCommand](DescribeDeltaHistoryCommand.md)
 
-== [[GENERATE]] GENERATE
+## <span id="GENERATE"> GENERATE
 
-[source,plaintext]
-----
+```text
 GENERATE modeName FOR TABLE table
-----
+```
 
-Runs a <<DeltaGenerateCommand.adoc#, DeltaGenerateCommand>>
+Runs a [DeltaGenerateCommand](DeltaGenerateCommand.md)
 
-== [[VACUUM]] VACUUM
+## <span id="VACUUM"> VACUUM
 
-[source,plaintext]
-----
+```text
 VACUUM (path | table)
   (RETAIN number HOURS)? (DRY RUN)?
-----
+```
 
-Runs a <<VacuumTableCommand.adoc#, VacuumTableCommand>>
+Runs a [VacuumTableCommand](VacuumTableCommand.md)

@@ -1,17 +1,17 @@
-= DeltaSqlParser
+# DeltaSqlParser
 
-*DeltaSqlParser* is a SQL parser (Spark SQL's `ParserInterface`) for delta-sql.adoc[].
+**DeltaSqlParser** is a SQL parser (Spark SQL's [ParserInterface](https://jaceklaskowski.github.io/mastering-spark-sql-book/sql/ParserInterface/)) for [Delta SQL](delta-sql.md).
 
-DeltaSqlParser is registered in a Spark SQL application using DeltaSparkSessionExtension.adoc[].
+`DeltaSqlParser` is registered in a Spark SQL application using [DeltaSparkSessionExtension](DeltaSparkSessionExtension.md).
 
-== [[creating-instance]] Creating Instance
+## Creating Instance
 
-DeltaSqlParser takes the following to be created:
+`DeltaSqlParser` takes the following to be created:
 
-* [[delegate]] ParserInterface (to fall back to for unsupported SQL)
+* <span id="delegate"> `ParserInterface` (to fall back to for unsupported SQL)
 
-DeltaSqlParser is created when DeltaSparkSessionExtension is requested to DeltaSparkSessionExtension.adoc#apply[register Delta SQL support].
+`DeltaSqlParser` is created when `DeltaSparkSessionExtension` is requested to [register Delta SQL support](DeltaSparkSessionExtension.md).
 
-== [[builder]] DeltaSqlAstBuilder
+## <span id="builder"> DeltaSqlAstBuilder
 
-DeltaSqlParser uses DeltaSqlAstBuilder.adoc[DeltaSqlAstBuilder] for...FIXME
+`DeltaSqlParser` uses [DeltaSqlAstBuilder](DeltaSqlAstBuilder.md) for...FIXME
