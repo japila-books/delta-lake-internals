@@ -280,6 +280,10 @@
      <lastmod>2020-09-24</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
+     <loc>https://books.japila.pl/delta-lake-internals/DeltaConvert/</loc>
+     <lastmod>2020-09-24</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
      <loc>https://books.japila.pl/delta-lake-internals/sql/</loc>
      <lastmod>2020-09-24</lastmod>
      <changefreq>daily</changefreq>
@@ -325,10 +329,6 @@
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://books.japila.pl/delta-lake-internals/commands/ConvertToDeltaCommand/</loc>
-     <lastmod>2020-09-24</lastmod>
-     <changefreq>daily</changefreq>
-    </url><url>
-     <loc>https://books.japila.pl/delta-lake-internals/DeltaConvert/</loc>
      <lastmod>2020-09-24</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
