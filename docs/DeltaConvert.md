@@ -1,13 +1,10 @@
-= DeltaConvert Utility
-:navtitle: DeltaConvert
+# DeltaConvert Utility
 
 `DeltaConvert` utility is used exclusively for <<executeConvert, importing a parquet table into Delta Lake (DeltaConvert.executeConvert)>>.
 
 `DeltaConvert` utility can be used directly or indirectly via <<DeltaTable.md#convertToDelta, DeltaTable.convertToDelta>> utility.
 
-.Demo of DeltaConvert
-[source,scala]
-----
+```text
 import org.apache.spark.sql.SparkSession
 assert(spark.isInstanceOf[SparkSession])
 
@@ -25,22 +22,26 @@ val deltaPath: Option[String] = None
 // Use web UI to monitor execution, e.g. http://localhost:4040
 import io.delta.tables.execution.DeltaConvert
 DeltaConvert.executeConvert(spark, table, partitionSchema, deltaPath)
-----
+```
 
-[[DeltaConvertBase]]
+<span id="DeltaConvertBase">
 `DeltaConvert` utility is a concrete `DeltaConvertBase`.
 
-== [[executeConvert]] Importing Parquet Table Into Delta Lake (Converting Parquet Table To Delta Format) -- `executeConvert` Method
+## <span id="executeConvert"> Importing Parquet Table Into Delta Lake (Converting Parquet Table To Delta Format)
 
-[source, scala]
-----
+```scala
 executeConvert(
   spark: SparkSession,
   tableIdentifier: TableIdentifier,
   partitionSchema: Option[StructType],
-  deltaPath: Option[String]): Unit
-----
+  deltaPath: Option[String]): DeltaTable
+```
 
-`executeConvert` simply creates a new <<ConvertToDeltaCommand.md#, ConvertToDeltaCommand>> and <<ConvertToDeltaCommand.md#run, executes it>>.
+`executeConvert` creates a new [ConvertToDeltaCommand](commands/ConvertToDeltaCommand.md) and executes it.
 
-NOTE: `executeConvert` is used when `DeltaTable` utility is requested to <<DeltaTable.md#convertToDelta, convert a parquet table to delta format (DeltaTable.convertToDelta)>>.
+In the end, `executeConvert` creates a [DeltaTable](DeltaTable.md).
+
+!!! note
+    `executeConvert` can convert a Spark table (to Delta) that is registered in a metastore.
+
+`executeConvert` is used when `DeltaTable` utility is requested to [convert a parquet table to delta format (DeltaTable.convertToDelta)](DeltaTable.md#convertToDelta).

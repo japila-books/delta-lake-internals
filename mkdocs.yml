@@ -160,6 +160,7 @@ nav:
       - PreprocessTableMerge: PreprocessTableMerge.md
       - PreprocessTableUpdate: PreprocessTableUpdate.md
     - SQLMetricsReporting: SQLMetricsReporting.md
+    - DeltaConvert: DeltaConvert.md
   - Delta SQL:
     - Delta SQL: sql/index.md
     - DeltaSqlParser: sql/DeltaSqlParser.md
@@ -174,9 +175,7 @@ nav:
       - AlterTableSetLocationDeltaCommand.md
       - AlterTableSetPropertiesDeltaCommand.md
       - AlterTableUnsetPropertiesDeltaCommand.md
-    - ConvertToDeltaCommand:
-      - ConvertToDeltaCommand: commands/ConvertToDeltaCommand.md
-      - DeltaConvert: DeltaConvert.md
+    - ConvertToDeltaCommand: commands/ConvertToDeltaCommand.md
     - CreateDeltaTableCommand: commands/CreateDeltaTableCommand.md
     - DeleteCommand: commands/DeleteCommand.md
     - DeltaGenerateCommand:
