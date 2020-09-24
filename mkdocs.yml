@@ -177,7 +177,7 @@ nav:
     - ConvertToDeltaCommand:
       - ConvertToDeltaCommand: commands/ConvertToDeltaCommand.md
       - DeltaConvert: DeltaConvert.md
-    - CreateDeltaTableCommand: CreateDeltaTableCommand.md
+    - CreateDeltaTableCommand: commands/CreateDeltaTableCommand.md
     - DeleteCommand: commands/DeleteCommand.md
     - DeltaGenerateCommand:
       - DeltaGenerateCommand: commands/DeltaGenerateCommand.md

@@ -1,8 +1,8 @@
-= DeltaCatalog
+# DeltaCatalog
 
-*DeltaCatalog* is an extension of Spark SQL (using DelegatingCatalogExtension and StagingTableCatalog).
+**DeltaCatalog** is an extension of Spark SQL (using `DelegatingCatalogExtension` and `StagingTableCatalog`).
 
-DeltaCatalog is registered using *spark.sql.catalog.spark_catalog* configuration property while creating a SparkSession in a Spark application. Consult installation.adoc[].
+`DeltaCatalog` is [registered](installation.md) using **spark.sql.catalog.spark_catalog** configuration property (while creating a SparkSession in a Spark application).
 
 == [[alterTable]] Altering Table
 
@@ -17,20 +17,19 @@ alterTable...FIXME
 
 alterTable is part of the TableCatalog (Spark SQL 3.0.0) abstraction.
 
-== [[createTable]] Creating Table
+## <span id="createTable"> Creating Table
 
-[source,scala]
-----
+```scala
 createTable(
   ident: Identifier,
   schema: StructType,
   partitions: Array[Transform],
   properties: util.Map[String, String]): Table
-----
+```
 
-createTable...FIXME
+`createTable`...FIXME
 
-createTable is part of the TableCatalog (Spark SQL 3.0.0) abstraction.
+`createTable` is part of the `TableCatalog` ([Spark SQL](https://jaceklaskowski.github.io/mastering-spark-sql-book/connector/catalog/TableCatalog/)) abstraction.
 
 == [[loadTable]] Loading Table
 
@@ -44,10 +43,9 @@ loadTable...FIXME
 
 loadTable is part of the TableCatalog (Spark SQL 3.0.0) abstraction.
 
-== [[createDeltaTable]] createDeltaTable Internal Method
+## <span id="createDeltaTable"> Creating Delta Table
 
-[source,scala]
-----
+```scala
 createDeltaTable(
   ident: Identifier,
   schema: StructType,
@@ -55,12 +53,11 @@ createDeltaTable(
   properties: util.Map[String, String],
   sourceQuery: Option[LogicalPlan],
   operation: TableCreationModes.CreationMode): Table
-----
+```
 
-createDeltaTable...FIXME
+`createDeltaTable`...FIXME
 
-createDeltaTable is used when:
+`createDeltaTable` is used when:
 
-* DeltaCatalog is requested to <<createTable, createTable>>
-
-* StagedDeltaTableV2 is requested to StagedDeltaTableV2.adoc#commitStagedChanges[commitStagedChanges]
+* `DeltaCatalog` is requested to [createTable](#createTable)
+* `StagedDeltaTableV2` is requested to [commitStagedChanges](StagedDeltaTableV2.md#commitStagedChanges)

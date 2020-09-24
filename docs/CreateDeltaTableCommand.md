@@ -1,3 +1,0 @@
-# CreateDeltaTableCommand
-
-**CreateDeltaTableCommand** is...FIXME
