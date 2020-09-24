@@ -1,6 +1,6 @@
 ## WriteIntoDelta Command
 
-`WriteIntoDelta` is a <<DeltaCommand.adoc#, Delta command>> that can write <<data, data(frame)>> transactionally into a <<deltaLog, delta table>>.
+`WriteIntoDelta` is a <<DeltaCommand.md#, Delta command>> that can write <<data, data(frame)>> transactionally into a <<deltaLog, delta table>>.
 
 [[demo]]
 .Demo
@@ -26,7 +26,7 @@ writeCmd.run(spark)
 ----
 
 [[ImplicitMetadataOperation]]
-`WriteIntoDelta` is an <<ImplicitMetadataOperation.adoc#, operation that can update metadata (schema and partitioning)>> of a <<deltaLog, delta table>>.
+`WriteIntoDelta` is an <<ImplicitMetadataOperation.md#, operation that can update metadata (schema and partitioning)>> of a <<deltaLog, delta table>>.
 
 [[RunnableCommand]]
 `WriteIntoDelta` is a logical command (`RunnableCommand`).
@@ -35,17 +35,17 @@ TIP: Read up on https://jaceklaskowski.gitbooks.io/mastering-spark-sql/spark-sql
 
 `WriteIntoDelta` is <<creating-instance, created>> when:
 
-* `DeltaLog` is requested to <<DeltaLog.adoc#createRelation, create an insertable HadoopFsRelation>> (when `DeltaDataSource` is requested to create a relation as a <<DeltaDataSource.adoc#CreatableRelationProvider, CreatableRelationProvider>> or a <<DeltaDataSource.adoc#RelationProvider, RelationProvider>>)
+* `DeltaLog` is requested to <<DeltaLog.md#createRelation, create an insertable HadoopFsRelation>> (when `DeltaDataSource` is requested to create a relation as a <<DeltaDataSource.md#CreatableRelationProvider, CreatableRelationProvider>> or a <<DeltaDataSource.md#RelationProvider, RelationProvider>>)
 
-* `DeltaDataSource` is requested to <<DeltaDataSource.adoc#CreatableRelationProvider-createRelation, create a relation (for writing)>> (as a <<DeltaDataSource.adoc#CreatableRelationProvider, CreatableRelationProvider>>)
+* `DeltaDataSource` is requested to <<DeltaDataSource.md#CreatableRelationProvider-createRelation, create a relation (for writing)>> (as a <<DeltaDataSource.md#CreatableRelationProvider, CreatableRelationProvider>>)
 
 == [[creating-instance]] Creating WriteIntoDelta Instance
 
 `WriteIntoDelta` takes the following to be created:
 
-* [[deltaLog]] <<DeltaLog.adoc#, DeltaLog>>
+* [[deltaLog]] <<DeltaLog.md#, DeltaLog>>
 * [[mode]] `SaveMode`
-* [[options]] <<DeltaOptions.adoc#, DeltaOptions>>
+* [[options]] <<DeltaOptions.md#, DeltaOptions>>
 * [[partitionColumns]] Names of the partition columns (`Seq[String]`)
 * [[configuration]] Configuration (`Map[String, String]`)
 * [[data]] Data (`DataFrame`)
@@ -60,9 +60,9 @@ run(
 
 NOTE: `run` is part of the `RunnableCommand` contract to run a command.
 
-`run` requests the <<deltaLog, DeltaLog>> to <<DeltaLog.adoc#withNewTransaction, start a new transaction>>.
+`run` requests the <<deltaLog, DeltaLog>> to <<DeltaLog.md#withNewTransaction, start a new transaction>>.
 
-`run` <<write, writes>> and requests the `OptimisticTransaction` to <<OptimisticTransactionImpl.adoc#commit, commit>>.
+`run` <<write, writes>> and requests the `OptimisticTransaction` to <<OptimisticTransactionImpl.md#commit, commit>>.
 
 == [[write]] `write` Method
 
@@ -73,7 +73,7 @@ write(
   sparkSession: SparkSession): Seq[Action]
 ----
 
-`write` checks out whether the write operation is to a delta table that already exists. If so (i.e. the <<OptimisticTransactionImpl.adoc#readVersion, readVersion>> of the transaction is above `-1`), `write` branches per the <<mode, SaveMode>>:
+`write` checks out whether the write operation is to a delta table that already exists. If so (i.e. the <<OptimisticTransactionImpl.md#readVersion, readVersion>> of the transaction is above `-1`), `write` branches per the <<mode, SaveMode>>:
 
 * For `ErrorIfExists`, `write` throws an `AnalysisException`:
 +
@@ -83,9 +83,9 @@ write(
 
 * For `Ignore`, `write` does nothing
 
-* For `Overwrite`, `write` requests the <<deltaLog, DeltaLog>> to <<DeltaLog.adoc#assertRemovable, assertRemovable>>
+* For `Overwrite`, `write` requests the <<deltaLog, DeltaLog>> to <<DeltaLog.md#assertRemovable, assertRemovable>>
 
-`write` <<ImplicitMetadataOperation.adoc#updateMetadata, updateMetadata>>.
+`write` <<ImplicitMetadataOperation.md#updateMetadata, updateMetadata>>.
 
 `write`...FIXME
 

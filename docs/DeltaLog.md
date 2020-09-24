@@ -1,6 +1,6 @@
 # DeltaLog
 
-`DeltaLog` is a *transaction log* (aka _change log_) of <<Action.adoc#, changes>> to the state of a <<dataPath, delta table>>.
+`DeltaLog` is a *transaction log* (aka _change log_) of <<Action.md#, changes>> to the state of a <<dataPath, delta table>>.
 
 `DeltaLog` uses <<_delta_log, _delta_log>> directory for (the files of) the transaction log of a delta table (that is given when <<forTable, DeltaLog.forTable>> utility is used to create an instance).
 
@@ -20,7 +20,7 @@ val expected = new Path(s"file:$dataPath/_delta_log/_last_checkpoint")
 assert(deltaLog.LAST_CHECKPOINT == expected)
 ----
 
-A common idiom (if not the only way) to know the current version of the delta table is to request the `DeltaLog` for the <<snapshot, current state (snapshot)>> and then for the <<Snapshot.adoc#version, version>>.
+A common idiom (if not the only way) to know the current version of the delta table is to request the `DeltaLog` for the <<snapshot, current state (snapshot)>> and then for the <<Snapshot.md#version, version>>.
 
 [source, scala]
 ----
@@ -34,11 +34,11 @@ scala> println(deltaVersion)
 
 While being <<creating-instance, created>>, `DeltaLog` does the following:
 
-* Creates the <<store, LogStore>> based on <<LogStoreProvider.adoc#spark.delta.logStore.class, spark.delta.logStore.class>> configuration property (default: <<HDFSLogStore.adoc#, HDFSLogStore>>)
+* Creates the <<store, LogStore>> based on <<LogStoreProvider.md#spark.delta.logStore.class, spark.delta.logStore.class>> configuration property (default: <<HDFSLogStore.md#, HDFSLogStore>>)
 
 * Initializes the <<currentSnapshot, current snapshot>>
 
-* <<update, Updates state of the delta table>> when there is no <<Checkpoints.adoc#lastCheckpoint, metadata checkpoint>> (e.g. the version of the <<currentSnapshot, state>> is `-1`)
+* <<update, Updates state of the delta table>> when there is no <<Checkpoints.md#lastCheckpoint, metadata checkpoint>> (e.g. the version of the <<currentSnapshot, state>> is `-1`)
 
 In other words, the version of (the `DeltaLog` of) a delta table is at version `0` at the very minimum.
 
@@ -47,7 +47,7 @@ In other words, the version of (the `DeltaLog` of) a delta table is at version `
 assert(deltaLog.snapshot.version >= 0)
 ----
 
-`DeltaLog` is a <<LogStoreProvider.adoc#, LogStoreProvider>>.
+`DeltaLog` is a <<LogStoreProvider.md#, LogStoreProvider>>.
 
 [[logging]]
 [TIP]
@@ -60,7 +60,7 @@ Add the following line to `conf/log4j.properties`:
 log4j.logger.org.apache.spark.sql.delta.DeltaLog=ALL
 ```
 
-Refer to <<logging.adoc#, Logging>>.
+Refer to <<logging.md#, Logging>>.
 ====
 
 == [[FileFormats]] FileFormats
@@ -71,7 +71,7 @@ Refer to <<logging.adoc#, Logging>>.
 
 * [[COMMIT_FILE_FORMAT]] `JsonFileFormat` for indices of checkpoint files
 
-The `FileFormats` are used to create <<DeltaLogFileIndex.adoc#, DeltaLogFileIndices>> for <<Snapshot.adoc#files, Snapshots>> that in turn used them for <<Snapshot.adoc#stateReconstruction, stateReconstruction>>.
+The `FileFormats` are used to create <<DeltaLogFileIndex.md#, DeltaLogFileIndices>> for <<Snapshot.md#files, Snapshots>> that in turn used them for <<Snapshot.md#stateReconstruction, stateReconstruction>>.
 
 == [[_delta_log]] _delta_log Directory
 
@@ -93,7 +93,7 @@ Once resolved and turned into a qualified path, the `_delta_log` directory of th
 
 == [[store]] LogStore
 
-`DeltaLog` uses an <<LogStore.adoc#, LogStore>> for...FIXME
+`DeltaLog` uses an <<LogStore.md#, LogStore>> for...FIXME
 
 == [[deltaLogCache]] Transaction Logs (DeltaLogs) per Fully-Qualified Path -- `deltaLogCache` Internal Registry
 
@@ -169,11 +169,11 @@ startTransaction is used when:
 
 * DeltaLog is requested to <<upgradeProtocol, upgradeProtocol>>
 
-* AlterDeltaTableCommand is requested to AlterDeltaTableCommand.adoc#startTransaction[startTransaction]
+* AlterDeltaTableCommand is requested to AlterDeltaTableCommand.md#startTransaction[startTransaction]
 
-* ConvertToDeltaCommandBase is ConvertToDeltaCommand.adoc#run[executed]
+* ConvertToDeltaCommandBase is ConvertToDeltaCommand.md#run[executed]
 
-* CreateDeltaTableCommand is CreateDeltaTableCommand.adoc#run[executed]
+* CreateDeltaTableCommand is CreateDeltaTableCommand.md#run[executed]
 
 == [[assertRemovable]] Throwing UnsupportedOperationException For appendOnly Table Property Enabled -- `assertRemovable` Method
 
@@ -182,7 +182,7 @@ startTransaction is used when:
 assertRemovable(): Unit
 ----
 
-`assertRemovable` throws an `UnsupportedOperationException` for the <<DeltaConfigs.adoc#IS_APPEND_ONLY, appendOnly>> table property (<<DeltaConfigs.adoc#fromMetaData, in>> the <<metadata, Metadata>>) enabled (`true`):
+`assertRemovable` throws an `UnsupportedOperationException` for the <<DeltaConfigs.md#IS_APPEND_ONLY, appendOnly>> table property (<<DeltaConfigs.md#fromMetaData, in>> the <<metadata, Metadata>>) enabled (`true`):
 
 ```
 This table is configured to only allow appends. If you would like to permit updates or deletes, use 'ALTER TABLE <table_name> SET TBLPROPERTIES (appendOnly=false)'.
@@ -197,9 +197,9 @@ NOTE: `assertRemovable` is used when...FIXME
 metadata: Metadata
 ----
 
-NOTE: `metadata` is part of the <<Checkpoints.adoc#metadata, Checkpoints Contract>> to...FIXME.
+NOTE: `metadata` is part of the <<Checkpoints.md#metadata, Checkpoints Contract>> to...FIXME.
 
-`metadata` requests the <<snapshot, current Snapshot>> for the <<Snapshot.adoc#metadata, metadata>> or creates a new <<Metadata.adoc#, one>> (if the <<snapshot, current Snapshot>> is not initialized).
+`metadata` requests the <<snapshot, current Snapshot>> for the <<Snapshot.md#metadata, metadata>> or creates a new <<Metadata.md#, one>> (if the <<snapshot, current Snapshot>> is not initialized).
 
 == [[forTable]] Creating DeltaLog Instance -- `forTable` Utility
 
@@ -234,13 +234,13 @@ forTable(
 ====
 `forTable` is used when:
 
-* <<DeltaTable.adoc#forPath, DeltaTable.forPath>> utility is used to create a <<DeltaTable.adoc#, DeltaTable>>
+* <<DeltaTable.md#forPath, DeltaTable.forPath>> utility is used to create a <<DeltaTable.md#, DeltaTable>>
 
-* <<ConvertToDeltaCommand.adoc#, ConvertToDeltaCommand>>, <<DescribeDeltaHistoryCommand.adoc#, DescribeDeltaHistoryCommand>>, <<VacuumTableCommand.adoc#, VacuumTableCommand>> are requested to `run`
+* <<ConvertToDeltaCommand.md#, ConvertToDeltaCommand>>, <<DescribeDeltaHistoryCommand.md#, DescribeDeltaHistoryCommand>>, <<VacuumTableCommand.md#, VacuumTableCommand>> are requested to `run`
 
-* `DeltaDataSource` is requested to <<DeltaDataSource.adoc#sourceSchema, sourceSchema>>, <<DeltaDataSource.adoc#createSource, createSource>>, and create a relation (as <<DeltaDataSource.adoc#CreatableRelationProvider-createRelation, CreatableRelationProvider>> and <<DeltaDataSource.adoc#RelationProvider-createRelation, RelationProvider>>)
+* `DeltaDataSource` is requested to <<DeltaDataSource.md#sourceSchema, sourceSchema>>, <<DeltaDataSource.md#createSource, createSource>>, and create a relation (as <<DeltaDataSource.md#CreatableRelationProvider-createRelation, CreatableRelationProvider>> and <<DeltaDataSource.md#RelationProvider-createRelation, RelationProvider>>)
 
-* <<DeltaTableUtils.adoc#combineWithCatalogMetadata, DeltaTableUtils.combineWithCatalogMetadata>> utility is used
+* <<DeltaTableUtils.md#combineWithCatalogMetadata, DeltaTableUtils.combineWithCatalogMetadata>> utility is used
 
 * `DeltaTableIdentifier` is requested to `getDeltaLog`
 
@@ -265,19 +265,19 @@ For all other cases, `update`...FIXME
 ====
 `update` is used when:
 
-* `DeltaHistoryManager` is requested to <<DeltaHistoryManager.adoc#getHistory, getHistory>>, <<DeltaHistoryManager.adoc#getActiveCommitAtTime, getActiveCommitAtTime>>, and <<DeltaHistoryManager.adoc#checkVersionExists, checkVersionExists>>
+* `DeltaHistoryManager` is requested to <<DeltaHistoryManager.md#getHistory, getHistory>>, <<DeltaHistoryManager.md#getActiveCommitAtTime, getActiveCommitAtTime>>, and <<DeltaHistoryManager.md#checkVersionExists, checkVersionExists>>
 
-* `DeltaLog` is <<creating-instance, created>> (with no <<Checkpoints.adoc#lastCheckpoint, checkpoint>> created), and requested to <<startTransaction, startTransaction>> and <<withNewTransaction, withNewTransaction>>
+* `DeltaLog` is <<creating-instance, created>> (with no <<Checkpoints.md#lastCheckpoint, checkpoint>> created), and requested to <<startTransaction, startTransaction>> and <<withNewTransaction, withNewTransaction>>
 
-* `OptimisticTransactionImpl` is requested to <<OptimisticTransactionImpl.adoc#doCommit, doCommit>> and <<OptimisticTransactionImpl.adoc#checkAndRetry, checkAndRetry>>
+* `OptimisticTransactionImpl` is requested to <<OptimisticTransactionImpl.md#doCommit, doCommit>> and <<OptimisticTransactionImpl.md#checkAndRetry, checkAndRetry>>
 
-* `ConvertToDeltaCommand` is requested to <<ConvertToDeltaCommand.adoc#run, run>> and <<ConvertToDeltaCommand.adoc#streamWrite, streamWrite>>
+* `ConvertToDeltaCommand` is requested to <<ConvertToDeltaCommand.md#run, run>> and <<ConvertToDeltaCommand.md#streamWrite, streamWrite>>
 
-* `VacuumCommand` utility is used to <<VacuumCommand.adoc#gc, gc>>
+* `VacuumCommand` utility is used to <<VacuumCommand.md#gc, gc>>
 
-* `TahoeLogFileIndex` is requested for the <<TahoeLogFileIndex.adoc#getSnapshot, (historical or latest) snapshot>>
+* `TahoeLogFileIndex` is requested for the <<TahoeLogFileIndex.md#getSnapshot, (historical or latest) snapshot>>
 
-* `DeltaDataSource` is requested for a <<DeltaDataSource.adoc#RelationProvider-createRelation, relation>>
+* `DeltaDataSource` is requested for a <<DeltaDataSource.md#RelationProvider-createRelation, relation>>
 ====
 
 == [[snapshot]] Current State Snapshot -- `snapshot` Method
@@ -299,19 +299,19 @@ snapshot: Snapshot
 
 * `DeltaLog` is requested for the <<metadata, metadata>>, to <<upgradeProtocol, upgradeProtocol>>, <<getSnapshotAt, getSnapshotAt>>, <<createRelation, createRelation>>
 
-* `OptimisticTransactionImpl` is requested to <<OptimisticTransactionImpl.adoc#getNextAttemptVersion, getNextAttemptVersion>>
+* `OptimisticTransactionImpl` is requested to <<OptimisticTransactionImpl.md#getNextAttemptVersion, getNextAttemptVersion>>
 
-* <<DeleteCommand.adoc#, DeleteCommand>>, <<DeltaGenerateCommand.adoc#, DeltaGenerateCommand>>, <<DescribeDeltaDetailCommand.adoc#, DescribeDeltaDetailCommand>>, <<UpdateCommand.adoc#, UpdateCommand>>, <<GenerateSymlinkManifest.adoc#, GenerateSymlinkManifest>> are executed
+* <<DeleteCommand.md#, DeleteCommand>>, <<DeltaGenerateCommand.md#, DeltaGenerateCommand>>, <<DescribeDeltaDetailCommand.md#, DescribeDeltaDetailCommand>>, <<UpdateCommand.md#, UpdateCommand>>, <<GenerateSymlinkManifest.md#, GenerateSymlinkManifest>> are executed
 
-* DeltaCommand is requested to <<DeltaCommand.adoc#buildBaseRelation, buildBaseRelation>>
+* DeltaCommand is requested to <<DeltaCommand.md#buildBaseRelation, buildBaseRelation>>
 
-* `TahoeFileIndex` is requested for the <<TahoeFileIndex.adoc#tableVersion, table version>>, <<TahoeFileIndex.adoc#partitionSchema, partitionSchema>>
+* `TahoeFileIndex` is requested for the <<TahoeFileIndex.md#tableVersion, table version>>, <<TahoeFileIndex.md#partitionSchema, partitionSchema>>
 
-* `TahoeLogFileIndex` is requested for the <<TahoeLogFileIndex.adoc#sizeInBytes, table size>>
+* `TahoeLogFileIndex` is requested for the <<TahoeLogFileIndex.md#sizeInBytes, table size>>
 
-* `DeltaDataSource` is requested for the <<DeltaDataSource.adoc#sourceSchema, schema of the streaming delta source>>
+* `DeltaDataSource` is requested for the <<DeltaDataSource.md#sourceSchema, schema of the streaming delta source>>
 
-* <<DeltaSource.adoc#, DeltaSource>> is created and requested for the <<DeltaSource.adoc#getStartingOffset, getStartingOffset>>, <<DeltaSource.adoc#getBatch, getBatch>>
+* <<DeltaSource.md#, DeltaSource>> is created and requested for the <<DeltaSource.md#getStartingOffset, getStartingOffset>>, <<DeltaSource.md#getBatch, getBatch>>
 ====
 
 == [[currentSnapshot]] Current State Snapshot -- `currentSnapshot` Internal Registry
@@ -321,7 +321,7 @@ snapshot: Snapshot
 currentSnapshot: Snapshot
 ----
 
-`currentSnapshot` is a <<Snapshot.adoc#, Snapshot>> based on the <<Checkpoints.adoc#lastCheckpoint, metadata checkpoint>> if available or a new `Snapshot` instance (with version being `-1`).
+`currentSnapshot` is a <<Snapshot.md#, Snapshot>> based on the <<Checkpoints.md#lastCheckpoint, metadata checkpoint>> if available or a new `Snapshot` instance (with version being `-1`).
 
 NOTE: For a new `Snapshot` instance (with version being `-1`) `DeltaLog` immediately <<update, updates the state>>.
 
@@ -342,13 +342,13 @@ createRelation(
 
 `createRelation`...FIXME
 
-`createRelation` creates a <<TahoeLogFileIndex.adoc#, TahoeLogFileIndex>> for the <<dataPath, data path>>, the given `partitionFilters` and a version (if defined).
+`createRelation` creates a <<TahoeLogFileIndex.md#, TahoeLogFileIndex>> for the <<dataPath, data path>>, the given `partitionFilters` and a version (if defined).
 
 `createRelation`...FIXME
 
 In the end, `createRelation` creates a `HadoopFsRelation` for the `TahoeLogFileIndex` and...FIXME. The `HadoopFsRelation` is also an <<createRelation-InsertableRelation, InsertableRelation>>.
 
-NOTE: `createRelation` is used when `DeltaDataSource` is requested for a relation as a <<DeltaDataSource.adoc#CreatableRelationProvider, CreatableRelationProvider>> and a <<DeltaDataSource.adoc#RelationProvider, RelationProvider>> (for batch queries).
+NOTE: `createRelation` is used when `DeltaDataSource` is requested for a relation as a <<DeltaDataSource.md#CreatableRelationProvider, CreatableRelationProvider>> and a <<DeltaDataSource.md#RelationProvider, RelationProvider>> (for batch queries).
 
 === [[createRelation-InsertableRelation]][[createRelation-InsertableRelation-insert]] `insert` Method
 
@@ -381,9 +381,9 @@ getSnapshotAt(
 
 * `DeltaLog` is requested for a <<createRelation, relation>>, and to <<updateInternal, updateInternal>>
 
-* `DeltaSource` is requested to <<DeltaSource.adoc#getSnapshotAt, getSnapshotAt>>
+* `DeltaSource` is requested to <<DeltaSource.md#getSnapshotAt, getSnapshotAt>>
 
-* `TahoeLogFileIndex` is requested for <<TahoeLogFileIndex.adoc#historicalSnapshotOpt, historicalSnapshotOpt>>
+* `TahoeLogFileIndex` is requested for <<TahoeLogFileIndex.md#historicalSnapshotOpt, historicalSnapshotOpt>>
 ====
 
 == [[tryUpdate]] `tryUpdate` Method
@@ -429,7 +429,7 @@ NOTE: `protocolWrite` is used when...FIXME
 checkpointInterval: Int
 ----
 
-`checkpointInterval` gives the value of <<DeltaConfigs.adoc#CHECKPOINT_INTERVAL, checkpointInterval>> table property (<<DeltaConfigs.adoc#fromMetaData, from>> the <<metadata, Metadata>>).
+`checkpointInterval` gives the value of <<DeltaConfigs.md#CHECKPOINT_INTERVAL, checkpointInterval>> table property (<<DeltaConfigs.md#fromMetaData, from>> the <<metadata, Metadata>>).
 
 NOTE: `checkpointInterval` is used when...FIXME
 
@@ -441,7 +441,7 @@ getChanges(
   startVersion: Long): Iterator[(Long, Seq[Action])]
 ----
 
-`getChanges` gives all <<Action.adoc#, actions>> (_changes_) per delta log file for the given `startVersion` of a delta table and later.
+`getChanges` gives all <<Action.md#, actions>> (_changes_) per delta log file for the given `startVersion` of a delta table and later.
 
 [source,scala]
 ----
@@ -452,11 +452,11 @@ assert(deltaLog.isInstanceOf[DeltaLog])
 val changesPerVersion = deltaLog.getChanges(startVersion = 0)
 ----
 
-Internally, `getChanges` requests the <<store, LogStore>> for <<LogStore.adoc#listFrom, files>> that are lexicographically greater or equal to the <<FileNames.adoc#deltaFile, delta log file>> for the given `startVersion` (in the <<logPath, logPath>>) and leaves only <<FileNames.adoc#isDeltaFile, delta log files>> (e.g. files with numbers only as file name and `.json` file extension).
+Internally, `getChanges` requests the <<store, LogStore>> for <<LogStore.md#listFrom, files>> that are lexicographically greater or equal to the <<FileNames.md#deltaFile, delta log file>> for the given `startVersion` (in the <<logPath, logPath>>) and leaves only <<FileNames.md#isDeltaFile, delta log files>> (e.g. files with numbers only as file name and `.json` file extension).
 
-For every delta file, `getChanges` requests the <<store, LogStore>> to <<LogStore.adoc#read, read the JSON content>> (every line is an <<Action.adoc#, action>>), and then <<Action.adoc#fromJson, deserializes it to an action>>.
+For every delta file, `getChanges` requests the <<store, LogStore>> to <<LogStore.md#read, read the JSON content>> (every line is an <<Action.md#, action>>), and then <<Action.md#fromJson, deserializes it to an action>>.
 
-NOTE: `getChanges` is used when `DeltaSource` is requested for the <<DeltaSource.adoc#getChanges, indexed file additions (FileAdd actions)>>.
+NOTE: `getChanges` is used when `DeltaSource` is requested for the <<DeltaSource.md#getChanges, indexed file additions (FileAdd actions)>>.
 
 == [[createDataFrame]] Creating DataFrame For Given AddFiles -- `createDataFrame` Method
 
@@ -475,9 +475,9 @@ createDataFrame(
 
 * *batch* when `isStreaming` flag is disabled (`false`)
 
-`createDataFrame` creates a new <<TahoeBatchFileIndex.adoc#, TahoeBatchFileIndex>> (for the action type, and the given <<AddFile.adoc#, AddFiles>> and <<Snapshot.adoc#, Snapshot>>).
+`createDataFrame` creates a new <<TahoeBatchFileIndex.md#, TahoeBatchFileIndex>> (for the action type, and the given <<AddFile.md#, AddFiles>> and <<Snapshot.md#, Snapshot>>).
 
-`createDataFrame` creates a `HadoopFsRelation` with the `TahoeBatchFileIndex` and the other properties based on the given <<Snapshot.adoc#, Snapshot>> (and its <<Snapshot.adoc#metadata, Metadata>>).
+`createDataFrame` creates a `HadoopFsRelation` with the `TahoeBatchFileIndex` and the other properties based on the given <<Snapshot.md#, Snapshot>> (and its <<Snapshot.md#metadata, Metadata>>).
 
 TIP: Read up on https://jaceklaskowski.gitbooks.io/mastering-spark-sql/spark-sql-BaseRelation-HadoopFsRelation.html[HadoopFsRelation] in https://bit.ly/spark-sql-internals[The Internals of Spark SQL] online book.
 
@@ -489,9 +489,9 @@ TIP: Read up on https://jaceklaskowski.gitbooks.io/mastering-spark-sql/spark-sql
 ====
 `createDataFrame` is used when:
 
-* <<MergeIntoCommand.adoc#, MergeIntoCommand>> is executed
+* <<MergeIntoCommand.md#, MergeIntoCommand>> is executed
 
-* `DeltaSource` is requested for a <<DeltaSource.adoc#getBatch, DataFrame for data between start and end offsets>>
+* `DeltaSource` is requested for a <<DeltaSource.md#getBatch, DataFrame for data between start and end offsets>>
 ====
 
 == [[lockInterruptibly]] Acquiring Interruptible Lock on Log -- `lockInterruptibly` Method
@@ -520,7 +520,7 @@ minFileRetentionTimestamp: Long
 
 * `DeltaLog` is requested for the <<currentSnapshot, currentSnapshot>>, to <<updateInternal, updateInternal>>, and to <<getSnapshotAt, getSnapshotAt>>
 
-* `VacuumCommand` is requested for <<VacuumCommand.adoc#gc, garbage collecting of a delta table>>
+* `VacuumCommand` is requested for <<VacuumCommand.md#gc, garbage collecting of a delta table>>
 ====
 
 == [[tombstoneRetentionMillis]] `tombstoneRetentionMillis` Method
@@ -530,7 +530,7 @@ minFileRetentionTimestamp: Long
 tombstoneRetentionMillis: Long
 ----
 
-`tombstoneRetentionMillis` gives the value of <<DeltaConfigs.adoc#TOMBSTONE_RETENTION, deletedFileRetentionDuration>> table property (<<DeltaConfigs.adoc#fromMetaData, from>> the <<metadata, Metadata>>).
+`tombstoneRetentionMillis` gives the value of <<DeltaConfigs.md#TOMBSTONE_RETENTION, deletedFileRetentionDuration>> table property (<<DeltaConfigs.md#fromMetaData, from>> the <<metadata, Metadata>>).
 
 [NOTE]
 ====
@@ -538,7 +538,7 @@ tombstoneRetentionMillis: Long
 
 * `DeltaLog` is requested for <<minFileRetentionTimestamp, minFileRetentionTimestamp>>
 
-* `VacuumCommand` is requested for <<VacuumCommand.adoc#gc, garbage collecting of a delta table>>
+* `VacuumCommand` is requested for <<VacuumCommand.md#gc, garbage collecting of a delta table>>
 ====
 
 == [[updateInternal]] `updateInternal` Internal Method
@@ -603,11 +603,11 @@ protocolRead(
 ====
 `protocolRead` is used when:
 
-* `OptimisticTransactionImpl` is requested to <<OptimisticTransactionImpl.adoc#checkAndRetry, validate and retry a commit>>
+* `OptimisticTransactionImpl` is requested to <<OptimisticTransactionImpl.md#checkAndRetry, validate and retry a commit>>
 
-* <<Snapshot.adoc#, Snapshot>> is created
+* <<Snapshot.md#, Snapshot>> is created
 
-* `DeltaSource` is requested to <<DeltaSource.adoc#verifyStreamHygieneAndFilterAddFiles, verifyStreamHygieneAndFilterAddFiles>>
+* `DeltaSource` is requested to <<DeltaSource.md#verifyStreamHygieneAndFilterAddFiles, verifyStreamHygieneAndFilterAddFiles>>
 ====
 
 == [[isValid]] `isValid` Method

@@ -12,7 +12,7 @@ StagedDeltaTableV2 takes the following to be created:
 * [[properties]] Properties
 * [[operation]] Operation (one of Create, CreateOrReplace, Replace)
 
-StagedDeltaTableV2 is created when DeltaCatalog is requested to DeltaCatalog.adoc#stageReplace[stageReplace], DeltaCatalog.adoc#stageCreateOrReplace[stageCreateOrReplace] or DeltaCatalog.adoc#stageCreate[stageCreate].
+StagedDeltaTableV2 is created when DeltaCatalog is requested to DeltaCatalog.md#stageReplace[stageReplace], DeltaCatalog.md#stageCreateOrReplace[stageCreateOrReplace] or DeltaCatalog.md#stageCreate[stageCreate].
 
 == [[commitStagedChanges]] commitStagedChanges
 

@@ -1,8 +1,8 @@
 = CachedDS -- Cached Delta State
 
-`CachedDS` (of ``A``s) is <<creating-instance, created>> exclusively when <<StateCache.adoc#, StateCache>> is requested to <<cacheDS, cacheDS>>.
+`CachedDS` (of ``A``s) is <<creating-instance, created>> exclusively when <<StateCache.md#, StateCache>> is requested to <<cacheDS, cacheDS>>.
 
-NOTE: `CachedDS` is an internal class of <<StateCache.adoc#, StateCache>> and has access to its internals.
+NOTE: `CachedDS` is an internal class of <<StateCache.md#, StateCache>> and has access to its internals.
 
 == [[creating-instance]] Creating CachedDS Instance
 
@@ -24,9 +24,9 @@ getDS: Dataset[A]
 ====
 `getDS` is used when:
 
-* `Snapshot` is requested to <<Snapshot.adoc#state, state>>
+* `Snapshot` is requested to <<Snapshot.md#state, state>>
 
-* `DeltaSourceSnapshot` is requested to <<DeltaSourceSnapshot.adoc#initialFiles, initialFiles>>
+* `DeltaSourceSnapshot` is requested to <<DeltaSourceSnapshot.md#initialFiles, initialFiles>>
 ====
 
 == [[internal-properties]] Internal Properties

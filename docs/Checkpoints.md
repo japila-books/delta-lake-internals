@@ -57,7 +57,7 @@ a| [[metadata]]
 metadata: Metadata
 ----
 
-<<Metadata.adoc#, Metadata>> of (the current state of) the <<self, delta table>>
+<<Metadata.md#, Metadata>> of (the current state of) the <<self, delta table>>
 
 Used when...FIXME
 
@@ -74,11 +74,11 @@ Used when...FIXME
 |===
 
 [[implementations]][[self]]
-NOTE: <<DeltaLog.adoc#, DeltaLog>> is the default and only known `Checkpoints` in Delta Lake.
+NOTE: <<DeltaLog.md#, DeltaLog>> is the default and only known `Checkpoints` in Delta Lake.
 
 == [[LAST_CHECKPOINT]][[_last_checkpoint]] _last_checkpoint Metadata File
 
-`Checkpoints` uses *_last_checkpoint* metadata file (under the <<DeltaLog.adoc#logPath, log path>>) for the following:
+`Checkpoints` uses *_last_checkpoint* metadata file (under the <<DeltaLog.md#logPath, log path>>) for the following:
 
 * <<checkpoint, Writing checkpoint metadata out>>
 

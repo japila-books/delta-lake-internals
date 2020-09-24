@@ -1,6 +1,6 @@
 = DeltaGenerateCommand -- Executing Generation Functions On Delta Tables
 
-`DeltaGenerateCommand` is a concrete <<DeltaGenerateCommandBase.adoc#, DeltaGenerateCommandBase>> (and so can <<DeltaGenerateCommandBase.adoc#getPath, get the path of a delta table from a table identifier>>) that can <<run, execute a generate function on a delta table>>.
+`DeltaGenerateCommand` is a concrete <<DeltaGenerateCommandBase.md#, DeltaGenerateCommandBase>> (and so can <<DeltaGenerateCommandBase.md#getPath, get the path of a delta table from a table identifier>>) that can <<run, execute a generate function on a delta table>>.
 
 [[symlink_format_manifest]]
 `DeltaGenerateCommand` supports `symlink_format_manifest` only for the <<modeName, mode>>.
@@ -14,13 +14,13 @@ scala> sql(generateQ).foreach(_ => ())
 [[modeNameToGenerationFunc]]
 `DeltaGenerateCommand` uses a lookup table for generation functions per mode:
 
-* Uses <<GenerateSymlinkManifest.adoc#generateFullManifest, generateFullManifest>> for the only-supported <<symlink_format_manifest, symlink_format_manifest>>
+* Uses <<GenerateSymlinkManifest.md#generateFullManifest, generateFullManifest>> for the only-supported <<symlink_format_manifest, symlink_format_manifest>>
 
 `DeltaGenerateCommand` is <<creating-instance, created>> when:
 
-* `DeltaSqlAstBuilder` is requested to <<DeltaSqlAstBuilder.adoc#visitGenerate, parse GENERATE SQL command>>
+* `DeltaSqlAstBuilder` is requested to <<DeltaSqlAstBuilder.md#visitGenerate, parse GENERATE SQL command>>
 
-* <<DeltaTable.adoc#generate, DeltaTable.generate>> operator is used (that <<DeltaTableOperations.adoc#executeGenerate, executeGenerate>>)
+* <<DeltaTable.md#generate, DeltaTable.generate>> operator is used (that <<DeltaTableOperations.md#executeGenerate, executeGenerate>>)
 
 == [[creating-instance]] Creating DeltaGenerateCommand Instance
 
@@ -38,11 +38,11 @@ run(sparkSession: SparkSession): Seq[Row]
 
 NOTE: `run` is part of the `RunnableCommand` contract to...FIXME.
 
-`run` <<DeltaLog.adoc#forTable, creates a DeltaLog>> for the <<getPath, path of the delta table>> (from the <<tableId, table identifier>>).
+`run` <<DeltaLog.md#forTable, creates a DeltaLog>> for the <<getPath, path of the delta table>> (from the <<tableId, table identifier>>).
 
 `run` finds the generate function for the mode (in the <<modeNameToGenerationFunc, modeNameToGenerationFunc>> registry) and applies (_executes_) it to the `DeltaLog`.
 
-`run` throws an `AnalysisException` when the <<Snapshot.adoc#version, version>> of the <<DeltaLog.adoc#snapshot, snapshot>> of the `DeltaLog` is negative (less than `0`):
+`run` throws an `AnalysisException` when the <<Snapshot.md#version, version>> of the <<DeltaLog.md#snapshot, snapshot>> of the `DeltaLog` is negative (less than `0`):
 
 ```
 Delta table not found at [tablePath].

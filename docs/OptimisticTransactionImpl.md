@@ -1,8 +1,8 @@
 # OptimisticTransactionImpl
 
-**OptimisticTransactionImpl** is an <<contract, extension>> of the TransactionalWrite.adoc[] abstraction for <<implementations, optimistic transactions>> that can modify a <<deltaLog, Delta table>> (at a given <<snapshot, version>>) and can be <<commit, committed>> eventually.
+**OptimisticTransactionImpl** is an <<contract, extension>> of the TransactionalWrite.md[] abstraction for <<implementations, optimistic transactions>> that can modify a <<deltaLog, Delta table>> (at a given <<snapshot, version>>) and can be <<commit, committed>> eventually.
 
-In other words, OptimisticTransactionImpl is a set of Action.adoc[actions] as part of an Operation.adoc[].
+In other words, OptimisticTransactionImpl is a set of Action.md[actions] as part of an Operation.md[].
 
 == [[contract]] Contract
 
@@ -20,9 +20,9 @@ clock: Clock
 deltaLog: DeltaLog
 ----
 
-DeltaLog.adoc[] (of the delta table) that this transaction is changing
+DeltaLog.md[] (of the delta table) that this transaction is changing
 
-deltaLog is part of the TransactionalWrite.adoc#deltaLog[TransactionalWrite] contract and seems to change it to `val` (from `def`).
+deltaLog is part of the TransactionalWrite.md#deltaLog[TransactionalWrite] contract and seems to change it to `val` (from `def`).
 
 === [[snapshot]] snapshot
 
@@ -31,13 +31,13 @@ deltaLog is part of the TransactionalWrite.adoc#deltaLog[TransactionalWrite] con
 snapshot: Snapshot
 ----
 
-Snapshot.adoc[] (of the <<deltaLog, delta table>>) that this transaction is changing
+Snapshot.md[] (of the <<deltaLog, delta table>>) that this transaction is changing
 
-snapshot is part of the TransactionalWrite.adoc#deltaLog[TransactionalWrite] contract and seems to change it to `val` (from `def`).
+snapshot is part of the TransactionalWrite.md#deltaLog[TransactionalWrite] contract and seems to change it to `val` (from `def`).
 
 == [[implementations]] Implementations
 
-OptimisticTransaction.adoc[] is the default and only known OptimisticTransactionImpl in Delta Lake.
+OptimisticTransaction.md[] is the default and only known OptimisticTransactionImpl in Delta Lake.
 
 == [[metadata]] metadata Method
 
@@ -48,7 +48,7 @@ metadata: Metadata
 
 metadata is either the <<newMetadata, newMetadata>> (if defined) or the <<snapshotMetadata, snapshotMetadata>>.
 
-metadata is part of the TransactionalWrite.adoc#metadata[TransactionalWrite] abstraction.
+metadata is part of the TransactionalWrite.md#metadata[TransactionalWrite] abstraction.
 
 == [[readVersion]] readVersion Method
 
@@ -57,17 +57,17 @@ metadata is part of the TransactionalWrite.adoc#metadata[TransactionalWrite] abs
 readVersion: Long
 ----
 
-readVersion simply requests the <<snapshot, Snapshot>> for the <<Snapshot.adoc#version, version>>.
+readVersion simply requests the <<snapshot, Snapshot>> for the <<Snapshot.md#version, version>>.
 
 readVersion is used when:
 
 * OptimisticTransactionImpl is requested for <<snapshotMetadata, snapshotMetadata>>, to <<updateMetadata, updateMetadata>> and <<commit, commit>>
 
-* `ConvertToDeltaCommand` is requested to <<ConvertToDeltaCommand.adoc#run, run>>
+* `ConvertToDeltaCommand` is requested to <<ConvertToDeltaCommand.md#run, run>>
 
-* `WriteIntoDelta` is requested to <<WriteIntoDelta.adoc#write, write>>
+* `WriteIntoDelta` is requested to <<WriteIntoDelta.md#write, write>>
 
-* `ImplicitMetadataOperation` is requested to <<ImplicitMetadataOperation.adoc#updateMetadata, updateMetadata>>
+* `ImplicitMetadataOperation` is requested to <<ImplicitMetadataOperation.md#updateMetadata, updateMetadata>>
 
 == [[updateMetadata]] Updating Metadata
 
@@ -79,12 +79,12 @@ updateMetadata(
 
 updateMetadata updates the <<newMetadata, newMetadata>> internal property based on the <<readVersion, readVersion>>:
 
-* For `-1`, updateMetadata updates the <<Metadata.adoc#configuration, configuration>> of the given metadata with a <<DeltaConfigs.adoc#mergeGlobalConfigs, new metadata>> based on the `SQLConf` (of the active `SparkSession`), the <<Metadata.adoc#configuration, configuration>> of the given metadata and a new <<Protocol.adoc#, Protocol>>
+* For `-1`, updateMetadata updates the <<Metadata.md#configuration, configuration>> of the given metadata with a <<DeltaConfigs.md#mergeGlobalConfigs, new metadata>> based on the `SQLConf` (of the active `SparkSession`), the <<Metadata.md#configuration, configuration>> of the given metadata and a new <<Protocol.md#, Protocol>>
 
-* For other versions, updateMetadata leaves the given <<Action.adoc#Metadata, Metadata>> unchanged
+* For other versions, updateMetadata leaves the given <<Action.md#Metadata, Metadata>> unchanged
 
 [[updateMetadata-AssertionError-hasWritten]]
-updateMetadata throws an `AssertionError` when the <<TransactionalWrite.adoc#hasWritten, hasWritten>> flag is enabled (`true`):
+updateMetadata throws an `AssertionError` when the <<TransactionalWrite.md#hasWritten, hasWritten>> flag is enabled (`true`):
 
 ```
 Cannot update the metadata in a transaction that has already written data.
@@ -98,9 +98,9 @@ Cannot change the metadata more than once in a transaction.
 
 updateMetadata is used when:
 
-* <<ConvertToDeltaCommand.adoc#, ConvertToDeltaCommand>> is executed (and requested to <<ConvertToDeltaCommand.adoc#performConvert, performConvert>>)
+* <<ConvertToDeltaCommand.md#, ConvertToDeltaCommand>> is executed (and requested to <<ConvertToDeltaCommand.md#performConvert, performConvert>>)
 
-* `ImplicitMetadataOperation` is requested to <<ImplicitMetadataOperation.adoc#updateMetadata, updateMetadata>>
+* `ImplicitMetadataOperation` is requested to <<ImplicitMetadataOperation.md#updateMetadata, updateMetadata>>
 
 == [[filterFiles]] Files To Scan Matching Given Predicates
 
@@ -112,21 +112,21 @@ filterFiles(
 ----
 <1> Uses `true` literal to mean that all files match
 
-filterFiles gives the AddFile.adoc[files] to scan based on the given predicates (filter expressions).
+filterFiles gives the AddFile.md[files] to scan based on the given predicates (filter expressions).
 
-Internally, filterFiles requests the <<snapshot, Snapshot>> for the PartitionFiltering.adoc#filesForScan[filesForScan] (for no projection attributes and the given filters).
+Internally, filterFiles requests the <<snapshot, Snapshot>> for the PartitionFiltering.md#filesForScan[filesForScan] (for no projection attributes and the given filters).
 
-filterFiles finds the DeltaTableUtils.adoc#isPredicatePartitionColumnsOnly[partition predicates] among the given filters (and the Metadata.adoc#partitionColumns[partition columns] of the <<metadata, Metadata>>).
+filterFiles finds the DeltaTableUtils.md#isPredicatePartitionColumnsOnly[partition predicates] among the given filters (and the Metadata.md#partitionColumns[partition columns] of the <<metadata, Metadata>>).
 
 filterFiles registers (_adds_) the partition predicates (in the <<readPredicates, readPredicates>> internal registry) and the files to scan (in the <<readFiles, readFiles>> internal registry).
 
 filterFiles is used when:
 
-* `WriteIntoDelta` is requested to WriteIntoDelta.adoc#write[write]
+* `WriteIntoDelta` is requested to WriteIntoDelta.md#write[write]
 
-* `DeltaSink` is requested to DeltaSink.adoc#addBatch[add a streaming micro-batch] (with `Complete` output mode to mark all to be removed)
+* `DeltaSink` is requested to DeltaSink.md#addBatch[add a streaming micro-batch] (with `Complete` output mode to mark all to be removed)
 
-* DeleteCommand.adoc[DeleteCommand], MergeIntoCommand.adoc[MergeIntoCommand] and UpdateCommand.adoc[UpdateCommand] are executed
+* DeleteCommand.md[DeleteCommand], MergeIntoCommand.md[MergeIntoCommand] and UpdateCommand.md[UpdateCommand] are executed
 
 == [[readWholeTable]] readWholeTable Method
 
@@ -137,7 +137,7 @@ readWholeTable(): Unit
 
 readWholeTable simply adds `True` literal to the <<readPredicates, readPredicates>> internal registry.
 
-readWholeTable is used when DeltaSink is requested to DeltaSink.adoc#addBatch[add a streaming micro-batch] (and the batch reads the same Delta table as this sink is going to write to).
+readWholeTable is used when DeltaSink is requested to DeltaSink.md#addBatch[add a streaming micro-batch] (and the batch reads the same Delta table as this sink is going to write to).
 
 ## <span id="commit"> Committing Transaction
 
@@ -150,10 +150,10 @@ commit(
 `commit` commits the transaction (with the [Action](Action.md)s and a given [Operation](Operation.md))
 
 [[commit-prepareCommit]]
-commit firstly <<prepareCommit, prepares a commit>> (that gives the final actions to commit that may be different from the given <<Action.adoc#, actions>>).
+commit firstly <<prepareCommit, prepares a commit>> (that gives the final actions to commit that may be different from the given <<Action.md#, actions>>).
 
 [[commit-isolationLevelToUse]]
-commit determines the isolation level for this commit by checking whether any <<FileAction.adoc#, FileAction>> (in the given <<Action.adoc#, actions>>) has the <<FileAction.adoc#dataChange, dataChange>> flag on (`true`). With no data changed, commit uses `SnapshotIsolation` else `Serializable`.
+commit determines the isolation level for this commit by checking whether any <<FileAction.md#, FileAction>> (in the given <<Action.md#, actions>>) has the <<FileAction.md#dataChange, dataChange>> flag on (`true`). With no data changed, commit uses `SnapshotIsolation` else `Serializable`.
 
 [[commit-isBlindAppend]]
 commit...FIXME
@@ -162,9 +162,9 @@ commit...FIXME
 commit...FIXME
 
 [[commit-registerPostCommitHook]]
-commit <<registerPostCommitHook, registers>> the <<GenerateSymlinkManifest.adoc#, GenerateSymlinkManifest>> post-commit hook when there is a <<FileAction.adoc#, FileAction>> among the actions and the <<DeltaConfigs.adoc#SYMLINK_FORMAT_MANIFEST_ENABLED, compatibility.symlinkFormatManifest.enabled>> table property (<<DeltaConfigs.adoc#fromMetaData, from>> the <<metadata, Metadata>>) is enabled (`true`).
+commit <<registerPostCommitHook, registers>> the <<GenerateSymlinkManifest.md#, GenerateSymlinkManifest>> post-commit hook when there is a <<FileAction.md#, FileAction>> among the actions and the <<DeltaConfigs.md#SYMLINK_FORMAT_MANIFEST_ENABLED, compatibility.symlinkFormatManifest.enabled>> table property (<<DeltaConfigs.md#fromMetaData, from>> the <<metadata, Metadata>>) is enabled (`true`).
 
-NOTE: <<DeltaConfigs.adoc#SYMLINK_FORMAT_MANIFEST_ENABLED, compatibility.symlinkFormatManifest.enabled>> table property defaults to `false`.
+NOTE: <<DeltaConfigs.md#SYMLINK_FORMAT_MANIFEST_ENABLED, compatibility.symlinkFormatManifest.enabled>> table property defaults to `false`.
 
 [[commit-commitVersion]]
 commit <<doCommit, doCommit>> with the next version, the actions, attempt number `0`, and the select isolation level.
@@ -190,17 +190,17 @@ prepareCommit(
   op: DeltaOperations.Operation): Seq[Action]
 ----
 
-prepareCommit adds the <<newMetadata, newMetadata>> action (if available) to the given <<Action.adoc#, actions>>.
+prepareCommit adds the <<newMetadata, newMetadata>> action (if available) to the given <<Action.md#, actions>>.
 
 prepareCommit <<verifyNewMetadata, verifyNewMetadata>> if there was one.
 
 prepareCommit...FIXME
 
-prepareCommit requests the <<deltaLog, DeltaLog>> to <<DeltaLog.adoc#protocolWrite, protocolWrite>>.
+prepareCommit requests the <<deltaLog, DeltaLog>> to <<DeltaLog.md#protocolWrite, protocolWrite>>.
 
 prepareCommit...FIXME
 
-prepareCommit throws an `AssertionError` when the number of metadata changes in the transaction (by means of <<Action.adoc#Metadata, Metadata>> actions) is above `1`:
+prepareCommit throws an `AssertionError` when the number of metadata changes in the transaction (by means of <<Action.md#Metadata, Metadata>> actions) is above `1`:
 
 ```
 Cannot change the metadata more than once in a transaction.
@@ -229,7 +229,7 @@ postCommit is used when OptimisticTransactionImpl is requested to <<commit, comm
 
 == [[commitInfo]] CommitInfo
 
-OptimisticTransactionImpl creates a CommitInfo.adoc[] when requested to <<commit, commit>> with DeltaSQLConf.adoc#commitInfo.enabled[spark.databricks.delta.commitInfo.enabled] configuration enabled.
+OptimisticTransactionImpl creates a CommitInfo.md[] when requested to <<commit, commit>> with DeltaSQLConf.md#commitInfo.enabled[spark.databricks.delta.commitInfo.enabled] configuration enabled.
 
 OptimisticTransactionImpl uses the CommitInfo to recordDeltaEvent (as a CommitStats).
 
@@ -241,11 +241,11 @@ registerPostCommitHook(
   hook: PostCommitHook): Unit
 ----
 
-registerPostCommitHook registers (_adds_) the given <<PostCommitHook.adoc#, PostCommitHook>> to the <<postCommitHooks, postCommitHooks>> internal registry.
+registerPostCommitHook registers (_adds_) the given <<PostCommitHook.md#, PostCommitHook>> to the <<postCommitHooks, postCommitHooks>> internal registry.
 
 NOTE: registerPostCommitHook adds the hook only once.
 
-registerPostCommitHook is used when OptimisticTransactionImpl is requested to <<commit, commit>> (to register the <<GenerateSymlinkManifest.adoc#, GenerateSymlinkManifest>> post-commit hook).
+registerPostCommitHook is used when OptimisticTransactionImpl is requested to <<commit, commit>> (to register the <<GenerateSymlinkManifest.md#, GenerateSymlinkManifest>> post-commit hook).
 
 == [[runPostCommitHooks]] Running Post-Commit Hooks
 
@@ -256,13 +256,13 @@ runPostCommitHooks(
   committedActions: Seq[Action]): Unit
 ----
 
-runPostCommitHooks simply <<PostCommitHook.adoc#run, runs>> every <<PostCommitHook.adoc#, post-commit hook>> registered (in the <<postCommitHooks, postCommitHooks>> internal registry).
+runPostCommitHooks simply <<PostCommitHook.md#run, runs>> every <<PostCommitHook.md#, post-commit hook>> registered (in the <<postCommitHooks, postCommitHooks>> internal registry).
 
-runPostCommitHooks <<OptimisticTransaction.adoc#clearActive, clears the active transaction>> (making all follow-up operations non-transactional).
+runPostCommitHooks <<OptimisticTransaction.md#clearActive, clears the active transaction>> (making all follow-up operations non-transactional).
 
 NOTE: Hooks may create new transactions.
 
-For any non-fatal exception, runPostCommitHooks prints out the following ERROR message to the logs, records the delta event, and requests the post-commit hook to <<PostCommitHook.adoc#handleError, handle the error>>.
+For any non-fatal exception, runPostCommitHooks prints out the following ERROR message to the logs, records the delta event, and requests the post-commit hook to <<PostCommitHook.md#handleError, handle the error>>.
 
 ```
 Error when executing post-commit hook [name] for commit [version]
@@ -295,12 +295,12 @@ Attempting to commit version [attemptVersion] with [size] actions with [isolatio
 ```
 
 [[doCommit-write]]
-doCommit requests the <<DeltaLog.adoc#store, LogStore>> (of the <<deltaLog, DeltaLog>>) to <<LogStore.adoc#write, write out>> the given <<Action.adoc#, actions>> (serialized to <<Action.adoc#json, JSON format>>) to a <<FileNames.adoc#deltaFile, delta file>> (e.g. `00000000000000000001.json`) in the <<DeltaLog.adoc#logPath, log directory>> (of the <<deltaLog, DeltaLog>>) with the `attemptVersion` version.
+doCommit requests the <<DeltaLog.md#store, LogStore>> (of the <<deltaLog, DeltaLog>>) to <<LogStore.md#write, write out>> the given <<Action.md#, actions>> (serialized to <<Action.md#json, JSON format>>) to a <<FileNames.md#deltaFile, delta file>> (e.g. `00000000000000000001.json`) in the <<DeltaLog.md#logPath, log directory>> (of the <<deltaLog, DeltaLog>>) with the `attemptVersion` version.
 
-NOTE: <<LogStore.adoc#, LogStores>> must throw a `java.nio.file.FileAlreadyExistsException` exception if the delta file already exists. Any `FileAlreadyExistsExceptions` are caught by <<doCommit-FileAlreadyExistsException, doCommit>> itself to <<checkAndRetry, checkAndRetry>>.
+NOTE: <<LogStore.md#, LogStores>> must throw a `java.nio.file.FileAlreadyExistsException` exception if the delta file already exists. Any `FileAlreadyExistsExceptions` are caught by <<doCommit-FileAlreadyExistsException, doCommit>> itself to <<checkAndRetry, checkAndRetry>>.
 
 [[doCommit-postCommitSnapshot]]
-doCommit requests the <<deltaLog, DeltaLog>> to <<DeltaLog.adoc#update, update>>.
+doCommit requests the <<deltaLog, DeltaLog>> to <<DeltaLog.md#update, update>>.
 
 [[doCommit-IllegalStateException]]
 doCommit throws an `IllegalStateException` if the version of the snapshot after update is smaller than the given `attemptVersion` version.
@@ -353,9 +353,9 @@ txnVersion(
 
 txnVersion simply registers (_adds_) the given ID in the <<readTxn, readTxn>> internal registry.
 
-In the end, txnVersion requests the <<snapshot, Snapshot>> for the <<Snapshot.adoc#transactions, transaction version for the given ID>> or assumes `-1`.
+In the end, txnVersion requests the <<snapshot, Snapshot>> for the <<Snapshot.md#transactions, transaction version for the given ID>> or assumes `-1`.
 
-txnVersion is used when `DeltaSink` is requested to <<DeltaSink.adoc#addBatch, add a streaming micro-batch>>.
+txnVersion is used when `DeltaSink` is requested to <<DeltaSink.md#addBatch, add a streaming micro-batch>>.
 
 ## <span id="getOperationMetrics"> getOperationMetrics Method
 
@@ -376,9 +376,9 @@ getUserMetadata(
   op: Operation): Option[String]
 ----
 
-getUserMetadata returns the Operation.adoc#userMetadata[userMetadata] of the given Operation.adoc[] (if defined) or the value of DeltaSQLConf.adoc#DELTA_USER_METADATA[spark.databricks.delta.commitInfo.userMetadata] configuration property.
+getUserMetadata returns the Operation.md#userMetadata[userMetadata] of the given Operation.md[] (if defined) or the value of DeltaSQLConf.md#DELTA_USER_METADATA[spark.databricks.delta.commitInfo.userMetadata] configuration property.
 
-getUserMetadata is used when OptimisticTransactionImpl is requested to <<commit, commit>> (and DeltaSQLConf.adoc#DELTA_COMMIT_INFO_ENABLED[spark.databricks.delta.commitInfo.enabled] configuration property is enabled).
+getUserMetadata is used when OptimisticTransactionImpl is requested to <<commit, commit>> (and DeltaSQLConf.md#DELTA_COMMIT_INFO_ENABLED[spark.databricks.delta.commitInfo.enabled] configuration property is enabled).
 
 == [[getPrettyPartitionMessage]] getPrettyPartitionMessage Method
 
@@ -413,9 +413,9 @@ getNextAttemptVersion is used when OptimisticTransactionImpl is requested to <<c
 postCommitHooks: ArrayBuffer[PostCommitHook]
 ----
 
-OptimisticTransactionImpl manages PostCommitHook.adoc[]s that will be <<runPostCommitHooks, executed>> right after a <<commit, commit>> is successful.
+OptimisticTransactionImpl manages PostCommitHook.md[]s that will be <<runPostCommitHooks, executed>> right after a <<commit, commit>> is successful.
 
-Post-commit hooks can be <<registerPostCommitHook, registered>>, but only the <<GenerateSymlinkManifest.adoc#, GenerateSymlinkManifest>> post-commit hook is supported (when...FIXME).
+Post-commit hooks can be <<registerPostCommitHook, registered>>, but only the <<GenerateSymlinkManifest.md#, GenerateSymlinkManifest>> post-commit hook is supported (when...FIXME).
 
 === [[newMetadata]] newMetadata
 
@@ -424,9 +424,9 @@ Post-commit hooks can be <<registerPostCommitHook, registered>>, but only the <<
 newMetadata: Option[Metadata]
 ----
 
-OptimisticTransactionImpl uses the newMetadata internal registry for a new <<Metadata.adoc#, Metadata>> that should be committed with this transaction.
+OptimisticTransactionImpl uses the newMetadata internal registry for a new <<Metadata.md#, Metadata>> that should be committed with this transaction.
 
-newMetadata is initially undefined (`None`). It can be <<updateMetadata, updated>> only once and before the transaction <<TransactionalWrite.adoc#hasWritten, writes out any files>>.
+newMetadata is initially undefined (`None`). It can be <<updateMetadata, updated>> only once and before the transaction <<TransactionalWrite.md#hasWritten, writes out any files>>.
 
 newMetadata is used when <<prepareCommit, prepareCommit>> (and <<doCommit, doCommit>> for statistics).
 
@@ -479,6 +479,6 @@ A new queryId is added when OptimisticTransactionImpl is requested for <<txnVers
 Used when OptimisticTransactionImpl is requested to <<checkAndRetry, checkAndRetry>> (to fail with a `ConcurrentTransactionException` for idempotent transactions that have conflicted)
 
 | snapshotMetadata
-a| [[snapshotMetadata]] <<Metadata.adoc#, Metadata>> of the <<snapshot, Snapshot>>
+a| [[snapshotMetadata]] <<Metadata.md#, Metadata>> of the <<snapshot, Snapshot>>
 
 |===

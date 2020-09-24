@@ -1,10 +1,10 @@
 = DeltaSourceOffset -- Streaming Offset Of DeltaSource
 
-`DeltaSourceOffset` is a streaming `Offset` for DeltaSource.adoc[DeltaSource].
+`DeltaSourceOffset` is a streaming `Offset` for DeltaSource.md[DeltaSource].
 
 TIP: Read up on https://jaceklaskowski.gitbooks.io/spark-structured-streaming/spark-sql-streaming-Offset.html[Offset] in https://bit.ly/spark-structured-streaming[The Internals of Spark Structured Streaming] online book.
 
-`DeltaSourceOffset` is <<creating-instance, created>> (via <<apply, apply>> utility) when `DeltaSource` is requested for the DeltaSource.adoc#getOffset[latest offset] and a DeltaSource.adoc#getBatch[batch (for the given starting and ending offsets)].
+`DeltaSourceOffset` is <<creating-instance, created>> (via <<apply, apply>> utility) when `DeltaSource` is requested for the DeltaSource.md#getOffset[latest offset] and a DeltaSource.md#getBatch[batch (for the given starting and ending offsets)].
 
 [[VERSION]]
 `DeltaSourceOffset` uses the version `1`.
@@ -14,7 +14,7 @@ TIP: Read up on https://jaceklaskowski.gitbooks.io/spark-structured-streaming/sp
 `DeltaSourceOffset` takes the following to be created:
 
 * [[sourceVersion]] Source Version (always <<VERSION, 1>>)
-* [[reservoirId]] Reservoir ID (aka DeltaSource.adoc#tableId[Table ID])
+* [[reservoirId]] Reservoir ID (aka DeltaSource.md#tableId[Table ID])
 * [[reservoirVersion]] Reservoir Version
 * [[index]] Index
 * [[isStartingVersion]] `isStartingVersion` flag
@@ -35,7 +35,7 @@ apply(
 
 `apply` creates a new `DeltaSourceOffset` (for the <<VERSION, version>> and the given arguments) or converts the given `Offset` to a `DeltaSourceOffset`.
 
-NOTE: `apply` is used when `DeltaSource` is requested for the DeltaSource.adoc#getOffset[latest offset] and a DeltaSource.adoc#getBatch[batch (for the given starting and ending offsets)].
+NOTE: `apply` is used when `DeltaSource` is requested for the DeltaSource.md#getOffset[latest offset] and a DeltaSource.md#getBatch[batch (for the given starting and ending offsets)].
 
 == [[json]] `json` Method
 

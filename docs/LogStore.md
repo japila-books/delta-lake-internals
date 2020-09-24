@@ -53,15 +53,15 @@ read(path: Path): Seq[String]
 
 Used when:
 
-* `Checkpoints` is requested to <<Checkpoints.adoc#loadMetadataFromFile, loadMetadataFromFile>>
+* `Checkpoints` is requested to <<Checkpoints.md#loadMetadataFromFile, loadMetadataFromFile>>
 
-* `DeltaHistoryManager` utility is requested to <<DeltaHistoryManager.adoc#getCommitInfo, getCommitInfo>>
+* `DeltaHistoryManager` utility is requested to <<DeltaHistoryManager.md#getCommitInfo, getCommitInfo>>
 
-* `DeltaLog` is requested to <<DeltaLog.adoc#getChanges, getChanges>>
+* `DeltaLog` is requested to <<DeltaLog.md#getChanges, getChanges>>
 
-* `VerifyChecksum` is requested to <<VerifyChecksum.adoc#validateChecksum, validateChecksum>>
+* `VerifyChecksum` is requested to <<VerifyChecksum.md#validateChecksum, validateChecksum>>
 
-* `OptimisticTransactionImpl` is requested to <<OptimisticTransactionImpl.adoc#checkAndRetry, checkAndRetry>>
+* `OptimisticTransactionImpl` is requested to <<OptimisticTransactionImpl.md#checkAndRetry, checkAndRetry>>
 
 | write
 a| [[write]]
@@ -81,11 +81,11 @@ Writes the actions out to the given path (with or without overwrite as indicated
 
 Used when:
 
-* `Checkpoints` is requested to <<Checkpoints.adoc#checkpoint, checkpoint>>
+* `Checkpoints` is requested to <<Checkpoints.md#checkpoint, checkpoint>>
 
-* `ConvertToDeltaCommand` is <<ConvertToDeltaCommand.adoc#run, executed>> (and does <<ConvertToDeltaCommand.adoc#streamWrite, streamWrite>>)
+* `ConvertToDeltaCommand` is <<ConvertToDeltaCommand.md#run, executed>> (and does <<ConvertToDeltaCommand.md#streamWrite, streamWrite>>)
 
-* `OptimisticTransactionImpl` is requested to <<OptimisticTransactionImpl.adoc#doCommit, doCommit>>
+* `OptimisticTransactionImpl` is requested to <<OptimisticTransactionImpl.md#doCommit, doCommit>>
 
 |===
 
@@ -96,10 +96,10 @@ Used when:
 | LogStore
 | Description
 
-| <<HDFSLogStore.adoc#, HDFSLogStore>>
+| <<HDFSLogStore.md#, HDFSLogStore>>
 | [[HDFSLogStore]]
 
-| <<HadoopFileSystemLogStore.adoc#, HadoopFileSystemLogStore>>
+| <<HadoopFileSystemLogStore.md#, HadoopFileSystemLogStore>>
 | [[HadoopFileSystemLogStore]]
 
 |===
@@ -132,7 +132,7 @@ apply(
 ====
 `apply` is used when:
 
-* `DeltaHistoryManager` is requested to <<DeltaHistoryManager.adoc#getHistory, getHistory>> and <<DeltaHistoryManager.adoc#parallelSearch0, parallelSearch0>>
+* `DeltaHistoryManager` is requested to <<DeltaHistoryManager.md#getHistory, getHistory>> and <<DeltaHistoryManager.md#parallelSearch0, parallelSearch0>>
 
 * `DeltaFileOperations` utility is used to <<recursiveListDirs, recursiveListDirs>>
 ====

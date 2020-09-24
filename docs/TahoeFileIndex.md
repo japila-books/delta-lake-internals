@@ -25,7 +25,7 @@ matchingFiles(
   keepStats: Boolean = false): Seq[AddFile]
 ----
 
-Files (AddFile.adoc[AddFiles]) matching given partition and data predicates
+Files (AddFile.md[AddFiles]) matching given partition and data predicates
 
 Used for <<listFiles, listing data files>>
 
@@ -41,10 +41,10 @@ When requested for the root input paths (`rootPaths`), TahoeFileIndex simply giv
 | TahoeFileIndex
 | Description
 
-| <<TahoeBatchFileIndex.adoc#, TahoeBatchFileIndex>>
+| <<TahoeBatchFileIndex.md#, TahoeBatchFileIndex>>
 | [[TahoeBatchFileIndex]]
 
-| <<TahoeLogFileIndex.adoc#, TahoeLogFileIndex>>
+| <<TahoeLogFileIndex.md#, TahoeLogFileIndex>>
 | [[TahoeLogFileIndex]]
 
 |===
@@ -54,7 +54,7 @@ When requested for the root input paths (`rootPaths`), TahoeFileIndex simply giv
 TahoeFileIndex takes the following to be created:
 
 * [[spark]] `SparkSession`
-* [[deltaLog]] <<DeltaLog.adoc#, DeltaLog>>
+* [[deltaLog]] <<DeltaLog.md#, DeltaLog>>
 * [[path]] Hadoop https://hadoop.apache.org/docs/r2.6.5/api/org/apache/hadoop/fs/Path.html[Path]
 
 NOTE: TahoeFileIndex is a Scala abstract class and cannot be <<creating-instance, created>> directly. It is created indirectly for the <<implementations, concrete file indices>>.
@@ -66,7 +66,7 @@ NOTE: TahoeFileIndex is a Scala abstract class and cannot be <<creating-instance
 tableVersion: Long
 ----
 
-`tableVersion` is simply the <<Snapshot.adoc#version, version>> of (the <<DeltaLog.adoc#snapshot, snapshot>> of) the <<deltaLog, DeltaLog>>.
+`tableVersion` is simply the <<Snapshot.md#version, version>> of (the <<DeltaLog.md#snapshot, snapshot>> of) the <<deltaLog, DeltaLog>>.
 
 NOTE: `tableVersion` is used when TahoeFileIndex is requested for the <<toString, human-friendly textual representation>>.
 
@@ -92,7 +92,7 @@ partitionSchema: StructType
 
 NOTE: `partitionSchema` is part of the `FileIndex` contract for the partition schema.
 
-`partitionSchema` simply requests the <<deltaLog, DeltaLog>> for the <<DeltaLog.adoc#snapshot, Snapshot>> and then requests the `Snapshot` for <<Snapshot.adoc#metadata, Metadata>> that in turn is requested for the <<Metadata.adoc#partitionSchema, partitionSchema>>.
+`partitionSchema` simply requests the <<deltaLog, DeltaLog>> for the <<DeltaLog.md#snapshot, Snapshot>> and then requests the `Snapshot` for <<Snapshot.md#metadata, Metadata>> that in turn is requested for the <<Metadata.md#partitionSchema, partitionSchema>>.
 
 == [[toString]] Human-Friendly Textual Representation -- `toString` Method
 

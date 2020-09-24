@@ -4,7 +4,7 @@
 `PartitionFiltering` is an abstraction of <<implementations, snapshots>> with <<filesForScan, partition filtering for scan>>.
 
 [[implementations]]
-NOTE: Snapshot.adoc[Snapshot] is the default and only known `PartitionFiltering` in Delta Lake.
+NOTE: Snapshot.md[Snapshot] is the default and only known `PartitionFiltering` in Delta Lake.
 
 == [[filesForScan]] Files to Scan (Matching Projection Attributes and Predicates) -- `filesForScan` Method
 
@@ -22,7 +22,7 @@ filesForScan(
 ====
 `filesForScan` is used when:
 
-* `OptimisticTransactionImpl` is requested for the OptimisticTransactionImpl.adoc#filterFiles[files to scan matching given predicates]
+* `OptimisticTransactionImpl` is requested for the OptimisticTransactionImpl.md#filterFiles[files to scan matching given predicates]
 
-* `TahoeLogFileIndex` is requested for the TahoeLogFileIndex.adoc#matchingFiles[files matching predicates] and the TahoeLogFileIndex.adoc#inputFiles[input files]
+* `TahoeLogFileIndex` is requested for the TahoeLogFileIndex.md#matchingFiles[files matching predicates] and the TahoeLogFileIndex.md#inputFiles[input files]
 ====

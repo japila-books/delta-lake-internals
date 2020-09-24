@@ -1,10 +1,10 @@
 = DeltaSink
 
-DeltaSink is the sink of <<DeltaDataSource.adoc#, delta data source>> for streaming queries in Spark Structured Streaming.
+DeltaSink is the sink of <<DeltaDataSource.md#, delta data source>> for streaming queries in Spark Structured Streaming.
 
 TIP: Read up on https://jaceklaskowski.gitbooks.io/spark-structured-streaming/spark-sql-streaming-Sink.html[Streaming Sink] in https://bit.ly/spark-structured-streaming[The Internals of Spark Structured Streaming] online book.
 
-DeltaSink is <<creating-instance, created>> exclusively when `DeltaDataSource` is requested for a <<DeltaDataSource.adoc#createSink, streaming sink>> (Structured Streaming).
+DeltaSink is <<creating-instance, created>> exclusively when `DeltaDataSource` is requested for a <<DeltaDataSource.md#createSink, streaming sink>> (Structured Streaming).
 
 [[toString]]
 DeltaSink uses the following text representation (with the <<path, path>>):
@@ -14,17 +14,17 @@ DeltaSink[path]
 ```
 
 [[ImplicitMetadataOperation]]
-DeltaSink is an <<ImplicitMetadataOperation.adoc#, operation that can update metadata (schema and partitioning)>> of a <<path, delta table>>.
+DeltaSink is an <<ImplicitMetadataOperation.md#, operation that can update metadata (schema and partitioning)>> of a <<path, delta table>>.
 
 == [[creating-instance]] Creating Instance
 
 DeltaSink takes the following to be created:
 
 * [[sqlContext]] `SQLContext`
-* [[path]] Hadoop https://hadoop.apache.org/docs/r2.7.3/api/org/apache/hadoop/fs/Path.html[Path] of the delta table (to <<addBatch, write data to>> as configured by the <<DeltaOptions.adoc#path, path>> option)
+* [[path]] Hadoop https://hadoop.apache.org/docs/r2.7.3/api/org/apache/hadoop/fs/Path.html[Path] of the delta table (to <<addBatch, write data to>> as configured by the <<DeltaOptions.md#path, path>> option)
 * [[partitionColumns]] Names of the partition columns (`Seq[String]`)
 * [[outputMode]] `OutputMode`
-* [[options]] <<DeltaOptions.adoc#, DeltaOptions>>
+* [[options]] <<DeltaOptions.md#, DeltaOptions>>
 
 == [[deltaLog]] `deltaLog` Internal Property
 
@@ -33,7 +33,7 @@ DeltaSink takes the following to be created:
 deltaLog: DeltaLog
 ----
 
-`deltaLog` is a <<DeltaLog.adoc#, DeltaLog>> that is <<DeltaLog.adoc#forTable, created>> for the <<path, delta table>> when DeltaSink is created (when `DeltaDataSource` is requested for a <<DeltaDataSource.adoc#createSink, streaming sink>>).
+`deltaLog` is a <<DeltaLog.md#, DeltaLog>> that is <<DeltaLog.md#forTable, created>> for the <<path, delta table>> when DeltaSink is created (when `DeltaDataSource` is requested for a <<DeltaDataSource.md#createSink, streaming sink>>).
 
 `deltaLog` is used exclusively when DeltaSink is requested to <<addBatch, add a streaming micro-batch>>.
 
@@ -48,8 +48,8 @@ addBatch(
 
 NOTE: `addBatch` is part of the `Sink` contract (in Spark Structured Streaming) to add a batch of data to the sink.
 
-`addBatch` requests the <<deltaLog, DeltaLog>> to <<DeltaLog.adoc#withNewTransaction, start a new transaction>>.
+`addBatch` requests the <<deltaLog, DeltaLog>> to <<DeltaLog.md#withNewTransaction, start a new transaction>>.
 
 `addBatch`...FIXME
 
-In the end, `addBatch` requests the `OptimisticTransaction` to <<OptimisticTransactionImpl.adoc#commit, commit>>.
+In the end, `addBatch` requests the `OptimisticTransaction` to <<OptimisticTransactionImpl.md#commit, commit>>.

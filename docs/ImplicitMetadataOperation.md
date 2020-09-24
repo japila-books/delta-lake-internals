@@ -40,10 +40,10 @@ Used when `ImplicitMetadataOperation` is requested to <<updateMetadata, updateMe
 | ImplicitMetadataOperation
 | Description
 
-| <<WriteIntoDelta.adoc#, WriteIntoDelta>>
+| <<WriteIntoDelta.md#, WriteIntoDelta>>
 | [[WriteIntoDelta]] Delta command for batch queries (Spark SQL)
 
-| <<DeltaSink.adoc#, DeltaSink>>
+| <<DeltaSink.md#, DeltaSink>>
 | [[DeltaSink]] Streaming sink for streaming queries (Spark Structured Streaming)
 
 |===

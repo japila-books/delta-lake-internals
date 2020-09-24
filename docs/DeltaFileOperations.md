@@ -21,7 +21,7 @@ recursiveListDirs is used when:
 
 * ManualListingFileManifest (of ConvertToDeltaCommandBase) is requested to doList
 
-* VacuumCommand utility is used to VacuumCommand.adoc#gc[gc]
+* VacuumCommand utility is used to VacuumCommand.md#gc[gc]
 
 === [[tryDeleteNonRecursive]] tryDeleteNonRecursive
 
@@ -35,7 +35,7 @@ tryDeleteNonRecursive(
 
 tryDeleteNonRecursive...FIXME
 
-tryDeleteNonRecursive is used when VacuumCommandImpl is requested to VacuumCommandImpl.adoc#delete[delete]
+tryDeleteNonRecursive is used when VacuumCommandImpl is requested to VacuumCommandImpl.md#delete[delete]
 
 == [[internal-methods]] Internal Methods
 

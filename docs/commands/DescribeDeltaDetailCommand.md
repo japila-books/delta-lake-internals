@@ -1,6 +1,6 @@
 = DescribeDeltaDetailCommand (And DescribeDeltaDetailCommandBase)
 
-`DescribeDeltaDetailCommand` represents `DESCRIBE DETAIL` SQL command at execution (and is <<creating-instance, created>> when `DeltaSqlAstBuilder` is requested to <<DeltaSqlAstBuilder.adoc#visitDescribeDeltaDetail, parse DESCRIBE DETAIL SQL command>>).
+`DescribeDeltaDetailCommand` represents `DESCRIBE DETAIL` SQL command at execution (and is <<creating-instance, created>> when `DeltaSqlAstBuilder` is requested to <<DeltaSqlAstBuilder.md#visitDescribeDeltaDetail, parse DESCRIBE DETAIL SQL command>>).
 
 Like `DESCRIBE DETAIL` SQL command, `DescribeDeltaDetailCommand` accepts either a <<path, path>> or a <<table, table>> (e.g. `'/tmp/delta/t1'` or `++delta.`/tmp/delta/t1`++`)
 

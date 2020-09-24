@@ -1,6 +1,6 @@
 = Demo: DeltaTable, DeltaLog And Snapshots
 
-NOTE: Use Converting-Parquet-Dataset-Into-Delta-Format.adoc[Demo: Converting Parquet Dataset Into Delta Format] to create the delta table for the demo.
+NOTE: Use Converting-Parquet-Dataset-Into-Delta-Format.md[Demo: Converting Parquet Dataset Into Delta Format] to create the delta table for the demo.
 
 [source, scala]
 ----

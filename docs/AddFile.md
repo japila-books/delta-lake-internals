@@ -1,12 +1,12 @@
 = AddFile
 
-`AddFile` is a <<FileAction.adoc#, file action>> to denote a <<path, file>> added to a <<DeltaLog.adoc#, delta table>>.
+`AddFile` is a <<FileAction.md#, file action>> to denote a <<path, file>> added to a <<DeltaLog.md#, delta table>>.
 
 `AddFile` is <<creating-instance, created>> when:
 
-* <<ConvertToDeltaCommand.adoc#, ConvertToDeltaCommand>> is executed (for <<ConvertToDeltaCommand.adoc#createAddFile, every data file to import>>)
+* <<ConvertToDeltaCommand.md#, ConvertToDeltaCommand>> is executed (for <<ConvertToDeltaCommand.md#createAddFile, every data file to import>>)
 
-* `DelayedCommitProtocol` is requested to <<DelayedCommitProtocol.adoc#commitTask, commit a task (after successful write)>> (for <<TransactionalWrite.adoc#, optimistic transactional writers>>)
+* `DelayedCommitProtocol` is requested to <<DelayedCommitProtocol.md#commitTask, commit a task (after successful write)>> (for <<TransactionalWrite.md#, optimistic transactional writers>>)
 
 == [[creating-instance]] Creating AddFile Instance
 
@@ -27,9 +27,9 @@
 wrap: SingleAction
 ----
 
-NOTE: `wrap` is part of the <<Action.adoc#wrap, Action>> contract to wrap the action into a <<SingleAction.adoc#, SingleAction>> for serialization.
+NOTE: `wrap` is part of the <<Action.md#wrap, Action>> contract to wrap the action into a <<SingleAction.md#, SingleAction>> for serialization.
 
-`wrap` simply creates a new <<SingleAction.adoc#, SingleAction>> with the `add` field set to this `AddFile`.
+`wrap` simply creates a new <<SingleAction.md#, SingleAction>> with the `add` field set to this `AddFile`.
 
 == [[remove]] Creating RemoveFile Instance With Current Timestamp -- `remove` Method
 
@@ -44,11 +44,11 @@ remove: RemoveFile
 ====
 `remove` is used when:
 
-* <<MergeIntoCommand.adoc#, MergeIntoCommand>> is executed
+* <<MergeIntoCommand.md#, MergeIntoCommand>> is executed
 
-* <<WriteIntoDelta.adoc#, WriteIntoDelta>> is executed (with `Overwrite` mode)
+* <<WriteIntoDelta.md#, WriteIntoDelta>> is executed (with `Overwrite` mode)
 
-* `DeltaSink` is requested to <<DeltaSink.adoc#addBatch, add a streaming micro-batch>> (with `Complete` mode)
+* `DeltaSink` is requested to <<DeltaSink.md#addBatch, add a streaming micro-batch>> (with `Complete` mode)
 ====
 
 == [[removeWithTimestamp]] Creating RemoveFile Instance For Given Timestamp -- `removeWithTimestamp` Method
@@ -60,7 +60,7 @@ removeWithTimestamp(
   dataChange: Boolean = true): RemoveFile
 ----
 
-`removeWithTimestamp` creates a <<RemoveFile.adoc#, RemoveFile>> action for the <<path, path>>, and the given `timestamp` and `dataChange` flag.
+`removeWithTimestamp` creates a <<RemoveFile.md#, RemoveFile>> action for the <<path, path>>, and the given `timestamp` and `dataChange` flag.
 
 [NOTE]
 ====
@@ -68,5 +68,5 @@ removeWithTimestamp(
 
 * `AddFile` is requested to <<remove, create a RemoveFile action with the current timestamp>>
 
-* <<DeleteCommand.adoc#, DeleteCommand>> and <<UpdateCommand.adoc#, UpdateCommand>> are executed
+* <<DeleteCommand.md#, DeleteCommand>> and <<UpdateCommand.md#, UpdateCommand>> are executed
 ====

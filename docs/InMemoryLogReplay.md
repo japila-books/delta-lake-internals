@@ -1,14 +1,14 @@
 = InMemoryLogReplay -- Delta Log Replay
 
-`InMemoryLogReplay` is used at the very last phase of <<Snapshot.adoc#stateReconstruction, state reconstruction>> (of a <<Snapshot.adoc#cachedState, cached delta state>>).
+`InMemoryLogReplay` is used at the very last phase of <<Snapshot.md#stateReconstruction, state reconstruction>> (of a <<Snapshot.md#cachedState, cached delta state>>).
 
-`InMemoryLogReplay` is <<creating-instance, created>> for every partition of the <<Snapshot.adoc#stateReconstruction, stateReconstruction>> dataset (`Dataset[SingleAction]`) that is based on the <<DeltaSQLConf.adoc#DELTA_SNAPSHOT_PARTITIONS, spark.databricks.delta.snapshotPartitions>> configuration property (default: `50`).
+`InMemoryLogReplay` is <<creating-instance, created>> for every partition of the <<Snapshot.md#stateReconstruction, stateReconstruction>> dataset (`Dataset[SingleAction]`) that is based on the <<DeltaSQLConf.md#DELTA_SNAPSHOT_PARTITIONS, spark.databricks.delta.snapshotPartitions>> configuration property (default: `50`).
 
 The lifecycle of `InMemoryLogReplay` is as follows:
 
-. <<creating-instance, Created>> (with <<Snapshot.adoc#minFileRetentionTimestamp, Snapshot.minFileRetentionTimestamp>>)
+. <<creating-instance, Created>> (with <<Snapshot.md#minFileRetentionTimestamp, Snapshot.minFileRetentionTimestamp>>)
 
-. <<append, Append>> (with all <<SingleAction.adoc#, SingleActions>> of a partition)
+. <<append, Append>> (with all <<SingleAction.md#, SingleActions>> of a partition)
 
 . <<checkpoint, Checkpoint>>
 
@@ -16,7 +16,7 @@ The lifecycle of `InMemoryLogReplay` is as follows:
 
 `InMemoryLogReplay` takes the following to be created:
 
-* [[minFileRetentionTimestamp]] `minFileRetentionTimestamp` (that is exactly <<Snapshot.adoc#minFileRetentionTimestamp, Snapshot.minFileRetentionTimestamp>>)
+* [[minFileRetentionTimestamp]] `minFileRetentionTimestamp` (that is exactly <<Snapshot.md#minFileRetentionTimestamp, Snapshot.minFileRetentionTimestamp>>)
 
 `InMemoryLogReplay` initializes the <<internal-properties, internal properties>>.
 
@@ -31,23 +31,23 @@ append(
 
 `append` sets the <<currentVersion, currentVersion>> as the given `version`.
 
-`append` adds <<Action.adoc#, actions>> to respective registries:
+`append` adds <<Action.md#, actions>> to respective registries:
 
-* Every <<SetTransaction.adoc#, SetTransaction>> is registered in the <<transactions, transactions>> by <<SetTransaction.adoc#appId, appId>>
+* Every <<SetTransaction.md#, SetTransaction>> is registered in the <<transactions, transactions>> by <<SetTransaction.md#appId, appId>>
 
-* <<Metadata.adoc#, Metadata>> is registered as the <<currentMetaData, currentMetaData>>
+* <<Metadata.md#, Metadata>> is registered as the <<currentMetaData, currentMetaData>>
 
-* <<Protocol.adoc#, Protocol>> is registered as the <<currentProtocolVersion, currentProtocolVersion>>
+* <<Protocol.md#, Protocol>> is registered as the <<currentProtocolVersion, currentProtocolVersion>>
 
-* Every <<AddFile.adoc#, AddFile>> is registered as follows:
+* Every <<AddFile.md#, AddFile>> is registered as follows:
 ** Added to <<activeFiles, activeFiles>> by `pathAsUri` (with `dataChange` flag turned off)
 ** Removed from <<tombstones, tombstones>> by `pathAsUri`
 
-* Every <<FileAction.adoc#RemoveFile, RemoveFile>> is registered as follows:
+* Every <<FileAction.md#RemoveFile, RemoveFile>> is registered as follows:
 ** Removed from <<activeFiles, activeFiles>> by `pathAsUri`
 ** Added to <<tombstones, tombstones>> by `pathAsUri` (with `dataChange` flag turned off)
 
-* <<CommitInfo.adoc#, CommitInfos>> are ignored
+* <<CommitInfo.md#, CommitInfos>> are ignored
 
 `append` throws an `AssertionError` when the <<currentVersion, currentVersion>> is neither `-1` (the default) nor one before the given `version`:
 
@@ -55,7 +55,7 @@ append(
 Attempted to replay version [version], but state is at [currentVersion]
 ```
 
-NOTE: `append` is used when `Snapshot` is created (and initializes the <<Snapshot.adoc#stateReconstruction, stateReconstruction>> for the <<Snapshot.adoc#cachedState, cached delta state>>).
+NOTE: `append` is used when `Snapshot` is created (and initializes the <<Snapshot.md#stateReconstruction, stateReconstruction>> for the <<Snapshot.md#cachedState, cached delta state>>).
 
 == [[checkpoint]] Current State Of Delta Table -- `checkpoint` Method
 
@@ -72,9 +72,9 @@ checkpoint: Iterator[Action]
 
 * <<transactions, SetTransactions>>
 
-* <<activeFiles, AddFiles>> and <<getTombstones, RemoveFiles>> (after the <<minFileRetentionTimestamp, minFileRetentionTimestamp>>) sorted by <<FileAction.adoc#path, path>> (lexicographically)
+* <<activeFiles, AddFiles>> and <<getTombstones, RemoveFiles>> (after the <<minFileRetentionTimestamp, minFileRetentionTimestamp>>) sorted by <<FileAction.md#path, path>> (lexicographically)
 
-NOTE: `checkpoint` is used when `Snapshot` is created (and initializes the <<Snapshot.adoc#stateReconstruction, stateReconstruction>> for the <<Snapshot.adoc#cachedState, cached delta state>>).
+NOTE: `checkpoint` is used when `Snapshot` is created (and initializes the <<Snapshot.md#stateReconstruction, stateReconstruction>> for the <<Snapshot.md#cachedState, cached delta state>>).
 
 == [[getTombstones]] `getTombstones` Internal Method
 
@@ -83,7 +83,7 @@ NOTE: `checkpoint` is used when `Snapshot` is created (and initializes the <<Sna
 getTombstones: Iterable[FileAction]
 ----
 
-`getTombstones` returns <<FileAction.adoc#RemoveFile, RemoveFiles>> (from the <<tombstones, tombstones>>) with their `delTimestamp` after the <<minFileRetentionTimestamp, minFileRetentionTimestamp>>.
+`getTombstones` returns <<FileAction.md#RemoveFile, RemoveFiles>> (from the <<tombstones, tombstones>>) with their `delTimestamp` after the <<minFileRetentionTimestamp, minFileRetentionTimestamp>>.
 
 NOTE: `getTombstones` is used when `InMemoryLogReplay` is requested to <<checkpoint, checkpoint>>.
 
@@ -95,7 +95,7 @@ NOTE: `getTombstones` is used when `InMemoryLogReplay` is requested to <<checkpo
 | Description
 
 | currentProtocolVersion
-a| [[currentProtocolVersion]] <<Protocol.adoc#, Protocol>> (default: `null`)
+a| [[currentProtocolVersion]] <<Protocol.md#, Protocol>> (default: `null`)
 
 Used when...FIXME
 
@@ -105,22 +105,22 @@ a| [[currentVersion]] Version (default: `-1`)
 Used when...FIXME
 
 | currentMetaData
-a| [[currentMetaData]] <<Metadata.adoc#, Metadata>> (default: `null`)
+a| [[currentMetaData]] <<Metadata.md#, Metadata>> (default: `null`)
 
 Used when...FIXME
 
 | transactions
-a| [[transactions]] <<SetTransaction.adoc#, SetTransactions>> per ID (`HashMap[String, SetTransaction]`)
+a| [[transactions]] <<SetTransaction.md#, SetTransactions>> per ID (`HashMap[String, SetTransaction]`)
 
 Used when...FIXME
 
 | activeFiles
-a| [[activeFiles]] <<AddFile.adoc#, AddFile>> per URI (`HashMap[URI, AddFile]`)
+a| [[activeFiles]] <<AddFile.md#, AddFile>> per URI (`HashMap[URI, AddFile]`)
 
 Used when...FIXME
 
 | tombstones
-a| [[tombstones]] <<FileAction.adoc.adoc#RemoveFile, RemoveFile>> per URI (`HashMap[URI, RemoveFile]`)
+a| [[tombstones]] <<FileAction.md.md#RemoveFile, RemoveFile>> per URI (`HashMap[URI, RemoveFile]`)
 
 Used when...FIXME
 

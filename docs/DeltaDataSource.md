@@ -50,7 +50,7 @@ createRelation(
 
 `createRelation`...FIXME
 
-In the end, `createRelation` requests the [DeltaLog](#RelationProvider-createRelation-deltaLog) for an [insertable HadoopFsRelation](#DeltaLog.adoc#createRelation).
+In the end, `createRelation` requests the [DeltaLog](#RelationProvider-createRelation-deltaLog) for an [insertable HadoopFsRelation](#DeltaLog.md#createRelation).
 
 == [[CreatableRelationProvider]][[CreatableRelationProvider-createRelation]] CreatableRelationProvider
 
@@ -72,9 +72,9 @@ TIP: Read up on https://jaceklaskowski.gitbooks.io/spark-structured-streaming/sp
 
 DeltaDataSource supports `Append` and `Complete` output modes only.
 
-In the end, DeltaDataSource creates a <<DeltaSink.adoc#, DeltaSink>>.
+In the end, DeltaDataSource creates a <<DeltaSink.md#, DeltaSink>>.
 
-TIP: Consult the demo <<demo-Using-Delta-Lake-as-Streaming-Sink-in-Structured-Streaming.adoc#, Using Delta Lake (as Streaming Sink) in Streaming Queries>>.
+TIP: Consult the demo <<demo-Using-Delta-Lake-as-Streaming-Sink-in-Structured-Streaming.md#, Using Delta Lake (as Streaming Sink) in Streaming Queries>>.
 
 == [[sourceSchema]] `sourceSchema` Method
 
@@ -126,7 +126,7 @@ parsePathIdentifier(
 
 parsePathIdentifier...FIXME
 
-parsePathIdentifier is used when DeltaTableV2 is requested for the DeltaTableV2.adoc#rootPath[rootPath, partitionFilters, and timeTravelByPath] (for a non-catalog table).
+parsePathIdentifier is used when DeltaTableV2 is requested for the DeltaTableV2.md#rootPath[rootPath, partitionFilters, and timeTravelByPath] (for a non-catalog table).
 
 == [[getTable]] Loading Table
 

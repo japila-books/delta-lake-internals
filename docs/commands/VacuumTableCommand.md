@@ -1,10 +1,10 @@
 = VacuumTableCommand
 
-`VacuumTableCommand` is a logical command (`RunnableCommand`) for delta-sql.adoc#VACUUM[VACUUM] SQL command.
+`VacuumTableCommand` is a logical command (`RunnableCommand`) for delta-sql.md#VACUUM[VACUUM] SQL command.
 
 TIP: Read up on https://jaceklaskowski.gitbooks.io/mastering-spark-sql/spark-sql-LogicalPlan-RunnableCommand.html[RunnableCommand] in https://bit.ly/spark-sql-internals[The Internals of Spark SQL] online book.
 
-`VacuumTableCommand` is <<creating-instance, created>> exclusively when `DeltaSqlAstBuilder` is requested to <<DeltaSqlAstBuilder.adoc#visitVacuumTable, parse VACUUM SQL command>>.
+`VacuumTableCommand` is <<creating-instance, created>> exclusively when `DeltaSqlAstBuilder` is requested to <<DeltaSqlAstBuilder.md#visitVacuumTable, parse VACUUM SQL command>>.
 
 `VacuumTableCommand` <<run, requires>> that either the <<table, table>> or the <<path, path>> is defined and it is the root directory of a delta table. Partition directories are not supported.
 
@@ -29,9 +29,9 @@ run(sparkSession: SparkSession): Seq[Row]
 
 NOTE: `run` is part of the `RunnableCommand` contract to...FIXME.
 
-`run` takes the path to vacuum (i.e. either the <<table, table>> or the <<path, path>>) and <<DeltaTableUtils.adoc#findDeltaTableRoot, finds the root directory of the delta table>>.
+`run` takes the path to vacuum (i.e. either the <<table, table>> or the <<path, path>>) and <<DeltaTableUtils.md#findDeltaTableRoot, finds the root directory of the delta table>>.
 
-`run` <<DeltaLog.adoc#forTable, creates a DeltaLog instance>> for the delta table and executes <<VacuumCommand.adoc#gc, VacuumCommand.gc>> utility (passing in the `DeltaLog` instance, the <<dryRun, dryRun>> and the <<horizonHours, horizonHours>> options).
+`run` <<DeltaLog.md#forTable, creates a DeltaLog instance>> for the delta table and executes <<VacuumCommand.md#gc, VacuumCommand.gc>> utility (passing in the `DeltaLog` instance, the <<dryRun, dryRun>> and the <<horizonHours, horizonHours>> options).
 
 `run` throws an `AnalysisException` when executed for a non-root directory of a delta table:
 

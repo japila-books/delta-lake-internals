@@ -41,7 +41,7 @@ Default: `interval 2 days`
 The most recent checkpoint is never deleted. It is acceptable to keep checkpoint files beyond this duration until the next calendar day.
 
 | compatibility.symlinkFormatManifest.enabled
-a| [[compatibility.symlinkFormatManifest]][[SYMLINK_FORMAT_MANIFEST_ENABLED]] Whether to register the <<GenerateSymlinkManifest.adoc#, GenerateSymlinkManifest>> post-commit hook while <<OptimisticTransactionImpl.adoc#commit, committing a transaction>> or not
+a| [[compatibility.symlinkFormatManifest]][[SYMLINK_FORMAT_MANIFEST_ENABLED]] Whether to register the <<GenerateSymlinkManifest.md#, GenerateSymlinkManifest>> post-commit hook while <<OptimisticTransactionImpl.md#commit, committing a transaction>> or not
 
 Default: `false`
 
@@ -99,7 +99,7 @@ mergeGlobalConfigs(
 
 `mergeGlobalConfigs` finds all <<sqlConfPrefix, spark.databricks.delta.properties.defaults>>-prefixed configuration properties among the <<entries, entries>>.
 
-NOTE: `mergeGlobalConfigs` is used when `OptimisticTransactionImpl` is requested for the OptimisticTransactionImpl.adoc#snapshotMetadata[metadata], to OptimisticTransactionImpl.adoc#updateMetadata[update the metadata], and OptimisticTransactionImpl.adoc#prepareCommit[prepare a commit] (for new delta tables).
+NOTE: `mergeGlobalConfigs` is used when `OptimisticTransactionImpl` is requested for the OptimisticTransactionImpl.md#snapshotMetadata[metadata], to OptimisticTransactionImpl.md#updateMetadata[update the metadata], and OptimisticTransactionImpl.md#prepareCommit[prepare a commit] (for new delta tables).
 
 == [[verifyProtocolVersionRequirements]] verifyProtocolVersionRequirements Utility
 
@@ -127,7 +127,7 @@ buildConfig[T](
   minimumProtocolVersion: Option[Protocol] = None): DeltaConfig[T]
 ----
 
-`buildConfig` creates a DeltaConfig.adoc[DeltaConfig] for the given `key` (with *delta* prefix) and adds it to the <<entries, entries>> internal registry.
+`buildConfig` creates a DeltaConfig.md[DeltaConfig] for the given `key` (with *delta* prefix) and adds it to the <<entries, entries>> internal registry.
 
 NOTE: `buildConfig` is used to define all of the <<configuration-properties, reservoir configuration properties>>.
 

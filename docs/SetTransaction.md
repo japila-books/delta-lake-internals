@@ -1,8 +1,8 @@
 = SetTransaction
 
-`SetTransaction` is an <<Action.adoc#, action>> that denotes the committed <<version, version>> for an <<appId, application>>.
+`SetTransaction` is an <<Action.md#, action>> that denotes the committed <<version, version>> for an <<appId, application>>.
 
-`SetTransaction` is <<creating-instance, created>> when `DeltaSink` is requested to <<DeltaSink.adoc#addBatch, add a streaming micro-batch>> (for `STREAMING UPDATE` operation idempotence at query restart).
+`SetTransaction` is <<creating-instance, created>> when `DeltaSink` is requested to <<DeltaSink.md#addBatch, add a streaming micro-batch>> (for `STREAMING UPDATE` operation idempotence at query restart).
 
 == [[creating-instance]] Creating SetTransaction Instance
 
@@ -19,6 +19,6 @@
 wrap: SingleAction
 ----
 
-NOTE: `wrap` is part of the <<Action.adoc#wrap, Action>> contract to wrap the action into a <<SingleAction.adoc#, SingleAction>> for serialization.
+NOTE: `wrap` is part of the <<Action.md#wrap, Action>> contract to wrap the action into a <<SingleAction.md#, SingleAction>> for serialization.
 
-`wrap` simply creates a new <<SingleAction.adoc#, SingleAction>> with the `txn` field set to this `SetTransaction`.
+`wrap` simply creates a new <<SingleAction.md#, SingleAction>> with the `txn` field set to this `SetTransaction`.

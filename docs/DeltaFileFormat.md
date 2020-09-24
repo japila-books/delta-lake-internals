@@ -23,13 +23,13 @@ Default: `ParquetFileFormat`
 
 Used when:
 
-* `DeltaLog` is requested for a <<DeltaLog.adoc#createRelation, relation>> (in batch queries) and <<createDataFrame, DataFrame>>
+* `DeltaLog` is requested for a <<DeltaLog.md#createRelation, relation>> (in batch queries) and <<createDataFrame, DataFrame>>
 
-* `DeltaCommand` is requested for a <<DeltaCommand.adoc#buildBaseRelation, relation>>
+* `DeltaCommand` is requested for a <<DeltaCommand.md#buildBaseRelation, relation>>
 
-* `TransactionalWrite` is requested to <<TransactionalWrite.adoc#writeFiles, write data out>>
+* `TransactionalWrite` is requested to <<TransactionalWrite.md#writeFiles, write data out>>
 
 |===
 
 [[implementations]]
-NOTE: <<Snapshot.adoc#, Snapshot>> is the only known `DeltaFileFormat`.
+NOTE: <<Snapshot.md#, Snapshot>> is the only known `DeltaFileFormat`.

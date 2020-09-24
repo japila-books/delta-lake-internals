@@ -1,8 +1,8 @@
 = Vacuum Command
 
-`Vacuum` command does...FIXME (see <<VacuumCommand.adoc#gc, VacuumCommand.gc>>)
+`Vacuum` command does...FIXME (see <<VacuumCommand.md#gc, VacuumCommand.gc>>)
 
-`Vacuum` command can be executed as delta-sql.adoc#VACUUM[VACUUM] SQL command or <<DeltaTable.adoc#vacuum, DeltaTable.vacuum>> operator.
+`Vacuum` command can be executed as delta-sql.md#VACUUM[VACUUM] SQL command or <<DeltaTable.md#vacuum, DeltaTable.vacuum>> operator.
 
 ```
 /*

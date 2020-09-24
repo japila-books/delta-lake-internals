@@ -1,13 +1,13 @@
 = CommitInfo
 
-CommitInfo is an Action.adoc[] with the following:
+CommitInfo is an Action.md[] with the following:
 
 * [[version]] Version
 * [[timestamp]] Timestamp
 * [[userId]] User ID
 * [[userName]] User Name
-* [[operation]] Operation.adoc#name[Name of the operation]
-* [[operationParameters]] Operation.adoc#parameters[Parameters of the operation]
+* [[operation]] Operation.md#name[Name of the operation]
+* [[operationParameters]] Operation.md#parameters[Parameters of the operation]
 * [[job]] JobInfo
 * [[notebook]] NotebookInfo
 * [[clusterId]] Cluster ID
@@ -19,13 +19,13 @@ CommitInfo is an Action.adoc[] with the following:
 
 CommitInfo is created (using <<apply, apply>> utility) when:
 
-* OptimisticTransactionImpl is requested to OptimisticTransactionImpl.adoc#commit[commit]
+* OptimisticTransactionImpl is requested to OptimisticTransactionImpl.md#commit[commit]
 
-* ConvertToDeltaCommand command is requested to ConvertToDeltaCommand.adoc#streamWrite[streamWrite] (when executed)
+* ConvertToDeltaCommand command is requested to ConvertToDeltaCommand.md#streamWrite[streamWrite] (when executed)
 
-CommitInfo is used in OptimisticTransactionImpl.adoc#commitInfo[OptimisticTransactionImpl] and CommitStats.
+CommitInfo is used in OptimisticTransactionImpl.md#commitInfo[OptimisticTransactionImpl] and CommitStats.
 
-CommitInfo is added (_logged_) to a Delta log only for DeltaSQLConf.adoc#commitInfo.enabled[spark.databricks.delta.commitInfo.enabled] configuration enabled.
+CommitInfo is added (_logged_) to a Delta log only for DeltaSQLConf.md#commitInfo.enabled[spark.databricks.delta.commitInfo.enabled] configuration enabled.
 
 == [[apply]] apply Utility
 
@@ -45,10 +45,10 @@ apply(
 
 apply creates a CommitInfo (for the given arguments and based on the given `commandContext` for the user ID, user name, job, notebook, cluster).
 
-NOTE: commandContext is always empty, but could be customized using ConvertToDeltaCommand.adoc#ConvertToDeltaCommandBase[ConvertToDeltaCommandBase].
+NOTE: commandContext is always empty, but could be customized using ConvertToDeltaCommand.md#ConvertToDeltaCommandBase[ConvertToDeltaCommandBase].
 
 apply is used when:
 
-* OptimisticTransactionImpl is requested to OptimisticTransactionImpl.adoc#commit[commit]
+* OptimisticTransactionImpl is requested to OptimisticTransactionImpl.md#commit[commit]
 
-* ConvertToDeltaCommand command is requested to ConvertToDeltaCommand.adoc#streamWrite[streamWrite] (when executed)
+* ConvertToDeltaCommand command is requested to ConvertToDeltaCommand.md#streamWrite[streamWrite] (when executed)

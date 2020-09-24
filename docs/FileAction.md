@@ -1,6 +1,6 @@
 = FileAction
 
-`FileAction` is an <<contract, extension>> of the <<Action.adoc#, Action contract>> for <<implementations,  metadata of file actions>> with the <<path, path>> and <<dataChange, dataChange>> flag.
+`FileAction` is an <<contract, extension>> of the <<Action.md#, Action contract>> for <<implementations,  metadata of file actions>> with the <<path, path>> and <<dataChange, dataChange>> flag.
 
 [[contract]]
 .FileAction Contract (Abstract Methods Only)
@@ -38,7 +38,7 @@ Used when...FIXME
 | FileAction
 | Description
 
-| <<AddFile.adoc#, AddFile>>
+| <<AddFile.md#, AddFile>>
 | [[AddFile]]
 
 | RemoveFile

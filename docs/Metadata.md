@@ -1,6 +1,6 @@
 = Metadata
 
-*Metadata* is an <<Action.adoc#, action>> that describes metadata (change) of a <<DeltaLog.adoc#metadata, delta table>> (indirectly via <<Snapshot.adoc#metadata, Snapshot>>).
+*Metadata* is an <<Action.md#, action>> that describes metadata (change) of a <<DeltaLog.md#metadata, delta table>> (indirectly via <<Snapshot.md#metadata, Snapshot>>).
 
 [source,plaintext]
 ----
@@ -12,9 +12,9 @@ org.apache.spark.sql.delta.actions.Metadata
 
 Metadata contains all the non-data information (_metadata_) like <<name, name>>, <<description, description>>, <<format, format>>, <<schemaString, schema>>, <<partitionColumns, partition columns>>, <<configuration, table properties>> and <<createdTime, created time>>. These can be changed (e.g., schema evolution).
 
-TIP: Use <<DescribeDeltaDetailCommand.adoc#, DescribeDeltaDetailCommand>> to review the metadata of a delta table.
+TIP: Use <<DescribeDeltaDetailCommand.md#, DescribeDeltaDetailCommand>> to review the metadata of a delta table.
 
-Metadata uses <<id, id>> to uniquely identify a delta table. The ID is never going to change through the history of the table (unless the entire directory, along with the transaction log is deleted). It is known as *tableId* or <<DeltaSourceOffset.adoc#reservoirId, reservoirId>>.
+Metadata uses <<id, id>> to uniquely identify a delta table. The ID is never going to change through the history of the table (unless the entire directory, along with the transaction log is deleted). It is known as *tableId* or <<DeltaSourceOffset.md#reservoirId, reservoirId>>.
 
 [NOTE]
 ====
@@ -26,7 +26,7 @@ When I asked the question https://groups.google.com/forum/#!topic/delta-users/5O
 
 ====
 
-Metadata can be <<OptimisticTransactionImpl.adoc#updateMetadata, updated>> in a OptimisticTransactionImpl.adoc[transaction] once (and only when created for an uninitialized table, when <<OptimisticTransactionImpl.adoc#readVersion, readVersion>> is `-1`).
+Metadata can be <<OptimisticTransactionImpl.md#updateMetadata, updated>> in a OptimisticTransactionImpl.md[transaction] once (and only when created for an uninitialized table, when <<OptimisticTransactionImpl.md#readVersion, readVersion>> is `-1`).
 
 [source,scala]
 ----
@@ -35,13 +35,13 @@ txn.metadata
 
 Metadata is <<creating-instance, created>> when:
 
-* `DeltaLog` is requested for the <<DeltaLog.adoc#metadata, metadata>>
+* `DeltaLog` is requested for the <<DeltaLog.md#metadata, metadata>>
 
-* `OptimisticTransactionImpl` is requested for the <<OptimisticTransactionImpl.adoc#snapshotMetadata, snapshotMetadata>>
+* `OptimisticTransactionImpl` is requested for the <<OptimisticTransactionImpl.md#snapshotMetadata, snapshotMetadata>>
 
-* `ConvertToDeltaCommand` is requested to <<ConvertToDeltaCommand.adoc#performConvert, performConvert>>
+* `ConvertToDeltaCommand` is requested to <<ConvertToDeltaCommand.md#performConvert, performConvert>>
 
-* `ImplicitMetadataOperation` is requested to <<ImplicitMetadataOperation.adoc#updateMetadata, update a Metadata>>
+* `ImplicitMetadataOperation` is requested to <<ImplicitMetadataOperation.md#updateMetadata, update a Metadata>>
 
 == [[creating-instance]] Creating Metadata Instance
 
@@ -63,9 +63,9 @@ Metadata takes the following to be created:
 wrap: SingleAction
 ----
 
-NOTE: `wrap` is part of the <<Action.adoc#wrap, Action>> contract to wrap the action into a <<SingleAction.adoc#, SingleAction>>.
+NOTE: `wrap` is part of the <<Action.md#wrap, Action>> contract to wrap the action into a <<SingleAction.md#, SingleAction>>.
 
-`wrap` simply creates a new <<SingleAction.adoc#, SingleAction>> with the Metadata field set to this Metadata.
+`wrap` simply creates a new <<SingleAction.md#, SingleAction>> with the Metadata field set to this Metadata.
 
 == [[partitionSchema]] `partitionSchema` (Lazy) Property
 
@@ -106,11 +106,11 @@ schema: StructType
 
 * Metadata is requested for the schema of the <<partitionSchema, partitions>> and the <<dataSchema, data>>
 
-* `DeltaLog` is requested for an DeltaLog.adoc#createRelation[insertable HadoopFsRelation for batch queries] (for the data schema), to DeltaLog.adoc#upgradeProtocol[upgrade protocol], a DeltaLog.adoc#createDataFrame[DataFrame for given AddFiles]
+* `DeltaLog` is requested for an DeltaLog.md#createRelation[insertable HadoopFsRelation for batch queries] (for the data schema), to DeltaLog.md#upgradeProtocol[upgrade protocol], a DeltaLog.md#createDataFrame[DataFrame for given AddFiles]
 
-* `DeltaTableUtils` utility is used to DeltaTableUtils.adoc#combineWithCatalogMetadata[combineWithCatalogMetadata]
+* `DeltaTableUtils` utility is used to DeltaTableUtils.md#combineWithCatalogMetadata[combineWithCatalogMetadata]
 
-* `OptimisticTransactionImpl` is requested to OptimisticTransactionImpl.adoc#verifyNewMetadata[verifyNewMetadata]
+* `OptimisticTransactionImpl` is requested to OptimisticTransactionImpl.md#verifyNewMetadata[verifyNewMetadata]
 
 * ...FIXME (there are other uses)
 ====

@@ -11,4 +11,4 @@ iterator(): Iterator[IndexedFile]
 
 `iterator`...FIXME
 
-NOTE: `iterator` is used exclusively when `DeltaSource` is requested for the <<DeltaSource.adoc#getSnapshotAt, Snapshot by given version>>.
+NOTE: `iterator` is used exclusively when `DeltaSource` is requested for the <<DeltaSource.md#getSnapshotAt, Snapshot by given version>>.

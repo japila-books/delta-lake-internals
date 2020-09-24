@@ -3,7 +3,7 @@
 `MetadataCleanup` is an abstraction of <<implementations, MetadataCleanups>> that can <<doLogCleanup, clean up>> the <<self, DeltaLog>>.
 
 [[implementations]][[self]]
-NOTE: <<DeltaLog.adoc#, DeltaLog>> is the default and only known `MetadataCleanup` in Delta Lake.
+NOTE: <<DeltaLog.md#, DeltaLog>> is the default and only known `MetadataCleanup` in Delta Lake.
 
 [[logging]]
 [TIP]
@@ -16,7 +16,7 @@ Add the following line to `conf/log4j.properties`:
 log4j.logger.org.apache.spark.sql.delta.MetadataCleanup=ALL
 ```
 
-Refer to <<logging.adoc#, Logging>>.
+Refer to <<logging.md#, Logging>>.
 ====
 
 == [[doLogCleanup]] `doLogCleanup` Method
@@ -28,9 +28,9 @@ doLogCleanup(): Unit
 
 [NOTE]
 ====
-`doLogCleanup` is part of the <<Checkpoints.adoc#doLogCleanup, Checkpoints Contract>> to...FIXME.
+`doLogCleanup` is part of the <<Checkpoints.md#doLogCleanup, Checkpoints Contract>> to...FIXME.
 
-Interestingly, this `MetadataCleanup` and <<Checkpoints.adoc#, Checkpoints>> abstractions require to be used with <<DeltaLog.adoc#, DeltaLog>> only.
+Interestingly, this `MetadataCleanup` and <<Checkpoints.md#, Checkpoints>> abstractions require to be used with <<DeltaLog.md#, DeltaLog>> only.
 ====
 
 `doLogCleanup` <<cleanUpExpiredLogs, cleanUpExpiredLogs>> when the <<enableExpiredLogCleanup, enableExpiredLogCleanup>> table property is enabled.
@@ -42,7 +42,7 @@ Interestingly, this `MetadataCleanup` and <<Checkpoints.adoc#, Checkpoints>> abs
 enableExpiredLogCleanup: Boolean
 ----
 
-`enableExpiredLogCleanup` gives the value of <<DeltaConfigs.adoc#ENABLE_EXPIRED_LOG_CLEANUP, enableExpiredLogCleanup>> table property (<<DeltaConfigs.adoc#fromMetaData, from>> the <<DeltaLog.adoc#metadata, Metadata>>).
+`enableExpiredLogCleanup` gives the value of <<DeltaConfigs.md#ENABLE_EXPIRED_LOG_CLEANUP, enableExpiredLogCleanup>> table property (<<DeltaConfigs.md#fromMetaData, from>> the <<DeltaLog.md#metadata, Metadata>>).
 
 NOTE: `enableExpiredLogCleanup` is used exclusively when `MetadataCleanup` is requested to <<doLogCleanup, doLogCleanup>>.
 
@@ -53,7 +53,7 @@ NOTE: `enableExpiredLogCleanup` is used exclusively when `MetadataCleanup` is re
 deltaRetentionMillis: Long
 ----
 
-`deltaRetentionMillis` gives the value of <<DeltaConfigs.adoc#LOG_RETENTION, logRetentionDuration>> table property (<<DeltaConfigs.adoc#fromMetaData, from>> the <<DeltaLog.adoc#metadata, Metadata>>).
+`deltaRetentionMillis` gives the value of <<DeltaConfigs.md#LOG_RETENTION, logRetentionDuration>> table property (<<DeltaConfigs.md#fromMetaData, from>> the <<DeltaLog.md#metadata, Metadata>>).
 
 NOTE: `deltaRetentionMillis` is used when...FIXME
 
@@ -64,7 +64,7 @@ NOTE: `deltaRetentionMillis` is used when...FIXME
 cleanUpExpiredLogs(): Unit
 ----
 
-`cleanUpExpiredLogs` calculates a so-called `fileCutOffTime` based on the <<DeltaLog.adoc#clock, current time>> and the <<deltaRetentionMillis, logRetentionDuration>> table property.
+`cleanUpExpiredLogs` calculates a so-called `fileCutOffTime` based on the <<DeltaLog.md#clock, current time>> and the <<deltaRetentionMillis, logRetentionDuration>> table property.
 
 `cleanUpExpiredLogs` prints out the following INFO message to the logs:
 
@@ -92,7 +92,7 @@ listExpiredDeltaLogs(
 
 `listExpiredDeltaLogs`...FIXME
 
-requests the <<DeltaLog.adoc#store, LogStore>> for the <<LogStore.adoc#listFrom, paths (in the same directory)>> that are (lexicographically) greater or equal to the ``0``th checkpoint file (per <<FileNames.adoc#checkpointPrefix, checkpointPrefix>> format) of the <<FileNames.adoc#isCheckpointFile, checkpoint>> and <<FileNames.adoc#isDeltaFile, delta>> files in the <<DeltaLog.adoc#logPath, log directory>> (of the <<self, DeltaLog>>).
+requests the <<DeltaLog.md#store, LogStore>> for the <<LogStore.md#listFrom, paths (in the same directory)>> that are (lexicographically) greater or equal to the ``0``th checkpoint file (per <<FileNames.md#checkpointPrefix, checkpointPrefix>> format) of the <<FileNames.md#isCheckpointFile, checkpoint>> and <<FileNames.md#isDeltaFile, delta>> files in the <<DeltaLog.md#logPath, log directory>> (of the <<self, DeltaLog>>).
 
 In the end, `listExpiredDeltaLogs` creates a `BufferingLogDeletionIterator` that...FIXME
 

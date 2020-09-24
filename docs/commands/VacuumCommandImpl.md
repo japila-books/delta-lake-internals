@@ -13,4 +13,4 @@ delete(
 
 delete...FIXME
 
-delete is used when VacuumCommand utility is requested to VacuumCommand.adoc#gc[gc]
+delete is used when VacuumCommand utility is requested to VacuumCommand.md#gc[gc]

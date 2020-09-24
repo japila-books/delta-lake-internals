@@ -4,11 +4,11 @@
 
 `DelayedCommitProtocol` is a concrete `FileCommitProtocol` (Spark Core) to write out a result of a structured query to a <<path, directory>> and return a <<addedStatuses, list of files added>>.
 
-`FileCommitProtocol` (Spark Core) allows to track a write job (with a write task per partition) and inform the driver when all the write tasks finished successfully (and were <<commitTask, committed>>) to consider the write job <<commitJob, completed>>. `TaskCommitMessage` (Spark Core) allows to "transfer" the files added (written out) on the executors to the driver for the <<TransactionalWrite.adoc#writeFiles, optimistic transactional writer>>.
+`FileCommitProtocol` (Spark Core) allows to track a write job (with a write task per partition) and inform the driver when all the write tasks finished successfully (and were <<commitTask, committed>>) to consider the write job <<commitJob, completed>>. `TaskCommitMessage` (Spark Core) allows to "transfer" the files added (written out) on the executors to the driver for the <<TransactionalWrite.md#writeFiles, optimistic transactional writer>>.
 
 TIP: Read up on https://books.japila.pl/apache-spark-internals/apache-spark-internals/2.4.4/spark-internal-io-FileCommitProtocol.html[FileCommitProtocol] in https://books.japila.pl/apache-spark-internals[The Internals Of Apache Spark] online book.
 
-`DelayedCommitProtocol` is <<creating-instance, created>> exclusively when `TransactionalWrite` is requested for a <<TransactionalWrite.adoc#getCommitter, committer>> to <<TransactionalWrite.adoc#writeFiles, write a structured query>> to the <<path, directory>>.
+`DelayedCommitProtocol` is <<creating-instance, created>> exclusively when `TransactionalWrite` is requested for a <<TransactionalWrite.md#getCommitter, committer>> to <<TransactionalWrite.md#writeFiles, write a structured query>> to the <<path, directory>>.
 
 [[logging]]
 [TIP]
@@ -21,16 +21,16 @@ Add the following line to `conf/log4j.properties`:
 log4j.logger.org.apache.spark.sql.delta.files.DelayedCommitProtocol=ALL
 ```
 
-Refer to <<logging.adoc#, Logging>>.
+Refer to <<logging.md#, Logging>>.
 ====
 
 == [[creating-instance]] Creating DelayedCommitProtocol Instance
 
 `DelayedCommitProtocol` takes the following to be created:
 
-* [[jobId]] Job ID (seems always <<TransactionalWrite.adoc#getCommitter, delta>>)
+* [[jobId]] Job ID (seems always <<TransactionalWrite.md#getCommitter, delta>>)
 * [[path]] Directory (to write files to)
-* [[randomPrefixLength]] Optional length of a random prefix (seems always <<TransactionalWrite.adoc#getCommitter, empty>>)
+* [[randomPrefixLength]] Optional length of a random prefix (seems always <<TransactionalWrite.md#getCommitter, empty>>)
 
 `DelayedCommitProtocol` initializes the <<internal-properties, internal properties>>.
 
@@ -82,7 +82,7 @@ commitTask(
 
 NOTE: `commitTask` is part of the `FileCommitProtocol` contract to commit a task after the writes succeed.
 
-`commitTask` simply creates a `TaskCommitMessage` with an <<AddFile.adoc#, AddFile>> for every <<addedFiles, file added>> if there were any. Otherwise, the `TaskCommitMessage` is empty.
+`commitTask` simply creates a `TaskCommitMessage` with an <<AddFile.md#, AddFile>> for every <<addedFiles, file added>> if there were any. Otherwise, the `TaskCommitMessage` is empty.
 
 NOTE: A file is added (to <<addedFiles, addedFiles>> internal registry) when `DelayedCommitProtocol` is requested for a <<newTaskTempFile, new file (path)>>.
 
@@ -97,7 +97,7 @@ commitJob(
 
 NOTE: `commitJob` is part of the `FileCommitProtocol` contract to commit a job after the writes succeed.
 
-`commitJob` simply adds the <<AddFile.adoc#, AddFiles>> (from the given `taskCommits` from every <<commitTask, commitTask>>) to the <<addedStatuses, addedStatuses>> internal registry.
+`commitJob` simply adds the <<AddFile.md#, AddFiles>> (from the given `taskCommits` from every <<commitTask, commitTask>>) to the <<addedStatuses, addedStatuses>> internal registry.
 
 == [[parsePartitions]] `parsePartitions` Method
 
@@ -184,5 +184,5 @@ addedStatuses = new ArrayBuffer[AddFile]
 
 * `DelayedCommitProtocol` is requested to <<commitJob, commit a job>> (on a driver)
 
-* `TransactionalWrite` is requested to <<TransactionalWrite.adoc#writeFiles, write out a structured query>>
+* `TransactionalWrite` is requested to <<TransactionalWrite.md#writeFiles, write out a structured query>>
 ====

@@ -1,6 +1,6 @@
 # Time Travel
 
-<<DeltaOptions.adoc#path, path>> option may optionally specify *time travel*.
+<<DeltaOptions.md#path, path>> option may optionally specify *time travel*.
 
 The format is defined per the following regular expressions:
 
@@ -8,7 +8,7 @@ The format is defined per the following regular expressions:
 
 * `.*@[vV](\d+)$` (_VERSION_URI_FOR_TIME_TRAVEL_), e.g. `@v123`
 
-The <<DeltaOptions.adoc#versionAsOf, versionAsOf>> or <<DeltaOptions.adoc#timestampAsOf, timestampAsOf>>...FIXME
+The <<DeltaOptions.md#versionAsOf, versionAsOf>> or <<DeltaOptions.md#timestampAsOf, timestampAsOf>>...FIXME
 
 == [[DeltaTimeTravelSpec]] DeltaTimeTravelSpec -- Metadata of Time Travel Node
 

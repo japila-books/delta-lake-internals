@@ -5,7 +5,7 @@
 `Action` can be converted (_serialized_) to <<json, json>> format for...FIXME
 
 [[logSchema]]
-`Action` object defines `logSchema` that is a schema (`StructType`) based on the <<SingleAction.adoc#, SingleAction>> case class.
+`Action` object defines `logSchema` that is a schema (`StructType`) based on the <<SingleAction.md#, SingleAction>> case class.
 
 [source, scala]
 ----
@@ -89,11 +89,11 @@ a| [[wrap]]
 wrap: SingleAction
 ----
 
-Wraps the action into a <<SingleAction.adoc#, SingleAction>> for serialization
+Wraps the action into a <<SingleAction.md#, SingleAction>> for serialization
 
 Used when:
 
-* `Snapshot` is created (and initializes the <<Snapshot.adoc#stateReconstruction, state reconstruction>> for the <<Snapshot.adoc#cachedState, cached state>> of a delta table)
+* `Snapshot` is created (and initializes the <<Snapshot.md#stateReconstruction, state reconstruction>> for the <<Snapshot.md#cachedState, cached state>> of a delta table)
 
 * `Action` is requested to <<json, serialize to JSON format>>
 
@@ -107,19 +107,19 @@ Used when:
 | Action
 | Description
 
-| <<CommitInfo.adoc#, CommitInfo>>
+| <<CommitInfo.md#, CommitInfo>>
 | [[CommitInfo]]
 
-| <<FileAction.adoc#, FileAction>>
+| <<FileAction.md#, FileAction>>
 | [[FileAction]]
 
-| <<Metadata.adoc#, Metadata>>
+| <<Metadata.md#, Metadata>>
 | [[Metadata]]
 
-| <<Protocol.adoc#, Protocol>>
+| <<Protocol.md#, Protocol>>
 | [[Protocol]]
 
-| <<SetTransaction.adoc#, SetTransaction>>
+| <<SetTransaction.md#, SetTransaction>>
 | [[SetTransaction]]
 
 |===
@@ -141,9 +141,9 @@ NOTE: `json` uses https://github.com/FasterXML/jackson[Jackson] library (with ht
 ====
 `json` is used when:
 
-* `OptimisticTransactionImpl` is requested to <<OptimisticTransactionImpl.adoc#doCommit, doCommit>>
+* `OptimisticTransactionImpl` is requested to <<OptimisticTransactionImpl.md#doCommit, doCommit>>
 
-* `ConvertToDeltaCommand` is requested to <<ConvertToDeltaCommand.adoc#streamWrite, streamWrite>>
+* `ConvertToDeltaCommand` is requested to <<ConvertToDeltaCommand.md#streamWrite, streamWrite>>
 ====
 
 == [[fromJson]] Deserializing Action (From JSON Format) -- `fromJson` Utility
@@ -160,9 +160,9 @@ fromJson(
 ====
 `fromJson` is used when:
 
-* `DeltaHistoryManager` utility is requested for the <<DeltaHistoryManager.adoc#getCommitInfo, CommitInfo (action) of the given delta file>>
+* `DeltaHistoryManager` utility is requested for the <<DeltaHistoryManager.md#getCommitInfo, CommitInfo (action) of the given delta file>>
 
-* `DeltaLog` is requested for the <<DeltaLog.adoc#getChanges, changes (actions) of the given delta version and later>>
+* `DeltaLog` is requested for the <<DeltaLog.md#getChanges, changes (actions) of the given delta version and later>>
 
-* `OptimisticTransactionImpl` is requested to <<OptimisticTransactionImpl.adoc#checkAndRetry, retry a commit>>
+* `OptimisticTransactionImpl` is requested to <<OptimisticTransactionImpl.md#checkAndRetry, retry a commit>>
 ====

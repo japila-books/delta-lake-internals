@@ -2,7 +2,7 @@
 
 **Snapshot** is an immutable snapshot of the <<state, state>> of a <<deltaLog, delta table>> at <<version, some version>>.
 
-Snapshot is <<creating-instance, created>> when `DeltaLog` is requested for the <<DeltaLog.adoc#currentSnapshot, current snapshot>> or <<DeltaLog.adoc#getSnapshotAt, at a given version>>, and to <<DeltaLog.adoc#update, update>>.
+Snapshot is <<creating-instance, created>> when `DeltaLog` is requested for the <<DeltaLog.md#currentSnapshot, current snapshot>> or <<DeltaLog.md#getSnapshotAt, at a given version>>, and to <<DeltaLog.md#update, update>>.
 
 Snapshot can be requested for <<allFiles, all data files>>.
 
@@ -33,24 +33,24 @@ scala> deltaLog.snapshot.tombstones.show(false)
 +----+-----------------+----------+
 ----
 
-Snapshot uses the <<DeltaSQLConf.adoc#DELTA_SNAPSHOT_PARTITIONS, spark.databricks.delta.snapshotPartitions>> internal configuration property (default: `50`) for the number of partition for <<stateReconstruction, state reconstruction>>.
+Snapshot uses the <<DeltaSQLConf.md#DELTA_SNAPSHOT_PARTITIONS, spark.databricks.delta.snapshotPartitions>> internal configuration property (default: `50`) for the number of partition for <<stateReconstruction, state reconstruction>>.
 
 == [[creating-instance]] Creating Snapshot Instance
 
 Snapshot takes the following to be created:
 
-* [[path]] Hadoop https://hadoop.apache.org/docs/r2.6.5/api/org/apache/hadoop/fs/Path.html[Path] to the <<DeltaLog.adoc#logPath, log directory>>
+* [[path]] Hadoop https://hadoop.apache.org/docs/r2.6.5/api/org/apache/hadoop/fs/Path.html[Path] to the <<DeltaLog.md#logPath, log directory>>
 * [[version]] Version
 * [[previousSnapshot]] Previous snapshot (`Option[Dataset[SingleAction]]`)
 * [[files]] Files (`Seq[Path]`)
-* [[minFileRetentionTimestamp]] `minFileRetentionTimestamp` (that is exactly <<DeltaLog.adoc#minFileRetentionTimestamp, DeltaLog.minFileRetentionTimestamp>>)
-* [[deltaLog]] <<DeltaLog.adoc#, DeltaLog>>
+* [[minFileRetentionTimestamp]] `minFileRetentionTimestamp` (that is exactly <<DeltaLog.md#minFileRetentionTimestamp, DeltaLog.minFileRetentionTimestamp>>)
+* [[deltaLog]] <<DeltaLog.md#, DeltaLog>>
 * [[timestamp]] Timestamp
 * [[lineageLength]] Length of the lineage (default: `1`)
 
 Snapshot initializes the <<internal-properties, internal properties>>.
 
-While being created, Snapshot requests the <<deltaLog, DeltaLog>> to <<DeltaLog.adoc#protocolRead, protocolRead>> with the <<protocol, protocol>>.
+While being created, Snapshot requests the <<deltaLog, DeltaLog>> to <<DeltaLog.md#protocolRead, protocolRead>> with the <<protocol, protocol>>.
 
 == [[state]] `state` Method
 
@@ -59,19 +59,19 @@ While being created, Snapshot requests the <<deltaLog, DeltaLog>> to <<DeltaLog.
 state: Dataset[SingleAction]
 ----
 
-`state` simply requests the <<cachedState, cached delta state>> to <<CachedDS.adoc#getDS, get the delta state from the cache>>.
+`state` simply requests the <<cachedState, cached delta state>> to <<CachedDS.md#getDS, get the delta state from the cache>>.
 
 [NOTE]
 ====
 `state` is used when:
 
-* `DeltaLog` is requested to <<DeltaLog.adoc#update, update>> (and in turn <<DeltaLog.adoc#updateInternal, updateInternal>>)
+* `DeltaLog` is requested to <<DeltaLog.md#update, update>> (and in turn <<DeltaLog.md#updateInternal, updateInternal>>)
 
-* `Checkpoints` is requested to <<Checkpoints.adoc#checkpoint, checkpoint>> (and in turn <<Checkpoints.adoc#writeCheckpoint, writeCheckpoint>>)
+* `Checkpoints` is requested to <<Checkpoints.md#checkpoint, checkpoint>> (and in turn <<Checkpoints.md#writeCheckpoint, writeCheckpoint>>)
 
 * Snapshot is created, and requested for <<allFiles, allFiles>> and <<tombstones, tombstones>>
 
-* `VacuumCommand` is requested for <<VacuumCommand.adoc#gc, garbage collecting of a delta table>>
+* `VacuumCommand` is requested for <<VacuumCommand.md#gc, garbage collecting of a delta table>>
 ====
 
 == [[allFiles]] All AddFiles -- `allFiles` Method
@@ -81,7 +81,7 @@ state: Dataset[SingleAction]
 allFiles: Dataset[AddFile]
 ----
 
-`allFiles` simply takes the <<state, state dataset>> and selects AddFile.adoc[AddFiles] (adds `where` clause for `add IS NOT NULL` and `select` over the fields of AddFile.adoc[AddFiles]).
+`allFiles` simply takes the <<state, state dataset>> and selects AddFile.md[AddFiles] (adds `where` clause for `add IS NOT NULL` and `select` over the fields of AddFile.md[AddFiles]).
 
 NOTE: `allFiles` simply adds `where` and `select` clauses. No computation as it is (a description of) a distributed computation as a `Dataset[AddFile]`.
 
@@ -111,13 +111,13 @@ scala> files.show
 ====
 `allFiles` is used when:
 
-* `PartitionFiltering` is requested for the <<PartitionFiltering.adoc#filesForScan, files to scan (matching projection attributes and predicates)>>
+* `PartitionFiltering` is requested for the <<PartitionFiltering.md#filesForScan, files to scan (matching projection attributes and predicates)>>
 
-* `DeltaSourceSnapshot` is requested for the <<DeltaSourceSnapshot.adoc#initialFiles, initial files>> (indexed AddFile.adoc[AddFiles])
+* `DeltaSourceSnapshot` is requested for the <<DeltaSourceSnapshot.md#initialFiles, initial files>> (indexed AddFile.md[AddFiles])
 
-* `GenerateSymlinkManifestImpl` is requested to <<GenerateSymlinkManifest.adoc#generateIncrementalManifest, generateIncrementalManifest>> and <<GenerateSymlinkManifest.adoc#generateFullManifest, generateFullManifest>>
+* `GenerateSymlinkManifestImpl` is requested to <<GenerateSymlinkManifest.md#generateIncrementalManifest, generateIncrementalManifest>> and <<GenerateSymlinkManifest.md#generateFullManifest, generateFullManifest>>
 
-* `DeltaDataSource` is requested for an <<DeltaDataSource.adoc#RelationProvider-createRelation, insertable HadoopFsRelation for batch queries>>
+* `DeltaDataSource` is requested for an <<DeltaDataSource.md#RelationProvider-createRelation, insertable HadoopFsRelation for batch queries>>
 ====
 
 == [[stateReconstruction]] `stateReconstruction` Internal Property
@@ -127,7 +127,7 @@ scala> files.show
 stateReconstruction: Dataset[SingleAction]
 ----
 
-`stateReconstruction` is a dataset of <<SingleAction.adoc#, SingleActions>> (that is the <<CachedDS.adoc#ds, dataset>> part) of the <<cachedState, cachedState>>.
+`stateReconstruction` is a dataset of <<SingleAction.md#, SingleActions>> (that is the <<CachedDS.md#ds, dataset>> part) of the <<cachedState, cachedState>>.
 
 == [[emptyActions]] `emptyActions` Internal Method
 
@@ -136,7 +136,7 @@ stateReconstruction: Dataset[SingleAction]
 emptyActions: Dataset[SingleAction]
 ----
 
-`emptyActions` is an empty dataset of <<SingleAction.adoc#, SingleActions>> for <<stateReconstruction, stateReconstruction>> and <<load, load>>.
+`emptyActions` is an empty dataset of <<SingleAction.md#, SingleActions>> for <<stateReconstruction, stateReconstruction>> and <<load, load>>.
 
 == [[load]] `load` Internal Method
 
@@ -157,11 +157,11 @@ NOTE: `load` is used when Snapshot is created (and initializes <<stateReconstruc
 transactions: Map[String, Long]
 ----
 
-`transactions` takes the <<setTransactions, SetTransaction>> actions (from the <<state, state>> dataset) and makes them a lookup table of <<SetTransaction.adoc#version, transaction version>> by <<SetTransaction.adoc#appId, appId>>.
+`transactions` takes the <<setTransactions, SetTransaction>> actions (from the <<state, state>> dataset) and makes them a lookup table of <<SetTransaction.md#version, transaction version>> by <<SetTransaction.md#appId, appId>>.
 
 NOTE: `transactions` is a Scala lazy value and is not initialized until the first access.
 
-NOTE: `transactions` is used when `OptimisticTransactionImpl` is requested for the <<OptimisticTransactionImpl.adoc#txnVersion, transaction version for a given (streaming query) id>>.
+NOTE: `transactions` is used when `OptimisticTransactionImpl` is requested for the <<OptimisticTransactionImpl.md#txnVersion, transaction version for a given (streaming query) id>>.
 
 == [[tombstones]] `tombstones` Method
 
@@ -192,7 +192,7 @@ NOTE: `redactedPath` is used...FIXME
 numIndexedCols: Int
 ----
 
-`numIndexedCols` simply reads the <<DeltaConfigs.adoc#DATA_SKIPPING_NUM_INDEXED_COLS, dataSkippingNumIndexedCols>> table property <<DeltaConfigs.adoc#fromMetaData, from>> the <<metadata, Metadata>>.
+`numIndexedCols` simply reads the <<DeltaConfigs.md#DATA_SKIPPING_NUM_INDEXED_COLS, dataSkippingNumIndexedCols>> table property <<DeltaConfigs.md#fromMetaData, from>> the <<metadata, Metadata>>.
 
 NOTE: `numIndexedCols` seems unused.
 
@@ -204,21 +204,21 @@ NOTE: `numIndexedCols` seems unused.
 | Description
 
 | cachedState
-a| [[cachedState]] <<CachedDS.adoc#, Cached Delta State>> that is made up of the following:
+a| [[cachedState]] <<CachedDS.md#, Cached Delta State>> that is made up of the following:
 
-* The <<CachedDS.adoc#ds, dataset>> part is the <<stateReconstruction, stateReconstruction>> dataset of <<SingleAction.adoc#, SingleActions>>
+* The <<CachedDS.md#ds, dataset>> part is the <<stateReconstruction, stateReconstruction>> dataset of <<SingleAction.md#, SingleActions>>
 
-* The <<CachedDS.adoc#name, name>> in the format *Delta Table State #version - [redactedPath]* (with the <<version, version>> and the <<redactedPath, redacted path>>)
+* The <<CachedDS.md#name, name>> in the format *Delta Table State #version - [redactedPath]* (with the <<version, version>> and the <<redactedPath, redacted path>>)
 
 Used when Snapshot is requested for the <<state, state>> (i.e. `Dataset[SingleAction]`)
 
 | metadata
-a| [[metadata]] <<Metadata.adoc#, Metadata>> of the current <<state, state>> of the <<deltaLog, delta table>>
+a| [[metadata]] <<Metadata.md#, Metadata>> of the current <<state, state>> of the <<deltaLog, delta table>>
 
 | protocol
-a| [[protocol]] <<Protocol.adoc#, Protocol>> of the current <<state, state>> of the <<deltaLog, delta table>>
+a| [[protocol]] <<Protocol.md#, Protocol>> of the current <<state, state>> of the <<deltaLog, delta table>>
 
 | setTransactions
-a| [[setTransactions]] <<SetTransaction.adoc#, SetTransactions>> of the current <<state, state>> of the <<deltaLog, delta table>>
+a| [[setTransactions]] <<SetTransaction.md#, SetTransactions>> of the current <<state, state>> of the <<deltaLog, delta table>>
 
 |===

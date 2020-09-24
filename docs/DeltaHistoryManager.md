@@ -29,7 +29,7 @@ getActiveCommitAtTime(
 
 `getActiveCommitAtTime`...FIXME
 
-NOTE: `getActiveCommitAtTime` is used exclusively when `DeltaTableUtils` utility is requested to <<DeltaTableUtils.adoc#resolveTimeTravelVersion, resolveTimeTravelVersion>>.
+NOTE: `getActiveCommitAtTime` is used exclusively when `DeltaTableUtils` utility is requested to <<DeltaTableUtils.md#resolveTimeTravelVersion, resolveTimeTravelVersion>>.
 
 == [[checkVersionExists]] `checkVersionExists` Method
 

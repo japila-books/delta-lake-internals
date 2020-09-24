@@ -19,7 +19,7 @@ isDeltaTable(
 
 `isDeltaTable` tries to <<findDeltaTableRoot, find the root directory of the delta table>> for the given path and returns whether it was successful or not.
 
-NOTE: `isDeltaTable` is used when `DeltaTable` utility is used to <<DeltaTable.adoc#forPath, create a DeltaTable>> or <<DeltaTable.adoc#isDeltaTable, check whether a directory is part of delta table or not>>.
+NOTE: `isDeltaTable` is used when `DeltaTable` utility is used to <<DeltaTable.md#forPath, create a DeltaTable>> or <<DeltaTable.md#isDeltaTable, check whether a directory is part of delta table or not>>.
 
 == [[findDeltaTableRoot]] findDeltaTableRoot Utility
 
@@ -38,11 +38,11 @@ For `_delta_log` or `_samples` directories, `findDeltaTableRoot` returns the par
 ====
 `findDeltaTableRoot` is used when:
 
-* <<VacuumTableCommand.adoc#, VacuumTableCommand>> is executed
+* <<VacuumTableCommand.md#, VacuumTableCommand>> is executed
 
 * `DeltaTableUtils` utility is used to <<isDeltaTable, isDeltaTable>>
 
-* `DeltaDataSource` is requested to <<DeltaDataSource.adoc#RelationProvider-createRelation, create a relation>>
+* `DeltaDataSource` is requested to <<DeltaDataSource.md#RelationProvider-createRelation, create a relation>>
 ====
 
 == [[resolveTimeTravelVersion]] resolveTimeTravelVersion Utility
@@ -57,7 +57,7 @@ resolveTimeTravelVersion(
 
 `resolveTimeTravelVersion`...FIXME
 
-NOTE: `resolveTimeTravelVersion` is used exclusively when `DeltaLog` is requested to <<DeltaLog.adoc#createRelation, create a relation (per partition filters and time travel)>>.
+NOTE: `resolveTimeTravelVersion` is used exclusively when `DeltaLog` is requested to <<DeltaLog.md#createRelation, create a relation (per partition filters and time travel)>>.
 
 == [[splitMetadataAndDataPredicates]] splitMetadataAndDataPredicates Utility
 
@@ -75,9 +75,9 @@ splitMetadataAndDataPredicates(
 ====
 `splitMetadataAndDataPredicates` is used when:
 
-* `PartitionFiltering` is requested to PartitionFiltering.adoc#filesForScan[filesForScan]
+* `PartitionFiltering` is requested to PartitionFiltering.md#filesForScan[filesForScan]
 
-* DeleteCommand.adoc[DeleteCommand] and UpdateCommand.adoc[UpdateCommand] are executed
+* DeleteCommand.md[DeleteCommand] and UpdateCommand.md[UpdateCommand] are executed
 ====
 
 == [[isPredicatePartitionColumnsOnly]] isPredicatePartitionColumnsOnly Utility

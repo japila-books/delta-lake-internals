@@ -1,7 +1,7 @@
 = VacuumCommand Utility -- Garbage Collecting Delta Table
 :navtitle: VacuumCommand
 
-*VacuumCommand* is a concrete <<VacuumCommandImpl.adoc#, VacuumCommandImpl>> for <<gc, gc>>.
+*VacuumCommand* is a concrete <<VacuumCommandImpl.md#, VacuumCommandImpl>> for <<gc, gc>>.
 
 == [[gc]] Garbage Collecting Of Delta Table -- gc Utility
 
@@ -15,7 +15,7 @@ gc(
   clock: Clock = new SystemClock): DataFrame
 ----
 
-gc requests the given `DeltaLog` to <<DeltaLog.adoc#update, update>> (and give the latest <<Snapshot.adoc#, Snapshot>> of the delta table).
+gc requests the given `DeltaLog` to <<DeltaLog.md#update, update>> (and give the latest <<Snapshot.md#, Snapshot>> of the delta table).
 
 [[gc-deleteBeforeTimestamp]]
 gc...FIXME (deleteBeforeTimestamp)
@@ -27,7 +27,7 @@ Starting garbage collection (dryRun = [dryRun]) of untracked files older than [d
 ```
 
 [[gc-validFiles]]
-gc requests the `Snapshot` for the <<Snapshot.adoc#state, state dataset>> and defines a function for every action (in a partition) that does the following:
+gc requests the `Snapshot` for the <<Snapshot.md#state, state dataset>> and defines a function for every action (in a partition) that does the following:
 
 . FIXME
 
@@ -60,9 +60,9 @@ In the end, gc unpersists the <<gc-allFilesAndDirs, allFilesAndDirs>> dataset.
 ====
 gc is used when:
 
-* `DeltaTableOperations` is requested to <<DeltaTableOperations.adoc#executeVacuum, execute vacuum command>> (for <<DeltaTable.adoc#vacuum, DeltaTable.vacuum>> operator)
+* `DeltaTableOperations` is requested to <<DeltaTableOperations.md#executeVacuum, execute vacuum command>> (for <<DeltaTable.md#vacuum, DeltaTable.vacuum>> operator)
 
-* <<VacuumTableCommand.adoc#, VacuumTableCommand>> is executed (for delta-sql.adoc#VACUUM[VACUUM] SQL command)
+* <<VacuumTableCommand.md#, VacuumTableCommand>> is executed (for delta-sql.md#VACUUM[VACUUM] SQL command)
 ====
 
 == [[checkRetentionPeriodSafety]] `checkRetentionPeriodSafety` Method
@@ -90,4 +90,4 @@ Add the following line to `conf/log4j.properties`:
 log4j.logger.org.apache.spark.sql.delta.commands.VacuumCommand=ALL
 ----
 
-Refer to logging.adoc[].
+Refer to logging.md[].

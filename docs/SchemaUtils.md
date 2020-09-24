@@ -17,7 +17,7 @@ mergeSchemas(
 ====
 `mergeSchemas` is used when:
 
-* `ConvertToDeltaCommand` is requested to ConvertToDeltaCommand.adoc#performConvert[performConvert] and ConvertToDeltaCommand.adoc#mergeSchemasInParallel[mergeSchemasInParallel]
+* `ConvertToDeltaCommand` is requested to ConvertToDeltaCommand.md#performConvert[performConvert] and ConvertToDeltaCommand.md#mergeSchemasInParallel[mergeSchemasInParallel]
 
-* `ImplicitMetadataOperation` is requested to ImplicitMetadataOperation.adoc#updateMetadata[update metadata]
+* `ImplicitMetadataOperation` is requested to ImplicitMetadataOperation.md#updateMetadata[update metadata]
 ====

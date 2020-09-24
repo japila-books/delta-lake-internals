@@ -1,10 +1,10 @@
 = [[DeltaSource]] DeltaSource -- Streaming Source of Delta Data Source
 
-`DeltaSource` is the streaming source of <<DeltaDataSource.adoc#, delta data source>> for streaming queries in Spark Structured Streaming.
+`DeltaSource` is the streaming source of <<DeltaDataSource.md#, delta data source>> for streaming queries in Spark Structured Streaming.
 
 TIP: Read up on https://jaceklaskowski.gitbooks.io/spark-structured-streaming/spark-sql-streaming-Source.html[Streaming Source] in https://bit.ly/spark-structured-streaming[The Internals of Spark Structured Streaming] online book.
 
-`DeltaSource` is <<creating-instance, created>> when `DeltaDataSource` is requested for a <<DeltaDataSource.adoc#createSource, streaming source>>.
+`DeltaSource` is <<creating-instance, created>> when `DeltaDataSource` is requested for a <<DeltaDataSource.md#createSource, streaming source>>.
 
 ```
 val q = spark
@@ -31,7 +31,7 @@ DeltaSource[file:/tmp/delta/users]
 ```
 
 [[maxFilesPerTrigger]]
-`DeltaSource` uses <<DeltaOptions.adoc#maxFilesPerTrigger, maxFilesPerTrigger>> option to limit the number of files to process when requested for the <<getChangesWithRateLimit, file additions (with rate limit)>>.
+`DeltaSource` uses <<DeltaOptions.md#maxFilesPerTrigger, maxFilesPerTrigger>> option to limit the number of files to process when requested for the <<getChangesWithRateLimit, file additions (with rate limit)>>.
 
 [[logging]]
 [TIP]
@@ -44,7 +44,7 @@ Add the following line to `conf/log4j.properties`:
 log4j.logger.org.apache.spark.sql.delta.sources.DeltaSource=ALL
 ```
 
-Refer to <<logging.adoc#, Logging>>.
+Refer to <<logging.md#, Logging>>.
 ====
 
 == [[creating-instance]] Creating DeltaSource Instance
@@ -52,8 +52,8 @@ Refer to <<logging.adoc#, Logging>>.
 `DeltaSource` takes the following to be created:
 
 * [[spark]] `SparkSession`
-* [[deltaLog]] <<DeltaLog.adoc#, DeltaLog>> of the delta table to read data (as <<getBatch, micro-batches>>) from
-* [[options]] <<DeltaOptions.adoc#, DeltaOptions>>
+* [[deltaLog]] <<DeltaLog.md#, DeltaLog>> of the delta table to read data (as <<getBatch, micro-batches>>) from
+* [[options]] <<DeltaOptions.md#, DeltaOptions>>
 * [[filters]] Filter expressions (default: no filters)
 
 `DeltaSource` initializes the <<internal-properties, internal properties>>.
@@ -69,7 +69,7 @@ getBatch(
 
 NOTE: `getBatch` is part of the `Source` contract (https://jaceklaskowski.gitbooks.io/spark-structured-streaming/spark-sql-streaming-Source.html[Spark Structured Streaming]) for a streaming `DataFrame` with data between the start and end offsets.
 
-`getBatch` creates an <<DeltaSourceOffset.adoc#, DeltaSourceOffset>> for the <<tableId, tableId>> (aka <<DeltaSourceOffset.adoc#reservoirId, reservoirId>>) and the given `end` offset.
+`getBatch` creates an <<DeltaSourceOffset.md#, DeltaSourceOffset>> for the <<tableId, tableId>> (aka <<DeltaSourceOffset.md#reservoirId, reservoirId>>) and the given `end` offset.
 
 `getBatch` <<getChanges, gets the changes>> as follows...FIXME
 
@@ -89,15 +89,15 @@ For no <<previousOffset, ending offset of the latest micro-batch>>, `getOffset` 
 
 When the <<previousOffset, ending offset of the latest micro-batch>> is defined (which means that the `DeltaSource` is requested for another micro-batch), `getOffset` takes the <<iteratorLast, last indexed AddFile>> from <<getChangesWithRateLimit, getChangesWithRateLimit>> for the <<previousOffset, previous ending offset>>. `getOffset` returns the <<previousOffset, previous ending offset>> when the last element was not available.
 
-With the <<previousOffset, ending offset of the latest micro-batch>> and the <<iteratorLast, last indexed AddFile>> both available, `getOffset` creates a new <<DeltaSourceOffset.adoc#, DeltaSourceOffset>> for the version, index, and `isLast` flag from the last indexed <<AddFile.adoc#, AddFile>>.
+With the <<previousOffset, ending offset of the latest micro-batch>> and the <<iteratorLast, last indexed AddFile>> both available, `getOffset` creates a new <<DeltaSourceOffset.md#, DeltaSourceOffset>> for the version, index, and `isLast` flag from the last indexed <<AddFile.md#, AddFile>>.
 
 [NOTE]
 ====
 `isStartingVersion` local value is enabled (`true`) when the following holds:
 
-* Version of the last indexed <<AddFile.adoc#, AddFile>> is equal to the <<DeltaSourceOffset.adoc#reservoirVersion, reservoirVersion>> of the <<previousOffset, previous ending offset>>
+* Version of the last indexed <<AddFile.md#, AddFile>> is equal to the <<DeltaSourceOffset.md#reservoirVersion, reservoirVersion>> of the <<previousOffset, previous ending offset>>
 
-* <<DeltaSourceOffset.adoc#isStartingVersion, isStartingVersion>> flag of the <<previousOffset, previous ending offset>> is enabled (`true`)
+* <<DeltaSourceOffset.md#isStartingVersion, isStartingVersion>> flag of the <<previousOffset, previous ending offset>> is enabled (`true`)
 ====
 
 In the end, `getOffset` prints out the following DEBUG message to the logs (using the <<previousOffset, previousOffset>> internal registry):
@@ -124,11 +124,11 @@ NOTE: `stop` is part of the streaming `Source` contract (https://jaceklaskowski.
 getStartingOffset(): Option[Offset]
 ----
 
-`getStartingOffset` requests the <<deltaLog, DeltaLog>> for the version of the delta table (by requesting for the <<DeltaLog.adoc#snapshot, current state (snapshot)>> and then for the <<Snapshot.adoc#version, version>>).
+`getStartingOffset` requests the <<deltaLog, DeltaLog>> for the version of the delta table (by requesting for the <<DeltaLog.md#snapshot, current state (snapshot)>> and then for the <<Snapshot.md#version, version>>).
 
 `getStartingOffset` <<iteratorLast, takes the last file>> from the <<getChangesWithRateLimit, files added (with rate limit)>> for the version of the delta table, `-1L` as the `fromIndex`, and the `isStartingVersion` flag enabled (`true`).
 
-`getStartingOffset` returns a new <<DeltaSourceOffset.adoc#, DeltaSourceOffset>> for the <<tableId, tableId>>, the version and the index of the last file added, and whether the last file added is the last file of its version.
+`getStartingOffset` returns a new <<DeltaSourceOffset.md#, DeltaSourceOffset>> for the <<tableId, tableId>>, the version and the index of the last file added, and whether the last file added is the last file of its version.
 
 `getStartingOffset` returns `None` (_offset not available_) when either happens:
 
@@ -166,12 +166,12 @@ getChanges(
 
 `isStartingVersion` flag is enabled when `DeltaSource` is requested for the following:
 
-* <<getBatch, Micro-batch with data between start and end offsets>> and the start offset is not given or is for the <<DeltaSourceOffset.adoc#isStartingVersion, starting version>>
+* <<getBatch, Micro-batch with data between start and end offsets>> and the start offset is not given or is for the <<DeltaSourceOffset.md#isStartingVersion, starting version>>
 
-* <<getOffset, Latest available offset>> with no <<previousOffset, end offset of the latest micro-batch>> or the <<previousOffset, end offset of the latest micro-batch>> for the <<DeltaSourceOffset.adoc#isStartingVersion, starting version>>
+* <<getOffset, Latest available offset>> with no <<previousOffset, end offset of the latest micro-batch>> or the <<previousOffset, end offset of the latest micro-batch>> for the <<DeltaSourceOffset.md#isStartingVersion, starting version>>
 ====
 
-In the end, `getChanges` filters out (_excludes_) indexed <<AddFile.adoc#, AddFiles>> that are not with the version later than the given `fromVersion` or the index greater than the given `fromIndex`.
+In the end, `getChanges` filters out (_excludes_) indexed <<AddFile.md#, AddFiles>> that are not with the version later than the given `fromVersion` or the index greater than the given `fromIndex`.
 
 NOTE: `getChanges` is used when `DeltaSource` is requested for the <<getOffset, latest available offset>> (when requested for the <<getChangesWithRateLimit, files added (with rate limit)>>) and <<getBatch, getBatch>>.
 
@@ -195,9 +195,9 @@ getChangesWithRateLimit(
   isStartingVersion: Boolean): Iterator[IndexedFile]
 ----
 
-`getChangesWithRateLimit` <<getChanges, get the changes>> (as indexed <<AddFile.adoc#, AddFiles>>) for the given `fromVersion`, `fromIndex`, and `isStartingVersion` flag.
+`getChangesWithRateLimit` <<getChanges, get the changes>> (as indexed <<AddFile.md#, AddFiles>>) for the given `fromVersion`, `fromIndex`, and `isStartingVersion` flag.
 
-`getChangesWithRateLimit` takes the configured number of `AddFiles` (up to the <<maxFilesPerTrigger, maxFilesPerTrigger>> option (if defined) or <<DeltaOptions.adoc#MAX_FILES_PER_TRIGGER_OPTION_DEFAULT, 1000>>).
+`getChangesWithRateLimit` takes the configured number of `AddFiles` (up to the <<maxFilesPerTrigger, maxFilesPerTrigger>> option (if defined) or <<DeltaOptions.md#MAX_FILES_PER_TRIGGER_OPTION_DEFAULT, 1000>>).
 
 NOTE: `getChangesWithRateLimit` is used when `DeltaSource` is requested for the <<getOffset, latest available offset>>.
 
@@ -209,15 +209,15 @@ getSnapshotAt(
   version: Long): Iterator[IndexedFile]
 ----
 
-`getSnapshotAt` requests the <<initialState, DeltaSourceSnapshot>> for the <<SnapshotIterator.adoc#iterator, data files>> (as indexed <<AddFile.adoc#, AddFiles>>).
+`getSnapshotAt` requests the <<initialState, DeltaSourceSnapshot>> for the <<SnapshotIterator.md#iterator, data files>> (as indexed <<AddFile.md#, AddFiles>>).
 
 In case the <<initialState, DeltaSourceSnapshot>> hasn't been initialized yet (`null`) or the requested version is different from the <<initialStateVersion, initialStateVersion>>, `getSnapshotAt` does the following:
 
 . <<cleanUpSnapshotResources, cleanUpSnapshotResources>>
 
-. Requests the <<deltaLog, DeltaLog>> for the <<DeltaLog.adoc#getSnapshotAt, state (snapshot) of the delta table>> at the version
+. Requests the <<deltaLog, DeltaLog>> for the <<DeltaLog.md#getSnapshotAt, state (snapshot) of the delta table>> at the version
 
-. Creates a new <<DeltaSourceSnapshot.adoc#, DeltaSourceSnapshot>> for the state (snapshot) as the current <<initialState, DeltaSourceSnapshot>>
+. Creates a new <<DeltaSourceSnapshot.md#, DeltaSourceSnapshot>> for the state (snapshot) as the current <<initialState, DeltaSourceSnapshot>>
 
 . Changes the <<initialStateVersion, initialStateVersion>> internal registry to the requested version
 
@@ -266,7 +266,7 @@ NOTE: `iteratorLast` is used when `DeltaSource` is requested to <<getStartingOff
 | Description
 
 | initialState
-a| [[initialState]] <<DeltaSourceSnapshot.adoc#, DeltaSourceSnapshot>>
+a| [[initialState]] <<DeltaSourceSnapshot.md#, DeltaSourceSnapshot>>
 
 Initially uninitialized (`null`).
 
@@ -284,7 +284,7 @@ Initially `-1L` and changes (along with the <<initialState, initialState>>) to t
 Used when `DeltaSource` is requested to <<cleanUpSnapshotResources, cleanUpSnapshotResources>> (and unpersist the current snapshot)
 
 | previousOffset
-a| [[previousOffset]] Ending <<DeltaSourceOffset.adoc#, DeltaSourceOffset>> of the latest <<getBatch, micro-batch>>
+a| [[previousOffset]] Ending <<DeltaSourceOffset.md#, DeltaSourceOffset>> of the latest <<getBatch, micro-batch>>
 
 Starts uninitialized (`null`).
 

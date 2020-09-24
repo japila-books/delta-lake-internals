@@ -1,14 +1,14 @@
 = [[TahoeBatchFileIndex]] TahoeBatchFileIndex
 
-`TahoeBatchFileIndex` is a concrete <<TahoeFileIndex.adoc#, file index>> for a given <<snapshot, version>> of a <<deltaLog, delta table>>.
+`TahoeBatchFileIndex` is a concrete <<TahoeFileIndex.md#, file index>> for a given <<snapshot, version>> of a <<deltaLog, delta table>>.
 
 `TahoeBatchFileIndex` is <<creating-instance, created>> when:
 
-* `DeltaLog` is requested for a <<DeltaLog.adoc#createDataFrame, DataFrame for given AddFiles>> (for <<MergeIntoCommand.adoc#, MergeIntoCommand>> and <<DeltaSource.adoc#getBatch, DeltaSource>>)
+* `DeltaLog` is requested for a <<DeltaLog.md#createDataFrame, DataFrame for given AddFiles>> (for <<MergeIntoCommand.md#, MergeIntoCommand>> and <<DeltaSource.md#getBatch, DeltaSource>>)
 
-* <<DeleteCommand.adoc#, DeleteCommand>> and <<UpdateCommand.adoc#, UpdateCommand>> are executed
+* <<DeleteCommand.md#, DeleteCommand>> and <<UpdateCommand.md#, UpdateCommand>> are executed
 
-* `DeltaCommand` is requested for a <<DeltaCommand.adoc#buildBaseRelation, HadoopFsRelation>> (for <<DeleteCommand.adoc#, DeleteCommand>> and <<UpdateCommand.adoc#, UpdateCommand>>)
+* `DeltaCommand` is requested for a <<DeltaCommand.md#buildBaseRelation, HadoopFsRelation>> (for <<DeleteCommand.md#, DeleteCommand>> and <<UpdateCommand.md#, UpdateCommand>>)
 
 == [[creating-instance]] Creating TahoeBatchFileIndex Instance
 
@@ -16,10 +16,10 @@
 
 * [[spark]] `SparkSession`
 * [[actionType]] Action type
-* [[addFiles]] <<AddFile.adoc#, AddFiles>> (`Seq[AddFile]`)
-* [[deltaLog]] <<DeltaLog.adoc#, DeltaLog>>
+* [[addFiles]] <<AddFile.md#, AddFiles>> (`Seq[AddFile]`)
+* [[deltaLog]] <<DeltaLog.md#, DeltaLog>>
 * [[path]] Data directory of the delta table (as Hadoop https://hadoop.apache.org/docs/r2.6.5/api/org/apache/hadoop/fs/Path.html[Path])
-* [[snapshot]] <<Snapshot.adoc#, Snapshot>>
+* [[snapshot]] <<Snapshot.md#, Snapshot>>
 
 `TahoeBatchFileIndex` initializes the <<internal-properties, internal properties>>.
 
@@ -30,7 +30,7 @@
 tableVersion: Long
 ----
 
-NOTE: `tableVersion` is part of the <<TahoeFileIndex.adoc#tableVersion, TahoeFileIndex>> contract for the version of the delta table.
+NOTE: `tableVersion` is part of the <<TahoeFileIndex.md#tableVersion, TahoeFileIndex>> contract for the version of the delta table.
 
 `tableVersion`...FIXME
 
@@ -44,7 +44,7 @@ matchingFiles(
   keepStats: Boolean = false): Seq[AddFile]
 ----
 
-NOTE: `matchingFiles` is part of the <<TahoeFileIndex.adoc#matchingFiles, TahoeFileIndex Contract>> for the matching (valid) files by the given filtering expressions.
+NOTE: `matchingFiles` is part of the <<TahoeFileIndex.md#matchingFiles, TahoeFileIndex Contract>> for the matching (valid) files by the given filtering expressions.
 
 `matchingFiles`...FIXME
 
@@ -68,7 +68,7 @@ partitionSchema: StructType
 
 NOTE: `partitionSchema` is part of the `FileIndex` contract (Spark SQL) to get the schema of the partition columns (if used).
 
-`partitionSchema` simply requests the <<snapshot, Snapshot>> for the <<Snapshot.adoc#metadata, metadata>> that is in turn requested for the <<Metadata.adoc#partitionSchema, partitionSchema>>.
+`partitionSchema` simply requests the <<snapshot, Snapshot>> for the <<Snapshot.md#metadata, metadata>> that is in turn requested for the <<Metadata.md#partitionSchema, partitionSchema>>.
 
 == [[sizeInBytes]] `sizeInBytes` Property
 
@@ -79,4 +79,4 @@ sizeInBytes: Long
 
 NOTE: `sizeInBytes` is part of the `FileIndex` contract (Spark SQL) for the table size (in bytes).
 
-`sizeInBytes` is simply a sum of the <<AddFile.adoc#size, size>> of all <<addFiles, AddFiles>>.
+`sizeInBytes` is simply a sum of the <<AddFile.md#size, size>> of all <<addFiles, AddFiles>>.

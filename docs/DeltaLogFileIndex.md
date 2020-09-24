@@ -3,10 +3,10 @@
 [[creating-instance]]
 `DeltaLogFileIndex` is a `FileIndex` (Spark SQL) that takes the following to be created:
 
-* [[format]] One of the supported <<DeltaLog.adoc#FileFormats, FileFormats>>
+* [[format]] One of the supported <<DeltaLog.md#FileFormats, FileFormats>>
 * [[files]] `Array[FileStatus]` (Hadoop)
 
-`DeltaLogFileIndex` is <<creating-instance, created>> (directly or indirectly using <<apply, apply>> utility) when `DeltaLog` is requested for the <<DeltaLog.adoc#currentSnapshot, currentSnapshot>>, to <<updateInternal, updateInternal>> and <<getSnapshotAt, getSnapshotAt>>.
+`DeltaLogFileIndex` is <<creating-instance, created>> (directly or indirectly using <<apply, apply>> utility) when `DeltaLog` is requested for the <<DeltaLog.md#currentSnapshot, currentSnapshot>>, to <<updateInternal, updateInternal>> and <<getSnapshotAt, getSnapshotAt>>.
 
 == [[apply]] `apply` Utility
 
@@ -20,4 +20,4 @@ apply(
 
 `apply` simply creates a new `DeltaLogFileIndex`.
 
-NOTE: `apply` is used when `DeltaLog` is requested for the <<DeltaLog.adoc#currentSnapshot, currentSnapshot>>, to <<updateInternal, updateInternal>> and <<getSnapshotAt, getSnapshotAt>>.
+NOTE: `apply` is used when `DeltaLog` is requested for the <<DeltaLog.md#currentSnapshot, currentSnapshot>>, to <<updateInternal, updateInternal>> and <<getSnapshotAt, getSnapshotAt>>.

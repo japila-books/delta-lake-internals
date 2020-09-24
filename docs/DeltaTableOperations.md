@@ -1,10 +1,10 @@
 = [[DeltaTableOperations]] DeltaTableOperations -- Delta DML Operations
 
 [[self]]
-`DeltaTableOperations` is the <<contract, abstraction>> of <<implementations, management services>> of a <<DeltaTable.adoc#, DeltaTable>> for executing <<executeDelete, delete>>, <<executeHistory, history>>, <<executeUpdate, update>>, and <<executeVacuum, vacuum>> commands.
+`DeltaTableOperations` is the <<contract, abstraction>> of <<implementations, management services>> of a <<DeltaTable.md#, DeltaTable>> for executing <<executeDelete, delete>>, <<executeHistory, history>>, <<executeUpdate, update>>, and <<executeVacuum, vacuum>> commands.
 
 [[implementations]]
-NOTE: <<DeltaTable.adoc#, DeltaTable>> is the default and only known `DeltaTableOperations` in Delta Lake.
+NOTE: <<DeltaTable.md#, DeltaTable>> is the default and only known `DeltaTableOperations` in Delta Lake.
 
 NOTE: <<executeDelete, Delete>> and <<executeUpdate, Update>> operations do not support subqueries (and <<subqueryNotSupportedCheck, throw an AnalysisException>> otherwise).
 
@@ -17,9 +17,9 @@ executeGenerate(
   mode: String): Unit
 ----
 
-`executeGenerate` requests the SQL parser (of the `SparkSession`) to parse the given table identifier, creates a <<DeltaGenerateCommand.adoc#, DeltaGenerateCommand>> and runs it.
+`executeGenerate` requests the SQL parser (of the `SparkSession`) to parse the given table identifier, creates a <<DeltaGenerateCommand.md#, DeltaGenerateCommand>> and runs it.
 
-NOTE: `executeGenerate` is used in <<DeltaTable.adoc#generate, DeltaTable.generate>> operator.
+NOTE: `executeGenerate` is used in <<DeltaTable.md#generate, DeltaTable.generate>> operator.
 
 == [[executeDelete]] Executing Delete Command -- `executeDelete` Method
 
@@ -33,11 +33,11 @@ executeDelete(
 
 NOTE: FIXME What's the purpose of all this resolutions?
 
-In the end, `executeDelete` simply creates a <<DeleteCommand.adoc#, DeleteCommand>> (for the resolved delete) and <<DeleteCommand.adoc#run, executes it>>.
+In the end, `executeDelete` simply creates a <<DeleteCommand.md#, DeleteCommand>> (for the resolved delete) and <<DeleteCommand.md#run, executes it>>.
 
 `executeDelete` <<subqueryNotSupportedCheck, throws an AnalysisException>> when the `condition` expression contains subqueries.
 
-NOTE: `executeDelete` is used in <<DeltaTable.adoc#delete, DeltaTable.delete>> operator.
+NOTE: `executeDelete` is used in <<DeltaTable.md#delete, DeltaTable.delete>> operator.
 
 == [[executeHistory]] `executeHistory` Method
 
@@ -74,11 +74,11 @@ executeVacuum(
   retentionHours: Option[Double]): DataFrame
 ----
 
-`executeVacuum` simply uses the `VacuumCommand` utility to <<VacuumCommand.adoc#gc, gc>> (with the `dryRun` flag off) and returns an empty `DataFrame`.
+`executeVacuum` simply uses the `VacuumCommand` utility to <<VacuumCommand.md#gc, gc>> (with the `dryRun` flag off) and returns an empty `DataFrame`.
 
-NOTE: `executeVacuum` returns an empty `DataFrame` not the one from <<VacuumCommand.adoc#gc, VacuumCommand.gc>>.
+NOTE: `executeVacuum` returns an empty `DataFrame` not the one from <<VacuumCommand.md#gc, VacuumCommand.gc>>.
 
-NOTE: `executeVacuum` is used exclusively in <<DeltaTable.adoc#vacuum, DeltaTable.vacuum>> operator.
+NOTE: `executeVacuum` is used exclusively in <<DeltaTable.md#vacuum, DeltaTable.vacuum>> operator.
 
 == [[makeUpdateTable]] `makeUpdateTable` Method
 

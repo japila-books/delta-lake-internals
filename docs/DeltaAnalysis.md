@@ -9,7 +9,7 @@ DeltaAnalysis takes the following to be created:
 * [[session]] SparkSession
 * [[conf]] SQLConf
 
-DeltaAnalysis is created when DeltaSparkSessionExtension is requested to DeltaSparkSessionExtension.adoc#apply[register Delta SQL support].
+DeltaAnalysis is created when DeltaSparkSessionExtension is requested to DeltaSparkSessionExtension.md#apply[register Delta SQL support].
 
 == [[apply]] Executing Rule
 

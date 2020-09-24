@@ -1,6 +1,6 @@
 = PostCommitHook
 
-*PostCommitHook* is an <<contract, abstraction>> of <<implementations, post-commit hooks>> that have a <<name, user-friendly name>> and can be <<run, executed>> (when `OptimisticTransactionImpl` is <<OptimisticTransactionImpl.adoc#commit, committed>>).
+*PostCommitHook* is an <<contract, abstraction>> of <<implementations, post-commit hooks>> that have a <<name, user-friendly name>> and can be <<run, executed>> (when `OptimisticTransactionImpl` is <<OptimisticTransactionImpl.md#commit, committed>>).
 
 [[contract]]
 .PostCommitHook Contract
@@ -21,7 +21,7 @@ handleError(
 
 Handles an error while <<run, running the post-commit hook>>
 
-Used when `OptimisticTransactionImpl` is requested to <<OptimisticTransactionImpl.adoc#runPostCommitHooks, run post-commit hooks>> (when <<OptimisticTransactionImpl.adoc#commit, committed>>)
+Used when `OptimisticTransactionImpl` is requested to <<OptimisticTransactionImpl.md#runPostCommitHooks, run post-commit hooks>> (when <<OptimisticTransactionImpl.md#commit, committed>>)
 
 | name
 a| [[name]]
@@ -35,11 +35,11 @@ User-friendly name of the hook for error reporting
 
 Used when:
 
-* `DeltaErrors` utility is used to <<DeltaErrors.adoc#postCommitHookFailedException, report an post-commit hook failure>>
+* `DeltaErrors` utility is used to <<DeltaErrors.md#postCommitHookFailedException, report an post-commit hook failure>>
 
-* `OptimisticTransactionImpl` is requested to <<OptimisticTransactionImpl.adoc#runPostCommitHooks, run post-commit hooks>> (when <<OptimisticTransactionImpl.adoc#commit, committed>>)
+* `OptimisticTransactionImpl` is requested to <<OptimisticTransactionImpl.md#runPostCommitHooks, run post-commit hooks>> (when <<OptimisticTransactionImpl.md#commit, committed>>)
 
-* `GenerateSymlinkManifestImpl` is requested to <<GenerateSymlinkManifest.adoc#handleError, handle an error>>
+* `GenerateSymlinkManifestImpl` is requested to <<GenerateSymlinkManifest.md#handleError, handle an error>>
 
 | run
 a| [[run]]
@@ -54,9 +54,9 @@ run(
 
 Executes the post-commit hook
 
-Used when `OptimisticTransactionImpl` is requested to <<OptimisticTransactionImpl.adoc#runPostCommitHooks, run post-commit hooks>> (when <<OptimisticTransactionImpl.adoc#commit, committed>>)
+Used when `OptimisticTransactionImpl` is requested to <<OptimisticTransactionImpl.md#runPostCommitHooks, run post-commit hooks>> (when <<OptimisticTransactionImpl.md#commit, committed>>)
 
 |===
 
 [[implementations]]
-NOTE: <<GenerateSymlinkManifest.adoc#GenerateSymlinkManifestImpl, GenerateSymlinkManifestImpl>> is the default and only known PostCommitHook in Delta Lake.
+NOTE: <<GenerateSymlinkManifest.md#GenerateSymlinkManifestImpl, GenerateSymlinkManifestImpl>> is the default and only known PostCommitHook in Delta Lake.

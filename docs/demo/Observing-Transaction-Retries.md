@@ -1,12 +1,12 @@
 = Demo: Observing Transaction Retries
 
-Enable `ALL` logging level for ROOT:OptimisticTransaction.adoc#logging[org.apache.spark.sql.delta.OptimisticTransaction] logger. You'll be looking for the following DEBUG message in the logs:
+Enable `ALL` logging level for ROOT:OptimisticTransaction.md#logging[org.apache.spark.sql.delta.OptimisticTransaction] logger. You'll be looking for the following DEBUG message in the logs:
 
 ```
 Attempting to commit version [version] with 13 actions with Serializable isolation level
 ```
 
-Start with <<Debugging-Delta-Lake-Using-IntelliJ-IDEA.adoc#, Debugging Delta Lake Using IntelliJ IDEA>> and place the following line breakpoints in `OptimisticTransactionImpl`:
+Start with <<Debugging-Delta-Lake-Using-IntelliJ-IDEA.md#, Debugging Delta Lake Using IntelliJ IDEA>> and place the following line breakpoints in `OptimisticTransactionImpl`:
 
 . In `OptimisticTransactionImpl.doCommit` when a transaction is about to `deltaLog.store.write` (line 388)
 
@@ -14,9 +14,9 @@ Start with <<Debugging-Delta-Lake-Using-IntelliJ-IDEA.adoc#, Debugging Delta Lak
 
 . In `OptimisticTransactionImpl.checkAndRetry` when a transaction calculates `nextAttemptVersion` (line 453)
 
-In order to interfere with a transaction about to be committed, you will use ROOT:WriteIntoDelta.adoc[WriteIntoDelta] action (it is simple and does the work).
+In order to interfere with a transaction about to be committed, you will use ROOT:WriteIntoDelta.md[WriteIntoDelta] action (it is simple and does the work).
 
-Run the command (copy and paste the ROOT:WriteIntoDelta.adoc#demo[demo code] to `spark-shell` using paste mode). You should see the following messages in the logs:
+Run the command (copy and paste the ROOT:WriteIntoDelta.md#demo[demo code] to `spark-shell` using paste mode). You should see the following messages in the logs:
 
 ```
 scala> writeCmd.run(spark)

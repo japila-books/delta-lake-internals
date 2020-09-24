@@ -11,17 +11,17 @@
 deltaLog: DeltaLog
 ----
 
-DeltaLog.adoc[] (of a delta table) that this transaction is changing
+DeltaLog.md[] (of a delta table) that this transaction is changing
 
 Used when:
 
-* `OptimisticTransactionImpl` is requested to <<OptimisticTransactionImpl.adoc#prepareCommit, prepare a commit>>, <<OptimisticTransactionImpl.adoc#doCommit, doCommit>> (after <<DeltaLog.adoc#lockInterruptibly, acquiring an interruptible lock on the log>>), <<OptimisticTransactionImpl.adoc#checkAndRetry, checkAndRetry>>, and <<OptimisticTransactionImpl.adoc#postCommit, perform post-commit operations>> (and execute <<Checkpoints.adoc#checkpoint, delta log checkpoint>>)
+* `OptimisticTransactionImpl` is requested to <<OptimisticTransactionImpl.md#prepareCommit, prepare a commit>>, <<OptimisticTransactionImpl.md#doCommit, doCommit>> (after <<DeltaLog.md#lockInterruptibly, acquiring an interruptible lock on the log>>), <<OptimisticTransactionImpl.md#checkAndRetry, checkAndRetry>>, and <<OptimisticTransactionImpl.md#postCommit, perform post-commit operations>> (and execute <<Checkpoints.md#checkpoint, delta log checkpoint>>)
 
-* <<ConvertToDeltaCommand.adoc#, ConvertToDeltaCommand>> and <<MergeIntoCommand.adoc#, MergeIntoCommand>> are executed
+* <<ConvertToDeltaCommand.md#, ConvertToDeltaCommand>> and <<MergeIntoCommand.md#, MergeIntoCommand>> are executed
 
-* `DeltaCommand` is requested to <<DeltaCommand.adoc#buildBaseRelation, buildBaseRelation>>
+* `DeltaCommand` is requested to <<DeltaCommand.md#buildBaseRelation, buildBaseRelation>>
 
-* `DeltaLog` is requested to <<DeltaLog.adoc#createDataFrame, createDataFrame>>
+* `DeltaLog` is requested to <<DeltaLog.md#createDataFrame, createDataFrame>>
 
 * TransactionalWrite is requested to <<writeFiles, write a structured query out to a delta table>>
 
@@ -32,7 +32,7 @@ Used when:
 metadata: Metadata
 ----
 
-Metadata.adoc[] (of the <<deltaLog, delta table>>) that this transaction is changing
+Metadata.md[] (of the <<deltaLog, delta table>>) that this transaction is changing
 
 === [[protocol]] protocol
 
@@ -41,9 +41,9 @@ Metadata.adoc[] (of the <<deltaLog, delta table>>) that this transaction is chan
 protocol: Protocol
 ----
 
-Protocol.adoc[] (of the <<deltaLog, delta table>>) that this transaction is changing
+Protocol.md[] (of the <<deltaLog, delta table>>) that this transaction is changing
 
-Used when AlterTableSetPropertiesDeltaCommand.adoc[] is executed (to DeltaConfigs.adoc#verifyProtocolVersionRequirements[verifyProtocolVersionRequirements])
+Used when AlterTableSetPropertiesDeltaCommand.md[] is executed (to DeltaConfigs.md#verifyProtocolVersionRequirements[verifyProtocolVersionRequirements])
 
 === [[snapshot]] snapshot
 
@@ -52,11 +52,11 @@ Used when AlterTableSetPropertiesDeltaCommand.adoc[] is executed (to DeltaConfig
 snapshot: Snapshot
 ----
 
-Snapshot.adoc[] (of the <<deltaLog, delta table>>) that this transaction is <<OptimisticTransactionImpl.adoc#readVersion, reading at>>
+Snapshot.md[] (of the <<deltaLog, delta table>>) that this transaction is <<OptimisticTransactionImpl.md#readVersion, reading at>>
 
 == [[implementations]][[self]] Implementations
 
-OptimisticTransaction.adoc[] is the default and only known TransactionalWrite in Delta Lake (indirectly as a OptimisticTransactionImpl.adoc[]).
+OptimisticTransaction.md[] is the default and only known TransactionalWrite in Delta Lake (indirectly as a OptimisticTransactionImpl.md[]).
 
 ## <span id="writeFiles"> Writing Data Out (Result Of Structured Query)
 
@@ -118,7 +118,7 @@ getCommitter(
   outputPath: Path): DelayedCommitProtocol
 ----
 
-getCommitter creates a new <<DelayedCommitProtocol.adoc#, DelayedCommitProtocol>> with the *delta* job ID and the given `outputPath` (and no random prefix).
+getCommitter creates a new <<DelayedCommitProtocol.md#, DelayedCommitProtocol>> with the *delta* job ID and the given `outputPath` (and no random prefix).
 
 getCommitter is used when TransactionalWrite is requested to <<writeFiles, write out a streaming query>>.
 
@@ -168,6 +168,6 @@ getPartitioningColumns is used when...FIXME
 hasWritten: Boolean = false
 ----
 
-TransactionalWrite uses the hasWritten internal registry to prevent `OptimisticTransactionImpl` from <<OptimisticTransactionImpl.adoc#updateMetadata, updating metadata>> after <<writeFiles, having written out any files>>.
+TransactionalWrite uses the hasWritten internal registry to prevent `OptimisticTransactionImpl` from <<OptimisticTransactionImpl.md#updateMetadata, updating metadata>> after <<writeFiles, having written out any files>>.
 
 hasWritten is initially turned off (`false`). It can be turned on (`true`) when TransactionalWrite is requested to <<writeFiles, write files out>>.
