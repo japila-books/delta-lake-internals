@@ -6,8 +6,8 @@
 
 SQL Statement | Logical Command
 -------------|----------
- [CONVERT TO DELTA](index.md#CONVERT-TO-DELTA) | [ConvertToDeltaCommand](../ConvertToDeltaCommand.md)
- [DESCRIBE DETAIL](index.md#DESCRIBE-DETAIL) | [DescribeDeltaDetailCommand](../DescribeDeltaDetailCommand.md)
- [DESCRIBE HISTORY](index.md#DESCRIBE-HISTORY) | [DescribeDeltaHistoryCommand](../DescribeDeltaHistoryCommand.md)
- [GENERATE](index.md#GENERATE) | [DeltaGenerateCommand](../DeltaGenerateCommand.md)
- [VACUUM](index.md#VACUUM) | [VacuumTableCommand](../VacuumTableCommand.md)
+ [CONVERT TO DELTA](index.md#CONVERT-TO-DELTA) | [ConvertToDeltaCommand](../commands/ConvertToDeltaCommand.md)
+ [DESCRIBE DETAIL](index.md#DESCRIBE-DETAIL) | [DescribeDeltaDetailCommand](../commands/DescribeDeltaDetailCommand.md)
+ [DESCRIBE HISTORY](index.md#DESCRIBE-HISTORY) | [DescribeDeltaHistoryCommand](../commands/DescribeDeltaHistoryCommand.md)
+ [GENERATE](index.md#GENERATE) | [DeltaGenerateCommand](../commands/DeltaGenerateCommand.md)
+ [VACUUM](index.md#VACUUM) | [VacuumTableCommand](../commands/VacuumTableCommand.md)

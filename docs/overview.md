@@ -13,7 +13,7 @@ Delta Lake uses [OptimisticTransaction](OptimisticTransaction.md) for [transacti
 
 Structured queries can write (transactionally) to a delta table using the following interfaces:
 
-* [WriteIntoDelta](WriteIntoDelta.md) command for batch queries (Spark SQL)
+* [WriteIntoDelta](commands/WriteIntoDelta.md) command for batch queries (Spark SQL)
 
 * [DeltaSink](DeltaSink.md) for streaming queries (Spark Structured Streaming)
 

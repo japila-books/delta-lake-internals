@@ -1,4 +1,4 @@
-= GenerateSymlinkManifest (And GenerateSymlinkManifestImpl)
+# GenerateSymlinkManifest (And GenerateSymlinkManifestImpl)
 
 [[GenerateSymlinkManifest]]
 `GenerateSymlinkManifest` is a concrete <<GenerateSymlinkManifestImpl, post-commit hook>> to generate <<generateIncrementalManifest, incremental>> and <<generateFullManifest, full>> Hive-style manifests for delta tables.

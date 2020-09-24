@@ -2,7 +2,7 @@
 
 **Operation** is an [abstraction](#contract) of [operations](#implementations) that can be executed on Delta tables.
 
-Operation is described by a [name](#name) and [parameters](#parameters) (that are simply used to create a [CommitInfo](CommitInfo.md) for `OptimisticTransactionImpl` when [committed](OptimisticTransactionImpl.md#commit) and, as a way to bypass a transaction, [ConvertToDeltaCommand](ConvertToDeltaCommand.md)).
+Operation is described by a [name](#name) and [parameters](#parameters) (that are simply used to create a [CommitInfo](CommitInfo.md) for `OptimisticTransactionImpl` when [committed](OptimisticTransactionImpl.md#commit) and, as a way to bypass a transaction, [ConvertToDeltaCommand](commands/ConvertToDeltaCommand.md)).
 
 Operation may have [performance metrics](#operationMetrics).
 
@@ -70,7 +70,7 @@ jsonEncodedValues: Map[String, String]
 `jsonEncodedValues` is used when:
 
 * `OptimisticTransactionImpl` is requested to [commit](OptimisticTransactionImpl.md#commit)
-* `ConvertToDeltaCommand` command is requested to [streamWrite](ConvertToDeltaCommand.md#streamWrite)
+* `ConvertToDeltaCommand` command is requested to [streamWrite](commands/ConvertToDeltaCommand.md#streamWrite)
 
 ## <span id="operationMetrics"> operationMetrics Registry
 

@@ -151,7 +151,7 @@ In the end, `withNewTransaction` makes the transaction [no longer active](Optimi
 
 `withNewTransaction` is used when:
 
-* [DeleteCommand](DeleteCommand.md), [MergeIntoCommand](commands/MergeIntoCommand.md), [UpdateCommand](UpdateCommand.md), and [WriteIntoDelta](WriteIntoDelta.md) commands are executed
+* [DeleteCommand](commands/DeleteCommand.md), [MergeIntoCommand](commands/MergeIntoCommand.md), [UpdateCommand](commands/UpdateCommand.md), and [WriteIntoDelta](commands/WriteIntoDelta.md) commands are executed
 
 * `DeltaSink` is requested to [add a streaming micro-batch](DeltaSink.md#addBatch)
 

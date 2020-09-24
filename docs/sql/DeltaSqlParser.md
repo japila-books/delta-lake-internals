@@ -14,4 +14,6 @@
 
 ## <span id="builder"> DeltaSqlAstBuilder
 
-`DeltaSqlParser` uses [DeltaSqlAstBuilder](DeltaSqlAstBuilder.md) to convert an AST to a `LogicalPlan`.
+`DeltaSqlParser` uses [DeltaSqlAstBuilder](DeltaSqlAstBuilder.md) to convert SQL statements to their runtime representation (as a `LogicalPlan`).
+
+In case an AST could not be converted to a `LogicalPlan`, `DeltaSqlAstBuilder` requests the [delegate ParserInterface](#delegate) to parse it.

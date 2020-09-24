@@ -107,7 +107,7 @@ writeFiles [creates a DelayedCommitProtocol committer](#getCommitter) for the [d
 
 `writeFiles` is used when:
 
-* [DeleteCommand](DeleteCommand.md), [MergeIntoCommand](commands/MergeIntoCommand.md), [UpdateCommand](UpdateCommand.md), and [WriteIntoDelta](WriteIntoDelta.md) commands are executed
+* [DeleteCommand](commands/DeleteCommand.md), [MergeIntoCommand](commands/MergeIntoCommand.md), [UpdateCommand](commands/UpdateCommand.md), and [WriteIntoDelta](commands/WriteIntoDelta.md) commands are executed
 * `DeltaSink` is requested to [add a streaming micro-batch](DeltaSink.md#addBatch)
 
 == [[getCommitter]] Creating Committer

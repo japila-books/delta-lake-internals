@@ -165,10 +165,9 @@ nav:
     - DeltaSqlParser: sql/DeltaSqlParser.md
     - DeltaSqlAstBuilder: sql/DeltaSqlAstBuilder.md
   - Commands:
-    - Delta Commands: commands/index.md
-    - DeltaCommand: DeltaCommand.md
+    - DeltaCommand: commands/DeltaCommand.md
     - AlterDeltaTableCommand:
-      - AlterDeltaTableCommand.md
+      - AlterDeltaTableCommand: commands/AlterDeltaTableCommand.md
       - AlterTableAddColumnsDeltaCommand.md
       - AlterTableChangeColumnDeltaCommand.md
       - AlterTableReplaceColumnsDeltaCommand.md
@@ -176,16 +175,16 @@ nav:
       - AlterTableSetPropertiesDeltaCommand.md
       - AlterTableUnsetPropertiesDeltaCommand.md
     - ConvertToDeltaCommand:
-      - ConvertToDeltaCommand: ConvertToDeltaCommand.md
+      - ConvertToDeltaCommand: commands/ConvertToDeltaCommand.md
       - DeltaConvert: DeltaConvert.md
     - CreateDeltaTableCommand: CreateDeltaTableCommand.md
-    - DeleteCommand: DeleteCommand.md
+    - DeleteCommand: commands/DeleteCommand.md
     - DeltaGenerateCommand:
-      - DeltaGenerateCommand: DeltaGenerateCommand.md
+      - DeltaGenerateCommand: commands/DeltaGenerateCommand.md
       - DeltaGenerateCommandBase: DeltaGenerateCommandBase.md
       - GenerateSymlinkManifest: GenerateSymlinkManifest.md
-    - DescribeDeltaDetailCommand: DescribeDeltaDetailCommand.md
-    - DescribeDeltaHistoryCommand: DescribeDeltaHistoryCommand.md
+    - DescribeDeltaDetailCommand: commands/DescribeDeltaDetailCommand.md
+    - DescribeDeltaHistoryCommand: commands/DescribeDeltaHistoryCommand.md
     - Merge:
       - DeltaMergeBuilder: commands/DeltaMergeBuilder.md
       - DeltaMergeMatchedActionBuilder: commands/DeltaMergeMatchedActionBuilder.md
@@ -193,13 +192,13 @@ nav:
       - DeltaMergeIntoClause: commands/DeltaMergeIntoClause.md
       - DeltaMergeInto: commands/DeltaMergeInto.md
       - MergeIntoCommand: commands/MergeIntoCommand.md
-    - UpdateCommand: UpdateCommand.md
+    - UpdateCommand: commands/UpdateCommand.md
     - Vacuum:
-      - Vacuum: vacuum.md
-      - VacuumCommand: VacuumCommand.md
-      - VacuumCommandImpl: VacuumCommandImpl.md
-      - VacuumTableCommand: VacuumTableCommand.md
-    - WriteIntoDelta: WriteIntoDelta.md
+      - Vacuum: commands/vacuum.md
+      - VacuumCommand: commands/VacuumCommand.md
+      - VacuumCommandImpl: commands/VacuumCommandImpl.md
+      - VacuumTableCommand: commands/VacuumTableCommand.md
+    - WriteIntoDelta: commands/WriteIntoDelta.md
   - Demos:
     - Merge Operation: demo/merge-operation.md
     - Converting Parquet Dataset Into Delta Format: demo/Converting-Parquet-Dataset-Into-Delta-Format.md

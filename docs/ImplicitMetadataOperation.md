@@ -63,7 +63,7 @@ updateMetadata(
 
 `updateMetadata` is used when:
 
-* [WriteIntoDelta](WriteIntoDelta.md) command is executed
+* [WriteIntoDelta](commands/WriteIntoDelta.md) command is executed
 * `DeltaSink` is requested to [add a streaming micro-batch](DeltaSink.md#addBatch)
 
 == [[normalizePartitionColumns]] Normalize Partition Columns -- `normalizePartitionColumns` Internal Method
