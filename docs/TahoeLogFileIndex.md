@@ -1,10 +1,23 @@
-= [[TahoeLogFileIndex]] TahoeLogFileIndex
+# TahoeLogFileIndex
 
-`TahoeLogFileIndex` is a concrete <<TahoeFileIndex.md#, file index>>.
+`TahoeLogFileIndex` is a [file index](TahoeFileIndex.md).
 
-`TahoeLogFileIndex` is <<creating-instance, created>> when `DeltaLog` is requested for a <<DeltaLog.md#createRelation, relation>> (when `DeltaDataSource` is requested for one as a <<DeltaDataSource.md#CreatableRelationProvider, CreatableRelationProvider>> and a <<DeltaDataSource.md#RelationProvider, RelationProvider>>).
+## Creating Instance
 
-```
+`TahoeLogFileIndex` takes the following to be created:
+
+* <span id="spark"> `SparkSession`
+* <span id="deltaLog"> [DeltaLog](DeltaLog.md)
+* <span id="path"> Data directory of the [Delta table](#deltaLog) (as a Hadoop [Path](https://hadoop.apache.org/docs/r{{ hadoop.version }}/api/org/apache/hadoop/fs/Path.html))
+* <span id="schemaAtAnalysis"> Schema at analysis (`StructType`)
+* <span id="partitionFilters"> Catalyst Expressions for the partition filters (default: `empty`)
+* <span id="versionToUse"> Snapshot version (default: `undefined`) (`Option[Long]`)
+
+`TahoeLogFileIndex` is created when `DeltaLog` is requested for an [Insertable HadoopFsRelation](DeltaLog.md#createRelation).
+
+## Demo
+
+```text
 val q = spark.read.format("delta").load("/tmp/delta/users")
 val plan = q.queryExecution.executedPlan
 
@@ -17,91 +30,50 @@ scala> println(index)
 Delta[version=1, file:/tmp/delta/users]
 ```
 
-== [[creating-instance]] Creating TahoeLogFileIndex Instance
+## <span id="matchingFiles"> matchingFiles Method
 
-`TahoeLogFileIndex` takes the following to be created:
-
-* [[spark]] `SparkSession`
-* [[deltaLog]] <<DeltaLog.md#, DeltaLog>>
-* [[dataPath]] Data directory of the delta table (as Hadoop https://hadoop.apache.org/docs/r2.6.5/api/org/apache/hadoop/fs/Path.html[Path])
-* [[partitionFilters]] Partition filters (default: `empty`) (as Catalyst expressions, i.e. `Seq[Expression]`)
-* [[versionToUse]] Snapshot version (default: `undefined`) (`Option[Long]`)
-
-`TahoeLogFileIndex` initializes the <<internal-properties, internal properties>>.
-
-== [[partitionSchema]] Schema of Partition Columns -- `partitionSchema` Method
-
-[source, scala]
-----
-partitionSchema: StructType
-----
-
-NOTE: `partitionSchema` is part of the `FileIndex` contract (Spark SQL) to get the schema of the partition columns (if used).
-
-`partitionSchema`...FIXME
-
-== [[matchingFiles]] `matchingFiles` Method
-
-[source, scala]
-----
+```scala
 matchingFiles(
   partitionFilters: Seq[Expression],
   dataFilters: Seq[Expression],
   keepStats: Boolean = false): Seq[AddFile]
-----
+```
 
-NOTE: `matchingFiles` is part of the <<TahoeFileIndex.md#matchingFiles, TahoeFileIndex Contract>> for the AddFile.md[files] matching given predicates.
+`matchingFiles` [gets the snapshot](#getSnapshot) (with `stalenessAcceptable` flag off) and requests it for the [files to scan](PartitionFiltering.md#filesForScan) (for the index's [partition filters](#partitionFilters), the given `partitionFilters` and `dataFilters`).
 
-`matchingFiles` <<getSnapshot, gets the snapshot>> (with `stalenessAcceptable` flag off) and requests it for the <<PartitionFiltering.md#filesForScan, files to scan>> (for the index's <<partitionFilters, partition filters>>, the given `partitionFilters` and `dataFilters`).
+!!! note
+    [inputFiles](#inputFiles) and [matchingFiles](#matchingFiles) are similar. Both [get the snapshot](#getSnapshot) (of the delta table), but they use different filtering expressions and return value types.
 
-NOTE: <<inputFiles, inputFiles>> and <<matchingFiles, matchingFiles>> are similar. Both <<getSnapshot, get the snapshot>> (of the delta table), but they use different filtering expressions and return value types.
+`matchingFiles` is part of the [TahoeFileIndex](TahoeFileIndex.md#matchingFiles) abstraction.
 
-== [[inputFiles]] `inputFiles` Method
+## <span id="inputFiles"> inputFiles Method
 
-[source, scala]
-----
+```scala
 inputFiles: Array[String]
-----
+```
 
-NOTE: `inputFiles` is part of the `FileIndex` contract to...FIXME
+`inputFiles` [gets the snapshot](#getSnapshot) (with `stalenessAcceptable` flag off) and requests it for the [files to scan](PartitionFiltering.md#filesForScan) (for the index's [partition filters](#partitionFilters) only).
 
-`inputFiles` <<getSnapshot, gets the snapshot>> (with `stalenessAcceptable` flag off) and requests it for the <<PartitionFiltering.md#filesForScan, files to scan>> (for the index's <<partitionFilters, partition filters>>).
+!!! note
+    [inputFiles](#inputFiles) and [matchingFiles](#matchingFiles) are similar. Both [get the snapshot](#getSnapshot), but they use different filtering expressions and return value types.
 
-NOTE: <<inputFiles, inputFiles>> and <<matchingFiles, matchingFiles>> are similar. Both <<getSnapshot, get the snapshot>> (of the delta table), but they use different filtering expressions and return value types.
+`inputFiles` is part of the `FileIndex` contract (Spark SQL).
 
-== [[getSnapshot]] Historical Or Latest Snapshot -- `getSnapshot` Method
+## <span id="getSnapshot"> Historical Or Latest Snapshot
 
-[source, scala]
-----
+```scala
 getSnapshot(
   stalenessAcceptable: Boolean): Snapshot
-----
+```
 
-`getSnapshot` returns a <<Snapshot.md#, Snapshot>> that is either the <<historicalSnapshotOpt, historical snapshot>> (for the <<versionToUse, snapshot version>> if defined) or requests the <<deltaLog, DeltaLog>> to <<DeltaLog.md#update, update>> (and give one).
+`getSnapshot` returns a [Snapshot](Snapshot.md) that is either the [historical snapshot](#historicalSnapshotOpt) (for the [snapshot version](#versionToUse) if specified) or requests the [DeltaLog](#deltaLog) to [update](DeltaLog.md#update) (and give one).
 
-NOTE: `getSnapshot` is used when `TahoeLogFileIndex` is requested for the <<matchingFiles, matching files>> and the <<inputFiles, input files>>.
+`getSnapshot` is used when `TahoeLogFileIndex` is requested for the [matching files](#matchingFiles) and the [input files](#inputFiles).
 
-== [[sizeInBytes]] `sizeInBytes` Property
+## Internal Properties
 
-[source, scala]
-----
-sizeInBytes: Long
-----
+### <span id="historicalSnapshotOpt"> historicalSnapshotOpt
 
-NOTE: `sizeInBytes` is part of the `FileIndex` contract for the table size (in bytes).
+**Historical snapshot** that is the [Snapshot](Snapshot.md) for the [versionToUse](#versionToUse) if defined.
 
-`sizeInBytes`...FIXME
-
-== [[internal-properties]] Internal Properties
-
-[cols="30m,70",options="header",width="100%"]
-|===
-| Name
-| Description
-
-| historicalSnapshotOpt
-a| [[historicalSnapshotOpt]] *Historical snapshot*, i.e. <<Snapshot.md#, Snapshot>> for the <<versionToUse, versionToUse>> (if defined)
-
-Used when `TahoeLogFileIndex` is requested for the <<getSnapshot, (historical or latest) snapshot>> and the <<partitionSchema, schema of the partition columns>>
-
-|===
+Used when `TahoeLogFileIndex` is requested for the [(historical or latest) snapshot](#getSnapshot) and the [schema of the partition columns](#partitionSchema)

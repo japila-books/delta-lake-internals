@@ -626,4 +626,4 @@ Add the following line to `conf/log4j.properties`:
 log4j.logger.org.apache.spark.sql.delta.DeltaLog=ALL
 ```
 
-Refer to [Logging](../spark-logging.md).
+Refer to [Logging](spark-logging.md).

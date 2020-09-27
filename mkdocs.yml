@@ -72,6 +72,8 @@ extra:
       link: https://linkedin.com/in/jaceklaskowski
   delta:
     version: 0.7.0
+  hadoop:
+    version: 2.7.4
 
 google_analytics:
   - !!python/object/apply:os.getenv ["GOOGLE_ANALYTICS_KEY"]
@@ -87,16 +89,16 @@ nav:
     - DeltaTable:
       - DeltaTable: DeltaTable.md
       - DeltaTableOperations: DeltaTableOperations.md
-    - DeltaLog:
+    - Transaction Log (DeltaLog):
       - DeltaLog: DeltaLog.md
       - Operation: Operation.md
       - Checkpoints: Checkpoints.md
+      - SnapshotManagement: SnapshotManagement.md
       - MetadataCleanup: MetadataCleanup.md
       - LogStoreProvider: LogStoreProvider.md
       - VerifyChecksum: VerifyChecksum.md
     - Snapshot:
       - Snapshot: Snapshot.md
-      - SnapshotManagement: SnapshotManagement.md
       - InMemoryLogReplay: InMemoryLogReplay.md
       - PartitionFiltering: PartitionFiltering.md
       - DeltaFileFormat: DeltaFileFormat.md

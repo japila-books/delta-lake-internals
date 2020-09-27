@@ -1,4 +1,4 @@
-= Checkpoints
+# Checkpoints
 
 `Checkpoints` is an <<contract, abstraction>> of <<implementations, DeltaLogs>> that can <<checkpoint, checkpoint>> the current state of a delta table (represented by the <<self, DeltaLog>>).
 
@@ -97,16 +97,31 @@ checkpoint(
 
 NOTE: `checkpoint` is used when...FIXME
 
-== [[lastCheckpoint]] `lastCheckpoint` Method
+## <span id="lastCheckpoint"> Loading Latest Checkpoint Metadata
 
-[source, scala]
-----
+```scala
 lastCheckpoint: Option[CheckpointMetaData]
-----
+```
 
-`lastCheckpoint` simply <<loadMetadataFromFile, loadMetadataFromFile>> (with 0 `tries`).
+`lastCheckpoint` simply [loadMetadataFromFile](#loadMetadataFromFile) (allowing for 3 retries).
 
-NOTE: `lastCheckpoint` is used when...FIXME
+`lastCheckpoint` is used when:
+
+* `SnapshotManagement` is requested to [load the latest snapshot](SnapshotManagement.md#getSnapshotAtInit)
+* `MetadataCleanup` is requested to [listExpiredDeltaLogs](MetadataCleanup.md#listExpiredDeltaLogs)
+
+### <span id="loadMetadataFromFile"> loadMetadataFromFile Helper Method
+
+```scala
+loadMetadataFromFile(
+  tries: Int): Option[CheckpointMetaData]
+```
+
+`loadMetadataFromFile` loads the [_last_checkpoint](LAST_CHECKPOINT) file (in JSON format) and converts it to `CheckpointMetaData` (with a version, size and parts).
+
+`loadMetadataFromFile` uses the [LogStore](DeltaLog.md#store) to [read](#read) the [_last_checkpoint](LAST_CHECKPOINT) file.
+
+In case the [_last_checkpoint](LAST_CHECKPOINT) file is corrupted, `loadMetadataFromFile`...FIXME
 
 == [[manuallyLoadCheckpoint]] `manuallyLoadCheckpoint` Method
 
@@ -156,14 +171,3 @@ writeCheckpoint(
 `writeCheckpoint`...FIXME
 
 NOTE: `writeCheckpoint` is used when `Checkpoints` is requested to <<checkpoint, checkpoint>>.
-
-== [[loadMetadataFromFile]] `loadMetadataFromFile` Internal Method
-
-[source, scala]
-----
-loadMetadataFromFile(tries: Int): Option[CheckpointMetaData]
-----
-
-`loadMetadataFromFile`...FIXME
-
-NOTE: `loadMetadataFromFile` is used when...FIXME
