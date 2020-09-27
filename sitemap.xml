@@ -40,6 +40,10 @@
      <lastmod>2020-09-27</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
+     <loc>https://books.japila.pl/delta-lake-internals/SnapshotManagement/</loc>
+     <lastmod>2020-09-27</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
      <loc>https://books.japila.pl/delta-lake-internals/MetadataCleanup/</loc>
      <lastmod>2020-09-27</lastmod>
      <changefreq>daily</changefreq>
@@ -53,10 +57,6 @@
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://books.japila.pl/delta-lake-internals/Snapshot/</loc>
-     <lastmod>2020-09-27</lastmod>
-     <changefreq>daily</changefreq>
-    </url><url>
-     <loc>https://books.japila.pl/delta-lake-internals/SnapshotManagement/</loc>
      <lastmod>2020-09-27</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
