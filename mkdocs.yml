@@ -95,6 +95,7 @@ nav:
       - VerifyChecksum: VerifyChecksum.md
     - Snapshot:
       - Snapshot: Snapshot.md
+      - SnapshotManagement: SnapshotManagement.md
       - InMemoryLogReplay: InMemoryLogReplay.md
       - PartitionFiltering: PartitionFiltering.md
       - DeltaFileFormat: DeltaFileFormat.md
@@ -135,7 +136,7 @@ nav:
     - FileNames: FileNames.md
     - DeltaLogFileIndex: DeltaLogFileIndex.md
     - DeltaErrors: DeltaErrors.md
-    - Logging: logging.md
+    - Logging: spark-logging.md
     - StateCache:
       - StateCache: StateCache.md
       - CachedDS: CachedDS.md

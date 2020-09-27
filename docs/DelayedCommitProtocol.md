@@ -1,4 +1,4 @@
-= [[DelayedCommitProtocol]] DelayedCommitProtocol
+# DelayedCommitProtocol
 
 `DelayedCommitProtocol` is used to model a distributed write that is orchestrated by the Spark driver with the write itself happening on executors.
 
@@ -21,7 +21,7 @@ Add the following line to `conf/log4j.properties`:
 log4j.logger.org.apache.spark.sql.delta.files.DelayedCommitProtocol=ALL
 ```
 
-Refer to <<logging.md#, Logging>>.
+Refer to [Logging](spark-logging.md).
 ====
 
 == [[creating-instance]] Creating DelayedCommitProtocol Instance

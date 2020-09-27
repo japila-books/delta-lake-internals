@@ -1,6 +1,6 @@
-= OptimisticTransaction
+# OptimisticTransaction
 
-*OptimisticTransaction* is an OptimisticTransactionImpl.md[] (which _seems_ more of a class name change than anything more important).
+**OptimisticTransaction** is an OptimisticTransactionImpl.md[] (which _seems_ more of a class name change than anything more important).
 
 OptimisticTransaction is <<creating-instance, created>> for changes to a <<deltaLog, delta table>> at a given <<snapshot, version>>.
 
@@ -96,7 +96,7 @@ Add the following line to `conf/log4j.properties`:
 log4j.logger.org.apache.spark.sql.delta.OptimisticTransaction=ALL
 ----
 
-Refer to ROOT:logging.md[].
+Refer to [Logging](spark-logging.md).
 
 == [[demo]] Demo
 

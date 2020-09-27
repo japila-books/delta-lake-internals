@@ -41,13 +41,15 @@ timeTravelSpec: Option[DeltaTimeTravelSpec]
 
 `timeTravelSpec` is used when `DeltaTableV2` is requested for a [Snapshot](#snapshot) and [BaseRelation](#toBaseRelation).
 
-## <span id="toBaseRelation"> BaseRelation
+## <span id="toBaseRelation"> Converting to BaseRelation (Insertable HadoopFsRelation)
 
 ```scala
 toBaseRelation: BaseRelation
 ```
 
-`toBaseRelation` is...FIXME
+`toBaseRelation` [verifyAndCreatePartitionFilters](DeltaDataSource.md#verifyAndCreatePartitionFilters) for the [Path](#path), the [current Snapshot](SnapshotManagement.md#snapshot) and [partitionFilters](#partitionFilters).
+
+In the end, `toBaseRelation` requests the [DeltaLog](#deltaLog) for an [insertable HadoopFsRelation](DeltaLog.md#createRelation).
 
 `toBaseRelation` is used when:
 

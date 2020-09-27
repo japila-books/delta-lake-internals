@@ -1,4 +1,4 @@
-= MetadataCleanup
+# MetadataCleanup
 
 `MetadataCleanup` is an abstraction of <<implementations, MetadataCleanups>> that can <<doLogCleanup, clean up>> the <<self, DeltaLog>>.
 
@@ -16,7 +16,7 @@ Add the following line to `conf/log4j.properties`:
 log4j.logger.org.apache.spark.sql.delta.MetadataCleanup=ALL
 ```
 
-Refer to <<logging.md#, Logging>>.
+Refer to [Logging](spark-logging.md)..
 ====
 
 == [[doLogCleanup]] `doLogCleanup` Method

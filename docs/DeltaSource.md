@@ -1,4 +1,4 @@
-= [[DeltaSource]] DeltaSource -- Streaming Source of Delta Data Source
+# DeltaSource &mdash; Streaming Source of Delta Data Source
 
 `DeltaSource` is the streaming source of <<DeltaDataSource.md#, delta data source>> for streaming queries in Spark Structured Streaming.
 
@@ -44,7 +44,7 @@ Add the following line to `conf/log4j.properties`:
 log4j.logger.org.apache.spark.sql.delta.sources.DeltaSource=ALL
 ```
 
-Refer to <<logging.md#, Logging>>.
+Refer to [Logging](spark-logging.md).
 ====
 
 == [[creating-instance]] Creating DeltaSource Instance

@@ -1,13 +1,12 @@
 # DeltaLog
 
-`DeltaLog` is a *transaction log* (aka _change log_) of <<Action.md#, changes>> to the state of a <<dataPath, delta table>>.
+`DeltaLog` is a **transaction log** (_change log_) of [changes](Action.md) to the state of a [delta table](#dataPath).
 
-`DeltaLog` uses <<_delta_log, _delta_log>> directory for (the files of) the transaction log of a delta table (that is given when <<forTable, DeltaLog.forTable>> utility is used to create an instance).
+`DeltaLog` uses [_delta_log](#_delta_log) directory for (the files of) the transaction log of a delta table (that is given when [DeltaLog.forTable](#forTable) utility is used to create an instance).
 
-`DeltaLog` is <<creating-instance, created>> (indirectly via <<apply, DeltaLog.apply>> utility) when <<forTable, DeltaLog.forTable>> utility is used.
+`DeltaLog` is created (indirectly via [DeltaLog.apply](#apply) utility) when [DeltaLog.forTable](#forTable) utility is used.
 
-[source, scala]
-----
+```text
 import org.apache.spark.sql.SparkSession
 assert(spark.isInstanceOf[SparkSession])
 
@@ -18,21 +17,20 @@ val deltaLog = DeltaLog.forTable(spark, dataPath)
 import org.apache.hadoop.fs.Path
 val expected = new Path(s"file:$dataPath/_delta_log/_last_checkpoint")
 assert(deltaLog.LAST_CHECKPOINT == expected)
-----
+```
 
-A common idiom (if not the only way) to know the current version of the delta table is to request the `DeltaLog` for the <<snapshot, current state (snapshot)>> and then for the <<Snapshot.md#version, version>>.
+A common idiom (if not the only way) to know the current version of the delta table is to request the `DeltaLog` for the [current state (snapshot)](#snapshot) and then for the [version](Snapshot.md#version).
 
-[source, scala]
-----
+```text
 import org.apache.spark.sql.delta.DeltaLog
 assert(deltaLog.isInstanceOf[DeltaLog])
 
 val deltaVersion = deltaLog.snapshot.version
 scala> println(deltaVersion)
 5
-----
+```
 
-While being <<creating-instance, created>>, `DeltaLog` does the following:
+When created, `DeltaLog` does the following:
 
 * Creates the <<store, LogStore>> based on <<LogStoreProvider.md#spark.delta.logStore.class, spark.delta.logStore.class>> configuration property (default: <<HDFSLogStore.md#, HDFSLogStore>>)
 
@@ -42,26 +40,11 @@ While being <<creating-instance, created>>, `DeltaLog` does the following:
 
 In other words, the version of (the `DeltaLog` of) a delta table is at version `0` at the very minimum.
 
-[source, scala]
-----
+```scala
 assert(deltaLog.snapshot.version >= 0)
-----
-
-`DeltaLog` is a <<LogStoreProvider.md#, LogStoreProvider>>.
-
-[[logging]]
-[TIP]
-====
-Enable `ALL` logging level for `org.apache.spark.sql.delta.DeltaLog` logger to see what happens inside.
-
-Add the following line to `conf/log4j.properties`:
-
-```
-log4j.logger.org.apache.spark.sql.delta.DeltaLog=ALL
 ```
 
-Refer to <<logging.md#, Logging>>.
-====
+`DeltaLog` is a [LogStoreProvider](LogStoreProvider.md).
 
 == [[FileFormats]] FileFormats
 
@@ -331,37 +314,35 @@ NOTE: `currentSnapshot` is available using <<snapshot, snapshot>> method.
 
 NOTE: `currentSnapshot` is used when `DeltaLog` is requested to <<updateInternal, updateInternal>>, <<update, update>>, <<tryUpdate, tryUpdate>>, and <<isValid, isValid>.
 
-== [[createRelation]] Creating Insertable HadoopFsRelation For Batch Queries -- `createRelation` Method
+## <span id="createRelation"> Creating Insertable HadoopFsRelation For Batch Queries
 
-[source, scala]
-----
+```scala
 createRelation(
   partitionFilters: Seq[Expression] = Nil,
   timeTravel: Option[DeltaTimeTravelSpec] = None): BaseRelation
-----
+```
 
 `createRelation`...FIXME
 
-`createRelation` creates a <<TahoeLogFileIndex.md#, TahoeLogFileIndex>> for the <<dataPath, data path>>, the given `partitionFilters` and a version (if defined).
+`createRelation` creates a [TahoeLogFileIndex](TahoeLogFileIndex.md) for the [data path](#dataPath), the given `partitionFilters` and a version (if defined).
 
 `createRelation`...FIXME
 
 In the end, `createRelation` creates a `HadoopFsRelation` for the `TahoeLogFileIndex` and...FIXME. The `HadoopFsRelation` is also an <<createRelation-InsertableRelation, InsertableRelation>>.
 
-NOTE: `createRelation` is used when `DeltaDataSource` is requested for a relation as a <<DeltaDataSource.md#CreatableRelationProvider, CreatableRelationProvider>> and a <<DeltaDataSource.md#RelationProvider, RelationProvider>> (for batch queries).
+`createRelation` is used when `DeltaDataSource` is requested for a relation as a [CreatableRelationProvider](DeltaDataSource.md#CreatableRelationProvider) and a [RelationProvider](DeltaDataSource.md#RelationProvider) (for batch queries).
 
-=== [[createRelation-InsertableRelation]][[createRelation-InsertableRelation-insert]] `insert` Method
+## <span id="createRelation-InsertableRelation"><span id="createRelation-InsertableRelation-insert"> insert Method
 
-[source, scala]
-----
+```scala
 insert(
   data: DataFrame,
   overwrite: Boolean): Unit
-----
-
-NOTE: `insert` is part of the `InsertableRelation` contract to...FIXME.
+```
 
 `insert`...FIXME
+
+`insert` is part of the `InsertableRelation` abstraction.
 
 == [[getSnapshotAt]] Retrieving State Of Delta Table At Given Version -- `getSnapshotAt` Method
 
@@ -634,3 +615,15 @@ a| [[deltaLogLock]] Lock
 Used when...FIXME
 
 |===
+
+## Logging
+
+Enable `ALL` logging level for `org.apache.spark.sql.delta.DeltaLog` logger to see what happens inside.
+
+Add the following line to `conf/log4j.properties`:
+
+```text
+log4j.logger.org.apache.spark.sql.delta.DeltaLog=ALL
+```
+
+Refer to [Logging](../spark-logging.md).

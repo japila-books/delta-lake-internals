@@ -1,19 +1,17 @@
-= VacuumCommand Utility -- Garbage Collecting Delta Table
-:navtitle: VacuumCommand
+# VacuumCommand Utility &mdash; Garbage Collecting Delta Table
 
-*VacuumCommand* is a concrete <<VacuumCommandImpl.md#, VacuumCommandImpl>> for <<gc, gc>>.
+**VacuumCommand** is a concrete [VacuumCommandImpl](VacuumCommandImpl.md) for [gc](#gc).
 
-== [[gc]] Garbage Collecting Of Delta Table -- gc Utility
+## <span id="gc"> Garbage Collecting Of Delta Table
 
-[source, scala]
-----
+```scala
 gc(
   spark: SparkSession,
   deltaLog: DeltaLog,
   dryRun: Boolean = true,
   retentionHours: Option[Double] = None,
   clock: Clock = new SystemClock): DataFrame
-----
+```
 
 gc requests the given `DeltaLog` to <<DeltaLog.md#update, update>> (and give the latest <<Snapshot.md#, Snapshot>> of the delta table).
 
@@ -90,4 +88,4 @@ Add the following line to `conf/log4j.properties`:
 log4j.logger.org.apache.spark.sql.delta.commands.VacuumCommand=ALL
 ----
 
-Refer to logging.md[].
+Refer to [Logging](../spark-logging.md).
