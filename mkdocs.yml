@@ -22,8 +22,8 @@ theme:
     logo: material/book-open-page-variant
     repo: fontawesome/brands/github
   features:
-    - tabs
-    - instant
+    - navigation.tabs
+    - navigation.instant
 
 markdown_extensions:
   - admonition
@@ -59,7 +59,8 @@ plugins:
   - git-revision-date:
       enabled_if_env: CI
   - awesome-pages
-  - macros
+  # There seem to be an issue and mkdocs gh-deploy fails
+  # - macros
 
 extra:
   social:
