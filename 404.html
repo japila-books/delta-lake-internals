@@ -1,7 +1,4 @@
 
-
-
-
 <!doctype html>
 <html lang="en" class="no-js">
   <head>
@@ -16,7 +13,7 @@
         <meta name="author" content="Jacek Laskowski">
       
       <link rel="shortcut icon" href="/delta-lake-internals/assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-5.5.14">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-6.0.0">
     
     
       
@@ -24,13 +21,17 @@
       
     
     
-      <link rel="stylesheet" href="/delta-lake-internals/assets/stylesheets/main.d3202873.min.css">
+      <link rel="stylesheet" href="/delta-lake-internals/assets/stylesheets/main.1d877a71.min.css">
       
+        
+        <link rel="stylesheet" href="/delta-lake-internals/assets/stylesheets/palette.17bd0b03.min.css">
+        
       
     
     
     
       
+        
         <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
         <style>body,input{font-family:"Roboto",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono",SFMono-Regular,Consolas,Menlo,monospace}</style>
@@ -49,9 +50,14 @@
   </head>
   
   
-    <body dir="ltr">
-  
     
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
+      
+  
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" for="__drawer"></label>
@@ -136,8 +142,6 @@
 </header>
     
     <div class="md-container" data-md-component="container">
-      
-        
       
       
         
@@ -495,6 +499,18 @@
   <li class="md-nav__item">
     <a href="/delta-lake-internals/Snapshot/" title="Snapshot" class="md-nav__link">
       Snapshot
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="/delta-lake-internals/SnapshotManagement/" title="SnapshotManagement" class="md-nav__link">
+      SnapshotManagement
     </a>
   </li>
 
@@ -1060,7 +1076,7 @@
 
 
   <li class="md-nav__item">
-    <a href="/delta-lake-internals/logging/" title="Logging" class="md-nav__link">
+    <a href="/delta-lake-internals/spark-logging/" title="Logging" class="md-nav__link">
       Logging
     </a>
   </li>
@@ -1532,13 +1548,13 @@
       <input class="md-nav__toggle md-toggle" data-md-toggle="nav-3-2" type="checkbox" id="nav-3-2">
     
     <label class="md-nav__link" for="nav-3-2">
-      AlterDeltaTableCommand
+      Alter Table
       <span class="md-nav__icon md-icon"></span>
     </label>
-    <nav class="md-nav" aria-label="AlterDeltaTableCommand" data-md-level="2">
+    <nav class="md-nav" aria-label="Alter Table" data-md-level="2">
       <label class="md-nav__title" for="nav-3-2">
         <span class="md-nav__icon md-icon"></span>
-        AlterDeltaTableCommand
+        Alter Table
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
         
@@ -1561,7 +1577,7 @@
 
 
   <li class="md-nav__item">
-    <a href="/delta-lake-internals/AlterTableAddColumnsDeltaCommand/" title="AlterTableAddColumnsDeltaCommand" class="md-nav__link">
+    <a href="/delta-lake-internals/commands/AlterTableAddColumnsDeltaCommand/" title="AlterTableAddColumnsDeltaCommand" class="md-nav__link">
       AlterTableAddColumnsDeltaCommand
     </a>
   </li>
@@ -1573,7 +1589,7 @@
 
 
   <li class="md-nav__item">
-    <a href="/delta-lake-internals/AlterTableChangeColumnDeltaCommand/" title="AlterTableChangeColumnDeltaCommand" class="md-nav__link">
+    <a href="/delta-lake-internals/commands/AlterTableChangeColumnDeltaCommand/" title="AlterTableChangeColumnDeltaCommand" class="md-nav__link">
       AlterTableChangeColumnDeltaCommand
     </a>
   </li>
@@ -1585,7 +1601,7 @@
 
 
   <li class="md-nav__item">
-    <a href="/delta-lake-internals/AlterTableReplaceColumnsDeltaCommand/" title="AlterTableReplaceColumnsDeltaCommand" class="md-nav__link">
+    <a href="/delta-lake-internals/commands/AlterTableReplaceColumnsDeltaCommand/" title="AlterTableReplaceColumnsDeltaCommand" class="md-nav__link">
       AlterTableReplaceColumnsDeltaCommand
     </a>
   </li>
@@ -1597,7 +1613,7 @@
 
 
   <li class="md-nav__item">
-    <a href="/delta-lake-internals/AlterTableSetLocationDeltaCommand/" title="AlterTableSetLocationDeltaCommand" class="md-nav__link">
+    <a href="/delta-lake-internals/commands/AlterTableSetLocationDeltaCommand/" title="AlterTableSetLocationDeltaCommand" class="md-nav__link">
       AlterTableSetLocationDeltaCommand
     </a>
   </li>
@@ -1609,7 +1625,7 @@
 
 
   <li class="md-nav__item">
-    <a href="/delta-lake-internals/AlterTableSetPropertiesDeltaCommand/" title="AlterTableSetPropertiesDeltaCommand" class="md-nav__link">
+    <a href="/delta-lake-internals/commands/AlterTableSetPropertiesDeltaCommand/" title="AlterTableSetPropertiesDeltaCommand" class="md-nav__link">
       AlterTableSetPropertiesDeltaCommand
     </a>
   </li>
@@ -1621,7 +1637,7 @@
 
 
   <li class="md-nav__item">
-    <a href="/delta-lake-internals/AlterTableUnsetPropertiesDeltaCommand/" title="AlterTableUnsetPropertiesDeltaCommand" class="md-nav__link">
+    <a href="/delta-lake-internals/commands/AlterTableUnsetPropertiesDeltaCommand/" title="AlterTableUnsetPropertiesDeltaCommand" class="md-nav__link">
       AlterTableUnsetPropertiesDeltaCommand
     </a>
   </li>
@@ -2167,15 +2183,15 @@
       
     </div>
     
-      <script src="/delta-lake-internals/assets/javascripts/vendor.2d1db4bd.min.js"></script>
-      <script src="/delta-lake-internals/assets/javascripts/bundle.6627ddf3.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents"}</script>
+      <script src="/delta-lake-internals/assets/javascripts/vendor.c6483021.min.js"></script>
+      <script src="/delta-lake-internals/assets/javascripts/bundle.e2f7d7a4.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}</script>
       
       <script>
         app = initialize({
           base: "/delta-lake-internals/",
-          features: ['tabs', 'instant'],
+          features: ['navigation.tabs', 'navigation.instant'],
           search: Object.assign({
-            worker: "/delta-lake-internals/assets/javascripts/worker/search.5eca75d3.min.js"
+            worker: "/delta-lake-internals/assets/javascripts/worker/search.cbc634e2.min.js"
           }, typeof search !== "undefined" && search)
         })
       </script>
