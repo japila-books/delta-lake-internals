@@ -11,6 +11,9 @@ on:
     branches:
       - mkdocs-material
 
+env:
+  CI: true
+
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   deploy:
@@ -25,13 +28,11 @@ jobs:
 
       - name: Install dependencies
         run: |
-          python -m pip install --upgrade pip
           pip install -r requirements.txt
 
       - name: Build documentation
         env:
           GOOGLE_ANALYTICS_KEY: ${{ secrets.GOOGLE_ANALYTICS_KEY }}
-          CI: 1
         run: |
           mkdocs gh-deploy --force
           mkdocs --version
