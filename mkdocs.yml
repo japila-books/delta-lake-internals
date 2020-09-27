@@ -167,14 +167,14 @@ nav:
     - DeltaSqlAstBuilder: sql/DeltaSqlAstBuilder.md
   - Commands:
     - DeltaCommand: commands/DeltaCommand.md
-    - AlterDeltaTableCommand:
+    - Alter Table:
       - AlterDeltaTableCommand: commands/AlterDeltaTableCommand.md
-      - AlterTableAddColumnsDeltaCommand.md
-      - AlterTableChangeColumnDeltaCommand.md
-      - AlterTableReplaceColumnsDeltaCommand.md
-      - AlterTableSetLocationDeltaCommand.md
-      - AlterTableSetPropertiesDeltaCommand.md
-      - AlterTableUnsetPropertiesDeltaCommand.md
+      - AlterTableAddColumnsDeltaCommand: commands/AlterTableAddColumnsDeltaCommand.md
+      - AlterTableChangeColumnDeltaCommand: commands/AlterTableChangeColumnDeltaCommand.md
+      - AlterTableReplaceColumnsDeltaCommand: commands/AlterTableReplaceColumnsDeltaCommand.md
+      - AlterTableSetLocationDeltaCommand: commands/AlterTableSetLocationDeltaCommand.md
+      - AlterTableSetPropertiesDeltaCommand: commands/AlterTableSetPropertiesDeltaCommand.md
+      - AlterTableUnsetPropertiesDeltaCommand: commands/AlterTableUnsetPropertiesDeltaCommand.md
     - ConvertToDeltaCommand: commands/ConvertToDeltaCommand.md
     - CreateDeltaTableCommand: commands/CreateDeltaTableCommand.md
     - DeleteCommand: commands/DeleteCommand.md
