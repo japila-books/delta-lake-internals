@@ -1,23 +1,61 @@
-= StateCache
+# StateCache
 
-`StateCache` is...FIXME
+`StateCache` is an [abstraction](#contract) of [state caches](#implementations) that can [cache a Dataset](#cacheDS) and [uncache them all](#uncache).
 
-== [[cacheDS]] Creating CachedDS Instance -- `cacheDS` Method
+## Contract
 
-[source, scala]
-----
+### <span id="spark"> SparkSession
+
+```scala
+spark: SparkSession
+```
+
+`SparkSession` the [cached RDDs](#cached) belong to
+
+## Implementations
+
+* [DeltaSourceSnapshot](DeltaSourceSnapshot.md)
+* [Snapshot](Snapshot.md)
+
+## <span id="cached"> Cached RDDs
+
+```scala
+cached: ArrayBuffer[RDD[_]]
+```
+
+`StateCache` tracks cached RDDs in `cached` internal registry.
+
+`cached` is given a new `RDD` when `StateCache` is requested to [cache a Dataset](#cacheDS).
+
+`cached` is used when `StateCache` is requested to [get a cached Dataset](#getDS) and [uncache](#uncache).
+
+## <span id="cacheDS"> Caching Dataset
+
+```scala
 cacheDS[A](
   ds: Dataset[A],
   name: String): CachedDS[A]
-----
+```
 
-`cacheDS` simply creates a new <<CachedDS.md#, CachedDS>>.
+`cacheDS` creates a new [CachedDS](CachedDS.md).
 
-[NOTE]
-====
 `cacheDS` is used when:
 
-* <<Snapshot.md#, Snapshot>> is created (and creates a <<Snapshot.md#cachedState, cached state>>)
+* `Snapshot` is requested for a [cached state](Snapshot.md#cachedState))
+* `DeltaSourceSnapshot` is requested to [initialFiles](DeltaSourceSnapshot.md#initialFiles)
 
-* `DeltaSourceSnapshot` is requested to <<DeltaSourceSnapshot.md#initialFiles, initialFiles>>
-====
+## <span id="uncache"> Uncaching All Cached Datasets
+
+```scala
+uncache[A](
+  ds: Dataset[A],
+  name: String): CachedDS[A]
+```
+
+`uncache` uses the [isCached](#isCached) internal flag to avoid multiple executions.
+
+`uncache` is used when:
+
+* `DeltaLog` utility is used to access [deltaLogCache](DeltaLog.md#deltaLogCache) and a cached entry expires
+* `SnapshotManagement` is requested to [update state of a Delta table](SnapshotManagement.md#updateInternal)
+* `DeltaSourceSnapshot` is requested to [close](DeltaSourceSnapshot.md#close)

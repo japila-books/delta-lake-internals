@@ -141,6 +141,48 @@ stateReconstruction: Dataset[SingleAction]
 
 `stateReconstruction` is a dataset of [SingleActions](SingleAction.md) (that is the [dataset](CachedDS.md#ds) part) of the [cachedState](#cachedState).
 
+`stateReconstruction` [loadActions](#loadActions) and...FIXME
+
+`stateReconstruction` is used when...FIXME
+
+## <span id="loadActions"> loadActions
+
+```scala
+loadActions: Dataset[SingleAction]
+```
+
+`loadActions` takes [fileIndices](#fileIndices) and...FIXME
+
+## <span id="fileIndices"> fileIndices
+
+```scala
+fileIndices: Seq[DeltaLogFileIndex]
+```
+
+!!! note "Scala lazy value"
+    `fileIndices` is a Scala lazy value and is initialized once at the first access. Once computed it stays unchanged for the `Snapshot` instance.
+
+    ```text
+    lazy val fileIndices: Seq[DeltaLogFileIndex]
+    ```
+
+`fileIndices` is a collection of the [checkpointFileIndexOpt](#checkpointFileIndexOpt) and the [deltaFileIndexOpt](#deltaFileIndexOpt) (if they are available).
+
+## <span id="deltaFileIndexOpt"> Optional DeltaLogFileIndex
+
+```scala
+deltaFileIndexOpt: Option[DeltaLogFileIndex]
+```
+
+!!! note "Scala lazy value"
+    `deltaFileIndexOpt` is a Scala lazy value and is initialized once at the first access. Once computed it stays unchanged for the `Snapshot` instance.
+
+    ```text
+    lazy val deltaFileIndexOpt: Option[DeltaLogFileIndex]
+    ```
+
+`deltaFileIndexOpt` is...FIXME
+
 ## <span id="emptyActions"> emptyActions Dataset (of Actions)
 
 ```scala
