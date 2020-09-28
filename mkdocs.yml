@@ -94,6 +94,7 @@ nav:
       - Operation: Operation.md
       - Checkpoints: Checkpoints.md
       - SnapshotManagement: SnapshotManagement.md
+      - ReadChecksum: ReadChecksum.md
       - MetadataCleanup: MetadataCleanup.md
       - LogStoreProvider: LogStoreProvider.md
       - VerifyChecksum: VerifyChecksum.md

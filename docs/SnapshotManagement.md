@@ -95,3 +95,16 @@ getSnapshotAtInit: Snapshot
 `getSnapshotAtInit`...FIXME
 
 `getSnapshotAtInit` is used when `SnapshotManagement` is requested for the [current Snapshot](#currentSnapshot).
+
+## <span id="createSnapshot"> Creating Snapshot
+
+```scala
+createSnapshot(
+  segment: LogSegment,
+  minFileRetentionTimestamp: Long,
+  timestamp: Long): Snapshot
+```
+
+`createSnapshot` [readChecksum](ReadChecksum.md#readChecksum) (for the version of the given `LogSegment`) and creates a [Snapshot](Snapshot.md).
+
+`createSnapshot` is used when `SnapshotManagement` is requested for [getSnapshotAtInit](#getSnapshotAtInit), [getSnapshotAt](#getSnapshotAt) and [update](#update).
