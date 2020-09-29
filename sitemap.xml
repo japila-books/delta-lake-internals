@@ -16,15 +16,11 @@
      <lastmod>2020-09-29</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
-     <loc>https://books.japila.pl/delta-lake-internals/DeltaSQLConf/</loc>
-     <lastmod>2020-09-29</lastmod>
-     <changefreq>daily</changefreq>
-    </url><url>
      <loc>https://books.japila.pl/delta-lake-internals/DeltaTable/</loc>
      <lastmod>2020-09-29</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
-     <loc>https://books.japila.pl/delta-lake-internals/DeltaTableOperations/</loc>
+     <loc>https://books.japila.pl/delta-lake-internals/DeltaSQLConf/</loc>
      <lastmod>2020-09-29</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
@@ -108,30 +104,6 @@
      <lastmod>2020-09-29</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
-     <loc>https://books.japila.pl/delta-lake-internals/ImplicitMetadataOperation/</loc>
-     <lastmod>2020-09-29</lastmod>
-     <changefreq>daily</changefreq>
-    </url><url>
-     <loc>https://books.japila.pl/delta-lake-internals/DeltaFileOperations/</loc>
-     <lastmod>2020-09-29</lastmod>
-     <changefreq>daily</changefreq>
-    </url><url>
-     <loc>https://books.japila.pl/delta-lake-internals/SchemaUtils/</loc>
-     <lastmod>2020-09-29</lastmod>
-     <changefreq>daily</changefreq>
-    </url><url>
-     <loc>https://books.japila.pl/delta-lake-internals/DeltaTableUtils/</loc>
-     <lastmod>2020-09-29</lastmod>
-     <changefreq>daily</changefreq>
-    </url><url>
-     <loc>https://books.japila.pl/delta-lake-internals/Invariants/</loc>
-     <lastmod>2020-09-29</lastmod>
-     <changefreq>daily</changefreq>
-    </url><url>
-     <loc>https://books.japila.pl/delta-lake-internals/DeltaInvariantCheckerExec/</loc>
-     <lastmod>2020-09-29</lastmod>
-     <changefreq>daily</changefreq>
-    </url><url>
      <loc>https://books.japila.pl/delta-lake-internals/TahoeFileIndex/</loc>
      <lastmod>2020-09-29</lastmod>
      <changefreq>daily</changefreq>
@@ -200,23 +172,7 @@
      <lastmod>2020-09-29</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
-     <loc>https://books.japila.pl/delta-lake-internals/DeltaErrors/</loc>
-     <lastmod>2020-09-29</lastmod>
-     <changefreq>daily</changefreq>
-    </url><url>
      <loc>https://books.japila.pl/delta-lake-internals/spark-logging/</loc>
-     <lastmod>2020-09-29</lastmod>
-     <changefreq>daily</changefreq>
-    </url><url>
-     <loc>https://books.japila.pl/delta-lake-internals/StateCache/</loc>
-     <lastmod>2020-09-29</lastmod>
-     <changefreq>daily</changefreq>
-    </url><url>
-     <loc>https://books.japila.pl/delta-lake-internals/CachedDS/</loc>
-     <lastmod>2020-09-29</lastmod>
-     <changefreq>daily</changefreq>
-    </url><url>
-     <loc>https://books.japila.pl/delta-lake-internals/others/</loc>
      <lastmod>2020-09-29</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
@@ -449,6 +405,50 @@
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://books.japila.pl/delta-lake-internals/demo/using-user-metadata-to-distinguish-commits-streaming-queries/</loc>
+     <lastmod>2020-09-29</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
+     <loc>https://books.japila.pl/delta-lake-internals/DeltaErrors/</loc>
+     <lastmod>2020-09-29</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
+     <loc>https://books.japila.pl/delta-lake-internals/DeltaFileOperations/</loc>
+     <lastmod>2020-09-29</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
+     <loc>https://books.japila.pl/delta-lake-internals/DeltaInvariantCheckerExec/</loc>
+     <lastmod>2020-09-29</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
+     <loc>https://books.japila.pl/delta-lake-internals/DeltaTableOperations/</loc>
+     <lastmod>2020-09-29</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
+     <loc>https://books.japila.pl/delta-lake-internals/DeltaTableUtils/</loc>
+     <lastmod>2020-09-29</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
+     <loc>https://books.japila.pl/delta-lake-internals/ImplicitMetadataOperation/</loc>
+     <lastmod>2020-09-29</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
+     <loc>https://books.japila.pl/delta-lake-internals/Invariants/</loc>
+     <lastmod>2020-09-29</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
+     <loc>https://books.japila.pl/delta-lake-internals/SchemaUtils/</loc>
+     <lastmod>2020-09-29</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
+     <loc>https://books.japila.pl/delta-lake-internals/StateCache/</loc>
+     <lastmod>2020-09-29</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
+     <loc>https://books.japila.pl/delta-lake-internals/CachedDS/</loc>
+     <lastmod>2020-09-29</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
+     <loc>https://books.japila.pl/delta-lake-internals/contenders/</loc>
      <lastmod>2020-09-29</lastmod>
      <changefreq>daily</changefreq>
     </url>
