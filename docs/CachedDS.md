@@ -2,6 +2,14 @@
 
 `CachedDS` is used when [StateCache](StateCache.md) is requested to [cacheDS](#cacheDS).
 
+<span id="cachedDs">
+When created, `CachedDS` immediately initializes the `cachedDs` internal registry that requests the [Dataset](#ds) to generate a `RDD[InternalRow]` and associates the RDD with the given [name](#name):
+
+* **Delta Table State** for [Snapshot](Snapshot.md)
+* **Delta Source Snapshot** for [DeltaSourceSnapshot](DeltaSourceSnapshot.md)
+
+The RDD is marked to be persisted using `StorageLevel.MEMORY_AND_DISK_SER` storage level.
+
 !!! note
     `CachedDS` is an internal class of `StateCache` and has access to its internals.
 
@@ -14,17 +22,15 @@
 
 `CachedDS` is created when `StateCache` is requested to [cacheDS](#cacheDS).
 
-== [[getDS]] `getDS` Method
+## <span id="getDS"> getDS Method
 
-[source, scala]
-----
+```scala
 getDS: Dataset[A]
-----
+```
 
 `getDS`...FIXME
 
 `getDS` is used when:
 
 * `Snapshot` is requested to [state](Snapshot.md#state)
-
 * `DeltaSourceSnapshot` is requested to [initialFiles](DeltaSourceSnapshot.md#initialFiles)

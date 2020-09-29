@@ -2,6 +2,9 @@
 
 **Snapshot** is an immutable snapshot of the [state](#state) of a [Delta table](#deltaLog) at a [version](#version).
 
+!!! tip
+    Use [Demo: DeltaTable, DeltaLog And Snapshots](demo/DeltaTable-DeltaLog-And-Snapshots.md) to learn more.
+
 ## Creating Instance
 
 Snapshot takes the following to be created:
@@ -72,7 +75,7 @@ version: [version]. Did you manually delete files in the _delta_log directory?
 
 `Snapshot` uses the [spark.databricks.delta.stateReconstructionValidation.enabled](DeltaSQLConf.md#DELTA_STATE_RECONSTRUCTION_VALIDATION_ENABLED) configuration property for [reconstructing state](#computedState).
 
-## <span id="state"> State Dataset (of Actions)
+## <span id="state"> State Dataset of Actions
 
 ```scala
 state: Dataset[SingleAction]
@@ -82,13 +85,9 @@ state: Dataset[SingleAction]
 
 `state` is used when:
 
-* `DeltaLog` is requested to [update](DeltaLog.md#update)
-
-* `Checkpoints` is requested to [checkpoint](Checkpoints.md#checkpoint)
-
-* `Snapshot` is created, and requested for [allFiles](#allFiles) and [tombstones](#tombstones)
-
-* `VacuumCommand` is requested for [garbage collecting of a delta table](commands/VacuumCommand.md#gc)
+* `Checkpoints` utility is used to [writeCheckpoint](Checkpoints.md#writeCheckpoint)
+* `Snapshot` is requested for [computedState](#computedState), [all files](#allFiles) and [files removed (tombstones)](#tombstones)
+* `VacuumCommand` utility is requested for [garbage collection](commands/VacuumCommand.md#gc)
 
 ## <span id="allFiles"> All AddFile Actions
 
@@ -133,19 +132,33 @@ scala> files.show(truncate = false)
 
 * `DeltaDataSource` is requested for an [Insertable HadoopFsRelation](DeltaDataSource.md#RelationProvider-createRelation)
 
-## <span id="stateReconstruction"> stateReconstruction Dataset (of Actions)
+## <span id="stateReconstruction"> stateReconstruction Dataset of Actions
 
 ```scala
 stateReconstruction: Dataset[SingleAction]
 ```
 
-`stateReconstruction` is a dataset of [SingleActions](SingleAction.md) (that is the [dataset](CachedDS.md#ds) part) of the [cachedState](#cachedState).
+!!! note
+    `stateReconstruction` returns a `Dataset[SingleAction]` and so does not do any computation per se.
 
-`stateReconstruction` [loadActions](#loadActions) and...FIXME
+`stateReconstruction` is a `Dataset` of [SingleActions](SingleAction.md) (that is the [dataset](CachedDS.md#ds) part) of the [cachedState](#cachedState).
 
-`stateReconstruction` is used when...FIXME
+`stateReconstruction` [loads the log file indices](#loadActions) (that gives a `Dataset[SingleAction]`).
 
-## <span id="loadActions"> loadActions
+`stateReconstruction` maps over partitions (using `Dataset.mapPartitions`) and canonicalize the paths for [AddFile](AddFile.md) and [RemoveFile](RemoveFile.md) actions.
+
+`stateReconstruction` adds `file` column that uses a UDF to assert that `input_file_name()` belongs to the Delta table.
+
+!!! note
+    This UDF-based check is very clever.
+
+`stateReconstruction` repartitions the `Dataset` using the path of add or remove actions (with the configurable [number of partitions](#getNumPartitions)) and `Dataset.sortWithinPartitions` by the `file` column.
+
+In the end, `stateReconstruction` maps over partitions (using `Dataset.mapPartitions`) that creates a [InMemoryLogReplay](InMemoryLogReplay.md), requests it to [append the actions](InMemoryLogReplay.md#append) (as version `0`) and [checkpoint](InMemoryLogReplay.md#checkpoint).
+
+`stateReconstruction` is used when `Snapshot` is requested for a [cached state](#cachedState).
+
+## <span id="loadActions"> Loading Log File Indices
 
 ```scala
 loadActions: Dataset[SingleAction]
@@ -237,7 +250,7 @@ cachedState: CachedDS[SingleAction]
     lazy val cachedState: CachedDS[SingleAction]
     ```
 
-[Cached Delta State](CachedDS.md) that is made up of the following:
+`cachedState` creates a [Cached Delta State](CachedDS.md) with the following:
 
 * The [dataset](CachedDS.md#ds) part is the [stateReconstruction](#stateReconstruction) dataset of [SingleAction](SingleAction.md)s
 

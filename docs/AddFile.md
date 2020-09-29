@@ -1,4 +1,4 @@
-= AddFile
+# AddFile
 
 `AddFile` is a <<FileAction.md#, file action>> to denote a <<path, file>> added to a <<DeltaLog.md#, delta table>>.
 

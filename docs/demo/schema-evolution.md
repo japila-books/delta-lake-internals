@@ -1,15 +1,12 @@
-= Demo: Schema Evolution
-:navtitle: Schema Evolution
+# Demo: Schema Evolution
 
-[source,plaintext]
-----
+```text
 /*
 spark-shell \
   --packages io.delta:delta-core_2.12:0.7.0 \
   --conf spark.sql.extensions=io.delta.sql.DeltaSparkSessionExtension \
   --conf spark.databricks.delta.snapshotPartitions=1
 */
-assert(spark.version.matches("2.4.[2-6]"), "Delta Lake supports Spark 2.4.2+")
 
 case class PersonV1(id: Long, name: String)
 import org.apache.spark.sql.Encoders
@@ -84,4 +81,4 @@ scala> latestPeople.show
 |  0|ZERO|
 |  1| One|
 +---+----+
-----
+```

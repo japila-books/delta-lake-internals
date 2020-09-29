@@ -1,83 +1,128 @@
-= Demo: DeltaTable, DeltaLog And Snapshots
+# Demo: DeltaTable, DeltaLog And Snapshots
 
-NOTE: Use Converting-Parquet-Dataset-Into-Delta-Format.md[Demo: Converting Parquet Dataset Into Delta Format] to create the delta table for the demo.
+## Create Delta Table
 
-[source, scala]
-----
+```text
 import org.apache.spark.sql.SparkSession
 assert(spark.isInstanceOf[SparkSession])
 
-val dataPath = "/tmp/delta/users"
+val name = "users"
+sql(s"DROP TABLE IF EXISTS $name")
+sql(s"""
+    | CREATE TABLE $name (id bigint, name string, city string, country string)
+    | USING delta
+    """.stripMargin)
+```
+
+## Access Transaction Log (DeltaLog)
+
+```text
+import org.apache.spark.sql.catalyst.TableIdentifier
+val tid = TableIdentifier(name)
+
 import org.apache.spark.sql.delta.DeltaLog
-val deltaLog = DeltaLog.forTable(spark, dataPath)
+val deltaLog = DeltaLog.forTable(spark, tid)
 
-// Review the cached RDD for the state (snapshot)
-// Use http://localhost:4040/storage/
+val snapshot = deltaLog.update()
+assert(snapshot.version == 0)
 
-assert(deltaLog.snapshot.version == 0)
+val state = snapshot.state
+```
 
+```text
+scala> :type state
+org.apache.spark.sql.Dataset[org.apache.spark.sql.delta.actions.SingleAction]
+```
+
+Review the cached RDD for the state snapshot in the Storage tab of the web UI (e.g. http://localhost:4040/storage/).
+
+![Snapshot (Cached RDD) in web UI](../images/demo-snapshot-webui-storage.png)
+
+The "version" part of **Delta Table State** name of the cached RDD should match the version of the snapshot
+
+```text
 // Show the changes (actions)
-scala> deltaLog.snapshot.state.toDF.show
-+----+--------------------+------+--------------------+--------+----------+
-| txn|                 add|remove|            metaData|protocol|commitInfo|
-+----+--------------------+------+--------------------+--------+----------+
-|null|                null|  null|                null|  [1, 2]|      null|
-|null|                null|  null|[3799b291-dbfa-4f...|    null|      null|
-|null|[city=Paris/count...|  null|                null|    null|      null|
-|null|[city=Warsaw/coun...|  null|                null|    null|      null|
-|null|[city=Warsaw/coun...|  null|                null|    null|      null|
-+----+--------------------+------+--------------------+--------+----------+
+scala> snapshot.state.show
++----+----+------+--------------------+--------+----------+
+| txn| add|remove|            metaData|protocol|commitInfo|
++----+----+------+--------------------+--------+----------+
+|null|null|  null|                null|  [1, 2]|      null|
+|null|null|  null|[5156c9e3-9668-43...|    null|      null|
++----+----+------+--------------------+--------+----------+
+```
 
-val dt = DeltaTable.forPath(deltaLog.dataPath.toString)
-scala> dt.history.show
-+-------+-------------------+------+--------+---------+--------------------+----+--------+---------+-----------+--------------+-------------+
-|version|          timestamp|userId|userName|operation| operationParameters| job|notebook|clusterId|readVersion|isolationLevel|isBlindAppend|
-+-------+-------------------+------+--------+---------+--------------------+----+--------+---------+-----------+--------------+-------------+
-|      0|2020-01-06 17:08:02|  null|    null|  CONVERT|[numFiles -> 3, p...|null|    null|     null|       null|          null|         null|
-+-------+-------------------+------+--------+---------+--------------------+----+--------+---------+-----------+--------------+-------------+
+## DeltaTable as DataFrame
 
-// Show the data (for the changes)
+```text
+import io.delta.tables.DeltaTable
+val dt = DeltaTable.forName(name)
+```
+
+```text
+scala> dt.history.select('version, 'operation, 'operationParameters, 'operationMetrics).show(truncate = false)
++-------+-------------------+------+--------+------------+--------------------+----+--------+---------+-----------+--------------+-------------+----------------+------------+
+|version|          timestamp|userId|userName|   operation| operationParameters| job|notebook|clusterId|readVersion|isolationLevel|isBlindAppend|operationMetrics|userMetadata|
++-------+-------------------+------+--------+------------+--------------------+----+--------+---------+-----------+--------------+-------------+----------------+------------+
+|      0|2020-09-29 10:31:30|  null|    null|CREATE TABLE|[isManaged -> tru...|null|    null|     null|       null|          null|         true|              []|        null|
++-------+-------------------+------+--------+------------+--------------------+----+--------+---------+-----------+--------------+-------------+----------------+------------+
+```
+
+```text
 val users = dt.toDF
+```
+
+```text
 scala> users.show
++---+----+----+-------+
+| id|name|city|country|
++---+----+----+-------+
++---+----+----+-------+
+```
+
+## Add new users
+
+```text
+val newUsers = Seq(
+  (0L, "Agata", "Warsaw", "Poland"),
+  (1L, "Bartosz", "Paris", "France")
+).toDF("id", "name", "city", "country")
+```
+
+```text
+scala> newUsers.show
 +---+-------+------+-------+
 | id|   name|  city|country|
 +---+-------+------+-------+
-|  2|Bartosz| Paris| France|
 |  0|  Agata|Warsaw| Poland|
-|  1|  Jacek|Warsaw| Poland|
+|  1|Bartosz| Paris| France|
 +---+-------+------+-------+
+```
 
-// Add a new user
-val loic = Seq((3L, "Loic", "Paris", "France")).toDF("id", "name", "city", "country")
-scala> loic.show
-+---+----+-----+-------+
-| id|name| city|country|
-+---+----+-----+-------+
-|  3|Loic|Paris| France|
-+---+----+-----+-------+
-
-loic.write.format("delta").mode("append").save(deltaLog.dataPath.toString)
-
-// Review the cached RDD for the state (snapshot)
-// Use http://localhost:4040/storage/
-
+```text
+newUsers.write.format("delta").mode("append").saveAsTable(name)
 assert(deltaLog.snapshot.version == 1)
+```
 
+Review the cached RDD for the state snapshot in the Storage tab of the web UI (e.g. http://localhost:4040/storage/).
+
+The "version" part of **Delta Table State** name of the cached RDD should match the version of the snapshot
+
+```text
 scala> users.show
 +---+-------+------+-------+
 | id|   name|  city|country|
 +---+-------+------+-------+
-|  2|Bartosz| Paris| France|
+|  1|Bartosz| Paris| France|
 |  0|  Agata|Warsaw| Poland|
-|  1|  Jacek|Warsaw| Poland|
-|  3|   Loic| Paris| France|
 +---+-------+------+-------+
+```
 
-scala> dt.history.show
-+-------+-------------------+------+--------+---------+--------------------+----+--------+---------+-----------+--------------+-------------+
-|version|          timestamp|userId|userName|operation| operationParameters| job|notebook|clusterId|readVersion|isolationLevel|isBlindAppend|
-+-------+-------------------+------+--------+---------+--------------------+----+--------+---------+-----------+--------------+-------------+
-|      1|2020-01-06 17:12:28|  null|    null|    WRITE|[mode -> Append, ...|null|    null|     null|          0|          null|         true|
-|      0|2020-01-06 17:08:02|  null|    null|  CONVERT|[numFiles -> 3, p...|null|    null|     null|       null|          null|         null|
-+-------+-------------------+------+--------+---------+--------------------+----+--------+---------+-----------+--------------+-------------+
-----
+```text
+scala> dt.history.select('version, 'operation, 'operationParameters, 'operationMetrics).show(truncate = false)
++-------+------------+------------------------------------------------------------------------+-----------------------------------------------------------+
+|version|operation   |operationParameters                                                     |operationMetrics                                           |
++-------+------------+------------------------------------------------------------------------+-----------------------------------------------------------+
+|1      |WRITE       |[mode -> Append, partitionBy -> []]                                     |[numFiles -> 2, numOutputBytes -> 2299, numOutputRows -> 2]|
+|0      |CREATE TABLE|[isManaged -> true, description ->, partitionBy -> [], properties -> {}]|[]                                                         |
++-------+------------+------------------------------------------------------------------------+-----------------------------------------------------------+
+```

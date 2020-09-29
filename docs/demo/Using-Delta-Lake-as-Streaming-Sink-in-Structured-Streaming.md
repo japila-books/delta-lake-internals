@@ -1,6 +1,6 @@
-= Demo: Using Delta Lake as Streaming Sink in Structured Streaming
+# Demo: Using Delta Lake as Streaming Sink in Structured Streaming
 
-```
+```text
 /*
 ./bin/spark-shell \
   --packages io.delta:delta-core_2.12:0.7.0 \

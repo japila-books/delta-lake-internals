@@ -1,14 +1,13 @@
-= Metadata
+# Metadata
 
 *Metadata* is an <<Action.md#, action>> that describes metadata (change) of a <<DeltaLog.md#metadata, delta table>> (indirectly via <<Snapshot.md#metadata, Snapshot>>).
 
-[source,plaintext]
-----
+```text
 import org.apache.spark.sql.delta.DeltaLog
 val deltaLog = DeltaLog.forTable(spark, "/tmp/delta/users")
 scala> :type deltaLog.snapshot.metadata
 org.apache.spark.sql.delta.actions.Metadata
-----
+```
 
 Metadata contains all the non-data information (_metadata_) like <<name, name>>, <<description, description>>, <<format, format>>, <<schemaString, schema>>, <<partitionColumns, partition columns>>, <<configuration, table properties>> and <<createdTime, created time>>. These can be changed (e.g., schema evolution).
 

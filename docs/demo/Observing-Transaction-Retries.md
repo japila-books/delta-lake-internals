@@ -1,8 +1,8 @@
-= Demo: Observing Transaction Retries
+# Demo: Observing Transaction Retries
 
-Enable `ALL` logging level for ROOT:OptimisticTransaction.md#logging[org.apache.spark.sql.delta.OptimisticTransaction] logger. You'll be looking for the following DEBUG message in the logs:
+Enable `ALL` logging level for [org.apache.spark.sql.delta.OptimisticTransaction](../OptimisticTransaction.md#logging) logger. You'll be looking for the following DEBUG message in the logs:
 
-```
+```text
 Attempting to commit version [version] with 13 actions with Serializable isolation level
 ```
 
@@ -18,7 +18,7 @@ In order to interfere with a transaction about to be committed, you will use ROO
 
 Run the command (copy and paste the ROOT:WriteIntoDelta.md#demo[demo code] to `spark-shell` using paste mode). You should see the following messages in the logs:
 
-```
+```text
 scala> writeCmd.run(spark)
 DeltaLog: DELTA: Updating the Delta table's state
 OptimisticTransaction: Attempting to commit version 6 with 13 actions with Serializable isolation level

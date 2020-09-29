@@ -1,9 +1,7 @@
-= Demo: Using User Metadata to Distinguish Commits of Streaming Queries
-:navtitle: Using User Metadata to Distinguish Commits of Streaming Queries
+# Demo: Using User Metadata to Distinguish Commits of Streaming Queries
 
-The demo shows how to differentiate commits of two streaming queries using ROOT:DeltaOptions.md#userMetadata[userMetadata] option.
+The demo shows how to differentiate commits of two streaming queries using [userMetadata](../DeltaOptions.md#userMetadata) option.
 
-[source,plaintext]
-----
+```text
 // FIXME
-----
+```

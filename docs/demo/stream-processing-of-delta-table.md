@@ -1,7 +1,6 @@
-= Demo: Stream Processing of Delta Table
+# Demo: Stream Processing of Delta Table
 
-[source,plaintext]
-----
+```text
 /*
 spark-shell \
   --packages io.delta:delta-core_2.12:0.7.0 \
@@ -107,4 +106,4 @@ Batch: 4
 +---+-----+-------+
 |3  |Domas|Vilnius|
 +---+-----+-------+
-----
+```

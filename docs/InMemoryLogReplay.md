@@ -1,4 +1,4 @@
-= InMemoryLogReplay -- Delta Log Replay
+# InMemoryLogReplay &mdash; Delta Log Replay
 
 `InMemoryLogReplay` is used at the very last phase of <<Snapshot.md#stateReconstruction, state reconstruction>> (of a <<Snapshot.md#cachedState, cached delta state>>).
 
