@@ -1,6 +1,6 @@
 # DeltaTable
 
-**DeltaTable** is the [management interface](#operators) of a Delta table (with the [Delta DML Operations](DeltaTableOperations.md)).
+**DeltaTable** is the [management interface](#operators) of a Delta table.
 
 DeltaTable instances are created using [utilities](#utilities) (e.g. [DeltaTable.forName](#forName), [DeltaTable.convertToDelta](#convertToDelta)).
 

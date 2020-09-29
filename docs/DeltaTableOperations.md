@@ -1,112 +1,80 @@
-= [[DeltaTableOperations]] DeltaTableOperations -- Delta DML Operations
+# DeltaTableOperations &mdash; Delta DML Operations
 
-[[self]]
-`DeltaTableOperations` is the <<contract, abstraction>> of <<implementations, management services>> of a <<DeltaTable.md#, DeltaTable>> for executing <<executeDelete, delete>>, <<executeHistory, history>>, <<executeUpdate, update>>, and <<executeVacuum, vacuum>> commands.
+`DeltaTableOperations` is an abstraction of [management services](#implementations) for executing [delete](#executeDelete), [generate](#executeGenerate), [history](#executeHistory), [update](#executeUpdate), and [vacuum](#executeVacuum) operations (_commands_).
 
-[[implementations]]
-NOTE: <<DeltaTable.md#, DeltaTable>> is the default and only known `DeltaTableOperations` in Delta Lake.
+<span id="self">
+`DeltaTableOperations` is assumed to be associated with a [DeltaTable](DeltaTable.md).
 
-NOTE: <<executeDelete, Delete>> and <<executeUpdate, Update>> operations do not support subqueries (and <<subqueryNotSupportedCheck, throw an AnalysisException>> otherwise).
+## Implementations
 
-== [[executeGenerate]] Executing Generate Command -- `executeGenerate` Method
+* [DeltaTable](DeltaTable.md)
 
-[source, scala]
-----
+## <span id="executeDelete"> Executing DeleteFromTable Command
+
+```scala
+executeDelete(
+  condition: Option[Expression]): Unit
+```
+
+`executeDelete` creates a `DataFrame` for a `DeleteFromTable` logical operator (from Spark SQL) with (the analyzed logical plan of the [DeltaTable](#self) and the given `condition`).
+
+!!! note
+    `DeleteFromTable` is a `Command` (Spark SQL) that represents `DELETE FROM` SQL statement for v2 tables. As a `Command` it is executed eagerly.
+
+`executeDelete` is used for [DeltaTable.delete](DeltaTable.md#delete) operator.
+
+## <span id="executeGenerate"> Executing DeltaGenerateCommand Command
+
+```scala
 executeGenerate(
   tblIdentifier: String,
   mode: String): Unit
-----
+```
 
-`executeGenerate` requests the SQL parser (of the `SparkSession`) to parse the given table identifier, creates a <<DeltaGenerateCommand.md#, DeltaGenerateCommand>> and runs it.
+`executeGenerate` requests the SQL parser (of the `SparkSession`) to parse the given table identifier, creates a [DeltaGenerateCommand](DeltaGenerateCommand.md) and runs it.
 
-NOTE: `executeGenerate` is used in <<DeltaTable.md#generate, DeltaTable.generate>> operator.
+`executeGenerate` is used for [DeltaTable.generate](DeltaTable.md#generate) operator.
 
-== [[executeDelete]] Executing Delete Command -- `executeDelete` Method
+## <span id="executeHistory"> Executing History Command
 
-[source, scala]
-----
-executeDelete(
-  condition: Option[Expression]): Unit
-----
-
-`executeDelete` creates a `QueryExecution` for the `Delete` logical operator with (the analyzed logical plan of) the <<self, DeltaTable>>. `executeDelete` requests the `QueryExecution` for the analyzed logical plan that is (_again?!_) a `Delete` unary node.
-
-NOTE: FIXME What's the purpose of all this resolutions?
-
-In the end, `executeDelete` simply creates a <<DeleteCommand.md#, DeleteCommand>> (for the resolved delete) and <<DeleteCommand.md#run, executes it>>.
-
-`executeDelete` <<subqueryNotSupportedCheck, throws an AnalysisException>> when the `condition` expression contains subqueries.
-
-NOTE: `executeDelete` is used in <<DeltaTable.md#delete, DeltaTable.delete>> operator.
-
-== [[executeHistory]] `executeHistory` Method
-
-[source, scala]
-----
+```scala
 executeHistory(
   deltaLog: DeltaLog,
   limit: Option[Int]): DataFrame
-----
+```
 
-`executeHistory`...FIXME
+`executeHistory` creates [DeltaHistoryManager](DeltaHistoryManager.md) (for the given [DeltaLog](DeltaLog.md)) and requests it for the number of [commits](DeltaHistoryManager.md#getHistory) to match the `limit`. In the end, `executeHistory` creates a `DataFrame` for the commits.
 
-NOTE: `executeHistory` is used when...FIXME
+`executeHistory` is used for [DeltaTable.history](DeltaTable.md#history) operator.
 
-== [[executeUpdate]] `executeUpdate` Method
+## <span id="executeUpdate"> Executing UpdateTable Command
 
-[source, scala]
-----
+```scala
 executeUpdate(
   set: Map[String, Column],
   condition: Option[Column]): Unit
-----
+```
 
-`executeUpdate`...FIXME
+`executeUpdate` creates a `DataFrame` for a `UpdateTable` logical operator (from Spark SQL) with (the analyzed logical plan of the [DeltaTable](#self) and the given `condition`).
 
-NOTE: `executeUpdate` is used when...FIXME
+!!! note
+    `UpdateTable` is a `Command` (Spark SQL) that represents `UPDATE TABLE` SQL statement for v2 tables. As a `Command` it is executed eagerly.
 
-== [[executeVacuum]] Executing Vacuum Command -- `executeVacuum` Method
+`executeUpdate` is used for [DeltaTable.update](DeltaTable.md#update) and [DeltaTable.updateExpr](DeltaTable.md#updateExpr) operators.
 
-[source, scala]
-----
+## <span id="executeVacuum"> Executing VacuumCommand
+
+```scala
 executeVacuum(
   deltaLog: DeltaLog,
   retentionHours: Option[Double]): DataFrame
-----
+```
 
-`executeVacuum` simply uses the `VacuumCommand` utility to <<VacuumCommand.md#gc, gc>> (with the `dryRun` flag off) and returns an empty `DataFrame`.
+`executeVacuum` uses the `VacuumCommand` utility to [gc](VacuumCommand.md#gc) (with the `dryRun` flag off and the given `retentionHours`).
 
-NOTE: `executeVacuum` returns an empty `DataFrame` not the one from <<VacuumCommand.md#gc, VacuumCommand.gc>>.
+In the end, `executeVacuum` returns an empty `DataFrame`.
+
+!!! note
+    `executeVacuum` returns an empty `DataFrame` not the one from [VacuumCommand.gc](VacuumCommand.md#gc).
 
 NOTE: `executeVacuum` is used exclusively in <<DeltaTable.md#vacuum, DeltaTable.vacuum>> operator.
-
-== [[makeUpdateTable]] `makeUpdateTable` Method
-
-[source, scala]
-----
-makeUpdateTable(
-  target: DeltaTable,
-  onCondition: Option[Column],
-  setColumns: Seq[(String, Column)]): UpdateTable
-----
-
-`makeUpdateTable`...FIXME
-
-NOTE: `makeUpdateTable` is used when...FIXME
-
-== [[subqueryNotSupportedCheck]] `subqueryNotSupportedCheck` Internal Method
-
-[source, scala]
-----
-subqueryNotSupportedCheck(
-  condition: Option[Expression],
-  op: String): Unit
-----
-
-`subqueryNotSupportedCheck` traverses the `condition` expression and throws an `AnalysisException` when it finds a `SubqueryExpression`:
-
-```
-Subqueries are not supported in the [op] (condition = [sql]).
-```
-
-NOTE: `subqueryNotSupportedCheck` is used when `DeltaTableOperations` is requested to execute <<executeDelete, delete>> and <<executeUpdate, update>> operations.

@@ -85,10 +85,8 @@ nav:
     - Overview: overview.md
     - Installation: installation.md
     - Time Travel: time-travel.md
+    - DeltaTable: DeltaTable.md
     - Configuration Properties: DeltaSQLConf.md
-    - DeltaTable:
-      - DeltaTable: DeltaTable.md
-      - DeltaTableOperations: DeltaTableOperations.md
     - Transaction Log (DeltaLog):
       - DeltaLog: DeltaLog.md
       - Operation: Operation.md
@@ -98,7 +96,7 @@ nav:
       - MetadataCleanup: MetadataCleanup.md
       - LogStoreProvider: LogStoreProvider.md
       - VerifyChecksum: VerifyChecksum.md
-    - Snapshot:
+    - State Snapshot:
       - Snapshot: Snapshot.md
       - InMemoryLogReplay: InMemoryLogReplay.md
       - PartitionFiltering: PartitionFiltering.md
@@ -113,12 +111,6 @@ nav:
       - LogStore: LogStore.md
       - HDFSLogStore: HDFSLogStore.md
       - HadoopFileSystemLogStore: HadoopFileSystemLogStore.md
-    - ImplicitMetadataOperation: ImplicitMetadataOperation.md
-    - DeltaFileOperations: DeltaFileOperations.md
-    - SchemaUtils: SchemaUtils.md
-    - DeltaTableUtils: DeltaTableUtils.md
-    - Invariants: Invariants.md
-    - DeltaInvariantCheckerExec: DeltaInvariantCheckerExec.md
     - TahoeFileIndex:
       - TahoeFileIndex: TahoeFileIndex.md
       - TahoeBatchFileIndex: TahoeBatchFileIndex.md
@@ -139,12 +131,7 @@ nav:
       - DeltaConfig: DeltaConfig.md
     - FileNames: FileNames.md
     - DeltaLogFileIndex: DeltaLogFileIndex.md
-    - DeltaErrors: DeltaErrors.md
     - Logging: spark-logging.md
-    - StateCache:
-      - StateCache: StateCache.md
-      - CachedDS: CachedDS.md
-    - The Others (Contenders): others.md
     - Delta Data Source:
       - DeltaDataSource: DeltaDataSource.md
       - DeltaOptions: DeltaOptions.md
@@ -213,3 +200,17 @@ nav:
     - DeltaTable, DeltaLog And Snapshots: demo/DeltaTable-DeltaLog-And-Snapshots.md
     - Schema Evolution: demo/schema-evolution.md
     - Using User Metadata to Distinguish Commits of Streaming Queries: demo/using-user-metadata-to-distinguish-commits-streaming-queries.md
+  - Misc:
+    - DeltaErrors: DeltaErrors.md
+    - DeltaFileOperations: DeltaFileOperations.md
+    - DeltaInvariantCheckerExec: DeltaInvariantCheckerExec.md
+    - DeltaTableOperations: DeltaTableOperations.md
+    - DeltaTableUtils: DeltaTableUtils.md
+    - ImplicitMetadataOperation: ImplicitMetadataOperation.md
+    - Invariants: Invariants.md
+    - SchemaUtils: SchemaUtils.md
+    - StateCache:
+      - StateCache: StateCache.md
+      - CachedDS: CachedDS.md
+  - Contenders:
+    - Contenders: contenders/index.md

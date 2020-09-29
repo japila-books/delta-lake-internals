@@ -1,6 +1,6 @@
 # Snapshot
 
-**Snapshot** is an immutable snapshot of the [state](#state) of a [Delta table](#deltaLog) at a [version](#version).
+**Snapshot** is an immutable snapshot of the [state](#state) of the [Delta table](#deltaLog) at the [version](#version).
 
 !!! tip
     Use [Demo: DeltaTable, DeltaLog And Snapshots](demo/DeltaTable-DeltaLog-And-Snapshots.md) to learn more.

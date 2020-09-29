@@ -22,7 +22,11 @@ val tid = TableIdentifier(name)
 
 import org.apache.spark.sql.delta.DeltaLog
 val deltaLog = DeltaLog.forTable(spark, tid)
+```
 
+Update the state of the delta table to the most recent version.
+
+```text
 val snapshot = deltaLog.update()
 assert(snapshot.version == 0)
 
