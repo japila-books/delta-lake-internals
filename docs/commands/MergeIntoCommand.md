@@ -1,6 +1,6 @@
 # MergeIntoCommand
 
-`MergeIntoCommand` is a [DeltaCommand](DeltaCommand.md) that represents a [DeltaMergeInto](DeltaMergeInto.md) logical command.
+`MergeIntoCommand` is a [DeltaCommand](DeltaCommand.md) that represents a [DeltaMergeInto](DeltaMergeInto.md) logical command at execution time.
 
 `MergeIntoCommand` is a logical command (Spark SQL's [RunnableCommand](https://jaceklaskowski.github.io/mastering-spark-sql-book/logical-operators/RunnableCommand/)).
 
@@ -22,7 +22,7 @@ Name     | web UI
 
 `MergeIntoCommand` takes the following to be created:
 
-* <span id="source"> Source Data (`LogicalPlan`)
+* [Source Data](#source)
 * <span id="target"> Target Data (`LogicalPlan`)
 * <span id="targetFileIndex"> [TahoeFileIndex](../TahoeFileIndex.md)
 * <span id="condition"> Condition Expression
@@ -31,6 +31,17 @@ Name     | web UI
 * <span id="migratedSchema"> Migrated Schema
 
 `MergeIntoCommand` is created when [PreprocessTableMerge](../PreprocessTableMerge.md) logical resolution rule is executed (on a [DeltaMergeInto](DeltaMergeInto.md) logical command).
+
+## <span id="source"> Source Data to Merge From
+
+When [created](#creating-instance), `MergeIntoCommand` is given a `LogicalPlan` for the source data to merge from.
+
+The `LogicalPlan` is used twice:
+
+* Firstly, in one of the following:
+    * An inner join (in [findTouchedFiles](#findTouchedFiles)) that is `count` in web UI
+    * A leftanti join (in [writeInsertsOnlyWhenNoMatchedClauses](#writeInsertsOnlyWhenNoMatchedClauses))
+* Secondly, in rightOuter or fullOuter join (in [writeAllChanges](#writeAllChanges))
 
 ## <span id="run"> Executing Command
 
@@ -117,13 +128,20 @@ writeAllChanges: join output plan:
 
 ```scala
 findTouchedFiles(
-  deltaTxn: OptimisticTransaction,
-  files: Seq[AddFile]): LogicalPlan
+  spark: SparkSession,
+  deltaTxn: OptimisticTransaction): Seq[AddFile]
 ```
 
-`findTouchedFiles`...FIXME
+`findTouchedFiles` registers an accumulator to collect all the distinct touched files.
 
-`findTouchedFiles` is used when `MergeIntoCommand` is requested to [run](#run).
+!!! note
+    The name of the accumulator is **internal.metrics.MergeIntoDelta.touchedFiles** and `internal.metrics` part is supposed to hide it for web UI as potentially large.
+
+`findTouchedFiles` defines a UDF that adds the file names to the accumulator.
+
+`findTouchedFiles` does some _magic_ with the [condition](#condition) to find expressions that use the [target](#target)'s columns.
+
+`findTouchedFiles`...FIXME
 
 ### <span id="buildTargetPlanWithFiles"> buildTargetPlanWithFiles
 
@@ -136,3 +154,25 @@ buildTargetPlanWithFiles(
 `buildTargetPlanWithFiles`...FIXME
 
 `buildTargetPlanWithFiles` is used when `MergeIntoCommand` is requested to [run](#run) (via [findTouchedFiles](#findTouchedFiles) and [writeAllChanges](#writeAllChanges)).
+
+### <span id="writeInsertsOnlyWhenNoMatchedClauses"> writeInsertsOnlyWhenNoMatchedClauses
+
+```scala
+writeInsertsOnlyWhenNoMatchedClauses(
+  spark: SparkSession,
+  deltaTxn: OptimisticTransaction): Seq[AddFile]
+```
+
+`writeInsertsOnlyWhenNoMatchedClauses`...FIXME
+
+## Logging
+
+Enable `ALL` logging level for `org.apache.spark.sql.delta.commands.MergeIntoCommand` logger to see what happens inside.
+
+Add the following line to `conf/log4j.properties`:
+
+```text
+log4j.logger.org.apache.spark.sql.delta.commands.MergeIntoCommand=ALL
+```
+
+Refer to [Logging](../spark-logging.md).
