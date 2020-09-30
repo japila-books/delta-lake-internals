@@ -4,6 +4,9 @@
 
 `MergeIntoCommand` is a logical command (Spark SQL's [RunnableCommand](https://jaceklaskowski.github.io/mastering-spark-sql-book/logical-operators/RunnableCommand/)).
 
+!!! tip
+    Learn more on the internals of `MergeIntoCommand` in [Demo: Merge Operation](../demo/merge-operation.md).
+
 ## Performance Metrics
 
 Name     | web UI
@@ -139,7 +142,10 @@ findTouchedFiles(
 
 `findTouchedFiles` defines a UDF that adds the file names to the accumulator.
 
-`findTouchedFiles` does some _magic_ with the [condition](#condition) to find expressions that use the [target](#target)'s columns.
+`findTouchedFiles` does some _magic_ with the [condition](#condition) to find expressions that use the [target](#target)'s columns. `findTouchedFiles` splits conjunctive predicates (`And` expressions) and collects the predicates that use the [target](#target)'s columns (_targetOnlyPredicates_). `findTouchedFiles` requests the given [OptimisticTransaction](../OptimisticTransaction.md) for the [files that match the predicates](../OptimisticTransactionImpl.md#filterFiles).
+
+!!! note
+    This step looks similar to **filter predicate pushdown**. Please confirm.
 
 `findTouchedFiles`...FIXME
 
@@ -152,8 +158,6 @@ buildTargetPlanWithFiles(
 ```
 
 `buildTargetPlanWithFiles`...FIXME
-
-`buildTargetPlanWithFiles` is used when `MergeIntoCommand` is requested to [run](#run) (via [findTouchedFiles](#findTouchedFiles) and [writeAllChanges](#writeAllChanges)).
 
 ### <span id="writeInsertsOnlyWhenNoMatchedClauses"> writeInsertsOnlyWhenNoMatchedClauses
 

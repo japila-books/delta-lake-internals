@@ -1,14 +1,12 @@
 # OptimisticTransaction
 
-**OptimisticTransaction** is an OptimisticTransactionImpl.md[] (which _seems_ more of a class name change than anything more important).
-
-OptimisticTransaction is <<creating-instance, created>> for changes to a <<deltaLog, delta table>> at a given <<snapshot, version>>.
+**OptimisticTransaction** is an [OptimisticTransactionImpl](OptimisticTransactionImpl.md) (which _seems_ more of a class name change than anything more important).
 
 When OptimisticTransaction (as a <<OptimisticTransactionImpl.md#, OptimisticTransactionImpl>>) is attempted to be <<OptimisticTransactionImpl.md#commit, committed>> (that does <<OptimisticTransactionImpl.md#doCommit, doCommit>> internally), the <<LogStore.md#, LogStore>> (of the <<deltaLog, DeltaLog>>) is requested to <<LogStore.md#write, write actions to a delta file>>, e.g. `_delta_log/00000000000000000001.json` for the attempt version `1`. Only when a `FileAlreadyExistsException` is thrown a commit is considered unsuccessful and <<OptimisticTransactionImpl.md#checkAndRetry, retried>>.
 
-OptimisticTransaction can be associated with a thread as an <<active, active transaction>>.
+`OptimisticTransaction` can be associated with a thread as an <<active, active transaction>>.
 
-== [[creating-instance]] Creating Instance
+## Creating Instance
 
 OptimisticTransaction takes the following to be created:
 
@@ -18,7 +16,9 @@ OptimisticTransaction takes the following to be created:
 
 NOTE: The <<deltaLog, DeltaLog>> and <<snapshot, Snapshot>> are part of the <<OptimisticTransactionImpl.md#, OptimisticTransactionImpl>> contract (which in turn inherits them as a TransactionalWrite.md[] and changes to `val` from `def`).
 
-OptimisticTransaction is created when DeltaLog is used for the following:
+`OptimisticTransaction` is created for changes to a <<deltaLog, delta table>> at a given <<snapshot, version>>.
+
+`OptimisticTransaction` is created when DeltaLog is used for the following:
 
 * DeltaLog.md#startTransaction[Starting a new transaction]
 

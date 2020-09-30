@@ -2,6 +2,9 @@
 
 This demo shows [DeltaTable.merge](../DeltaTable.md#merge) operation (and the underlying [MergeIntoCommand](../commands/MergeIntoCommand.md)) in action.
 
+!!! tip
+    Enable `ALL` logging level for `org.apache.spark.sql.delta.commands.MergeIntoCommand` logger as described in [Logging](../commands/MergeIntoCommand.md#logging).
+
 ## Create Delta Table (Target Data)
 
 ```scala

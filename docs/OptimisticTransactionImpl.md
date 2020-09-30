@@ -102,31 +102,28 @@ updateMetadata is used when:
 
 * `ImplicitMetadataOperation` is requested to <<ImplicitMetadataOperation.md#updateMetadata, updateMetadata>>
 
-== [[filterFiles]] Files To Scan Matching Given Predicates
+## <span id="filterFiles"> Files To Scan Matching Given Predicates
 
-[source, scala]
-----
-filterFiles(): Seq[AddFile] // <1>
+```scala
+filterFiles(): Seq[AddFile] // Uses `true` literal to mean that all files match
 filterFiles(
   filters: Seq[Expression]): Seq[AddFile]
-----
-<1> Uses `true` literal to mean that all files match
+```
 
-filterFiles gives the AddFile.md[files] to scan based on the given predicates (filter expressions).
+`filterFiles` gives the [files](AddFile.md) to scan based on the given predicates (filter expressions).
 
-Internally, filterFiles requests the <<snapshot, Snapshot>> for the PartitionFiltering.md#filesForScan[filesForScan] (for no projection attributes and the given filters).
+Internally, `filterFiles` requests the [Snapshot](#snapshot) for the [filesForScan](PartitionFiltering.md#filesForScan) (for no projection attributes and the given filters).
 
-filterFiles finds the DeltaTableUtils.md#isPredicatePartitionColumnsOnly[partition predicates] among the given filters (and the Metadata.md#partitionColumns[partition columns] of the <<metadata, Metadata>>).
+`filterFiles` finds the [partition predicates](DeltaTableUtils.md#isPredicatePartitionColumnsOnly) among the given filters (and the [partition columns](Metadata.md#partitionColumns) of the [Metadata](#metadata)).
 
-filterFiles registers (_adds_) the partition predicates (in the <<readPredicates, readPredicates>> internal registry) and the files to scan (in the <<readFiles, readFiles>> internal registry).
+`filterFiles` registers (_adds_) the partition predicates (in the [readPredicates](#readPredicates) internal registry) and the files to scan (in the [readFiles](#readFiles) internal registry).
 
-filterFiles is used when:
+`filterFiles` is used when:
 
-* `WriteIntoDelta` is requested to WriteIntoDelta.md#write[write]
-
-* `DeltaSink` is requested to DeltaSink.md#addBatch[add a streaming micro-batch] (with `Complete` output mode to mark all to be removed)
-
-* DeleteCommand.md[DeleteCommand], MergeIntoCommand.md[MergeIntoCommand] and UpdateCommand.md[UpdateCommand] are executed
+* `WriteIntoDelta` is requested to [write](commands/WriteIntoDelta.md#write)
+* `DeltaSink` is requested to [add a streaming micro-batch](DeltaSink.md#addBatch) (with `Complete` output mode)
+* [DeleteCommand](commands/DeleteCommand.md), [MergeIntoCommand](commands/MergeIntoCommand.md) and [UpdateCommand](commands/UpdateCommand.md) are executed
+* [CreateDeltaTableCommand](commands/CreateDeltaTableCommand.md) is executed
 
 == [[readWholeTable]] readWholeTable Method
 

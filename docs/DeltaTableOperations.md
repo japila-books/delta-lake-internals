@@ -31,7 +31,7 @@ executeGenerate(
   mode: String): Unit
 ```
 
-`executeGenerate` requests the SQL parser (of the `SparkSession`) to parse the given table identifier, creates a [DeltaGenerateCommand](DeltaGenerateCommand.md) and runs it.
+`executeGenerate` requests the SQL parser (of the `SparkSession`) to parse the given table identifier, creates a [DeltaGenerateCommand](commands/DeltaGenerateCommand.md) and runs it.
 
 `executeGenerate` is used for [DeltaTable.generate](DeltaTable.md#generate) operator.
 
@@ -70,11 +70,11 @@ executeVacuum(
   retentionHours: Option[Double]): DataFrame
 ```
 
-`executeVacuum` uses the `VacuumCommand` utility to [gc](VacuumCommand.md#gc) (with the `dryRun` flag off and the given `retentionHours`).
+`executeVacuum` uses the `VacuumCommand` utility to [gc](commands/VacuumCommand.md#gc) (with the `dryRun` flag off and the given `retentionHours`).
 
 In the end, `executeVacuum` returns an empty `DataFrame`.
 
 !!! note
-    `executeVacuum` returns an empty `DataFrame` not the one from [VacuumCommand.gc](VacuumCommand.md#gc).
+    `executeVacuum` returns an empty `DataFrame` not the one from [VacuumCommand.gc](commands/VacuumCommand.md#gc).
 
 NOTE: `executeVacuum` is used exclusively in <<DeltaTable.md#vacuum, DeltaTable.vacuum>> operator.
