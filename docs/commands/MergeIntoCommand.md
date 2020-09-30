@@ -96,7 +96,7 @@ writeAllChanges(
 `writeAllChanges` builds the target output columns (possibly with some `null`s for the target columns that are not in the current schema).
 
 <span id="writeAllChanges-newTarget">
-`writeAllChanges` [buildTargetPlanWithFiles](#buildTargetPlanWithFiles).
+`writeAllChanges` [builds a target logical query plan for the AddFiles](#buildTargetPlanWithFiles).
 
 <span id="writeAllChanges-joinType">
 `writeAllChanges` determines a join type to use (`rightOuter` or `fullOuter`).
@@ -149,7 +149,7 @@ findTouchedFiles(
 
 `findTouchedFiles`...FIXME
 
-### <span id="buildTargetPlanWithFiles"> buildTargetPlanWithFiles
+### <span id="buildTargetPlanWithFiles"> Building Target Logical Query Plan for AddFiles
 
 ```scala
 buildTargetPlanWithFiles(
@@ -157,7 +157,16 @@ buildTargetPlanWithFiles(
   files: Seq[AddFile]): LogicalPlan
 ```
 
-`buildTargetPlanWithFiles`...FIXME
+`buildTargetPlanWithFiles` creates a DataFrame to represent the given [AddFile](../AddFile.md)s to access the analyzed logical query plan. `buildTargetPlanWithFiles` requests the given [OptimisticTransaction](../OptimisticTransaction.md) for the [DeltaLog](../OptimisticTransaction.md#deltaLog) to [create a DataFrame](../DeltaLog.md#createDataFrame) (for the [Snapshot](../OptimisticTransaction.md#snapshot) and the given [AddFile](../AddFile.md)s).
+
+In the end, `buildTargetPlanWithFiles` creates a `Project` logical operator with `Alias` expressions so the output columns of the analyzed logical query plan (of the `DataFrame` of the `AddFiles`) reference the target's output columns (by name).
+
+!!! note
+    The output columns of the target delta table are associated with a [OptimisticTransaction](../OptimisticTransaction.md) as the [Metadata](../OptimisticTransactionImpl.md#metadata).
+
+    ```scala
+    deltaTxn.metadata.schema
+    ```
 
 ### <span id="writeInsertsOnlyWhenNoMatchedClauses"> writeInsertsOnlyWhenNoMatchedClauses
 

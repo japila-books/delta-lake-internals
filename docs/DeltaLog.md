@@ -439,41 +439,38 @@ For every delta file, `getChanges` requests the <<store, LogStore>> to <<LogStor
 
 NOTE: `getChanges` is used when `DeltaSource` is requested for the <<DeltaSource.md#getChanges, indexed file additions (FileAdd actions)>>.
 
-== [[createDataFrame]] Creating DataFrame For Given AddFiles -- `createDataFrame` Method
+## <span id="createDataFrame"> Creating DataFrame For Given AddFiles
 
-[source, scala]
-----
+```scala
 createDataFrame(
   snapshot: Snapshot,
   addFiles: Seq[AddFile],
   isStreaming: Boolean = false,
   actionTypeOpt: Option[String] = None): DataFrame
-----
+```
 
 `createDataFrame` takes the action name to build the result `DataFrame` for from the `actionTypeOpt` (if defined), or uses the following per `isStreaming` flag:
 
-* *streaming* when `isStreaming` flag is enabled (`true`)
+* **streaming** when `isStreaming` flag is enabled (`true`)
 
-* *batch* when `isStreaming` flag is disabled (`false`)
+* **batch** when `isStreaming` flag is disabled (`false`)
 
-`createDataFrame` creates a new <<TahoeBatchFileIndex.md#, TahoeBatchFileIndex>> (for the action type, and the given <<AddFile.md#, AddFiles>> and <<Snapshot.md#, Snapshot>>).
+`createDataFrame` creates a new [TahoeBatchFileIndex](TahoeBatchFileIndex.md) (for the action type, and the given [AddFile](AddFile.md)s and [Snapshot](Snapshot.md)).
 
-`createDataFrame` creates a `HadoopFsRelation` with the `TahoeBatchFileIndex` and the other properties based on the given <<Snapshot.md#, Snapshot>> (and its <<Snapshot.md#metadata, Metadata>>).
+`createDataFrame` creates a `HadoopFsRelation` with the `TahoeBatchFileIndex` and the other properties based on the given `Snapshot` (and the associated [Metadata](Snapshot.md#metadata)).
 
-TIP: Read up on https://jaceklaskowski.gitbooks.io/mastering-spark-sql/spark-sql-BaseRelation-HadoopFsRelation.html[HadoopFsRelation] in https://bit.ly/spark-sql-internals[The Internals of Spark SQL] online book.
+!!! tip
+    Learn more on [HadoopFsRelation](https://jaceklaskowski.github.io/mastering-spark-sql-book/spark-sql-BaseRelation-HadoopFsRelation/) in [The Internals of Spark SQL](https://jaceklaskowski.github.io/mastering-spark-sql-book) online book.
 
 In the end, `createDataFrame` creates a `DataFrame` with a logical query plan with a `LogicalRelation` over the `HadoopFsRelation`.
 
-TIP: Read up on https://jaceklaskowski.gitbooks.io/mastering-spark-sql/spark-sql-LogicalPlan-LogicalRelation.html[LogicalRelation] in https://bit.ly/spark-sql-internals[The Internals of Spark SQL] online book.
+!!! tip
+    Learn more on [LogicalRelation](https://jaceklaskowski.github.io/mastering-spark-sql-book/logical-operators/LogicalRelation/) in [The Internals of Spark SQL](https://jaceklaskowski.github.io/mastering-spark-sql-book) online book.
 
-[NOTE]
-====
 `createDataFrame` is used when:
 
-* <<MergeIntoCommand.md#, MergeIntoCommand>> is executed
-
-* `DeltaSource` is requested for a <<DeltaSource.md#getBatch, DataFrame for data between start and end offsets>>
-====
+* [MergeIntoCommand](commands/MergeIntoCommand.md) is executed
+* `DeltaSource` is requested for a [DataFrame for data between start and end offsets](DeltaSource.md#getBatch)
 
 == [[lockInterruptibly]] Acquiring Interruptible Lock on Log -- `lockInterruptibly` Method
 
