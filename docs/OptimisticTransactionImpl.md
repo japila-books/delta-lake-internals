@@ -314,19 +314,18 @@ doCommit catches `FileAlreadyExistsExceptions` and <<checkAndRetry, checkAndRetr
 
 doCommit is used when OptimisticTransactionImpl is requested to <<commit, commit>> (and <<checkAndRetry, checkAndRetry>>).
 
-== [[checkAndRetry]] Retrying Commit
+## <span id="checkAndRetry"> Retrying Commit
 
-[source, scala]
-----
+```scala
 checkAndRetry(
   checkVersion: Long,
   actions: Seq[Action],
   attemptNumber: Int): Long
-----
+```
 
-checkAndRetry...FIXME
+`checkAndRetry`...FIXME
 
-checkAndRetry is used when OptimisticTransactionImpl is requested to <<commit, commit>> (and <<doCommit, attempts a commit>> that failed with an FileAlreadyExistsException).
+`checkAndRetry` is used when OptimisticTransactionImpl is requested to [commit](#commit) (and [attempts a commit](#doCommit) that failed with an `FileAlreadyExistsException`).
 
 == [[verifyNewMetadata]] verifyNewMetadata Method
 

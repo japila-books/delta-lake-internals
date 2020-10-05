@@ -1,82 +1,83 @@
-= [[TahoeBatchFileIndex]] TahoeBatchFileIndex
+# TahoeBatchFileIndex
 
-`TahoeBatchFileIndex` is a concrete <<TahoeFileIndex.md#, file index>> for a given <<snapshot, version>> of a <<deltaLog, delta table>>.
+`TahoeBatchFileIndex` is a [file index](TahoeFileIndex.md) of a [delta table](#deltaLog) at a given [version](#snapshot).
 
-`TahoeBatchFileIndex` is <<creating-instance, created>> when:
-
-* `DeltaLog` is requested for a <<DeltaLog.md#createDataFrame, DataFrame for given AddFiles>> (for <<MergeIntoCommand.md#, MergeIntoCommand>> and <<DeltaSource.md#getBatch, DeltaSource>>)
-
-* <<DeleteCommand.md#, DeleteCommand>> and <<UpdateCommand.md#, UpdateCommand>> are executed
-
-* `DeltaCommand` is requested for a <<DeltaCommand.md#buildBaseRelation, HadoopFsRelation>> (for <<DeleteCommand.md#, DeleteCommand>> and <<UpdateCommand.md#, UpdateCommand>>)
-
-== [[creating-instance]] Creating TahoeBatchFileIndex Instance
+## Creating Instance
 
 `TahoeBatchFileIndex` takes the following to be created:
 
-* [[spark]] `SparkSession`
-* [[actionType]] Action type
-* [[addFiles]] <<AddFile.md#, AddFiles>> (`Seq[AddFile]`)
-* [[deltaLog]] <<DeltaLog.md#, DeltaLog>>
-* [[path]] Data directory of the delta table (as Hadoop https://hadoop.apache.org/docs/r2.6.5/api/org/apache/hadoop/fs/Path.html[Path])
-* [[snapshot]] <<Snapshot.md#, Snapshot>>
+* <span id="spark"> `SparkSession`
+* [Action Type](#actionType)
+* <span id="addFiles"> [AddFile](AddFile.md)s
+* <span id="deltaLog"> [DeltaLog](DeltaLog.md)
+* <span id="path"> Data directory (as Hadoop [Path](https://hadoop.apache.org/docs/r2.6.5/api/org/apache/hadoop/fs/Path.html))
+* <span id="snapshot"> [Snapshot](Snapshot.md)
 
-`TahoeBatchFileIndex` initializes the <<internal-properties, internal properties>>.
+`TahoeBatchFileIndex` is created when:
 
-== [[tableVersion]] `tableVersion` Method
+* `DeltaLog` is requested for a [DataFrame for given AddFiles](DeltaLog.md#createDataFrame)
+* [DeleteCommand](commands/DeleteCommand.md) and [UpdateCommand](commands/UpdateCommand.md) are executed (and `DeltaCommand` is requested for a [HadoopFsRelation](commands/DeltaCommand.md#buildBaseRelation))
 
-[source, scala]
-----
+## <span id="actionType"> Action Type
+
+`TahoeBatchFileIndex` is given an **Action Type** identifier when [created](#creating-instance):
+
+* **batch** or **streaming** when `DeltaLog` is requested for a batch or streaming [DataFrame for given AddFiles](DeltaLog.md#createDataFrame), respectively
+* **delete** for [DeleteCommand](commands/DeleteCommand.md)
+* **update** for [UpdateCommand](commands/UpdateCommand.md)
+
+!!! important
+    Action Type seems not to be used ever.
+
+## <span id="tableVersion"> tableVersion
+
+```scala
 tableVersion: Long
-----
+```
 
-NOTE: `tableVersion` is part of the <<TahoeFileIndex.md#tableVersion, TahoeFileIndex>> contract for the version of the delta table.
+`tableVersion` is always the [version](Snapshot.md#version) of the [Snapshot](#snapshot).
 
-`tableVersion`...FIXME
+`tableVersion` is part of the [TahoeFileIndex](TahoeFileIndex.md#tableVersion) abstraction.
 
-== [[matchingFiles]] `matchingFiles` Method
+## <span id="matchingFiles"> matchingFiles
 
-[source, scala]
-----
+```scala
 matchingFiles(
   partitionFilters: Seq[Expression],
   dataFilters: Seq[Expression],
   keepStats: Boolean = false): Seq[AddFile]
-----
+```
 
-NOTE: `matchingFiles` is part of the <<TahoeFileIndex.md#matchingFiles, TahoeFileIndex Contract>> for the matching (valid) files by the given filtering expressions.
+`matchingFiles` [filterFileList](DeltaLog.md#filterFileList) (that gives a `DataFrame`) and collects the [AddFile](AddFile.md)s (using `Dataset.collect`).
 
-`matchingFiles`...FIXME
+`matchingFiles` is part of the [TahoeFileIndex](TahoeFileIndex.md#matchingFiles) abstraction.
 
-== [[inputFiles]] `inputFiles` Method
+## <span id="inputFiles"> Input Files
 
-[source, scala]
-----
+```scala
 inputFiles: Array[String]
-----
+```
 
-NOTE: `inputFiles` is part of the `FileIndex` contract to...FIXME
+`inputFiles` returns the [paths](AddFile.md#path) of all the given [AddFiles](#addFiles).
 
-`inputFiles`...FIXME
+`inputFiles` is part of the `FileIndex` abstraction ([Spark SQL](https://jaceklaskowski.github.io/mastering-spark-sql-book/FileIndex/#inputFiles)).
 
-== [[partitionSchema]] Schema of Partition Columns -- `partitionSchema` Method
+## <span id="partitionSchema"> Partitions
 
-[source, scala]
-----
+```scala
 partitionSchema: StructType
-----
+```
 
-NOTE: `partitionSchema` is part of the `FileIndex` contract (Spark SQL) to get the schema of the partition columns (if used).
+`partitionSchema` requests the [Snapshot](#snapshot) for the [metadata](Snapshot.md#metadata) that is in turn requested for the [partitionSchema](Metadata.md#partitionSchema).
 
-`partitionSchema` simply requests the <<snapshot, Snapshot>> for the <<Snapshot.md#metadata, metadata>> that is in turn requested for the <<Metadata.md#partitionSchema, partitionSchema>>.
+`partitionSchema` is part of the `FileIndex` abstraction ([Spark SQL](https://jaceklaskowski.github.io/mastering-spark-sql-book/FileIndex/#partitionSchema)).
 
-== [[sizeInBytes]] `sizeInBytes` Property
+## <span id="sizeInBytes"> Estimated Size of Relation
 
-[source, scala]
-----
+```scala
 sizeInBytes: Long
-----
+```
 
-NOTE: `sizeInBytes` is part of the `FileIndex` contract (Spark SQL) for the table size (in bytes).
+`sizeInBytes` is a sum of the [sizes](AddFile.md#size) of all the given [AddFiles](#addFiles).
 
-`sizeInBytes` is simply a sum of the <<AddFile.md#size, size>> of all <<addFiles, AddFiles>>.
+`sizeInBytes` is part of the `FileIndex` abstraction ([Spark SQL](https://jaceklaskowski.github.io/mastering-spark-sql-book/FileIndex/#sizeInBytes)).

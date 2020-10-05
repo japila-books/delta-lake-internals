@@ -63,7 +63,7 @@ removeFilesFromPaths(
 
 `removeFilesFromPaths` is used when [DeleteCommand](DeleteCommand.md) and [UpdateCommand](UpdateCommand.md) commands are executed.
 
-## <span id="buildBaseRelation"> Creating HadoopFsRelation (With TahoeBatchFileIndex)
+## <span id="buildBaseRelation"> Creating HadoopFsRelation (with TahoeBatchFileIndex)
 
 ```scala
 buildBaseRelation(
@@ -75,12 +75,15 @@ buildBaseRelation(
   nameToAddFileMap: Map[String, AddFile]): HadoopFsRelation
 ```
 
-[[buildBaseRelation-scannedFiles]]
-`buildBaseRelation` converts the given `inputLeafFiles` to <<getTouchedFile, AddFiles>> (with the given `rootPath` and `nameToAddFileMap`).
+<span id="buildBaseRelation-scannedFiles">
+`buildBaseRelation` converts the given `inputLeafFiles` to [AddFiles](#getTouchedFile) (with the given `rootPath` and `nameToAddFileMap`).
 
-`buildBaseRelation` creates a <<TahoeBatchFileIndex.md#, TahoeBatchFileIndex>> for the `actionType`, the <<buildBaseRelation-scannedFiles, AddFiles>> and the `rootPath`.
+`buildBaseRelation` creates a [TahoeBatchFileIndex](../TahoeBatchFileIndex.md) for the `actionType`, the [AddFiles](#buildBaseRelation-scannedFiles) and the `rootPath`.
 
-In the end, `buildBaseRelation` creates a `HadoopFsRelation` with the `TahoeBatchFileIndex` (and the other properties based on the <<OptimisticTransactionImpl.md#metadata, metadata>> of the given <<OptimisticTransaction.md#, OptimisticTransaction>>).
+In the end, `buildBaseRelation` creates a `HadoopFsRelation` with the `TahoeBatchFileIndex` (and the other properties based on the [metadata](../OptimisticTransactionImpl.md#metadata) of the given [OptimisticTransaction](../OptimisticTransaction.md)).
+
+!!! note
+    Learn more on [HadoopFsRelation](https://jaceklaskowski.github.io/mastering-spark-sql-book/HadoopFsRelation/) in [The Internals of Spark SQL](https://jaceklaskowski.github.io/mastering-spark-sql-book/) online book.
 
 `buildBaseRelation` is used when [DeleteCommand](DeleteCommand.md) and [UpdateCommand](UpdateCommand.md) commands are executed (with `delete` and `update` action types, respectively).
 

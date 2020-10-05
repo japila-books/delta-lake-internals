@@ -46,6 +46,27 @@ assert(deltaLog.snapshot.version >= 0)
 
 `DeltaLog` is a [LogStoreProvider](LogStoreProvider.md).
 
+## <span id="filterFileList"> filterFileList Utility
+
+```scala
+filterFileList(
+  partitionSchema: StructType,
+  files: DataFrame,
+  partitionFilters: Seq[Expression],
+  partitionColumnPrefixes: Seq[String] = Nil): DataFrame
+```
+
+`filterFileList`...FIXME
+
+`filterFileList` is used when:
+
+* `OptimisticTransactionImpl` is requested to [checkAndRetry](OptimisticTransactionImpl.md#checkAndRetry)
+* `PartitionFiltering` is requested to [filesForScan](PartitionFiltering.md#filesForScan)
+* `WriteIntoDelta` is requested to [write](commands/WriteIntoDelta.md#write)
+* `SnapshotIterator` is requested to [iterator](SnapshotIterator.md#iterator)
+* `TahoeBatchFileIndex` is requested to [matchingFiles](TahoeBatchFileIndex.md#matchingFiles)
+* `DeltaDataSource` utility is requested to [verifyAndCreatePartitionFilters](DeltaDataSource.md#verifyAndCreatePartitionFilters)
+
 == [[FileFormats]] FileFormats
 
 `DeltaLog` defines two `FileFormats`:
@@ -449,11 +470,13 @@ createDataFrame(
   actionTypeOpt: Option[String] = None): DataFrame
 ```
 
-`createDataFrame` takes the action name to build the result `DataFrame` for from the `actionTypeOpt` (if defined), or uses the following per `isStreaming` flag:
+`createDataFrame` uses the action type based on the optional action type (if defined) or uses the following based on the `isStreaming` flag:
 
 * **streaming** when `isStreaming` flag is enabled (`true`)
-
 * **batch** when `isStreaming` flag is disabled (`false`)
+
+!!! note
+    `actionTypeOpt` seems not to be defined ever.
 
 `createDataFrame` creates a new [TahoeBatchFileIndex](TahoeBatchFileIndex.md) (for the action type, and the given [AddFile](AddFile.md)s and [Snapshot](Snapshot.md)).
 
@@ -598,20 +621,6 @@ isValid(): Boolean
 `isValid`...FIXME
 
 NOTE: `isValid` is used when `DeltaLog` utility is used to <<apply, get or create a transaction log for a delta table>>.
-
-== [[internal-properties]] Internal Properties
-
-[cols="30m,70",options="header",width="100%"]
-|===
-| Name
-| Description
-
-| deltaLogLock
-a| [[deltaLogLock]] Lock
-
-Used when...FIXME
-
-|===
 
 ## Logging
 
