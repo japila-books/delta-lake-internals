@@ -156,10 +156,6 @@
      <lastmod>2020-10-05</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
-     <loc>https://books.japila.pl/delta-lake-internals/DeltaLogFileIndex/</loc>
-     <lastmod>2020-10-05</lastmod>
-     <changefreq>daily</changefreq>
-    </url><url>
      <loc>https://books.japila.pl/delta-lake-internals/spark-logging/</loc>
      <lastmod>2020-10-05</lastmod>
      <changefreq>daily</changefreq>
@@ -245,6 +241,10 @@
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://books.japila.pl/delta-lake-internals/TahoeLogFileIndex/</loc>
+     <lastmod>2020-10-05</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
+     <loc>https://books.japila.pl/delta-lake-internals/DeltaLogFileIndex/</loc>
      <lastmod>2020-10-05</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
