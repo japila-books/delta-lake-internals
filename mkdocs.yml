@@ -126,7 +126,6 @@ nav:
       - DeltaConfigs: DeltaConfigs.md
       - DeltaConfig: DeltaConfig.md
     - FileNames: FileNames.md
-    - DeltaLogFileIndex: DeltaLogFileIndex.md
     - Logging: spark-logging.md
     - Delta Data Source:
       - DeltaDataSource: DeltaDataSource.md
@@ -153,6 +152,7 @@ nav:
       - TahoeFileIndex: TahoeFileIndex.md
       - TahoeBatchFileIndex: TahoeBatchFileIndex.md
       - TahoeLogFileIndex: TahoeLogFileIndex.md
+      - DeltaLogFileIndex: DeltaLogFileIndex.md
   - Delta SQL:
     - Delta SQL: sql/index.md
     - DeltaSqlParser: sql/DeltaSqlParser.md

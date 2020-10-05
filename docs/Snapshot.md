@@ -9,7 +9,7 @@
 
 Snapshot takes the following to be created:
 
-* <span id="path"> Hadoop [Path](https://hadoop.apache.org/docs/r{{ hadoop.version }}/api/org/apache/hadoop/fs/Path.html) to the [log directory](DeltaLog.md#logPath)
+* <span id="path"> Hadoop [Path](https://hadoop.apache.org/docs/r2.7.4/api/org/apache/hadoop/fs/Path.html) to the [log directory](DeltaLog.md#logPath)
 * <span id="version"> Version
 * <span id="logSegment"> `LogSegment`
 * <span id="minFileRetentionTimestamp"> `minFileRetentionTimestamp` (that is exactly [DeltaLog.minFileRetentionTimestamp](DeltaLog.md#minFileRetentionTimestamp))
@@ -23,7 +23,7 @@ While being created, `Snapshot` prints out the following INFO message to the log
 Created snapshot [this]
 ```
 
-`Snapshot` is created when `SnapshotManagement` is requested to [createSnapshot](SnapshotManagement.md#createSnapshot).
+`Snapshot` is created when `SnapshotManagement` is requested for [one](SnapshotManagement.md#createSnapshot).
 
 ### <span id="init"> Initializing
 
@@ -181,20 +181,35 @@ fileIndices: Seq[DeltaLogFileIndex]
 
 `fileIndices` is a collection of the [checkpointFileIndexOpt](#checkpointFileIndexOpt) and the [deltaFileIndexOpt](#deltaFileIndexOpt) (if they are available).
 
-## <span id="deltaFileIndexOpt"> Optional DeltaLogFileIndex
+## <span id="deltaFileIndexOpt"> Commit File Index
 
 ```scala
 deltaFileIndexOpt: Option[DeltaLogFileIndex]
 ```
 
 !!! note "Scala lazy value"
-    `deltaFileIndexOpt` is a Scala lazy value and is initialized once at the first access. Once computed it stays unchanged for the `Snapshot` instance.
+    `deltaFileIndexOpt` is a Scala lazy value and is initialized once when first accessed. Once computed, it stays unchanged for the `Snapshot` instance.
 
     ```text
     lazy val deltaFileIndexOpt: Option[DeltaLogFileIndex]
     ```
 
-`deltaFileIndexOpt` is...FIXME
+`deltaFileIndexOpt` is a [DeltaLogFileIndex](DeltaLogFileIndex.md) (in `JsonFileFormat`) for the checkpoint file of the [LogSegment](#logSegment).
+
+## <span id="checkpointFileIndexOpt"> Checkpoint File Index
+
+```scala
+checkpointFileIndexOpt: Option[DeltaLogFileIndex]
+```
+
+!!! note "Scala lazy value"
+    `checkpointFileIndexOpt` is a Scala lazy value and is initialized once when first accessed. Once computed, it stays unchanged for the `Snapshot` instance.
+
+    ```text
+    lazy val checkpointFileIndexOpt: Option[DeltaLogFileIndex]
+    ```
+
+`checkpointFileIndexOpt` is a [DeltaLogFileIndex](DeltaLogFileIndex.md) (in `ParquetFileFormat`) for the delta files of the [LogSegment](#logSegment).
 
 ## <span id="emptyActions"> emptyActions Dataset (of Actions)
 
