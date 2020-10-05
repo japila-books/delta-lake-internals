@@ -8,7 +8,7 @@
 
 * <span id="spark"> `SparkSession`
 * <span id="deltaLog"> [DeltaLog](DeltaLog.md)
-* <span id="path"> Data directory of the [Delta table](#deltaLog) (as a Hadoop [Path](https://hadoop.apache.org/docs/r2.7.4/api/org/apache/hadoop/fs/Path.html))
+* <span id="path"> Data directory of the [Delta table](#deltaLog) (as a Hadoop [Path](https://hadoop.apache.org/docs/r{{ hadoop.version }}/api/org/apache/hadoop/fs/Path.html))
 * <span id="schemaAtAnalysis"> Schema at analysis (`StructType`)
 * <span id="partitionFilters"> Catalyst Expressions for the partition filters (default: `empty`)
 * <span id="versionToUse"> Snapshot version (default: `undefined`) (`Option[Long]`)

@@ -1,4 +1,4 @@
-# The Internals of Delta Lake 0.7.0
+# The Internals of Delta Lake {{ delta.version }}
 
 Welcome to **The Internals of Delta Lake** online book!
 

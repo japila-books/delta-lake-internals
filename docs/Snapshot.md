@@ -9,7 +9,7 @@
 
 Snapshot takes the following to be created:
 
-* <span id="path"> Hadoop [Path](https://hadoop.apache.org/docs/r2.7.4/api/org/apache/hadoop/fs/Path.html) to the [log directory](DeltaLog.md#logPath)
+* <span id="path"> Hadoop [Path](https://hadoop.apache.org/docs/r{{ hadoop.version }}/api/org/apache/hadoop/fs/Path.html) to the [log directory](DeltaLog.md#logPath)
 * <span id="version"> Version
 * <span id="logSegment"> `LogSegment`
 * <span id="minFileRetentionTimestamp"> `minFileRetentionTimestamp` (that is exactly [DeltaLog.minFileRetentionTimestamp](DeltaLog.md#minFileRetentionTimestamp))

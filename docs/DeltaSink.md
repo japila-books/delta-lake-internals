@@ -21,7 +21,7 @@ DeltaSink is an <<ImplicitMetadataOperation.md#, operation that can update metad
 DeltaSink takes the following to be created:
 
 * [[sqlContext]] `SQLContext`
-* [[path]] Hadoop https://hadoop.apache.org/docs/r2.7.3/api/org/apache/hadoop/fs/Path.html[Path] of the delta table (to <<addBatch, write data to>> as configured by the <<DeltaOptions.md#path, path>> option)
+* [[path]] Hadoop [Path](https://hadoop.apache.org/docs/r{{ hadoop.version }}/api/org/apache/hadoop/fs/Path.html) of the delta table (to <<addBatch, write data to>> as configured by the <<DeltaOptions.md#path, path>> option)
 * [[partitionColumns]] Names of the partition columns (`Seq[String]`)
 * [[outputMode]] `OutputMode`
 * [[options]] <<DeltaOptions.md#, DeltaOptions>>

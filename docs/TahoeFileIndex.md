@@ -5,7 +5,7 @@
 
 TIP: Read up on https://jaceklaskowski.gitbooks.io/mastering-spark-sql/spark-sql-FileIndex.html[FileIndex] in https://bit.ly/spark-sql-internals[The Internals of Spark SQL] online book.
 
-NOTE: The aim of TahoeFileIndex is to reduce usage of very expensive disk access for file-related information using Hadoop https://hadoop.apache.org/docs/r2.6.5/api/org/apache/hadoop/fs/FileSystem.html[FileSystem] API.
+NOTE: The aim of TahoeFileIndex is to reduce usage of very expensive disk access for file-related information using Hadoop [FileSystem](https://hadoop.apache.org/docs/r{{ hadoop.version }}/api/org/apache/hadoop/fs/FileSystem.html) API.
 
 [[contract]]
 .TahoeFileIndex Contract (Abstract Methods Only)
@@ -55,7 +55,7 @@ TahoeFileIndex takes the following to be created:
 
 * [[spark]] `SparkSession`
 * [[deltaLog]] <<DeltaLog.md#, DeltaLog>>
-* [[path]] Hadoop https://hadoop.apache.org/docs/r2.6.5/api/org/apache/hadoop/fs/Path.html[Path]
+* [[path]] Hadoop [Path](https://hadoop.apache.org/docs/r{{ hadoop.version }}/api/org/apache/hadoop/fs/Path.html)
 
 NOTE: TahoeFileIndex is a Scala abstract class and cannot be <<creating-instance, created>> directly. It is created indirectly for the <<implementations, concrete file indices>>.
 

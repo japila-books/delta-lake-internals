@@ -120,8 +120,8 @@ NOTE: `deltaLogCache` is part of `DeltaLog` Scala object which makes it an appli
 
 `DeltaLog` takes the following to be created:
 
-* [[logPath]] Log directory (Hadoop https://hadoop.apache.org/docs/r2.6.5/api/org/apache/hadoop/fs/Path.html[Path])
-* [[dataPath]] Data directory (Hadoop https://hadoop.apache.org/docs/r2.6.5/api/org/apache/hadoop/fs/Path.html[Path])
+* [[logPath]] Log directory (Hadoop [Path](https://hadoop.apache.org/docs/r{{ hadoop.version }}/api/org/apache/hadoop/fs/Path.html))
+* [[dataPath]] Data directory (Hadoop [Path](https://hadoop.apache.org/docs/r{{ hadoop.version }}/api/org/apache/hadoop/fs/Path.html))
 * [[clock]] `Clock`
 
 `DeltaLog` initializes the <<internal-properties, internal properties>>.
@@ -136,7 +136,7 @@ apply(
   clock: Clock = new SystemClock): DeltaLog
 ----
 
-NOTE: `rawPath` is a Hadoop https://hadoop.apache.org/docs/r2.7.3/api/org/apache/hadoop/fs/Path.html[Path] to the <<_delta_log, _delta_log>> directory at the root of the data of a delta table.
+NOTE: `rawPath` is a Hadoop [Path](https://hadoop.apache.org/docs/r{{ hadoop.version }}/api/org/apache/hadoop/fs/Path.html) to the <<_delta_log, _delta_log>> directory at the root of the data of a delta table.
 
 `apply`...FIXME
 

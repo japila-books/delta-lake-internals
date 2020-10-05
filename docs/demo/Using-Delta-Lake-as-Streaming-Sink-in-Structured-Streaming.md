@@ -1,11 +1,6 @@
 # Demo: Using Delta Lake as Streaming Sink in Structured Streaming
 
 ```text
-/*
-./bin/spark-shell \
-  --packages io.delta:delta-core_2.12:0.7.0 \
-  --conf spark.sql.extensions=io.delta.sql.DeltaSparkSessionExtension
-*/
 assert(spark.isInstanceOf[org.apache.spark.sql.SparkSession])
 assert(spark.version.matches("2.4.[2-4]"), "Delta Lake supports Spark 2.4.2+")
 

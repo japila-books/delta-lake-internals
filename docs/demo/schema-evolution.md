@@ -3,7 +3,7 @@
 ```text
 /*
 spark-shell \
-  --packages io.delta:delta-core_2.12:0.7.0 \
+  --packages io.delta:delta-core_2.12:{{ delta.version }} \
   --conf spark.sql.extensions=io.delta.sql.DeltaSparkSessionExtension \
   --conf spark.databricks.delta.snapshotPartitions=1
 */

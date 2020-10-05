@@ -59,8 +59,7 @@ plugins:
   - git-revision-date:
       enabled_if_env: CI
   - awesome-pages
-  # There seem to be an issue and mkdocs gh-deploy fails
-  # - macros
+  - macros
 
 extra:
   social:

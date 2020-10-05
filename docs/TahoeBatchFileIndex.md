@@ -10,7 +10,7 @@
 * [Action Type](#actionType)
 * <span id="addFiles"> [AddFile](AddFile.md)s
 * <span id="deltaLog"> [DeltaLog](DeltaLog.md)
-* <span id="path"> Data directory (as Hadoop [Path](https://hadoop.apache.org/docs/r2.6.5/api/org/apache/hadoop/fs/Path.html))
+* <span id="path"> Data directory (as Hadoop [Path](https://hadoop.apache.org/docs/r{{ hadoop.version }}/api/org/apache/hadoop/fs/Path.html))
 * <span id="snapshot"> [Snapshot](Snapshot.md)
 
 `TahoeBatchFileIndex` is created when:

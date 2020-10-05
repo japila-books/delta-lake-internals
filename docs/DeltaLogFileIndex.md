@@ -10,7 +10,7 @@
 `DeltaLogFileIndex` takes the following to be created:
 
 * [FileFormat](#format)
-* <span id="files"> Files (as Hadoop [FileStatus](https://hadoop.apache.org/docs/r2.7.4/api/org/apache/hadoop/fs/FileStatus.html)es)
+* <span id="files"> Files (as Hadoop [FileStatus](https://hadoop.apache.org/docs/r{{ hadoop.version }}/api/org/apache/hadoop/fs/FileStatus.html)es)
 
 While being created, `DeltaLogFileIndex` prints out the following INFO message to the logs:
 
