@@ -104,18 +104,6 @@
      <lastmod>2020-10-05</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
-     <loc>https://books.japila.pl/delta-lake-internals/TahoeFileIndex/</loc>
-     <lastmod>2020-10-05</lastmod>
-     <changefreq>daily</changefreq>
-    </url><url>
-     <loc>https://books.japila.pl/delta-lake-internals/TahoeBatchFileIndex/</loc>
-     <lastmod>2020-10-05</lastmod>
-     <changefreq>daily</changefreq>
-    </url><url>
-     <loc>https://books.japila.pl/delta-lake-internals/TahoeLogFileIndex/</loc>
-     <lastmod>2020-10-05</lastmod>
-     <changefreq>daily</changefreq>
-    </url><url>
      <loc>https://books.japila.pl/delta-lake-internals/DeltaHistoryManager/</loc>
      <lastmod>2020-10-05</lastmod>
      <changefreq>daily</changefreq>
@@ -245,6 +233,18 @@
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://books.japila.pl/delta-lake-internals/DeltaConvert/</loc>
+     <lastmod>2020-10-05</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
+     <loc>https://books.japila.pl/delta-lake-internals/TahoeFileIndex/</loc>
+     <lastmod>2020-10-05</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
+     <loc>https://books.japila.pl/delta-lake-internals/TahoeBatchFileIndex/</loc>
+     <lastmod>2020-10-05</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
+     <loc>https://books.japila.pl/delta-lake-internals/TahoeLogFileIndex/</loc>
      <lastmod>2020-10-05</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
