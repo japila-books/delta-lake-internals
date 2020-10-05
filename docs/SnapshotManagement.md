@@ -33,7 +33,7 @@ assert(snapshot.version == 0)
 currentSnapshot: Snapshot
 ```
 
-`currentSnapshot` is the current [Snapshot](Snapshot.md) of a Delta table.
+`currentSnapshot` is a registry with the current [Snapshot](Snapshot.md) of a Delta table.
 
 When [DeltaLog](DeltaLog.md) is created, `currentSnapshot` is initialized as [getSnapshotAtInit](#getSnapshotAtInit) and changed every [update](#update).
 
@@ -62,7 +62,7 @@ update(
 * `DeltaHistoryManager` is requested to [getHistory](DeltaHistoryManager.md#getHistory), [getActiveCommitAtTime](DeltaHistoryManager.md#getActiveCommitAtTime), [checkVersionExists](DeltaHistoryManager.md#checkVersionExists)
 * In [Delta commands](commands/DeltaCommand.md)...
 
-### <span id="tryUpdate"> tryUpdate Internal Method
+### <span id="tryUpdate"> tryUpdate
 
 ```scala
 tryUpdate(
@@ -73,7 +73,7 @@ tryUpdate(
 
 `tryUpdate` is used when `SnapshotManagement` is requested to [update](#update).
 
-### <span id="updateInternal"> updateInternal Method
+### <span id="updateInternal"> updateInternal
 
 ```scala
 updateInternal(
@@ -90,11 +90,48 @@ updateInternal(
 getSnapshotAtInit: Snapshot
 ```
 
-`getSnapshotAtInit` [getLogSegmentFrom](#getLogSegmentFrom) for the [last Checkpoint](Checkpoints.md#lastCheckpoint).
+`getSnapshotAtInit` [getLogSegmentFrom](#getLogSegmentFrom) for the [last checkpoint](Checkpoints.md#lastCheckpoint).
 
-`getSnapshotAtInit`...FIXME
+`getSnapshotAtInit` prints out the following INFO message to the logs:
 
-`getSnapshotAtInit` is used when `SnapshotManagement` is requested for the [current Snapshot](#currentSnapshot).
+```text
+Loading version [version][startCheckpoint]
+```
+
+`getSnapshotAtInit` [creates a Snapshot](#createSnapshot) for the log segment.
+
+`getSnapshotAtInit` records the current time in [lastUpdateTimestamp](#lastUpdateTimestamp) registry.
+
+`getSnapshotAtInit` prints out the following INFO message to the logs:
+
+```text
+Returning initial snapshot [snapshot]
+```
+
+`getSnapshotAtInit` is used when `SnapshotManagement` is created (and initializes the [currentSnapshot](#currentSnapshot) registry).
+
+### <span id="getLogSegmentFrom"> getLogSegmentFrom
+
+```scala
+getLogSegmentFrom(
+  startingCheckpoint: Option[CheckpointMetaData]): LogSegment
+```
+
+`getLogSegmentFrom` [getLogSegmentForVersion](#getLogSegmentForVersion) for the version of the given `CheckpointMetaData` (if specified) as a start checkpoint version or leaves it undefined.
+
+`getLogSegmentFrom` is used when `SnapshotManagement` is requested for [getSnapshotAtInit](#getSnapshotAtInit).
+
+## <span id="getLogSegmentForVersion"> getLogSegmentForVersion
+
+```scala
+getLogSegmentForVersion(
+  startCheckpoint: Option[Long],
+  versionToLoad: Option[Long] = None): LogSegment
+```
+
+`getLogSegmentForVersion`...FIXME
+
+`getLogSegmentForVersion` is used when `SnapshotManagement` is requested for [getLogSegmentFrom](#getLogSegmentFrom), [updateInternal](#updateInternal) and [getSnapshotAt](#getSnapshotAt).
 
 ## <span id="createSnapshot"> Creating Snapshot
 
@@ -108,3 +145,7 @@ createSnapshot(
 `createSnapshot` [readChecksum](ReadChecksum.md#readChecksum) (for the version of the given `LogSegment`) and creates a [Snapshot](Snapshot.md).
 
 `createSnapshot` is used when `SnapshotManagement` is requested for [getSnapshotAtInit](#getSnapshotAtInit), [getSnapshotAt](#getSnapshotAt) and [update](#update).
+
+## <span id="lastUpdateTimestamp"> Last Successful Update Timestamp
+
+`SnapshotManagement` uses `lastUpdateTimestamp` internal registry for the timestamp of the last successful update.
