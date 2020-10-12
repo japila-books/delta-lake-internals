@@ -182,6 +182,7 @@ nav:
       - DeltaMergeIntoClause: commands/DeltaMergeIntoClause.md
       - DeltaMergeInto: commands/DeltaMergeInto.md
       - MergeIntoCommand: commands/MergeIntoCommand.md
+      - JoinedRowProcessor: commands/JoinedRowProcessor.md
     - UpdateCommand: commands/UpdateCommand.md
     - Vacuum:
       - Vacuum: commands/vacuum.md

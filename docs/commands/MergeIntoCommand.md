@@ -12,7 +12,7 @@
 Name     | web UI
 ---------|----------
 `numSourceRows` | number of source rows
-`numTargetRowsCopied` | number of target rows rewritten unmodified
+[numTargetRowsCopied](#numTargetRowsCopied) | number of target rows rewritten unmodified
 `numTargetRowsInserted` | number of inserted rows
 `numTargetRowsUpdated` | number of updated rows
 `numTargetRowsDeleted` | number of deleted rows
@@ -20,6 +20,14 @@ Name     | web UI
 `numTargetFilesAfterSkipping` | number of target files after skipping
 `numTargetFilesRemoved` | number of files removed to target
 `numTargetFilesAdded` | number of files added to target
+
+### <span id="numTargetRowsCopied"> number of target rows rewritten unmodified
+
+`numTargetRowsCopied` performance metric (like the other [metrics](#performance-metrics)) is turned into a non-deterministic user-defined function (UDF).
+
+`numTargetRowsCopied` becomes `incrNoopCountExpr` UDF.
+
+`incrNoopCountExpr` UDF is resolved on a joined plan and used to create a [JoinedRowProcessor](JoinedRowProcessor.md#noopCopyOutput) for [processing partitions](#processPartition) of the joined plan `Dataset`.
 
 ## Creating Instance
 
