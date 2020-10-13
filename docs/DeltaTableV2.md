@@ -2,7 +2,8 @@
 
 `DeltaTableV2` is a logical representation of a writable Delta table.
 
-Using the abstractions introduced in Spark SQL 3.0.0, `DeltaTableV2` is a [Table](https://jaceklaskowski.github.io/mastering-spark-sql-book/connector/catalog/Table/) that [SupportsWrite](https://jaceklaskowski.github.io/mastering-spark-sql-book/connector/catalog/SupportsWrite/).
+!!! note "DeltaTableV2 by Spark SQL 3.0.0"
+    Using the abstractions introduced in Spark SQL 3.0.0, `DeltaTableV2` is a [Table](https://jaceklaskowski.github.io/mastering-spark-sql-book/connector/catalog/Table/) that [SupportsWrite](https://jaceklaskowski.github.io/mastering-spark-sql-book/connector/catalog/SupportsWrite/).
 
 ## Creating Instance
 
@@ -25,7 +26,9 @@ Using the abstractions introduced in Spark SQL 3.0.0, `DeltaTableV2` is a [Table
 
 `DeltaTimeTravelSpec` is assumed not to be defined.
 
-`DeltaTableV2` is given a `DeltaTimeTravelSpec` when `DeltaDataSource` is requested to [create a BaseRelation](DeltaDataSource.md#RelationProvider-createRelation).
+`DeltaTableV2` is given a `DeltaTimeTravelSpec` only when `DeltaDataSource` is requested to [create a BaseRelation](DeltaDataSource.md#RelationProvider-createRelation).
+
+`DeltaTimeTravelSpec` is used for [timeTravelSpec](#timeTravelSpec).
 
 ## <span id="snapshot"> Snapshot
 
@@ -33,7 +36,7 @@ Using the abstractions introduced in Spark SQL 3.0.0, `DeltaTableV2` is a [Table
 snapshot: Snapshot
 ```
 
-`DeltaTableV2` is associated with a [Snapshot](Snapshot.md).
+`DeltaTableV2` has a [Snapshot](Snapshot.md). In other words, `DeltaTableV2` represents a Delta table at a specific version.
 
 !!! note "Scala lazy value"
     `snapshot` is a Scala lazy value and is initialized once when first accessed. Once computed it stays unchanged.
@@ -48,7 +51,7 @@ snapshot: Snapshot
 timeTravelSpec: Option[DeltaTimeTravelSpec]
 ```
 
-`DeltaTableV2` may have a [DeltaTimeTravelSpec](DeltaTimeTravelSpec.md) specified that is either [timeTravelOpt](#timeTravelOpt) or [timeTravelByPath](#timeTravelByPath).
+`DeltaTableV2` may have a [DeltaTimeTravelSpec](DeltaTimeTravelSpec.md) specified that is either [given](#timeTravelOpt) or [timeTravelByPath](#timeTravelByPath).
 
 `timeTravelSpec` throws an `AnalysisException` when [timeTravelOpt](#timeTravelOpt) and [timeTravelByPath](#timeTravelByPath) are both defined:
 
@@ -57,6 +60,19 @@ Cannot specify time travel in multiple formats.
 ```
 
 `timeTravelSpec` is used when `DeltaTableV2` is requested for a [Snapshot](#snapshot) and [BaseRelation](#toBaseRelation).
+
+## <span id="timeTravelByPath"> DeltaTimeTravelSpec by Path
+
+```scala
+timeTravelByPath: Option[DeltaTimeTravelSpec]
+```
+
+!!! note "Scala lazy value"
+    `timeTravelByPath` is a Scala lazy value and is initialized once when first accessed. Once computed it stays unchanged.
+
+`timeTravelByPath` is undefined when [CatalogTable](#catalogTable) is defined.
+
+With no [CatalogTable](#catalogTable) defined, `DeltaTableV2` [parses](DeltaDataSource.md#parsePathIdentifier) the given [Path](#path) for the `timeTravelByPath` (that [resolvePath](DeltaTimeTravelSpec.md#resolvePath) under the covers).
 
 ## <span id="toBaseRelation"> Converting to Insertable HadoopFsRelation
 
