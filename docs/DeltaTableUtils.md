@@ -1,4 +1,4 @@
-= [[DeltaTableUtils]] DeltaTableUtils Utility
+# DeltaTableUtils Utility
 
 `DeltaTableUtils` comes with the following utilities:
 
@@ -7,6 +7,34 @@
 * <<findDeltaTableRoot, DeltaTableUtils.findDeltaTableRoot>> for finding the root directory of a delta table
 
 * <<splitMetadataAndDataPredicates, splitMetadataAndDataPredicates>>
+
+## <span id="extractIfPathContainsTimeTravel"> extractIfPathContainsTimeTravel
+
+```scala
+extractIfPathContainsTimeTravel(
+  session: SparkSession,
+  path: String): (String, Option[DeltaTimeTravelSpec])
+```
+
+`extractIfPathContainsTimeTravel`...FIXME
+
+`extractIfPathContainsTimeTravel` is used when `DeltaDataSource` is requested to [sourceSchema](DeltaDataSource.md#sourceSchema) and [parsePathIdentifier](DeltaDataSource.md#parsePathIdentifier).
+
+## <span id="resolveTimeTravelVersion"> resolveTimeTravelVersion Utility
+
+```scala
+resolveTimeTravelVersion(
+  conf: SQLConf,
+  deltaLog: DeltaLog,
+  tt: DeltaTimeTravelSpec): (Long, String)
+```
+
+`resolveTimeTravelVersion`...FIXME
+
+`resolveTimeTravelVersion` is used when:
+
+* `DeltaLog` is requested to [create a relation (per partition filters and time travel)](DeltaLog.md#createRelation)
+* `DeltaTableV2` is requested for a [Snapshot](DeltaTableV2.md#snapshot)
 
 == [[isDeltaTable]] isDeltaTable Utility
 
@@ -44,20 +72,6 @@ For `_delta_log` or `_samples` directories, `findDeltaTableRoot` returns the par
 
 * `DeltaDataSource` is requested to <<DeltaDataSource.md#RelationProvider-createRelation, create a relation>>
 ====
-
-== [[resolveTimeTravelVersion]] resolveTimeTravelVersion Utility
-
-[source, scala]
-----
-resolveTimeTravelVersion(
-  conf: SQLConf,
-  deltaLog: DeltaLog,
-  tt: DeltaTimeTravelSpec): (Long, String)
-----
-
-`resolveTimeTravelVersion`...FIXME
-
-NOTE: `resolveTimeTravelVersion` is used exclusively when `DeltaLog` is requested to <<DeltaLog.md#createRelation, create a relation (per partition filters and time travel)>>.
 
 == [[splitMetadataAndDataPredicates]] splitMetadataAndDataPredicates Utility
 

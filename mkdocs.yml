@@ -83,7 +83,9 @@ nav:
     - Welcome: index.md
     - Overview: overview.md
     - Installation: installation.md
-    - Time Travel: time-travel.md
+    - Time Travel:
+      - Introduction: time-travel.md
+      - DeltaTimeTravelSpec: DeltaTimeTravelSpec.md
     - DeltaTable: DeltaTable.md
     - Configuration Properties: DeltaSQLConf.md
     - Transaction Log (DeltaLog):

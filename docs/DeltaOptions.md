@@ -1,15 +1,15 @@
-= DeltaOptions
+# DeltaOptions
 
 [[DeltaWriteOptionsImpl]][[DeltaWriteOptions]][[DeltaReadOptions]]
-*DeltaOptions* (aka `DeltaWriteOptionsImpl`, `DeltaWriteOptions`) is the options for the <<DeltaDataSource.md#, Delta data source>>.
+`DeltaOptions` (aka `DeltaWriteOptionsImpl`, `DeltaWriteOptions`) is the options for the <<DeltaDataSource.md#, Delta data source>>.
 
 The <<options, options>> can be defined using `option` method of `DataFrameReader`, `DataFrameWriter`, `DataStreamReader`, and `DataStreamWriter`.
 
 DeltaOptions is used to create <<WriteIntoDelta.md#, WriteIntoDelta>> command, <<DeltaSink.md#, DeltaSink>>, and <<DeltaSource.md#, DeltaSource>>.
 
-DeltaOptions can be <<verifyOptions, verified>>.
+`DeltaOptions` can be [verified](#verifyOptions).
 
-== [[options]][[validOptionKeys]] Options
+## <span id="validOptionKeys"> Options
 
 === [[checkpointLocation]] checkpointLocation
 
@@ -90,18 +90,11 @@ DeltaOptions is created when:
 
 * `DeltaDataSource` is requested to <<DeltaDataSource.md#createSource, create a streaming source>> (to create a <<DeltaSource.md#, DeltaSource>> for Structured Streaming), <<DeltaDataSource.md#createSink, create a streaming sink>> (to create a <<DeltaSink.md#, DeltaSink>> for Structured Streaming), and <<DeltaDataSource.md#CreatableRelationProvider-createRelation, create an insertable HadoopFsRelation>>
 
-== [[verifyOptions]] verifyOptions Utility
+## <span id="verifyOptions"> Verifying Options
 
-[source, scala]
-----
+```scala
 verifyOptions(
   options: CaseInsensitiveMap[String]): Unit
-----
+```
 
-verifyOptions...FIXME
-
-verifyOptions is used when:
-
-* DeltaOptions is <<creating-instance, created>>
-
-* DeltaDataSource is requested to <<DeltaDataSource.md#RelationProvider-createRelation, create a relation>>
+`verifyOptions`...FIXME

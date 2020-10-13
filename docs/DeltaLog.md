@@ -67,6 +67,48 @@ filterFileList(
 * `TahoeBatchFileIndex` is requested to [matchingFiles](TahoeBatchFileIndex.md#matchingFiles)
 * `DeltaDataSource` utility is requested to [verifyAndCreatePartitionFilters](DeltaDataSource.md#verifyAndCreatePartitionFilters)
 
+## <span id="forTable"> Creating DeltaLog Instance
+
+```scala
+forTable(
+  spark: SparkSession,
+  dataPath: File): DeltaLog
+forTable(
+  spark: SparkSession,
+  dataPath: File,
+  clock: Clock): DeltaLog
+forTable(
+  spark: SparkSession,
+  dataPath: Path): DeltaLog
+forTable(
+  spark: SparkSession,
+  dataPath: Path,
+  clock: Clock): DeltaLog
+forTable(
+  spark: SparkSession,
+  dataPath: String): DeltaLog
+forTable(
+  spark: SparkSession,
+  dataPath: String,
+  clock: Clock): DeltaLog
+```
+
+`forTable` creates a [DeltaLog](#apply) with **_delta_log** directory (in the given `dataPath` directory).
+
+`forTable` is used when:
+
+* <<DeltaTable.md#forPath, DeltaTable.forPath>> utility is used to create a <<DeltaTable.md#, DeltaTable>>
+
+* <<ConvertToDeltaCommand.md#, ConvertToDeltaCommand>>, <<DescribeDeltaHistoryCommand.md#, DescribeDeltaHistoryCommand>>, <<VacuumTableCommand.md#, VacuumTableCommand>> are requested to `run`
+
+* `DeltaDataSource` is requested to <<DeltaDataSource.md#sourceSchema, sourceSchema>>, <<DeltaDataSource.md#createSource, createSource>>, and create a relation (as <<DeltaDataSource.md#CreatableRelationProvider-createRelation, CreatableRelationProvider>> and <<DeltaDataSource.md#RelationProvider-createRelation, RelationProvider>>)
+
+* <<DeltaTableUtils.md#combineWithCatalogMetadata, DeltaTableUtils.combineWithCatalogMetadata>> utility is used
+
+* `DeltaTableIdentifier` is requested to `getDeltaLog`
+
+* <<DeltaSink.md#, DeltaSink>> is created
+
 == [[FileFormats]] FileFormats
 
 `DeltaLog` defines two `FileFormats`:
@@ -204,52 +246,6 @@ metadata: Metadata
 NOTE: `metadata` is part of the <<Checkpoints.md#metadata, Checkpoints Contract>> to...FIXME.
 
 `metadata` requests the <<snapshot, current Snapshot>> for the <<Snapshot.md#metadata, metadata>> or creates a new <<Metadata.md#, one>> (if the <<snapshot, current Snapshot>> is not initialized).
-
-== [[forTable]] Creating DeltaLog Instance -- `forTable` Utility
-
-[source, scala]
-----
-forTable(
-  spark: SparkSession,
-  dataPath: File): DeltaLog
-forTable(
-  spark: SparkSession,
-  dataPath: File,
-  clock: Clock): DeltaLog
-forTable(
-  spark: SparkSession,
-  dataPath: Path): DeltaLog
-forTable(
-  spark: SparkSession,
-  dataPath: Path,
-  clock: Clock): DeltaLog
-forTable(
-  spark: SparkSession,
-  dataPath: String): DeltaLog
-forTable(
-  spark: SparkSession,
-  dataPath: String,
-  clock: Clock): DeltaLog
-----
-
-`forTable` creates a <<apply, DeltaLog>> with *_delta_log* directory (in the given `dataPath` directory).
-
-[NOTE]
-====
-`forTable` is used when:
-
-* <<DeltaTable.md#forPath, DeltaTable.forPath>> utility is used to create a <<DeltaTable.md#, DeltaTable>>
-
-* <<ConvertToDeltaCommand.md#, ConvertToDeltaCommand>>, <<DescribeDeltaHistoryCommand.md#, DescribeDeltaHistoryCommand>>, <<VacuumTableCommand.md#, VacuumTableCommand>> are requested to `run`
-
-* `DeltaDataSource` is requested to <<DeltaDataSource.md#sourceSchema, sourceSchema>>, <<DeltaDataSource.md#createSource, createSource>>, and create a relation (as <<DeltaDataSource.md#CreatableRelationProvider-createRelation, CreatableRelationProvider>> and <<DeltaDataSource.md#RelationProvider-createRelation, RelationProvider>>)
-
-* <<DeltaTableUtils.md#combineWithCatalogMetadata, DeltaTableUtils.combineWithCatalogMetadata>> utility is used
-
-* `DeltaTableIdentifier` is requested to `getDeltaLog`
-
-* <<DeltaSink.md#, DeltaSink>> is created
-====
 
 == [[update]] `update` Method
 
