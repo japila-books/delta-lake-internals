@@ -43,16 +43,22 @@ Name     | web UI
 
 `MergeIntoCommand` is created when [PreprocessTableMerge](../PreprocessTableMerge.md) logical resolution rule is executed (on a [DeltaMergeInto](DeltaMergeInto.md) logical command).
 
-## <span id="source"> Source Data to Merge From
+## <span id="source"> Source Data (to Merge From)
 
-When [created](#creating-instance), `MergeIntoCommand` is given a `LogicalPlan` for the source data to merge from.
+When [created](#creating-instance), `MergeIntoCommand` is given a `LogicalPlan` for the source data to merge from (referred to internally as _source_).
 
-The `LogicalPlan` is used twice:
+!!! note
+    `MergeIntoCommand` uses `Dataset.ofRows` ([Spark SQL]({{ book.spark_sql }}/Dataset/#ofRows)) utility to create a `DataFrame` for the source data's query plan.
+
+The source `LogicalPlan` is used twice:
 
 * Firstly, in one of the following:
     * An inner join (in [findTouchedFiles](#findTouchedFiles)) that is `count` in web UI
     * A leftanti join (in [writeInsertsOnlyWhenNoMatchedClauses](#writeInsertsOnlyWhenNoMatchedClauses))
 * Secondly, in rightOuter or fullOuter join (in [writeAllChanges](#writeAllChanges))
+
+!!! tip
+    Enable `DEBUG` logging level for [org.apache.spark.sql.delta.commands.MergeIntoCommand](#logging) logger to see the inner-workings of [writeAllChanges](#writeAllChanges).
 
 ## <span id="run"> Executing Command
 

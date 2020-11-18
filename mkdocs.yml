@@ -73,6 +73,8 @@ extra:
     version: 0.7.0
   hadoop:
     version: 2.7.4
+  book:
+    spark_sql: https://jaceklaskowski.github.io/mastering-spark-sql-book
 
 google_analytics:
   - !!python/object/apply:os.getenv ["GOOGLE_ANALYTICS_KEY"]
