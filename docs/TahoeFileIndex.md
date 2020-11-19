@@ -1,110 +1,91 @@
-= TahoeFileIndex -- Indices Of Files Of Delta Table
-:navtitle: TahoeFileIndex
+# TahoeFileIndex
 
-*TahoeFileIndex* is an <<contract, extension>> of the Spark SQL `FileIndex` contract for <<implementations, file indices>> of delta tables that can <<listFiles, list data files>> to scan (based on <<matchingFiles, partition and data filters>>).
+`TahoeFileIndex` is an [extension](#contract) of the `FileIndex` abstraction ([Spark SQL](https://jaceklaskowski.github.io/mastering-spark-sql-book/FileIndex/)) for [file indices](#implementations) of delta tables that can [list data files](#listFiles) to scan (based on [partition and data filters](#matchingFiles)).
 
-TIP: Read up on https://jaceklaskowski.gitbooks.io/mastering-spark-sql/spark-sql-FileIndex.html[FileIndex] in https://bit.ly/spark-sql-internals[The Internals of Spark SQL] online book.
+The aim of `TahoeFileIndex` (and `FileIndex` in general) is to reduce usage of very expensive disk access for file-related information using Hadoop [FileSystem]({{ hadoop.api }}/org/apache/hadoop/fs/FileSystem.html) API.
 
-NOTE: The aim of TahoeFileIndex is to reduce usage of very expensive disk access for file-related information using Hadoop [FileSystem](https://hadoop.apache.org/docs/r{{ hadoop.version }}/api/org/apache/hadoop/fs/FileSystem.html) API.
+## Contract
 
-[[contract]]
-.TahoeFileIndex Contract (Abstract Methods Only)
-[cols="30m,70",options="header",width="100%"]
-|===
-| Method
-| Description
+### <span id="matchingFiles"> matchingFiles
 
-| matchingFiles
-a| [[matchingFiles]]
-
-[source, scala]
-----
+```scala
 matchingFiles(
   partitionFilters: Seq[Expression],
-  dataFilters: Seq[Expression],
-  keepStats: Boolean = false): Seq[AddFile]
-----
+  dataFilters: Seq[Expression]): Seq[AddFile]
+```
 
-Files (AddFile.md[AddFiles]) matching given partition and data predicates
+[AddFile](AddFile.md)s matching given partition and data filters (predicates)
 
-Used for <<listFiles, listing data files>>
+Used for [listing data files](#listFiles)
 
-|===
+## Implementations
 
-[[rootPaths]]
-When requested for the root input paths (`rootPaths`), TahoeFileIndex simply gives the <<path, path>>.
+* [TahoeBatchFileIndex](TahoeBatchFileIndex.md)
+* [TahoeLogFileIndex](TahoeLogFileIndex.md)
 
-[[implementations]]
-.TahoeFileIndices
-[cols="30,70",options="header",width="100%"]
-|===
-| TahoeFileIndex
-| Description
+## Creating Instance
 
-| <<TahoeBatchFileIndex.md#, TahoeBatchFileIndex>>
-| [[TahoeBatchFileIndex]]
+`TahoeFileIndex` takes the following to be created:
 
-| <<TahoeLogFileIndex.md#, TahoeLogFileIndex>>
-| [[TahoeLogFileIndex]]
+* <span id="spark"> `SparkSession`
+* <span id="deltaLog"> [DeltaLog](DeltaLog.md)
+* <span id="path"> Hadoop [Path]({{ hadoop.api }}/org/apache/hadoop/fs/Path.html)
 
-|===
+??? note "Abstract Class"
+    `TahoeFileIndex` is an abstract class and cannot be created directly. It is created indirectly for the [concrete TahoeFileIndexes](#implementations).
 
-== [[creating-instance]] Creating TahoeFileIndex Instance
+## <span id="rootPaths"> Root Paths
 
-TahoeFileIndex takes the following to be created:
+```scala
+rootPaths: Seq[Path]
+```
 
-* [[spark]] `SparkSession`
-* [[deltaLog]] <<DeltaLog.md#, DeltaLog>>
-* [[path]] Hadoop [Path](https://hadoop.apache.org/docs/r{{ hadoop.version }}/api/org/apache/hadoop/fs/Path.html)
+`rootPaths` is the [path](#path) only.
 
-NOTE: TahoeFileIndex is a Scala abstract class and cannot be <<creating-instance, created>> directly. It is created indirectly for the <<implementations, concrete file indices>>.
+`rootPaths` is part of the `FileIndex` abstraction ([Spark SQL](https://jaceklaskowski.github.io/mastering-spark-sql-book/FileIndex/#rootPaths)).
 
-== [[tableVersion]] Version of Delta Table -- `tableVersion` Method
+## <span id="listFiles"> Listing Files
 
-[source, scala]
-----
-tableVersion: Long
-----
-
-`tableVersion` is simply the <<Snapshot.md#version, version>> of (the <<DeltaLog.md#snapshot, snapshot>> of) the <<deltaLog, DeltaLog>>.
-
-NOTE: `tableVersion` is used when TahoeFileIndex is requested for the <<toString, human-friendly textual representation>>.
-
-== [[listFiles]] Listing Data Files -- `listFiles` Method
-
-[source, scala]
-----
+```scala
 listFiles(
   partitionFilters: Seq[Expression],
   dataFilters: Seq[Expression]): Seq[PartitionDirectory]
-----
-
-NOTE: `listFiles` is part of the `FileIndex` contract for the file names (grouped into partitions when the data is partitioned).
-
-`listFiles`...FIXME
-
-== [[partitionSchema]] Partition Schema -- `partitionSchema` Method
-
-[source, scala]
-----
-partitionSchema: StructType
-----
-
-NOTE: `partitionSchema` is part of the `FileIndex` contract for the partition schema.
-
-`partitionSchema` simply requests the <<deltaLog, DeltaLog>> for the <<DeltaLog.md#snapshot, Snapshot>> and then requests the `Snapshot` for <<Snapshot.md#metadata, Metadata>> that in turn is requested for the <<Metadata.md#partitionSchema, partitionSchema>>.
-
-== [[toString]] Human-Friendly Textual Representation -- `toString` Method
-
-[source, scala]
-----
-toString: String
-----
-
-NOTE: `toString` is part of the `java.lang.Object` contract for a string representation of the object.
-
-`toString` returns the following text (based on the <<tableVersion, table version>> and the <<path, path>> truncated to 100 characters):
-
 ```
+
+`listFiles` is the [path](#path) only.
+
+`listFiles` is part of the `FileIndex` abstraction ([Spark SQL](https://jaceklaskowski.github.io/mastering-spark-sql-book/FileIndex/#listFiles)).
+
+## <span id="partitionSchema"> Partitions
+
+```scala
+partitionSchema: StructType
+```
+
+`partitionSchema` is the [partition schema](Metadata.md#partitionSchema) of (the [Metadata](Snapshot.md#metadata) of the [Snapshot](DeltaLog.md#snapshot)) of the [DeltaLog](#deltaLog).
+
+`partitionSchema` is part of the `FileIndex` abstraction ([Spark SQL](https://jaceklaskowski.github.io/mastering-spark-sql-book/FileIndex/#partitionSchema)).
+
+## <span id="tableVersion"> Version of Delta Table
+
+```scala
+tableVersion: Long
+```
+
+`tableVersion` is the [version](Snapshot.md#version) of (the [snapshot](DeltaLog.md#snapshot) of) the [DeltaLog](#deltaLog).
+
+`tableVersion` is used when `TahoeFileIndex` is requested for the [human-friendly textual representation](#toString).
+
+## <span id="toString"> Textual Representation
+
+```scala
+toString: String
+```
+
+`toString` returns the following text (using the [version](tableVersion) and the [path](#path) of the Delta table):
+
+```text
 Delta[version=[tableVersion], [truncatedPath]]
 ```
+
+ `toString` is part of the `java.lang.Object` contract for a string representation of the object.

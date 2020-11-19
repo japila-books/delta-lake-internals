@@ -57,12 +57,30 @@ The source `LogicalPlan` is used twice:
 !!! tip
     Enable `DEBUG` logging level for [org.apache.spark.sql.delta.commands.MergeIntoCommand](#logging) logger to see the inner-workings of [writeAllChanges](#writeAllChanges).
 
+## <span id="targetDeltaLog"> Target DeltaLog
+
+```scala
+targetDeltaLog: DeltaLog
+```
+
+`targetDeltaLog` is the [DeltaLog](../TahoeFileIndex.md#deltaLog) of the [TahoeFileIndex](#targetFileIndex).
+
+`targetDeltaLog` is used for the following:
+
+* [Start a new transaction](../DeltaLog.md#withNewTransaction) when [executed](#run)
+* To access the [Data Path](../DeltaLog.md#dataPath) when [finding files to rewrite](#findTouchedFiles)
+
+??? note "Lazy Value"
+    `targetDeltaLog` is a Scala **lazy value** to guarantee that the code to initialize it is executed once only (when accessed for the first time) and cached afterwards.
+
 ## <span id="run"> Executing Command
 
 ```scala
 run(
   spark: SparkSession): Seq[Row]
 ```
+
+`run` is part of the `RunnableCommand` ([Spark SQL](https://jaceklaskowski.github.io/mastering-spark-sql-book/logical-operators/RunnableCommand/)) abstraction.
 
 `run` requests the [target DeltaLog](#targetDeltaLog) to [start a new transaction](../DeltaLog.md#withNewTransaction).
 
@@ -71,7 +89,7 @@ With [spark.databricks.delta.schema.autoMerge.enabled](../DeltaSQLConf.md#DELTA_
 <span id="run-deltaActions">
 `run` determines Delta actions ([RemoveFile](../RemoveFile.md)s and [AddFile](../AddFile.md)s).
 
-??? todo "Describe `deltaActions` part"
+!!! todo "Describe `deltaActions` part"
 
 With [spark.databricks.delta.history.metricsEnabled](../DeltaSQLConf.md#DELTA_HISTORY_METRICS_ENABLED) configuration property enabled, `run` requests the [current transaction](../OptimisticTransaction.md) to [register SQL metrics for the Delta operation](../SQLMetricsReporting.md#registerSQLMetrics).
 
@@ -82,8 +100,6 @@ With [spark.databricks.delta.history.metricsEnabled](../DeltaSQLConf.md#DELTA_HI
 `run` posts a `SparkListenerDriverAccumUpdates` Spark event (with the metrics).
 
 In the end, `run` requests the `CacheManager` to `recacheByPlan`.
-
-`run` is part of the `RunnableCommand` ([Spark SQL](https://jaceklaskowski.github.io/mastering-spark-sql-book/logical-operators/RunnableCommand/)) abstraction.
 
 ### <span id="findTouchedFiles"> Finding Files to Rewrite
 

@@ -73,6 +73,7 @@ extra:
     version: 0.7.0
   hadoop:
     version: 2.7.4
+    api: https://hadoop.apache.org/docs/r2.7.4/api
   book:
     spark_sql: https://jaceklaskowski.github.io/mastering-spark-sql-book
 
