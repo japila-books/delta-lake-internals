@@ -16,9 +16,9 @@ Name     | web UI
 `numTargetRowsInserted` | number of inserted rows
 `numTargetRowsUpdated` | number of updated rows
 `numTargetRowsDeleted` | number of deleted rows
-`numTargetFilesBeforeSkipping` | number of target files before skipping
-`numTargetFilesAfterSkipping` | number of target files after skipping
-`numTargetFilesRemoved` | number of files removed to target
+<span id="numTargetFilesBeforeSkipping"> `numTargetFilesBeforeSkipping` | number of target files before skipping
+<span id="numTargetFilesAfterSkipping"> `numTargetFilesAfterSkipping` | number of target files after skipping
+<span id="numTargetFilesRemoved"> `numTargetFilesRemoved` | number of files removed to target
 `numTargetFilesAdded` | number of files added to target
 
 ### <span id="numTargetRowsCopied"> number of target rows rewritten unmodified
@@ -85,60 +85,7 @@ In the end, `run` requests the `CacheManager` to `recacheByPlan`.
 
 `run` is part of the `RunnableCommand` ([Spark SQL](https://jaceklaskowski.github.io/mastering-spark-sql-book/logical-operators/RunnableCommand/)) abstraction.
 
-### <span id="run-exceptions"> Exceptions
-
-`run` throws an `AnalysisException` when the target schema is different than the delta table's (has changed after analysis phase):
-
-```text
-The schema of your Delta table has changed in an incompatible way since your DataFrame or DeltaTable object was created. Please redefine your DataFrame or DeltaTable object. Changes:
-[schemaDiff]
-This check can be turned off by setting the session configuration key spark.databricks.delta.checkLatestSchemaOnRead to false.
-```
-
-### <span id="writeAllChanges"> writeAllChanges
-
-```scala
-writeAllChanges(
-  spark: SparkSession,
-  deltaTxn: OptimisticTransaction,
-  filesToRewrite: Seq[AddFile]): Seq[AddFile]
-```
-
-`writeAllChanges` builds the target output columns (possibly with some `null`s for the target columns that are not in the current schema).
-
-<span id="writeAllChanges-newTarget">
-`writeAllChanges` [builds a target logical query plan for the AddFiles](#buildTargetPlanWithFiles).
-
-<span id="writeAllChanges-joinType">
-`writeAllChanges` determines a join type to use (`rightOuter` or `fullOuter`).
-
-`writeAllChanges` prints out the following DEBUG message to the logs:
-
-```text
-writeAllChanges using [joinType] join:
-source.output: [outputSet]
-target.output: [outputSet]
-condition: [condition]
-newTarget.output: [outputSet]
-```
-
-<span id="writeAllChanges-joinedDF">
-`writeAllChanges` creates a `joinedDF` DataFrame that is a join of the DataFrames for the [source](#source) and the new [target](#writeAllChanges-newTarget) logical plans with the given [join condition](#condition) and the [join type](#writeAllChanges-joinType).
-
-`writeAllChanges` creates a `JoinedRowProcessor` that is then used to map over partitions of the [joined DataFrame](#writeAllChanges-joinedDF).
-
-`writeAllChanges` prints out the following DEBUG message to the logs:
-
-```text
-writeAllChanges: join output plan:
-[outputDF.queryExecution]
-```
-
-`writeAllChanges` requests the input [OptimisticTransaction](../OptimisticTransaction.md) to [writeFiles](../TransactionalWrite.md#writeFiles) (possibly repartitioning by the partition columns if table is partitioned and [spark.databricks.delta.merge.repartitionBeforeWrite.enabled](../DeltaSQLConf.md#MERGE_REPARTITION_BEFORE_WRITE) configuration property is enabled).
-
-`writeAllChanges` is used when `MergeIntoCommand` is requested to [run](#run).
-
-### <span id="findTouchedFiles"> findTouchedFiles
+### <span id="findTouchedFiles"> Finding Files to Rewrite
 
 ```scala
 findTouchedFiles(
@@ -238,6 +185,46 @@ findTouchedFiles(
 <span id="findTouchedFiles-recordTouchedFileName">
 `findTouchedFiles` defines a nondeterministic UDF that adds the file names to the accumulator (_recordTouchedFileName_).
 
+<span id="findTouchedFiles-dataSkippedFiles">
+`findTouchedFiles` splits conjunctive predicates (`And` binary expressions) in the [condition](#condition) expression and collects the predicates that use the [target](#target)'s columns (_targetOnlyPredicates_). `findTouchedFiles` requests the given [OptimisticTransaction](../OptimisticTransaction.md) for the [files that match the target-only predicates](../OptimisticTransactionImpl.md#filterFiles) (and creates a `dataSkippedFiles` collection of [AddFile](../AddFile.md)s).
+
+!!! note
+    This step looks similar to **filter predicate pushdown**.
+
+`findTouchedFiles` creates one `DataFrame` for the [source data](#source) (using `Dataset.ofRows` utility).
+
+!!! tip
+    Learn more about [Dataset.ofRows]({{ book.spark_sql }}/Dataset/#ofRows) utility in [The Internals of Spark SQL]({{ book.spark_sql }}) online book.
+
+`findTouchedFiles` [builds a logical query plan](#buildTargetPlanWithFiles) for the files (matching the predicates) and creates another `DataFrame` for the target data. `findTouchedFiles` adds two columns to the target dataframe:
+
+1. `_row_id_` for `monotonically_increasing_id()` standard function
+1. `_file_name_` for `input_file_name()` standard function
+
+`findTouchedFiles` creates (a `DataFrame` that is) an INNER JOIN of the source and target `DataFrame`s using the [condition](#condition) expression.
+
+`findTouchedFiles` takes the joined dataframe and selects `_row_id_` column and the [recordTouchedFileName](#findTouchedFiles-recordTouchedFileName) UDF on the `_file_name_` column as `one`. The `DataFrame` is internally known as `collectTouchedFiles`.
+
+`findTouchedFiles` uses `groupBy` operator on `_row_id_` to calculate a sum of all the values in the `one` column (as `count` column) in the two-column `collectTouchedFiles` dataset. The `DataFrame` is internally known as `matchedRowCounts`.
+
+!!! note
+    No Spark job has been submitted yet. `findTouchedFiles` is still in "query preparation" mode.
+
+`findTouchedFiles` uses `filter` on the `count` column (in the `matchedRowCounts` dataset) with values greater than `1`. If there are any, `findTouchedFiles` throws an `UnsupportedOperationException` exception:
+
+```text
+Cannot perform MERGE as multiple source rows matched and attempted to update the same
+target row in the Delta table. By SQL semantics of merge, when multiple source rows match
+on the same target row, the update operation is ambiguous as it is unclear which source
+should be used to update the matching target row.
+You can preprocess the source table to eliminate the possibility of multiple matches.
+```
+
+!!! note
+    Since `findTouchedFiles` uses `count` action there should be a Spark SQL query reported (and possibly Spark jobs) in web UI.
+
+`findTouchedFiles` requests the `touchedFilesAccum` accumulator for the touched file names.
+
 ??? note "Example 2: Understanding the Internals of `findTouchedFiles`"
     
     ```scala
@@ -285,45 +272,6 @@ findTouchedFiles(
 
     Use the Stages tab in web UI to review the accumulator values.
 
-`findTouchedFiles` splits conjunctive predicates (`And` binary expressions) in the [condition](#condition) expression and collects the predicates that use the [target](#target)'s columns (_targetOnlyPredicates_). `findTouchedFiles` requests the given [OptimisticTransaction](../OptimisticTransaction.md) for the [files that match the target-only predicates](../OptimisticTransactionImpl.md#filterFiles).
-
-!!! note
-    This step looks similar to **filter predicate pushdown**.
-
-`findTouchedFiles` creates one `DataFrame` for the [source data](#source) (using `Dataset.ofRows` utility).
-
-!!! tip
-    Learn more about [Dataset.ofRows]({{ book.spark_sql }}/Dataset/#ofRows) utility in [The Internals of Spark SQL]({{ book.spark_sql }}) online book.
-
-`findTouchedFiles` [builds a logical query plan](#buildTargetPlanWithFiles) for the files (matching the predicates) and creates another `DataFrame` for the target data. `findTouchedFiles` adds two columns to the target dataframe:
-
-1. `_row_id_` for `monotonically_increasing_id()` standard function
-1. `_file_name_` for `input_file_name()` standard function
-
-`findTouchedFiles` creates (a `DataFrame` that is) an INNER JOIN of the source and target `DataFrame`s using the [condition](#condition) expression.
-
-`findTouchedFiles` takes the joined dataframe and selects `_row_id_` column and the [recordTouchedFileName](#findTouchedFiles-recordTouchedFileName) UDF on the `_file_name_` column as `one`. The `DataFrame` is internally known as `collectTouchedFiles`.
-
-`findTouchedFiles` uses `groupBy` operator on `_row_id_` to calculate a sum of all the values in the `one` column (as `count` column) in the two-column `collectTouchedFiles` dataset. The `DataFrame` is internally known as `matchedRowCounts`.
-
-!!! note
-    No Spark job has been submitted yet. `findTouchedFiles` is still in "query preparation" mode.
-
-`findTouchedFiles` uses `filter` on the `count` column (in the `matchedRowCounts` dataset) with values greater than `1`. If there are any, `findTouchedFiles` throws an `UnsupportedOperationException` exception:
-
-```text
-Cannot perform MERGE as multiple source rows matched and attempted to update the same
-target row in the Delta table. By SQL semantics of merge, when multiple source rows match
-on the same target row, the update operation is ambiguous as it is unclear which source
-should be used to update the matching target row.
-You can preprocess the source table to eliminate the possibility of multiple matches.
-```
-
-!!! note
-    Since `findTouchedFiles` uses `count` action there should be a Spark SQL query reported (and possibly Spark jobs) in web UI.
-
-`findTouchedFiles` requests the `touchedFilesAccum` accumulator for the touched file names.
-
 `findTouchedFiles` prints out the following TRACE message to the logs:
 
 ```text
@@ -331,7 +279,60 @@ findTouchedFiles: matched files:
   [touchedFileNames]
 ```
 
-`findTouchedFiles`...FIXME
+`findTouchedFiles` [generateCandidateFileMap](#generateCandidateFileMap) for the [files that match the target-only predicates](#findTouchedFiles-dataSkippedFiles).
+
+`findTouchedFiles` [getTouchedFile](#getTouchedFile) for every touched file name.
+
+`findTouchedFiles` updates the following performance metrics:
+
+* [numTargetFilesBeforeSkipping](#numTargetFilesBeforeSkipping) and adds the [numOfFiles](#numOfFiles) of the [Snapshot](../OptimisticTransaction.md#snapshot) of the given [OptimisticTransaction](../OptimisticTransaction.md)
+* [numTargetFilesAfterSkipping](#numTargetFilesAfterSkipping) and adds the number of the [files that match the target-only predicates](#findTouchedFiles-dataSkippedFiles)
+* [numTargetFilesRemoved](#numTargetFilesRemoved) and adds the number of the touched files
+
+In the end, `findTouchedFiles` gives the touched files (as [AddFile](../AddFile.md)s).
+
+### <span id="writeAllChanges"> Writing All Changes
+
+```scala
+writeAllChanges(
+  spark: SparkSession,
+  deltaTxn: OptimisticTransaction,
+  filesToRewrite: Seq[AddFile]): Seq[AddFile]
+```
+
+`writeAllChanges` builds the target output columns (possibly with some `null`s for the target columns that are not in the current schema).
+
+<span id="writeAllChanges-newTarget">
+`writeAllChanges` [builds a target logical query plan for the AddFiles](#buildTargetPlanWithFiles).
+
+<span id="writeAllChanges-joinType">
+`writeAllChanges` determines a join type to use (`rightOuter` or `fullOuter`).
+
+`writeAllChanges` prints out the following DEBUG message to the logs:
+
+```text
+writeAllChanges using [joinType] join:
+source.output: [outputSet]
+target.output: [outputSet]
+condition: [condition]
+newTarget.output: [outputSet]
+```
+
+<span id="writeAllChanges-joinedDF">
+`writeAllChanges` creates a `joinedDF` DataFrame that is a join of the DataFrames for the [source](#source) and the new [target](#writeAllChanges-newTarget) logical plans with the given [join condition](#condition) and the [join type](#writeAllChanges-joinType).
+
+`writeAllChanges` creates a `JoinedRowProcessor` that is then used to map over partitions of the [joined DataFrame](#writeAllChanges-joinedDF).
+
+`writeAllChanges` prints out the following DEBUG message to the logs:
+
+```text
+writeAllChanges: join output plan:
+[outputDF.queryExecution]
+```
+
+`writeAllChanges` requests the input [OptimisticTransaction](../OptimisticTransaction.md) to [writeFiles](../TransactionalWrite.md#writeFiles) (possibly repartitioning by the partition columns if table is partitioned and [spark.databricks.delta.merge.repartitionBeforeWrite.enabled](../DeltaSQLConf.md#MERGE_REPARTITION_BEFORE_WRITE) configuration property is enabled).
+
+`writeAllChanges` is used when `MergeIntoCommand` is requested to [run](#run).
 
 ### <span id="buildTargetPlanWithFiles"> Building Target Logical Query Plan for AddFiles
 
@@ -361,6 +362,16 @@ writeInsertsOnlyWhenNoMatchedClauses(
 ```
 
 `writeInsertsOnlyWhenNoMatchedClauses`...FIXME
+
+### <span id="run-exceptions"> Exceptions
+
+`run` throws an `AnalysisException` when the target schema is different than the delta table's (has changed after analysis phase):
+
+```text
+The schema of your Delta table has changed in an incompatible way since your DataFrame or DeltaTable object was created. Please redefine your DataFrame or DeltaTable object. Changes:
+[schemaDiff]
+This check can be turned off by setting the session configuration key spark.databricks.delta.checkLatestSchemaOnRead to false.
+```
 
 ## Logging
 
