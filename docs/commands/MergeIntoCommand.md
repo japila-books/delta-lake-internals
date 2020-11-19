@@ -151,7 +151,7 @@ findTouchedFiles(
 
     It is always worth keeping in mind that Delta Lake uses files for data storage and that is why `input_file_name()` standard function works. It would not work for non-file-based data sources.
 
-??? note "Example: Understanding the Internals of `findTouchedFiles`"
+??? note "Example 1: Understanding the Internals of `findTouchedFiles`"
     
     The following query writes out a 10-element dataset using the default parquet data source to `/tmp/parquet` directory:
 
@@ -237,6 +237,53 @@ findTouchedFiles(
 
 <span id="findTouchedFiles-recordTouchedFileName">
 `findTouchedFiles` defines a nondeterministic UDF that adds the file names to the accumulator (_recordTouchedFileName_).
+
+??? note "Example 2: Understanding the Internals of `findTouchedFiles`"
+    
+    ```scala
+    val TOUCHED_FILES_ACCUM_NAME = "MergeIntoDelta.touchedFiles"
+    val touchedFilesAccum = spark.sparkContext.collectionAccumulator[String](TOUCHED_FILES_ACCUM_NAME)
+    val recordTouchedFileName = udf { (fileName: String) => {
+      touchedFilesAccum.add(fileName)
+      1
+    }}.asNondeterministic()
+    ```
+
+    ```scala
+    val target = "/tmp/parquet"
+    spark.range(10).write.save(target)
+    ```
+
+    ```scala
+    val FILE_NAME_COL = "_file_name_"
+    val dataFiles = spark.read.parquet(target).withColumn(FILE_NAME_COL, input_file_name())
+    val collectTouchedFiles = dataFiles.select(col(FILE_NAME_COL), recordTouchedFileName(col(FILE_NAME_COL)).as("one"))
+    ```
+
+    ```text
+    scala> collectTouchedFiles.show(truncate = false)
+    +---------------------------------------------------------------------------------------+---+
+    |_file_name_                                                                            |one|
+    +---------------------------------------------------------------------------------------+---+
+    |file:///tmp/parquet/part-00007-76df546f-91f8-4cbb-8fcc-f51478e0db31-c000.snappy.parquet|1  |
+    |file:///tmp/parquet/part-00001-76df546f-91f8-4cbb-8fcc-f51478e0db31-c000.snappy.parquet|1  |
+    |file:///tmp/parquet/part-00006-76df546f-91f8-4cbb-8fcc-f51478e0db31-c000.snappy.parquet|1  |
+    |file:///tmp/parquet/part-00011-76df546f-91f8-4cbb-8fcc-f51478e0db31-c000.snappy.parquet|1  |
+    |file:///tmp/parquet/part-00003-76df546f-91f8-4cbb-8fcc-f51478e0db31-c000.snappy.parquet|1  |
+    |file:///tmp/parquet/part-00014-76df546f-91f8-4cbb-8fcc-f51478e0db31-c000.snappy.parquet|1  |
+    |file:///tmp/parquet/part-00004-76df546f-91f8-4cbb-8fcc-f51478e0db31-c000.snappy.parquet|1  |
+    |file:///tmp/parquet/part-00012-76df546f-91f8-4cbb-8fcc-f51478e0db31-c000.snappy.parquet|1  |
+    |file:///tmp/parquet/part-00009-76df546f-91f8-4cbb-8fcc-f51478e0db31-c000.snappy.parquet|1  |
+    |file:///tmp/parquet/part-00015-76df546f-91f8-4cbb-8fcc-f51478e0db31-c000.snappy.parquet|1  |
+    +---------------------------------------------------------------------------------------+---+    
+    ```
+
+    ```scala
+    import scala.collection.JavaConverters._
+    val touchedFileNames = touchedFilesAccum.value.asScala.toSeq
+    ```
+
+    Use the Stages tab in web UI to review the accumulator values.
 
 `findTouchedFiles` splits conjunctive predicates (`And` binary expressions) in the [condition](#condition) expression and collects the predicates that use the [target](#target)'s columns (_targetOnlyPredicates_). `findTouchedFiles` requests the given [OptimisticTransaction](../OptimisticTransaction.md) for the [files that match the target-only predicates](../OptimisticTransactionImpl.md#filterFiles).
 
