@@ -47,9 +47,6 @@ Name     | web UI
 
 When [created](#creating-instance), `MergeIntoCommand` is given a `LogicalPlan` for the source data to merge from (referred to internally as _source_).
 
-!!! note
-    `MergeIntoCommand` uses `Dataset.ofRows` ([Spark SQL]({{ book.spark_sql }}/Dataset/#ofRows)) utility to create a `DataFrame` for the source data's query plan.
-
 The source `LogicalPlan` is used twice:
 
 * Firstly, in one of the following:
@@ -149,17 +146,62 @@ findTouchedFiles(
   deltaTxn: OptimisticTransaction): Seq[AddFile]
 ```
 
-`findTouchedFiles` registers an accumulator to collect all the distinct touched files.
+!!! important
+    `findTouchedFiles` is such a fine piece of art (_a gem_). It uses a custom accumulator, a UDF (to use this accumulator to record touched file names) and `input_file_name()` standard function for the names of the files read.
+
+`findTouchedFiles` registers an accumulator to collect all the distinct files that need to be rewritten (_touched files_).
 
 !!! note
-    The name of the accumulator is **internal.metrics.MergeIntoDelta.touchedFiles** and `internal.metrics` part is supposed to hide it for web UI as potentially large.
+    The name of the accumulator is **internal.metrics.MergeIntoDelta.touchedFiles** and `internal.metrics` part is supposed to hide it from web UI as potentially large (set of file names to be rewritten).
 
-`findTouchedFiles` defines a UDF that adds the file names to the accumulator.
+<span id="findTouchedFiles-recordTouchedFileName">
+`findTouchedFiles` defines a nondeterministic UDF that adds the file names to the accumulator (_recordTouchedFileName_).
 
-`findTouchedFiles` does some _magic_ with the [condition](#condition) to find expressions that use the [target](#target)'s columns. `findTouchedFiles` splits conjunctive predicates (`And` expressions) and collects the predicates that use the [target](#target)'s columns (_targetOnlyPredicates_). `findTouchedFiles` requests the given [OptimisticTransaction](../OptimisticTransaction.md) for the [files that match the predicates](../OptimisticTransactionImpl.md#filterFiles).
+`findTouchedFiles` splits conjunctive predicates (`And` binary expressions) in the [condition](#condition) expression and collects the predicates that use the [target](#target)'s columns (_targetOnlyPredicates_). `findTouchedFiles` requests the given [OptimisticTransaction](../OptimisticTransaction.md) for the [files that match the target-only predicates](../OptimisticTransactionImpl.md#filterFiles).
 
 !!! note
-    This step looks similar to **filter predicate pushdown**. Please confirm.
+    This step looks similar to **filter predicate pushdown**.
+
+`findTouchedFiles` creates one `DataFrame` for the [source data](#source) (using `Dataset.ofRows` utility).
+
+!!! tip
+    Learn more about [Dataset.ofRows]({{ book.spark_sql }}/Dataset/#ofRows) utility in [The Internals of Spark SQL]({{ book.spark_sql }}) online book.
+
+`findTouchedFiles` [builds a logical query plan](#buildTargetPlanWithFiles) for the files (matching the predicates) and creates another `DataFrame` for the target data. `findTouchedFiles` adds two columns to the target dataframe:
+
+1. `_row_id_` for `monotonically_increasing_id()` standard function
+1. `_file_name_` for `input_file_name()` standard function
+
+`findTouchedFiles` creates (a `DataFrame` that is) an INNER JOIN of the source and target `DataFrame`s using the [condition](#condition) expression.
+
+`findTouchedFiles` takes the joined dataframe and selects `_row_id_` column and the [recordTouchedFileName](#findTouchedFiles-recordTouchedFileName) UDF on the `_file_name_` column as `one`. The `DataFrame` is internally known as `collectTouchedFiles`.
+
+`findTouchedFiles` uses `groupBy` operator on `_row_id_` to calculate a sum of all the values in the `one` column (as `count` column) in the two-column `collectTouchedFiles` dataset. The `DataFrame` is internally known as `matchedRowCounts`.
+
+!!! note
+    No Spark job has been submitted yet. `findTouchedFiles` is still in "query preparation" mode.
+
+`findTouchedFiles` uses `filter` on the `count` column (in the `matchedRowCounts` dataset) with values greater than `1`. If there are any, `findTouchedFiles` throws an `UnsupportedOperationException` exception:
+
+```text
+Cannot perform MERGE as multiple source rows matched and attempted to update the same
+target row in the Delta table. By SQL semantics of merge, when multiple source rows match
+on the same target row, the update operation is ambiguous as it is unclear which source
+should be used to update the matching target row.
+You can preprocess the source table to eliminate the possibility of multiple matches.
+```
+
+!!! note
+    Since `findTouchedFiles` uses `count` action there should be a Spark SQL query reported (and possibly Spark jobs) in web UI.
+
+`findTouchedFiles` requests the `touchedFilesAccum` accumulator for the touched file names.
+
+`findTouchedFiles` prints out the following TRACE message to the logs:
+
+```text
+findTouchedFiles: matched files:
+  [touchedFileNames]
+```
 
 `findTouchedFiles`...FIXME
 
