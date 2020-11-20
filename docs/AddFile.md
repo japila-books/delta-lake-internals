@@ -1,72 +1,63 @@
 # AddFile
 
-`AddFile` is a <<FileAction.md#, file action>> to denote a <<path, file>> added to a <<DeltaLog.md#, delta table>>.
+`AddFile` is a [FileAction](FileAction.md) that represents an action of adding a [file](#path) to a [delta table](DeltaLog.md).
 
-`AddFile` is <<creating-instance, created>> when:
-
-* <<ConvertToDeltaCommand.md#, ConvertToDeltaCommand>> is executed (for <<ConvertToDeltaCommand.md#createAddFile, every data file to import>>)
-
-* `DelayedCommitProtocol` is requested to <<DelayedCommitProtocol.md#commitTask, commit a task (after successful write)>> (for <<TransactionalWrite.md#, optimistic transactional writers>>)
-
-== [[creating-instance]] Creating AddFile Instance
+## Creating Instance
 
 `AddFile` takes the following to be created:
 
-* [[path]] Path
-* [[partitionValues]] Partition values (`Map[String, String]`)
-* [[size]] Size (in bytes)
-* [[modificationTime]] Modification time
-* [[dataChange]] `dataChange` flag
-* [[stats]] Stats (default: `null`)
-* [[tags]] Tags (`Map[String, String]`) (default: `null`)
+* <span id="path"> Path
+* <span id="partitionValues"> Partition values (`Map[String, String]`)
+* <span id="size"> Size (in bytes)
+* <span id="modificationTime"> Modification time
+* <span id="dataChange"> `dataChange` flag
+* <span id="stats"> Stats (default: `null`)
+* <span id="tags"> Tags (`Map[String, String]`) (default: `null`)
 
-== [[wrap]] `wrap` Method
+`AddFile` is created when:
 
-[source, scala]
-----
+* [ConvertToDeltaCommand](commands/ConvertToDeltaCommand.md) is executed (for [every data file to import](commands/ConvertToDeltaCommand.md#createAddFile))
+
+* `DelayedCommitProtocol` is requested to [commit a task (after successful write)](DelayedCommitProtocol.md#commitTask) (for [optimistic transactional writers](TransactionalWrite.md))
+
+## <span id="wrap"> Converting to SingleAction
+
+```scala
 wrap: SingleAction
-----
+```
 
-NOTE: `wrap` is part of the <<Action.md#wrap, Action>> contract to wrap the action into a <<SingleAction.md#, SingleAction>> for serialization.
+`wrap` is part of the [Action](Action.md#wrap) abstraction.
 
-`wrap` simply creates a new <<SingleAction.md#, SingleAction>> with the `add` field set to this `AddFile`.
+`wrap` creates a new [SingleAction](SingleAction.md) with the `add` field set to this `AddFile`.
 
-== [[remove]] Creating RemoveFile Instance With Current Timestamp -- `remove` Method
+## <span id="remove"> Converting to RemoveFile with Defaults
 
-[source, scala]
-----
+```scala
 remove: RemoveFile
-----
+```
 
-`remove` <<removeWithTimestamp, creates a RemoveFile action>> with the current timestamp and `dataChange` flag enabled.
+`remove` simply [creates a RemoveFile](#removeWithTimestamp) for the [path](#path) (with the current time and `dataChange` flag enabled).
 
-[NOTE]
-====
 `remove` is used when:
 
-* <<MergeIntoCommand.md#, MergeIntoCommand>> is executed
+* [MergeIntoCommand](commands/MergeIntoCommand.md) is executed
 
-* <<WriteIntoDelta.md#, WriteIntoDelta>> is executed (with `Overwrite` mode)
+* `WriteIntoDelta` is requested to [write](commands/WriteIntoDelta.md#write) (with `Overwrite` mode)
 
-* `DeltaSink` is requested to <<DeltaSink.md#addBatch, add a streaming micro-batch>> (with `Complete` mode)
-====
+* `DeltaSink` is requested to [add a streaming micro-batch](DeltaSink.md#addBatch) (for `Complete` output mode)
 
-== [[removeWithTimestamp]] Creating RemoveFile Instance For Given Timestamp -- `removeWithTimestamp` Method
+## <span id="removeWithTimestamp"> Converting to RemoveFile
 
-[source, scala]
-----
+```scala
 removeWithTimestamp(
   timestamp: Long = System.currentTimeMillis(),
   dataChange: Boolean = true): RemoveFile
-----
+```
 
-`removeWithTimestamp` creates a <<RemoveFile.md#, RemoveFile>> action for the <<path, path>>, and the given `timestamp` and `dataChange` flag.
+`remove` creates a new [RemoveFile](RemoveFile.md) for the [path](#path) with the given `timestamp` and `dataChange` flag.
 
-[NOTE]
-====
 `removeWithTimestamp` is used when:
 
-* `AddFile` is requested to <<remove, create a RemoveFile action with the current timestamp>>
-
-* <<DeleteCommand.md#, DeleteCommand>> and <<UpdateCommand.md#, UpdateCommand>> are executed
-====
+* `AddFile` is requested to [create a RemoveFile action with the defaults](#remove)
+* [CreateDeltaTableCommand](commands/CreateDeltaTableCommand.md), [DeleteCommand](commands/DeleteCommand.md) and [UpdateCommand](commands/UpdateCommand.md) commands are executed
+* `DeltaCommand` is requested to [removeFilesFromPaths](commands/DeltaCommand.md#removeFilesFromPaths)
