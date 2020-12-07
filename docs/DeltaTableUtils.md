@@ -1,13 +1,5 @@
 # DeltaTableUtils Utility
 
-`DeltaTableUtils` comes with the following utilities:
-
-* <<isDeltaTable, DeltaTableUtils.isDeltaTable>> for checking out whether a given directory is part of delta table
-
-* <<findDeltaTableRoot, DeltaTableUtils.findDeltaTableRoot>> for finding the root directory of a delta table
-
-* <<splitMetadataAndDataPredicates, splitMetadataAndDataPredicates>>
-
 ## <span id="extractIfPathContainsTimeTravel"> extractIfPathContainsTimeTravel
 
 ```scala
@@ -18,7 +10,9 @@ extractIfPathContainsTimeTravel(
 
 `extractIfPathContainsTimeTravel`...FIXME
 
-`extractIfPathContainsTimeTravel` is used when `DeltaDataSource` is requested to [sourceSchema](DeltaDataSource.md#sourceSchema) and [parsePathIdentifier](DeltaDataSource.md#parsePathIdentifier).
+`extractIfPathContainsTimeTravel` is used when:
+
+* `DeltaDataSource` is requested to [sourceSchema](DeltaDataSource.md#sourceSchema) and [parsePathIdentifier](DeltaDataSource.md#parsePathIdentifier)
 
 ## <span id="resolveTimeTravelVersion"> resolveTimeTravelVersion Utility
 

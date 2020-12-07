@@ -11,18 +11,18 @@
 
 `DeltaTimeTravelSpec` takes the following to be created:
 
-* <span id="timestamp"> Optional Timestamp Expression
-* <span id="version"> Optional Version
-* <span id="creationSource"> Optional `creationSource` identifier
+* <span id="timestamp"> Timestamp
+* <span id="version"> Version
+* <span id="creationSource"> `creationSource` identifier
 
-Either [version](#version) or [timestamp](#timestamp) should be provided.
+`DeltaTimeTravelSpec` asserts that either [version](#version) or [timestamp](#timestamp) is provided (and throws an `AssertionError`).
 
 `DeltaTimeTravelSpec` is created when:
 
-* `DeltaTimeTravelSpec` utility is used to [resolvePath](#resolvePath)
+* `DeltaTimeTravelSpec` utility is used to [resolve a path](#resolvePath)
 * `DeltaDataSource` utility is used to [getTimeTravelVersion](DeltaDataSource.md#getTimeTravelVersion)
 
-## <span id="resolvePath"> resolvePath
+## <span id="resolvePath"> Resolving Path
 
 ```scala
 resolvePath(

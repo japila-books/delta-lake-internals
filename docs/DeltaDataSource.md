@@ -136,4 +136,4 @@ parsePathIdentifier(
 
 `parsePathIdentifier`...FIXME
 
-`parsePathIdentifier` is used when `DeltaTableV2` is requested for the [rootPath, partitionFilters, and timeTravelByPath](DeltaTableV2.md#rootPath) (for a non-catalog table).
+`parsePathIdentifier` is used when `DeltaTableV2` is requested for [metadata](DeltaTableV2.md#rootPath) (for a non-catalog table).

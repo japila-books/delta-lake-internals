@@ -1,21 +1,20 @@
 # DeltaCatalog
 
-**DeltaCatalog** is an extension of Spark SQL (using `DelegatingCatalogExtension` and `StagingTableCatalog`).
+`DeltaCatalog` is a `DelegatingCatalogExtension` ([Spark SQL]({{ book.spark_sql }}/connector/catalog/DelegatingCatalogExtension/)) and a `StagingTableCatalog` ([Spark SQL]({{ book.spark_sql }}/connector/catalog/StagingTableCatalog/)).
 
-`DeltaCatalog` is [registered](installation.md) using **spark.sql.catalog.spark_catalog** configuration property (while creating a SparkSession in a Spark application).
+`DeltaCatalog` is [registered](installation.md) using **spark.sql.catalog.spark_catalog** configuration property (while creating a `SparkSession` in a Spark application).
 
-== [[alterTable]] Altering Table
+## <span id="alterTable"> Altering Table
 
-[source,scala]
-----
+```scala
 alterTable(
   ident: Identifier,
   changes: TableChange*): Table
-----
+```
 
-alterTable...FIXME
+`alterTable`...FIXME
 
-alterTable is part of the TableCatalog (Spark SQL 3.0.0) abstraction.
+`alterTable` is part of the `TableCatalog` ([Spark SQL]({{ book.spark_sql }}/connector/catalog/TableCatalog/#alterTable)) abstraction.
 
 ## <span id="createTable"> Creating Table
 
@@ -29,19 +28,20 @@ createTable(
 
 `createTable`...FIXME
 
-`createTable` is part of the `TableCatalog` ([Spark SQL](https://jaceklaskowski.github.io/mastering-spark-sql-book/connector/catalog/TableCatalog/)) abstraction.
+`createTable` is part of the `TableCatalog` ([Spark SQL]({{ book.spark_sql }}/connector/catalog/TableCatalog/#createTable)) abstraction.
 
-== [[loadTable]] Loading Table
+## <span id="loadTable"> Loading Table
 
-[source,scala]
-----
+```scala
 loadTable(
   ident: Identifier): Table
-----
+```
 
-loadTable...FIXME
+`loadTable` loads a table by the given identifier from a catalog.
 
-loadTable is part of the TableCatalog (Spark SQL 3.0.0) abstraction.
+If found and the table is a delta table (Spark SQL's [V1Table]({{ book.spark_sql }}/connector/V1Table/) with `delta` provider), `loadTable` creates a [DeltaTableV2](DeltaTableV2.md).
+
+`loadTable` is part of the `TableCatalog` ([Spark SQL]({{ book.spark_sql }}/connector/catalog/TableCatalog/#loadTable)) abstraction.
 
 ## <span id="createDeltaTable"> Creating Delta Table
 
