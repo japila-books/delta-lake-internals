@@ -1,94 +1,107 @@
 # DeltaOptions
 
-[[DeltaWriteOptionsImpl]][[DeltaWriteOptions]][[DeltaReadOptions]]
-`DeltaOptions` (aka `DeltaWriteOptionsImpl`, `DeltaWriteOptions`) is the options for the <<DeltaDataSource.md#, Delta data source>>.
+`DeltaOptions` is an extension of [DeltaWriteOptions](DeltaWriteOptions.md) and [DeltaReadOptions](DeltaReadOptions.md) for all supported [options](#options) of the [DeltaDataSource](DeltaDataSource.md).
 
-The <<options, options>> can be defined using `option` method of `DataFrameReader`, `DataFrameWriter`, `DataStreamReader`, and `DataStreamWriter`.
-
-DeltaOptions is used to create <<WriteIntoDelta.md#, WriteIntoDelta>> command, <<DeltaSink.md#, DeltaSink>>, and <<DeltaSource.md#, DeltaSource>>.
+`DeltaOptions` is used to create [WriteIntoDelta](commands/WriteIntoDelta.md) command, [DeltaSink](DeltaSink.md), and [DeltaSource](DeltaSource.md).
 
 `DeltaOptions` can be [verified](#verifyOptions).
 
-## <span id="validOptionKeys"> Options
+## <span id="validOptionKeys"><span id="options"> Options
 
-=== [[checkpointLocation]] checkpointLocation
+### <span id="checkpointLocation"> checkpointLocation
 
-=== [[DATA_CHANGE_OPTION]][[dataChange]] dataChange
+### <span id="DATA_CHANGE_OPTION"><span id="dataChange"> dataChange
 
-=== [[EXCLUDE_REGEX_OPTION]][[excludeRegex]] excludeRegex
+### <span id="EXCLUDE_REGEX_OPTION"><span id="excludeRegex"> excludeRegex
 
-=== [[IGNORE_CHANGES_OPTION]][[ignoreChanges]] ignoreChanges
+### <span id="IGNORE_CHANGES_OPTION"><span id="ignoreChanges"> ignoreChanges
 
-=== [[IGNORE_DELETES_OPTION]][[ignoreDeletes]] ignoreDeletes
+### <span id="IGNORE_DELETES_OPTION"><span id="ignoreDeletes"> ignoreDeletes
 
-=== [[IGNORE_FILE_DELETION_OPTION]][[ignoreFileDeletion]] ignoreFileDeletion
+### <span id="IGNORE_FILE_DELETION_OPTION"><span id="ignoreFileDeletion"> ignoreFileDeletion
 
-=== [[MAX_BYTES_PER_TRIGGER_OPTION]][[maxBytesPerTrigger]] maxBytesPerTrigger
+### <span id="MAX_BYTES_PER_TRIGGER_OPTION"><span id="maxBytesPerTrigger"> maxBytesPerTrigger
 
-=== [[MAX_FILES_PER_TRIGGER_OPTION]][[maxFilesPerTrigger]][[MAX_FILES_PER_TRIGGER_OPTION_DEFAULT]] maxFilesPerTrigger
+### <span id="MAX_FILES_PER_TRIGGER_OPTION"><span id="maxFilesPerTrigger"><span id="MAX_FILES_PER_TRIGGER_OPTION_DEFAULT"> maxFilesPerTrigger
 
-Maximum number of files (<<AddFile.md#, AddFiles>>) that <<DeltaSource.md#, DeltaSource>> will <<DeltaSource.md#getChangesWithRateLimit, scan>> (_read_) in a streaming micro-batch (_trigger_)
+Maximum number of files ([AddFiles](AddFile.md)) that [DeltaSource](DeltaSource.md) is supposed to [scan](DeltaSource.md#getChangesWithRateLimit) (_read_) in a streaming micro-batch (_trigger_)
 
 Default: `1000`
 
 Must be at least `1`
 
-=== [[MERGE_SCHEMA_OPTION]][[mergeSchema]][[canMergeSchema]] mergeSchema
+### <span id="MERGE_SCHEMA_OPTION"><span id="mergeSchema"><span id="canMergeSchema"> mergeSchema
 
-Enables schema migration (e.g. allows automatic schema merging during a write operation for <<WriteIntoDelta.md#, WriteIntoDelta>> and <<DeltaSink.md#, DeltaSink>>)
+Enables schema migration (and allows automatic schema merging during a write operation for [WriteIntoDelta](commands/WriteIntoDelta.md) and [DeltaSink](DeltaSink.md))
 
-Equivalent SQL Session configuration: <<DeltaSQLConf.md#DELTA_SCHEMA_AUTO_MIGRATE, spark.databricks.delta.schema.autoMerge.enabled>>
+Equivalent SQL Session configuration: [spark.databricks.delta.schema.autoMerge.enabled](DeltaSQLConf.md#DELTA_SCHEMA_AUTO_MIGRATE)
 
-=== [[OPTIMIZE_WRITE_OPTION]][[optimizeWrite]] optimizeWrite
+### <span id="OPTIMIZE_WRITE_OPTION"><span id="optimizeWrite"> optimizeWrite
 
-=== [[OVERWRITE_SCHEMA_OPTION]][[overwriteSchema]] overwriteSchema
+### <span id="OVERWRITE_SCHEMA_OPTION"><span id="overwriteSchema"> overwriteSchema
 
-=== [[path]] path
+### <span id="path"> path
 
-*(required)* Directory on a Hadoop DFS-compliant file system with an optional <<time-travel.md#, time travel>> identifier.
+**(required)** Directory on a Hadoop DFS-compliant file system with an optional [time travel](time-travel.md) identifier
 
 Default: (undefined)
 
-Can also be specified using `load` method of `DataFrameReader` and `DataStreamReader`.
+!!! note
+    Can also be specified using `load` method of `DataFrameReader` and `DataStreamReader`.
 
-=== [[queryName]] queryName
+### <span id="queryName"> queryName
 
-=== [[REPLACE_WHERE_OPTION]][[replaceWhere]] replaceWhere
+### <span id="REPLACE_WHERE_OPTION"><span id="replaceWhere"> replaceWhere
 
-=== [[timestampAsOf]] timestampAsOf
+### <span id="timestampAsOf"> timestampAsOf
 
-<<time-travel.md#, Time traveling>> using a timestamp of a table
+Timestamp of the version of a Delta table for [Time Travel](time-travel.md)
 
-Mutually exclusive with <<versionAsOf, versionAsOf>> option and the time travel identifier of the <<path, path>> option.
+Mutually exclusive with [versionAsOf](#versionAsOf) option and the time travel identifier of the [path](#path) option.
 
-=== [[USER_METADATA_OPTION]][[userMetadata]] userMetadata
+### <span id="USER_METADATA_OPTION"><span id="userMetadata"> userMetadata
 
-Defines a CommitInfo.md#userMetadata[user-defined commit metadata]
+Defines a [user-defined commit metadata](CommitInfo.md#userMetadata)
 
-Take precedence over DeltaSQLConf.md#commitInfo.userMetadata[spark.databricks.delta.commitInfo.userMetadata]
+Take precedence over [spark.databricks.delta.commitInfo.userMetadata](DeltaSQLConf.md#commitInfo.userMetadata)
 
-Available by inspecting CommitInfo.md[]s using delta-sql.md#DESCRIBE-HISTORY[DESCRIBE HISTORY] or DeltaTable.md#history[DeltaTable.history].
+Available by inspecting [CommitInfo](CommitInfo.md)s using [DESCRIBE HISTORY](sql/index.md#DESCRIBE-HISTORY) or [DeltaTable.history](DeltaTable.md#history).
 
-=== [[versionAsOf]] versionAsOf
+!!! example "Demo"
+    Learn more in [Demo: User Metadata for Labelling Commits](demo/user-metadata-for-labelling-commits.md).
 
-<<time-travel.md#, Time traveling>> using a version of a table
+### <span id="versionAsOf"> versionAsOf
 
-Mutually exclusive with <<timestampAsOf, timestampAsOf>> option and the time travel identifier of the <<path, path>> option.
+Version of a Delta table for [Time Travel](time-travel.md)
 
-Used exclusively when `DeltaDataSource` is requested for a <<DeltaDataSource.md#RelationProvider-createRelation, relation (as a RelationProvider)>>
+Mutually exclusive with [timestampAsOf](#timestampAsOf) option and the time travel identifier of the [path](#path) option.
 
-== [[creating-instance]] Creating Instance
+Used when:
 
-DeltaOptions takes the following to be created:
+* `DeltaDataSource` is requested for a [relation](DeltaDataSource.md#RelationProvider-createRelation)
 
-* Options (`Map[String, String]` or `CaseInsensitiveMap[String]`)
-* [[sqlConf]] `SQLConf`
+## Creating Instance
 
-DeltaOptions is created when:
+`DeltaOptions` takes the following to be created:
 
-* `DeltaLog` is requested to <<DeltaLog.md#createRelation, create a relation>> (for <<DeltaDataSource.md#, DeltaDataSource>> as a <<DeltaDataSource.md#CreatableRelationProvider, CreatableRelationProvider>> and a <<DeltaDataSource.md#RelationProvider, RelationProvider>>)
+* <span id="options"> Case-Insensitive Options
+* <span id="sqlConf"> `SQLConf` ([Spark SQL]({{ book.spark_sql }}/SQLConf))
 
-* `DeltaDataSource` is requested to <<DeltaDataSource.md#createSource, create a streaming source>> (to create a <<DeltaSource.md#, DeltaSource>> for Structured Streaming), <<DeltaDataSource.md#createSink, create a streaming sink>> (to create a <<DeltaSink.md#, DeltaSink>> for Structured Streaming), and <<DeltaDataSource.md#CreatableRelationProvider-createRelation, create an insertable HadoopFsRelation>>
+When created, `DeltaOptions` [verifies](#verifyOptions) the input options.
+
+`DeltaOptions` is created when:
+
+* `DeltaLog` is requested for a [relation](DeltaLog.md#createRelation) (for [DeltaDataSource](DeltaDataSource.md) as a [CreatableRelationProvider](DeltaDataSource.md#CreatableRelationProvider) and a [RelationProvider](DeltaDataSource.md#RelationProvider))
+* `DeltaDataSource` is requested for a [streaming source](DeltaDataSource.md#createSource) (to create a [DeltaSource](DeltaSource.md) for Structured Streaming), a [streaming sink](DeltaDataSource.md#createSink) (to create a [DeltaSink](DeltaSink.md) for Structured Streaming), and for an [insertable HadoopFsRelation](DeltaDataSource.md#CreatableRelationProvider-createRelation)
+* `WriteIntoDeltaBuilder` is requested to [buildForV1Write](WriteIntoDeltaBuilder.md#buildForV1Write)
+* `CreateDeltaTableCommand` is requested to [run](commands/CreateDeltaTableCommand.md#run)
+
+## How to Define Options
+
+The options can be defined using `option` method of the following:
+
+* `DataFrameReader` and `DataFrameWriter` for batch queries (Spark SQL)
+* `DataStreamReader` and `DataStreamWriter` for streaming queries (Spark Structured Streaming)
 
 ## <span id="verifyOptions"> Verifying Options
 
@@ -97,4 +110,12 @@ verifyOptions(
   options: CaseInsensitiveMap[String]): Unit
 ```
 
-`verifyOptions`...FIXME
+`verifyOptions` finds invalid options among the input `options`.
+
+!!! note
+    In the open-source version `verifyOptions` does nothing. The underlying objects (`recordDeltaEvent` and the others) are no-ops.
+
+`verifyOptions` is used when:
+
+* `DeltaOptions` is [created](#creating-instance)
+* `DeltaDataSource` is requested for a [relation (for loading data in batch queries)](DeltaDataSource.md#RelationProvider-createRelation)

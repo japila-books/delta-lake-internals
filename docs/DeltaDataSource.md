@@ -19,7 +19,7 @@ DeltaDataSource is registered using `META-INF/services/org.apache.spark.sql.sour
 org.apache.spark.sql.delta.sources.DeltaDataSource
 ```
 
-## <span id="RelationProvider"><span id="RelationProvider-createRelation"> RelationProvider for Batch Queries
+## <span id="RelationProvider"><span id="RelationProvider-createRelation"><span id="createRelation"> RelationProvider for Batch Queries
 
 DeltaDataSource is a `RelationProvider` for reading (_loading_) data from a delta table in a structured query.
 

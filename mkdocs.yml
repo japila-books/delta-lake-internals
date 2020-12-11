@@ -134,12 +134,15 @@ nav:
     - Delta Data Source:
       - DeltaDataSource: DeltaDataSource.md
       - DeltaOptions: DeltaOptions.md
+      - DeltaWriteOptions: DeltaWriteOptions.md
+      - DeltaReadOptions: DeltaReadOptions.md
       - DeltaSource:
         - DeltaSource: DeltaSource.md
         - DeltaSourceOffset: DeltaSourceOffset.md
         - SnapshotIterator: SnapshotIterator.md
         - DeltaSourceSnapshot: DeltaSourceSnapshot.md
       - DeltaSink: DeltaSink.md
+      - WriteIntoDeltaBuilder: WriteIntoDeltaBuilder.md
     - Spark SQL Extensions:
       - DeltaCatalog: DeltaCatalog.md
       - DeltaTableV2: DeltaTableV2.md
@@ -204,7 +207,7 @@ nav:
     - Observing Transaction Retries: demo/Observing-Transaction-Retries.md
     - DeltaTable, DeltaLog And Snapshots: demo/DeltaTable-DeltaLog-And-Snapshots.md
     - Schema Evolution: demo/schema-evolution.md
-    - Using User Metadata to Distinguish Commits of Streaming Queries: demo/using-user-metadata-to-distinguish-commits-streaming-queries.md
+    - User Metadata for Labelling Commits: demo/user-metadata-for-labelling-commits.md
   - Misc:
     - DeltaErrors: DeltaErrors.md
     - DeltaFileOperations: DeltaFileOperations.md
