@@ -1,3 +1,8 @@
+---
+hide:
+  - navigation
+---
+
 # Demo: Merge Operation
 
 This demo shows [DeltaTable.merge](../DeltaTable.md#merge) operation (and the underlying [MergeIntoCommand](../commands/MergeIntoCommand.md)) in action.

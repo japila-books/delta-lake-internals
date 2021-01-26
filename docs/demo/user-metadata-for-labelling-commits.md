@@ -1,3 +1,8 @@
+---
+hide:
+  - navigation
+---
+
 # Demo: User Metadata for Labelling Commits
 
 The demo shows how to differentiate commits of a write batch query using [userMetadata](../DeltaOptions.md#userMetadata) option.

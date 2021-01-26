@@ -1,3 +1,8 @@
+---
+hide:
+  - navigation
+---
+
 # Demo: Stream Processing of Delta Table
 
 ```text

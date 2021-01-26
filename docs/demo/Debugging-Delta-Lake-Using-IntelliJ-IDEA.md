@@ -1,3 +1,8 @@
+---
+hide:
+  - navigation
+---
+
 # Demo: Debugging Delta Lake Using IntelliJ IDEA
 
 Import Delta Lake's [sources](https://github.com/delta-io/delta) to IntelliJ IDEA.

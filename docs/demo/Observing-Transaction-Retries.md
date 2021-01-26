@@ -1,3 +1,8 @@
+---
+hide:
+  - navigation
+---
+
 # Demo: Observing Transaction Retries
 
 Enable `ALL` logging level for [org.apache.spark.sql.delta.OptimisticTransaction](../OptimisticTransaction.md#logging) logger. You'll be looking for the following DEBUG message in the logs:

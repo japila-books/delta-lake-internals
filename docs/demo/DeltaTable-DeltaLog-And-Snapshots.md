@@ -1,3 +1,8 @@
+---
+hide:
+  - navigation
+---
+
 # Demo: DeltaTable, DeltaLog And Snapshots
 
 ## Create Delta Table

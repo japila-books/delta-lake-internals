@@ -10,10 +10,10 @@ site_description: Demystifying inner-workings of Delta Lake
 # https://squidfunk.github.io/mkdocs-material/setup/adding-a-git-repository/
 repo_name: delta-lake-internals
 repo_url: https://github.com/japila-books/delta-lake-internals
-edit_uri: edit/master/docs/
+edit_uri: edit/main/docs/
 
 copyright: |
-  Copyright &copy; 2020 <a href="https://twitter.com/jaceklaskowski" target="_blank" rel="noopener">Jacek Laskowski</a>
+  Copyright &copy; 2021 Jacek Laskowski
 
 theme:
   name: material
@@ -24,6 +24,20 @@ theme:
   features:
     - navigation.tabs
     - navigation.instant
+    - search.suggest
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+    - scheme: slate
+      primary: blue
+      accent: blue
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
 
 markdown_extensions:
   - admonition
@@ -37,11 +51,9 @@ markdown_extensions:
   - pymdownx.caret
   - pymdownx.critic
   - pymdownx.details
-  - pymdownx.emoji
-  # the following two lines don't seem to work on ReadTheDocs
-  # https://github.com/readthedocs/readthedocs.org/issues/6889
-  #     emoji_index: !!python/name:materialx.emoji.twemoji
-  #     emoji_generator: !!python/name:materialx.emoji.to_svg
+  - pymdownx.emoji:
+      emoji_index: !!python/name:materialx.emoji.twemoji
+      emoji_generator: !!python/name:materialx.emoji.to_svg
   - pymdownx.inlinehilite
   - pymdownx.magiclink
   - pymdownx.mark
@@ -73,6 +85,7 @@ extra:
     version: 0.7.0
   hadoop:
     version: 2.7.4
+    doc: https://hadoop.apache.org/docs/r2.7.4
     api: https://hadoop.apache.org/docs/r2.7.4/api
   book:
     spark_sql: https://jaceklaskowski.github.io/mastering-spark-sql-book
@@ -84,6 +97,7 @@ google_analytics:
 nav:
   - Home:
     - Welcome: index.md
+  - Internals:
     - Overview: overview.md
     - Installation: installation.md
     - Time Travel:
@@ -199,6 +213,7 @@ nav:
       - VacuumTableCommand: commands/VacuumTableCommand.md
     - WriteIntoDelta: commands/WriteIntoDelta.md
   - Demos:
+    - Welcome: demo/index.md
     - Merge Operation: demo/merge-operation.md
     - Converting Parquet Dataset Into Delta Format: demo/Converting-Parquet-Dataset-Into-Delta-Format.md
     - Stream Processing of Delta Table: demo/stream-processing-of-delta-table.md

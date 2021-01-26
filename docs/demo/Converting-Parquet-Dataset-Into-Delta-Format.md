@@ -1,3 +1,8 @@
+---
+hide:
+  - navigation
+---
+
 # Demo: Converting Parquet Dataset Into Delta Format
 
 ```text

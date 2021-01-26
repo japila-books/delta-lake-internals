@@ -1,3 +1,8 @@
+---
+hide:
+  - navigation
+---
+
 # Demo: Schema Evolution
 
 ```text

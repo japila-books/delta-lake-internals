@@ -1,3 +1,8 @@
+---
+hide:
+  - navigation
+---
+
 # Demo: Using Delta Lake as Streaming Sink in Structured Streaming
 
 ```text
