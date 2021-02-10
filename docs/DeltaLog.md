@@ -1,12 +1,117 @@
 # DeltaLog
 
-`DeltaLog` is a **transaction log** (_change log_) of [changes](Action.md) to the state of a [delta table](#dataPath).
+`DeltaLog` is a **transaction log** (_change log_) of [changes](Action.md) to the state of a Delta table (in the given [data directory](#dataPath)).
 
-`DeltaLog` uses [_delta_log](#_delta_log) directory for (the files of) the transaction log of a delta table (that is given when [DeltaLog.forTable](#forTable) utility is used to create an instance).
+## Creating Instance
 
-`DeltaLog` is created (indirectly via [DeltaLog.apply](#apply) utility) when [DeltaLog.forTable](#forTable) utility is used.
+`DeltaLog` takes the following to be created:
 
-```text
+* <span id="logPath"> Log directory (Hadoop [Path]({{ hadoop.api }}/org/apache/hadoop/fs/Path.html))
+* <span id="dataPath"> Data directory (Hadoop [Path]({{ hadoop.api }}/org/apache/hadoop/fs/Path.html))
+* <span id="clock"> `Clock`
+
+`DeltaLog` is created (indirectly via [DeltaLog.apply](#apply) utility) when:
+
+* [DeltaLog.forTable](#forTable) utility is used
+
+## <span id="_delta_log"> _delta_log Metadata Directory
+
+`DeltaLog` uses **_delta_log** metadata directory for the transaction log of a Delta table.
+
+The `_delta_log` directory is in the given [data path](#dataPath) directory (when created using [DeltaLog.forTable](#forTable) utility).
+
+The `_delta_log` directory is resolved (in the [DeltaLog.apply](#apply) utility) using the application-wide Hadoop [Configuration]({{ hadoop.api }}/org/apache/hadoop/conf/Configuration.html).
+
+Once resolved and turned into a qualified path, the `_delta_log` directory is [cached](#deltaLogCache).
+
+## <span id="forTable"> DeltaLog.forTable Utility
+
+```scala
+forTable(
+  spark: SparkSession,
+  table: CatalogTable): DeltaLog
+forTable(
+  spark: SparkSession,
+  table: CatalogTable,
+  clock: Clock): DeltaLog
+forTable(
+  spark: SparkSession,
+  deltaTable: DeltaTableIdentifier): DeltaLog
+forTable(
+  spark: SparkSession,
+  dataPath: File): DeltaLog
+forTable(
+  spark: SparkSession,
+  dataPath: File,
+  clock: Clock): DeltaLog
+forTable(
+  spark: SparkSession,
+  dataPath: Path): DeltaLog
+forTable(
+  spark: SparkSession,
+  dataPath: Path,
+  clock: Clock): DeltaLog
+forTable(
+  spark: SparkSession,
+  dataPath: String): DeltaLog
+forTable(
+  spark: SparkSession,
+  dataPath: String,
+  clock: Clock): DeltaLog
+forTable(
+  spark: SparkSession,
+  tableName: TableIdentifier): DeltaLog
+forTable(
+  spark: SparkSession,
+  tableName: TableIdentifier,
+  clock: Clock): DeltaLog
+```
+
+`forTable` creates a [DeltaLog](#apply) with [_delta_log](#_delta_log) directory (in the given `dataPath` directory).
+
+`forTable` is used when:
+
+* [AlterTableSetLocationDeltaCommand](commands/AlterTableSetLocationDeltaCommand.md), [ConvertToDeltaCommand](commands/ConvertToDeltaCommand.md), [VacuumTableCommand](commands/VacuumTableCommand.md), [CreateDeltaTableCommand](commands/CreateDeltaTableCommand.md), [DeltaGenerateCommand](commands/DeltaGenerateCommand.md), [DescribeDeltaDetailCommand](commands/DescribeDeltaDetailCommand.md), [DescribeDeltaHistoryCommand](commands/DescribeDeltaHistoryCommand.md) commands are executed
+
+* `DeltaDataSource` is requested for the [source schema](DeltaDataSource.md#sourceSchema), a [source](DeltaDataSource.md#createSource), and a [relation](DeltaDataSource.md#createRelation)
+
+* [DeltaTable.isDeltaTable](DeltaTable.md#isDeltaTable) utility is used
+
+* [DeltaTableUtils.combineWithCatalogMetadata](DeltaTableUtils.md#combineWithCatalogMetadata) utility is used
+
+* `DeltaTableIdentifier` is requested to `getDeltaLog`
+
+* `DeltaCatalog` is requested to [createDeltaTable](DeltaCatalog.md#createDeltaTable)
+
+* `DeltaTableV2` is requested for the [DeltaLog](DeltaTableV2.md#deltaLog)
+
+* [DeltaSink](DeltaSink.md#deltaLog) is created
+
+### <span id="apply"> Looking Up Or Creating DeltaLog Instance
+
+```scala
+apply(
+  spark: SparkSession,
+  rawPath: Path,
+  clock: Clock = new SystemClock): DeltaLog
+```
+
+!!! note
+    `rawPath` is a Hadoop [Path]({{ hadoop.api }}/org/apache/hadoop/fs/Path.html) to the [_delta_log](#_delta_log) directory at the root of the data of a delta table.
+
+`apply`...FIXME
+
+### <span id="isValid"> isValid
+
+```scala
+isValid(): Boolean
+```
+
+`isValid`...FIXME
+
+## Demo: Creating DeltaLog
+
+```scala
 import org.apache.spark.sql.SparkSession
 assert(spark.isInstanceOf[SparkSession])
 
@@ -19,6 +124,8 @@ val expected = new Path(s"file:$dataPath/_delta_log/_last_checkpoint")
 assert(deltaLog.LAST_CHECKPOINT == expected)
 ```
 
+## Accessing Current Version
+
 A common idiom (if not the only way) to know the current version of the delta table is to request the `DeltaLog` for the [current state (snapshot)](#snapshot) and then for the [version](Snapshot.md#version).
 
 ```text
@@ -30,21 +137,21 @@ scala> println(deltaVersion)
 5
 ```
 
+## Initialization
+
 When created, `DeltaLog` does the following:
 
-* Creates the <<store, LogStore>> based on <<LogStoreProvider.md#spark.delta.logStore.class, spark.delta.logStore.class>> configuration property (default: <<HDFSLogStore.md#, HDFSLogStore>>)
+1. Creates the [LogStore](#store) based on [spark.delta.logStore.class](LogStoreProvider.md#spark.delta.logStore.class) configuration property
 
-* Initializes the <<currentSnapshot, current snapshot>>
+1. Initializes the [current snapshot](#currentSnapshot)
 
-* <<update, Updates state of the delta table>> when there is no <<Checkpoints.md#lastCheckpoint, metadata checkpoint>> (e.g. the version of the <<currentSnapshot, state>> is `-1`)
+1. [Updates state of the delta table](#update) when there is no [metadata checkpoint](Checkpoints.md#lastCheckpoint) (e.g. the version of the [state](#currentSnapshot) is `-1`)
 
 In other words, the version of (the `DeltaLog` of) a delta table is at version `0` at the very minimum.
 
 ```scala
 assert(deltaLog.snapshot.version >= 0)
 ```
-
-`DeltaLog` is a [LogStoreProvider](LogStoreProvider.md).
 
 ## <span id="filterFileList"> filterFileList Utility
 
@@ -67,122 +174,35 @@ filterFileList(
 * `TahoeBatchFileIndex` is requested to [matchingFiles](TahoeBatchFileIndex.md#matchingFiles)
 * `DeltaDataSource` utility is requested to [verifyAndCreatePartitionFilters](DeltaDataSource.md#verifyAndCreatePartitionFilters)
 
-## <span id="forTable"> Creating DeltaLog Instance
+## FileFormats
+
+`DeltaLog` defines two `FileFormat`s ([Spark SQL]({{ book.spark_sql }}/datasources/FileFormat)):
+
+* <span id="CHECKPOINT_FILE_FORMAT"> `ParquetFileFormat` for indices of delta files
+
+* <span id="COMMIT_FILE_FORMAT"> `JsonFileFormat` for indices of checkpoint files
+
+These `FileFormat`s are used to create [DeltaLogFileIndex](DeltaLogFileIndex.md)es for [Snapshots](Snapshot.md#files) that in turn used them for [stateReconstruction](Snapshot.md#stateReconstruction).
+
+## <span id="store"> LogStore
+
+`DeltaLog` uses a [LogStore](LogStore.md) for...FIXME
+
+## <span id="deltaLogCache"> Transaction Logs (DeltaLogs) per Fully-Qualified Path
 
 ```scala
-forTable(
-  spark: SparkSession,
-  dataPath: File): DeltaLog
-forTable(
-  spark: SparkSession,
-  dataPath: File,
-  clock: Clock): DeltaLog
-forTable(
-  spark: SparkSession,
-  dataPath: Path): DeltaLog
-forTable(
-  spark: SparkSession,
-  dataPath: Path,
-  clock: Clock): DeltaLog
-forTable(
-  spark: SparkSession,
-  dataPath: String): DeltaLog
-forTable(
-  spark: SparkSession,
-  dataPath: String,
-  clock: Clock): DeltaLog
+deltaLogCache: Cache[Path, DeltaLog]
 ```
 
-`forTable` creates a [DeltaLog](#apply) with **_delta_log** directory (in the given `dataPath` directory).
+`deltaLogCache` is part of `DeltaLog` Scala object which makes it an application-wide cache "for free". Once used, `deltaLogCache` will only be one until the application that uses it stops.
 
-`forTable` is used when:
-
-* <<DeltaTable.md#forPath, DeltaTable.forPath>> utility is used to create a <<DeltaTable.md#, DeltaTable>>
-
-* <<ConvertToDeltaCommand.md#, ConvertToDeltaCommand>>, <<DescribeDeltaHistoryCommand.md#, DescribeDeltaHistoryCommand>>, <<VacuumTableCommand.md#, VacuumTableCommand>> are requested to `run`
-
-* `DeltaDataSource` is requested to <<DeltaDataSource.md#sourceSchema, sourceSchema>>, <<DeltaDataSource.md#createSource, createSource>>, and create a relation (as <<DeltaDataSource.md#CreatableRelationProvider-createRelation, CreatableRelationProvider>> and <<DeltaDataSource.md#RelationProvider-createRelation, RelationProvider>>)
-
-* <<DeltaTableUtils.md#combineWithCatalogMetadata, DeltaTableUtils.combineWithCatalogMetadata>> utility is used
-
-* `DeltaTableIdentifier` is requested to `getDeltaLog`
-
-* <<DeltaSink.md#, DeltaSink>> is created
-
-== [[FileFormats]] FileFormats
-
-`DeltaLog` defines two `FileFormats`:
-
-* [[CHECKPOINT_FILE_FORMAT]] `ParquetFileFormat` for indices of delta files
-
-* [[COMMIT_FILE_FORMAT]] `JsonFileFormat` for indices of checkpoint files
-
-The `FileFormats` are used to create <<DeltaLogFileIndex.md#, DeltaLogFileIndices>> for <<Snapshot.md#files, Snapshots>> that in turn used them for <<Snapshot.md#stateReconstruction, stateReconstruction>>.
-
-== [[_delta_log]] _delta_log Directory
-
-`DeltaLog` uses *_delta_log* metadata directory under the <<dataPath, data path>> directory (that is specified using <<forTable, DeltaLog.forTable>> utility).
-
-The `_delta_log` directory is resolved (in the <<apply, DeltaLog.apply>> utility) using the application-wide Hadoop https://hadoop.apache.org/docs/current2/api/org/apache/hadoop/conf/Configuration.html[Configuration].
-
-[NOTE]
-====
-<<apply, DeltaLog.apply>> utility uses the given `SparkSession` to create an Hadoop `Configuration` instance.
-
-[source, scala]
-----
-spark.sessionState.newHadoopConf()
-----
-====
-
-Once resolved and turned into a qualified path, the `_delta_log` directory of the delta table (under the <<dataPath, data path>> directory) is <<deltaLogCache, cached>> for later reuse.
-
-== [[store]] LogStore
-
-`DeltaLog` uses an <<LogStore.md#, LogStore>> for...FIXME
-
-== [[deltaLogCache]] Transaction Logs (DeltaLogs) per Fully-Qualified Path -- `deltaLogCache` Internal Registry
-
-[source, scala]
-----
-deltaLogCache: Cache[Path, DeltaLog]
-----
-
-NOTE: `deltaLogCache` is part of `DeltaLog` Scala object which makes it an application-wide cache. Once used, `deltaLogCache` will only be one until the application that uses it stops.
-
-`deltaLogCache` is a registry of `DeltaLogs` by their fully-qualified <<_delta_log, _delta_log>> directories. A new instance of `DeltaLog` is added when <<apply, DeltaLog.apply>> utility is used and the instance hasn't been created before for a path.
+`deltaLogCache` is a registry of `DeltaLogs` by their fully-qualified [_delta_log](#_delta_log) directories. A new instance of `DeltaLog` is added when [DeltaLog.apply](#apply) utility is used and the instance hasn't been created before for a path.
 
 `deltaLogCache` is invalidated:
 
-* For a delta table using <<invalidateCache, DeltaLog.invalidateCache>> utility (and <<apply, DeltaLog.apply>> when the cached reference is no longer <<isValid, valid>>)
+* For a delta table using [DeltaLog.invalidateCache](#invalidateCache) utility (and [DeltaLog.apply](#apply) when the cached reference is no longer [valid](#isValid))
 
-* For all delta tables using <<clearCache, DeltaLog.clearCache>> utility
-
-== [[creating-instance]] Creating DeltaLog Instance
-
-`DeltaLog` takes the following to be created:
-
-* [[logPath]] Log directory (Hadoop [Path](https://hadoop.apache.org/docs/r{{ hadoop.version }}/api/org/apache/hadoop/fs/Path.html))
-* [[dataPath]] Data directory (Hadoop [Path](https://hadoop.apache.org/docs/r{{ hadoop.version }}/api/org/apache/hadoop/fs/Path.html))
-* [[clock]] `Clock`
-
-`DeltaLog` initializes the <<internal-properties, internal properties>>.
-
-== [[apply]] Looking Up Or Creating DeltaLog Instance -- `apply` Utility
-
-[source, scala]
-----
-apply(
-  spark: SparkSession,
-  rawPath: Path,
-  clock: Clock = new SystemClock): DeltaLog
-----
-
-NOTE: `rawPath` is a Hadoop [Path](https://hadoop.apache.org/docs/r{{ hadoop.version }}/api/org/apache/hadoop/fs/Path.html) to the <<_delta_log, _delta_log>> directory at the root of the data of a delta table.
-
-`apply`...FIXME
-
-NOTE: `apply` is used when `DeltaLog` is requested to <<forTable, forTable>>.
+* For all delta tables using [DeltaLog.clearCache](#clearCache) utility
 
 ## <span id="withNewTransaction"> Executing Single-Threaded Operation in New Transaction
 
@@ -207,129 +227,133 @@ In the end, `withNewTransaction` makes the transaction [no longer active](Optimi
 startTransaction(): OptimisticTransaction
 ```
 
-startTransaction <<update, updates>> and creates a new OptimisticTransaction.md[] (for this DeltaLog).
+`startTransaction` [updates](#update) and creates a new [OptimisticTransaction](OptimisticTransaction.md) (for this `DeltaLog`).
 
-NOTE: startTransaction is a subset of <<withNewTransaction, withNewTransaction>>.
+!!! NOTE
+    `startTransaction` is a "subset" of [withNewTransaction](#withNewTransaction).
 
-startTransaction is used when:
+`startTransaction` is used when:
 
-* DeltaLog is requested to <<upgradeProtocol, upgradeProtocol>>
+* `DeltaLog` is requested to [upgradeProtocol](#upgradeProtocol)
 
-* AlterDeltaTableCommand is requested to AlterDeltaTableCommand.md#startTransaction[startTransaction]
+* `AlterDeltaTableCommand` is requested to [startTransaction](commands/AlterDeltaTableCommand.md#startTransaction)
 
-* ConvertToDeltaCommandBase is ConvertToDeltaCommand.md#run[executed]
+* [ConvertToDeltaCommand](commands/ConvertToDeltaCommand.md) and [CreateDeltaTableCommand](commands/CreateDeltaTableCommand.md) are executed
 
-* CreateDeltaTableCommand is CreateDeltaTableCommand.md#run[executed]
+## <span id="assertRemovable"> Throwing UnsupportedOperationException For appendOnly Table Property Enabled
 
-== [[assertRemovable]] Throwing UnsupportedOperationException For appendOnly Table Property Enabled -- `assertRemovable` Method
-
-[source, scala]
-----
+```scala
 assertRemovable(): Unit
-----
-
-`assertRemovable` throws an `UnsupportedOperationException` for the <<DeltaConfigs.md#IS_APPEND_ONLY, appendOnly>> table property (<<DeltaConfigs.md#fromMetaData, in>> the <<metadata, Metadata>>) enabled (`true`):
-
 ```
+
+`assertRemovable` throws an `UnsupportedOperationException` for the [appendOnly](DeltaConfigs.md#IS_APPEND_ONLY) table property ([in](DeltaConfigs.md#fromMetaData) the [Metadata](#metadata)) enabled (`true`):
+
+```text
 This table is configured to only allow appends. If you would like to permit updates or deletes, use 'ALTER TABLE <table_name> SET TBLPROPERTIES (appendOnly=false)'.
 ```
 
-NOTE: `assertRemovable` is used when...FIXME
+`assertRemovable` is used when:
 
-== [[metadata]] `metadata` Method
+* FIXME
 
-[source, scala]
-----
+## <span id="metadata"> metadata
+
+```scala
 metadata: Metadata
-----
+```
 
-NOTE: `metadata` is part of the <<Checkpoints.md#metadata, Checkpoints Contract>> to...FIXME.
+`metadata` is part of the [Checkpoints](Checkpoints.md#metadata) abstraction.
 
-`metadata` requests the <<snapshot, current Snapshot>> for the <<Snapshot.md#metadata, metadata>> or creates a new <<Metadata.md#, one>> (if the <<snapshot, current Snapshot>> is not initialized).
+`metadata` requests the [current Snapshot](#snapshot) for the [metadata](Snapshot.md#metadata) or creates a new [one](Metadata.md) (if the [current Snapshot](snapshot) is not initialized).
 
-== [[update]] `update` Method
+## <span id="update"> update
 
-[source, scala]
-----
+```scala
 update(
   stalenessAcceptable: Boolean = false): Snapshot
-----
+```
 
-`update` branches off based on a combination of flags: the given `stalenessAcceptable` and <<isSnapshotStale, isSnapshotStale>> flags.
+`update` branches off based on a combination of flags: the given `stalenessAcceptable` and [isSnapshotStale](#isSnapshotStale) flags.
 
-For the `stalenessAcceptable` not acceptable (default) and the <<isSnapshotStale, snapshot not stale>>, `update` simply acquires the <<deltaLogLock, deltaLogLock>> lock and <<updateInternal, updateInternal>> (with `isAsync` flag off).
+For the `stalenessAcceptable` not acceptable (default) and the [snapshot not stale](#isSnapshotStale), `update` simply acquires the [deltaLogLock](#deltaLogLock) lock and [updateInternal](#updateInternal) (with `isAsync` flag off).
 
 For all other cases, `update`...FIXME
 
-[NOTE]
-====
 `update` is used when:
 
-* `DeltaHistoryManager` is requested to <<DeltaHistoryManager.md#getHistory, getHistory>>, <<DeltaHistoryManager.md#getActiveCommitAtTime, getActiveCommitAtTime>>, and <<DeltaHistoryManager.md#checkVersionExists, checkVersionExists>>
+* `DeltaHistoryManager` is requested to [getHistory](DeltaHistoryManager.md#getHistory), [getActiveCommitAtTime](DeltaHistoryManager.md#getActiveCommitAtTime), and [checkVersionExists](DeltaHistoryManager.md#checkVersionExists)
 
-* `DeltaLog` is <<creating-instance, created>> (with no <<Checkpoints.md#lastCheckpoint, checkpoint>> created), and requested to <<startTransaction, startTransaction>> and <<withNewTransaction, withNewTransaction>>
+* `DeltaLog` is [created](#creating-instance) (with no [checkpoint](Checkpoints.md#lastCheckpoint) created), and requested to [startTransaction](#startTransaction) and [withNewTransaction](#withNewTransaction)
 
-* `OptimisticTransactionImpl` is requested to <<OptimisticTransactionImpl.md#doCommit, doCommit>> and <<OptimisticTransactionImpl.md#checkAndRetry, checkAndRetry>>
+* `OptimisticTransactionImpl` is requested to [doCommit](OptimisticTransactionImpl.md#doCommit) and [checkAndRetry](OptimisticTransactionImpl.md#checkAndRetry)
 
-* `ConvertToDeltaCommand` is requested to <<ConvertToDeltaCommand.md#run, run>> and <<ConvertToDeltaCommand.md#streamWrite, streamWrite>>
+* `ConvertToDeltaCommand` is requested to [run](commands/ConvertToDeltaCommand.md#run) and [streamWrite](commands/ConvertToDeltaCommand.md#streamWrite)
 
-* `VacuumCommand` utility is used to <<VacuumCommand.md#gc, gc>>
+* `VacuumCommand` utility is used to [gc](commands/VacuumCommand.md#gc)
 
-* `TahoeLogFileIndex` is requested for the <<TahoeLogFileIndex.md#getSnapshot, (historical or latest) snapshot>>
+* `TahoeLogFileIndex` is requested for the [(historical or latest) snapshot](TahoeLogFileIndex.md#getSnapshot)
 
-* `DeltaDataSource` is requested for a <<DeltaDataSource.md#RelationProvider-createRelation, relation>>
-====
+* `DeltaDataSource` is requested for a [relation](DeltaDataSource.md#RelationProvider-createRelation)
 
-== [[snapshot]] Current State Snapshot -- `snapshot` Method
+### <span id="tryUpdate"> tryUpdate
 
-[source, scala]
-----
+```scala
+tryUpdate(
+  isAsync: Boolean = false): Snapshot
+```
+
+`tryUpdate`...FIXME
+
+## <span id="snapshot"> Current State Snapshot
+
+```scala
 snapshot: Snapshot
-----
+```
 
-`snapshot` returns the <<currentSnapshot, current snapshot>>.
+`snapshot` returns the [current snapshot](#currentSnapshot).
 
-[NOTE]
-====
 `snapshot` is used when:
 
-* <<OptimisticTransaction.md#, OptimisticTransaction>> is created
+* [OptimisticTransaction](OptimisticTransaction.md) is created
 
-* `Checkpoints` is requested to <<checkpoint, checkpoint>>
+* `Checkpoints` is requested to [checkpoint](Checkpoints.md#checkpoint)
 
-* `DeltaLog` is requested for the <<metadata, metadata>>, to <<upgradeProtocol, upgradeProtocol>>, <<getSnapshotAt, getSnapshotAt>>, <<createRelation, createRelation>>
+* `DeltaLog` is requested for the [metadata](#metadata), to [upgradeProtocol](#upgradeProtocol), [getSnapshotAt](#getSnapshotAt), [createRelation](#createRelation)
 
-* `OptimisticTransactionImpl` is requested to <<OptimisticTransactionImpl.md#getNextAttemptVersion, getNextAttemptVersion>>
+* `OptimisticTransactionImpl` is requested to [getNextAttemptVersion](OptimisticTransactionImpl.md#getNextAttemptVersion)
 
-* <<DeleteCommand.md#, DeleteCommand>>, <<DeltaGenerateCommand.md#, DeltaGenerateCommand>>, <<DescribeDeltaDetailCommand.md#, DescribeDeltaDetailCommand>>, <<UpdateCommand.md#, UpdateCommand>>, <<GenerateSymlinkManifest.md#, GenerateSymlinkManifest>> are executed
+* [DeleteCommand](commands/DeleteCommand.md), [DeltaGenerateCommand](commands/DeltaGenerateCommand.md), [DescribeDeltaDetailCommand](commands/DescribeDeltaDetailCommand.md), [UpdateCommand](commands/UpdateCommand.md) commands are executed
 
-* DeltaCommand is requested to <<DeltaCommand.md#buildBaseRelation, buildBaseRelation>>
+* [GenerateSymlinkManifest](GenerateSymlinkManifest.md) is executed
 
-* `TahoeFileIndex` is requested for the <<TahoeFileIndex.md#tableVersion, table version>>, <<TahoeFileIndex.md#partitionSchema, partitionSchema>>
+* `DeltaCommand` is requested to [buildBaseRelation](commands/DeltaCommand.md#buildBaseRelation)
 
-* `TahoeLogFileIndex` is requested for the <<TahoeLogFileIndex.md#sizeInBytes, table size>>
+* `TahoeFileIndex` is requested for the [table version](TahoeFileIndex.md#tableVersion), [partitionSchema](TahoeFileIndex.md#partitionSchema)
 
-* `DeltaDataSource` is requested for the <<DeltaDataSource.md#sourceSchema, schema of the streaming delta source>>
+* `TahoeLogFileIndex` is requested for the [table size](TahoeLogFileIndex.md#sizeInBytes)
 
-* <<DeltaSource.md#, DeltaSource>> is created and requested for the <<DeltaSource.md#getStartingOffset, getStartingOffset>>, <<DeltaSource.md#getBatch, getBatch>>
-====
+* `DeltaDataSource` is requested for the [schema of the streaming delta source](DeltaDataSource.md#sourceSchema)
 
-== [[currentSnapshot]] Current State Snapshot -- `currentSnapshot` Internal Registry
+* [DeltaSource](DeltaSource.md) is created and requested for the [getStartingOffset](DeltaSource.md#getStartingOffset), [getBatch](DeltaSource.md#getBatch)
 
-[source, scala]
-----
+## <span id="currentSnapshot"> Current State Snapshot
+
+```scala
 currentSnapshot: Snapshot
-----
+```
 
-`currentSnapshot` is a <<Snapshot.md#, Snapshot>> based on the <<Checkpoints.md#lastCheckpoint, metadata checkpoint>> if available or a new `Snapshot` instance (with version being `-1`).
+`currentSnapshot` is a [Snapshot](Snapshot.md) based on the [metadata checkpoint](Checkpoints.md#lastCheckpoint) if available or a new `Snapshot` instance (with version being `-1`).
 
-NOTE: For a new `Snapshot` instance (with version being `-1`) `DeltaLog` immediately <<update, updates the state>>.
+!!! NOTE
+    For a new `Snapshot` instance (with version being `-1`) `DeltaLog` immediately [updates the state](#update).
 
 Internally, `currentSnapshot`...FIXME
 
-NOTE: `currentSnapshot` is available using <<snapshot, snapshot>> method.
+`currentSnapshot` is available using [snapshot](#snapshot) method.
 
-NOTE: `currentSnapshot` is used when `DeltaLog` is requested to <<updateInternal, updateInternal>>, <<update, update>>, <<tryUpdate, tryUpdate>>, and <<isValid, isValid>.
+`currentSnapshot` is used when:
+
+* `DeltaLog` is requested to [updateInternal](#updateInternal), [update](#update), [tryUpdate](#tryUpdate), and [isValid](#isValid)
 
 ## <span id="createRelation"> Creating Insertable HadoopFsRelation For Batch Queries
 
@@ -345,11 +369,11 @@ createRelation(
 
 `createRelation`...FIXME
 
-In the end, `createRelation` creates a `HadoopFsRelation` for the `TahoeLogFileIndex` and...FIXME. The `HadoopFsRelation` is also an <<createRelation-InsertableRelation, InsertableRelation>>.
+In the end, `createRelation` creates a `HadoopFsRelation` for the `TahoeLogFileIndex` and...FIXME. The `HadoopFsRelation` is also an [InsertableRelation](#createRelation-InsertableRelation).
 
 `createRelation` is used when `DeltaDataSource` is requested for a relation as a [CreatableRelationProvider](DeltaDataSource.md#CreatableRelationProvider) and a [RelationProvider](DeltaDataSource.md#RelationProvider) (for batch queries).
 
-## <span id="createRelation-InsertableRelation"><span id="createRelation-InsertableRelation-insert"> insert Method
+## <span id="createRelation-InsertableRelation"><span id="createRelation-InsertableRelation-insert"> insert
 
 ```scala
 insert(
@@ -359,102 +383,61 @@ insert(
 
 `insert`...FIXME
 
-`insert` is part of the `InsertableRelation` abstraction.
+`insert` is part of the `InsertableRelation` ([Spark SQL]({{ book.spark_sql }}/InsertableRelation)) abstraction.
 
-== [[getSnapshotAt]] Retrieving State Of Delta Table At Given Version -- `getSnapshotAt` Method
+## <span id="getSnapshotAt"> Retrieving State Of Delta Table At Given Version
 
-[source, scala]
-----
+```scala
 getSnapshotAt(
   version: Long,
   commitTimestamp: Option[Long] = None,
   lastCheckpointHint: Option[CheckpointInstance] = None): Snapshot
-----
+```
 
 `getSnapshotAt`...FIXME
 
-[NOTE]
-====
 `getSnapshotAt` is used when:
 
-* `DeltaLog` is requested for a <<createRelation, relation>>, and to <<updateInternal, updateInternal>>
+* `DeltaLog` is requested for a [relation](#createRelation), and to [updateInternal](#updateInternal)
 
-* `DeltaSource` is requested to <<DeltaSource.md#getSnapshotAt, getSnapshotAt>>
+* `DeltaSource` is requested to [getSnapshotAt](DeltaSource.md#getSnapshotAt)
 
-* `TahoeLogFileIndex` is requested for <<TahoeLogFileIndex.md#historicalSnapshotOpt, historicalSnapshotOpt>>
-====
+* `TahoeLogFileIndex` is requested for [historicalSnapshotOpt](TahoeLogFileIndex.md#historicalSnapshotOpt)
 
-== [[tryUpdate]] `tryUpdate` Method
+## <span id="checkpointInterval"> checkpointInterval
 
-[source, scala]
-----
-tryUpdate(
-  isAsync: Boolean = false): Snapshot
-----
-
-`tryUpdate`...FIXME
-
-NOTE: `tryUpdate` is used exclusively when `DeltaLog` is requested to <<update, update>>.
-
-== [[ensureLogDirectoryExist]] `ensureLogDirectoryExist` Method
-
-[source, scala]
-----
-ensureLogDirectoryExist(): Unit
-----
-
-`ensureLogDirectoryExist`...FIXME
-
-NOTE: `ensureLogDirectoryExist` is used when...FIXME
-
-== [[protocolWrite]] `protocolWrite` Method
-
-[source, scala]
-----
-protocolWrite(
-  protocol: Protocol,
-  logUpgradeMessage: Boolean = true): Unit
-----
-
-`protocolWrite`...FIXME
-
-NOTE: `protocolWrite` is used when...FIXME
-
-== [[checkpointInterval]] `checkpointInterval` Method
-
-[source, scala]
-----
+```scala
 checkpointInterval: Int
-----
+```
 
-`checkpointInterval` gives the value of <<DeltaConfigs.md#CHECKPOINT_INTERVAL, checkpointInterval>> table property (<<DeltaConfigs.md#fromMetaData, from>> the <<metadata, Metadata>>).
+`checkpointInterval` gives the value of [checkpointInterval](DeltaConfigs.md#CHECKPOINT_INTERVAL) table property ([from](DeltaConfigs.md#fromMetaData) the [Metadata](#metadata)).
 
-NOTE: `checkpointInterval` is used when...FIXME
+`checkpointInterval` is used when...FIXME
 
-== [[getChanges]] Changes (Actions) Of Delta Version And Later -- `getChanges` Method
+## <span id="getChanges"> Changes (Actions) Of Delta Version And Later
 
-[source, scala]
-----
+```scala
 getChanges(
   startVersion: Long): Iterator[(Long, Seq[Action])]
-----
+```
 
-`getChanges` gives all <<Action.md#, actions>> (_changes_) per delta log file for the given `startVersion` of a delta table and later.
+`getChanges` gives all [action](Action.md)s (_changes_) per delta log file for the given `startVersion` of a delta table and later.
 
-[source,scala]
-----
+```scala
 val dataPath = "/tmp/delta/users"
 import org.apache.spark.sql.delta.DeltaLog
 val deltaLog = DeltaLog.forTable(spark, dataPath)
 assert(deltaLog.isInstanceOf[DeltaLog])
 val changesPerVersion = deltaLog.getChanges(startVersion = 0)
-----
+```
 
-Internally, `getChanges` requests the <<store, LogStore>> for <<LogStore.md#listFrom, files>> that are lexicographically greater or equal to the <<FileNames.md#deltaFile, delta log file>> for the given `startVersion` (in the <<logPath, logPath>>) and leaves only <<FileNames.md#isDeltaFile, delta log files>> (e.g. files with numbers only as file name and `.json` file extension).
+Internally, `getChanges` requests the [LogStore](#store) for [files](LogStore.md#listFrom) that are lexicographically greater or equal to the [delta log file](FileNames.md#deltaFile) for the given `startVersion` (in the [logPath](#logPath)) and leaves only [delta log files](FileNames.md#isDeltaFile) (e.g. files with numbers only as file name and `.json` file extension).
 
-For every delta file, `getChanges` requests the <<store, LogStore>> to <<LogStore.md#read, read the JSON content>> (every line is an <<Action.md#, action>>), and then <<Action.md#fromJson, deserializes it to an action>>.
+For every delta file, `getChanges` requests the [LogStore](#store) to [read the JSON content](LogStore.md#read) (every line is an [action](Action.md)), and then [deserializes it to an action](Action.md#fromJson).
 
-NOTE: `getChanges` is used when `DeltaSource` is requested for the <<DeltaSource.md#getChanges, indexed file additions (FileAdd actions)>>.
+`getChanges` is used when:
+
+* `DeltaSource` is requested for the [indexed file additions (FileAdd actions)](DeltaSource.md#getChanges)
 
 ## <span id="createDataFrame"> Creating DataFrame For Given AddFiles
 
@@ -491,132 +474,79 @@ In the end, `createDataFrame` creates a `DataFrame` with a logical query plan wi
 * [MergeIntoCommand](commands/MergeIntoCommand.md) is executed
 * `DeltaSource` is requested for a [DataFrame for data between start and end offsets](DeltaSource.md#getBatch)
 
-== [[lockInterruptibly]] Acquiring Interruptible Lock on Log -- `lockInterruptibly` Method
+## <span id="minFileRetentionTimestamp"> `minFileRetentionTimestamp` Method
 
-[source, scala]
-----
-lockInterruptibly[T](body: => T): T
-----
-
-`lockInterruptibly`...FIXME
-
-NOTE: `lockInterruptibly` is used when...FIXME
-
-== [[minFileRetentionTimestamp]] `minFileRetentionTimestamp` Method
-
-[source, scala]
-----
+```scala
 minFileRetentionTimestamp: Long
-----
+```
 
-`minFileRetentionTimestamp` is the timestamp that is <<tombstoneRetentionMillis, tombstoneRetentionMillis>> before the current time (per the <<clock, Clock>>).
+`minFileRetentionTimestamp` is the timestamp that is [tombstoneRetentionMillis](#tombstoneRetentionMillis) before the current time (per the given [Clock](#clock)).
 
-[NOTE]
-====
 `minFileRetentionTimestamp` is used when:
 
-* `DeltaLog` is requested for the <<currentSnapshot, currentSnapshot>>, to <<updateInternal, updateInternal>>, and to <<getSnapshotAt, getSnapshotAt>>
+* `DeltaLog` is requested for the [currentSnapshot](#currentSnapshot), to [updateInternal](#updateInternal), and to [getSnapshotAt](#getSnapshotAt)
 
-* `VacuumCommand` is requested for <<VacuumCommand.md#gc, garbage collecting of a delta table>>
-====
+* `VacuumCommand` is requested for [garbage collecting of a delta table](commands/VacuumCommand.md#gc)
 
-== [[tombstoneRetentionMillis]] `tombstoneRetentionMillis` Method
+## <span id="tombstoneRetentionMillis"> `tombstoneRetentionMillis` Method
 
-[source, scala]
-----
+```scala
 tombstoneRetentionMillis: Long
-----
+```
 
-`tombstoneRetentionMillis` gives the value of <<DeltaConfigs.md#TOMBSTONE_RETENTION, deletedFileRetentionDuration>> table property (<<DeltaConfigs.md#fromMetaData, from>> the <<metadata, Metadata>>).
+`tombstoneRetentionMillis` gives the value of [deletedFileRetentionDuration](DeltaConfigs.md#TOMBSTONE_RETENTION) table property ([from](DeltaConfigs.md#fromMetaData) the [Metadata](#metadata)).
 
-[NOTE]
-====
 `tombstoneRetentionMillis` is used when:
 
-* `DeltaLog` is requested for <<minFileRetentionTimestamp, minFileRetentionTimestamp>>
+* `DeltaLog` is requested for [minFileRetentionTimestamp](#minFileRetentionTimestamp)
 
-* `VacuumCommand` is requested for <<VacuumCommand.md#gc, garbage collecting of a delta table>>
-====
+* `VacuumCommand` is requested for [garbage collecting of a delta table](commands/VacuumCommand.md#gc)
 
-== [[updateInternal]] `updateInternal` Internal Method
+## <span id="updateInternal"> `updateInternal` Internal Method
 
-[source, scala]
-----
+```scala
 updateInternal(
   isAsync: Boolean): Snapshot
-----
+```
 
 `updateInternal`...FIXME
 
-NOTE: `updateInternal` is used when `DeltaLog` is requested to <<update, update>> (directly or via <<tryUpdate, tryUpdate>>).
+`updateInternal` is used when:
 
-== [[invalidateCache]] Invalidating Cached DeltaLog Instance By Path -- `invalidateCache` Utility
+* `DeltaLog` is requested to [update](#update) (directly or via [tryUpdate](#tryUpdate))
 
-[source, scala]
-----
+## <span id="invalidateCache"> Invalidating Cached DeltaLog Instance By Path
+
+```scala
 invalidateCache(
   spark: SparkSession,
   dataPath: Path): Unit
-----
+```
 
 `invalidateCache`...FIXME
 
-NOTE: `invalidateCache` is a public API and does not seem to be used at all.
+`invalidateCache` is a public API and does not seem to be used at all.
 
-== [[clearCache]] Removing (Clearing) All Cached DeltaLog Instances -- `clearCache` Utility
+## <span id="protocolRead"> protocolRead
 
-[source, scala]
-----
-clearCache(): Unit
-----
-
-`clearCache`...FIXME
-
-NOTE: `clearCache` is a public API and is used exclusively in tests.
-
-== [[upgradeProtocol]] `upgradeProtocol` Method
-
-[source, scala]
-----
-upgradeProtocol(
-  newVersion: Protocol = Protocol()): Unit
-----
-
-`upgradeProtocol`...FIXME
-
-NOTE: `upgradeProtocol` seems to be used exclusively in tests.
-
-== [[protocolRead]] `protocolRead` Method
-
-[source, scala]
-----
+```scala
 protocolRead(
   protocol: Protocol): Unit
-----
+```
 
 `protocolRead`...FIXME
 
-[NOTE]
-====
 `protocolRead` is used when:
 
-* `OptimisticTransactionImpl` is requested to <<OptimisticTransactionImpl.md#checkAndRetry, validate and retry a commit>>
+* `OptimisticTransactionImpl` is requested to [validate and retry a commit](OptimisticTransactionImpl.md#checkAndRetry)
 
-* <<Snapshot.md#, Snapshot>> is created
+* [Snapshot](Snapshot.md) is created
 
-* `DeltaSource` is requested to <<DeltaSource.md#verifyStreamHygieneAndFilterAddFiles, verifyStreamHygieneAndFilterAddFiles>>
-====
+* `DeltaSource` is requested to [verifyStreamHygieneAndFilterAddFiles](DeltaSource.md#verifyStreamHygieneAndFilterAddFiles)
 
-== [[isValid]] `isValid` Method
+## LogStoreProvider
 
-[source, scala]
-----
-isValid(): Boolean
-----
-
-`isValid`...FIXME
-
-NOTE: `isValid` is used when `DeltaLog` utility is used to <<apply, get or create a transaction log for a delta table>>.
+`DeltaLog` is a [LogStoreProvider](LogStoreProvider.md).
 
 ## Logging
 

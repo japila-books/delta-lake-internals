@@ -1,4 +1,4 @@
-== [[LogStoreProvider]] LogStoreProvider
+# LogStoreProvider
 
 `LogStoreProvider` is an abstraction of <<implementations, providers>> of <<createLogStore, LogStores>>.
 
