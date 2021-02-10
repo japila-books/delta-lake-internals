@@ -1,28 +1,25 @@
 # LogStoreProvider
 
-`LogStoreProvider` is an abstraction of <<implementations, providers>> of <<createLogStore, LogStores>>.
+`LogStoreProvider` is an abstraction of [providers](#implementations) of [LogStores](#createLogStore).
 
-[[logStoreClassConfKey]][[defaultLogStoreClass]][[spark.delta.logStore.class]]
-`LogStoreProvider` uses the *spark.delta.logStore.class* configuration property (default: <<HDFSLogStore.md#, HDFSLogStore>>) for the fully-qualified class name of the <<LogStore.md#, LogStore>> to <<createLogStore, create>> (for a <<DeltaLog.md#, DeltaLog>>, a <<DeltaHistoryManager.md#, DeltaHistoryManager>>, and <<DeltaFileOperations.md#, DeltaFileOperations>>).
+## <span id="logStoreClassConfKey"><span id="defaultLogStoreClass"><span id="spark.delta.logStore.class"> spark.delta.logStore.class Configuration Property
 
-== [[createLogStore]] Creating LogStore -- `createLogStore` Method
+`LogStoreProvider` uses the **spark.delta.logStore.class** configuration property for the fully-qualified class name of the [LogStore](LogStore.md) to [create](#createLogStore) (for a [DeltaLog](DeltaLog.md), a [DeltaHistoryManager](DeltaHistoryManager.md), and [DeltaFileOperations](DeltaFileOperations.md)).
 
-[source, scala]
-----
+## <span id="createLogStore"> Creating LogStore
+
+```scala
 createLogStore(
   spark: SparkSession): LogStore
 createLogStore(
   sparkConf: SparkConf,
   hadoopConf: Configuration): LogStore
-----
+```
 
 `createLogStore`...FIXME
 
-[NOTE]
-====
 `createLogStore` is used when:
 
-* <<DeltaLog.md#store, DeltaLog>> is created
+* [DeltaLog](DeltaLog.md#store) is created
 
-* <<LogStore#apply, LogStore.apply>> utility is used (to create a <<LogStore.md#, LogStore>>)
-====
+* [LogStore.apply](LogStore#apply) utility is used

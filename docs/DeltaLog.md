@@ -101,13 +101,19 @@ apply(
 
 `apply`...FIXME
 
-### <span id="isValid"> isValid
+## <span id="tableExists"> tableExists
 
 ```scala
-isValid(): Boolean
+tableExists: Boolean
 ```
 
-`isValid`...FIXME
+`tableExists` requests the [current Snapshot](SnapshotManagement.md#snapshot) for the [version](Snapshot.md#version) and checks out whether it is `0` or higher.
+
+is used when:
+
+* `DeltaTable` utility is used to [isDeltaTable](DeltaTable.md#isDeltaTable)
+* [DeltaUnsupportedOperationsCheck](DeltaUnsupportedOperationsCheck.md) logical check rule is executed
+* `DeltaTableV2` is requested to [toBaseRelation](DeltaTableV2.md#toBaseRelation)
 
 ## Demo: Creating DeltaLog
 
@@ -200,7 +206,7 @@ deltaLogCache: Cache[Path, DeltaLog]
 
 `deltaLogCache` is invalidated:
 
-* For a delta table using [DeltaLog.invalidateCache](#invalidateCache) utility (and [DeltaLog.apply](#apply) when the cached reference is no longer [valid](#isValid))
+* For a delta table using [DeltaLog.invalidateCache](#invalidateCache) utility
 
 * For all delta tables using [DeltaLog.clearCache](#clearCache) utility
 
@@ -353,14 +359,16 @@ Internally, `currentSnapshot`...FIXME
 
 `currentSnapshot` is used when:
 
-* `DeltaLog` is requested to [updateInternal](#updateInternal), [update](#update), [tryUpdate](#tryUpdate), and [isValid](#isValid)
+* `DeltaLog` is requested to [updateInternal](#updateInternal), [update](#update) and [tryUpdate](#tryUpdate)
 
 ## <span id="createRelation"> Creating Insertable HadoopFsRelation For Batch Queries
 
 ```scala
 createRelation(
   partitionFilters: Seq[Expression] = Nil,
-  timeTravel: Option[DeltaTimeTravelSpec] = None): BaseRelation
+  snapshotToUseOpt: Option[Snapshot] = None,
+  isTimeTravelQuery: Boolean = false,
+  cdcOptions: CaseInsensitiveStringMap = CaseInsensitiveStringMap.empty): BaseRelation
 ```
 
 `createRelation`...FIXME
@@ -371,7 +379,11 @@ createRelation(
 
 In the end, `createRelation` creates a `HadoopFsRelation` for the `TahoeLogFileIndex` and...FIXME. The `HadoopFsRelation` is also an [InsertableRelation](#createRelation-InsertableRelation).
 
-`createRelation` is used when `DeltaDataSource` is requested for a relation as a [CreatableRelationProvider](DeltaDataSource.md#CreatableRelationProvider) and a [RelationProvider](DeltaDataSource.md#RelationProvider) (for batch queries).
+`createRelation` is used when:
+
+* `DeltaTableV2` is requested to [toBaseRelation](DeltaTableV2.md#toBaseRelation)
+* `WriteIntoDeltaBuilder` is requested to [buildForV1Write](WriteIntoDeltaBuilder.md#buildForV1Write)
+* `DeltaDataSource` is requested for a [writable relation](DeltaDataSource.md#CreatableRelationProvider-createRelation)
 
 ## <span id="createRelation-InsertableRelation"><span id="createRelation-InsertableRelation-insert"> insert
 

@@ -41,7 +41,6 @@ When [DeltaLog](DeltaLog.md) is created, `currentSnapshot` is initialized as [ge
 
 `currentSnapshot` is used when:
 
-* `DeltaLog` is requested to [isValid](DeltaLog.md#isValid)
 * `SnapshotManagement` is requested to...FIXME
 
 ## <span id="update"> Updating Current Snapshot
@@ -132,6 +131,15 @@ getLogSegmentForVersion(
 `getLogSegmentForVersion`...FIXME
 
 `getLogSegmentForVersion` is used when `SnapshotManagement` is requested for [getLogSegmentFrom](#getLogSegmentFrom), [updateInternal](#updateInternal) and [getSnapshotAt](#getSnapshotAt).
+
+### <span id="listFrom"> listFrom
+
+```scala
+listFrom(
+  startVersion: Long): Iterator[FileStatus]
+```
+
+`listFrom`...FIXME
 
 ## <span id="createSnapshot"> Creating Snapshot
 
