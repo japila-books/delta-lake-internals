@@ -82,7 +82,13 @@ extra:
     - icon: fontawesome/brands/linkedin
       link: https://linkedin.com/in/jaceklaskowski
   delta:
-    version: 0.7.0
+    version: 0.8.0
+  spark:
+    version: 3.0.1
+  scala:
+    version: 2.12.10
+  java:
+    version: 8
   hadoop:
     version: 2.7.4
     doc: https://hadoop.apache.org/docs/r2.7.4
