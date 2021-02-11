@@ -1,123 +1,120 @@
-= DeltaConfigs
+# DeltaConfigs
 
-*DeltaConfigs* defines <<configuration-properties, reservoir configuration properties>> (aka _table properties_).
+`DeltaConfigs` is the [configuration properties](#configuration-properties) of a delta table.
 
-Table properties can be assigned a value using `ALTER TABLE` SQL command:
+## Configuration Properties
 
-```
-ALTER TABLE <table_name> SET TBLPROPERTIES (<key>=<value>)
-```
+### <span id="appendOnly"><span id="IS_APPEND_ONLY"> appendOnly
 
-[[sqlConfPrefix]][[spark.databricks.delta.properties.defaults]]
-DeltaConfigs uses *spark.databricks.delta.properties.defaults* prefix for <<mergeGlobalConfigs, global configuration properties>>.
-
-[[configuration-properties]]
-.Reservoir Configuration Properties
-[cols="30m,70",options="header",width="100%"]
-|===
-| Key
-| Description
-
-| appendOnly
-a| [[appendOnly]][[IS_APPEND_ONLY]] Whether a delta table is append-only (`true`) or not (`false`). When enabled, a table allows appends only and no updates or deletes.
+Whether a delta table is append-only (`true`) or not (`false`). When enabled, a table allows appends only and no updates or deletes.
 
 Default: `false`
 
-| autoOptimize
-a| [[autoOptimize]][[AUTO_OPTIMIZE]] Whether this delta table will automagically optimize the layout of files during writes.
+### <span id="autoOptimize"><span id="AUTO_OPTIMIZE"> autoOptimize
+
+Whether this delta table will automagically optimize the layout of files during writes.
 
 Default: `false`
 
-| checkpointInterval
-a| [[checkpointInterval]][[CHECKPOINT_INTERVAL]] How often to checkpoint the state of a delta table
+### <span id="checkpointInterval"><span id="CHECKPOINT_INTERVAL"> checkpointInterval
+
+How often to checkpoint the state of a delta table
 
 Default: `10`
 
-| checkpointRetentionDuration
-a| [[checkpointRetentionDuration]][[CHECKPOINT_RETENTION_DURATION]] How long to keep checkpoint files around before deleting them
+### <span id="checkpointRetentionDuration"><span id="CHECKPOINT_RETENTION_DURATION"> checkpointRetentionDuration
+
+How long to keep checkpoint files around before deleting them
 
 Default: `interval 2 days`
 
 The most recent checkpoint is never deleted. It is acceptable to keep checkpoint files beyond this duration until the next calendar day.
 
-| compatibility.symlinkFormatManifest.enabled
-a| [[compatibility.symlinkFormatManifest]][[SYMLINK_FORMAT_MANIFEST_ENABLED]] Whether to register the <<GenerateSymlinkManifest.md#, GenerateSymlinkManifest>> post-commit hook while <<OptimisticTransactionImpl.md#commit, committing a transaction>> or not
+### <span id="checkpoint.writeStatsAsJson"><span id="CHECKPOINT_WRITE_STATS_AS_JSON"> checkpoint.writeStatsAsJson
+
+Controls whether to write file statistics in the checkpoint in JSON format as the `stats` column.
+
+Default: `true`
+
+### <span id="checkpoint.writeStatsAsStruct"><span id="CHECKPOINT_WRITE_STATS_AS_STRUCT"> checkpoint.writeStatsAsStruct
+
+Controls whether to write file statistics in the checkpoint in the struct format in the `stats_parsed` column and partition values as a struct as `partitionValues_parsed`
+
+Default: `undefined` (`Option[Boolean]`)
+
+### <span id="compatibility.symlinkFormatManifest.enabled"><span id="SYMLINK_FORMAT_MANIFEST_ENABLED"> compatibility.symlinkFormatManifest.enabled
+
+Whether to register the [GenerateSymlinkManifest](GenerateSymlinkManifest.md) post-commit hook while [committing a transaction](OptimisticTransactionImpl.md#commit) or not
 
 Default: `false`
 
-| dataSkippingNumIndexedCols
-a| [[dataSkippingNumIndexedCols]][[DATA_SKIPPING_NUM_INDEXED_COLS]] The number of columns to collect stats on for data skipping. `-1` means collecting stats for all columns.
+### <span id="dataSkippingNumIndexedCols"><span id="DATA_SKIPPING_NUM_INDEXED_COLS"> dataSkippingNumIndexedCols
+
+The number of columns to collect stats on for data skipping. `-1` means collecting stats for all columns.
 
 Default: `32`
 
-| deletedFileRetentionDuration
-a| [[deletedFileRetentionDuration]][[TOMBSTONE_RETENTION]] How long to keep logically deleted data files around before deleting them physically (to prevent failures in stale readers after compactions or partition overwrites)
+### <span id="deletedFileRetentionDuration"><span id="TOMBSTONE_RETENTION"> deletedFileRetentionDuration
+
+How long to keep logically deleted data files around before deleting them physically (to prevent failures in stale readers after compactions or partition overwrites)
 
 Default: `interval 1 week`
 
-| enableExpiredLogCleanup
-a| [[enableExpiredLogCleanup]][[ENABLE_EXPIRED_LOG_CLEANUP]] Whether to clean up expired log files and checkpoints
+### <span id="enableExpiredLogCleanup"><span id="ENABLE_EXPIRED_LOG_CLEANUP"> enableExpiredLogCleanup
+
+Whether to clean up expired log files and checkpoints
 
 Default: `true`
 
-| enableFullRetentionRollback
-a| [[enableFullRetentionRollback]][[ENABLE_FULL_RETENTION_ROLLBACK]] When enabled (default), a delta table can be rolled back to any point within <<LOG_RETENTION, logRetentionDuration>>. When disabled, the table can be rolled back <<CHECKPOINT_RETENTION_DURATION, checkpointRetentionDuration>> only.
+### <span id="enableFullRetentionRollback"><span id="ENABLE_FULL_RETENTION_ROLLBACK"> enableFullRetentionRollback
+
+Controls whether or not a delta table can be rolled back to any point within [logRetentionDuration](#LOG_RETENTION). When disabled, the table can be rolled back [checkpointRetentionDuration](#CHECKPOINT_RETENTION_DURATION) only.
 
 Default: `true`
 
-| logRetentionDuration
-a| [[logRetentionDuration]][[LOG_RETENTION]] How long to keep obsolete logs around before deleting them. Delta can keep logs beyond the duration until the next calendar day to avoid constantly creating checkpoints.
+### <span id="logRetentionDuration"><span id="LOG_RETENTION"> logRetentionDuration
 
-Default: `interval 30 days`
+How long to keep obsolete logs around before deleting them. Delta can keep logs beyond the duration until the next calendar day to avoid constantly creating checkpoints.
 
-| randomizeFilePrefixes
-a| [[randomizeFilePrefixes]][[RANDOMIZE_FILE_PREFIXES]] Whether to use a random prefix in a file path instead of partition information (may be required for very high volume S3 calls to better be partitioned across S3 servers)
+Default: `interval 30 days` (`CalendarInterval`)
+
+### <span id="minReaderVersion"><span id="MIN_READER_VERSION"> minReaderVersion
+
+The protocol reader version
+
+Default: `1`
+
+This property is *not* stored as a table property in the `Metadata` action. It is stored as its own action. Having it modelled as a table property makes it easier to upgrade, and view the version.
+
+### <span id="minWriterVersion"><span id="MIN_WRITER_VERSION"> minWriterVersion
+
+The protocol reader version
+
+Default: `3`
+
+This property is *not* stored as a table property in the `Metadata` action. It is stored as its own action. Having it modelled as a table property makes it easier to upgrade, and view the version.
+
+### <span id="randomizeFilePrefixes"><span id="RANDOMIZE_FILE_PREFIXES"> randomizeFilePrefixes
+
+Whether to use a random prefix in a file path instead of partition information (may be required for very high volume S3 calls to better be partitioned across S3 servers)
 
 Default: `false`
 
-| randomPrefixLength
-a| [[randomPrefixLength]][[RANDOM_PREFIX_LENGTH]] The length of the random prefix in a file path for <<RANDOMIZE_FILE_PREFIXES, randomizeFilePrefixes>>
+### <span id="randomPrefixLength"><span id="RANDOM_PREFIX_LENGTH"> randomPrefixLength
+
+The length of the random prefix in a file path for [randomizeFilePrefixes](#RANDOMIZE_FILE_PREFIXES)
 
 Default: `2`
 
-| sampleRetentionDuration
-a| [[sampleRetentionDuration]][[SAMPLE_RETENTION]] How long to keep delta sample files around before deleting them
+### <span id="sampleRetentionDuration"><span id="SAMPLE_RETENTION"> sampleRetentionDuration
+
+How long to keep delta sample files around before deleting them
 
 Default: `interval 7 days`
 
-|===
+## <span id="buildConfig"> Building Configuration
 
-== [[mergeGlobalConfigs]] `mergeGlobalConfigs` Utility
-
-[source, scala]
-----
-mergeGlobalConfigs(
-  sqlConfs: SQLConf,
-  tableConf: Map[String, String],
-  protocol: Protocol): Map[String, String]
-----
-
-`mergeGlobalConfigs` finds all <<sqlConfPrefix, spark.databricks.delta.properties.defaults>>-prefixed configuration properties among the <<entries, entries>>.
-
-NOTE: `mergeGlobalConfigs` is used when `OptimisticTransactionImpl` is requested for the OptimisticTransactionImpl.md#snapshotMetadata[metadata], to OptimisticTransactionImpl.md#updateMetadata[update the metadata], and OptimisticTransactionImpl.md#prepareCommit[prepare a commit] (for new delta tables).
-
-== [[verifyProtocolVersionRequirements]] verifyProtocolVersionRequirements Utility
-
-[source, scala]
-----
-verifyProtocolVersionRequirements(
-  configurations: Map[String, String],
-  current: Protocol): Unit
-----
-
-verifyProtocolVersionRequirements...FIXME
-
-verifyProtocolVersionRequirements is used when...FIXME
-
-== [[buildConfig]] Creating DeltaConfig Instance -- `buildConfig` Internal Utility
-
-[source, scala]
-----
+```scala
 buildConfig[T](
   key: String,
   defaultValue: String,
@@ -125,25 +122,82 @@ buildConfig[T](
   validationFunction: T => Boolean,
   helpMessage: String,
   minimumProtocolVersion: Option[Protocol] = None): DeltaConfig[T]
-----
+```
 
-`buildConfig` creates a DeltaConfig.md[DeltaConfig] for the given `key` (with *delta* prefix) and adds it to the <<entries, entries>> internal registry.
+`buildConfig` creates a [DeltaConfig](DeltaConfig.md) for the given `key` (with **delta** prefix added) and adds it to the [entries](#entries) internal registry.
 
-NOTE: `buildConfig` is used to define all of the <<configuration-properties, reservoir configuration properties>>.
+`buildConfig` is used to define all of the [configuration properties](#configuration-properties) in a type-safe way and (as a side effect) register them with the system-wide [entries](#entries) internal registry.
 
-== [[internal-properties]] Internal Properties
+## <span id="entries"> System-Wide Configuration Entries Registry
 
-[cols="30m,70",options="header",width="100%"]
-|===
-| Name
-| Description
+```scala
+entries: HashMap[String, DeltaConfig[_]]
+```
 
-| entries
-a| [[entries]]
+`DeltaConfigs` utility (a Scala object) uses `entries` internal registry of [DeltaConfig](DeltaConfig.md)s by their key.
 
-[source, scala]
-----
-HashMap[String, DeltaConfig[_]]
-----
+New entries are added in [buildConfig](#buildConfig).
 
-|===
+`entries` is used when:
+
+* [validateConfigurations](#validateConfigurations)
+* [mergeGlobalConfigs](#mergeGlobalConfigs)
+* [normalizeConfigKey](#normalizeConfigKey) and [normalizeConfigKeys](#normalizeConfigKeys)
+
+## <span id="mergeGlobalConfigs"> mergeGlobalConfigs Utility
+
+```scala
+mergeGlobalConfigs(
+  sqlConfs: SQLConf,
+  tableConf: Map[String, String],
+  protocol: Protocol): Map[String, String]
+```
+
+`mergeGlobalConfigs` finds all [spark.databricks.delta.properties.defaults](#sqlConfPrefix)-prefixed configuration properties among the [entries](#entries).
+
+`mergeGlobalConfigs` is used when:
+
+* `OptimisticTransactionImpl` is requested to [withGlobalConfigDefaults](OptimisticTransactionImpl.md#withGlobalConfigDefaults)
+* `InitialSnapshot` is created
+
+## <span id="validateConfigurations"> validateConfigurations Utility
+
+```scala
+validateConfigurations(
+  configurations: Map[String, String]): Map[String, String]
+```
+
+`validateConfigurations`...FIXME
+
+`validateConfigurations` is used when:
+
+* `DeltaCatalog` is requested to [verifyTableAndSolidify](DeltaCatalog.md#verifyTableAndSolidify) and [alterTable](DeltaCatalog.md#alterTable)
+
+## <span id="normalizeConfigKeys"> normalizeConfigKeys Utility
+
+```scala
+normalizeConfigKeys(
+  propKeys: Seq[String]): Seq[String]
+```
+
+`normalizeConfigKeys`...FIXME
+
+`normalizeConfigKeys` is used when:
+
+* [AlterTableUnsetPropertiesDeltaCommand](commands/AlterTableUnsetPropertiesDeltaCommand.md) is executed
+
+## ALTER TABLE SQL Command
+
+Table properties can be set a value or unset using `ALTER TABLE` SQL command:
+
+```sql
+ALTER TABLE <table_name> SET TBLPROPERTIES (<key>=<value>)
+```
+
+```sql
+ALTER TABLE table1 UNSET TBLPROPERTIES [IF EXISTS] ('key1', 'key2', ...);
+```
+
+## <span id="sqlConfPrefix"><span id="spark.databricks.delta.properties.defaults"> spark.databricks.delta.properties.defaults Prefix
+
+DeltaConfigs uses **spark.databricks.delta.properties.defaults** prefix for [global configuration properties](#mergeGlobalConfigs).

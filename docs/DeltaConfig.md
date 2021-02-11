@@ -1,22 +1,23 @@
-= DeltaConfig -- Configuration Property Of Delta Table (Metadata)
+# DeltaConfig
 
-[[T]]
-`DeltaConfig` (of type `T`) represents a <<key, named configuration property>> of a delta table with values (of type `T`) in an <<validationFunction, acceptable range>>.
+`DeltaConfig` (of type `T`) represents a [named configuration property](#key) of a delta table with values (of type `T`) in an [acceptable range](#validationFunction).
 
-`DeltaConfig` can be <<fromMetaData, read from a metadata>>.
+`DeltaConfig` can be [read from a metadata](#fromMetaData).
 
-== [[creating-instance]] Creating DeltaConfig Instance
+## Creating Instance
 
 `DeltaConfig` takes the following to be created:
 
-* [[key]] Key
-* [[defaultValue]] Default value
-* [[fromString]] Conversion function (from text representation of the `DeltaConfig` to the <<T, type>>, i.e. `String => T`)
-* [[validationFunction]] Validation function (that guards from incorrect values, i.e. `T => Boolean`)
-* [[helpMessage]] Help message
-* [[minimumProtocolVersion]] (optional) Minimum version of <<Protocol.md#, protocol>> supported
+* <span id="key"> Configuration Key
+* <span id="defaultValue"> Default Value
+* <span id="fromString"> Conversion function (from text representation of the `DeltaConfig` to the `T` type, i.e. `String => T`)
+* <span id="validationFunction"> Validation function (that guards from incorrect values, i.e. `T => Boolean`)
+* <span id="helpMessage"> Help message
+* <span id="minimumProtocolVersion"> (optional) Minimum version of [protocol](Protocol.md) supported (default: undefined)
 
-`DeltaConfig` initializes the <<internal-properties, internal properties>>.
+`DeltaConfig` is created when:
+
+* `DeltaConfigs` utility is used to [build a DeltaConfig](DeltaConfigs.md#buildConfig)
 
 == [[fromMetaData]] Reading Configuration Property From Metadata -- `fromMetaData` Method
 
