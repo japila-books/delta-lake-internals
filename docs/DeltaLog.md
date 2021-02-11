@@ -260,7 +260,9 @@ This table is configured to only allow appends. If you would like to permit upda
 
 `assertRemovable` is used when:
 
-* FIXME
+* `OptimisticTransactionImpl` is requested to [prepareCommit](OptimisticTransactionImpl.md#prepareCommit)
+* [DeleteCommand](commands/DeleteCommand.md), [UpdateCommand](commands/UpdateCommand.md), [WriteIntoDelta](commands/WriteIntoDelta.md) (with `Overwrite` mode) are executed
+* `DeltaSink` is requested to [addBatch](DeltaSink.md#addBatch) (with `Complete` output mode)
 
 ## <span id="metadata"> metadata
 
@@ -555,6 +557,19 @@ protocolRead(
 * [Snapshot](Snapshot.md) is created
 
 * `DeltaSource` is requested to [verifyStreamHygieneAndFilterAddFiles](DeltaSource.md#verifyStreamHygieneAndFilterAddFiles)
+
+## <span id="upgradeProtocol"> upgradeProtocol
+
+```scala
+upgradeProtocol(
+  newVersion: Protocol = Protocol()): Unit
+```
+
+`upgradeProtocol`...FIXME
+
+`upgradeProtocol` is used when:
+
+* `DeltaTable` is requested to [upgradeTableProtocol](DeltaTable.md#upgradeTableProtocol)
 
 ## LogStoreProvider
 

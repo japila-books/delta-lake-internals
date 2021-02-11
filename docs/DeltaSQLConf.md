@@ -1,6 +1,6 @@
 # DeltaSQLConf &mdash; spark.databricks.delta Configuration Properties
 
-**DeltaSQLConf** contains **spark.databricks.delta**-prefixed configuration properties to configure behaviour of Delta Lake.
+`DeltaSQLConf` contains **spark.databricks.delta**-prefixed configuration properties to configure behaviour of Delta Lake.
 
 ## <span id="alterLocation.bypassSchemaCheck"><span id="DELTA_ALTER_LOCATION_BYPASS_SCHEMA_CHECK"> alterLocation.bypassSchemaCheck
 
@@ -128,6 +128,30 @@ Default: `false`
 **spark.databricks.delta.partitionColumnValidity.enabled** (internal) enables validation of the partition column names (just like the data columns)
 
 Default: `true`
+
+## <span id="properties.defaults.minReaderVersion"><span id="DELTA_PROTOCOL_DEFAULT_READER_VERSION"> properties.defaults.minReaderVersion
+
+**spark.databricks.delta.properties.defaults.minReaderVersion** is the default reader protocol version to create new tables with, unless a feature that requires a higher version for correctness is enabled.
+
+Default: `1`
+
+Available values: `1`
+
+Used when:
+
+* `Protocol` utility is used to [create a Protocol](Protocol.md#apply)
+
+## <span id="properties.defaults.minWriterVersion"><span id="DELTA_PROTOCOL_DEFAULT_WRITER_VERSION"> properties.defaults.minWriterVersion
+
+**spark.databricks.delta.properties.defaults.minWriterVersion** is the default writer protocol version to create new tables with, unless a feature that requires a higher version for correctness is enabled.
+
+Default: `2`
+
+Available values: `1`, `2`, `3`
+
+Used when:
+
+* `Protocol` utility is used to [create a Protocol](Protocol.md#apply)
 
 ## <span id="retentionDurationCheck.enabled"><span id="DELTA_VACUUM_RETENTION_CHECK_ENABLED"> retentionDurationCheck.enabled
 

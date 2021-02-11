@@ -1,8 +1,6 @@
 # DeltaConfig
 
-`DeltaConfig` (of type `T`) represents a [named configuration property](#key) of a delta table with values (of type `T`) in an [acceptable range](#validationFunction).
-
-`DeltaConfig` can be [read from a metadata](#fromMetaData).
+`DeltaConfig` (of type `T`) represents a [named configuration property](#key) of a delta table with values (of type `T`).
 
 ## Creating Instance
 
@@ -19,25 +17,22 @@
 
 * `DeltaConfigs` utility is used to [build a DeltaConfig](DeltaConfigs.md#buildConfig)
 
-== [[fromMetaData]] Reading Configuration Property From Metadata -- `fromMetaData` Method
+## <span id="fromMetaData"> Reading Configuration Property From Metadata
 
-[source, scala]
-----
+```scala
 fromMetaData(
   metadata: Metadata): T
-----
+```
 
-`fromMetaData` looks up the <<key, key>> in the <<Metadata.md#configuration, configuration>> of the given <<Metadata.md#, Metadata>>. If not found, `fromMetaData` gives the <<defaultValue, default value>>.
+`fromMetaData` looks up the [key](#key) in the [configuration](Metadata.md#configuration) of the given [Metadata](Metadata.md). If not found, `fromMetaData` gives the [default value](#defaultValue).
 
-In the end, `fromMetaData` converts the text representation to the proper type using <<fromString, fromString>> conversion function.
+In the end, `fromMetaData` converts the text representation to the proper type using [fromString](#fromString) conversion function.
 
-[NOTE]
-====
 `fromMetaData` is used when:
 
-* `DeltaLog` is requested for <<DeltaLog.md#checkpointInterval, checkpointInterval>> and <<DeltaLog.md#tombstoneRetentionMillis, deletedFileRetentionDuration>> table properties, and to <<DeltaLog.md#assertRemovable, assert a table can be modified (not read-only)>>
-
-* `MetadataCleanup` is requested for the <<MetadataCleanup.md#enableExpiredLogCleanup, enableExpiredLogCleanup>> and the <<MetadataCleanup.md#deltaRetentionMillis, deltaRetentionMillis>>
-
-* `Snapshot` is requested for the <<Snapshot.md#numIndexedCols, numIndexedCols>>
-====
+* `Checkpoints` utility is used to [buildCheckpoint](Checkpoints.md#buildCheckpoint)
+* `DeltaErrors` utility is used to [logFileNotFoundException](DeltaErrors.md#logFileNotFoundException)
+* `DeltaLog` is requested for [checkpointInterval](DeltaLog.md#checkpointInterval) and [deletedFileRetentionDuration](DeltaLog.md#tombstoneRetentionMillis) table properties, and to [assert a table is not read-only](DeltaLog.md#assertRemovable)
+* `MetadataCleanup` is requested for the [enableExpiredLogCleanup](MetadataCleanup.md#enableExpiredLogCleanup) and the [deltaRetentionMillis](MetadataCleanup.md#deltaRetentionMillis)
+* `OptimisticTransactionImpl` is requested to [commit](OptimisticTransactionImpl.md#commit)
+* `Snapshot` is requested for the [numIndexedCols](Snapshot.md#numIndexedCols)

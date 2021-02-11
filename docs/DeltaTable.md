@@ -1,8 +1,16 @@
 # DeltaTable
 
-**DeltaTable** is the [management interface](#operators) of a Delta table.
+`DeltaTable` is the [management interface](#operators) of a delta table.
 
-DeltaTable instances are created using [utilities](#utilities) (e.g. [DeltaTable.forName](#forName), [DeltaTable.convertToDelta](#convertToDelta)).
+`DeltaTable` is created using [utilities](#utilities) (e.g. [DeltaTable.forName](#forName), [DeltaTable.convertToDelta](#convertToDelta)).
+
+## io.delta.tables Package
+
+`DeltaTable` belongs to `io.delta.tables` package.
+
+```scala
+import io.delta.tables.DeltaTable
+```
 
 ## <span id="utilities"> Utilities (Static Methods)
 
@@ -215,6 +223,27 @@ updateExpr(
 ```
 
 Updates data in the DeltaTable on the rows that match the given `condition` based on the rules defined by `set`
+
+### <span id="upgradeTableProtocol"> upgradeTableProtocol
+
+```scala
+upgradeTableProtocol(
+  readerVersion: Int,
+  writerVersion: Int): Unit
+```
+
+Updates the protocol version of the table to leverage new features.
+
+Upgrading the reader version will prevent all clients that have an older version of Delta Lake from accessing this table.
+
+Upgrading the writer version will prevent older versions of Delta Lake to write to this table.
+
+The reader or writer version cannot be downgraded.
+
+Internally, `upgradeTableProtocol` creates a new [Protocol](Protocol.md) (with the given versions) and requests the [DeltaLog](#deltaLog) to [upgradeProtocol](DeltaLog.md#upgradeProtocol).
+
+??? "[SC-44271][DELTA] Introduce default protocol version for Delta tables"
+    `upgradeTableProtocol` was introduced in [[SC-44271][DELTA] Introduce default protocol version for Delta tables](https://github.com/delta-io/delta/commit/6500abbf9a2f52046cbd30daaa81ffdc00cbb26f) commit.
 
 ### <span id="vacuum"> vacuum
 

@@ -10,6 +10,11 @@ Whether a delta table is append-only (`true`) or not (`false`). When enabled, a 
 
 Default: `false`
 
+Used when:
+
+* `DeltaLog` is requested to [assertRemovable](DeltaLog.md#assertRemovable) (that in turn uses `DeltaErrors` utility to [modifyAppendOnlyTableException](DeltaErrors.md#modifyAppendOnlyTableException))
+* `Protocol` utility is used to [requiredMinimumProtocol](Protocol.md#requiredMinimumProtocol)
+
 ### <span id="autoOptimize"><span id="AUTO_OPTIMIZE"> autoOptimize
 
 Whether this delta table will automagically optimize the layout of files during writes.
