@@ -110,6 +110,7 @@ nav:
     - Time Travel:
       - Time Travel: time-travel.md
       - DeltaTimeTravelSpec: DeltaTimeTravelSpec.md
+    - ActiveOptimisticTransactionRule: ActiveOptimisticTransactionRule.md
     - DeltaTable: DeltaTable.md
     - Configuration Properties: DeltaSQLConf.md
     - Transaction Log (DeltaLog):

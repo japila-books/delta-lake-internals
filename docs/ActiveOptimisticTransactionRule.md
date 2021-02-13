@@ -1,0 +1,3 @@
+# ActiveOptimisticTransactionRule
+
+`ActiveOptimisticTransactionRule` is...FIXME

@@ -1,62 +1,71 @@
 # TransactionalWrite
 
-*TransactionalWrite* is an <<contract, abstraction>> of <<implementations, optimistic transactional writers>> that can <<writeFiles, write a structured query out>> to a <<deltaLog, Delta table>>.
+`TransactionalWrite` is an [abstraction](#contract) of [optimistic transactional writers](#implementations) that can [write a structured query out](#writeFiles) to a [Delta table](#deltaLog).
 
-== [[contract]] Contract
+## Contract
 
-=== [[deltaLog]] deltaLog
+### <span id="deltaLog"> DeltaLog
 
-[source,scala]
-----
+```scala
 deltaLog: DeltaLog
-----
+```
 
-DeltaLog.md[] (of a delta table) that this transaction is changing
+[DeltaLog](DeltaLog.md) (of a delta table) that this transaction is changing
 
 Used when:
 
-* `OptimisticTransactionImpl` is requested to <<OptimisticTransactionImpl.md#prepareCommit, prepare a commit>>, <<OptimisticTransactionImpl.md#doCommit, doCommit>> (after <<DeltaLog.md#lockInterruptibly, acquiring an interruptible lock on the log>>), <<OptimisticTransactionImpl.md#checkAndRetry, checkAndRetry>>, and <<OptimisticTransactionImpl.md#postCommit, perform post-commit operations>> (and execute <<Checkpoints.md#checkpoint, delta log checkpoint>>)
+* [ActiveOptimisticTransactionRule](ActiveOptimisticTransactionRule.md) logical rule is executed
+* `OptimisticTransactionImpl` is requested to [prepare a commit](OptimisticTransactionImpl.md#prepareCommit), [doCommit](OptimisticTransactionImpl.md#doCommit), [checkAndRetry](OptimisticTransactionImpl.md#checkAndRetry), and [perform post-commit operations](OptimisticTransactionImpl.md#postCommit) (and execute [delta log checkpoint](Checkpoints.md#checkpoint))
+* [ConvertToDeltaCommand](commands/ConvertToDeltaCommand.md) is executed
+* `DeltaCommand` is requested to [buildBaseRelation](commands/DeltaCommand.md#buildBaseRelation) and [commitLarge](commands/DeltaCommand.md#commitLarge)
+* [MergeIntoCommand](commands/MergeIntoCommand.md) is executed
+* `TransactionalWrite` is requested to [write a structured query out to a delta table](#writeFiles)
+* [GenerateSymlinkManifest](GenerateSymlinkManifest.md) post-commit hook is executed
+* `ImplicitMetadataOperation` is requested to [updateMetadata](ImplicitMetadataOperation.md#updateMetadata)
+* `DeltaSink` is requested to [addBatch](DeltaSink.md#addBatch)
 
-* <<ConvertToDeltaCommand.md#, ConvertToDeltaCommand>> and <<MergeIntoCommand.md#, MergeIntoCommand>> are executed
+### <span id="metadata"> Metadata
 
-* `DeltaCommand` is requested to <<DeltaCommand.md#buildBaseRelation, buildBaseRelation>>
-
-* `DeltaLog` is requested to <<DeltaLog.md#createDataFrame, createDataFrame>>
-
-* TransactionalWrite is requested to <<writeFiles, write a structured query out to a delta table>>
-
-=== [[metadata]] metadata
-
-[source, scala]
-----
+```scala
 metadata: Metadata
-----
+```
 
-Metadata.md[] (of the <<deltaLog, delta table>>) that this transaction is changing
+[Metadata](Metadata.md) (of the [delta table](#deltaLog)) that this transaction is changing
 
-=== [[protocol]] protocol
+### <span id="protocol"> Protocol
 
-[source, scala]
-----
+```scala
 protocol: Protocol
-----
+```
 
-Protocol.md[] (of the <<deltaLog, delta table>>) that this transaction is changing
+[Protocol](Protocol.md) (of the [delta table](#deltaLog)) that this transaction is changing
 
-Used when AlterTableSetPropertiesDeltaCommand.md[] is executed (to DeltaConfigs.md#verifyProtocolVersionRequirements[verifyProtocolVersionRequirements])
+Used when:
 
-=== [[snapshot]] snapshot
+* `OptimisticTransactionImpl` is requested to [updateMetadata](OptimisticTransactionImpl.md#updateMetadata), [verifyNewMetadata](OptimisticTransactionImpl.md#verifyNewMetadata) and [prepareCommit](OptimisticTransactionImpl.md#prepareCommit)
+* [ConvertToDeltaCommand](commands/ConvertToDeltaCommand.md) is executed
 
-[source, scala]
-----
+### <span id="snapshot"> Snapshot
+
+```scala
 snapshot: Snapshot
-----
+```
 
-Snapshot.md[] (of the <<deltaLog, delta table>>) that this transaction is <<OptimisticTransactionImpl.md#readVersion, reading at>>
+[Snapshot](Snapshot.md) (of the [delta table](#deltaLog)) that this transaction is [reading at](OptimisticTransactionImpl.md#readVersion)
 
-== [[implementations]][[self]] Implementations
+## Implementations
 
-OptimisticTransaction.md[] is the default and only known TransactionalWrite in Delta Lake (indirectly as a OptimisticTransactionImpl.md[]).
+* [OptimisticTransaction](OptimisticTransaction.md)
+
+## <span id="hasWritten"> hasWritten Flag
+
+```scala
+hasWritten: Boolean = false
+```
+
+`TransactionalWrite` uses `hasWritten` internal registry to prevent `OptimisticTransactionImpl` from [updating metadata](OptimisticTransactionImpl.md#updateMetadata) after [having written out files](#writeFiles).
+
+`hasWritten` is initially `false` and changes to `true` after [having written out files](#writeFiles).
 
 ## <span id="writeFiles"> Writing Data Out (Result Of Structured Query)
 
@@ -77,97 +86,81 @@ writeFiles(
 
 `writeFiles` creates a [DeltaInvariantCheckerExec](DeltaInvariantCheckerExec.md) and a [DelayedCommitProtocol](DelayedCommitProtocol.md) to write out files to the [data path](DeltaLog.md#dataPath) (of the [DeltaLog](#deltaLog)).
 
-!!! note
+??? tip "Learn more"
     `writeFiles` uses Spark SQL's `FileFormatWriter` utility to write out a result of a streaming query.
 
-    Read up on [FileFormatWriter](https://jaceklaskowski.github.io/mastering-spark-sql-book/spark-sql-FileFormatWriter/) in [The Internals of Spark SQL](https://jaceklaskowski.github.io/mastering-spark-sql-book) online book.
+    Learn about [FileFormatWriter]({{ book.spark_sql }}/FileFormatWriter) in [The Internals of Spark SQL]({{ book.spark_sql }}) online book.
 
 `writeFiles` is executed within `SQLExecution.withNewExecutionId`.
 
-!!! note
+??? tip "Learn more"
     `writeFiles` can be tracked using web UI or `SQLAppStatusListener` (using `SparkListenerSQLExecutionStart` and `SparkListenerSQLExecutionEnd` events).
+
+    Learn about [SQLAppStatusListener]({{ book.spark_sql }}/SQLAppStatusListener) in [The Internals of Spark SQL]({{ book.spark_sql }}) online book.
 
 In the end, `writeFiles` returns the [addedStatuses](DelayedCommitProtocol.md#addedStatuses) of the `DelayedCommitProtocol` committer.
 
 Internally, `writeFiles` turns the [hasWritten](#hasWritten) flag on (`true`).
 
-NOTE: After `writeFiles`, no [metadata updates](OptimisticTransactionImpl.md#updateMetadata-AssertionError-hasWritten) in the transaction are permitted.
+!!! note
+    After `writeFiles`, no [metadata updates](OptimisticTransactionImpl.md#updateMetadata-AssertionError-hasWritten) in the transaction are permitted.
 
 `writeFiles` [normalize](#normalizeData) the given `data` dataset (based on the [partitionColumns](Metadata.md#partitionColumns) of the [Metadata](OptimisticTransactionImpl.md#metadata)).
 
 `writeFiles` [getPartitioningColumns](#getPartitioningColumns) based on the [partitionSchema](Metadata.md#partitionSchema) of the [Metadata](OptimisticTransactionImpl.md#metadata).
 
-<span id="writeFiles-committer">
-writeFiles [creates a DelayedCommitProtocol committer](#getCommitter) for the [data path](DeltaLog.md#dataPath) of the [DeltaLog](#deltaLog).
+### <span id="writeFiles-committer"> DelayedCommitProtocol Committer
+
+`writeFiles` [creates a DelayedCommitProtocol committer](#getCommitter) for the [data path](DeltaLog.md#dataPath) of the [DeltaLog](#deltaLog).
 
 `writeFiles` [gets the invariants](Invariants.md#getFromSchema) from the [schema](Metadata.md#schema) of the [Metadata](OptimisticTransactionImpl.md#metadata).
 
-<span id="writeFiles-DeltaInvariantCheckerExec"><span id="writeFiles-FileFormatWriter">
+### <span id="writeFiles-DeltaInvariantCheckerExec"><span id="writeFiles-FileFormatWriter"> DeltaInvariantCheckerExec
+
 `writeFiles` requests a new Execution ID (that is used to track all Spark jobs of `FileFormatWriter.write` in Spark SQL) with a physical query plan of a new [DeltaInvariantCheckerExec](DeltaInvariantCheckerExec.md) unary physical operator (with the executed plan of the normalized query execution as the child operator).
+
+### <span id="getCommitter"> Creating Committer
+
+```scala
+getCommitter(
+  outputPath: Path): DelayedCommitProtocol
+```
+
+`getCommitter` creates a new [DelayedCommitProtocol](DelayedCommitProtocol.md) with the **delta** job ID and the given `outputPath` (and no random prefix).
+
+### <span id="getPartitioningColumns"> getPartitioningColumns
+
+```scala
+getPartitioningColumns(
+  partitionSchema: StructType,
+  output: Seq[Attribute],
+  colsDropped: Boolean): Seq[Attribute]
+```
+
+`getPartitioningColumns`...FIXME
+
+### <span id="normalizeData"> normalizeData
+
+```scala
+normalizeData(
+  data: Dataset[_],
+  partitionCols: Seq[String]): (QueryExecution, Seq[Attribute])
+```
+
+`normalizeData`...FIXME
+
+### <span id="makeOutputNullable"> makeOutputNullable
+
+```scala
+makeOutputNullable(
+  output: Seq[Attribute]): Seq[Attribute]
+```
+
+`makeOutputNullable`...FIXME
+
+### <span id="writeFiles-usage"> Usage
 
 `writeFiles` is used when:
 
 * [DeleteCommand](commands/DeleteCommand.md), [MergeIntoCommand](commands/MergeIntoCommand.md), [UpdateCommand](commands/UpdateCommand.md), and [WriteIntoDelta](commands/WriteIntoDelta.md) commands are executed
 * `DeltaSink` is requested to [add a streaming micro-batch](DeltaSink.md#addBatch)
-
-== [[getCommitter]] Creating Committer
-
-[source, scala]
-----
-getCommitter(
-  outputPath: Path): DelayedCommitProtocol
-----
-
-getCommitter creates a new <<DelayedCommitProtocol.md#, DelayedCommitProtocol>> with the *delta* job ID and the given `outputPath` (and no random prefix).
-
-getCommitter is used when TransactionalWrite is requested to <<writeFiles, write out a streaming query>>.
-
-== [[makeOutputNullable]] makeOutputNullable Method
-
-[source, scala]
-----
-makeOutputNullable(
-  output: Seq[Attribute]): Seq[Attribute]
-----
-
-makeOutputNullable...FIXME
-
-makeOutputNullable is used when...FIXME
-
-== [[normalizeData]] normalizeData Method
-
-[source, scala]
-----
-normalizeData(
-  data: Dataset[_],
-  partitionCols: Seq[String]): (QueryExecution, Seq[Attribute])
-----
-
-normalizeData...FIXME
-
-normalizeData is used when...FIXME
-
-== [[getPartitioningColumns]] getPartitioningColumns Method
-
-[source, scala]
-----
-getPartitioningColumns(
-  partitionSchema: StructType,
-  output: Seq[Attribute],
-  colsDropped: Boolean): Seq[Attribute]
-----
-
-getPartitioningColumns...FIXME
-
-getPartitioningColumns is used when...FIXME
-
-== [[hasWritten]] hasWritten Flag
-
-[source, scala]
-----
-hasWritten: Boolean = false
-----
-
-TransactionalWrite uses the hasWritten internal registry to prevent `OptimisticTransactionImpl` from <<OptimisticTransactionImpl.md#updateMetadata, updating metadata>> after <<writeFiles, having written out any files>>.
-
-hasWritten is initially turned off (`false`). It can be turned on (`true`) when TransactionalWrite is requested to <<writeFiles, write files out>>.

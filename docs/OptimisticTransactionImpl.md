@@ -2,7 +2,7 @@
 
 `OptimisticTransactionImpl` is an [extension](#contract) of the [TransactionalWrite](TransactionalWrite.md) abstraction for [optimistic transactions](#implementations) that can modify a [delta table](#deltaLog) (at a given [version](#snapshot)) and can be [committed](#commit) eventually.
 
-In other words, `OptimisticTransactionImpl` is a set of [actions](Action.md) as part of an [Operation](Operation.md) that changes the state of a [delta table](#deltaLog).
+In other words, `OptimisticTransactionImpl` is a set of [actions](Action.md) as part of an [Operation](Operation.md) that changes the state of a [delta table](#deltaLog) transactionally.
 
 ## Contract
 
