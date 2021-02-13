@@ -126,3 +126,21 @@ isPathIdentifier(
 `isPathIdentifier`...FIXME
 
 `isPathIdentifier` is used when...FIXME
+
+## <span id="commitLarge"> commitLarge
+
+```scala
+commitLarge(
+  spark: SparkSession,
+  txn: OptimisticTransaction,
+  actions: Iterator[Action],
+  op: DeltaOperations.Operation,
+  context: Map[String, String],
+  metrics: Map[String, String]): Long
+```
+
+`commitLarge`...FIXME
+
+`commitLarge` is used when:
+
+* [ConvertToDeltaCommand](ConvertToDeltaCommand.md) command is executed

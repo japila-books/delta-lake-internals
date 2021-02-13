@@ -25,6 +25,7 @@ theme:
     - navigation.tabs
     - navigation.instant
     - search.suggest
+    - navigation.indexes
   palette:
     - scheme: default
       primary: indigo
@@ -120,17 +121,17 @@ nav:
       - MetadataCleanup: MetadataCleanup.md
       - LogStoreProvider: LogStoreProvider.md
       - VerifyChecksum: VerifyChecksum.md
-    - State Snapshot:
-      - Snapshot: Snapshot.md
-      - InMemoryLogReplay: InMemoryLogReplay.md
-      - PartitionFiltering: PartitionFiltering.md
-      - DeltaFileFormat: DeltaFileFormat.md
-    - OptimisticTransaction:
+    - Optimistic Transactions:
       - OptimisticTransaction: OptimisticTransaction.md
       - TransactionalWrite: TransactionalWrite.md
       - DelayedCommitProtocol: DelayedCommitProtocol.md
       - Post-Commit Hooks: PostCommitHook.md
       - OptimisticTransactionImpl: OptimisticTransactionImpl.md
+    - State Snapshot:
+      - Snapshot: Snapshot.md
+      - InMemoryLogReplay: InMemoryLogReplay.md
+      - PartitionFiltering: PartitionFiltering.md
+      - DeltaFileFormat: DeltaFileFormat.md
     - LogStore:
       - LogStore: LogStore.md
       - HDFSLogStore: HDFSLogStore.md
@@ -185,11 +186,14 @@ nav:
     - DeltaSqlParser: sql/DeltaSqlParser.md
     - DeltaSqlAstBuilder: sql/DeltaSqlAstBuilder.md
   - Commands:
+    - commands/index.md
     - DeltaCommand: commands/DeltaCommand.md
     - Alter Table:
       - AlterDeltaTableCommand: commands/AlterDeltaTableCommand.md
       - AlterTableAddColumnsDeltaCommand: commands/AlterTableAddColumnsDeltaCommand.md
+      - AlterTableAddConstraintDeltaCommand: commands/AlterTableAddConstraintDeltaCommand.md
       - AlterTableChangeColumnDeltaCommand: commands/AlterTableChangeColumnDeltaCommand.md
+      - AlterTableDropConstraintDeltaCommand: commands/AlterTableDropConstraintDeltaCommand.md
       - AlterTableReplaceColumnsDeltaCommand: commands/AlterTableReplaceColumnsDeltaCommand.md
       - AlterTableSetLocationDeltaCommand: commands/AlterTableSetLocationDeltaCommand.md
       - AlterTableSetPropertiesDeltaCommand: commands/AlterTableSetPropertiesDeltaCommand.md
@@ -219,7 +223,7 @@ nav:
       - VacuumTableCommand: commands/VacuumTableCommand.md
     - WriteIntoDelta: commands/WriteIntoDelta.md
   - Demos:
-    - Welcome: demo/index.md
+    - demo/index.md
     - Merge Operation: demo/merge-operation.md
     - Converting Parquet Dataset Into Delta Format: demo/Converting-Parquet-Dataset-Into-Delta-Format.md
     - Stream Processing of Delta Table: demo/stream-processing-of-delta-table.md
