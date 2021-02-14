@@ -1,6 +1,6 @@
 # TahoeFileIndex
 
-`TahoeFileIndex` is an [extension](#contract) of the `FileIndex` abstraction ([Spark SQL](https://jaceklaskowski.github.io/mastering-spark-sql-book/FileIndex/)) for [file indices](#implementations) of delta tables that can [list data files](#listFiles) to scan (based on [partition and data filters](#matchingFiles)).
+`TahoeFileIndex` is an [extension](#contract) of the `FileIndex` abstraction ([Spark SQL]({{ book.spark_sql }}/FileIndex/)) for [file indices](#implementations) of delta tables that can [list data files](#listFiles) to scan (based on [partition and data filters](#matchingFiles)).
 
 The aim of `TahoeFileIndex` (and `FileIndex` in general) is to reduce usage of very expensive disk access for file-related information using Hadoop [FileSystem]({{ hadoop.api }}/org/apache/hadoop/fs/FileSystem.html) API.
 
@@ -20,6 +20,7 @@ Used for [listing data files](#listFiles)
 
 ## Implementations
 
+* [PinnedTahoeFileIndex](PinnedTahoeFileIndex.md)
 * [TahoeBatchFileIndex](TahoeBatchFileIndex.md)
 * [TahoeLogFileIndex](TahoeLogFileIndex.md)
 

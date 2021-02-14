@@ -6,14 +6,16 @@
 
 `TahoeLogFileIndex` takes the following to be created:
 
-* <span id="spark"> `SparkSession`
+* <span id="spark"> `SparkSession` ([Spark SQL]({{ book.spark_sql }}/SparkSession))
 * <span id="deltaLog"> [DeltaLog](DeltaLog.md)
-* <span id="path"> Data directory of the [Delta table](#deltaLog) (as a Hadoop [Path](https://hadoop.apache.org/docs/r{{ hadoop.version }}/api/org/apache/hadoop/fs/Path.html))
-* <span id="schemaAtAnalysis"> Schema at analysis (`StructType`)
-* <span id="partitionFilters"> Catalyst Expressions for the partition filters (default: `empty`)
-* <span id="versionToUse"> Snapshot version (default: `undefined`) (`Option[Long]`)
+* <span id="path"> Data directory of the [Delta table](#deltaLog) (as a Hadoop [Path]({{ hadoop.api }}/org/apache/hadoop/fs/Path.html))
+* <span id="snapshotAtAnalysis"> [Snapshot](Snapshot.md) at analysis
+* <span id="partitionFilters"> Partition Filters (as Catalyst expressions; default: empty)
+* <span id="isTimeTravelQuery"> `isTimeTravelQuery` flag (default: `false`)
 
-`TahoeLogFileIndex` is created when `DeltaLog` is requested for an [Insertable HadoopFsRelation](DeltaLog.md#createRelation).
+`TahoeLogFileIndex` is created when:
+
+* `DeltaLog` is requested for an [Insertable HadoopFsRelation](DeltaLog.md#createRelation)
 
 ## Demo
 

@@ -110,7 +110,6 @@ nav:
     - Time Travel:
       - Time Travel: time-travel.md
       - DeltaTimeTravelSpec: DeltaTimeTravelSpec.md
-    - ActiveOptimisticTransactionRule: ActiveOptimisticTransactionRule.md
     - DeltaTable: DeltaTable.md
     - Configuration Properties: DeltaSQLConf.md
     - Transaction Log (DeltaLog):
@@ -175,10 +174,12 @@ nav:
       - PreprocessTableDelete: PreprocessTableDelete.md
       - PreprocessTableMerge: PreprocessTableMerge.md
       - PreprocessTableUpdate: PreprocessTableUpdate.md
+      - ActiveOptimisticTransactionRule: ActiveOptimisticTransactionRule.md
     - SQLMetricsReporting: SQLMetricsReporting.md
     - DeltaConvert: DeltaConvert.md
     - File Indices:
       - TahoeFileIndex: TahoeFileIndex.md
+      - PinnedTahoeFileIndex: PinnedTahoeFileIndex.md
       - TahoeBatchFileIndex: TahoeBatchFileIndex.md
       - TahoeLogFileIndex: TahoeLogFileIndex.md
       - DeltaLogFileIndex: DeltaLogFileIndex.md

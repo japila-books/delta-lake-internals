@@ -1,6 +1,6 @@
 # DeltaSparkSessionExtension
 
-**DeltaSparkSessionExtension** is used to register (_inject_) the following extensions:
+**DeltaSparkSessionExtension** is used to register (_inject_) the following extensions to a `SparkSession`:
 
 * [Delta SQL](sql/index.md) support (using [DeltaSqlParser](sql/DeltaSqlParser.md))
 * [DeltaAnalysis](DeltaAnalysis.md) logical resolution rule
@@ -8,5 +8,6 @@
 * [PreprocessTableUpdate](PreprocessTableUpdate.md) logical resolution rule
 * [PreprocessTableMerge](PreprocessTableMerge.md) logical resolution rule
 * [PreprocessTableDelete](PreprocessTableDelete.md) logical resolution rule
+* [ActiveOptimisticTransactionRule](ActiveOptimisticTransactionRule.md) logical optimization rule
 
 `DeltaSparkSessionExtension` is [registered](installation.md) using **spark.sql.extensions** configuration property (while creating a SparkSession in a Spark application).

@@ -1,3 +1,8 @@
+---
+hide:
+  - toc
+---
+
 # Overview
 
 [Delta Lake](https://delta.io/) is an open-source storage management system (storage layer) that brings ACID transactions and time travel to [Apache Spark](https://spark.apache.org/) and big data workloads.
@@ -38,3 +43,9 @@ Delta Lake supports reading and writing in streaming queries:
 * [Stream writes](DeltaDataSource.md#StreamSinkProvider) (as a `Sink`)
 
 Delta Lake uses [LogStore](DeltaLog.md#store) abstraction to read and write physical log files and checkpoints (using [Hadoop FileSystem API](https://hadoop.apache.org/docs/current2/hadoop-project-dist/hadoop-common/filesystem/index.html)).
+
+## Delta Tables in Logical Query Plans
+
+Delta Table defines `DeltaTable` Scala extractor to find delta tables in a logical query plan. The extractor finds `LogicalRelation`s ([Spark SQL]({{ book.spark_sql }}/logical-operators/LogicalRelation)) with `HadoopFsRelation` ([Spark SQL]({{ book.spark_sql }}/HadoopFsRelation)) and [TahoeFileIndex](TahoeFileIndex.md).
+
+Put simply, delta tables are `LogicalRelation`s with `HadoopFsRelation` with [TahoeFileIndex](TahoeFileIndex.md) in logical query plans.
