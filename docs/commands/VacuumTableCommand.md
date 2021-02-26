@@ -1,46 +1,47 @@
-= VacuumTableCommand
+# VacuumTableCommand
 
-`VacuumTableCommand` is a logical command (`RunnableCommand`) for delta-sql.md#VACUUM[VACUUM] SQL command.
+`VacuumTableCommand` is a runnable command ([Spark SQL]({{ book.spark_sql }}/logical-operators/RunnableCommand)) for [VACUUM](vacuum.md) SQL command.
 
-TIP: Read up on https://jaceklaskowski.gitbooks.io/mastering-spark-sql/spark-sql-LogicalPlan-RunnableCommand.html[RunnableCommand] in https://bit.ly/spark-sql-internals[The Internals of Spark SQL] online book.
-
-`VacuumTableCommand` is <<creating-instance, created>> exclusively when `DeltaSqlAstBuilder` is requested to <<DeltaSqlAstBuilder.md#visitVacuumTable, parse VACUUM SQL command>>.
-
-`VacuumTableCommand` <<run, requires>> that either the <<table, table>> or the <<path, path>> is defined and it is the root directory of a delta table. Partition directories are not supported.
-
-[[output]]
-The output of `VacuumTableCommand` is a single `path` column (of type `StringType`).
-
-== [[creating-instance]] Creating VacuumTableCommand Instance
+## Creating Instance
 
 `VacuumTableCommand` takes the following to be created:
 
-* [[path]] Path (optional)
-* [[table]] `TableIdentifier` (optional)
-* [[horizonHours]] Optional `horizonHours`
-* [[dryRun]] `dryRun` flag
+* <span id="path"> Path
+* <span id="table"> `TableIdentifier`
+* <span id="horizonHours"> Optional Horizon Hours
+* <span id="dryRun"> `dryRun` flag
 
-== [[run]] Running Command -- `run` Method
+`VacuumTableCommand` [requires](#run) that either the [table](#table) or the [path](#path) is defined and it is the root directory of a delta table. Partition directories are not supported.
 
-[source, scala]
-----
-run(sparkSession: SparkSession): Seq[Row]
-----
+`VacuumTableCommand` is created when:
 
-NOTE: `run` is part of the `RunnableCommand` contract to...FIXME.
+* `DeltaSqlAstBuilder` is requested to [parse VACUUM SQL command](../sql/DeltaSqlAstBuilder.md#visitVacuumTable)
 
-`run` takes the path to vacuum (i.e. either the <<table, table>> or the <<path, path>>) and <<DeltaTableUtils.md#findDeltaTableRoot, finds the root directory of the delta table>>.
+## <span id="run"> Executing Command
 
-`run` <<DeltaLog.md#forTable, creates a DeltaLog instance>> for the delta table and executes <<VacuumCommand.md#gc, VacuumCommand.gc>> utility (passing in the `DeltaLog` instance, the <<dryRun, dryRun>> and the <<horizonHours, horizonHours>> options).
+```scala
+run(
+  sparkSession: SparkSession): Seq[Row]
+```
+
+`run` is part of the `RunnableCommand` ([Spark SQL]({{ book.spark_sql }}/logical-operators/RunnableCommand#run)) abstraction.
+
+`run` takes the path to vacuum (either the [table](#table) or the [path](#path)) and [finds the root directory of the delta table](../DeltaTableUtils.md#findDeltaTableRoot).
+
+`run` creates a [DeltaLog](../DeltaLog.md#forTable) instance for the delta table and [gc](VacuumCommand.md#gc) it (passing in the `DeltaLog` instance, the [dryRun](#dryRun) and the [horizonHours](#horizonHours) options).
 
 `run` throws an `AnalysisException` when executed for a non-root directory of a delta table:
 
-```
+```text
 Please provide the base path ([baseDeltaPath]) when Vacuuming Delta tables. Vacuuming specific partitions is currently not supported.
 ```
 
 `run` throws an `AnalysisException` when executed for a `DeltaLog` with the snapshot version being `-1`:
 
-```
+```text
 [deltaTableIdentifier] is not a Delta table. VACUUM is only supported for Delta tables.
 ```
+
+## <span id="output"> output
+
+The output of `VacuumTableCommand` is a single `path` column (of type `StringType`).
