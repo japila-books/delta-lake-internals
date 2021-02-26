@@ -7,13 +7,11 @@ site_url: https://books.japila.pl/delta-lake-internals/
 site_author: Jacek Laskowski
 site_description: Demystifying inner-workings of Delta Lake
 
-# https://squidfunk.github.io/mkdocs-material/setup/adding-a-git-repository/
 repo_name: delta-lake-internals
 repo_url: https://github.com/japila-books/delta-lake-internals
 edit_uri: edit/main/docs/
 
-copyright: |
-  Copyright &copy; 2021 Jacek Laskowski
+copyright: Copyright &copy; 2021 Jacek Laskowski
 
 theme:
   name: material
@@ -25,20 +23,22 @@ theme:
     - navigation.tabs
     - navigation.instant
     - search.suggest
+    - search.share
+    - search.highlight
     - navigation.indexes
   palette:
     - scheme: default
       primary: indigo
       accent: indigo
       toggle:
-        icon: material/weather-sunny
-        name: Switch to light mode
+        icon: material/toggle-switch-off-outline
+        name: Switch to dark mode
     - scheme: slate
       primary: blue
       accent: blue
       toggle:
-        icon: material/weather-night
-        name: Switch to dark mode
+        icon: material/toggle-switch
+        name: Switch to light mode
 
 markdown_extensions:
   - admonition
@@ -102,8 +102,7 @@ google_analytics:
   - auto
 
 nav:
-  - Home:
-    - Welcome: index.md
+  - Home: index.md
   - Internals:
     - Overview: overview.md
     - Installation: installation.md

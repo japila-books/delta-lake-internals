@@ -20,4 +20,4 @@ I'm very excited to have you here and hope you will enjoy exploring the internal
 
 Expect text and code snippets from a variety of public sources. Attribution follows.
 
-Now, let me introduce you to [Delta Lake](overview.md) 🔥
+Now, let's deep dive into [Delta Lake](overview.md) 🔥
