@@ -7,7 +7,21 @@ The SQL statements support `table` of the format `` delta.`path` `` (with backti
 The SQL statements can also refer to a table registered in a metastore.
 
 !!! note
-    SQL grammar is described using ANTLR in [DeltaSqlBase.g4](https://github.com/delta-io/delta/blob/v{{ delta.version }}/src/main/antlr4/io/delta/sql/parser/DeltaSqlBase.g4).
+    SQL grammar is described using ANTLR in [DeltaSqlBase.g4]({{ delta.github }}/src/main/antlr4/io/delta/sql/parser/DeltaSqlBase.g4).
+
+## <span id="ALTER-TABLE-ADD-CONSTRAINT"> ALTER TABLE ADD CONSTRAINT
+
+```text
+ALTER TABLE table
+ADD CONSTRAINT name constraint
+```
+
+## <span id="ALTER-TABLE-DROP-CONSTRAINT"> ALTER TABLE DROP CONSTRAINT
+
+```text
+ALTER TABLE table
+DROP CONSTRAINT (IF EXISTS)? name
+```
 
 ## <span id="CONVERT-TO-DELTA"> CONVERT TO DELTA
 

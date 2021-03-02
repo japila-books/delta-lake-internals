@@ -1,24 +1,47 @@
 # DeltaAnalysis Logical Resolution Rule
 
-*DeltaAnalysis* is a logical resolution rule (Spark SQL's `Rule[LogicalPlan]`) for INSERT INTO and INSERT OVERWRITE SQL commands (and DeleteFromTable, UpdateTable, MergeIntoTable).
+`DeltaAnalysis` is a logical resolution rule ([Spark SQL]({{ book.spark_sql }}/catalyst/Rule/)).
 
-== [[creating-instance]] Creating Instance
+## Creating Instance
 
-DeltaAnalysis takes the following to be created:
+`DeltaAnalysis` takes the following to be created:
 
-* [[session]] SparkSession
-* [[conf]] SQLConf
+* <span id="session"> `SparkSession`
+* <span id="conf"> `SQLConf`
 
-DeltaAnalysis is created when DeltaSparkSessionExtension is requested to DeltaSparkSessionExtension.md#apply[register Delta SQL support].
+`DeltaAnalysis` is created when:
 
-== [[apply]] Executing Rule
+* `DeltaSparkSessionExtension` is requested to [inject Delta extensions](DeltaSparkSessionExtension.md)
 
-[source, scala]
-----
+## Executing Rule
+
+```scala
 apply(
   plan: LogicalPlan): LogicalPlan
-----
+```
 
-apply...FIXME
+`apply` is part of the `Rule` ([Spark SQL]({{ book.spark_sql }}/catalyst/Rule/#apply)) abstraction.
 
-apply is part of the Rule (Spark SQL) abstraction.
+`apply` resolves logical operators.
+
+### <span id="AlterTableAddConstraintStatement"> AlterTableAddConstraintStatement
+
+`apply` creates an `AlterTable` ([Spark SQL]({{ book.spark_sql }}/logical-operators/AlterTable)) logical command with an `AddConstraint` table change.
+
+### <span id="AlterTableDropConstraintStatement"> AlterTableDropConstraintStatement
+
+`apply` creates an `AlterTable` ([Spark SQL]({{ book.spark_sql }}/logical-operators/AlterTable)) logical command with an `DropConstraint` table change.
+
+### <span id="AppendDelta"> AppendDelta
+
+### <span id="DataSourceV2Relation"> DataSourceV2Relation
+
+### <span id="DeleteFromTable"> DeleteFromTable
+
+### <span id="DeltaTable"> DeltaTable
+
+### <span id="MergeIntoTable"> MergeIntoTable
+
+### <span id="OverwriteDelta"> OverwriteDelta
+
+### <span id="UpdateTable"> UpdateTable

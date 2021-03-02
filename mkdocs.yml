@@ -84,6 +84,7 @@ extra:
       link: https://linkedin.com/in/jaceklaskowski
   delta:
     version: 0.8.0
+    github: https://github.com/delta-io/delta/blob/v0.8.0
   spark:
     version: 3.0.1
   scala:
@@ -235,6 +236,8 @@ nav:
     - Schema Evolution: demo/schema-evolution.md
     - User Metadata for Labelling Commits: demo/user-metadata-for-labelling-commits.md
   - Misc:
+    - AlterTableAddConstraintStatement: AlterTableAddConstraintStatement.md
+    - AlterTableDropConstraintStatement: AlterTableDropConstraintStatement.md
     - DeltaErrors: DeltaErrors.md
     - DeltaFileOperations: DeltaFileOperations.md
     - DeltaInvariantCheckerExec: DeltaInvariantCheckerExec.md
