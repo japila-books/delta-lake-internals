@@ -12,6 +12,14 @@
 import io.delta.tables.DeltaTable
 ```
 
+## <span id="deltaLog"> DeltaLog
+
+```scala
+deltaLog: DeltaLog
+```
+
+`deltaLog` is a [DeltaLog](DeltaTableV2.md#deltaLog) of the [DeltaTableV2](#table).
+
 ## <span id="utilities"> Utilities (Static Methods)
 
 ### <span id="convertToDelta"> convertToDelta
@@ -121,8 +129,8 @@ Internally, `isDeltaTable` simply relays to [DeltaTableUtils.isDeltaTable](Delta
 
 `DeltaTable` takes the following to be created:
 
-* <span id="df"> Table Data (`Dataset[Row]`)
-* <span id="deltaLog"> [DeltaLog](DeltaLog.md)
+* <span id="_df"> Table Data (`Dataset[Row]`)
+* <span id="table"> [DeltaTableV2](DeltaTableV2.md)
 
 `DeltaTable` is created using [DeltaTable.forPath](#forPath) or [DeltaTable.forName](#forName) utilities.
 
@@ -135,7 +143,7 @@ alias(
   alias: String): DeltaTable
 ```
 
-Applies an alias to the DeltaTable (equivalent to [as](#as))
+Applies an alias to the `DeltaTable` (equivalent to [as](#as))
 
 ### <span id="as"> as
 
@@ -144,7 +152,7 @@ as(
   alias: String): DeltaTable
 ```
 
-Applies an alias to the DeltaTable
+Applies an alias to the `DeltaTable`
 
 ### <span id="delete"> delete
 
@@ -256,27 +264,3 @@ vacuum(
 Deletes files and directories (recursively) in the DeltaTable that are not needed by the table (and maintains older versions up to the given retention threshold).
 
 `vacuum` [executes vacuum command](DeltaTableOperations.md#executeVacuum).
-
-## Demo
-
-```text
-import org.apache.spark.sql.SparkSession
-assert(spark.isInstanceOf[SparkSession])
-
-val path = "/tmp/delta/t1"
-
-// random data to create a delta table from scratch
-val data = spark.range(5)
-data.write.format("delta").save(path)
-
-import io.delta.tables.DeltaTable
-val dt = DeltaTable.forPath(spark, path)
-
-val history = dt.history.select('version, 'timestamp, 'operation, 'operationParameters, 'isBlindAppend)
-scala> history.show(truncate = false)
-+-------+-------------------+---------+------------------------------------------+-------------+
-|version|timestamp          |operation|operationParameters                       |isBlindAppend|
-+-------+-------------------+---------+------------------------------------------+-------------+
-|0      |2019-12-23 22:24:40|WRITE    |[mode -> ErrorIfExists, partitionBy -> []]|true         |
-+-------+-------------------+---------+------------------------------------------+-------------+
-```
