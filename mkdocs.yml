@@ -157,6 +157,7 @@ nav:
     - Delta Data Source:
       - DeltaDataSource: DeltaDataSource.md
       - DeltaOptions: DeltaOptions.md
+      - DeltaOptionParser: DeltaOptionParser.md
       - DeltaWriteOptions: DeltaWriteOptions.md
       - DeltaReadOptions: DeltaReadOptions.md
       - DeltaWriteOptionsImpl: DeltaWriteOptionsImpl.md

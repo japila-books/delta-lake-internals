@@ -2,7 +2,7 @@
 
 `DeltaWriteOptions` is a type-safe abstraction of the write-related [DeltaOptions](DeltaOptions.md).
 
-`DeltaWriteOptions` is `DeltaWriteOptionsImpl` and `DeltaOptionParser`.
+`DeltaWriteOptions` is [DeltaWriteOptionsImpl](DeltaWriteOptionsImpl.md) and [DeltaOptionParser](DeltaOptionParser.md).
 
 ## <span id="replaceWhere"> replaceWhere
 

@@ -1,81 +1,75 @@
-= [[ImplicitMetadataOperation]] ImplicitMetadataOperation -- Operations Updating Metadata (Schema And Partitioning)
+# ImplicitMetadataOperation
 
-`ImplicitMetadataOperation` is an <<contract, abstraction>> of <<implementations, operations>> that can <<updateMetadata, update metadata>> of a delta table (while writing out a new data to a delta table).
+`ImplicitMetadataOperation` is an [abstraction](#contract) of [operations](#implementations) that can [update metadata](#updateMetadata) of a delta table (while writing out a new data).
 
-`ImplicitMetadataOperation` operations can update schema by <<canMergeSchema, merging>> and <<canOverwriteSchema, overwriting>> schema.
+`ImplicitMetadataOperation` operations can update schema by [merging](#canMergeSchema) and [overwriting](#canOverwriteSchema) schema.
 
-[[contract]]
-.ImplicitMetadataOperation Contract (Abstract Methods Only)
-[cols="30m,70",options="header",width="100%"]
-|===
-| Method
-| Description
+## Contract
 
-| canMergeSchema
-a| [[canMergeSchema]]
+### <span id="canMergeSchema"> canMergeSchema
 
-[source, scala]
-----
+```scala
 canMergeSchema: Boolean
-----
+```
 
-Used when `ImplicitMetadataOperation` is requested to <<updateMetadata, updateMetadata>>
+Used when:
 
-| canOverwriteSchema
-a| [[canOverwriteSchema]]
+* `MergeIntoCommand` command is [executed](commands/MergeIntoCommand.md#run)
+* `ImplicitMetadataOperation` is requested to [updateMetadata](#updateMetadata)
 
-[source, scala]
-----
+### <span id="canOverwriteSchema"> canOverwriteSchema
+
+```scala
 canOverwriteSchema: Boolean
-----
+```
 
-Used when `ImplicitMetadataOperation` is requested to <<updateMetadata, updateMetadata>>
+Used when:
 
-|===
+* `ImplicitMetadataOperation` is requested to [updateMetadata](#updateMetadata)
 
-[[implementations]]
-.ImplicitMetadataOperations
-[cols="30,70",options="header",width="100%"]
-|===
-| ImplicitMetadataOperation
-| Description
+## Implementations
 
-| <<WriteIntoDelta.md#, WriteIntoDelta>>
-| [[WriteIntoDelta]] Delta command for batch queries (Spark SQL)
-
-| <<DeltaSink.md#, DeltaSink>>
-| [[DeltaSink]] Streaming sink for streaming queries (Spark Structured Streaming)
-
-|===
+* [DeltaSink](DeltaSink.md)
+* [MergeIntoCommand](commands/MergeIntoCommand.md)
+* [WriteIntoDelta](commands/WriteIntoDelta.md)
 
 ## <span id="updateMetadata"> Updating Metadata
 
-```scala
-updateMetadata(
+``` { .scala .annotate }
+updateMetadata( // (1)
   txn: OptimisticTransaction,
   data: Dataset[_],
   partitionColumns: Seq[String],
   configuration: Map[String, String],
-  isOverwriteMode: Boolean): Unit
+  isOverwriteMode: Boolean,
+  rearrangeOnly: Boolean = false): Unit
+updateMetadata(
+  spark: SparkSession,
+  txn: OptimisticTransaction,
+  schema: StructType,
+  partitionColumns: Seq[String],
+  configuration: Map[String, String],
+  isOverwriteMode: Boolean,
+  rearrangeOnly: Boolean): Unit
 ```
+
+1. Uses the `SparkSession` and the schema of the given `Dataset` and assumes the `rearrangeOnly` to be off
 
 `updateMetadata`...FIXME
 
 `updateMetadata` is used when:
 
-* [WriteIntoDelta](commands/WriteIntoDelta.md) command is executed
+* `WriteIntoDelta` command is [executed](commands/WriteIntoDelta.md#run)
+* `MergeIntoCommand` command is [executed](commands/MergeIntoCommand.md#run)
 * `DeltaSink` is requested to [add a streaming micro-batch](DeltaSink.md#addBatch)
 
-== [[normalizePartitionColumns]] Normalize Partition Columns -- `normalizePartitionColumns` Internal Method
+### <span id="normalizePartitionColumns"> Normalizing Partition Columns
 
-[source, scala]
-----
+```scala
 normalizePartitionColumns(
   spark: SparkSession,
   partitionCols: Seq[String],
   schema: StructType): Seq[String]
-----
+```
 
 `normalizePartitionColumns`...FIXME
-
-NOTE: `normalizePartitionColumns` is used when `ImplicitMetadataOperation` is requested to <<updateMetadata, updateMetadata>>.

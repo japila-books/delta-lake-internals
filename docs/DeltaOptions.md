@@ -12,6 +12,12 @@
 
 ### <span id="DATA_CHANGE_OPTION"><span id="dataChange"> dataChange
 
+Whether to write new data to the table or just rearrange data that is already part of the table. This option declares that the data being written by this job does not change any data in the table and merely rearranges existing data. This makes sure streaming queries reading from this table will not see any new changes
+
+Used when:
+
+* `DeltaWriteOptionsImpl` is requested for [rearrangeOnly](DeltaWriteOptionsImpl.md#rearrangeOnly)
+
 ### <span id="EXCLUDE_REGEX_OPTION"><span id="excludeRegex"> excludeRegex
 
 ### <span id="IGNORE_CHANGES_OPTION"><span id="ignoreChanges"> ignoreChanges
@@ -54,6 +60,9 @@ Default: (undefined)
 ### <span id="queryName"> queryName
 
 ### <span id="REPLACE_WHERE_OPTION"><span id="replaceWhere"> replaceWhere
+
+!!! example "Demo"
+    Learn more in [Demo: replaceWhere](demo/replaceWhere.md).
 
 ### <span id="timestampAsOf"> timestampAsOf
 

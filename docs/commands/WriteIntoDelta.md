@@ -38,7 +38,7 @@ run(
 
 `run` requests the [DeltaLog](#deltaLog) to [start a new transaction](../DeltaLog.md#withNewTransaction).
 
-`run` [writes](#write) and requests the `OptimisticTransaction` to [commit](../OptimisticTransactionImpl.md#commit) with `DeltaOperations.Write` operation.
+`run` [writes](#write) and requests the `OptimisticTransaction` to [commit](../OptimisticTransactionImpl.md#commit) (with `DeltaOperations.Write` operation with the [SaveMode](#mode), [partition columns](#partitionColumns), [replaceWhere](../DeltaOptions.md#replaceWhere) and [userMetadata](../DeltaOptions.md#userMetadata)).
 
 ## <span id="write"> write
 
