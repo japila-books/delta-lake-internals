@@ -1,19 +1,21 @@
 # CreateDeltaTableCommand
 
-**CreateDeltaTableCommand** is a Spark SQL [RunnableCommand](https://jaceklaskowski.github.io/mastering-spark-sql-book/logical-operators/RunnableCommand/) (and executed eagerly on the driver for side-effects).
+`CreateDeltaTableCommand` is a `RunnableCommand` ([Spark SQL]({{ book.spark_sql }}/logical-operators/RunnableCommand/)).
 
 ## Creating Instance
 
 `CreateDeltaTableCommand` takes the following to be created:
 
-* <span id="table"> `CatalogTable` ([Spark SQL](https://jaceklaskowski.github.io/mastering-spark-sql-book/spark-sql-CatalogTable/))
+* <span id="table"> `CatalogTable` ([Spark SQL]({{ book.spark_sql }}/CatalogTable/))
 * <span id="existingTableOpt"> Existing `CatalogTable` (if available)
 * <span id="mode"> `SaveMode`
 * <span id="query"> Optional Data Query (`LogicalPlan`)
 * <span id="operation"> `CreationMode` (default: `TableCreationModes.Create`)
 * <span id="tableByPath"> `tableByPath` flag (default: `false`)
 
-`CreateDeltaTableCommand` is created when `DeltaCatalog` is requested to [create a Delta table](../DeltaCatalog.md#createDeltaTable).
+`CreateDeltaTableCommand` is created when:
+
+* `DeltaCatalog` is requested to [create a Delta table](../DeltaCatalog.md#createDeltaTable)
 
 ## <span id="run"> Executing Command
 
@@ -37,7 +39,7 @@ In the end, `run` [updateCatalog](#updateCatalog).
 
 `run` is part of the `RunnableCommand` abstraction.
 
-### <span id="updateCatalog"> Updating Catalog
+### <span id="updateCatalog"> updateCatalog
 
 ```scala
 updateCatalog(
@@ -46,3 +48,14 @@ updateCatalog(
 ```
 
 `updateCatalog` uses the given `SparkSession` to access `SessionCatalog` to `createTable` or `alterTable` when the [tableByPath](#tableByPath) flag is off. Otherwise, `updateCatalog` does nothing.
+
+### <span id="getOperation"> getOperation
+
+```scala
+getOperation(
+  metadata: Metadata,
+  isManagedTable: Boolean,
+  options: Option[DeltaOptions]): DeltaOperations.Operation
+```
+
+`getOperation`...FIXME

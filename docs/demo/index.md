@@ -8,6 +8,7 @@ hide:
 
 The following demos are available:
 
+- [replaceWhere](replaceWhere.md)
 - [Merge Operation](merge-operation.md)
 - [Converting Parquet Dataset Into Delta Format](Converting-Parquet-Dataset-Into-Delta-Format.md)
 - [Stream Processing of Delta Table](stream-processing-of-delta-table.md)

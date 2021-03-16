@@ -98,6 +98,7 @@ extra:
   book:
     title: Delta Lake
     spark_sql: https://jaceklaskowski.github.io/mastering-spark-sql-book
+    structured_streaming: https://jaceklaskowski.github.io/spark-structured-streaming-book
 
 google_analytics:
   - !!python/object/apply:os.getenv ["GOOGLE_ANALYTICS_KEY"]
@@ -158,6 +159,7 @@ nav:
       - DeltaOptions: DeltaOptions.md
       - DeltaWriteOptions: DeltaWriteOptions.md
       - DeltaReadOptions: DeltaReadOptions.md
+      - DeltaWriteOptionsImpl: DeltaWriteOptionsImpl.md
       - DeltaSource:
         - DeltaSource: DeltaSource.md
         - DeltaSourceOffset: DeltaSourceOffset.md
@@ -227,6 +229,7 @@ nav:
     - WriteIntoDelta: commands/WriteIntoDelta.md
   - Demos:
     - demo/index.md
+    - replaceWhere: demo/replaceWhere.md
     - Merge Operation: demo/merge-operation.md
     - Converting Parquet Dataset Into Delta Format: demo/Converting-Parquet-Dataset-Into-Delta-Format.md
     - Stream Processing of Delta Table: demo/stream-processing-of-delta-table.md

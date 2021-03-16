@@ -55,10 +55,10 @@ executeUpdate(
   condition: Option[Column]): Unit
 ```
 
-`executeUpdate` creates a `DataFrame` for a `UpdateTable` logical operator (from Spark SQL) with (the analyzed logical plan of the [DeltaTable](#self) and the given `condition`).
+`executeUpdate` creates a `DataFrame` for an `UpdateTable` ([Spark SQL]({{ book.spark_sql }}/logical-operators/UpdateTable)) logical operator with the analyzed logical plan of the [DeltaTable](#self) and the given `condition`.
 
 !!! note
-    `UpdateTable` is a `Command` (Spark SQL) that represents `UPDATE TABLE` SQL statement for v2 tables. As a `Command` it is executed eagerly.
+    `UpdateTable` represents `UPDATE TABLE` SQL statement for v2 tables and is executed eagerly.
 
 `executeUpdate` is used for [DeltaTable.update](DeltaTable.md#update) and [DeltaTable.updateExpr](DeltaTable.md#updateExpr) operators.
 
@@ -72,9 +72,6 @@ executeVacuum(
 
 `executeVacuum` uses the `VacuumCommand` utility to [gc](commands/VacuumCommand.md#gc) (with the `dryRun` flag off and the given `retentionHours`).
 
-In the end, `executeVacuum` returns an empty `DataFrame`.
+In the end, `executeVacuum` returns an empty `DataFrame` (not the one from [VacuumCommand.gc](commands/VacuumCommand.md#gc)).
 
-!!! note
-    `executeVacuum` returns an empty `DataFrame` not the one from [VacuumCommand.gc](commands/VacuumCommand.md#gc).
-
-NOTE: `executeVacuum` is used exclusively in <<DeltaTable.md#vacuum, DeltaTable.vacuum>> operator.
+`executeVacuum` is used for [DeltaTable.vacuum](DeltaTable.md#vacuum) operator.

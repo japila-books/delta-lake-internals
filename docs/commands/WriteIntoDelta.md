@@ -1,11 +1,77 @@
-## WriteIntoDelta Command
+# WriteIntoDelta Command
 
-`WriteIntoDelta` is a <<DeltaCommand.md#, Delta command>> that can write <<data, data(frame)>> transactionally into a <<deltaLog, delta table>>.
+`WriteIntoDelta` is a [Delta command](DeltaCommand.md) that can write [data(frame)](#data) transactionally into a [delta table](#deltaLog).
 
-[[demo]]
-.Demo
-[source, scala]
-----
+`WriteIntoDelta` is a `RunnableCommand` ([Spark SQL]({{ book.spark_sql }}/logical-operators/RunnableCommand)).
+
+## Creating Instance
+
+`WriteIntoDelta` takes the following to be created:
+
+* <span id="deltaLog"> [DeltaLog](../DeltaLog.md)
+* <span id="mode"> `SaveMode`
+* <span id="options"> [DeltaOptions](../DeltaOptions.md)
+* <span id="partitionColumns"> Names of the partition columns
+* <span id="configuration"> Configuration
+* <span id="data"> Data (`DataFrame`)
+
+`WriteIntoDelta` is created when:
+
+* `DeltaLog` is requested to [create an insertable HadoopFsRelation](../DeltaLog.md#createRelation) (when `DeltaDataSource` is requested to create a relation as a [CreatableRelationProvider](../DeltaDataSource.md#CreatableRelationProvider) or a [RelationProvider](../DeltaDataSource.md#RelationProvider))
+* `DeltaCatalog` is requested to [createDeltaTable](../DeltaCatalog.md#createDeltaTable)
+* `WriteIntoDeltaBuilder` is requested to [buildForV1Write](../WriteIntoDeltaBuilder.md#buildForV1Write)
+* `CreateDeltaTableCommand` command is [executed](CreateDeltaTableCommand.md#run)
+* `DeltaDataSource` is requested to [create a relation (for writing)](../DeltaDataSource.md#CreatableRelationProvider-createRelation) (as a [CreatableRelationProvider](../DeltaDataSource.md#CreatableRelationProvider))
+
+## ImplicitMetadataOperation
+
+`WriteIntoDelta` is an [operation that can update metadata (schema and partitioning)](../ImplicitMetadataOperation.md) of the [delta table](#deltaLog).
+
+## <span id="run"> Executing Command
+
+```scala
+run(
+  sparkSession: SparkSession): Seq[Row]
+```
+
+`run` is part of the `RunnableCommand` ([Spark SQL]({{ book.spark_sql }}/logical-operators/RunnableCommand#run)) abstraction.
+
+`run` requests the [DeltaLog](#deltaLog) to [start a new transaction](../DeltaLog.md#withNewTransaction).
+
+`run` [writes](#write) and requests the `OptimisticTransaction` to [commit](../OptimisticTransactionImpl.md#commit) with `DeltaOperations.Write` operation.
+
+## <span id="write"> write
+
+```scala
+write(
+  txn: OptimisticTransaction,
+  sparkSession: SparkSession): Seq[Action]
+```
+
+`write` checks out whether the write operation is to a delta table that already exists. If so (i.e. the [readVersion](../OptimisticTransactionImpl.md#readVersion) of the transaction is above `-1`), `write` branches per the [SaveMode](#mode):
+
+* For `ErrorIfExists`, `write` throws an `AnalysisException`.
+
+    ```text
+    [path] already exists.
+    ```
+
+* For `Ignore`, `write` does nothing and returns back with no [Action](../Action.md)s.
+
+* For `Overwrite`, `write` requests the [DeltaLog](#deltaLog) to [assert being removable](../DeltaLog.md#assertRemovable)
+
+`write` [updateMetadata](../ImplicitMetadataOperation.md#updateMetadata) (with [rearrangeOnly](../DeltaWriteOptionsImpl.md#rearrangeOnly) option).
+
+`write`...FIXME
+
+`write` is used when:
+
+* `CreateDeltaTableCommand` is [executed](CreateDeltaTableCommand.md#run)
+* `WriteIntoDelta` is [executed](#run)
+
+## Demo
+
+```text
 import org.apache.spark.sql.delta.commands.WriteIntoDelta
 import org.apache.spark.sql.delta.DeltaLog
 import org.apache.spark.sql.SaveMode
@@ -23,70 +89,4 @@ val writeCmd = WriteIntoDelta(
 // Review web UI @ http://localhost:4040
 
 writeCmd.run(spark)
-----
-
-[[ImplicitMetadataOperation]]
-`WriteIntoDelta` is an <<ImplicitMetadataOperation.md#, operation that can update metadata (schema and partitioning)>> of a <<deltaLog, delta table>>.
-
-[[RunnableCommand]]
-`WriteIntoDelta` is a logical command (`RunnableCommand`).
-
-TIP: Read up on https://jaceklaskowski.gitbooks.io/mastering-spark-sql/spark-sql-LogicalPlan-RunnableCommand.html[RunnableCommand] in https://bit.ly/spark-sql-internals[The Internals of Spark SQL] online book.
-
-`WriteIntoDelta` is <<creating-instance, created>> when:
-
-* `DeltaLog` is requested to <<DeltaLog.md#createRelation, create an insertable HadoopFsRelation>> (when `DeltaDataSource` is requested to create a relation as a <<DeltaDataSource.md#CreatableRelationProvider, CreatableRelationProvider>> or a <<DeltaDataSource.md#RelationProvider, RelationProvider>>)
-
-* `DeltaDataSource` is requested to <<DeltaDataSource.md#CreatableRelationProvider-createRelation, create a relation (for writing)>> (as a <<DeltaDataSource.md#CreatableRelationProvider, CreatableRelationProvider>>)
-
-== [[creating-instance]] Creating WriteIntoDelta Instance
-
-`WriteIntoDelta` takes the following to be created:
-
-* [[deltaLog]] <<DeltaLog.md#, DeltaLog>>
-* [[mode]] `SaveMode`
-* [[options]] <<DeltaOptions.md#, DeltaOptions>>
-* [[partitionColumns]] Names of the partition columns (`Seq[String]`)
-* [[configuration]] Configuration (`Map[String, String]`)
-* [[data]] Data (`DataFrame`)
-
-== [[run]] Running Command -- `run` Method
-
-[source, scala]
-----
-run(
-  sparkSession: SparkSession): Seq[Row]
-----
-
-NOTE: `run` is part of the `RunnableCommand` contract to run a command.
-
-`run` requests the <<deltaLog, DeltaLog>> to <<DeltaLog.md#withNewTransaction, start a new transaction>>.
-
-`run` <<write, writes>> and requests the `OptimisticTransaction` to <<OptimisticTransactionImpl.md#commit, commit>>.
-
-== [[write]] `write` Method
-
-[source, scala]
-----
-write(
-  txn: OptimisticTransaction,
-  sparkSession: SparkSession): Seq[Action]
-----
-
-`write` checks out whether the write operation is to a delta table that already exists. If so (i.e. the <<OptimisticTransactionImpl.md#readVersion, readVersion>> of the transaction is above `-1`), `write` branches per the <<mode, SaveMode>>:
-
-* For `ErrorIfExists`, `write` throws an `AnalysisException`:
-+
 ```
-[path] already exists.
-```
-
-* For `Ignore`, `write` does nothing
-
-* For `Overwrite`, `write` requests the <<deltaLog, DeltaLog>> to <<DeltaLog.md#assertRemovable, assertRemovable>>
-
-`write` <<ImplicitMetadataOperation.md#updateMetadata, updateMetadata>>.
-
-`write`...FIXME
-
-NOTE: `write` is used exclusively when `WriteIntoDelta` is requested to <<run, run>>.

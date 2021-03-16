@@ -1,6 +1,6 @@
 # DeltaOptions
 
-`DeltaOptions` is an extension of [DeltaWriteOptions](DeltaWriteOptions.md) and [DeltaReadOptions](DeltaReadOptions.md) for all supported [options](#options) of the [DeltaDataSource](DeltaDataSource.md).
+`DeltaOptions` is a type-safe abstraction of [write](DeltaWriteOptions.md) and [read](DeltaReadOptions.md)-specific [options](#options) of the [DeltaDataSource](DeltaDataSource.md).
 
 `DeltaOptions` is used to create [WriteIntoDelta](commands/WriteIntoDelta.md) command, [DeltaSink](DeltaSink.md), and [DeltaSource](DeltaSource.md).
 
@@ -37,6 +37,8 @@ Enables schema migration (and allows automatic schema merging during a write ope
 Equivalent SQL Session configuration: [spark.databricks.delta.schema.autoMerge.enabled](DeltaSQLConf.md#DELTA_SCHEMA_AUTO_MIGRATE)
 
 ### <span id="OPTIMIZE_WRITE_OPTION"><span id="optimizeWrite"> optimizeWrite
+
+Enables...FIXME
 
 ### <span id="OVERWRITE_SCHEMA_OPTION"><span id="overwriteSchema"> overwriteSchema
 

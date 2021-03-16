@@ -8,10 +8,7 @@
 
 ## <span id="delta-format"><span id="DataSourceRegister"> DataSourceRegister and delta Alias
 
-`DeltaDataSource` is a `DataSourceRegister` and registers **delta** alias.
-
-!!! tip
-    Read up on [DataSourceRegister](https://jaceklaskowski.gitbooks.io/mastering-spark-sql/spark-sql-DataSourceRegister.html) in [The Internals of Spark SQL](https://bit.ly/spark-sql-internals) online book.
+`DeltaDataSource` is a `DataSourceRegister` ([Spark SQL]({{ book.spark_sql }}/DataSourceRegister)) and registers **delta** alias.
 
 DeltaDataSource is registered using `META-INF/services/org.apache.spark.sql.sources.DataSourceRegister`:
 
@@ -21,10 +18,7 @@ org.apache.spark.sql.delta.sources.DeltaDataSource
 
 ## <span id="RelationProvider"><span id="RelationProvider-createRelation"><span id="createRelation"> RelationProvider for Batch Queries
 
-DeltaDataSource is a `RelationProvider` for reading (_loading_) data from a delta table in a structured query.
-
-!!! tip
-    Read up on [RelationProvider](https://jaceklaskowski.github.io/mastering-spark-sql-book/spark-sql-RelationProvider/) in [The Internals of Spark SQL](https://jaceklaskowski.github.io/mastering-spark-sql-book) online book.
+DeltaDataSource is a `RelationProvider` ([Spark SQL]({{ book.spark_sql }}/RelationProvider)) for reading (_loading_) data from a delta table in a structured query.
 
 ```scala
 createRelation(
@@ -74,24 +68,15 @@ Cannot time travel views, subqueries or streams.
 
 ## <span id="CreatableRelationProvider"><span id="CreatableRelationProvider-createRelation"> CreatableRelationProvider
 
-DeltaDataSource is a `CreatableRelationProvider` for writing out the result of a structured query.
-
-!!! tip
-    Read up on [CreatableRelationProvider](https://jaceklaskowski.gitbooks.io/mastering-spark-sql/spark-sql-CreatableRelationProvider.html) in [The Internals of Spark SQL](https://bit.ly/spark-sql-internals) online book.
+DeltaDataSource is a `CreatableRelationProvider` ([Spark SQL]({{ book.spark_sql }}/CreatableRelationProvider)) for writing out the result of a structured query.
 
 ## <span id="StreamSourceProvider"><span id="createSource"> Creating Streaming Source
 
-DeltaDataSource is a `StreamSourceProvider`.
-
-!!! tip
-    Read up on [StreamSourceProvider](https://jaceklaskowski.gitbooks.io/spark-structured-streaming/spark-sql-streaming-StreamSourceProvider.html) in [The Internals of Spark Structured Streaming](https://bit.ly/spark-structured-streaming) online book.
+DeltaDataSource is a `StreamSourceProvider` ([Spark Structured Streaming]({{ book.structured_streaming }}/StreamSourceProvider)) for a streaming source in streaming queries.
 
 ## <span id="StreamSinkProvider"><span id="createSink"> Creating Streaming Sink
 
-DeltaDataSource is a `StreamSinkProvider` for a streaming sink for Structured Streaming.
-
-!!! tip
-    Read up on [StreamSinkProvider](https://jaceklaskowski.gitbooks.io/spark-structured-streaming/spark-sql-streaming-StreamSinkProvider.html) in [The Internals of Spark Structured Streaming](https://bit.ly/spark-structured-streaming) online book.
+DeltaDataSource is a `StreamSinkProvider` ([Spark Structured Streaming]({{ book.structured_streaming }}/StreamSinkProvider)) for a streaming sink in streaming queries.
 
 DeltaDataSource supports `Append` and `Complete` output modes only.
 
