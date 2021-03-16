@@ -180,6 +180,10 @@
      <lastmod>2021-03-16</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
+     <loc>https://books.japila.pl/delta-lake-internals/DeltaWriteOptionsImpl/</loc>
+     <lastmod>2021-03-16</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
      <loc>https://books.japila.pl/delta-lake-internals/DeltaSource/</loc>
      <lastmod>2021-03-16</lastmod>
      <changefreq>daily</changefreq>
@@ -413,6 +417,10 @@
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://books.japila.pl/delta-lake-internals/demo/</loc>
+     <lastmod>2021-03-16</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
+     <loc>https://books.japila.pl/delta-lake-internals/demo/replaceWhere/</loc>
      <lastmod>2021-03-16</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
