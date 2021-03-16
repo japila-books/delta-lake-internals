@@ -141,6 +141,7 @@ nav:
     - DeltaHistoryManager: DeltaHistoryManager.md
     - Actions:
       - Action: Action.md
+      - AddCDCFile: AddCDCFile.md
       - AddFile: AddFile.md
       - CommitInfo: CommitInfo.md
       - FileAction: FileAction.md

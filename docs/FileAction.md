@@ -1,49 +1,26 @@
-= FileAction
+# FileAction
 
-`FileAction` is an <<contract, extension>> of the <<Action.md#, Action contract>> for <<implementations,  metadata of file actions>> with the <<path, path>> and <<dataChange, dataChange>> flag.
+`FileAction` is an [extension](#contract) of the [Action](Action.md) abstraction for [actions](#implementations) that can add or remove files.
 
-[[contract]]
-.FileAction Contract (Abstract Methods Only)
-[cols="30m,70",options="header",width="100%"]
-|===
-| Method
-| Description
+## Contract
 
-| dataChange
-a| [[dataChange]]
+### <span id="path"> Path
 
-[source, scala]
-----
-dataChange: Boolean
-----
-
-Used when...FIXME
-
-| path
-a| [[path]]
-
-[source, scala]
-----
+```scala
 path: String
-----
+```
 
-Used when...FIXME
+### <span id="dataChange"> dataChange
 
-|===
+```scala
+dataChange: Boolean
+```
 
-[[implementations]]
-.FileActions
-[cols="30m,70",options="header",width="100%"]
-|===
-| FileAction
-| Description
+## Implementations
 
-| <<AddFile.md#, AddFile>>
-| [[AddFile]]
+* [AddCDCFile](AddCDCFile.md)
+* [AddFile](AddFile.md)
+* [RemoveFile](RemoveFile.md)
 
-| RemoveFile
-| [[RemoveFile]]
-
-|===
-
-NOTE: `FileAction` is a Scala *sealed trait* which means that all the <<implementations, implementations>> are in the same compilation unit (a single file).
+??? note "Sealed Trait"
+    `FileAction` is a Scala **sealed trait** which means that all of the implementations are in the same compilation unit (a single file).
