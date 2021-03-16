@@ -3,7 +3,7 @@ hide:
   - toc
 ---
 
-# Overview
+# {{ book.title }}
 
 [Delta Lake](https://delta.io/) is an open-source storage management system (storage layer) that brings ACID transactions and time travel to [Apache Spark](https://spark.apache.org/) and big data workloads.
 
