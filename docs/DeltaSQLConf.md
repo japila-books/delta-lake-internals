@@ -171,7 +171,7 @@ Default: `false`
 
 Default: `false`
 
-Equivalent DataFrame option: [mergeSchema](DeltaOptions.md#mergeSchema)
+Equivalent DataFrame option: [mergeSchema](options.md#mergeSchema)
 
 ## <span id="snapshotIsolation.enabled"><span id="DELTA_SNAPSHOT_ISOLATION"> snapshotIsolation.enabled
 

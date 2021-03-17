@@ -8,7 +8,7 @@
 canMergeSchema: Boolean
 ```
 
-`canMergeSchema` is the value of [mergeSchema](DeltaOptions.md#MERGE_SCHEMA_OPTION) option (if defined) or [spark.databricks.delta.schema.autoMerge.enabled](DeltaSQLConf.md#DELTA_SCHEMA_AUTO_MIGRATE) configuration property.
+`canMergeSchema` is the value of [mergeSchema](options.md#MERGE_SCHEMA_OPTION) option (if defined) or [spark.databricks.delta.schema.autoMerge.enabled](DeltaSQLConf.md#DELTA_SCHEMA_AUTO_MIGRATE) configuration property.
 
 `canMergeSchema` is used when:
 
@@ -21,7 +21,7 @@ canMergeSchema: Boolean
 canOverwriteSchema: Boolean
 ```
 
-`canOverwriteSchema` is the value of [overwriteSchema](DeltaOptions.md#OVERWRITE_SCHEMA_OPTION) option.
+`canOverwriteSchema` is the value of [overwriteSchema](options.md#OVERWRITE_SCHEMA_OPTION) option.
 
 `canOverwriteSchema` is used when:
 
@@ -35,7 +35,7 @@ canOverwriteSchema: Boolean
 rearrangeOnly: Boolean
 ```
 
-`rearrangeOnly` is the value of [dataChange](DeltaOptions.md#DATA_CHANGE_OPTION) option.
+`rearrangeOnly` is the value of [dataChange](options.md#DATA_CHANGE_OPTION) option.
 
 `rearrangeOnly` is used when:
 

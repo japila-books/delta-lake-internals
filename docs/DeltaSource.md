@@ -31,7 +31,7 @@ DeltaSource[file:/tmp/delta/users]
 ```
 
 [[maxFilesPerTrigger]]
-`DeltaSource` uses <<DeltaOptions.md#maxFilesPerTrigger, maxFilesPerTrigger>> option to limit the number of files to process when requested for the <<getChangesWithRateLimit, file additions (with rate limit)>>.
+`DeltaSource` uses [maxFilesPerTrigger](options.md#maxFilesPerTrigger) option to limit the number of files to process when requested for the [file additions (with rate limit)](#getChangesWithRateLimit).
 
 [[logging]]
 [TIP]
@@ -53,7 +53,7 @@ Refer to [Logging](spark-logging.md).
 
 * [[spark]] `SparkSession`
 * [[deltaLog]] <<DeltaLog.md#, DeltaLog>> of the delta table to read data (as <<getBatch, micro-batches>>) from
-* [[options]] <<DeltaOptions.md#, DeltaOptions>>
+* [[options]] [DeltaOptions](DeltaOptions.md)
 * [[filters]] Filter expressions (default: no filters)
 
 `DeltaSource` initializes the <<internal-properties, internal properties>>.
@@ -197,7 +197,7 @@ getChangesWithRateLimit(
 
 `getChangesWithRateLimit` <<getChanges, get the changes>> (as indexed <<AddFile.md#, AddFiles>>) for the given `fromVersion`, `fromIndex`, and `isStartingVersion` flag.
 
-`getChangesWithRateLimit` takes the configured number of `AddFiles` (up to the <<maxFilesPerTrigger, maxFilesPerTrigger>> option (if defined) or <<DeltaOptions.md#MAX_FILES_PER_TRIGGER_OPTION_DEFAULT, 1000>>).
+`getChangesWithRateLimit` takes the configured number of `AddFiles` (up to the <<maxFilesPerTrigger, maxFilesPerTrigger>> option (if defined) or [1000](options.md#MAX_FILES_PER_TRIGGER_OPTION_DEFAULT)).
 
 NOTE: `getChangesWithRateLimit` is used when `DeltaSource` is requested for the <<getOffset, latest available offset>>.
 

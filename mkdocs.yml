@@ -157,11 +157,13 @@ nav:
     - Logging: spark-logging.md
     - Delta Data Source:
       - DeltaDataSource: DeltaDataSource.md
-      - DeltaOptions: DeltaOptions.md
-      - DeltaOptionParser: DeltaOptionParser.md
-      - DeltaWriteOptions: DeltaWriteOptions.md
-      - DeltaReadOptions: DeltaReadOptions.md
-      - DeltaWriteOptionsImpl: DeltaWriteOptionsImpl.md
+      - Options:
+        - Options: options.md
+        - DeltaOptions: DeltaOptions.md
+        - DeltaOptionParser: DeltaOptionParser.md
+        - DeltaReadOptions: DeltaReadOptions.md
+        - DeltaWriteOptions: DeltaWriteOptions.md
+        - DeltaWriteOptionsImpl: DeltaWriteOptionsImpl.md
       - DeltaSource:
         - DeltaSource: DeltaSource.md
         - DeltaSourceOffset: DeltaSourceOffset.md

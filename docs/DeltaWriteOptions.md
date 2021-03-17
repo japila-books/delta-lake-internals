@@ -10,7 +10,7 @@
 replaceWhere: Option[String]
 ```
 
-`replaceWhere` is the value of [replaceWhere](DeltaOptions.md#REPLACE_WHERE_OPTION) option.
+`replaceWhere` is the value of [replaceWhere](options.md#REPLACE_WHERE_OPTION) option.
 
 `replaceWhere` is used when:
 
@@ -23,7 +23,7 @@ replaceWhere: Option[String]
 userMetadata: Option[String]
 ```
 
-`userMetadata` is the value of [userMetadata](DeltaOptions.md#USER_METADATA_OPTION) option.
+`userMetadata` is the value of [userMetadata](options.md#USER_METADATA_OPTION) option.
 
 ## <span id="optimizeWrite"> optimizeWrite
 
@@ -31,4 +31,4 @@ userMetadata: Option[String]
 optimizeWrite: Option[Boolean]
 ```
 
-`optimizeWrite` is the value of [optimizeWrite](DeltaOptions.md#OPTIMIZE_WRITE_OPTION) option.
+`optimizeWrite` is the value of [optimizeWrite](options.md#OPTIMIZE_WRITE_OPTION) option.

@@ -28,7 +28,7 @@ Delta Lake provides [DeltaTable API](DeltaTable.md) to programmatically access D
 
 Delta Lake supports batch and streaming queries (Spark SQL and Structured Streaming, respectively) using [delta](DeltaDataSource.md#DataSourceRegister) format.
 
-In order to fine tune queries over data in Delta Lake use [options](DeltaOptions.md). Among the options [path](DeltaOptions.md#path) option is mandatory.
+In order to fine tune queries over data in Delta Lake use [options](options.md). Among the options [path](options.md#path) option is mandatory.
 
 Delta Lake supports reading and writing in batch queries:
 
