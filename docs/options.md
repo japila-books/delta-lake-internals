@@ -1,11 +1,14 @@
 # Options
 
-The options can be defined using `option` method of the following:
+Delta Lake comes with options to fine-tune its uses. They can be defined using `option` method of the following:
 
-* `DataFrameReader` and `DataFrameWriter` for batch queries (Spark SQL)
-* `DataStreamReader` and `DataStreamWriter` for streaming queries (Spark Structured Streaming)
+* `DataFrameReader` ([Spark SQL]({{ book.spark_sql }}/DataFrameReader)) and `DataFrameWriter` ([Spark SQL]({{ book.spark_sql }}/DataFrameWriter)) for batch queries
+* `DataStreamReader` ([Spark Structured Streaming]({{ book.structured_streaming }}/DataStreamReader)) and `DataStreamWriter` ([Spark Structured Streaming]({{ book.structured_streaming }}/DataStreamWriter)) for streaming queries
+* SQL queries
 
 ## <span id="checkpointLocation"> checkpointLocation
+
+Checkpoint directory for storing checkpoint data of streaming queries ([Spark Structured Streaming]({{ book.structured_streaming }}/configuration-properties/#spark.sql.streaming.checkpointLocation)).
 
 ## <span id="DATA_CHANGE_OPTION"><span id="dataChange"> dataChange
 
@@ -14,6 +17,9 @@ Whether to write new data to the table or just rearrange data that is already pa
 Used when:
 
 * `DeltaWriteOptionsImpl` is requested for [rearrangeOnly](DeltaWriteOptionsImpl.md#rearrangeOnly)
+
+??? demo
+    Learn more in [Demo: dataChange](demo/dataChange.md).
 
 ## <span id="EXCLUDE_REGEX_OPTION"><span id="excludeRegex"> excludeRegex
 

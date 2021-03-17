@@ -233,6 +233,7 @@ nav:
     - WriteIntoDelta: commands/WriteIntoDelta.md
   - Demos:
     - demo/index.md
+    - dataChange: demo/dataChange.md
     - replaceWhere: demo/replaceWhere.md
     - Merge Operation: demo/merge-operation.md
     - Converting Parquet Dataset Into Delta Format: demo/Converting-Parquet-Dataset-Into-Delta-Format.md
