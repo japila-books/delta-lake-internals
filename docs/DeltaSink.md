@@ -1,55 +1,61 @@
 # DeltaSink
 
-DeltaSink is the sink of <<DeltaDataSource.md#, delta data source>> for streaming queries in Spark Structured Streaming.
+`DeltaSink` is the `Sink` ([Spark Structured Streaming]({{ book.structured_streaming }}/Sink)) of the [delta](DeltaDataSource.md) data source for streaming queries.
 
-TIP: Read up on https://jaceklaskowski.gitbooks.io/spark-structured-streaming/spark-sql-streaming-Sink.html[Streaming Sink] in https://bit.ly/spark-structured-streaming[The Internals of Spark Structured Streaming] online book.
+## Creating Instance
 
-DeltaSink is <<creating-instance, created>> exclusively when `DeltaDataSource` is requested for a <<DeltaDataSource.md#createSink, streaming sink>> (Structured Streaming).
+`DeltaSink` takes the following to be created:
 
-[[toString]]
-DeltaSink uses the following text representation (with the <<path, path>>):
+* <span id="sqlContext"> `SQLContext`
+* <span id="path"> Hadoop [Path]({{ hadoop.api }}/org/apache/hadoop/fs/Path.html) of the delta table (to [write data to](#addBatch) as configured by the [path](options.md#path) option)
+* <span id="partitionColumns"> Names of the partition columns
+* <span id="outputMode"> `OutputMode` ([Spark Structured Streaming]({{ book.structured_streaming }}/OutputMode))
+* <span id="options"> [DeltaOptions](DeltaOptions.md)
 
-```
-DeltaSink[path]
-```
+`DeltaSink` is created when:
 
-[[ImplicitMetadataOperation]]
-DeltaSink is an <<ImplicitMetadataOperation.md#, operation that can update metadata (schema and partitioning)>> of a <<path, delta table>>.
+* `DeltaDataSource` is requested for a [streaming sink](DeltaDataSource.md#createSink)
 
-== [[creating-instance]] Creating Instance
+## <span id="deltaLog"> DeltaLog
 
-DeltaSink takes the following to be created:
-
-* [[sqlContext]] `SQLContext`
-* [[path]] Hadoop [Path](https://hadoop.apache.org/docs/r{{ hadoop.version }}/api/org/apache/hadoop/fs/Path.html) of the delta table (to <<addBatch, write data to>> as configured by the [path](options.md#path) option)
-* [[partitionColumns]] Names of the partition columns (`Seq[String]`)
-* [[outputMode]] `OutputMode`
-* [[options]] [DeltaOptions](DeltaOptions.md)
-
-== [[deltaLog]] `deltaLog` Internal Property
-
-[source, scala]
-----
+```scala
 deltaLog: DeltaLog
-----
+```
 
-`deltaLog` is a <<DeltaLog.md#, DeltaLog>> that is <<DeltaLog.md#forTable, created>> for the <<path, delta table>> when DeltaSink is created (when `DeltaDataSource` is requested for a <<DeltaDataSource.md#createSink, streaming sink>>).
+`deltaLog` is a [DeltaLog](DeltaLog.md) that is [created](DeltaLog.md#forTable) for the [delta table](#path) when `DeltaSink` is [created](#creating-instance).
 
-`deltaLog` is used exclusively when DeltaSink is requested to <<addBatch, add a streaming micro-batch>>.
+`deltaLog` is used when:
 
-== [[addBatch]] Adding Streaming Micro-Batch
+* DeltaSink is requested to [add a streaming micro-batch](#addBatch)
 
-[source, scala]
-----
+## <span id="addBatch"> Adding Streaming Micro-Batch
+
+```scala
 addBatch(
   batchId: Long,
   data: DataFrame): Unit
-----
+```
 
-NOTE: `addBatch` is part of the `Sink` contract (in Spark Structured Streaming) to add a batch of data to the sink.
+`addBatch` is part of the `Sink` ([Spark Structured Streaming]({{ book.structured_streaming }}/Sink#addBatch)) abstraction.
 
-`addBatch` requests the <<deltaLog, DeltaLog>> to <<DeltaLog.md#withNewTransaction, start a new transaction>>.
+`addBatch` requests the [DeltaLog](#deltaLog) to [start a new transaction](DeltaLog.md#withNewTransaction).
 
 `addBatch`...FIXME
 
-In the end, `addBatch` requests the `OptimisticTransaction` to <<OptimisticTransactionImpl.md#commit, commit>>.
+In the end, `addBatch` requests the `OptimisticTransaction` to [commit](OptimisticTransactionImpl.md#commit).
+
+## <span id="toString"> Text Representation
+
+```scala
+toString(): String
+```
+
+`DeltaSink` uses the following text representation (with the [path](#path)):
+
+```text
+DeltaSink[path]
+```
+
+## <span id="ImplicitMetadataOperation"> ImplicitMetadataOperation
+
+`DeltaSink` is an [ImplicitMetadataOperation](ImplicitMetadataOperation.md).
