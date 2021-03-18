@@ -43,7 +43,7 @@ rootPaths: Seq[Path]
 
 `rootPaths` is the [path](#path) only.
 
-`rootPaths` is part of the `FileIndex` abstraction ([Spark SQL](https://jaceklaskowski.github.io/mastering-spark-sql-book/FileIndex/#rootPaths)).
+`rootPaths` is part of the `FileIndex` abstraction ([Spark SQL]({{ book.spark_sql }}/FileIndex/#rootPaths)).
 
 ## <span id="listFiles"> Listing Files
 
@@ -55,7 +55,7 @@ listFiles(
 
 `listFiles` is the [path](#path) only.
 
-`listFiles` is part of the `FileIndex` abstraction ([Spark SQL](https://jaceklaskowski.github.io/mastering-spark-sql-book/FileIndex/#listFiles)).
+`listFiles` is part of the `FileIndex` abstraction ([Spark SQL]({{ book.spark_sql }}/FileIndex/#listFiles)).
 
 ## <span id="partitionSchema"> Partitions
 
@@ -65,7 +65,7 @@ partitionSchema: StructType
 
 `partitionSchema` is the [partition schema](Metadata.md#partitionSchema) of (the [Metadata](Snapshot.md#metadata) of the [Snapshot](DeltaLog.md#snapshot)) of the [DeltaLog](#deltaLog).
 
-`partitionSchema` is part of the `FileIndex` abstraction ([Spark SQL](https://jaceklaskowski.github.io/mastering-spark-sql-book/FileIndex/#partitionSchema)).
+`partitionSchema` is part of the `FileIndex` abstraction ([Spark SQL]({{ book.spark_sql }}/FileIndex/#partitionSchema)).
 
 ## <span id="tableVersion"> Version of Delta Table
 

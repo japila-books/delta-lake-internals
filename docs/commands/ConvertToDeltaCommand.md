@@ -2,7 +2,7 @@
 
 **ConvertToDeltaCommand** is a [DeltaCommand](DeltaCommand.md) that [converts a parquet table into delta format](#run) (_imports_ it into Delta).
 
-`ConvertToDeltaCommand` is a Spark SQL [RunnableCommand](https://jaceklaskowski.github.io/mastering-spark-sql-book/logical-operators/RunnableCommand/) (and executed eagerly on the driver for side-effects).
+`ConvertToDeltaCommand` is a Spark SQL [RunnableCommand]({{ book.spark_sql }}/logical-operators/RunnableCommand/) (and executed eagerly on the driver for side-effects).
 
 `ConvertToDeltaCommand` requires that the [partition schema](#partitionSchema) matches the partitions of the [parquet table](#tableIdentifier) ([or an AnalysisException is thrown](#createAddFile-unexpectedNumPartitionColumnsFromFileNameException))
 

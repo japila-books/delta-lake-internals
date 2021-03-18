@@ -3,7 +3,7 @@
 `DeltaLogFileIndex` is a `FileIndex` for [Snapshot](Snapshot.md) (for the [commit](Snapshot.md#deltaFileIndexOpt) and [checkpoint](Snapshot.md#checkpointFileIndexOpt) files).
 
 !!! note
-    Learn more on [FileIndex](https://jaceklaskowski.github.io/mastering-spark-sql-book/FileIndex/) in [The Internals of Spark SQL](https://jaceklaskowski.github.io/mastering-spark-sql-book/) online book.
+    Learn more on [FileIndex]({{ book.spark_sql }}/FileIndex/) in [The Internals of Spark SQL]({{ book.spark_sql }}/) online book.
 
 ## Creating Instance
 
@@ -22,10 +22,10 @@ Created [this]
 
 ## <span id="format"> FileFormat
 
-`DeltaLogFileIndex` is given a `FileFormat` ([Spark SQL](https://jaceklaskowski.github.io/mastering-spark-sql-book/FileFormat/)) when [created](#creating-instance):
+`DeltaLogFileIndex` is given a `FileFormat` ([Spark SQL]({{ book.spark_sql }}/FileFormat/)) when [created](#creating-instance):
 
-* `JsonFileFormat` ([Spark SQL](https://jaceklaskowski.github.io/mastering-spark-sql-book/spark-sql-JsonFileFormat/)) for commit files
-* `ParquetFileFormat` ([Spark SQL](https://jaceklaskowski.github.io/mastering-spark-sql-book/spark-sql-ParquetFileFormat/)) for checkpoint files
+* `JsonFileFormat` ([Spark SQL]({{ book.spark_sql }}/spark-sql-JsonFileFormat/)) for commit files
+* `ParquetFileFormat` ([Spark SQL]({{ book.spark_sql }}/spark-sql-ParquetFileFormat/)) for checkpoint files
 
 ## <span id="toString"> Text Representation
 

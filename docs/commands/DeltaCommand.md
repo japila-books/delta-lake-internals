@@ -83,7 +83,7 @@ buildBaseRelation(
 In the end, `buildBaseRelation` creates a `HadoopFsRelation` with the `TahoeBatchFileIndex` (and the other properties based on the [metadata](../OptimisticTransactionImpl.md#metadata) of the given [OptimisticTransaction](../OptimisticTransaction.md)).
 
 !!! note
-    Learn more on [HadoopFsRelation](https://jaceklaskowski.github.io/mastering-spark-sql-book/HadoopFsRelation/) in [The Internals of Spark SQL](https://jaceklaskowski.github.io/mastering-spark-sql-book/) online book.
+    Learn more on [HadoopFsRelation]({{ book.spark_sql }}/HadoopFsRelation/) in [The Internals of Spark SQL]({{ book.spark_sql }}/) online book.
 
 `buildBaseRelation` is used when [DeleteCommand](DeleteCommand.md) and [UpdateCommand](UpdateCommand.md) commands are executed (with `delete` and `update` action types, respectively).
 

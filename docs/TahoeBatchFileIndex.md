@@ -60,7 +60,7 @@ inputFiles: Array[String]
 
 `inputFiles` returns the [paths](AddFile.md#path) of all the given [AddFiles](#addFiles).
 
-`inputFiles` is part of the `FileIndex` abstraction ([Spark SQL](https://jaceklaskowski.github.io/mastering-spark-sql-book/FileIndex/#inputFiles)).
+`inputFiles` is part of the `FileIndex` abstraction ([Spark SQL]({{ book.spark_sql }}/FileIndex/#inputFiles)).
 
 ## <span id="partitionSchema"> Partitions
 
@@ -70,7 +70,7 @@ partitionSchema: StructType
 
 `partitionSchema` requests the [Snapshot](#snapshot) for the [metadata](Snapshot.md#metadata) that is in turn requested for the [partitionSchema](Metadata.md#partitionSchema).
 
-`partitionSchema` is part of the `FileIndex` abstraction ([Spark SQL](https://jaceklaskowski.github.io/mastering-spark-sql-book/FileIndex/#partitionSchema)).
+`partitionSchema` is part of the `FileIndex` abstraction ([Spark SQL]({{ book.spark_sql }}/FileIndex/#partitionSchema)).
 
 ## <span id="sizeInBytes"> Estimated Size of Relation
 
@@ -80,4 +80,4 @@ sizeInBytes: Long
 
 `sizeInBytes` is a sum of the [sizes](AddFile.md#size) of all the given [AddFiles](#addFiles).
 
-`sizeInBytes` is part of the `FileIndex` abstraction ([Spark SQL](https://jaceklaskowski.github.io/mastering-spark-sql-book/FileIndex/#sizeInBytes)).
+`sizeInBytes` is part of the `FileIndex` abstraction ([Spark SQL]({{ book.spark_sql }}/FileIndex/#sizeInBytes)).

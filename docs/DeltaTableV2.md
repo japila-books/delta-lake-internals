@@ -2,8 +2,7 @@
 
 `DeltaTableV2` is a logical representation of a writable Delta table.
 
-!!! note "DeltaTableV2 by Spark SQL 3.0.0"
-    Using the abstractions introduced in Spark SQL 3.0.0, `DeltaTableV2` is a [Table](https://jaceklaskowski.github.io/mastering-spark-sql-book/connector/catalog/Table/) that [SupportsWrite](https://jaceklaskowski.github.io/mastering-spark-sql-book/connector/catalog/SupportsWrite/).
+In Spark SQL 3's terms, `DeltaTableV2` is a `Table` ([Spark SQL]({{ book.spark_sql }}/connector/catalog/Table/)) that `SupportsWrite` ([Spark SQL]({{ book.spark_sql }}/connector/catalog/SupportsWrite/)).
 
 ## Creating Instance
 

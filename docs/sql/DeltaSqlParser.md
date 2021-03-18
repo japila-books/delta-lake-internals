@@ -1,6 +1,6 @@
 # DeltaSqlParser
 
-**DeltaSqlParser** is a SQL parser (Spark SQL's [ParserInterface](https://jaceklaskowski.github.io/mastering-spark-sql-book/sql/ParserInterface/)) for [Delta SQL](index.md).
+**DeltaSqlParser** is a SQL parser (Spark SQL's [ParserInterface]({{ book.spark_sql }}/sql/ParserInterface/)) for [Delta SQL](index.md).
 
 `DeltaSqlParser` is registered in a Spark SQL application using [DeltaSparkSessionExtension](../DeltaSparkSessionExtension.md).
 

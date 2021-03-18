@@ -473,15 +473,9 @@ createDataFrame(
 
 `createDataFrame` creates a new [TahoeBatchFileIndex](TahoeBatchFileIndex.md) (for the action type, and the given [AddFile](AddFile.md)s and [Snapshot](Snapshot.md)).
 
-`createDataFrame` creates a `HadoopFsRelation` with the `TahoeBatchFileIndex` and the other properties based on the given `Snapshot` (and the associated [Metadata](Snapshot.md#metadata)).
+`createDataFrame` creates a `HadoopFsRelation` ([Spark SQL]({{ book.spark_sql }}/HadoopFsRelation)) with the `TahoeBatchFileIndex` and the other properties based on the given `Snapshot` (and the associated [Metadata](Snapshot.md#metadata)).
 
-!!! tip
-    Learn more on [HadoopFsRelation](https://jaceklaskowski.github.io/mastering-spark-sql-book/spark-sql-BaseRelation-HadoopFsRelation/) in [The Internals of Spark SQL](https://jaceklaskowski.github.io/mastering-spark-sql-book) online book.
-
-In the end, `createDataFrame` creates a `DataFrame` with a logical query plan with a `LogicalRelation` over the `HadoopFsRelation`.
-
-!!! tip
-    Learn more on [LogicalRelation](https://jaceklaskowski.github.io/mastering-spark-sql-book/logical-operators/LogicalRelation/) in [The Internals of Spark SQL](https://jaceklaskowski.github.io/mastering-spark-sql-book) online book.
+In the end, `createDataFrame` creates a `DataFrame` with a logical query plan with a `LogicalRelation` ([Spark SQL]({{ book.spark_sql }}/logical-operators/LogicalRelation/)) over the `HadoopFsRelation`.
 
 `createDataFrame` is used when:
 

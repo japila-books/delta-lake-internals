@@ -46,7 +46,7 @@ convertToDelta(
 Internally, `convertToDelta` requests the `SparkSession` for the SQL parser (`ParserInterface`) that is in turn requested to parse the given table identifier (to get a `TableIdentifier`).
 
 !!! tip
-    Read up on [ParserInterface](https://jaceklaskowski.github.io/mastering-spark-sql-book/sql/ParserInterface/) in [The Internals of Spark SQL](https://jaceklaskowski.github.io/mastering-spark-sql-book) online book.
+    Read up on [ParserInterface]({{ book.spark_sql }}/sql/ParserInterface/) in [The Internals of Spark SQL]({{ book.spark_sql }}) online book.
 
 In the end, `convertToDelta` uses the `DeltaConvert` utility to [convert the parquet table to delta format](DeltaConvert.md#executeConvert) and [creates a DeltaTable](#forPath).
 
