@@ -79,7 +79,7 @@ forTable(
 
 * [DeltaTableUtils.combineWithCatalogMetadata](DeltaTableUtils.md#combineWithCatalogMetadata) utility is used
 
-* `DeltaTableIdentifier` is requested to `getDeltaLog`
+* `DeltaTableIdentifier` is requested to [getDeltaLog](DeltaTableIdentifier.md#getDeltaLog)
 
 * `DeltaCatalog` is requested to [createDeltaTable](DeltaCatalog.md#createDeltaTable)
 
