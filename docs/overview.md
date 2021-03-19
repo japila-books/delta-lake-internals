@@ -7,8 +7,8 @@ hide:
 
 [Delta Lake](https://delta.io/) is an open-source storage management system (storage layer) that brings ACID transactions and time travel to [Apache Spark](https://spark.apache.org/) and big data workloads.
 
-!!! important
-    As of 0.7.0 Delta Lake requires Spark 3 (starting from the first [3.0.0](http://spark.apache.org/news/spark-3-0-0-released.html) release).
+!!! danger
+    As of 0.7.0 Delta Lake requires Spark 3. Please note that [Spark 3.1.1 is not yet supported](https://github.com/delta-io/delta/issues/594). Use Spark 3.0.2 instead.
 
 Delta Lake is a table format. It introduces [DeltaTable](DeltaTable.md) abstraction that is simply a [parquet table](DeltaFileFormat.md#fileFormat) with a [transactional log](DeltaLog.md).
 
