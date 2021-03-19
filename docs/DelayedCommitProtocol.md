@@ -4,9 +4,7 @@
 
 `DelayedCommitProtocol` is a concrete `FileCommitProtocol` (Spark Core) to write out a result of a structured query to a <<path, directory>> and return a <<addedStatuses, list of files added>>.
 
-`FileCommitProtocol` (Spark Core) allows to track a write job (with a write task per partition) and inform the driver when all the write tasks finished successfully (and were <<commitTask, committed>>) to consider the write job <<commitJob, completed>>. `TaskCommitMessage` (Spark Core) allows to "transfer" the files added (written out) on the executors to the driver for the <<TransactionalWrite.md#writeFiles, optimistic transactional writer>>.
-
-TIP: Read up on https://books.japila.pl/apache-spark-internals/apache-spark-internals/2.4.4/spark-internal-io-FileCommitProtocol.html[FileCommitProtocol] in https://books.japila.pl/apache-spark-internals[The Internals Of Apache Spark] online book.
+`FileCommitProtocol` ([Apache Spark]({{ book.spark_core }}/io/FileCommitProtocol)) allows to track a write job (with a write task per partition) and inform the driver when all the write tasks finished successfully (and were <<commitTask, committed>>) to consider the write job <<commitJob, completed>>. `TaskCommitMessage` (Spark Core) allows to "transfer" the files added (written out) on the executors to the driver for the <<TransactionalWrite.md#writeFiles, optimistic transactional writer>>.
 
 `DelayedCommitProtocol` is <<creating-instance, created>> exclusively when `TransactionalWrite` is requested for a <<TransactionalWrite.md#getCommitter, committer>> to <<TransactionalWrite.md#writeFiles, write a structured query>> to the <<path, directory>>.
 

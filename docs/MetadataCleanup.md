@@ -72,11 +72,11 @@ cleanUpExpiredLogs(): Unit
 Starting the deletion of log files older than [date]
 ```
 
-`cleanUpExpiredLogs` <<listExpiredDeltaLogs, finds the expired delta logs>> (based on the `fileCutOffTime`) and deletes the files (using Hadoop's [FileSystem.delete](https://hadoop.apache.org/docs/r{{ hadoop.version }}/api/org/apache/hadoop/fs/FileSystem.html#delete(org.apache.hadoop.fs.Path,%20boolean)) non-recursively).
+`cleanUpExpiredLogs` <<listExpiredDeltaLogs, finds the expired delta logs>> (based on the `fileCutOffTime`) and deletes the files (using Hadoop's [FileSystem.delete]({{ hadoop.api }}/org/apache/hadoop/fs/FileSystem.html#delete(org.apache.hadoop.fs.Path,%20boolean)) non-recursively).
 
 In the end, `cleanUpExpiredLogs` prints out the following INFO message to the logs:
 
-```
+```text
 Deleted numDeleted log files older than [date]
 ```
 

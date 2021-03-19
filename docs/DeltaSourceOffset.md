@@ -1,8 +1,6 @@
-= DeltaSourceOffset -- Streaming Offset Of DeltaSource
+# DeltaSourceOffset
 
-`DeltaSourceOffset` is a streaming `Offset` for DeltaSource.md[DeltaSource].
-
-TIP: Read up on https://jaceklaskowski.gitbooks.io/spark-structured-streaming/spark-sql-streaming-Offset.html[Offset] in https://bit.ly/spark-structured-streaming[The Internals of Spark Structured Streaming] online book.
+`DeltaSourceOffset` is a streaming `Offset` ([Spark Structured Streaming]({{ book.structured_streaming }}/Offset)) for [DeltaSource](DeltaSource.md).
 
 `DeltaSourceOffset` is <<creating-instance, created>> (via <<apply, apply>> utility) when `DeltaSource` is requested for the DeltaSource.md#getOffset[latest offset] and a DeltaSource.md#getBatch[batch (for the given starting and ending offsets)].
 

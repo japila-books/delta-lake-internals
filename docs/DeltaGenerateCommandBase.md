@@ -1,8 +1,6 @@
-= DeltaGenerateCommandBase
+# DeltaGenerateCommandBase
 
-`DeltaGenerateCommandBase` is an extension of the `RunnableCommand` contract (from Spark SQL) for <<implementations, runnable commands>> that <<getPath, getPath>>.
-
-TIP: Read up on https://jaceklaskowski.gitbooks.io/mastering-spark-sql/spark-sql-LogicalPlan-RunnableCommand.html[RunnableCommand] in https://bit.ly/spark-sql-internals[The Internals of Spark SQL] online book.
+`DeltaGenerateCommandBase` is a `RunnableCommand` ([Spark SQL]({{ book.spark_sql }}/logical-operators/RunnableCommand)) for <<implementations, runnable commands>> that <<getPath, getPath>>.
 
 [[implementations]]
 NOTE: <<DeltaGenerateCommand.md#, DeltaGenerateCommand>> is the default and only known `DeltaGenerateCommandBase` in Delta Lake.

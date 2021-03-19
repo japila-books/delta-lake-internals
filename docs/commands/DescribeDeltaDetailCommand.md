@@ -1,4 +1,4 @@
-= DescribeDeltaDetailCommand (And DescribeDeltaDetailCommandBase)
+# DescribeDeltaDetailCommand (And DescribeDeltaDetailCommandBase)
 
 `DescribeDeltaDetailCommand` represents `DESCRIBE DETAIL` SQL command at execution (and is <<creating-instance, created>> when `DeltaSqlAstBuilder` is requested to <<DeltaSqlAstBuilder.md#visitDescribeDeltaDetail, parse DESCRIBE DETAIL SQL command>>).
 
@@ -24,9 +24,7 @@ scala> q.show
 `DescribeDeltaDetailCommand` is the default and only known <<DescribeDeltaDetailCommandBase, DescribeDeltaDetailCommandBase>> in Delta Lake.
 
 [[DescribeDeltaDetailCommandBase]]
-`DescribeDeltaDetailCommandBase` is an extension of the `RunnableCommand` contract (from Spark SQL) for <<implementations, runnable commands>>.
-
-TIP: Read up on https://jaceklaskowski.gitbooks.io/mastering-spark-sql/spark-sql-LogicalPlan-RunnableCommand.html[RunnableCommand] in https://bit.ly/spark-sql-internals[The Internals of Spark SQL] online book.
+`DescribeDeltaDetailCommandBase` is a `RunnableCommand` ([Spark SQL]({{ book.spark_sql }}/logical-operators/RunnableCommand)) for <<implementations, runnable commands>>.
 
 == [[creating-instance]] Creating DescribeDeltaDetailCommand Instance
 

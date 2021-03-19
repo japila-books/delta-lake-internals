@@ -84,6 +84,7 @@ extra:
   delta:
     version: 0.8.0
     github: https://github.com/delta-io/delta/blob/v0.8.0
+    commit: https://github.com/delta-io/delta/commit
   spark:
     version: 3.1.1
   scala:
@@ -93,12 +94,16 @@ extra:
     api: https://docs.oracle.com/en/java/javase/11/docs/api
   hadoop:
     version: 3.2.0
-    doc: https://hadoop.apache.org/docs/r3.2.0
+    docs: https://hadoop.apache.org/docs/r3.2.0
     api: https://hadoop.apache.org/docs/r3.2.0/api
+  jackson:
+    github: https://github.com/FasterXML/jackson
+    scala: https://github.com/FasterXML/jackson-module-scala
   book:
     title: Delta Lake
     spark_sql: https://jaceklaskowski.github.io/mastering-spark-sql-book
     structured_streaming: https://jaceklaskowski.github.io/spark-structured-streaming-book
+    spark_core: https://books.japila.pl/apache-spark-internals
 
 google_analytics:
   - !!python/object/apply:os.getenv ["GOOGLE_ANALYTICS_KEY"]

@@ -251,7 +251,7 @@ The reader or writer version cannot be downgraded.
 Internally, `upgradeTableProtocol` creates a new [Protocol](Protocol.md) (with the given versions) and requests the [DeltaLog](#deltaLog) to [upgradeProtocol](DeltaLog.md#upgradeProtocol).
 
 ??? "[SC-44271][DELTA] Introduce default protocol version for Delta tables"
-    `upgradeTableProtocol` was introduced in [[SC-44271][DELTA] Introduce default protocol version for Delta tables](https://github.com/delta-io/delta/commit/6500abbf9a2f52046cbd30daaa81ffdc00cbb26f) commit.
+    `upgradeTableProtocol` was introduced in [[SC-44271][DELTA] Introduce default protocol version for Delta tables]({{ delta.commit }}/6500abbf9a2f52046cbd30daaa81ffdc00cbb26f) commit.
 
 ### <span id="vacuum"> vacuum
 

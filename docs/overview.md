@@ -42,7 +42,7 @@ Delta Lake supports reading and writing in streaming queries:
 
 * [Stream writes](DeltaDataSource.md#StreamSinkProvider) (as a `Sink`)
 
-Delta Lake uses [LogStore](DeltaLog.md#store) abstraction to read and write physical log files and checkpoints (using [Hadoop FileSystem API](https://hadoop.apache.org/docs/current2/hadoop-project-dist/hadoop-common/filesystem/index.html)).
+Delta Lake uses [LogStore](DeltaLog.md#store) abstraction to read and write physical log files and checkpoints (using [Hadoop FileSystem API]({{ hadoop.docs }}/hadoop-project-dist/hadoop-common/filesystem/index.html)).
 
 ## Delta Tables in Logical Query Plans
 

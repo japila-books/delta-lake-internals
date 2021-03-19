@@ -1,4 +1,4 @@
-= Action
+# Action
 
 `Action` is an <<contract, abstraction>> of <<implementations, metadata>> of a change to (the state of) a Delta table.
 
@@ -135,7 +135,8 @@ json: String
 
 `json` simply serializes (_converts_) the <<wrap, (wrapped) action>> to JSON format.
 
-NOTE: `json` uses https://github.com/FasterXML/jackson[Jackson] library (with https://github.com/FasterXML/jackson-module-scala[jackson-module-scala]) as the JSON processor.
+!!! NOTE
+    `json` uses [Jackson]({{ jackson.github }}) library (with [jackson-module-scala]({{ jackson.scala }})) as the JSON processor.
 
 [NOTE]
 ====

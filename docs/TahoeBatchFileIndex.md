@@ -6,11 +6,11 @@
 
 `TahoeBatchFileIndex` takes the following to be created:
 
-* <span id="spark"> `SparkSession`
+* <span id="spark"> `SparkSession` ([Spark SQL]({{ book.spark_sql }}/SparkSession))
 * [Action Type](#actionType)
 * <span id="addFiles"> [AddFile](AddFile.md)s
 * <span id="deltaLog"> [DeltaLog](DeltaLog.md)
-* <span id="path"> Data directory (as Hadoop [Path](https://hadoop.apache.org/docs/r{{ hadoop.version }}/api/org/apache/hadoop/fs/Path.html))
+* <span id="path"> Data directory (as Hadoop [Path]({{ hadoop.api }}/org/apache/hadoop/fs/Path.html))
 * <span id="snapshot"> [Snapshot](Snapshot.md)
 
 `TahoeBatchFileIndex` is created when:

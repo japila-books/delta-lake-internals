@@ -31,7 +31,7 @@ NOTE: The <<deltaLog, DeltaLog>> and <<snapshot, Snapshot>> are part of the <<Op
 active: ThreadLocal[OptimisticTransaction]
 ----
 
-`active` is a Java https://docs.oracle.com/javase/8/docs/api/java/lang/ThreadLocal.html[ThreadLocal] with the <<OptimisticTransaction.md#, OptimisticTransaction>> of the current thread.
+`active` is a Java [ThreadLocal]({{ java.api }}/java.base/java/lang/ThreadLocal.html) with the <<OptimisticTransaction.md#, OptimisticTransaction>> of the current thread.
 
 > *ThreadLocal* provides thread-local variables. These variables differ from their normal counterparts in that each thread that accesses one (via its get or set method) has its own, independently initialized copy of the variable.
 

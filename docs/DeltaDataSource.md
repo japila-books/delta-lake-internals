@@ -64,7 +64,7 @@ sourceSchema(
 Cannot time travel views, subqueries or streams.
 ```
 
-`sourceSchema` is part of the `StreamSourceProvider` abstraction ([Spark Structured Streaming](https://jaceklaskowski.github.io/spark-structured-streaming-book/StreamSourceProvider/)).
+`sourceSchema` is part of the `StreamSourceProvider` abstraction ([Spark Structured Streaming]({{ book.structured_streaming }}/StreamSourceProvider/)).
 
 ## <span id="CreatableRelationProvider"><span id="CreatableRelationProvider-createRelation"> CreatableRelationProvider
 
