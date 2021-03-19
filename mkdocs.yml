@@ -139,11 +139,11 @@ nav:
       - InMemoryLogReplay: InMemoryLogReplay.md
       - PartitionFiltering: PartitionFiltering.md
       - DeltaFileFormat: DeltaFileFormat.md
+    - DeltaHistoryManager: DeltaHistoryManager.md
     - LogStore:
       - LogStore: LogStore.md
       - HDFSLogStore: HDFSLogStore.md
       - HadoopFileSystemLogStore: HadoopFileSystemLogStore.md
-    - DeltaHistoryManager: DeltaHistoryManager.md
     - Actions:
       - Action: Action.md
       - AddCDCFile: AddCDCFile.md
