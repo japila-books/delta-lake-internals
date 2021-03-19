@@ -25,7 +25,7 @@ sql(q).collect
 * [Mode Name](#modeName)
 * <span id="tableId"> `TableIdentifier` (Spark SQL)
 
-`DeltaGenerateCommand` is for:
+`DeltaGenerateCommand` is created for:
 
 * [GENERATE](../sql/index.md#GENERATE) SQL command (that uses `DeltaSqlAstBuilder` to [parse GENERATE SQL command](../sql/DeltaSqlAstBuilder.md#visitGenerate))
 * [DeltaTable.generate](../DeltaTable.md#generate) operator (that uses `DeltaTableOperations` to [executeGenerate](../DeltaTableOperations.md#executeGenerate))
