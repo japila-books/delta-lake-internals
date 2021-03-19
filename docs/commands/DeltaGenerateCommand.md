@@ -1,55 +1,74 @@
-= DeltaGenerateCommand -- Executing Generation Functions On Delta Tables
+# DeltaGenerateCommand
 
-`DeltaGenerateCommand` is a concrete <<DeltaGenerateCommandBase.md#, DeltaGenerateCommandBase>> (and so can <<DeltaGenerateCommandBase.md#getPath, get the path of a delta table from a table identifier>>) that can <<run, execute a generate function on a delta table>>.
+`DeltaGenerateCommand` is a `RunnableCommand` ([Spark SQL]({{ book.spark_sql }}/logical-operators/RunnableCommand)) to [execute](#run) a [generate function](#modeName) on a [delta table](#tableId).
 
-[[symlink_format_manifest]]
-`DeltaGenerateCommand` supports `symlink_format_manifest` only for the <<modeName, mode>>.
+`DeltaGenerateCommand` is used for the following:
 
-[source,text]
-----
-val generateQ = """GENERATE symlink_format_manifest for table delta.`/tmp/delta/t1`"""
-scala> sql(generateQ).foreach(_ => ())
-----
+* [GENERATE](../sql/index.md#GENERATE) SQL command
+* [DeltaTable.generate](../DeltaTable.md#generate) operation
 
-[[modeNameToGenerationFunc]]
-`DeltaGenerateCommand` uses a lookup table for generation functions per mode:
+`DeltaGenerateCommand` supports [symlink_format_manifest](#symlink_format_manifest) mode name only.
 
-* Uses <<GenerateSymlinkManifest.md#generateFullManifest, generateFullManifest>> for the only-supported <<symlink_format_manifest, symlink_format_manifest>>
+## Demo
 
-`DeltaGenerateCommand` is <<creating-instance, created>> when:
+```text
+val path = "/tmp/delta/d01"
+val tid = s"delta.`$path`"
+val q = s"GENERATE symlink_format_manifest FOR TABLE $tid"
+sql(q).collect
+```
 
-* `DeltaSqlAstBuilder` is requested to <<DeltaSqlAstBuilder.md#visitGenerate, parse GENERATE SQL command>>
-
-* <<DeltaTable.md#generate, DeltaTable.generate>> operator is used (that <<DeltaTableOperations.md#executeGenerate, executeGenerate>>)
-
-== [[creating-instance]] Creating DeltaGenerateCommand Instance
+## Creating Instance
 
 `DeltaGenerateCommand` takes the following to be created:
 
-* [[modeName]] Mode (<<symlink_format_manifest, symlink_format_manifest>> is the only supported mode)
-* [[tableId]] Delta table (`TableIdentifier`)
+* [Mode Name](#modeName)
+* <span id="tableId"> `TableIdentifier` (Spark SQL)
 
-== [[run]] Running Command -- `run` Method
+`DeltaGenerateCommand` is for:
 
-[source, scala]
-----
-run(sparkSession: SparkSession): Seq[Row]
-----
+* [GENERATE](../sql/index.md#GENERATE) SQL command (that uses `DeltaSqlAstBuilder` to [parse GENERATE SQL command](../sql/DeltaSqlAstBuilder.md#visitGenerate))
+* [DeltaTable.generate](../DeltaTable.md#generate) operator (that uses `DeltaTableOperations` to [executeGenerate](../DeltaTableOperations.md#executeGenerate))
 
-NOTE: `run` is part of the `RunnableCommand` contract to...FIXME.
+## <span id="modeNameToGenerationFunc"><span id="modeName"><span id="symlink_format_manifest"> Generate Mode Name
 
-`run` <<DeltaLog.md#forTable, creates a DeltaLog>> for the <<getPath, path of the delta table>> (from the <<tableId, table identifier>>).
+`DeltaGenerateCommand` is given a mode name when [created](#creating-instance).
 
-`run` finds the generate function for the mode (in the <<modeNameToGenerationFunc, modeNameToGenerationFunc>> registry) and applies (_executes_) it to the `DeltaLog`.
+`DeltaGenerateCommand` uses a lookup table of the supported generation functions by mode name (yet supports just `symlink_format_manifest`).
 
-`run` throws an `AnalysisException` when the <<Snapshot.md#version, version>> of the <<DeltaLog.md#snapshot, snapshot>> of the `DeltaLog` is negative (less than `0`):
+Mode Name | Generation Function
+--------- |----------
+ `symlink_format_manifest` | [generateFullManifest](../GenerateSymlinkManifest.md#generateFullManifest)
 
+## <span id="run"> Executing Command
+
+```scala
+run(
+  sparkSession: SparkSession): Seq[Row]
 ```
-Delta table not found at [tablePath].
+
+`run` is part of the `RunnableCommand` ([Spark SQL]({{ book.spark_sql }}/logical-operators/RunnableCommand#run)) abstraction.
+
+`run` creates a Hadoop `Path` to (the location of) the delta table (based on [DeltaTableIdentifier](../DeltaTableIdentifier.md)).
+
+`run` creates a [DeltaLog](../DeltaLog.md#forTable) for the delta table.
+
+`run` executes the generation function for the [mode name](#modeName).
+
+`run` returns no rows (an empty collection).
+
+### <span id="run-IllegalArgumentException"> IllegalArgumentException
+
+`run` throws an `IllegalArgumentException` when executed with an unsupported [mode name](#modeName):
+
+```text
+Specified mode '[modeName]' is not supported. Supported modes are: [supportedModes]
 ```
 
-`run` throws an `IllegalArgumentException` for unsupported <<modeName, mode>>:
+### <span id="run-AnalysisException"> AnalysisException
 
-```
-Specified mode '[modeName]' is not supported. Supported modes are: symlink_format_manifest
+`run` throws an `AnalysisException` when executed for a non-delta table:
+
+```text
+GENERATE is only supported for Delta tables.
 ```

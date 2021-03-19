@@ -30,7 +30,7 @@ CONVERT TO DELTA table
   (PARTITIONED BY '(' colTypeList ')')?
 ```
 
-Runs a [ConvertToDeltaCommand](../commands/ConvertToDeltaCommand.md)
+Executes [ConvertToDeltaCommand](../commands/ConvertToDeltaCommand.md)
 
 ## <span id="DESCRIBE-DETAIL"> DESCRIBE DETAIL
 
@@ -38,7 +38,7 @@ Runs a [ConvertToDeltaCommand](../commands/ConvertToDeltaCommand.md)
 (DESC | DESCRIBE) DETAIL (path | table)
 ```
 
-Runs a [DescribeDeltaDetailCommand](../commands/DescribeDeltaDetailCommand.md)
+Executes [DescribeDeltaDetailCommand](../commands/DescribeDeltaDetailCommand.md)
 
 ## <span id="DESCRIBE-HISTORY"> DESCRIBE HISTORY
 
@@ -47,7 +47,7 @@ Runs a [DescribeDeltaDetailCommand](../commands/DescribeDeltaDetailCommand.md)
   (LIMIT limit)?
 ```
 
-Runs a [DescribeDeltaHistoryCommand](../commands/DescribeDeltaHistoryCommand.md)
+Executes [DescribeDeltaHistoryCommand](../commands/DescribeDeltaHistoryCommand.md)
 
 ## <span id="GENERATE"> GENERATE
 
@@ -55,7 +55,7 @@ Runs a [DescribeDeltaHistoryCommand](../commands/DescribeDeltaHistoryCommand.md)
 GENERATE modeName FOR TABLE table
 ```
 
-Runs a [DeltaGenerateCommand](../commands/DeltaGenerateCommand.md)
+Executes [DeltaGenerateCommand](../commands/DeltaGenerateCommand.md)
 
 ## <span id="VACUUM"> VACUUM
 
@@ -64,4 +64,4 @@ VACUUM (path | table)
   (RETAIN number HOURS)? (DRY RUN)?
 ```
 
-Runs a [VacuumTableCommand](../commands/VacuumTableCommand.md)
+Executes [VacuumTableCommand](../commands/VacuumTableCommand.md)

@@ -175,7 +175,7 @@ generate(
 
 Generates a manifest for the delta table
 
-`generate` [executeGenerate](DeltaTableOperations.md#executeGenerate) with the table ID of the format `++delta.`path`++` (where the path is the [data directory](DeltaLog.md#dataPath) of the [DeltaLog](#deltaLog)) and the given mode.
+`generate` [executes the DeltaGenerateCommand](DeltaTableOperations.md#executeGenerate) with the table ID of the format ``delta.`path` `` (where the path is the [data directory](DeltaLog.md#dataPath) of the [DeltaLog](#deltaLog)) and the given mode.
 
 ### <span id="history"> history
 

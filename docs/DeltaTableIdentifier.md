@@ -1,0 +1,3 @@
+# DeltaTableIdentifier
+
+`DeltaTableIdentifier` is...FIXME
