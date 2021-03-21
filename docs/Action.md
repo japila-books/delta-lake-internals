@@ -1,16 +1,58 @@
 # Action
 
-`Action` is an <<contract, abstraction>> of <<implementations, metadata>> of a change to (the state of) a Delta table.
+`Action` is an [abstraction](#contract) of [actions](#implementations) that change (the state of) a delta table.
 
-`Action` can be converted (_serialized_) to <<json, json>> format for...FIXME
+## Contract
 
-[[logSchema]]
-`Action` object defines `logSchema` that is a schema (`StructType`) based on the <<SingleAction.md#, SingleAction>> case class.
+### <span id="json"> Serializing to JSON
 
-[source, scala]
-----
+```scala
+json: String
+```
+
+Serializes (_converts_) the [(wrapped) action](#wrap) to JSON format
+
+`json` uses [Jackson]({{ jackson.github }}) library (with [jackson-module-scala]({{ jackson.scala }})) as the JSON processor.
+
+Used when:
+
+* `OptimisticTransactionImpl` is requested to [doCommit](OptimisticTransactionImpl.md#doCommit)
+* `DeltaCommand` is requested to [commitLarge](commands/DeltaCommand.md#commitLarge)
+
+### <span id="wrap"> Wrapping Up as SingleAction
+
+```scala
+wrap: SingleAction
+```
+
+Wraps the action into a [SingleAction](SingleAction.md) for serialization
+
+Used when:
+
+* `Snapshot` is requested to [stateReconstruction](Snapshot.md#stateReconstruction)
+* `Action` is requested to [serialize to JSON format](#json)
+
+## Implementations
+
+* [CommitInfo](CommitInfo.md)
+* [FileAction](FileAction.md)
+* [Metadata](Metadata.md)
+* [Protocol](Protocol.md)
+* [SetTransaction](SetTransaction.md)
+
+??? note "Sealed Trait"
+    `Action` is a Scala **sealed trait** which means that all of the implementations are in the same compilation unit (a single file).
+
+## <span id="logSchema"> Log Schema
+
+`Action` defines `logSchema` that is a schema (`StructType`) to hold [SingleAction](SingleAction.md)s.
+
+```scala
 import org.apache.spark.sql.delta.actions.Action.logSchema
-scala> logSchema.printTreeString
+logSchema.printTreeString
+```
+
+```text
 root
  |-- txn: struct (nullable = true)
  |    |-- appId: string (nullable = true)
@@ -32,6 +74,14 @@ root
  |    |-- path: string (nullable = true)
  |    |-- deletionTimestamp: long (nullable = true)
  |    |-- dataChange: boolean (nullable = false)
+ |    |-- extendedFileMetadata: boolean (nullable = false)
+ |    |-- partitionValues: map (nullable = true)
+ |    |    |-- key: string
+ |    |    |-- value: string (valueContainsNull = true)
+ |    |-- size: long (nullable = false)
+ |    |-- tags: map (nullable = true)
+ |    |    |-- key: string
+ |    |    |-- value: string (valueContainsNull = true)
  |-- metaData: struct (nullable = true)
  |    |-- id: string (nullable = true)
  |    |-- name: string (nullable = true)
@@ -51,6 +101,15 @@ root
  |-- protocol: struct (nullable = true)
  |    |-- minReaderVersion: integer (nullable = false)
  |    |-- minWriterVersion: integer (nullable = false)
+ |-- cdc: struct (nullable = true)
+ |    |-- path: string (nullable = true)
+ |    |-- partitionValues: map (nullable = true)
+ |    |    |-- key: string
+ |    |    |-- value: string (valueContainsNull = true)
+ |    |-- size: long (nullable = false)
+ |    |-- tags: map (nullable = true)
+ |    |    |-- key: string
+ |    |    |-- value: string (valueContainsNull = true)
  |-- commitInfo: struct (nullable = true)
  |    |-- version: long (nullable = true)
  |    |-- timestamp: timestamp (nullable = true)
@@ -72,98 +131,24 @@ root
  |    |-- readVersion: long (nullable = true)
  |    |-- isolationLevel: string (nullable = true)
  |    |-- isBlindAppend: boolean (nullable = true)
-----
+ |    |-- operationMetrics: map (nullable = true)
+ |    |    |-- key: string
+ |    |    |-- value: string (valueContainsNull = true)
+ |    |-- userMetadata: string (nullable = true)
+```
 
-[[contract]]
-.Action Contract (Abstract Methods Only)
-[cols="30m,70",options="header",width="100%"]
-|===
-| Method
-| Description
+## <span id="fromJson"> Deserializing Action (from JSON)
 
-| wrap
-a| [[wrap]]
-
-[source, scala]
-----
-wrap: SingleAction
-----
-
-Wraps the action into a <<SingleAction.md#, SingleAction>> for serialization
-
-Used when:
-
-* `Snapshot` is created (and initializes the <<Snapshot.md#stateReconstruction, state reconstruction>> for the <<Snapshot.md#cachedState, cached state>> of a delta table)
-
-* `Action` is requested to <<json, serialize to JSON format>>
-
-|===
-
-[[implementations]]
-[[extensions]]
-.Actions (Direct Implementations and Extensions Only)
-[cols="30,70",options="header",width="100%"]
-|===
-| Action
-| Description
-
-| <<CommitInfo.md#, CommitInfo>>
-| [[CommitInfo]]
-
-| <<FileAction.md#, FileAction>>
-| [[FileAction]]
-
-| <<Metadata.md#, Metadata>>
-| [[Metadata]]
-
-| <<Protocol.md#, Protocol>>
-| [[Protocol]]
-
-| <<SetTransaction.md#, SetTransaction>>
-| [[SetTransaction]]
-
-|===
-
-NOTE: `Action` is a Scala *sealed trait* which means that all the <<implementations, implementations>> are in the same compilation unit (a single file).
-
-== [[json]] Serializing to JSON Format -- `json` Method
-
-[source, scala]
-----
-json: String
-----
-
-`json` simply serializes (_converts_) the <<wrap, (wrapped) action>> to JSON format.
-
-!!! NOTE
-    `json` uses [Jackson]({{ jackson.github }}) library (with [jackson-module-scala]({{ jackson.scala }})) as the JSON processor.
-
-[NOTE]
-====
-`json` is used when:
-
-* `OptimisticTransactionImpl` is requested to <<OptimisticTransactionImpl.md#doCommit, doCommit>>
-
-* `ConvertToDeltaCommand` is requested to <<ConvertToDeltaCommand.md#streamWrite, streamWrite>>
-====
-
-== [[fromJson]] Deserializing Action (From JSON Format) -- `fromJson` Utility
-
-[source, scala]
-----
+```scala
 fromJson(
   json: String): Action
-----
+```
 
-`fromJson`...FIXME
+`fromJson` utility...FIXME
 
-[NOTE]
-====
-`fromJson` is used when:
+`fromJson` is used when:
 
-* `DeltaHistoryManager` utility is requested for the <<DeltaHistoryManager.md#getCommitInfo, CommitInfo (action) of the given delta file>>
-
-* `DeltaLog` is requested for the <<DeltaLog.md#getChanges, changes (actions) of the given delta version and later>>
-
-* `OptimisticTransactionImpl` is requested to <<OptimisticTransactionImpl.md#checkAndRetry, retry a commit>>
-====
+* `DeltaHistoryManager` is requested for [CommitInfo of the given delta file](DeltaHistoryManager.md#getCommitInfo)
+* `DeltaLog` is requested for the [changes of the given delta version and later](DeltaLog.md#getChanges)
+* `OptimisticTransactionImpl` is requested to [checkForConflicts](OptimisticTransactionImpl.md#checkForConflicts)
+* `DeltaCommand` is requested to [commitLarge](commands/DeltaCommand.md#commitLarge)
