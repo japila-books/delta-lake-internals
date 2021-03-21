@@ -1,36 +1,63 @@
-= CommitInfo
+# CommitInfo
 
-CommitInfo is an Action.md[] with the following:
+`CommitInfo` is an [Action](Action.md) defined by the following properties:
 
-* [[version]] Version
-* [[timestamp]] Timestamp
-* [[userId]] User ID
-* [[userName]] User Name
-* [[operation]] Operation.md#name[Name of the operation]
-* [[operationParameters]] Operation.md#parameters[Parameters of the operation]
-* [[job]] JobInfo
-* [[notebook]] NotebookInfo
-* [[clusterId]] Cluster ID
-* [[readVersion]] Read Version
-* [[isolationLevel]] Isolation Level
-* [[isBlindAppend]] isBlindAppend flag (to indicate whether a commit has blindly appended without caring about existing files)
-* [[operationMetrics]] Metrics of the operation
-* [[userMetadata]] User metadata
+* <span id="version"> Version (optional)
+* <span id="timestamp"> Timestamp
+* <span id="userId"> User ID (optional)
+* <span id="userName"> User Name (optional)
+* <span id="operation"> [Operation](Operation.md#name)
+* <span id="operationParameters"> [Operation Parameters](Operation.md#parameters)
+* <span id="job"> JobInfo (optional)
+* <span id="notebook"> NotebookInfo (optional)
+* <span id="clusterId"> Cluster ID (optional)
+* <span id="readVersion"> Read Version (optional)
+* <span id="isolationLevel"> Isolation Level (optional)
+* [isBlindAppend](#isBlindAppend) flag (optional)
+* <span id="operationMetrics"> Operation Metrics (optional)
+* <span id="userMetadata"> User metadata (optional)
 
-CommitInfo is created (using <<apply, apply>> utility) when:
+`CommitInfo` is created (using [apply](#apply) and [empty](#empty) utilities) when:
 
-* OptimisticTransactionImpl is requested to OptimisticTransactionImpl.md#commit[commit]
+* `DeltaHistoryManager` is requested for [version and commit history](DeltaHistoryManager.md#getHistory) (for [DeltaTable.history](DeltaTable.md#history) operator and [DESCRIBE HISTORY](sql/index.md#DESCRIBE-HISTORY) SQL command)
+* `OptimisticTransactionImpl` is requested to [commit](OptimisticTransactionImpl.md#commit) (with [spark.databricks.delta.commitInfo.enabled](DeltaSQLConf.md#commitInfo.enabled) configuration property enabled)
+* `DeltaCommand` is requested to [commitLarge](commands/DeltaCommand.md#commitLarge) (for [ConvertToDeltaCommand](commands/ConvertToDeltaCommand.md) command)
 
-* ConvertToDeltaCommand command is requested to ConvertToDeltaCommand.md#streamWrite[streamWrite] (when executed)
+`CommitInfo` is used as a part of [OptimisticTransactionImpl](OptimisticTransactionImpl.md#commitInfo) and `CommitStats`.
 
-CommitInfo is used in OptimisticTransactionImpl.md#commitInfo[OptimisticTransactionImpl] and CommitStats.
+## <span id="isBlindAppend"> isBlindAppend flag
 
-CommitInfo is added (_logged_) to a Delta log only for DeltaSQLConf.md#commitInfo.enabled[spark.databricks.delta.commitInfo.enabled] configuration enabled.
+`CommitInfo` is given `isBlindAppend` flag when created.
 
-== [[apply]] apply Utility
+`isBlindAppend` flag indicates whether a commit has blindly appended data without caring about existing files.
 
-[source,scala]
-----
+## DeltaHistoryManager
+
+`CommitInfo` can be looked up using [DeltaHistoryManager](DeltaHistoryManager.md#getCommitInfo) for the following:
+
+* [DESCRIBE HISTORY](sql/index.md#DESCRIBE-HISTORY) SQL command
+* [DeltaTable.history](DeltaTable.md#history) operation
+
+## <span id="spark.databricks.delta.commitInfo.enabled"> spark.databricks.delta.commitInfo.enabled
+
+`CommitInfo` is added (_logged_) to a delta log only with [spark.databricks.delta.commitInfo.enabled](DeltaSQLConf.md#commitInfo.enabled) configuration property enabled.
+
+## <span id="empty"> Creating Empty CommitInfo
+
+```scala
+empty(
+  version: Option[Long] = None): CommitInfo
+```
+
+`empty`...FIXME
+
+`empty` is used when:
+
+* `DeltaHistoryManager` is requested to [getCommitInfo](DeltaHistoryManager.md#getCommitInfo)
+
+## <span id="apply"> Creating CommitInfo
+
+```scala
 apply(
   time: Long,
   operation: String,
@@ -41,14 +68,13 @@ apply(
   isBlindAppend: Option[Boolean],
   operationMetrics: Option[Map[String, String]],
   userMetadata: Option[String]): CommitInfo
-----
+```
 
-apply creates a CommitInfo (for the given arguments and based on the given `commandContext` for the user ID, user name, job, notebook, cluster).
+`apply` creates a `CommitInfo` (for the given arguments and based on the given `commandContext` for the user ID, user name, job, notebook, cluster).
 
-NOTE: commandContext is always empty, but could be customized using ConvertToDeltaCommand.md#ConvertToDeltaCommandBase[ConvertToDeltaCommandBase].
+`commandContext` argument is always empty, but could be customized using [ConvertToDeltaCommandBase](commands/ConvertToDeltaCommand.md#ConvertToDeltaCommandBase).
 
-apply is used when:
+`apply` is used when:
 
-* OptimisticTransactionImpl is requested to OptimisticTransactionImpl.md#commit[commit]
-
-* ConvertToDeltaCommand command is requested to ConvertToDeltaCommand.md#streamWrite[streamWrite] (when executed)
+* `OptimisticTransactionImpl` is requested to [commit](OptimisticTransactionImpl.md#commit) (with [spark.databricks.delta.commitInfo.enabled](DeltaSQLConf.md#commitInfo.enabled) configuration property enabled)
+* `DeltaCommand` is requested to [commitLarge](commands/DeltaCommand.md#commitLarge)
