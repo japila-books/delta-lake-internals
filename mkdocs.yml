@@ -176,6 +176,7 @@ nav:
         - DeltaSourceSnapshot: DeltaSourceSnapshot.md
       - DeltaSink: DeltaSink.md
       - WriteIntoDeltaBuilder: WriteIntoDeltaBuilder.md
+      - AdmissionLimits: AdmissionLimits.md
     - Spark SQL Extensions:
       - DeltaCatalog: DeltaCatalog.md
       - DeltaTableV2: DeltaTableV2.md

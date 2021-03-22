@@ -1,4 +1,4 @@
-= DeltaSourceSnapshot
+# DeltaSourceSnapshot
 
 [[SnapshotIterator]][[StateCache]]
 `DeltaSourceSnapshot` is a <<SnapshotIterator.md#, SnapshotIterator>> with <<StateCache.md#, StateCache>>
