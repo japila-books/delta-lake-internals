@@ -1,24 +1,25 @@
-= SetTransaction
+# SetTransaction
 
-`SetTransaction` is an <<Action.md#, action>> that denotes the committed <<version, version>> for an <<appId, application>>.
+`SetTransaction` is an [Action](Action.md) defined by the following properties:
 
-`SetTransaction` is <<creating-instance, created>> when `DeltaSink` is requested to <<DeltaSink.md#addBatch, add a streaming micro-batch>> (for `STREAMING UPDATE` operation idempotence at query restart).
+* <span id="appId"> Application ID (i.e. streaming query ID)
+* <span id="version"> Version (i.e. micro-batch ID)
+* <span id="lastUpdated"> Last Updated (optional) (i.e. milliseconds since the epoch)
 
-== [[creating-instance]] Creating SetTransaction Instance
+`SetTransaction` is created when:
 
-`SetTransaction` takes the following to be created:
+* `DeltaSink` is requested to [add a streaming micro-batch](DeltaSink.md#addBatch) (for `STREAMING UPDATE` operation idempotence at query restart)
 
-* [[appId]] Application ID (e.g. streaming query ID)
-* [[version]] Version (e.g micro-batch ID)
-* [[lastUpdated]] Last Updated (optional) (e.g. milliseconds since the epoch)
+## Demo
 
-== [[wrap]] `wrap` Method
+```scala
+val path = "/tmp/delta/users"
 
-[source, scala]
-----
-wrap: SingleAction
-----
+import org.apache.spark.sql.delta.DeltaLog
+val deltaLog = DeltaLog.forTable(spark, path)
 
-NOTE: `wrap` is part of the <<Action.md#wrap, Action>> contract to wrap the action into a <<SingleAction.md#, SingleAction>> for serialization.
+import org.apache.spark.sql.delta.actions.SetTransaction
+assert(deltaLog.snapshot.setTransactions.isInstanceOf[Seq[SetTransaction]])
 
-`wrap` simply creates a new <<SingleAction.md#, SingleAction>> with the `txn` field set to this `SetTransaction`.
+deltaLog.snapshot.setTransactions
+```

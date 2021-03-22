@@ -1,6 +1,6 @@
 # AddFile
 
-`AddFile` is a [FileAction](FileAction.md) that represents an action of adding a [file](#path) to a [delta table](DeltaLog.md).
+`AddFile` is a [FileAction](FileAction.md) that represents an action of adding a [file](#path) to a delta table.
 
 ## Creating Instance
 
@@ -36,15 +36,13 @@ wrap: SingleAction
 remove: RemoveFile
 ```
 
-`remove` simply [creates a RemoveFile](#removeWithTimestamp) for the [path](#path) (with the current time and `dataChange` flag enabled).
+`remove` [creates a RemoveFile](#removeWithTimestamp) for the [path](#path) (with the current time and `dataChange` flag enabled).
 
 `remove` is used when:
 
 * [MergeIntoCommand](commands/MergeIntoCommand.md) is executed
-
 * `WriteIntoDelta` is requested to [write](commands/WriteIntoDelta.md#write) (with `Overwrite` mode)
-
-* `DeltaSink` is requested to [add a streaming micro-batch](DeltaSink.md#addBatch) (for `Complete` output mode)
+* `DeltaSink` is requested to [add a streaming micro-batch](DeltaSink.md#addBatch) (with `Complete` output mode)
 
 ## <span id="removeWithTimestamp"> Converting to RemoveFile
 
@@ -54,7 +52,7 @@ removeWithTimestamp(
   dataChange: Boolean = true): RemoveFile
 ```
 
-`remove` creates a new [RemoveFile](RemoveFile.md) for the [path](#path) with the given `timestamp` and `dataChange` flag.
+`remove` creates a new [RemoveFile](RemoveFile.md) action for the [path](#path) with the given `timestamp` and `dataChange` flag.
 
 `removeWithTimestamp` is used when:
 
