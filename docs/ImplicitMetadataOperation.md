@@ -59,8 +59,7 @@ updateMetadata(
 
 `updateMetadata` is used when:
 
-* `WriteIntoDelta` command is [executed](commands/WriteIntoDelta.md#run)
-* `MergeIntoCommand` command is [executed](commands/MergeIntoCommand.md#run)
+* [MergeIntoCommand](commands/MergeIntoCommand.md) and [WriteIntoDelta](commands/WriteIntoDelta.md) commands are executed
 * `DeltaSink` is requested to [add a streaming micro-batch](DeltaSink.md#addBatch)
 
 ### <span id="normalizePartitionColumns"> Normalizing Partition Columns
