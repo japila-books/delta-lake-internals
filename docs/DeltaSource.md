@@ -279,6 +279,16 @@ Otherwise, `cleanUpSnapshotResources` does nothing.
 
 * `DeltaSource` is requested to [getSnapshotAt](#getSnapshotAt), [getBatch](#getBatch) and [stop](#stop)
 
+## <span id="getDefaultReadLimit"> ReadLimit
+
+```scala
+getDefaultReadLimit: ReadLimit
+```
+
+`getDefaultReadLimit` is part of the `SupportsAdmissionControl` ([Spark Structured Streaming]({{ book.structured_streaming }}/SupportsAdmissionControl#getDefaultReadLimit)) abstraction.
+
+`getDefaultReadLimit` creates a [AdmissionLimits](AdmissionLimits.md) and requests it for a corresponding [ReadLimit](AdmissionLimits.md#toReadLimit).
+
 ## <span id="iteratorLast"> Retrieving Last Element From Iterator
 
 ```scala
