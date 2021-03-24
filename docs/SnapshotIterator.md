@@ -1,14 +1,32 @@
-= SnapshotIterator
+# SnapshotIterator
 
-`SnapshotIterator` is...FIXME
+`SnapshotIterator` is an abstraction of [iterators](#implementations) over indexed [AddFile](AddFile.md) actions in a Delta log for [DeltaSourceSnapshot](DeltaSourceSnapshot.md)s.
 
-== [[iterator]] `iterator` Method
+## <span id="iterator"><span id="result"> Iterator of Indexed AddFiles
 
-[source, scala]
-----
+```scala
 iterator(): Iterator[IndexedFile]
-----
+```
 
-`iterator`...FIXME
+`iterator` returns an `Iterator` ([Scala]({{ scala.api }}/scala/collection/Iterator.html)) of `IndexedFile`s ([AddFile](AddFile.md) actions in a Delta log with extra metadata) of [filterFileList](DeltaLog.md#filterFileList).
 
-NOTE: `iterator` is used exclusively when `DeltaSource` is requested for the <<DeltaSource.md#getSnapshotAt, Snapshot by given version>>.
+`iterator` is used when:
+
+* `DeltaSource` is requested for the [snapshot of a delta table at a given version](DeltaSource.md#getSnapshotAt)
+
+## <span id="close"> Closing Iterator (Cleaning Up Internal Resources)
+
+```scala
+close(
+  unpersistSnapshot: Boolean): Unit
+```
+
+`close` is a no-op (and leaves proper operation to [implementations](#implementations)).
+
+`close` is used when:
+
+* `DeltaSource` is requested to [cleanUpSnapshotResources](DeltaSource.md#cleanUpSnapshotResources)
+
+## Implementations
+
+* [DeltaSourceSnapshot](DeltaSourceSnapshot.md)

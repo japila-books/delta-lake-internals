@@ -414,7 +414,7 @@ getSnapshotAt(
 
 * `DeltaLog` is requested for a [relation](#createRelation), and to [updateInternal](#updateInternal)
 
-* `DeltaSource` is requested to [getSnapshotAt](DeltaSource.md#getSnapshotAt)
+* `DeltaSource` is requested for the [snapshot of a delta table at a given version](DeltaSource.md#getSnapshotAt)
 
 * `TahoeLogFileIndex` is requested for [historicalSnapshotOpt](TahoeLogFileIndex.md#historicalSnapshotOpt)
 

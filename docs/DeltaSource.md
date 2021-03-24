@@ -134,7 +134,7 @@ getOffset: Option[Offset]
 latestOffset(Offset, ReadLimit) should be called instead of this method
 ```
 
-## <span id="getBatch"> Micro-Batch for Start and End Offsets
+## <span id="getBatch"> Requesting Micro-Batch DataFrame
 
 ```scala
 getBatch(
@@ -156,6 +156,32 @@ start: [start] end: [end] [addFiles]
 
 In the end, `getBatch` requests the [DeltaLog](#deltaLog) to [createDataFrame](DeltaLog.md#createDataFrame) (for the [current snapshot](SnapshotManagement.md#snapshot) of the [DeltaLog](#deltaLog), `addFiles` and `isStreaming` flag on).
 
+## Snapshot Management
+
+`DeltaSource` uses internal registries for the [DeltaSourceSnapshot](#initialState) and the [version](#initialStateVersion) to avoid requesting the [DeltaLog](#deltaLog) for [getSnapshotAt](DeltaLog.md#getSnapshotAt).
+
+### <span id="initialState"> Snapshot
+
+`DeltaSource` uses `initialState` internal registry for the [DeltaSourceSnapshot](DeltaSourceSnapshot.md) of the state of the [delta table](#deltaLog) at the [initialStateVersion](#initialStateVersion).
+
+`DeltaSourceSnapshot` is used for [AddFiles of the delta table at a given version](#getSnapshotAt).
+
+Initially uninitialized (`null`).
+
+`DeltaSourceSnapshot` is [created](DeltaSourceSnapshot.md) (_initialized_) when uninitialized or the version requested is different from the [current one](#initialStateVersion).
+
+`DeltaSourceSnapshot` is [closed](DeltaSourceSnapshot.md#close) and dereferenced (`null`) when `DeltaSource` is requested to [cleanUpSnapshotResources](#cleanUpSnapshotResources) (due to [version change](#getSnapshotAt), [another micro-batch](#getBatch) or [stop](#stop)).
+
+### <span id="initialStateVersion"> Version
+
+`DeltaSource` uses `initialStateVersion` internal registry to keep track of the version of [DeltaSourceSnapshot](DeltaSourceSnapshot.md) (when requested for [AddFiles of the delta table at a given version](#getSnapshotAt)).
+
+Changes (alongside the [initialState](#initialState)) to the version requested when `DeltaSource` is requested for the [snapshot at a given version](#getSnapshotAt) (only when the versions are different)
+
+Used when:
+
+* `DeltaSource` is requested for [AddFiles of the delta table at a given version](#getSnapshotAt) and to [cleanUpSnapshotResources](#cleanUpSnapshotResources) (and unpersist the current snapshot)
+
 ## <span id="stop"> Stopping
 
 ```scala
@@ -166,39 +192,6 @@ stop(): Unit
 
 `stop` simply [cleanUpSnapshotResources](#cleanUpSnapshotResources).
 
-## <span id="iteratorLast"> Retrieving Last Element From Iterator
-
-```scala
-iteratorLast[T](
-  iter: Iterator[T]): Option[T]
-```
-
-`iteratorLast` simply returns the last element in the given `Iterator` or `None`.
-
-`iteratorLast` is used when:
-
-* `DeltaSource` is requested to [getStartingOffset](#getStartingOffset) and [getOffset](#getOffset)
-
-## <span id="initialState"> DeltaSourceSnapshot
-
-[DeltaSourceSnapshot](DeltaSourceSnapshot.md)
-
-Initially uninitialized (`null`).
-
-Changes (along with the [initialStateVersion](#initialStateVersion)) when `DeltaSource` is requested for the [snapshot at a given version](#getSnapshotAt) (only when the versions are different)
-
-Used when `DeltaSource` is requested for the [snapshot at a given version](#getSnapshotAt)
-
-Closed and dereferenced (`null`) when `DeltaSource` is requested to [cleanUpSnapshotResources](#cleanUpSnapshotResources)
-
-## <span id="initialStateVersion"> Initial Version
-
-Version of the [delta table](#deltaLog)
-
-Initially `-1L` and changes (along with the [initialState](#initialState)) to the version requested when `DeltaSource` is requested for the [snapshot at a given version](#getSnapshotAt) (only when the versions are different)
-
-Used when `DeltaSource` is requested to [cleanUpSnapshotResources](#cleanUpSnapshotResources) (and unpersist the current snapshot)
-
 ## <span id="previousOffset"> Previous Offset
 
 Ending [DeltaSourceOffset](DeltaSourceOffset.md) of the latest [micro-batch](#getBatch)
@@ -207,11 +200,7 @@ Starts uninitialized (`null`).
 
 Used when `DeltaSource` is requested for the [latest available offset](#getOffset).
 
-## <span id="tableId"> Table ID
-
-Table ID
-
-## <span id="getSnapshotAt"> Retrieving State of Delta Table at Given Version
+## <span id="getSnapshotAt"> AddFiles of Delta Table at Given Version
 
 ```scala
 getSnapshotAt(
@@ -289,6 +278,19 @@ Otherwise, `cleanUpSnapshotResources` does nothing.
 `cleanUpSnapshotResources` is used when:
 
 * `DeltaSource` is requested to [getSnapshotAt](#getSnapshotAt), [getBatch](#getBatch) and [stop](#stop)
+
+## <span id="iteratorLast"> Retrieving Last Element From Iterator
+
+```scala
+iteratorLast[T](
+  iter: Iterator[T]): Option[T]
+```
+
+`iteratorLast` simply returns the last element of the given `Iterator` ([Scala]({{ scala.api }}/scala/collection/Iterator.html)) or `None`.
+
+`iteratorLast` is used when:
+
+* `DeltaSource` is requested to [getStartingOffset](#getStartingOffset) and [getOffset](#getOffset)
 
 ## Logging
 

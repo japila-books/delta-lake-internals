@@ -1,36 +1,67 @@
 # DeltaSourceSnapshot
 
-[[SnapshotIterator]][[StateCache]]
-`DeltaSourceSnapshot` is a <<SnapshotIterator.md#, SnapshotIterator>> with <<StateCache.md#, StateCache>>
+`DeltaSourceSnapshot` is a [SnapshotIterator](SnapshotIterator.md) and a [StateCache](StateCache.md) for [DeltaSource](DeltaSource.md#initialState).
 
-`DeltaSourceSnapshot` is <<creating-instance, created>> when `DeltaSource` is requested for the <<DeltaSource.md#getSnapshotAt, snapshot at a given version>>.
-
-[[version]]
-When <<creating-instance, created>>, `DeltaSourceSnapshot` requests the <<snapshot, Snapshot>> for the <<Snapshot.md#version, version>> that it uses for the <<initialFiles, initialFiles>> (a new column and the name of the cached RDD).
-
-== [[creating-instance]] Creating DeltaSourceSnapshot Instance
+## Creating Instance
 
 `DeltaSourceSnapshot` takes the following to be created:
 
-* [[spark]] `SparkSession`
-* [[snapshot]] <<Snapshot.md#, Snapshot>>
-* [[filters]] Filter expressions (`Seq[Expression]`)
+* <span id="spark"> `SparkSession` ([Spark SQL]({{ book.spark_sql }}/SparkSession))
+* <span id="snapshot"> [Snapshot](Snapshot.md)
+* <span id="filters"> Filter Expressions ([Spark SQL]({{ book.spark_sql }}/expressions/Expression))
 
-== [[initialFiles]] Initial Files (Indexed AddFiles) -- `initialFiles` Method
+`DeltaSourceSnapshot` is created when:
 
-[source, scala]
-----
+* `DeltaSource` is requested for the [snapshot of a delta table at a given version](DeltaSource.md#getSnapshotAt)
+
+## <span id="initialFiles"> Initial Files (Indexed AddFiles)
+
+```scala
 initialFiles: Dataset[IndexedFile]
-----
-
-`initialFiles` requests the <<snapshot, Snapshot>> for <<Snapshot.md#allFiles, all files>> (`Dataset[AddFile]`) and sorts them by <<AddFile.md#modificationTime, modificationTime>> and <<AddFile.md#path, path>> in ascending order.
-
-`initialFiles` zips the <<AddFile.md#, AddFiles>> with indices (using `RDD.zipWithIndex` operator), adds two new columns with the <<version, version>> and `isLast` as `false`, and finally creates a `Dataset[IndexedFile]`.
-
-In the end, `initialFiles` <<StateCache.md#cacheDS, caches the dataset>> with the following name (with the <<version, version>> and the <<Snapshot.md#redactedPath, redactedPath>> of the <<snapshot, Snapshot>>)
-
-```
-Delta Source Snapshot #[version] - [redactedPath]
 ```
 
-NOTE: `initialFiles` is used exclusively when `SnapshotIterator` is requested for a <<SnapshotIterator.md#iterator, iterator (of IndexedFiles)>>.
+### <span id="initialFiles-Dataset-IndexedFile"> Dataset of Indexed AddFiles
+
+`initialFiles` requests the [Snapshot](#snapshot) for [all AddFiles (in the snapshot)](Snapshot.md#allFiles) (`Dataset[AddFile]`).
+
+`initialFiles` sorts the [AddFile](AddFile.md) dataset (`Dataset[AddFile]`) by [modificationTime](AddFile.md#modificationTime) and [path](AddFile.md#path) in ascending order.
+
+`initialFiles` indexes the `AddFiles` (using `RDD.zipWithIndex` operator) that gives a `RDD[(AddFile, Long)]`.
+
+`initialFiles` converts the `RDD` to a `DataFrame` of two columns: `add` and `index`.
+
+`initialFiles` adds the two new columns:
+
+* [version](#version)
+* `isLast` as `false` literal
+
+`initialFiles` converts (_projects_) `DataFrame` to `Dataset[IndexedFile]`.
+
+### <span id="initialFiles-cacheDS"> Creating CachedDS
+
+`initialFiles` [creates a CachedDS](StateCache.md#cacheDS) with the following name (with the [version](#version) and [path](#path) of the [Snapshot](#snapshot)):
+
+```text
+Delta Source Snapshot #[version] - [path]
+```
+
+### <span id="initialFiles-getDS"> Cached Dataset of Indexed AddFiles
+
+In the end, `initialFiles` requests the [CachedDS](#initialFiles-cacheDS) to [getDS](CachedDS.md#getDS).
+
+### <span id="initialFiles-usage"> Usage
+
+`initialFiles` is used when:
+
+* `SnapshotIterator` is requested for the [AddFiles](SnapshotIterator.md#iterator)
+
+## <span id="close"> Closing
+
+```scala
+close(
+  unpersistSnapshot: Boolean): Unit
+```
+
+`close` is part of the [SnapshotIterator](SnapshotIterator.md#close) abstraction.
+
+`close` requests the [Snapshot](#snapshot) to [uncache](StateCache.md#uncache) when the given `unpersistSnapshot` flag is enabled.

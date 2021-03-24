@@ -89,7 +89,7 @@ state: Dataset[SingleAction]
 * `Snapshot` is requested for [computedState](#computedState), [all files](#allFiles) and [files removed (tombstones)](#tombstones)
 * `VacuumCommand` utility is requested for [garbage collection](commands/VacuumCommand.md#gc)
 
-## <span id="allFiles"> All AddFile Actions
+## <span id="allFiles"> All AddFiles
 
 ```scala
 allFiles: Dataset[AddFile]

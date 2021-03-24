@@ -88,6 +88,8 @@ extra:
     version: 3.1.1
   scala:
     version: 2.12.10
+    api: https://www.scala-lang.org/api/2.12.10
+    docs: https://docs.scala-lang.org/
   java:
     version: 11
     api: https://docs.oracle.com/en/java/javase/11/docs/api
@@ -172,8 +174,8 @@ nav:
       - DeltaSource:
         - DeltaSource: DeltaSource.md
         - DeltaSourceOffset: DeltaSourceOffset.md
-        - SnapshotIterator: SnapshotIterator.md
         - DeltaSourceSnapshot: DeltaSourceSnapshot.md
+        - SnapshotIterator: SnapshotIterator.md
       - DeltaSink: DeltaSink.md
       - WriteIntoDeltaBuilder: WriteIntoDeltaBuilder.md
       - AdmissionLimits: AdmissionLimits.md
