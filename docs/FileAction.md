@@ -16,6 +16,11 @@ path: String
 dataChange: Boolean
 ```
 
+`dataChange` is used when:
+
+* `InMemoryLogReplay` is requested to [append](InMemoryLogReplay.md#append)
+* FIXME
+
 ## Implementations
 
 * [AddCDCFile](AddCDCFile.md)

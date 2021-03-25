@@ -1,127 +1,76 @@
-# InMemoryLogReplay &mdash; Delta Log Replay
+# InMemoryLogReplay
 
-`InMemoryLogReplay` is used at the very last phase of <<Snapshot.md#stateReconstruction, state reconstruction>> (of a <<Snapshot.md#cachedState, cached delta state>>).
+`InMemoryLogReplay` is used at the very last phase of [state reconstruction](Snapshot.md#stateReconstruction) (of a [cached delta state](Snapshot.md#cachedState)).
 
-`InMemoryLogReplay` is <<creating-instance, created>> for every partition of the <<Snapshot.md#stateReconstruction, stateReconstruction>> dataset (`Dataset[SingleAction]`) that is based on the <<DeltaSQLConf.md#DELTA_SNAPSHOT_PARTITIONS, spark.databricks.delta.snapshotPartitions>> configuration property (default: `50`).
+`InMemoryLogReplay` [handles](#append) a single partition of the [state reconstruction](Snapshot.md#stateReconstruction) dataset (based on the [spark.databricks.delta.snapshotPartitions](DeltaSQLConf.md#DELTA_SNAPSHOT_PARTITIONS) configuration property).
 
-The lifecycle of `InMemoryLogReplay` is as follows:
-
-. <<creating-instance, Created>> (with <<Snapshot.md#minFileRetentionTimestamp, Snapshot.minFileRetentionTimestamp>>)
-
-. <<append, Append>> (with all <<SingleAction.md#, SingleActions>> of a partition)
-
-. <<checkpoint, Checkpoint>>
-
-== [[creating-instance]] Creating InMemoryLogReplay Instance
+## Creating Instance
 
 `InMemoryLogReplay` takes the following to be created:
 
-* [[minFileRetentionTimestamp]] `minFileRetentionTimestamp` (that is exactly <<Snapshot.md#minFileRetentionTimestamp, Snapshot.minFileRetentionTimestamp>>)
+* <span id="minFileRetentionTimestamp"> `minFileRetentionTimestamp` ([Snapshot.minFileRetentionTimestamp](Snapshot.md#minFileRetentionTimestamp))
 
-`InMemoryLogReplay` initializes the <<internal-properties, internal properties>>.
+`InMemoryLogReplay` is created when:
 
-== [[append]] Appending Actions -- `append` Method
+* `Snapshot` is requested for [state reconstruction](Snapshot.md#stateReconstruction)
 
-[source, scala]
-----
+## Lifecycle
+
+The lifecycle of `InMemoryLogReplay` is as follows:
+
+1. [Created](#creating-instance) (with [Snapshot.minFileRetentionTimestamp](Snapshot.md#minFileRetentionTimestamp))
+
+1. [Append](#append) all [SingleAction](SingleAction.md)s of a partition (based on the [spark.databricks.delta.snapshotPartitions](DeltaSQLConf.md#DELTA_SNAPSHOT_PARTITIONS) configuration property)
+
+1. [Checkpoint](#checkpoint)
+
+## <span id="append"> Appending Actions
+
+```scala
 append(
   version: Long,
   actions: Iterator[Action]): Unit
-----
-
-`append` sets the <<currentVersion, currentVersion>> as the given `version`.
-
-`append` adds <<Action.md#, actions>> to respective registries:
-
-* Every <<SetTransaction.md#, SetTransaction>> is registered in the <<transactions, transactions>> by <<SetTransaction.md#appId, appId>>
-
-* <<Metadata.md#, Metadata>> is registered as the <<currentMetaData, currentMetaData>>
-
-* <<Protocol.md#, Protocol>> is registered as the <<currentProtocolVersion, currentProtocolVersion>>
-
-* Every <<AddFile.md#, AddFile>> is registered as follows:
-** Added to <<activeFiles, activeFiles>> by `pathAsUri` (with `dataChange` flag turned off)
-** Removed from <<tombstones, tombstones>> by `pathAsUri`
-
-* Every <<FileAction.md#RemoveFile, RemoveFile>> is registered as follows:
-** Removed from <<activeFiles, activeFiles>> by `pathAsUri`
-** Added to <<tombstones, tombstones>> by `pathAsUri` (with `dataChange` flag turned off)
-
-* <<CommitInfo.md#, CommitInfos>> are ignored
-
-`append` throws an `AssertionError` when the <<currentVersion, currentVersion>> is neither `-1` (the default) nor one before the given `version`:
-
 ```
+
+`append` sets the [currentVersion](#currentVersion) to the given `version`.
+
+`append` adds the given [actions](Action.md) to their respective registries.
+
+Action   | Registry
+---------|----------
+ [SetTransaction](SetTransaction.md) | [transactions](#transactions) by [appId](SetTransaction.md#appId)
+ [Metadata](Metadata.md) | [currentMetaData](#currentMetaData)
+ [Protocol](Protocol.md) | [currentProtocolVersion](#currentProtocolVersion)
+ [AddFile](AddFile.md) | 1. [activeFiles](#activeFiles) by [path](FileAction.md#path) and with [dataChange](AddFile.md#dataChange) flag disabled
+ &nbsp;                | 2. Removes the path from [tombstones](#tombstones) (so there's only one [FileAction](FileAction.md) for a path)
+ [RemoveFile](RemoveFile.md) | 1. Removes the path from [activeFiles](#activeFiles) (so there's only one [FileAction](FileAction.md) for a path)
+ &nbsp;                | 2. [tombstones](#tombstones) by [path](FileAction.md#path) and with [dataChange](AddFile.md#dataChange) flag disabled
+ [CommitInfo](CommitInfo.md) | Ignored
+ [AddCDCFile](AddCDCFile.md) | Ignored
+
+`append` throws an `AssertionError` when the [currentVersion](#currentVersion) is `-1` or one before the given `version`:
+
+```text
 Attempted to replay version [version], but state is at [currentVersion]
 ```
 
-NOTE: `append` is used when `Snapshot` is created (and initializes the <<Snapshot.md#stateReconstruction, stateReconstruction>> for the <<Snapshot.md#cachedState, cached delta state>>).
+## <span id="checkpoint"> Current State of Delta Table
 
-== [[checkpoint]] Current State Of Delta Table -- `checkpoint` Method
-
-[source, scala]
-----
+```scala
 checkpoint: Iterator[Action]
-----
+```
 
-`checkpoint` simply builds a sequence (`Iterator[Action]`) of the following (in that order):
+`checkpoint` returns an `Iterator` ([Scala]({{ scala.api }}/scala/collection/Iterator.html)) of [Action](Action.md)s in the following order:
 
-* <<currentProtocolVersion, currentProtocolVersion>> if defined (non-``null``)
+* [currentProtocolVersion](#currentProtocolVersion) if defined (non-``null``)
+* [currentMetaData](#currentMetaData) if defined (non-``null``)
+* [SetTransaction](#transactions)s
+* [AddFile](#activeFiles)s and [RemoveFile](#getTombstones)s sorted by [path](FileAction.md#path) (lexicographically)
 
-* <<currentMetaData, currentMetaData>> if defined (non-``null``)
+### <span id="getTombstones"> getTombstones
 
-* <<transactions, SetTransactions>>
-
-* <<activeFiles, AddFiles>> and <<getTombstones, RemoveFiles>> (after the <<minFileRetentionTimestamp, minFileRetentionTimestamp>>) sorted by <<FileAction.md#path, path>> (lexicographically)
-
-NOTE: `checkpoint` is used when `Snapshot` is created (and initializes the <<Snapshot.md#stateReconstruction, stateReconstruction>> for the <<Snapshot.md#cachedState, cached delta state>>).
-
-== [[getTombstones]] `getTombstones` Internal Method
-
-[source, scala]
-----
+```scala
 getTombstones: Iterable[FileAction]
-----
+```
 
-`getTombstones` returns <<FileAction.md#RemoveFile, RemoveFiles>> (from the <<tombstones, tombstones>>) with their `delTimestamp` after the <<minFileRetentionTimestamp, minFileRetentionTimestamp>>.
-
-NOTE: `getTombstones` is used when `InMemoryLogReplay` is requested to <<checkpoint, checkpoint>>.
-
-== [[internal-properties]] Internal Properties
-
-[cols="30m,70",options="header",width="100%"]
-|===
-| Name
-| Description
-
-| currentProtocolVersion
-a| [[currentProtocolVersion]] <<Protocol.md#, Protocol>> (default: `null`)
-
-Used when...FIXME
-
-| currentVersion
-a| [[currentVersion]] Version (default: `-1`)
-
-Used when...FIXME
-
-| currentMetaData
-a| [[currentMetaData]] <<Metadata.md#, Metadata>> (default: `null`)
-
-Used when...FIXME
-
-| transactions
-a| [[transactions]] <<SetTransaction.md#, SetTransactions>> per ID (`HashMap[String, SetTransaction]`)
-
-Used when...FIXME
-
-| activeFiles
-a| [[activeFiles]] <<AddFile.md#, AddFile>> per URI (`HashMap[URI, AddFile]`)
-
-Used when...FIXME
-
-| tombstones
-a| [[tombstones]] <<FileAction.md.md#RemoveFile, RemoveFile>> per URI (`HashMap[URI, RemoveFile]`)
-
-Used when...FIXME
-
-|===
+`getTombstones` uses the [tombstones](#tombstones) internal registry for [RemoveFile](RemoveFile.md)s with [deletionTimestamp](RemoveFile.md#deletionTimestamp) after (_greater than_) the [minFileRetentionTimestamp](#minFileRetentionTimestamp).
