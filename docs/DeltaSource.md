@@ -262,6 +262,16 @@ filterAndIndexDeltaLogs(
 
 `filterAndIndexDeltaLogs`...FIXME
 
+### <span id="verifyStreamHygieneAndFilterAddFiles"> verifyStreamHygieneAndFilterAddFiles
+
+```scala
+verifyStreamHygieneAndFilterAddFiles(
+  actions: Seq[Action],
+  version: Long): Seq[Action]
+```
+
+`verifyStreamHygieneAndFilterAddFiles`...FIXME
+
 ## <span id="cleanUpSnapshotResources"> cleanUpSnapshotResources
 
 ```scala

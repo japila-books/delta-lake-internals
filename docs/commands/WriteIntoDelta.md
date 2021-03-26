@@ -66,7 +66,7 @@ write(
 
 `write` is used when:
 
-* `CreateDeltaTableCommand` is [executed](CreateDeltaTableCommand.md#run)
+* [CreateDeltaTableCommand](CreateDeltaTableCommand.md) is executed
 * `WriteIntoDelta` is [executed](#run)
 
 ## Demo

@@ -2,12 +2,9 @@
 
 **ConvertToDeltaCommand** is a [DeltaCommand](DeltaCommand.md) that [converts a parquet table into delta format](#run) (_imports_ it into Delta).
 
-`ConvertToDeltaCommand` is a Spark SQL [RunnableCommand]({{ book.spark_sql }}/logical-operators/RunnableCommand/) (and executed eagerly on the driver for side-effects).
+`ConvertToDeltaCommand` is a `RunnableCommand` ([Spark SQL]({{ book.spark_sql }}/logical-operators/RunnableCommand/)) and executed eagerly on the driver for side-effects.
 
 `ConvertToDeltaCommand` requires that the [partition schema](#partitionSchema) matches the partitions of the [parquet table](#tableIdentifier) ([or an AnalysisException is thrown](#createAddFile-unexpectedNumPartitionColumnsFromFileNameException))
-
-<span id="ConvertToDeltaCommandBase">
-`ConvertToDeltaCommandBase` is the base of `ConvertToDeltaCommand`-like commands with the only known implementation being `ConvertToDeltaCommand` itself.
 
 ## Creating Instance
 
@@ -55,7 +52,7 @@ The table you are trying to convert is already a delta table
 
 ## Internal Helper Methods
 
-### <span id="performConvert"> performConvert Method
+### <span id="performConvert"> performConvert
 
 ```scala
 performConvert(
@@ -90,7 +87,7 @@ NOTE: `performConvert` uses `Dataset` API to build a distributed computation to 
 [[performConvert-streamWrite]][[performConvert-unpersist]]
 In the end, `performConvert` <<streamWrite, streamWrite>> (with the `OptimisticTransaction`, the ``AddFile``s, and Operation.md#Convert[Convert] operation) and unpersists the `Dataset` of file names.
 
-### <span id="streamWrite"> streamWrite Method
+### <span id="streamWrite"> streamWrite
 
 ```scala
 streamWrite(
@@ -103,7 +100,7 @@ streamWrite(
 
 `streamWrite`...FIXME
 
-### <span id="createAddFile"> createAddFile Method
+### <span id="createAddFile"> createAddFile
 
 ```scala
 createAddFile(
@@ -124,7 +121,7 @@ Internally, `createAddFile`...FIXME
 Expecting [size] partition column(s): [expectedCols], but found [size] partition column(s): [parsedCols] from parsing the file name: [path]
 ```
 
-### <span id="mergeSchemasInParallel"> mergeSchemasInParallel Method
+### <span id="mergeSchemasInParallel"> mergeSchemasInParallel
 
 ```scala
 mergeSchemasInParallel(
@@ -135,7 +132,7 @@ mergeSchemasInParallel(
 
 `mergeSchemasInParallel`...FIXME
 
-### <span id="constructTableSchema"> constructTableSchema Method
+### <span id="constructTableSchema"> constructTableSchema
 
 ```scala
 constructTableSchema(
@@ -145,3 +142,7 @@ constructTableSchema(
 ```
 
 `constructTableSchema`...FIXME
+
+## <span id="ConvertToDeltaCommandBase"> ConvertToDeltaCommandBase
+
+`ConvertToDeltaCommandBase` is the base of `ConvertToDeltaCommand`-like commands with the only known implementation being `ConvertToDeltaCommand` itself.
