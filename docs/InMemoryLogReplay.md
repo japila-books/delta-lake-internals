@@ -24,7 +24,7 @@ The lifecycle of `InMemoryLogReplay` is as follows:
 
 1. [Checkpoint](#checkpoint)
 
-## <span id="append"> Appending Actions
+## <span id="append"> Replaying Version
 
 ```scala
 append(

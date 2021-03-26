@@ -2,6 +2,18 @@
 
 `DeltaConfigs` is the [configuration properties](#configuration-properties) of a delta table.
 
+## ALTER TABLE SQL Command
+
+Table properties can be set a value or unset using `ALTER TABLE` SQL command:
+
+```sql
+ALTER TABLE <table_name> SET TBLPROPERTIES (<key>=<value>)
+```
+
+```sql
+ALTER TABLE table1 UNSET TBLPROPERTIES [IF EXISTS] ('key1', 'key2', ...);
+```
+
 ## Configuration Properties
 
 ### <span id="appendOnly"><span id="IS_APPEND_ONLY"> appendOnly
@@ -190,18 +202,6 @@ normalizeConfigKeys(
 `normalizeConfigKeys` is used when:
 
 * [AlterTableUnsetPropertiesDeltaCommand](commands/AlterTableUnsetPropertiesDeltaCommand.md) is executed
-
-## ALTER TABLE SQL Command
-
-Table properties can be set a value or unset using `ALTER TABLE` SQL command:
-
-```sql
-ALTER TABLE <table_name> SET TBLPROPERTIES (<key>=<value>)
-```
-
-```sql
-ALTER TABLE table1 UNSET TBLPROPERTIES [IF EXISTS] ('key1', 'key2', ...);
-```
 
 ## <span id="sqlConfPrefix"><span id="spark.databricks.delta.properties.defaults"> spark.databricks.delta.properties.defaults Prefix
 

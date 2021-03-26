@@ -246,7 +246,7 @@ startTransaction(): OptimisticTransaction
 
 * [ConvertToDeltaCommand](commands/ConvertToDeltaCommand.md) and [CreateDeltaTableCommand](commands/CreateDeltaTableCommand.md) are executed
 
-## <span id="assertRemovable"> Throwing UnsupportedOperationException For appendOnly Table Property Enabled
+## <span id="assertRemovable"> Throwing UnsupportedOperationException for Append-Only Tables
 
 ```scala
 assertRemovable(): Unit
