@@ -17,7 +17,6 @@ theme:
     repo: fontawesome/brands/github
   features:
     - navigation.indexes
-    - navigation.instant
     - navigation.tabs
     - navigation.tabs.sticky
     - navigation.top
@@ -132,6 +131,7 @@ nav:
       - VerifyChecksum: VerifyChecksum.md
     - Optimistic Transactions:
       - OptimisticTransaction: OptimisticTransaction.md
+      - IsolationLevel: IsolationLevel.md
       - TransactionalWrite: TransactionalWrite.md
       - DelayedCommitProtocol: DelayedCommitProtocol.md
       - Post-Commit Hooks: PostCommitHook.md

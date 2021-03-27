@@ -12,7 +12,7 @@
 * <span id="notebook"> NotebookInfo (optional)
 * <span id="clusterId"> Cluster ID (optional)
 * <span id="readVersion"> Read Version (optional)
-* <span id="isolationLevel"> Isolation Level (optional)
+* <span id="isolationLevel"> [Isolation Level](IsolationLevel.md) (optional)
 * [isBlindAppend](#isBlindAppend) flag (optional)
 * <span id="operationMetrics"> Operation Metrics (optional)
 * <span id="userMetadata"> User metadata (optional)

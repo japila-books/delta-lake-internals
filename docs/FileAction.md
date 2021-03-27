@@ -16,7 +16,7 @@ path: String
 dataChange: Boolean
 ```
 
-Controls the transaction isolation level to use while [committing a transaction](OptimisticTransactionImpl.md#commit)
+Controls the [transaction isolation level](IsolationLevel.md) for [committing a transaction](OptimisticTransactionImpl.md#commit)
 
 Isolation Level | Description
 ----------------|---------
