@@ -9,6 +9,18 @@
 
 ### <span id="Serializable"> Serializable
 
+`Serializable` is the [most strict consistency guarantee](#allLevelsInDescOrder).
+
+`Serializable` is the isolation level for [data-changing commit](OptimisticTransactionImpl.md#commit-isolationLevelToUse)s.
+
+For `Serializable` commits, `OptimisticTransactionImpl` adds extra `addedFilesToCheckForConflicts` (`changedData` or `blindAppend` [AddFile](AddFile.md)s) when [checkForConflicts](OptimisticTransactionImpl.md#checkForConflicts).
+
+`Serializable` is a valid isolation level as the [table isolation level](#validTableIsolationLevels).
+
+For operations that do not modify data in a table, there is no difference between [Serializable](#Serializable) and [SnapshotIsolation](#SnapshotIsolation).
+
+`Serializable` is used for [ConvertToDeltaCommand](commands/ConvertToDeltaCommand.md) command.
+
 ### <span id="SnapshotIsolation"> SnapshotIsolation
 
 `SnapshotIsolation` is the [least strict consistency guarantee](#allLevelsInDescOrder).
@@ -17,9 +29,13 @@
 
 For `SnapshotIsolation` commits, `OptimisticTransactionImpl` adds no extra `addedFilesToCheckForConflicts` when [checkForConflicts](OptimisticTransactionImpl.md#checkForConflicts).
 
+For operations that do not modify data in a table, there is no difference between [Serializable](#Serializable) and [SnapshotIsolation](#SnapshotIsolation).
+
 ### <span id="WriteSerializable"><span id="DEFAULT"> WriteSerializable
 
 The default `IsolationLevel`
+
+`WriteSerializable` is a valid isolation level as the [table isolation level](#validTableIsolationLevels).
 
 ## <span id="validTableIsolationLevels"> Valid Table Isolation Levels
 
