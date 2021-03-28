@@ -82,7 +82,9 @@ commit(
 
 ### <span id="commit-isolationLevelToUse"> Isolation Level
 
-`commit` determines the isolation level for this commit by checking whether any [FileAction](FileAction.md) (in the given [action](Action.md)s) has the [dataChange](FileAction.md#dataChange) flag enabled. With no data changes, commit uses `SnapshotIsolation` else `Serializable`.
+`commit` determines the [isolation level](IsolationLevel.md) based on [FileAction](FileAction.md)s (in the given [action](Action.md)s) and their [dataChange](FileAction.md#dataChange) flag.
+
+With all [action](FileAction.md)s with [dataChange](FileAction.md#dataChange) flag disabled (`false`), `commit` assumes no data changed and chooses [SnapshotIsolation](IsolationLevel.md#SnapshotIsolation) else [Serializable](IsolationLevel.md#Serializable).
 
 ### <span id="commit-isBlindAppend"> isBlindAppend
 

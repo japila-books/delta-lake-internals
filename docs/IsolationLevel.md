@@ -11,6 +11,12 @@
 
 ### <span id="SnapshotIsolation"> SnapshotIsolation
 
+`SnapshotIsolation` is the [least strict consistency guarantee](#allLevelsInDescOrder).
+
+`SnapshotIsolation` is the isolation level for [commit](OptimisticTransactionImpl.md#commit-isolationLevelToUse)s with no [data changed](FileAction.md#dataChange).
+
+For `SnapshotIsolation` commits, `OptimisticTransactionImpl` adds no extra `addedFilesToCheckForConflicts` when [checkForConflicts](OptimisticTransactionImpl.md#checkForConflicts).
+
 ### <span id="WriteSerializable"><span id="DEFAULT"> WriteSerializable
 
 The default `IsolationLevel`
@@ -22,10 +28,10 @@ The following are the valid isolation levels that can be specified as the table 
 * [Serializable](#Serializable)
 * [WriteSerializable](#WriteSerializable)
 
-## <span id="allLevelsInDescOrder"> Strictness Ordering
+## <span id="allLevelsInDescOrder"> Consistency Guarantee Strictness Ordering
 
 The following are all the isolation levels in descending order of guarantees provided:
 
-1. [Serializable](#Serializable) is the most strict level
+1. [Serializable](#Serializable) (the most strict level)
 1. [WriteSerializable](#WriteSerializable)
-1. [SnapshotIsolation](#SnapshotIsolation) is the least strict one
+1. [SnapshotIsolation](#SnapshotIsolation) (the least strict one)

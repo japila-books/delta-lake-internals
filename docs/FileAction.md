@@ -20,8 +20,8 @@ Controls the [transaction isolation level](IsolationLevel.md) for [committing a 
 
 Isolation Level | Description
 ----------------|---------
- `SnapshotIsolation` | No data changes (`dataChange` is `false` for all `FileAction`s to be committed)
- `Serializable` | &nbsp;
+ [SnapshotIsolation](IsolationLevel.md#SnapshotIsolation) | No data changes (`dataChange` is `false` for all `FileAction`s to be committed)
+ [Serializable](IsolationLevel.md#Serializable) | &nbsp;
 
 There can be no [RemoveFile](RemoveFile.md)s with `dataChange` enabled for [appendOnly](DeltaConfigs.md#appendOnly) unmodifiable tables (or an [UnsupportedOperationException is thrown](DeltaLog.md#assertRemovable)).
 
