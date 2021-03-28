@@ -131,11 +131,11 @@ nav:
       - VerifyChecksum: VerifyChecksum.md
     - Optimistic Transactions:
       - OptimisticTransaction: OptimisticTransaction.md
-      - IsolationLevel: IsolationLevel.md
+      - OptimisticTransactionImpl: OptimisticTransactionImpl.md
       - TransactionalWrite: TransactionalWrite.md
       - DelayedCommitProtocol: DelayedCommitProtocol.md
+      - IsolationLevel: IsolationLevel.md
       - Post-Commit Hooks: PostCommitHook.md
-      - OptimisticTransactionImpl: OptimisticTransactionImpl.md
     - State Snapshot:
       - Snapshot: Snapshot.md
       - InMemoryLogReplay: InMemoryLogReplay.md
