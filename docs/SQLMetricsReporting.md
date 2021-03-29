@@ -1,6 +1,6 @@
 # SQLMetricsReporting
 
-**SQLMetricsReporting** is an extension for [OptimisticTransactionImpl](OptimisticTransactionImpl.md) to track SQL metrics of [Operations](Operation.md).
+`SQLMetricsReporting` is an extension for [OptimisticTransactionImpl](OptimisticTransactionImpl.md) to track SQL metrics of [Operations](Operation.md).
 
 ## Implementations
 
