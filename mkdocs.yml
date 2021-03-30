@@ -83,14 +83,11 @@ extra:
     version: 0.8.0
     github: https://github.com/delta-io/delta/blob/v0.8.0
     commit: https://github.com/delta-io/delta/commit
-  spark:
-    version: 3.1.1
   scala:
     version: 2.12.10
     api: https://www.scala-lang.org/api/2.12.10
     docs: https://docs.scala-lang.org/
   java:
-    version: 11
     api: https://docs.oracle.com/en/java/javase/11/docs/api
   hadoop:
     version: 3.2.0
@@ -117,7 +114,6 @@ nav:
     - Time Travel:
       - Time Travel: time-travel.md
       - DeltaTimeTravelSpec: DeltaTimeTravelSpec.md
-    - DeltaTable: DeltaTable.md
     - DeltaTableIdentifier: DeltaTableIdentifier.md
     - Configuration Properties: DeltaSQLConf.md
     - Transaction Log (DeltaLog):
@@ -198,6 +194,8 @@ nav:
       - TahoeBatchFileIndex: TahoeBatchFileIndex.md
       - TahoeLogFileIndex: TahoeLogFileIndex.md
       - DeltaLogFileIndex: DeltaLogFileIndex.md
+  - APIs:
+    - DeltaTable: DeltaTable.md
   - Delta SQL:
     - Delta SQL: sql/index.md
     - DeltaSqlParser: sql/DeltaSqlParser.md
