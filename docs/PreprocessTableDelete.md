@@ -1,23 +1,35 @@
 # PreprocessTableDelete Logical Resolution Rule
 
-**PreprocessTableDelete** is a post-hoc logical resolution rule (`Rule[LogicalPlan]`) to <<apply, resolve DeltaDelete logical commands>> in a query plan into DeleteCommand.md[]s.
+`PreprocessTableDelete` is a post-hoc logical resolution rule (`Rule[LogicalPlan]`) to [resolve DeltaDelete commands](#apply) in a logical query plan into [DeleteCommand](commands/DeleteCommand.md)s.
 
-PreprocessTableDelete is _installed_ (injected) into a SparkSession using DeltaSparkSessionExtension.md[].
+`PreprocessTableDelete` is _installed_ (injected) into a `SparkSession` using [DeltaSparkSessionExtension](DeltaSparkSessionExtension.md).
 
-== [[creating-instance]][[conf]] Creating Instance
+## Creating Instance
 
-PreprocessTableDelete takes a single `SQLConf` to be created.
+`PreprocessTableDelete` takes the following to be created:
 
-PreprocessTableDelete is created when DeltaSparkSessionExtension is requested to DeltaSparkSessionExtension.md#apply[register Delta SQL support].
+* <span id="conf"> `SQLConf` ([Spark SQL]({{ book.spark_sql }}/SQLConf/))
 
-== [[apply]] Executing Rule
+`PreprocessTableDelete` is created when:
 
-[source, scala]
-----
+* [DeltaSparkSessionExtension](DeltaSparkSessionExtension.md) is executed (and registers Delta SQL support)
+
+## <span id="apply"> Executing Rule
+
+```scala
 apply(
   plan: LogicalPlan): LogicalPlan
-----
+```
 
-apply resolves (_replaces_) DeltaDelete logical commands (in a logical query plan) into corresponding DeleteCommand.md[]s.
+`apply` is part of the `Rule` ([Spark SQL]({{ book.spark_sql }}/catalyst/Rule/)) abstraction.
 
-apply is part of the Spark SQL's `Rule` abstraction.
+apply resolves (_replaces_) [DeltaDelete](commands/DeltaDelete.md) logical commands (in a logical query plan) into [DeleteCommand](commands/DeleteCommand.md)s.
+
+### <span id="toCommand"> toCommand
+
+```scala
+toCommand(
+  d: DeltaDelete): DeleteCommand
+```
+
+`toCommand`...FIXME

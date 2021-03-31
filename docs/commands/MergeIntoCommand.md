@@ -1,8 +1,8 @@
 # MergeIntoCommand
 
-`MergeIntoCommand` is a [DeltaCommand](DeltaCommand.md) that represents a [DeltaMergeInto](DeltaMergeInto.md) logical command at execution time.
+`MergeIntoCommand` is a [DeltaCommand](DeltaCommand.md) that represents a [DeltaMergeInto](DeltaMergeInto.md) logical command at execution.
 
-`MergeIntoCommand` is a logical command (Spark SQL's [RunnableCommand]({{ book.spark_sql }}/logical-operators/RunnableCommand/)).
+`MergeIntoCommand` is a `RunnableCommand` logical operator ([Spark SQL]({{ book.spark_sql }}/logical-operators/RunnableCommand/)).
 
 !!! tip
     Learn more on the internals of `MergeIntoCommand` in [Demo: Merge Operation](../demo/merge-operation.md).
@@ -34,14 +34,16 @@ Name     | web UI
 `MergeIntoCommand` takes the following to be created:
 
 * [Source Data](#source)
-* <span id="target"> Target Data (`LogicalPlan`)
+* <span id="target"> Target Data ([LogicalPlan]({{ book.spark_sql }}/logical-operators/LogicalPlan/))
 * <span id="targetFileIndex"> [TahoeFileIndex](../TahoeFileIndex.md)
 * <span id="condition"> Condition Expression
 * <span id="matchedClauses"> Matched Clauses (`Seq[DeltaMergeIntoMatchedClause]`)
 * <span id="notMatchedClause"> Optional Non-Matched Clause (`Option[DeltaMergeIntoInsertClause]`)
 * <span id="migratedSchema"> Migrated Schema
 
-`MergeIntoCommand` is created when [PreprocessTableMerge](../PreprocessTableMerge.md) logical resolution rule is executed (on a [DeltaMergeInto](DeltaMergeInto.md) logical command).
+`MergeIntoCommand` is created when:
+
+* [PreprocessTableMerge](../PreprocessTableMerge.md) logical resolution rule is executed (on a [DeltaMergeInto](DeltaMergeInto.md) logical command)
 
 ## <span id="source"> Source Data (to Merge From)
 

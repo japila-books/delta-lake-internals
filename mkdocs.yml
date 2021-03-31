@@ -215,7 +215,9 @@ nav:
       - AlterTableUnsetPropertiesDeltaCommand: commands/AlterTableUnsetPropertiesDeltaCommand.md
     - ConvertToDeltaCommand: commands/ConvertToDeltaCommand.md
     - CreateDeltaTableCommand: commands/CreateDeltaTableCommand.md
-    - DeleteCommand: commands/DeleteCommand.md
+    - DeleteCommand:
+      - DeleteCommand: commands/DeleteCommand.md
+      - DeltaDelete: commands/DeltaDelete.md
     - DeltaGenerateCommand:
       - DeltaGenerateCommand: commands/DeltaGenerateCommand.md
       - GenerateSymlinkManifest: GenerateSymlinkManifest.md

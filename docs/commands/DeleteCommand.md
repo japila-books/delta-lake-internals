@@ -1,53 +1,60 @@
 # DeleteCommand
 
-`DeleteCommand` is a <<DeltaCommand.md#, Delta command>> that <<run, FIXME>>.
+`DeleteCommand` is a [Delta command](DeltaCommand.md) that represents [DeltaDelete](DeltaDelete.md) logical command at execution.
 
-`DeleteCommand` is <<creating-instance, created>> (using <<apply, apply>> factory utility) and <<run, executed>> when <<DeltaTable.md#delete, DeltaTable.delete>> operator is used (indirectly through `DeltaTableOperations` when requested to <<DeltaTableOperations.md#executeDelete, execute delete command>>).
+`DeleteCommand` is a `RunnableCommand` logical operator ([Spark SQL]({{ book.spark_sql }}/logical-operators/RunnableCommand/)).
 
-== [[creating-instance]] Creating DeleteCommand Instance
+## Creating Instance
 
 `DeleteCommand` takes the following to be created:
 
-* [[tahoeFileIndex]] `TahoeFileIndex`
-* [[target]] Target `LogicalPlan`
-* [[condition]] Optional Catalyst expression
+* <span id="tahoeFileIndex"> [TahoeFileIndex](../TahoeFileIndex.md)
+* <span id="target"> Target Data ([LogicalPlan]({{ book.spark_sql }}/logical-operators/LogicalPlan/))
+* <span id="condition"> Condition ([Expression]({{ book.spark_sql }}/expressions/Expression/))
 
-== [[apply]] Creating DeleteCommand Instance -- `apply` Factory Utility
+`DeleteCommand` is created (also using [apply](#apply) factory utility) when:
 
-[source, scala]
-----
-apply(delete: Delete): DeleteCommand
-----
+* [PreprocessTableDelete](../PreprocessTableDelete.md) logical resolution rule is executed (and resolves a [DeltaDelete](DeltaDelete.md) logical command)
 
-`apply`...FIXME
+## Performance Metrics
 
-NOTE: `apply` is used when...FIXME
+Name     | web UI
+---------|----------
+`numRemovedFiles` | number of files removed.
+`numAddedFiles` | number of files added.
+`numDeletedRows` | number of rows deleted.
 
-== [[run]] Running Command -- `run` Method
+## <span id="run"> Executing Command
 
-[source, scala]
-----
-run(sparkSession: SparkSession): Seq[Row]
-----
+```scala
+run(
+  sparkSession: SparkSession): Seq[Row]
+```
 
-NOTE: `run` is part of the `RunnableCommand` contract to...FIXME.
+`run` is part of the `RunnableCommand` ([Spark SQL]({{ book.spark_sql }}/logical-operators/RunnableCommand/)) abstraction.
 
-`run` requests the <<tahoeFileIndex, TahoeFileIndex>> for the <<TahoeFileIndex.md#deltaLog, DeltaLog>>.
+`run` requests the [TahoeFileIndex](#tahoeFileIndex) for the [DeltaLog](../TahoeFileIndex.md#deltaLog) (and [asserts that the table is removable](../DeltaLog.md#assertRemovable)).
 
-`run` requests the `DeltaLog` to <<DeltaLog.md#withNewTransaction, start a new transaction>> for <<performDelete, performDelete>>.
+`run` requests the `DeltaLog` to [start a new transaction](../DeltaLog.md#withNewTransaction) for [performDelete](#performDelete).
 
-In the end, `run` re-caches all cached plans (incl. this relation itself) by requesting the `CacheManager` to recache the <<target, target LogicalPlan>>.
+In the end, `run` re-caches all cached plans (incl. this relation itself) by requesting the `CacheManager` ([Spark SQL]({{ book.spark_sql }}/CacheManager)) to recache the [target](#target).
 
-== [[performDelete]] `performDelete` Internal Method
+### <span id="performDelete"> performDelete
 
-[source, scala]
-----
+```scala
 performDelete(
   sparkSession: SparkSession,
   deltaLog: DeltaLog,
   txn: OptimisticTransaction): Unit
-----
+```
 
 `performDelete`...FIXME
 
-NOTE: `performDelete` is used exclusively when `DeleteCommand` is requested to <<run, run>>.
+## <span id="apply"> Creating DeleteCommand
+
+```scala
+apply(
+  delete: DeltaDelete): DeleteCommand
+```
+
+`apply` creates a [DeleteCommand](DeleteCommand.md).

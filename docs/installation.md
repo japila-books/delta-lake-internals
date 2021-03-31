@@ -1,8 +1,9 @@
 # Installation
 
-Delta Lake is a Spark data source and as such installation boils down to using spark-submit's `--packages` command-line option.
+Delta Lake is a Spark data source and as such installation boils down to using spark-submit's `--packages` command-line option with the following configuration properties for [DeltaSparkSessionExtension](DeltaSparkSessionExtension.md) and [DeltaCatalog](DeltaCatalog.md):
 
-Delta Lake also requires [DeltaSparkSessionExtension](DeltaSparkSessionExtension.md) and [DeltaCatalog](DeltaCatalog.md) to be registered (using respective configuration properties).
+* `spark.sql.extensions` ([Spark SQL]({{ book.spark_sql }}/StaticSQLConf/#spark.sql.extensions))
+* `spark.sql.catalog.spark_catalog` ([Spark SQL]({{ book.spark_sql }}/configuration-properties/#spark.sql.catalog.spark_catalog))
 
 ## <span id="application"> Spark SQL Application
 
