@@ -1,6 +1,6 @@
 # DeltaTableIdentifier
 
-`DeltaTableIdentifier` is an identifier of a delta table by [directory](#path) or [TableIdentifier](#table) depending whether it is a catalog table or not (and living non-cataloged).
+`DeltaTableIdentifier` is an identifier of a delta table by [TableIdentifier](#table) or [directory](#path) depending whether it is a catalog table or not (and living non-cataloged).
 
 ## Creating Instance
 
@@ -42,4 +42,4 @@ getPath(
   spark: SparkSession): Path
 ```
 
-`getPath` creates a Hadoop [Path]({{ hadoop.api }}/org/apache/hadoop/fs/Path.html)) for the [path](#path) if defined or requests `SessionCatalog` ([Spark SQL]({{ book.spark_sql }}/SessionCatalog)) for the table metadata and uses the `locationUri`.
+`getPath` creates a Hadoop [Path]({{ hadoop.api }}/org/apache/hadoop/fs/Path.html) for the [path](#path) if defined or requests `SessionCatalog` ([Spark SQL]({{ book.spark_sql }}/SessionCatalog)) for the table metadata and uses the `locationUri`.

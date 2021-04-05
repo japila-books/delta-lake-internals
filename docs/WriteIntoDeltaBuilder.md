@@ -3,8 +3,8 @@
 `WriteIntoDeltaBuilder` is a `WriteBuilder` ([Spark SQL]({{ book.spark_sql }}/connector/WriteBuilder)) with support for the following capabilities:
 
 * `SupportsOverwrite` ([Spark SQL]({{ book.spark_sql }}/connector/SupportsOverwrite))
-* `V1WriteBuilder` ([Spark SQL]({{ book.spark_sql }}/connector/V1WriteBuilder))
 * `SupportsTruncate` ([Spark SQL]({{ book.spark_sql }}/connector/SupportsTruncate))
+* `V1WriteBuilder` ([Spark SQL]({{ book.spark_sql }}/connector/V1WriteBuilder))
 
 ## Creating Instance
 

@@ -64,6 +64,8 @@ Default: (undefined)
 
 ## <span id="REPLACE_WHERE_OPTION"><span id="replaceWhere"> replaceWhere
 
+Available as [DeltaWriteOptions.replaceWhere](DeltaWriteOptions.md#replaceWhere)
+
 !!! example "Demo"
     Learn more in [Demo: replaceWhere](demo/replaceWhere.md).
 
