@@ -1,9 +1,6 @@
 # DeltaLogFileIndex
 
-`DeltaLogFileIndex` is a `FileIndex` for [Snapshot](Snapshot.md) (for the [commit](Snapshot.md#deltaFileIndexOpt) and [checkpoint](Snapshot.md#checkpointFileIndexOpt) files).
-
-!!! note
-    Learn more on [FileIndex]({{ book.spark_sql }}/FileIndex/) in [The Internals of Spark SQL]({{ book.spark_sql }}/) online book.
+`DeltaLogFileIndex` is a `FileIndex` ([Spark SQL]({{ book.spark_sql }}/FileIndex)) for [Snapshot](Snapshot.md) (for the [commit](Snapshot.md#deltaFileIndexOpt) and [checkpoint](Snapshot.md#checkpointFileIndexOpt) files).
 
 ## Creating Instance
 

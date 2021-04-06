@@ -1,6 +1,6 @@
 # Action
 
-`Action` is an [abstraction](#contract) of [actions](#implementations) that change (the state of) a delta table.
+`Action` is an [abstraction](#contract) of [operations](#implementations) that change (the state of) a delta table.
 
 ## Contract
 
@@ -45,7 +45,11 @@ Used when:
 
 ## <span id="logSchema"> Log Schema
 
-`Action` defines `logSchema` that is a schema (`StructType`) to hold [SingleAction](SingleAction.md)s.
+```scala
+logSchema: StructType
+```
+
+`logSchema` is the schema ([Spark SQL]({{ book.spark_sql }}/StructType)) of [SingleAction](SingleAction.md)s for `Snapshot` to [convert a DeltaLogFileIndex to a LogicalRelation](Snapshot.md#indexToRelation) and [emptyActions](Snapshot.md##emptyActions).
 
 ```scala
 import org.apache.spark.sql.delta.actions.Action.logSchema

@@ -75,19 +75,34 @@ version: [version]. Did you manually delete files in the _delta_log directory?
 
 `Snapshot` uses the [spark.databricks.delta.stateReconstructionValidation.enabled](DeltaSQLConf.md#DELTA_STATE_RECONSTRUCTION_VALIDATION_ENABLED) configuration property for [reconstructing state](#computedState).
 
-## <span id="state"> State Dataset of Actions
+## <span id="state"> State Dataset (of Actions)
 
 ```scala
 state: Dataset[SingleAction]
 ```
 
-`state` simply requests the [cached delta state](#cachedState) to [get the delta state from the cache](CachedDS.md#getDS).
+`state` requests the [cached delta table state](#cachedState) for the [current state (from the cache)](CachedDS.md#getDS).
 
 `state` is used when:
 
 * `Checkpoints` utility is used to [writeCheckpoint](Checkpoints.md#writeCheckpoint)
 * `Snapshot` is requested for [computedState](#computedState), [all files](#allFiles) and [files removed (tombstones)](#tombstones)
 * `VacuumCommand` utility is requested for [garbage collection](commands/VacuumCommand.md#gc)
+
+### <span id="cachedState"> Cached Delta Table State
+
+```scala
+lazy val cachedState: CachedDS[SingleAction]
+```
+
+!!! note ""
+    `cachedState` is a Scala lazy value and is initialized once at the first access. Once computed it stays unchanged for the `Snapshot` instance.
+
+`cachedState` creates a [Cached Delta State](CachedDS.md) with the following:
+
+* The [dataset](CachedDS.md#ds) part is the [stateReconstruction](#stateReconstruction) dataset of [SingleAction](SingleAction.md)s
+
+* The [name](CachedDS.md#name) in the format **Delta Table State #version - [redactedPath]** (with the [version](#version) and the path redacted)
 
 ## <span id="allFiles"> All AddFiles
 
@@ -156,15 +171,37 @@ stateReconstruction: Dataset[SingleAction]
 
 In the end, `stateReconstruction` maps over partitions (using `Dataset.mapPartitions`) that creates a [InMemoryLogReplay](InMemoryLogReplay.md), requests it to [append the actions](InMemoryLogReplay.md#append) (as version `0`) and [checkpoint](InMemoryLogReplay.md#checkpoint).
 
-`stateReconstruction` is used when `Snapshot` is requested for a [cached state](#cachedState).
+`stateReconstruction` is used when:
 
-## <span id="loadActions"> Loading Log File Indices
+* `Snapshot` is requested for a [cached Delta table state](#cachedState)
+
+### <span id="loadActions"> Loading Actions
 
 ```scala
 loadActions: Dataset[SingleAction]
 ```
 
-`loadActions` takes [fileIndices](#fileIndices) and...FIXME
+`loadActions` creates a union of `Dataset[SingleAction]`s for the [indices](#fileIndices) (as [LogicalRelation](#indexToRelation)s over a `HadoopFsRelation`) or defaults to an [empty dataset](#emptyActions).
+
+### <span id="indexToRelation"> indexToRelation
+
+```scala
+indexToRelation(
+  index: DeltaLogFileIndex,
+  schema: StructType = logSchema): LogicalRelation
+```
+
+`indexToRelation` converts the [DeltaLogFileIndex](DeltaLogFileIndex.md) to a `LogicalRelation` ([Spark SQL]({{ book.spark_sql }}/logical-operators/LogicalRelation)) leaf logical operator (using the [logSchema](Action.md#logSchema)).
+
+`indexToRelation` creates a `LogicalRelation` over a `HadoopFsRelation` ([Spark SQL]({{ book.spark_sql }}/HadoopFsRelation)) with the given index and the schema.
+
+### <span id="emptyActions"> emptyActions Dataset (of Actions)
+
+```scala
+emptyActions: Dataset[SingleAction]
+```
+
+`emptyActions` is an empty dataset of [SingleActions](SingleAction.md) for [loadActions](#loadActions) (and `InitialSnapshot`'s `state`).
 
 ## <span id="fileIndices"> fileIndices
 
@@ -211,14 +248,6 @@ checkpointFileIndexOpt: Option[DeltaLogFileIndex]
 
 `checkpointFileIndexOpt` is a [DeltaLogFileIndex](DeltaLogFileIndex.md) (in `ParquetFileFormat`) for the delta files of the [LogSegment](#logSegment).
 
-## <span id="emptyActions"> emptyActions Dataset (of Actions)
-
-```scala
-emptyActions: Dataset[SingleAction]
-```
-
-`emptyActions` is an empty dataset of [SingleActions](SingleAction.md) for [stateReconstruction](#stateReconstruction) and [load](#load).
-
 ## <span id="transactions"> Transaction Version By App ID
 
 ```scala
@@ -251,24 +280,3 @@ scala> deltaLog.snapshot.tombstones.show(false)
 +----+-----------------+----------+
 +----+-----------------+----------+
 ```
-
-## <span id="cachedState"> cachedState
-
-```scala
-cachedState: CachedDS[SingleAction]
-```
-
-!!! note "Scala lazy value"
-    `cachedState` is a Scala lazy value and is initialized once at the first access. Once computed it stays unchanged for the `Snapshot` instance.
-
-    ```text
-    lazy val cachedState: CachedDS[SingleAction]
-    ```
-
-`cachedState` creates a [Cached Delta State](CachedDS.md) with the following:
-
-* The [dataset](CachedDS.md#ds) part is the [stateReconstruction](#stateReconstruction) dataset of [SingleAction](SingleAction.md)s
-
-* The [name](CachedDS.md#name) in the format **Delta Table State #version - [redactedPath]** (with the [version](#version) and the path redacted)
-
-Used when Snapshot is requested for the [state](#state) (`Dataset[SingleAction]`)
