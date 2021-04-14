@@ -21,7 +21,7 @@ apply(
 
 `apply` is used when:
 
-* [VacuumTableCommand](commands/VacuumTableCommand.md), [DeltaGenerateCommand](commands/DeltaGenerateCommand.md), [DescribeDeltaDetailCommand](commands/DescribeDeltaDetailCommand.md) and [DescribeDeltaHistoryCommand](commands/DescribeDeltaHistoryCommand.md) are executed
+* [VacuumTableCommand](commands/vacuum/VacuumTableCommand.md), [DeltaGenerateCommand](commands/DeltaGenerateCommand.md), [DescribeDeltaDetailCommand](commands/DescribeDeltaDetailCommand.md) and [DescribeDeltaHistoryCommand](commands/DescribeDeltaHistoryCommand.md) are executed
 
 ## <span id="getDeltaLog"> Creating DeltaLog
 

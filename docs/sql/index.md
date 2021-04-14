@@ -64,4 +64,4 @@ VACUUM (path | table)
   (RETAIN number HOURS)? (DRY RUN)?
 ```
 
-Executes [VacuumTableCommand](../commands/VacuumTableCommand.md)
+Executes [VacuumTableCommand](../commands/vacuum/VacuumTableCommand.md)

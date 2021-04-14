@@ -12,4 +12,4 @@ SQL Statement | Logical Command
  [DESCRIBE DETAIL](index.md#DESCRIBE-DETAIL) | [DescribeDeltaDetailCommand](../commands/DescribeDeltaDetailCommand.md)
  [DESCRIBE HISTORY](index.md#DESCRIBE-HISTORY) | [DescribeDeltaHistoryCommand](../commands/DescribeDeltaHistoryCommand.md)
  [GENERATE](index.md#GENERATE) | [DeltaGenerateCommand](../commands/DeltaGenerateCommand.md)
- [VACUUM](index.md#VACUUM) | [VacuumTableCommand](../commands/VacuumTableCommand.md)
+ [VACUUM](index.md#VACUUM) | [VacuumTableCommand](../commands/vacuum/VacuumTableCommand.md)

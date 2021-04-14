@@ -9,7 +9,7 @@
 * [DeleteCommand](DeleteCommand.md)
 * [MergeIntoCommand](MergeIntoCommand.md)
 * [UpdateCommand](UpdateCommand.md)
-* [VacuumCommandImpl](VacuumCommandImpl.md)
+* [VacuumCommandImpl](vacuum/VacuumCommandImpl.md)
 * [WriteIntoDelta](WriteIntoDelta.md)
 
 ## <span id="parsePartitionPredicates"> parsePartitionPredicates Method

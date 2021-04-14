@@ -71,7 +71,7 @@ forTable(
 
 `forTable` is used when:
 
-* [AlterTableSetLocationDeltaCommand](commands/AlterTableSetLocationDeltaCommand.md), [ConvertToDeltaCommand](commands/ConvertToDeltaCommand.md), [VacuumTableCommand](commands/VacuumTableCommand.md), [CreateDeltaTableCommand](commands/CreateDeltaTableCommand.md), [DeltaGenerateCommand](commands/DeltaGenerateCommand.md), [DescribeDeltaDetailCommand](commands/DescribeDeltaDetailCommand.md), [DescribeDeltaHistoryCommand](commands/DescribeDeltaHistoryCommand.md) commands are executed
+* [AlterTableSetLocationDeltaCommand](commands/AlterTableSetLocationDeltaCommand.md), [ConvertToDeltaCommand](commands/ConvertToDeltaCommand.md), [VacuumTableCommand](commands/vacuum/VacuumTableCommand.md), [CreateDeltaTableCommand](commands/CreateDeltaTableCommand.md), [DeltaGenerateCommand](commands/DeltaGenerateCommand.md), [DescribeDeltaDetailCommand](commands/DescribeDeltaDetailCommand.md), [DescribeDeltaHistoryCommand](commands/DescribeDeltaHistoryCommand.md) commands are executed
 
 * `DeltaDataSource` is requested for the [source schema](DeltaDataSource.md#sourceSchema), a [source](DeltaDataSource.md#createSource), and a [relation](DeltaDataSource.md#createRelation)
 
@@ -297,7 +297,7 @@ For all other cases, `update`...FIXME
 
 * `ConvertToDeltaCommand` is requested to [run](commands/ConvertToDeltaCommand.md#run) and [streamWrite](commands/ConvertToDeltaCommand.md#streamWrite)
 
-* `VacuumCommand` utility is used to [gc](commands/VacuumCommand.md#gc)
+* `VacuumCommand` utility is used to [gc](commands/vacuum/VacuumCommand.md#gc)
 
 * `TahoeLogFileIndex` is requested for the [(historical or latest) snapshot](TahoeLogFileIndex.md#getSnapshot)
 
@@ -494,7 +494,7 @@ minFileRetentionTimestamp: Long
 
 * `DeltaLog` is requested for the [currentSnapshot](#currentSnapshot), to [updateInternal](#updateInternal), and to [getSnapshotAt](#getSnapshotAt)
 
-* `VacuumCommand` is requested for [garbage collecting of a delta table](commands/VacuumCommand.md#gc)
+* `VacuumCommand` is requested for [garbage collecting of a delta table](commands/vacuum/VacuumCommand.md#gc)
 
 ## <span id="tombstoneRetentionMillis"> `tombstoneRetentionMillis` Method
 
@@ -508,7 +508,7 @@ tombstoneRetentionMillis: Long
 
 * `DeltaLog` is requested for [minFileRetentionTimestamp](#minFileRetentionTimestamp)
 
-* `VacuumCommand` is requested for [garbage collecting of a delta table](commands/VacuumCommand.md#gc)
+* `VacuumCommand` is requested for [garbage collecting of a delta table](commands/vacuum/VacuumCommand.md#gc)
 
 ## <span id="updateInternal"> `updateInternal` Internal Method
 

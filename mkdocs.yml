@@ -233,10 +233,10 @@ nav:
       - JoinedRowProcessor: commands/JoinedRowProcessor.md
     - UpdateCommand: commands/UpdateCommand.md
     - Vacuum:
-      - Vacuum: commands/vacuum.md
-      - VacuumCommand: commands/VacuumCommand.md
-      - VacuumCommandImpl: commands/VacuumCommandImpl.md
-      - VacuumTableCommand: commands/VacuumTableCommand.md
+      - commands/vacuum/index.md
+      - VacuumCommand: commands/vacuum/VacuumCommand.md
+      - VacuumCommandImpl: commands/vacuum/VacuumCommandImpl.md
+      - VacuumTableCommand: commands/vacuum/VacuumTableCommand.md
     - WriteIntoDelta: commands/WriteIntoDelta.md
   - Demos:
     - demo/index.md

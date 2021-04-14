@@ -87,7 +87,7 @@ state: Dataset[SingleAction]
 
 * `Checkpoints` utility is used to [writeCheckpoint](Checkpoints.md#writeCheckpoint)
 * `Snapshot` is requested for [computedState](#computedState), [all files](#allFiles) and [files removed (tombstones)](#tombstones)
-* `VacuumCommand` utility is requested for [garbage collection](commands/VacuumCommand.md#gc)
+* `VacuumCommand` utility is requested for [garbage collection](commands/vacuum/VacuumCommand.md#gc)
 
 ### <span id="cachedState"> Cached Delta Table State
 

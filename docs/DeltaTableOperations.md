@@ -70,8 +70,8 @@ executeVacuum(
   retentionHours: Option[Double]): DataFrame
 ```
 
-`executeVacuum` uses the `VacuumCommand` utility to [gc](commands/VacuumCommand.md#gc) (with the `dryRun` flag off and the given `retentionHours`).
+`executeVacuum` uses the `VacuumCommand` utility to [gc](commands/vacuum/VacuumCommand.md#gc) (with the `dryRun` flag off and the given `retentionHours`).
 
-In the end, `executeVacuum` returns an empty `DataFrame` (not the one from [VacuumCommand.gc](commands/VacuumCommand.md#gc)).
+In the end, `executeVacuum` returns an empty `DataFrame` (not the one from [VacuumCommand.gc](commands/vacuum/VacuumCommand.md#gc)).
 
 `executeVacuum` is used for [DeltaTable.vacuum](DeltaTable.md#vacuum) operator.
