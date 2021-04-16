@@ -28,3 +28,16 @@ Deleted 0 files and directories in a total of 2 directories.
 import io.delta.tables.DeltaTable
 DeltaTable.forPath("/tmp/delta/t1").vacuum
 ```
+
+### Dry Run
+
+```scala
+val tableName = "delta.`/tmp/delta/t1`"
+
+spark.range(4)
+  .writeTo(tableName)
+  .using("delta")
+  .createOrReplace
+
+val q = sql(s"VACUUM $tableName DRY RUN")
+```

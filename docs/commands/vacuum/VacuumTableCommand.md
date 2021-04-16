@@ -42,6 +42,6 @@ Please provide the base path ([baseDeltaPath]) when Vacuuming Delta tables. Vacu
 [deltaTableIdentifier] is not a Delta table. VACUUM is only supported for Delta tables.
 ```
 
-## <span id="output"> output
+## <span id="output"> Output Schema
 
-The output of `VacuumTableCommand` is a single `path` column (of type `StringType`).
+The output schema of `VacuumTableCommand` is a single `path` column (of type `StringType`).

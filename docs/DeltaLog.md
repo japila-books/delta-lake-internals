@@ -281,7 +281,7 @@ update(
   stalenessAcceptable: Boolean = false): Snapshot
 ```
 
-`update` branches off based on a combination of flags: the given `stalenessAcceptable` and [isSnapshotStale](#isSnapshotStale) flags.
+`update` branches off based on a combination of flags: the given `stalenessAcceptable` and [isSnapshotStale](#isSnapshotStale).
 
 For the `stalenessAcceptable` not acceptable (default) and the [snapshot not stale](#isSnapshotStale), `update` simply acquires the [deltaLogLock](#deltaLogLock) lock and [updateInternal](#updateInternal) (with `isAsync` flag off).
 

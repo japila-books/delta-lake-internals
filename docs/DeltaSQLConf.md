@@ -233,3 +233,11 @@ Default: `true`
 **spark.databricks.delta.timeTravel.resolveOnIdentifier.enabled** (internal) controls whether to resolve patterns as `@v123` in identifiers as [time travel](time-travel.md) nodes.
 
 Default: `true`
+
+## <span id="vacuum.parallelDelete.enabled"><span id="DELTA_VACUUM_PARALLEL_DELETE_ENABLED"> vacuum.parallelDelete.enabled
+
+**spark.databricks.delta.vacuum.parallelDelete.enabled** enables parallelizing the deletion of files during [vacuum](commands/vacuum/index.md) command.
+
+Default: `false`
+
+Enabling may result hitting rate limits on some storage backends. When enabled, parallelization is controlled by the default number of shuffle partitions.
