@@ -8,6 +8,7 @@ hide:
 
 The following demos are available:
 
+- [Vacuum](vacuum.md)
 - [dataChange](dataChange.md)
 - [replaceWhere](replaceWhere.md)
 - [Merge Operation](merge-operation.md)

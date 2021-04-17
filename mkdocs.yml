@@ -240,6 +240,7 @@ nav:
     - WriteIntoDelta: commands/WriteIntoDelta.md
   - Demos:
     - demo/index.md
+    - Vacuum: demo/vacuum.md
     - dataChange: demo/dataChange.md
     - replaceWhere: demo/replaceWhere.md
     - Merge Operation: demo/merge-operation.md
