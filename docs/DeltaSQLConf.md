@@ -70,7 +70,9 @@ Default: `1000`
 
 ## <span id="history.metricsEnabled"><span id="DELTA_HISTORY_METRICS_ENABLED"> history.metricsEnabled
 
-**spark.databricks.delta.history.metricsEnabled** enables Metrics reporting in Describe History. [CommitInfo](CommitInfo.md) will now record the Operation Metrics.
+**spark.databricks.delta.history.metricsEnabled** enables metrics reporting in `DESCRIBE HISTORY` ([CommitInfo](CommitInfo.md) will record the operation metrics when a `OptimisticTransactionImpl` is [committed](OptimisticTransactionImpl.md#commit) and the [spark.databricks.delta.commitInfo.enabled](DeltaSQLConf.md#DELTA_COMMIT_INFO_ENABLED) configuration property is enabled).
+
+Requires [spark.databricks.delta.commitInfo.enabled](DeltaSQLConf.md#DELTA_COMMIT_INFO_ENABLED) configuration property to be enabled
 
 Default: `true`
 

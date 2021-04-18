@@ -174,15 +174,6 @@ getPrettyPartitionMessage(
 
 `getPrettyPartitionMessage`...FIXME
 
-### <span id="getOperationMetrics"> getOperationMetrics
-
-```scala
-getOperationMetrics(
-  op: Operation): Option[Map[String, String]]
-```
-
-`getOperationMetrics`...FIXME
-
 ### <span id="postCommit"> postCommit
 
 ```scala
@@ -280,6 +271,15 @@ In the end, `getNextAttemptVersion` requests the `Snapshot` for the [version](Sn
 
 !!! note
     The input `previousAttemptVersion` argument is not used.
+
+### <span id="getOperationMetrics"> Operation Metrics
+
+```scala
+getOperationMetrics(
+  op: Operation): Option[Map[String, String]]
+```
+
+`getOperationMetrics` gives the [metrics](SQLMetricsReporting.md#getMetricsForOperation) for the given [Operation](Operation.md) when the [spark.databricks.delta.history.metricsEnabled](DeltaSQLConf.md#DELTA_HISTORY_METRICS_ENABLED) configuration property is enabled. Otherwise, `getOperationMetrics` gives `None`.
 
 ## <span id="commitInfo"> CommitInfo
 

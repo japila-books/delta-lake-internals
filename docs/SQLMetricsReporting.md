@@ -30,13 +30,15 @@ registerSQLMetrics(
 
 `registerSQLMetrics` is used when...FIXME
 
-## <span id="getMetricsForOperation"> getMetricsForOperation
+## <span id="getMetricsForOperation"> Operation Metrics
 
 ```scala
 getMetricsForOperation(
   operation: Operation): Map[String, String]
 ```
 
-`getMetricsForOperation`...FIXME
+`getMetricsForOperation` requests the given [Operation](Operation.md) to [transform](Operation.md#transformMetrics) the [operation metrics](#operationSQLMetrics).
 
-`getMetricsForOperation` is used when `OptimisticTransactionImpl` is requested to [getOperationMetrics](OptimisticTransactionImpl.md#getOperationMetrics).
+`getMetricsForOperation` is used when:
+
+* `OptimisticTransactionImpl` is requested to [getOperationMetrics](OptimisticTransactionImpl.md#getOperationMetrics)

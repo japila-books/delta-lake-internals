@@ -8,7 +8,7 @@ Operation may have [performance metrics](#operationMetrics).
 
 ## Contract
 
-### <span id="parameters"> parameters
+### <span id="parameters"> Parameters
 
 ```scala
 parameters: Map[String, Any]
@@ -23,28 +23,68 @@ Used when `Operation` is requested for [parameters with the values in JSON forma
 ??? note "Sealed Abstract Class"
     `Operation` is a Scala **sealed abstract class** which means that all of the implementations are in the same compilation unit (a single file).
 
-* AddColumns
-* ChangeColumn
-* ComputeStats
-* Convert
-* CreateTable
-* Delete
-* FileNotificationRetention
-* Fsck
-* ManualUpdate
-* Optimize
-* ReplaceColumns
-* ReplaceTable
-* ResetZCubeInfo
-* SetTableProperties
-* StreamingUpdate
-* Truncate
-* UnsetTableProperties
-* Update
-* UpdateColumnMetadata
-* UpdateSchema
-* UpgradeProtocol
-* Write
+### AddColumns
+
+### AddConstraint
+
+### ChangeColumn
+
+### Convert
+
+### CreateTable
+
+### Delete
+
+### DropConstraint
+
+### ManualUpdate
+
+### Merge
+
+### ReplaceColumns
+
+### ReplaceTable
+
+### SetTableProperties
+
+[Name](#name): `SET TBLPROPERTIES`
+
+[Parameters](#parameters):
+
+* properties
+
+Used when:
+
+* [AlterTableSetPropertiesDeltaCommand](commands/AlterTableSetPropertiesDeltaCommand.md) is executed
+
+### <span id="StreamingUpdate"> StreamingUpdate
+
+[Name](#name): `STREAMING UPDATE`
+
+[Parameters](#parameters):
+
+* outputMode
+* queryId
+* epochId
+
+Used when:
+
+* `DeltaSink` is requested to [addBatch](DeltaSink.md#addBatch)
+
+### Truncate
+
+### UnsetTableProperties
+
+### Update
+
+### UpdateColumnMetadata
+
+### UpdateSchema
+
+### UpgradeProtocol
+
+### Write
+
 
 ### Merge
 
@@ -54,7 +94,7 @@ Recorded when a merge operation is committed to a Delta table (when [MergeIntoCo
 
 `Operation` takes the following to be created:
 
-* <span id="name"> Name
+* <span id="name"> Name of this operation
 
 ??? note "Abstract Class"
     `Operation` is an abstract class and cannot be created directly. It is created indirectly for the [concrete Operations](#implementations).
@@ -82,7 +122,7 @@ operationMetrics: Set[String]
 
 `operationMetrics` is used when `Operation` is requested to [transformMetrics](#transformMetrics).
 
-## <span id="transformMetrics"> transformMetrics Method
+## <span id="transformMetrics"> transformMetrics
 
 ```scala
 transformMetrics(
