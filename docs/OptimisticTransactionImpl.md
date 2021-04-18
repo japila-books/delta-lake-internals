@@ -60,7 +60,7 @@ commit(
   op: DeltaOperations.Operation): Long
 ```
 
-`commit` commits the transaction (with the [Action](Action.md)s and a given [Operation](Operation.md))
+`commit` attempts to commit the transaction (with the [Action](Action.md)s and the [Operation](Operation.md)) and gives the commit version.
 
 ### <span id="commit-usage"> Usage
 
@@ -127,7 +127,7 @@ doCommitRetryIteratively(
 
 `doCommitRetryIteratively`...FIXME
 
-### <span id="checkForConflicts"> checkForConflicts
+### <span id="checkForConflicts"> Checking Actions with Commits since Read Time
 
 ```scala
 checkForConflicts(
@@ -137,16 +137,33 @@ checkForConflicts(
   commitIsolationLevel: IsolationLevel): Long
 ```
 
-`checkForConflicts`...FIXME
+`checkForConflicts` gives the [next possible commit version](#getNextAttemptVersion) unless the following happened between the time of read (`checkVersion`) and the time of this commit attempt:
 
-### <span id="getNextAttemptVersion"> getNextAttemptVersion
+1. Client is up to date with the [table protocol](Protocol.md) for reading and writing (and hence allowed to access the table)
+1. [Protocol](Protocol.md) version has changed
+1. [Metadata](Metadata.md) has changed
+1. [AddFile](AddFile.md)s have been added that the txn should have read based on the given [IsolationLevel](IsolationLevel.md) (_Concurrent Append_)
+1. [AddFile](AddFile.md)s that the txn read have been deleted (_Concurrent Delete_)
+1. Files have been deleted by the txn and since the time of read (_Concurrent Delete_)
+1. Idempotent [transactions](SetTransaction.md) have conflicted (_Multiple Streaming Queries_ with the same checkpoint location)
 
-```scala
-getNextAttemptVersion(
-  previousAttemptVersion: Long): Long
+`checkForConflicts` takes the [next possible commit version](#getNextAttemptVersion).
+
+For every commit since the time of read (`checkVersion`) and this commit attempt, `checkForConflicts` does the following:
+
+* FIXME
+
+* Prints out the following INFO message to the logs:
+
+    ```text
+    Completed checking for conflicts Version: [version] Attempt: [attemptNumber] Time: [totalCheckAndRetryTime] ms
+    ```
+
+In the end, `checkForConflicts` prints out the following INFO message to the logs:
+
+```text
+No logical conflicts with deltas [[checkVersion], [nextAttemptVersion]), retrying.
 ```
-
-`getNextAttemptVersion`...FIXME
 
 ### <span id="getPrettyPartitionMessage"> getPrettyPartitionMessage
 
@@ -249,6 +266,20 @@ Error when executing post-commit hook [name] for commit [version]
 ```text
 Can't call post commit hooks before committing
 ```
+
+### <span id="getNextAttemptVersion"> Next Possible Commit Version
+
+```scala
+getNextAttemptVersion(
+  previousAttemptVersion: Long): Long
+```
+
+`getNextAttemptVersion` requests the [DeltaLog](#deltaLog) to [update](DeltaLog.md#update) (and give the latest [state snapshot](Snapshot.md) of the delta table).
+
+In the end, `getNextAttemptVersion` requests the `Snapshot` for the [version](Snapshot.md#version) and increments it.
+
+!!! note
+    The input `previousAttemptVersion` argument is not used.
 
 ## <span id="commitInfo"> CommitInfo
 
