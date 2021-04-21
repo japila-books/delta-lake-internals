@@ -1,27 +1,29 @@
 # PreprocessTableMerge Logical Resolution Rule
 
-*PreprocessTableMerge* is a post-hoc logical resolution rule (`Rule[LogicalPlan]`) to <<apply, resolve DeltaMergeInto logical commands>> in a query plan into MergeIntoCommand.md[]s.
+`PreprocessTableMerge` is a post-hoc logical resolution rule ([Spark SQL]({{ book.spark_sql }}/catalyst/Rule)) to [resolve DeltaMergeInto logical commands](#apply) (in a logical query plan) into [MergeIntoCommand](commands/MergeIntoCommand.md)s.
 
-PreprocessTableMerge is _installed_ (injected) into a SparkSession using DeltaSparkSessionExtension.md[].
+`PreprocessTableMerge` is injected (_installed_) into a `SparkSession` using [DeltaSparkSessionExtension](DeltaSparkSessionExtension.md).
 
-== [[creating-instance]][[conf]] Creating Instance
+## Creating Instance
 
-PreprocessTableMerge takes a single `SQLConf` to be created.
+`PreprocessTableMerge` takes the following to be created:
 
-PreprocessTableMerge is created when:
+* <span id="conf"> `SQLConf` ([Spark SQL]({{ book.spark_sql }}/SQLConf))
 
-* [DeltaMergeBuilder](commands/DeltaMergeBuilder.md) is executed
+`PreprocessTableMerge` is created when:
 
-* DeltaSparkSessionExtension is requested to DeltaSparkSessionExtension.md#apply[register Delta SQL support]
+* `DeltaSparkSessionExtension` is requested to [register Delta SQL support](DeltaSparkSessionExtension.md)
+* `DeltaMergeBuilder` is requested to [execute](commands/DeltaMergeBuilder.md#execute)
 
-== [[apply]] Executing Rule
+## <span id="apply"> Executing Rule
 
-[source, scala]
-----
+```scala
 apply(
   plan: LogicalPlan): LogicalPlan
-----
+```
 
-apply resolves (_replaces_) DeltaMergeInto.md[] logical commands (in a logical query plan) into corresponding MergeIntoCommand.md[]s.
+`apply` is part of the `Rule` ([Spark SQL]({{ book.spark_sql }}/catalyst/Rule#apply)) abstraction.
 
-apply is part of the Spark SQL's `Rule` abstraction.
+In summary, `apply` resolves (_replaces_) [DeltaMergeInto](commands/DeltaMergeInto.md) logical commands (in a logical query plan) into corresponding [MergeIntoCommand](commands/MergeIntoCommand.md)s.
+
+Internally, `apply`...FIXME
