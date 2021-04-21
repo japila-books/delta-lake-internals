@@ -1,7 +1,4 @@
-= DeltaFileOperations Utilities
-:navtitle: DeltaFileOperations
-
-== [[utilities]] Utilities
+# DeltaFileOperations Utilities
 
 === [[recursiveListDirs]] recursiveListDirs
 

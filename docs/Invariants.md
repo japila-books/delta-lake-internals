@@ -1,3 +1,3 @@
-= [[Invariants]] Invariants
+# Invariants
 
 `Invariants` is...FIXME

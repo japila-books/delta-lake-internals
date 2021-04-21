@@ -1,23 +1,18 @@
-= [[SchemaUtils]] SchemaUtils Utility
+# SchemaUtils Utility
 
-`SchemaUtils` is...FIXME
+## <span id="mergeSchemas"> mergeSchemas
 
-== [[mergeSchemas]] `mergeSchemas` Utility
-
-[source, scala]
-----
+```scala
 mergeSchemas(
   tableSchema: StructType,
-  dataSchema: StructType): StructType
-----
+  dataSchema: StructType,
+  allowImplicitConversions: Boolean = false): StructType
+```
 
 `mergeSchemas`...FIXME
 
-[NOTE]
-====
-`mergeSchemas` is used when:
+`mergeSchemas` is used when:
 
-* `ConvertToDeltaCommand` is requested to ConvertToDeltaCommand.md#performConvert[performConvert] and ConvertToDeltaCommand.md#mergeSchemasInParallel[mergeSchemasInParallel]
-
-* `ImplicitMetadataOperation` is requested to ImplicitMetadataOperation.md#updateMetadata[update metadata]
-====
+* [PreprocessTableMerge](PreprocessTableMerge.md) logical resolution rule is executed
+* [ConvertToDeltaCommand](commands/ConvertToDeltaCommand.md) is executed
+* `ImplicitMetadataOperation` is requested to [update metadata](ImplicitMetadataOperation.md#updateMetadata)

@@ -1,8 +1,8 @@
 # DeleteCommand
 
-`DeleteCommand` is a [Delta command](DeltaCommand.md) that represents [DeltaDelete](DeltaDelete.md) logical command at execution.
+`DeleteCommand` is a [DeltaCommand](DeltaCommand.md) that represents [DeltaDelete](DeltaDelete.md) logical command at execution (and hence `DELETE FROM` SQL statement indirectly).
 
-`DeleteCommand` is a `RunnableCommand` logical operator ([Spark SQL]({{ book.spark_sql }}/logical-operators/RunnableCommand/)).
+`DeleteCommand` is a `RunnableCommand` ([Spark SQL]({{ book.spark_sql }}/logical-operators/RunnableCommand/)) logical operator.
 
 ## Creating Instance
 
@@ -47,6 +47,32 @@ performDelete(
   deltaLog: DeltaLog,
   txn: OptimisticTransaction): Unit
 ```
+
+#### <span id="performDelete-numFilesTotal"> Number of Table Files
+
+`performDelete` requests the given [DeltaLog](../DeltaLog.md) for the [current Snapshot](../DeltaLog.md#snapshot) that is in turn requested for the [number of files](../Snapshot.md#numOfFiles) in the delta table.
+
+#### <span id="performDelete-deleteActions"> Finding Delete Actions
+
+`performDelete` branches off based on the optional [condition](#condition):
+
+1. [No condition](#performDelete-deleteActions-condition-undefined) to delete the whole table
+1. [Condition defined on metadata only](#performDelete-deleteActions-condition-metadata-only)
+1. [Other conditions](#performDelete-deleteActions-condition-others)
+
+#### <span id="performDelete-deleteActions-condition-undefined"> Delete Condition Undefined
+
+`performDelete`...FIXME
+
+#### <span id="performDelete-deleteActions-condition-metadata-only"> Metadata-Only Delete Condition
+
+`performDelete`...FIXME
+
+#### <span id="performDelete-deleteActions-condition-others"> Other Delete Conditions
+
+`performDelete`...FIXME
+
+#### <span id="performDelete-deleteActions-nonEmpty"> Delete Actions Available
 
 `performDelete`...FIXME
 
