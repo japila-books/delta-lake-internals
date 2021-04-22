@@ -5,11 +5,11 @@ hide:
 
 # {{ book.title }}
 
-[Delta Lake](https://delta.io/) is an open-source storage management system (storage layer) that brings ACID transactions and time travel to [Apache Spark](https://spark.apache.org/) and big data workloads.
+[Delta Lake](https://delta.io/) is an open-source [Apache Spark](https://spark.apache.org/)-based storage layer that brings ACID transactions and time travel to Spark and other big data workloads.
 
 As [it was well said](https://github.com/delta-io/delta/issues/467#issuecomment-696708455): _"Delta is a storage format while Spark is an execution engine...to separate storage from compute."_
 
-!!! danger
+!!! important
     As of 0.7.0 Delta Lake requires Spark 3. Please note that [Spark 3.1.1 is not yet supported](https://github.com/delta-io/delta/issues/594). Use Spark 3.0.2 instead.
 
 Delta Lake is a table format. It introduces [DeltaTable](DeltaTable.md) abstraction that is simply a [parquet table](DeltaFileFormat.md#fileFormat) with a [transactional log](DeltaLog.md).
@@ -51,3 +51,15 @@ Delta Lake uses [LogStore](DeltaLog.md#store) abstraction to read and write phys
 Delta Table defines `DeltaTable` Scala extractor to find delta tables in a logical query plan. The extractor finds `LogicalRelation`s ([Spark SQL]({{ book.spark_sql }}/logical-operators/LogicalRelation)) with `HadoopFsRelation` ([Spark SQL]({{ book.spark_sql }}/HadoopFsRelation)) and [TahoeFileIndex](TahoeFileIndex.md).
 
 Put simply, delta tables are `LogicalRelation`s with `HadoopFsRelation` with [TahoeFileIndex](TahoeFileIndex.md) in logical query plans.
+
+## Concurrent Blind Append Transactions
+
+A [transaction](OptimisticTransaction.md) can be [blind append](OptimisticTransactionImpl.md#commit-isBlindAppend) when simply appends new data to a table with no reliance on existing data (and without reading or modifying it).
+
+They are marked in the [commit info](CommitInfo.md#isBlindAppend) to distinguish them from read-modify-appends (deletes, merges or updates) and assume no conflict between concurrent transactions.
+
+Blind Append Transactions allow for concurrent updates.
+
+```scala
+df.format("delta").mode("append").save(...)
+```

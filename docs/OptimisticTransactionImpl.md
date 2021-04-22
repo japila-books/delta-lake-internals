@@ -76,7 +76,7 @@ commit(
 * [WriteIntoDelta](commands/WriteIntoDelta.md) command is executed
 * `DeltaSink` is requested to [addBatch](DeltaSink.md#addBatch)
 
-### <span id="commit-prepareCommit"> Preparing Commit
+### <span id="commit-prepareCommit"><span id="commit-finalActions"> Preparing Commit
 
 `commit` firstly [prepares a commit](#prepareCommit) (that gives the final actions to commit that may be different from the given [action](Action.md)s).
 
@@ -86,9 +86,12 @@ commit(
 
 With all [action](FileAction.md)s with [dataChange](FileAction.md#dataChange) flag disabled (`false`), `commit` assumes no data changed and chooses [SnapshotIsolation](IsolationLevel.md#SnapshotIsolation) else [Serializable](IsolationLevel.md#Serializable).
 
-### <span id="commit-isBlindAppend"> isBlindAppend
+### <span id="commit-isBlindAppend"> Blind Append
 
-`commit`...FIXME
+`commit` is considered **blind append** when the following all hold:
+
+1. There are only [AddFile](AddFile.md)s among [FileAction](FileAction.md)s in the [actions](#commit-finalActions) (_onlyAddFiles_)
+1. It does not depend on files, i.e. the [readPredicates](#readPredicates) and [readFiles](#readFiles) are empty (_dependsOnFiles_)
 
 ### <span id="commit-commitInfo"> CommitInfo
 
@@ -127,7 +130,7 @@ doCommitRetryIteratively(
 
 `doCommitRetryIteratively`...FIXME
 
-### <span id="checkForConflicts"> Checking Actions with Commits since Read Time
+### <span id="checkForConflicts"> Checking Logical Conflicts with Concurrent Updates
 
 ```scala
 checkForConflicts(
@@ -136,6 +139,8 @@ checkForConflicts(
   attemptNumber: Int,
   commitIsolationLevel: IsolationLevel): Long
 ```
+
+`checkForConflicts` checks for logical conflicts (of the given `actions`) with concurrent updates (actions of the commits since the transaction has started).
 
 `checkForConflicts` gives the [next possible commit version](#getNextAttemptVersion) unless the following happened between the time of read (`checkVersion`) and the time of this commit attempt:
 
@@ -438,6 +443,16 @@ newMetadata: Option[Metadata]
 
 `newMetadata` is available using [metadata](#metadata) method.
 
+### <span id="readFiles"> readFiles
+
+```scala
+readFiles: HashSet[AddFile]
+```
+
+`OptimisticTransactionImpl` uses `readFiles` registry to track [AddFile](AddFile.md)s that have been seen (_scanned_) by this transaction (when requested to [filterFiles](#filterFiles)).
+
+Used to determine [isBlindAppend](#commit-isBlindAppend) and [checkForConflicts](#checkForConflicts) (and fail if the files have been deleted that the txn read).
+
 ### <span id="readPredicates"> readPredicates
 
 ```scala
@@ -459,18 +474,6 @@ Controls whether the transaction has been [committed](#commit) or not (and preve
 Default: `false`
 
 Enabled in [postCommit](#postCommit)
-
-### <span id="dependsOnFiles"> dependsOnFiles
-
-Flag that...FIXME
-
-Default: `false`
-
-Enabled (set to `true`) in [filterFiles](#filterFiles) and [readWholeTable](#readWholeTable)
-
-Used in [commit](#commit) and [checkAndRetry](#checkAndRetry)
-
-### <span id="readFiles"> readFiles
 
 ### <span id="readTxn"> readTxn
 
@@ -558,13 +561,15 @@ Cannot change the metadata more than once in a transaction.
 
 ## <span id="filterFiles"> Files To Scan Matching Given Predicates
 
-```scala
-filterFiles(): Seq[AddFile] // Uses `true` literal to mean that all files match
+``` { .scala .annotate }
+filterFiles(): Seq[AddFile] // (1)
 filterFiles(
   filters: Seq[Expression]): Seq[AddFile]
 ```
 
-`filterFiles` gives the [files](AddFile.md) to scan based on the given predicates (filter expressions).
+1. No filters = all files
+
+`filterFiles` gives the [files](AddFile.md) to scan for the given predicates (_filter expressions_).
 
 Internally, `filterFiles` requests the [Snapshot](#snapshot) for the [filesForScan](PartitionFiltering.md#filesForScan) (for no projection attributes and the given filters).
 
@@ -574,7 +579,7 @@ Internally, `filterFiles` requests the [Snapshot](#snapshot) for the [filesForSc
 
 `filterFiles` is used when:
 
-* `WriteIntoDelta` is requested to [write](commands/WriteIntoDelta.md#write)
+* [ActiveOptimisticTransactionRule](ActiveOptimisticTransactionRule.md) is executed
 * `DeltaSink` is requested to [add a streaming micro-batch](DeltaSink.md#addBatch) (with `Complete` output mode)
-* [DeleteCommand](commands/DeleteCommand.md), [MergeIntoCommand](commands/MergeIntoCommand.md) and [UpdateCommand](commands/UpdateCommand.md) are executed
+* [DeleteCommand](commands/DeleteCommand.md), [MergeIntoCommand](commands/MergeIntoCommand.md) and [UpdateCommand](commands/UpdateCommand.md), [WriteIntoDelta](commands/WriteIntoDelta.md) are executed
 * [CreateDeltaTableCommand](commands/CreateDeltaTableCommand.md) is executed

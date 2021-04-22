@@ -21,15 +21,17 @@
 
 * `DeltaHistoryManager` is requested for [version and commit history](DeltaHistoryManager.md#getHistory) (for [DeltaTable.history](DeltaTable.md#history) operator and [DESCRIBE HISTORY](sql/index.md#DESCRIBE-HISTORY) SQL command)
 * `OptimisticTransactionImpl` is requested to [commit](OptimisticTransactionImpl.md#commit) (with [spark.databricks.delta.commitInfo.enabled](DeltaSQLConf.md#commitInfo.enabled) configuration property enabled)
-* `DeltaCommand` is requested to [commitLarge](commands/DeltaCommand.md#commitLarge) (for [ConvertToDeltaCommand](commands/ConvertToDeltaCommand.md) command)
+* `DeltaCommand` is requested to [commitLarge](commands/DeltaCommand.md#commitLarge) (for [ConvertToDeltaCommand](commands/ConvertToDeltaCommand.md) command and `FileAlreadyExistsException` was thrown)
 
 `CommitInfo` is used as a part of [OptimisticTransactionImpl](OptimisticTransactionImpl.md#commitInfo) and `CommitStats`.
 
-## <span id="isBlindAppend"> isBlindAppend flag
+## <span id="isBlindAppend"> Blind Append
 
-`CommitInfo` is given `isBlindAppend` flag when created.
+`CommitInfo` is given `isBlindAppend` flag (when created) to indicate whether a commit has [blindly appended](OptimisticTransactionImpl.md#commit-isBlindAppend) data without caring about existing files.
 
-`isBlindAppend` flag indicates whether a commit has blindly appended data without caring about existing files.
+`isBlindAppend` flag is used while [checking for logical conflicts with concurrent updates](OptimisticTransactionImpl.md#checkForConflicts) (at [commit](OptimisticTransactionImpl.md#commit)).
+
+`isBlindAppend` flag is always `false` when `DeltaCommand` is requested to [commitLarge](commands/DeltaCommand.md#commitLarge).
 
 ## DeltaHistoryManager
 
