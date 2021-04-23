@@ -8,6 +8,8 @@ extractIfPathContainsTimeTravel(
   path: String): (String, Option[DeltaTimeTravelSpec])
 ```
 
+`extractIfPathContainsTimeTravel` uses the internal [spark.databricks.delta.timeTravel.resolveOnIdentifier.enabled](DeltaSQLConf.md#timeTravel.resolveOnIdentifier.enabled) configuration property to find time travel patterns in the given `path`.
+
 `extractIfPathContainsTimeTravel`...FIXME
 
 `extractIfPathContainsTimeTravel` is used when:

@@ -11,11 +11,17 @@
 * <span id="path"> Data directory of the [Delta table](#deltaLog) (as a Hadoop [Path]({{ hadoop.api }}/org/apache/hadoop/fs/Path.html))
 * <span id="snapshotAtAnalysis"> [Snapshot](Snapshot.md) at analysis
 * <span id="partitionFilters"> Partition Filters (as Catalyst expressions; default: empty)
-* <span id="isTimeTravelQuery"> `isTimeTravelQuery` flag (default: `false`)
+* [isTimeTravelQuery](#isTimeTravelQuery) flag (default: `false`)
 
 `TahoeLogFileIndex` is created when:
 
 * `DeltaLog` is requested for an [Insertable HadoopFsRelation](DeltaLog.md#createRelation)
+
+## <span id="isTimeTravelQuery"> isTimeTravelQuery flag
+
+`TahoeLogFileIndex` is given a `isTimeTravelQuery` flag when [created](#creating-instance).
+
+`isTimeTravelQuery` flag is `false` by default and can be different when `DeltaLog` is requested to [create a BaseRelation](DeltaLog.md#createRelation) (when `DeltaTableV2` is requested for a [BaseRelation](DeltaTableV2.md#toBaseRelation) based on [DeltaTimeTravelSpec](DeltaTableV2.md#timeTravelSpec)).
 
 ## Demo
 

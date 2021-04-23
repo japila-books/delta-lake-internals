@@ -21,11 +21,13 @@ In Spark SQL 3's terms, `DeltaTableV2` is a `Table` ([Spark SQL]({{ book.spark_s
 
 ## <span id="timeTravelOpt"> DeltaTimeTravelSpec
 
-`DeltaTableV2` may be given a [DeltaTimeTravelSpec](DeltaTimeTravelSpec.md) to be [created](#creating-instance).
+`DeltaTableV2` may be given a [DeltaTimeTravelSpec](DeltaTimeTravelSpec.md) when [created](#creating-instance).
 
-`DeltaTimeTravelSpec` is assumed not to be defined.
+`DeltaTimeTravelSpec` is assumed not to be defined by default (`None`).
 
-`DeltaTableV2` is given a `DeltaTimeTravelSpec` only when `DeltaDataSource` is requested to [create a BaseRelation](DeltaDataSource.md#RelationProvider-createRelation).
+`DeltaTableV2` is given a `DeltaTimeTravelSpec` when:
+
+* `DeltaDataSource` is requested for a [BaseRelation](DeltaDataSource.md#RelationProvider-createRelation)
 
 `DeltaTimeTravelSpec` is used for [timeTravelSpec](#timeTravelSpec).
 
@@ -50,7 +52,7 @@ snapshot: Snapshot
 timeTravelSpec: Option[DeltaTimeTravelSpec]
 ```
 
-`DeltaTableV2` may have a [DeltaTimeTravelSpec](DeltaTimeTravelSpec.md) specified that is either [given](#timeTravelOpt) or [timeTravelByPath](#timeTravelByPath).
+`DeltaTableV2` may have a [DeltaTimeTravelSpec](DeltaTimeTravelSpec.md) specified that is either [given](#timeTravelOpt) or [extracted from the path](DeltaTableUtils.md#extractIfPathContainsTimeTravel) (for [timeTravelByPath](#timeTravelByPath)).
 
 `timeTravelSpec` throws an `AnalysisException` when [timeTravelOpt](#timeTravelOpt) and [timeTravelByPath](#timeTravelByPath) are both defined:
 

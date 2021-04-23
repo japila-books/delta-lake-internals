@@ -1,6 +1,6 @@
 # ActiveOptimisticTransactionRule Logical Optimization Rule
 
-`ActiveOptimisticTransactionRule` is a logical optimization rule ([Spark SQL]({{ book.spark_sql }}/catalyst/Rule/)) to transform logical query plans.
+`ActiveOptimisticTransactionRule` is a logical optimization rule ([Spark SQL]({{ book.spark_sql }}/catalyst/Rule/)).
 
 ## Creating Instance
 
