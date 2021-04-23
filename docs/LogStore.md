@@ -1,73 +1,66 @@
-= LogStore
+# LogStore
 
-`LogStore` is an <<contract, abstraction>> of <<implementations, log stores>> that can <<read, read>> and <<write, write>> actions to a directory (among other things).
+`LogStore` is an [abstraction](#contract) of [transaction log stores](#implementations).
 
-[[contract]]
-.LogStore Contract
-[cols="30m,70",options="header",width="100%"]
-|===
-| Method
-| Description
+## Contract
 
-| invalidateCache
-a| [[invalidateCache]]
+### <span id="invalidateCache"> invalidateCache
 
-[source, scala]
-----
+```scala
 invalidateCache(): Unit
-----
+```
 
-Used when...FIXME
+### <span id="isPartialWriteVisible"> isPartialWriteVisible
 
-| isPartialWriteVisible
-a| [[isPartialWriteVisible]]
+```scala
+isPartialWriteVisible(
+  path: Path): Boolean
+```
 
-[source, scala]
-----
-isPartialWriteVisible(path: Path): Boolean = true
-----
-
-Used when...FIXME
-
-| listFrom
-a| [[listFrom]]
-
-[source, scala]
-----
-listFrom(
-  path: Path): Iterator[FileStatus]
-listFrom(
-  path: String): Iterator[FileStatus]
-----
-
-Used when...FIXME
-
-| read
-a| [[read]]
-
-[source, scala]
-----
-read(path: String): Seq[String]
-read(path: Path): Seq[String]
-----
+Default: `true`
 
 Used when:
 
-* `Checkpoints` is requested to <<Checkpoints.md#loadMetadataFromFile, loadMetadataFromFile>>
+* `Checkpoints` utility is used to [writeCheckpoint](Checkpoints.md#writeCheckpoint)
 
-* `DeltaHistoryManager` utility is requested to <<DeltaHistoryManager.md#getCommitInfo, getCommitInfo>>
+### <span id="listFrom"> listFrom
 
-* `DeltaLog` is requested to <<DeltaLog.md#getChanges, getChanges>>
+```scala
+listFrom(
+  path: Path): Iterator[FileStatus]
+listFrom(
+  path: String): Iterator[FileStatus]  
+```
 
-* `VerifyChecksum` is requested to <<VerifyChecksum.md#validateChecksum, validateChecksum>>
+Used when:
 
-* `OptimisticTransactionImpl` is requested to <<OptimisticTransactionImpl.md#checkAndRetry, checkAndRetry>>
+* `Checkpoints` is requested to [findLastCompleteCheckpoint](Checkpoints.md#findLastCompleteCheckpoint)
+* `DeltaHistoryManager` is requested to [getEarliestDeltaFile](DeltaHistoryManager.md#getEarliestDeltaFile), [getEarliestReproducibleCommit](DeltaHistoryManager.md#getEarliestReproducibleCommit) and [getCommits](DeltaHistoryManager.md#getCommits)
+* `DeltaLog` is requested to [getChanges](DeltaLog.md#getChanges)
+* `MetadataCleanup` is requested to [listExpiredDeltaLogs](MetadataCleanup.md#listExpiredDeltaLogs)
+* `SnapshotManagement` is requested to [listFrom](SnapshotManagement.md#listFrom)
+* `DeltaFileOperations` utility is used to [listUsingLogStore](DeltaFileOperations.md#listUsingLogStore)
 
-| write
-a| [[write]]
+### <span id="read"> read
 
-[source, scala]
-----
+```scala
+read(
+  path: Path): Seq[String]
+read(
+  path: String): Seq[String]
+```
+
+Used when:
+
+* `Checkpoints` is requested to [loadMetadataFromFile](Checkpoints.md#loadMetadataFromFile)
+* `ReadChecksum` is requested to [readChecksum](ReadChecksum.md#readChecksum)
+* `DeltaLog` is requested to [getChanges](DeltaLog.md#getChanges)
+* `OptimisticTransactionImpl` is requested to [checkForConflicts](OptimisticTransactionImpl.md#checkForConflicts)
+* `LogStore` is requested to [readAsIterator](#readAsIterator)
+
+### <span id="write"> write
+
+```scala
 write(
   path: Path,
   actions: Iterator[String],
@@ -75,64 +68,15 @@ write(
 write(
   path: String,
   actions: Iterator[String]): Unit
-----
-
-Writes the actions out to the given path (with or without overwrite as indicated).
+```
 
 Used when:
 
-* `Checkpoints` is requested to <<Checkpoints.md#checkpoint, checkpoint>>
+* `Checkpoints` is requested to [checkpoint](Checkpoints.md#checkpoint)
+* `OptimisticTransactionImpl` is requested to [doCommit](OptimisticTransactionImpl.md#doCommit)
+* `DeltaCommand` is requested to [commitLarge](commands/DeltaCommand.md#commitLarge)
+* `GenerateSymlinkManifestImpl` is requested to [writeManifestFiles](GenerateSymlinkManifest.md#writeManifestFiles)
 
-* `ConvertToDeltaCommand` is <<ConvertToDeltaCommand.md#run, executed>> (and does <<ConvertToDeltaCommand.md#streamWrite, streamWrite>>)
+## Implementations
 
-* `OptimisticTransactionImpl` is requested to <<OptimisticTransactionImpl.md#doCommit, doCommit>>
-
-|===
-
-[[implementations]]
-.LogStores (Direct Implementations and Extensions Only)
-[cols="30,70",options="header",width="100%"]
-|===
-| LogStore
-| Description
-
-| <<HDFSLogStore.md#, HDFSLogStore>>
-| [[HDFSLogStore]]
-
-| <<HadoopFileSystemLogStore.md#, HadoopFileSystemLogStore>>
-| [[HadoopFileSystemLogStore]]
-
-|===
-
-== [[resolvePathOnPhysicalStorage]] `resolvePathOnPhysicalStorage` Method
-
-[source, scala]
-----
-resolvePathOnPhysicalStorage(path: Path): Path
-----
-
-`resolvePathOnPhysicalStorage`...FIXME
-
-NOTE: `resolvePathOnPhysicalStorage` is used when...FIXME
-
-== [[apply]] Creating LogStore -- `apply` Utility
-
-[source, scala]
-----
-apply(
-  sc: SparkContext): LogStore
-apply(
-  sparkConf: SparkConf,
-  hadoopConf: Configuration): LogStore
-----
-
-`apply`...FIXME
-
-[NOTE]
-====
-`apply` is used when:
-
-* `DeltaHistoryManager` is requested to <<DeltaHistoryManager.md#getHistory, getHistory>> and <<DeltaHistoryManager.md#parallelSearch0, parallelSearch0>>
-
-* `DeltaFileOperations` utility is used to <<recursiveListDirs, recursiveListDirs>>
-====
+* [HadoopFileSystemLogStore](HadoopFileSystemLogStore.md)

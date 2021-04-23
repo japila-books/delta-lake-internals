@@ -142,6 +142,7 @@ nav:
       - LogStore: LogStore.md
       - HDFSLogStore: HDFSLogStore.md
       - HadoopFileSystemLogStore: HadoopFileSystemLogStore.md
+      - S3SingleDriverLogStore: S3SingleDriverLogStore.md
     - Actions:
       - Action: Action.md
       - AddCDCFile: AddCDCFile.md
