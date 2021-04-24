@@ -1,6 +1,8 @@
 # LogStore
 
-`LogStore` is an [abstraction](#contract) of [transaction log stores](#implementations).
+`LogStore` is an [abstraction](#contract) of [transaction log stores](#implementations) (to read and write physical log files and checkpoints).
+
+`LogStore` is created using [LogStoreProvider](LogStoreProvider.md#createLogStore) based on [spark.delta.logStore.class](configuration-properties.md#spark.delta.logStore.class) configuration property.
 
 ## Contract
 
@@ -80,3 +82,21 @@ Used when:
 ## Implementations
 
 * [HadoopFileSystemLogStore](HadoopFileSystemLogStore.md)
+
+## <span id="apply"> Creating LogStore
+
+```scala
+apply(
+  sc: SparkContext): LogStore
+apply(
+  sparkConf: SparkConf,
+  hadoopConf: Configuration): LogStore
+```
+
+`apply` [creates a LogStore](LogStoreProvider.md#createLogStore).
+
+`apply` is used when:
+
+* `GenerateSymlinkManifestImpl` is requested to [writeManifestFiles](GenerateSymlinkManifest.md#writeManifestFiles) and [writeSingleManifestFile](GenerateSymlinkManifest.md#writeSingleManifestFile)
+* `DeltaHistoryManager` is requested to [getHistory](DeltaHistoryManager.md#getHistory) and [getActiveCommitAtTime](DeltaHistoryManager.md#getActiveCommitAtTime)
+* `DeltaFileOperations` is requested to [recursiveListDirs](DeltaFileOperations.md#recursiveListDirs) and [localListDirs](DeltaFileOperations.md#localListDirs)

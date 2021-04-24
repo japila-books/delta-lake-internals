@@ -115,7 +115,9 @@ nav:
       - Time Travel: time-travel.md
       - DeltaTimeTravelSpec: DeltaTimeTravelSpec.md
     - DeltaTableIdentifier: DeltaTableIdentifier.md
-    - Configuration Properties: DeltaSQLConf.md
+    - Configuration Properties:
+      - Configuration Properties: configuration-properties.md
+      - DeltaSQLConf: DeltaSQLConf.md
     - Transaction Log (DeltaLog):
       - DeltaLog: DeltaLog.md
       - Operation: Operation.md
@@ -123,7 +125,6 @@ nav:
       - SnapshotManagement: SnapshotManagement.md
       - ReadChecksum: ReadChecksum.md
       - MetadataCleanup: MetadataCleanup.md
-      - LogStoreProvider: LogStoreProvider.md
       - VerifyChecksum: VerifyChecksum.md
     - Optimistic Transactions:
       - OptimisticTransaction: OptimisticTransaction.md
@@ -140,6 +141,7 @@ nav:
     - DeltaHistoryManager: DeltaHistoryManager.md
     - LogStore:
       - LogStore: LogStore.md
+      - LogStoreProvider: LogStoreProvider.md
       - HDFSLogStore: HDFSLogStore.md
       - HadoopFileSystemLogStore: HadoopFileSystemLogStore.md
       - S3SingleDriverLogStore: S3SingleDriverLogStore.md
