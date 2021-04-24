@@ -187,7 +187,7 @@ postCommit(
   commitActions: Seq[Action]): Unit
 ```
 
-`postCommit`...FIXME
+`postCommit` turns the [committed](#committed) flag on.
 
 ### <span id="prepareCommit"> prepareCommit
 

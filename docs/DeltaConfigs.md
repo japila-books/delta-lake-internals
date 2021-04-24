@@ -1,18 +1,6 @@
 # DeltaConfigs
 
-`DeltaConfigs` is the [configuration properties](#configuration-properties) of a delta table.
-
-## ALTER TABLE SQL Command
-
-Table properties can be set a value or unset using `ALTER TABLE` SQL command:
-
-```sql
-ALTER TABLE <table_name> SET TBLPROPERTIES (<key>=<value>)
-```
-
-```sql
-ALTER TABLE table1 UNSET TBLPROPERTIES [IF EXISTS] ('key1', 'key2', ...);
-```
+`DeltaConfigs` holds the [table properties](table-properties.md) that can be set on a delta table.
 
 ## Configuration Properties
 

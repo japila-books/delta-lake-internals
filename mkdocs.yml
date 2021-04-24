@@ -118,6 +118,10 @@ nav:
     - Configuration Properties:
       - Configuration Properties: configuration-properties.md
       - DeltaSQLConf: DeltaSQLConf.md
+    - Table Properties:
+      - Table Properties: table-properties.md
+      - DeltaConfigs: DeltaConfigs.md
+      - DeltaConfig: DeltaConfig.md
     - Transaction Log (DeltaLog):
       - DeltaLog: DeltaLog.md
       - Operation: Operation.md
@@ -156,9 +160,6 @@ nav:
       - RemoveFile: RemoveFile.md
       - SetTransaction: SetTransaction.md
       - SingleAction: SingleAction.md
-    - DeltaConfigs:
-      - DeltaConfigs: DeltaConfigs.md
-      - DeltaConfig: DeltaConfig.md
     - FileNames: FileNames.md
     - Logging: spark-logging.md
     - Delta Data Source:

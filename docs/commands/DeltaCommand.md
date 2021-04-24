@@ -144,3 +144,15 @@ commitLarge(
 `commitLarge` is used when:
 
 * [ConvertToDeltaCommand](convert/ConvertToDeltaCommand.md) command is executed
+
+### <span id="updateAndCheckpoint"> updateAndCheckpoint
+
+```scala
+updateAndCheckpoint(
+  spark: SparkSession,
+  deltaLog: DeltaLog,
+  commitSize: Int,
+  attemptVersion: Long): Unit
+```
+
+`updateAndCheckpoint`...FIXME

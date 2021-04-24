@@ -1,99 +1,79 @@
 # MetadataCleanup
 
-`MetadataCleanup` is an abstraction of <<implementations, MetadataCleanups>> that can <<doLogCleanup, clean up>> the <<self, DeltaLog>>.
+`MetadataCleanup` is an abstraction of [metadata cleaners](#implementations) that can [clean up](#doLogCleanup) expired checkpoints and delta logs of a [delta table](#self).
 
-[[implementations]][[self]]
-NOTE: <<DeltaLog.md#, DeltaLog>> is the default and only known `MetadataCleanup` in Delta Lake.
+<span id="self">
+`MetadataCleanup` requires to be used with [DeltaLog](DeltaLog.md) (or subtypes) only.
 
-[[logging]]
-[TIP]
-====
-Enable `ALL` logging level for `org.apache.spark.sql.delta.MetadataCleanup` logger to see what happens inside.
+## Implementations
 
-Add the following line to `conf/log4j.properties`:
+* [DeltaLog](DeltaLog.md)
 
-```
-log4j.logger.org.apache.spark.sql.delta.MetadataCleanup=ALL
-```
+## Table Properties
 
-Refer to [Logging](spark-logging.md)..
-====
+### <span id="enableExpiredLogCleanup"> enableExpiredLogCleanup
 
-== [[doLogCleanup]] `doLogCleanup` Method
+`MetadataCleanup` uses [enableExpiredLogCleanup](DeltaConfigs.md#ENABLE_EXPIRED_LOG_CLEANUP) table configuration to enable [log cleanup](#doLogCleanup).
 
-[source, scala]
-----
+### <span id="deltaRetentionMillis"> logRetentionDuration
+
+`MetadataCleanup` uses [logRetentionDuration](DeltaConfigs.md#LOG_RETENTION) table configuration for how long to keep around obsolete logs.
+
+## <span id="doLogCleanup"> doLogCleanup
+
+```scala
 doLogCleanup(): Unit
-----
+```
 
-[NOTE]
-====
-`doLogCleanup` is part of the <<Checkpoints.md#doLogCleanup, Checkpoints Contract>> to...FIXME.
+`doLogCleanup` is part of the [Checkpoints](Checkpoints.md#doLogCleanup) abstraction.
 
-Interestingly, this `MetadataCleanup` and <<Checkpoints.md#, Checkpoints>> abstractions require to be used with <<DeltaLog.md#, DeltaLog>> only.
-====
+`doLogCleanup` [cleanUpExpiredLogs](#cleanUpExpiredLogs) when [enabled](#enableExpiredLogCleanup).
 
-`doLogCleanup` <<cleanUpExpiredLogs, cleanUpExpiredLogs>> when the <<enableExpiredLogCleanup, enableExpiredLogCleanup>> table property is enabled.
+### <span id="cleanUpExpiredLogs"> cleanUpExpiredLogs
 
-== [[enableExpiredLogCleanup]] enableExpiredLogCleanup Table Property -- `enableExpiredLogCleanup` Method
-
-[source, scala]
-----
-enableExpiredLogCleanup: Boolean
-----
-
-`enableExpiredLogCleanup` gives the value of <<DeltaConfigs.md#ENABLE_EXPIRED_LOG_CLEANUP, enableExpiredLogCleanup>> table property (<<DeltaConfigs.md#fromMetaData, from>> the <<DeltaLog.md#metadata, Metadata>>).
-
-NOTE: `enableExpiredLogCleanup` is used exclusively when `MetadataCleanup` is requested to <<doLogCleanup, doLogCleanup>>.
-
-== [[deltaRetentionMillis]] logRetentionDuration Table Property -- `deltaRetentionMillis` Method
-
-[source, scala]
-----
-deltaRetentionMillis: Long
-----
-
-`deltaRetentionMillis` gives the value of <<DeltaConfigs.md#LOG_RETENTION, logRetentionDuration>> table property (<<DeltaConfigs.md#fromMetaData, from>> the <<DeltaLog.md#metadata, Metadata>>).
-
-NOTE: `deltaRetentionMillis` is used when...FIXME
-
-== [[cleanUpExpiredLogs]] `cleanUpExpiredLogs` Internal Method
-
-[source, scala]
-----
+```scala
 cleanUpExpiredLogs(): Unit
-----
+```
 
-`cleanUpExpiredLogs` calculates a so-called `fileCutOffTime` based on the <<DeltaLog.md#clock, current time>> and the <<deltaRetentionMillis, logRetentionDuration>> table property.
+`cleanUpExpiredLogs` calculates a `fileCutOffTime` based on the [current time](DeltaLog.md#clock) and the [logRetentionDuration](#deltaRetentionMillis) table property.
 
 `cleanUpExpiredLogs` prints out the following INFO message to the logs:
 
-```
+```text
 Starting the deletion of log files older than [date]
 ```
 
-`cleanUpExpiredLogs` <<listExpiredDeltaLogs, finds the expired delta logs>> (based on the `fileCutOffTime`) and deletes the files (using Hadoop's [FileSystem.delete]({{ hadoop.api }}/org/apache/hadoop/fs/FileSystem.html#delete(org.apache.hadoop.fs.Path,%20boolean)) non-recursively).
+`cleanUpExpiredLogs` [finds the expired delta logs](#listExpiredDeltaLogs) (based on the `fileCutOffTime`) and deletes the files (using Hadoop's [FileSystem.delete]({{ hadoop.api }}/org/apache/hadoop/fs/FileSystem.html#delete(org.apache.hadoop.fs.Path,%20boolean)) non-recursively). `cleanUpExpiredLogs` counts the files deleted (and uses it in the summary INFO message).
 
 In the end, `cleanUpExpiredLogs` prints out the following INFO message to the logs:
 
 ```text
-Deleted numDeleted log files older than [date]
+Deleted [numDeleted] log files older than [date]
 ```
 
-NOTE: `cleanUpExpiredLogs` is used exclusively when `MetadataCleanup` is requested to <<doLogCleanup, doLogCleanup>>.
+### <span id="listExpiredDeltaLogs"> Finding Expired Log Files
 
-== [[listExpiredDeltaLogs]] Finding Expired Delta Logs -- `listExpiredDeltaLogs` Internal Method
-
-[source, scala]
-----
+```scala
 listExpiredDeltaLogs(
   fileCutOffTime: Long): Iterator[FileStatus]
-----
+```
 
-`listExpiredDeltaLogs`...FIXME
+`listExpiredDeltaLogs` [loads the most recent checkpoint](Checkpoints.md#lastCheckpoint) if available.
 
-requests the <<DeltaLog.md#store, LogStore>> for the <<LogStore.md#listFrom, paths (in the same directory)>> that are (lexicographically) greater or equal to the ``0``th checkpoint file (per <<FileNames.md#checkpointPrefix, checkpointPrefix>> format) of the <<FileNames.md#isCheckpointFile, checkpoint>> and <<FileNames.md#isDeltaFile, delta>> files in the <<DeltaLog.md#logPath, log directory>> (of the <<self, DeltaLog>>).
+If the last checkpoint is not available, `listExpiredDeltaLogs` returns an empty iterator.
+
+`listExpiredDeltaLogs` requests the [LogStore](DeltaLog.md#store) for the [paths](LogStore.md#listFrom) (in the same directory) that are (lexicographically) greater or equal to the ``0``th checkpoint file (per [checkpointPrefix](FileNames.md#checkpointPrefix) format) of the [checkpoint](FileNames.md#isCheckpointFile) and [delta](FileNames.md#isDeltaFile) files in the [log directory](DeltaLog.md#logPath).
 
 In the end, `listExpiredDeltaLogs` creates a `BufferingLogDeletionIterator` that...FIXME
 
-NOTE: `listExpiredDeltaLogs` is used exclusively when `MetadataCleanup` is requested to <<cleanUpExpiredLogs, cleanUpExpiredLogs>>.
+## Logging
+
+Enable `ALL` logging level for `org.apache.spark.sql.delta.MetadataCleanup` logger to see what happens inside.
+
+Add the following line to `conf/log4j.properties`:
+
+```text
+log4j.logger.org.apache.spark.sql.delta.MetadataCleanup=ALL
+```
+
+Refer to [Logging](spark-logging.md).

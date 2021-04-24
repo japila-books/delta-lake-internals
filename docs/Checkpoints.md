@@ -1,101 +1,88 @@
 # Checkpoints
 
-`Checkpoints` is an <<contract, abstraction>> of <<implementations, DeltaLogs>> that can <<checkpoint, checkpoint>> the current state of a delta table (represented by the <<self, DeltaLog>>).
+`Checkpoints` is an abstraction of [DeltaLogs](#implementations) that can [checkpoint](#checkpoint) the current state of a [delta table](#self).
 
-[[contract]]
-.Checkpoints Contract (Abstract Methods Only)
-[cols="30m,70",options="header",width="100%"]
-|===
-| Method
-| Description
+<span id="self">
+`Checkpoints` requires to be used with [DeltaLog](DeltaLog.md) (or subtypes) only.
 
-| logPath
-a| [[logPath]]
+## Contract
 
-[source, scala]
-----
-logPath: Path
-----
+### <span id="dataPath"> dataPath
 
-Used when...FIXME
-
-| dataPath
-a| [[dataPath]]
-
-[source, scala]
-----
+```scala
 dataPath: Path
-----
+```
 
-Used when...FIXME
+Hadoop [Path]({{ hadoop.api }}/org/apache/hadoop/fs/Path.html) to the data directory of the [delta table](#self)
 
-| snapshot
-a| [[snapshot]]
+### <span id="doLogCleanup"> doLogCleanup
 
-[source, scala]
-----
-snapshot: Snapshot
-----
-
-Used when...FIXME
-
-| store
-a| [[store]]
-
-[source, scala]
-----
-store: LogStore
-----
-
-Used when...FIXME
-
-| metadata
-a| [[metadata]]
-
-[source, scala]
-----
-metadata: Metadata
-----
-
-<<Metadata.md#, Metadata>> of (the current state of) the <<self, delta table>>
-
-Used when...FIXME
-
-| doLogCleanup
-a| [[doLogCleanup]]
-
-[source, scala]
-----
+```scala
 doLogCleanup(): Unit
-----
+```
 
-Used when...FIXME
+Used when:
 
-|===
+* `Checkpoints` is requested to [checkpoint](#checkpoint)
 
-[[implementations]][[self]]
-NOTE: <<DeltaLog.md#, DeltaLog>> is the default and only known `Checkpoints` in Delta Lake.
+### <span id="logPath"> logPath
 
-== [[LAST_CHECKPOINT]][[_last_checkpoint]] _last_checkpoint Metadata File
+```scala
+logPath: Path
+```
 
-`Checkpoints` uses *_last_checkpoint* metadata file (under the <<DeltaLog.md#logPath, log path>>) for the following:
+Hadoop [Path]({{ hadoop.api }}/org/apache/hadoop/fs/Path.html) to the log directory of the [delta table](#self)
 
-* <<checkpoint, Writing checkpoint metadata out>>
+### <span id="metadata"> Metadata
 
-* <<loadMetadataFromFile, Loading checkpoint metadata in>>
+```scala
+metadata: Metadata
+```
 
-== [[checkpoint]] Checkpointing -- `checkpoint` Method
+[Metadata](Metadata.md) of the [delta table](#self)
 
-[source, scala]
-----
+### <span id="snapshot"> snapshot
+
+```scala
+snapshot: Snapshot
+```
+
+[Snapshot](Snapshot.md) of the [delta table](#self)
+
+### <span id="store"> store
+
+```scala
+store: LogStore
+```
+
+[LogStore](LogStore.md)
+
+## Implementations
+
+* [DeltaLog](DeltaLog.md)
+
+## <span id="LAST_CHECKPOINT"><span id="_last_checkpoint"> _last_checkpoint Metadata File
+
+`Checkpoints` uses **_last_checkpoint** metadata file (under the [log path](#logPath)) for the following:
+
+* [Writing checkpoint metadata out](#checkpoint)
+
+* [Loading checkpoint metadata in](#loadMetadataFromFile)
+
+## <span id="checkpoint"> Checkpointing
+
+```scala
 checkpoint(): Unit
 checkpoint(
   snapshotToCheckpoint: Snapshot): CheckpointMetaData
-----
+```
 
 `checkpoint`...FIXME
 
-NOTE: `checkpoint` is used when...FIXME
+`checkpoint` is used when:
+
+* `OptimisticTransactionImpl` is requested to [postCommit](OptimisticTransactionImpl.md#postCommit)
+* `DeltaCommand` is requested to [updateAndCheckpoint](commands/DeltaCommand.md#updateAndCheckpoint)
 
 ## <span id="lastCheckpoint"> Loading Latest Checkpoint Metadata
 
@@ -122,52 +109,3 @@ loadMetadataFromFile(
 `loadMetadataFromFile` uses the [LogStore](DeltaLog.md#store) to [read](#read) the [_last_checkpoint](LAST_CHECKPOINT) file.
 
 In case the [_last_checkpoint](LAST_CHECKPOINT) file is corrupted, `loadMetadataFromFile`...FIXME
-
-== [[manuallyLoadCheckpoint]] `manuallyLoadCheckpoint` Method
-
-[source, scala]
-----
-manuallyLoadCheckpoint(cv: CheckpointInstance): CheckpointMetaData
-----
-
-`manuallyLoadCheckpoint`...FIXME
-
-NOTE: `manuallyLoadCheckpoint` is used when...FIXME
-
-== [[findLastCompleteCheckpoint]] `findLastCompleteCheckpoint` Method
-
-[source, scala]
-----
-findLastCompleteCheckpoint(cv: CheckpointInstance): Option[CheckpointInstance]
-----
-
-`findLastCompleteCheckpoint`...FIXME
-
-NOTE: `findLastCompleteCheckpoint` is used when...FIXME
-
-== [[getLatestCompleteCheckpointFromList]] `getLatestCompleteCheckpointFromList` Method
-
-[source, scala]
-----
-getLatestCompleteCheckpointFromList(
-  instances: Array[CheckpointInstance],
-  notLaterThan: CheckpointInstance): Option[CheckpointInstance]
-----
-
-`getLatestCompleteCheckpointFromList`...FIXME
-
-NOTE: `getLatestCompleteCheckpointFromList` is used when...FIXME
-
-== [[writeCheckpoint]] `writeCheckpoint` Utility
-
-[source, scala]
-----
-writeCheckpoint(
-  spark: SparkSession,
-  deltaLog: DeltaLog,
-  snapshot: Snapshot): CheckpointMetaData
-----
-
-`writeCheckpoint`...FIXME
-
-NOTE: `writeCheckpoint` is used when `Checkpoints` is requested to <<checkpoint, checkpoint>>.
