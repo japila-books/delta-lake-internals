@@ -16,7 +16,7 @@
 
 `AddFile` is created when:
 
-* [ConvertToDeltaCommand](commands/ConvertToDeltaCommand.md) is executed (for [every data file to import](commands/ConvertToDeltaCommand.md#createAddFile))
+* [ConvertToDeltaCommand](commands/convert/ConvertToDeltaCommand.md) is executed (for [every data file to import](commands/convert/ConvertToDeltaCommand.md#createAddFile))
 
 * `DelayedCommitProtocol` is requested to [commit a task (after successful write)](DelayedCommitProtocol.md#commitTask) (for [optimistic transactional writers](TransactionalWrite.md))
 

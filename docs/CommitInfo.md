@@ -21,7 +21,7 @@
 
 * `DeltaHistoryManager` is requested for [version and commit history](DeltaHistoryManager.md#getHistory) (for [DeltaTable.history](DeltaTable.md#history) operator and [DESCRIBE HISTORY](sql/index.md#DESCRIBE-HISTORY) SQL command)
 * `OptimisticTransactionImpl` is requested to [commit](OptimisticTransactionImpl.md#commit) (with [spark.databricks.delta.commitInfo.enabled](DeltaSQLConf.md#commitInfo.enabled) configuration property enabled)
-* `DeltaCommand` is requested to [commitLarge](commands/DeltaCommand.md#commitLarge) (for [ConvertToDeltaCommand](commands/ConvertToDeltaCommand.md) command and `FileAlreadyExistsException` was thrown)
+* `DeltaCommand` is requested to [commitLarge](commands/DeltaCommand.md#commitLarge) (for [ConvertToDeltaCommand](commands/convert/ConvertToDeltaCommand.md) command and `FileAlreadyExistsException` was thrown)
 
 `CommitInfo` is used as a part of [OptimisticTransactionImpl](OptimisticTransactionImpl.md#commitInfo) and `CommitStats`.
 
@@ -74,7 +74,7 @@ apply(
 
 `apply` creates a `CommitInfo` (for the given arguments and based on the given `commandContext` for the user ID, user name, job, notebook, cluster).
 
-`commandContext` argument is always empty, but could be customized using [ConvertToDeltaCommandBase](commands/ConvertToDeltaCommand.md#ConvertToDeltaCommandBase).
+`commandContext` argument is always empty, but could be customized using [ConvertToDeltaCommandBase](commands/convert/ConvertToDeltaCommand.md#ConvertToDeltaCommandBase).
 
 `apply` is used when:
 

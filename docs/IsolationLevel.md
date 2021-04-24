@@ -19,7 +19,7 @@ For `Serializable` commits, `OptimisticTransactionImpl` adds extra `addedFilesTo
 
 For operations that do not modify data in a table, there is no difference between [Serializable](#Serializable) and [SnapshotIsolation](#SnapshotIsolation).
 
-`Serializable` is used for [ConvertToDeltaCommand](commands/ConvertToDeltaCommand.md) command.
+`Serializable` is used for [ConvertToDeltaCommand](commands/convert/ConvertToDeltaCommand.md) command.
 
 ### <span id="SnapshotIsolation"> SnapshotIsolation
 

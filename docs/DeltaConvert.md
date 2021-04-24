@@ -37,7 +37,7 @@ executeConvert(
   deltaPath: Option[String]): DeltaTable
 ```
 
-`executeConvert` creates a new [ConvertToDeltaCommand](commands/ConvertToDeltaCommand.md) and executes it.
+`executeConvert` creates a new [ConvertToDeltaCommand](commands/convert/ConvertToDeltaCommand.md) and executes it.
 
 In the end, `executeConvert` creates a [DeltaTable](DeltaTable.md).
 

@@ -5,7 +5,7 @@
 ## Implementations
 
 * [AlterDeltaTableCommand](AlterDeltaTableCommand.md)
-* [ConvertToDeltaCommand](ConvertToDeltaCommand.md)
+* [ConvertToDeltaCommand](convert/ConvertToDeltaCommand.md)
 * [DeleteCommand](DeleteCommand.md)
 * [MergeIntoCommand](MergeIntoCommand.md)
 * [UpdateCommand](UpdateCommand.md)
@@ -143,4 +143,4 @@ commitLarge(
 
 `commitLarge` is used when:
 
-* [ConvertToDeltaCommand](ConvertToDeltaCommand.md) command is executed
+* [ConvertToDeltaCommand](convert/ConvertToDeltaCommand.md) command is executed

@@ -47,7 +47,7 @@ readVersion: Long
 `readVersion` is used when:
 
 * `OptimisticTransactionImpl` is requested to [updateMetadata](#updateMetadata) and [commit](#commit)
-* [AlterDeltaTableCommand](commands/AlterDeltaTableCommand.md), [ConvertToDeltaCommand](commands/ConvertToDeltaCommand.md), [CreateDeltaTableCommand](commands/CreateDeltaTableCommand.md) commands are executed
+* [AlterDeltaTableCommand](commands/AlterDeltaTableCommand.md), [ConvertToDeltaCommand](commands/convert/ConvertToDeltaCommand.md), [CreateDeltaTableCommand](commands/CreateDeltaTableCommand.md) commands are executed
 * `DeltaCommand` is requested to [commitLarge](commands/DeltaCommand.md#commitLarge)
 * `WriteIntoDelta` is requested to [write](commands/WriteIntoDelta.md#write)
 * `ImplicitMetadataOperation` is requested to [updateMetadata](ImplicitMetadataOperation.md#updateMetadata)
@@ -68,7 +68,7 @@ commit(
 
 * `DeltaLog` is requested to [upgrade the protocol](DeltaLog.md#upgradeProtocol)
 * ALTER delta table commands ([AlterTableSetPropertiesDeltaCommand](commands/AlterTableSetPropertiesDeltaCommand.md), [AlterTableUnsetPropertiesDeltaCommand](commands/AlterTableUnsetPropertiesDeltaCommand.md), [AlterTableAddColumnsDeltaCommand](commands/AlterTableAddColumnsDeltaCommand.md), [AlterTableChangeColumnDeltaCommand](commands/AlterTableChangeColumnDeltaCommand.md), [AlterTableReplaceColumnsDeltaCommand](commands/AlterTableReplaceColumnsDeltaCommand.md), [AlterTableAddConstraintDeltaCommand](commands/AlterTableAddConstraintDeltaCommand.md), [AlterTableDropConstraintDeltaCommand](commands/AlterTableDropConstraintDeltaCommand.md)) are executed
-* [ConvertToDeltaCommand](commands/ConvertToDeltaCommand.md) command is executed
+* [ConvertToDeltaCommand](commands/convert/ConvertToDeltaCommand.md) command is executed
 * [CreateDeltaTableCommand](commands/CreateDeltaTableCommand.md) command is executed
 * [DeleteCommand](commands/DeleteCommand.md) command is executed
 * [MergeIntoCommand](commands/MergeIntoCommand.md) command is executed
@@ -415,7 +415,7 @@ getUserMetadata(
 `getUserMetadata` is used when:
 
 * `OptimisticTransactionImpl` is requested to [commit](#commit) (and [spark.databricks.delta.commitInfo.enabled](DeltaSQLConf.md#DELTA_COMMIT_INFO_ENABLED) configuration property is enabled)
-* [ConvertToDeltaCommand](commands/ConvertToDeltaCommand.md) is executed (and in turn requests `DeltaCommand` to [commitLarge](commands/DeltaCommand.md#commitLarge))
+* [ConvertToDeltaCommand](commands/convert/ConvertToDeltaCommand.md) is executed (and in turn requests `DeltaCommand` to [commitLarge](commands/DeltaCommand.md#commitLarge))
 
 ## Internal Registries
 
@@ -510,7 +510,7 @@ updateMetadataForNewTable(
 
 `updateMetadataForNewTable` is used when:
 
-* [ConvertToDeltaCommand](commands/ConvertToDeltaCommand.md) and [CreateDeltaTableCommand](commands/CreateDeltaTableCommand.md) are executed
+* [ConvertToDeltaCommand](commands/convert/ConvertToDeltaCommand.md) and [CreateDeltaTableCommand](commands/CreateDeltaTableCommand.md) are executed
 
 ## <span id="metadata"> Metadata
 
@@ -539,7 +539,7 @@ updateMetadata(
 
 * `OptimisticTransactionImpl` is requested to [updateMetadataForNewTable](#updateMetadataForNewTable)
 * [AlterTableSetPropertiesDeltaCommand](commands/AlterTableSetPropertiesDeltaCommand.md), [AlterTableUnsetPropertiesDeltaCommand](commands/AlterTableUnsetPropertiesDeltaCommand.md), [AlterTableAddColumnsDeltaCommand](commands/AlterTableAddColumnsDeltaCommand.md), [AlterTableChangeColumnDeltaCommand](commands/AlterTableChangeColumnDeltaCommand.md), [AlterTableReplaceColumnsDeltaCommand](commands/AlterTableReplaceColumnsDeltaCommand.md) are executed
-* [ConvertToDeltaCommand](commands/ConvertToDeltaCommand.md) is executed
+* [ConvertToDeltaCommand](commands/convert/ConvertToDeltaCommand.md) is executed
 
 * `ImplicitMetadataOperation` is requested to [updateMetadata](ImplicitMetadataOperation.md#updateMetadata)
 

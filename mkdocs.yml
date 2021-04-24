@@ -214,7 +214,12 @@ nav:
       - AlterTableSetLocationDeltaCommand: commands/AlterTableSetLocationDeltaCommand.md
       - AlterTableSetPropertiesDeltaCommand: commands/AlterTableSetPropertiesDeltaCommand.md
       - AlterTableUnsetPropertiesDeltaCommand: commands/AlterTableUnsetPropertiesDeltaCommand.md
-    - ConvertToDeltaCommand: commands/ConvertToDeltaCommand.md
+    - Convert to Delta:
+      - commands/convert/index.md
+      - ConvertToDeltaCommand: commands/convert/ConvertToDeltaCommand.md
+      - FileManifest: commands/convert/FileManifest.md
+      - ManualListingFileManifest: commands/convert/ManualListingFileManifest.md
+      - MetadataLogFileManifest: commands/convert/MetadataLogFileManifest.md
     - CreateDeltaTableCommand: commands/CreateDeltaTableCommand.md
     - DeleteCommand:
       - DeleteCommand: commands/DeleteCommand.md

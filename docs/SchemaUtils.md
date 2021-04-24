@@ -14,5 +14,5 @@ mergeSchemas(
 `mergeSchemas` is used when:
 
 * [PreprocessTableMerge](PreprocessTableMerge.md) logical resolution rule is executed
-* [ConvertToDeltaCommand](commands/ConvertToDeltaCommand.md) is executed
+* [ConvertToDeltaCommand](commands/convert/ConvertToDeltaCommand.md) is executed
 * `ImplicitMetadataOperation` is requested to [update metadata](ImplicitMetadataOperation.md#updateMetadata)

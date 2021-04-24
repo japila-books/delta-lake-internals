@@ -1,78 +1,79 @@
 # DeltaFileOperations Utilities
 
-=== [[recursiveListDirs]] recursiveListDirs
+## <span id="listUsingLogStore"> listUsingLogStore
 
-[source, scala]
-----
+```scala
+listUsingLogStore(
+  logStore: LogStore,
+  subDirs: Iterator[String],
+  recurse: Boolean,
+  hiddenFileNameFilter: String => Boolean): Iterator[SerializableFileStatus]
+```
+
+`listUsingLogStore`...FIXME
+
+`listUsingLogStore` is used when:
+
+* `DeltaFileOperations` utility is used to [recurseDirectories](#recurseDirectories), [recursiveListDirs](#recursiveListDirs) and [localListDirs](#localListDirs)
+
+## <span id="localListDirs"> localListDirs
+
+```scala
+localListDirs(
+  spark: SparkSession,
+  dirs: Seq[String],
+  recursive: Boolean = true,
+  fileFilter: String => Boolean = defaultHiddenFileFilter): Seq[SerializableFileStatus]
+```
+
+`localListDirs`...FIXME
+
+`localListDirs` seems not used.
+
+## <span id="recurseDirectories"> recurseDirectories
+
+```scala
+recurseDirectories(
+  logStore: LogStore,
+  filesAndDirs: Iterator[SerializableFileStatus],
+  hiddenFileNameFilter: String => Boolean): Iterator[SerializableFileStatus]
+```
+
+`recurseDirectories`...FIXME
+
+`recurseDirectories` is used when:
+
+* `DeltaFileOperations` utility is used to [listUsingLogStore](#listUsingLogStore) and [recursiveListDirs](#recursiveListDirs)
+
+## <span id="recursiveListDirs"> recursiveListDirs
+
+```scala
 recursiveListDirs(
   spark: SparkSession,
   subDirs: Seq[String],
   hadoopConf: Broadcast[SerializableConfiguration],
   hiddenFileNameFilter: String => Boolean = defaultHiddenFileFilter,
   fileListingParallelism: Option[Int] = None): Dataset[SerializableFileStatus]
-----
+```
 
-recursiveListDirs...FIXME
+`recursiveListDirs`...FIXME
 
-recursiveListDirs is used when:
+`recursiveListDirs` is used when:
 
-* ManualListingFileManifest (of ConvertToDeltaCommandBase) is requested to doList
+* `ManualListingFileManifest` is requested to [doList](commands/convert/ManualListingFileManifest.md#doList)
+* `VacuumCommand` utility is used to [gc](commands/vacuum/VacuumCommand.md#gc)
 
-* VacuumCommand utility is used to VacuumCommand.md#gc[gc]
+## <span id="tryDeleteNonRecursive"> tryDeleteNonRecursive
 
-=== [[tryDeleteNonRecursive]] tryDeleteNonRecursive
-
-[source,scala]
-----
+```scala
 tryDeleteNonRecursive(
   fs: FileSystem,
   path: Path,
   tries: Int = 3): Boolean
-----
+```
 
-tryDeleteNonRecursive...FIXME
+`tryDeleteNonRecursive`...FIXME
 
-tryDeleteNonRecursive is used when VacuumCommandImpl is requested to VacuumCommandImpl.md#delete[delete]
+`tryDeleteNonRecursive` is used when:
 
-== [[internal-methods]] Internal Methods
-
-=== [[recurseDirectories]] recurseDirectories
-
-[source,scala]
-----
-recurseDirectories(
-  logStore: LogStore,
-  filesAndDirs: Iterator[SerializableFileStatus],
-  hiddenFileNameFilter: String => Boolean): Iterator[SerializableFileStatus]
-----
-
-recurseDirectories...FIXME
-
-recurseDirectories is used when DeltaFileOperations is requested to <<recursiveListDirs, recursiveListDirs>> and <<listUsingLogStore, listUsingLogStore>>.
-
-=== [[listUsingLogStore]] listUsingLogStore
-
-[source,scala]
-----
-listUsingLogStore(
-  logStore: LogStore,
-  subDirs: Iterator[String],
-  recurse: Boolean,
-  hiddenFileNameFilter: String => Boolean): Iterator[SerializableFileStatus]
-----
-
-listUsingLogStore...FIXME
-
-listUsingLogStore is used when DeltaFileOperations is requested to <<recursiveListDirs, recursiveListDirs>> and  <<recurseDirectories, recurseDirectories>>.
-
-=== [[isThrottlingError]] isThrottlingError
-
-[source,scala]
-----
-isThrottlingError(
-  t: Throwable): Boolean
-----
-
-isThrottlingError returns `true` when the Throwable contains `slow down`.
-
-isThrottlingError is used when DeltaFileOperations is requested to <<listUsingLogStore, listUsingLogStore>> and <<tryDeleteNonRecursive, tryDeleteNonRecursive>>.
+* `VacuumCommandImpl` is requested to [delete](commands/vacuum/VacuumCommandImpl.md#delete)

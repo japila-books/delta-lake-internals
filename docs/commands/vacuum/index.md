@@ -1,8 +1,8 @@
 # Vacuum Command
 
-`Vacuum` command allows for [garbage collection of a delta table](VacuumCommand.md#gc).
+**Vacuum** command allows for [garbage collection of a delta table](VacuumCommand.md#gc).
 
-`Vacuum` command can be executed as a [SQL command](../../sql/index.md#VACUUM) or [DeltaTable](../../DeltaTable.md#vacuum) operator.
+Vacuum command can be executed as [VACUUM](../../sql/index.md#VACUUM) SQL command or [DeltaTable.vacuum](../../DeltaTable.md#vacuum) operator.
 
 ## Demo
 

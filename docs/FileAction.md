@@ -28,7 +28,7 @@ There can be no [RemoveFile](RemoveFile.md)s with `dataChange` enabled for [appe
 dataChange Value | When
 -----------------|---------
  `false` | `InMemoryLogReplay` is requested to [replay a version](InMemoryLogReplay.md#append)
- `true` | [ConvertToDeltaCommand](commands/ConvertToDeltaCommand.md) is executed (and requested to [create an AddFile](commands/ConvertToDeltaCommand.md#createAddFile) with the flag turned on)
+ `true` | [ConvertToDeltaCommand](commands/convert/ConvertToDeltaCommand.md) is executed (and requested to [create an AddFile](commands/convert/ConvertToDeltaCommand.md#createAddFile) with the flag turned on)
  Opposite of [dataChange](options.md#dataChange) option | `WriteIntoDelta` is requested to [write](commands/WriteIntoDelta.md#write) (with [dataChange](options.md#dataChange) option turned off for rearrange-only writes)
 
 `dataChange` is used when:

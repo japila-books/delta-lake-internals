@@ -16,7 +16,7 @@ Used when:
 
 * [ActiveOptimisticTransactionRule](ActiveOptimisticTransactionRule.md) logical rule is executed
 * `OptimisticTransactionImpl` is requested to [prepare a commit](OptimisticTransactionImpl.md#prepareCommit), [doCommit](OptimisticTransactionImpl.md#doCommit), [checkAndRetry](OptimisticTransactionImpl.md#checkAndRetry), and [perform post-commit operations](OptimisticTransactionImpl.md#postCommit) (and execute [delta log checkpoint](Checkpoints.md#checkpoint))
-* [ConvertToDeltaCommand](commands/ConvertToDeltaCommand.md) is executed
+* [ConvertToDeltaCommand](commands/convert/ConvertToDeltaCommand.md) is executed
 * `DeltaCommand` is requested to [buildBaseRelation](commands/DeltaCommand.md#buildBaseRelation) and [commitLarge](commands/DeltaCommand.md#commitLarge)
 * [MergeIntoCommand](commands/MergeIntoCommand.md) is executed
 * `TransactionalWrite` is requested to [write a structured query out to a delta table](#writeFiles)
@@ -43,7 +43,7 @@ protocol: Protocol
 Used when:
 
 * `OptimisticTransactionImpl` is requested to [updateMetadata](OptimisticTransactionImpl.md#updateMetadata), [verifyNewMetadata](OptimisticTransactionImpl.md#verifyNewMetadata) and [prepareCommit](OptimisticTransactionImpl.md#prepareCommit)
-* [ConvertToDeltaCommand](commands/ConvertToDeltaCommand.md) is executed
+* [ConvertToDeltaCommand](commands/convert/ConvertToDeltaCommand.md) is executed
 
 ### <span id="snapshot"> Snapshot
 

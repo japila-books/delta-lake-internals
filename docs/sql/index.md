@@ -30,7 +30,7 @@ CONVERT TO DELTA table
   (PARTITIONED BY '(' colTypeList ')')?
 ```
 
-Executes [ConvertToDeltaCommand](../commands/ConvertToDeltaCommand.md)
+Executes [ConvertToDeltaCommand](../commands/convert/ConvertToDeltaCommand.md)
 
 ## <span id="DESCRIBE-DETAIL"> DESCRIBE DETAIL
 

@@ -79,19 +79,19 @@ Default: `true`
 Used when:
 
 * `OptimisticTransactionImpl` is requested to [getOperationMetrics](OptimisticTransactionImpl.md#getOperationMetrics)
-* `ConvertToDeltaCommand` is requested to [streamWrite](commands/ConvertToDeltaCommand.md#streamWrite)
+* `ConvertToDeltaCommand` is requested to [streamWrite](commands/convert/ConvertToDeltaCommand.md#streamWrite)
 * `SQLMetricsReporting` is requested to [registerSQLMetrics](SQLMetricsReporting.md#registerSQLMetrics)
 * `TransactionalWrite` is requested to [writeFiles](TransactionalWrite.md#writeFiles)
 
 ## <span id="import.batchSize.schemaInference"><span id="DELTA_IMPORT_BATCH_SIZE_SCHEMA_INFERENCE"> import.batchSize.schemaInference
 
-**spark.databricks.delta.import.batchSize.schemaInference** (internal) is the number of files per batch for schema inference during [import](commands/ConvertToDeltaCommand.md#performConvert-schemaBatchSize).
+**spark.databricks.delta.import.batchSize.schemaInference** (internal) is the number of files per batch for schema inference during [import](commands/convert/ConvertToDeltaCommand.md#performConvert-schemaBatchSize).
 
 Default: `1000000`
 
 ## <span id="import.batchSize.statsCollection"><span id="DELTA_IMPORT_BATCH_SIZE_STATS_COLLECTION"> import.batchSize.statsCollection
 
-**spark.databricks.delta.import.batchSize.statsCollection** (internal) is the number of files per batch for stats collection during [import](commands/ConvertToDeltaCommand.md#performConvert-schemaBatchSize).
+**spark.databricks.delta.import.batchSize.statsCollection** (internal) is the number of files per batch for stats collection during [import](commands/convert/ConvertToDeltaCommand.md#performConvert-schemaBatchSize).
 
 Default: `50000`
 

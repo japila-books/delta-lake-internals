@@ -1,0 +1,3 @@
+# MetadataLogFileManifest
+
+`MetadataLogFileManifest` is...FIXME

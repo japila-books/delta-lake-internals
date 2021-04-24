@@ -1,6 +1,6 @@
 # ConvertToDeltaCommand
 
-**ConvertToDeltaCommand** is a [DeltaCommand](DeltaCommand.md) that [converts a parquet table into delta format](#run) (_imports_ it into Delta).
+`ConvertToDeltaCommand` is a [DeltaCommand](../DeltaCommand.md) that [converts a parquet table to delta format](#run) (_imports_ it into Delta).
 
 `ConvertToDeltaCommand` is a `RunnableCommand` ([Spark SQL]({{ book.spark_sql }}/logical-operators/RunnableCommand/)) and executed eagerly on the driver for side-effects.
 
@@ -16,8 +16,8 @@
 
 `ConvertToDeltaCommand` is created when:
 
-* [CONVERT TO DELTA](../sql/index.md#CONVERT-TO-DELTA) statement is used (and `DeltaSqlAstBuilder` is requested to [visitConvert](../sql/DeltaSqlAstBuilder.md#visitConvert))
-* [DeltaTable.convertToDelta](../DeltaTable.md#convertToDelta) utility is used (and `DeltaConvert` utility is used to [executeConvert](../DeltaConvert.md#executeConvert))
+* [CONVERT TO DELTA](../../sql/index.md#CONVERT-TO-DELTA) statement is used (and `DeltaSqlAstBuilder` is requested to [visitConvert](../../sql/DeltaSqlAstBuilder.md#visitConvert))
+* [DeltaTable.convertToDelta](../../DeltaTable.md#convertToDelta) utility is used (and `DeltaConvert` utility is used to [executeConvert](../../DeltaConvert.md#executeConvert))
 
 ## <span id="run"> Executing Command
 
@@ -110,7 +110,7 @@ createAddFile(
   conf: SQLConf): AddFile
 ```
 
-`createAddFile` creates an [AddFile](../AddFile.md) action.
+`createAddFile` creates an [AddFile](../../AddFile.md) action.
 
 Internally, `createAddFile`...FIXME
 

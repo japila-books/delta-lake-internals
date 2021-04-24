@@ -21,7 +21,7 @@ Use [DescribeDeltaDetailCommand](commands/DescribeDeltaDetailCommand.md) to revi
 
 * `DeltaLog` is requested for the [metadata](DeltaLog.md#metadata) (but that should be rare)
 * `InitialSnapshot` is created
-* [ConvertToDeltaCommand](commands/ConvertToDeltaCommand.md) is executed
+* [ConvertToDeltaCommand](commands/convert/ConvertToDeltaCommand.md) is executed
 * `ImplicitMetadataOperation` is requested to [updateMetadata](ImplicitMetadataOperation.md#updateMetadata)
 
 ## Updating Metadata

@@ -71,7 +71,7 @@ forTable(
 
 `forTable` is used when:
 
-* [AlterTableSetLocationDeltaCommand](commands/AlterTableSetLocationDeltaCommand.md), [ConvertToDeltaCommand](commands/ConvertToDeltaCommand.md), [VacuumTableCommand](commands/vacuum/VacuumTableCommand.md), [CreateDeltaTableCommand](commands/CreateDeltaTableCommand.md), [DeltaGenerateCommand](commands/DeltaGenerateCommand.md), [DescribeDeltaDetailCommand](commands/DescribeDeltaDetailCommand.md), [DescribeDeltaHistoryCommand](commands/DescribeDeltaHistoryCommand.md) commands are executed
+* [AlterTableSetLocationDeltaCommand](commands/AlterTableSetLocationDeltaCommand.md), [ConvertToDeltaCommand](commands/convert/ConvertToDeltaCommand.md), [VacuumTableCommand](commands/vacuum/VacuumTableCommand.md), [CreateDeltaTableCommand](commands/CreateDeltaTableCommand.md), [DeltaGenerateCommand](commands/DeltaGenerateCommand.md), [DescribeDeltaDetailCommand](commands/DescribeDeltaDetailCommand.md), [DescribeDeltaHistoryCommand](commands/DescribeDeltaHistoryCommand.md) commands are executed
 
 * `DeltaDataSource` is requested for the [source schema](DeltaDataSource.md#sourceSchema), a [source](DeltaDataSource.md#createSource), and a [relation](DeltaDataSource.md#createRelation)
 
@@ -244,7 +244,7 @@ startTransaction(): OptimisticTransaction
 
 * `AlterDeltaTableCommand` is requested to [startTransaction](commands/AlterDeltaTableCommand.md#startTransaction)
 
-* [ConvertToDeltaCommand](commands/ConvertToDeltaCommand.md) and [CreateDeltaTableCommand](commands/CreateDeltaTableCommand.md) are executed
+* [ConvertToDeltaCommand](commands/convert/ConvertToDeltaCommand.md) and [CreateDeltaTableCommand](commands/CreateDeltaTableCommand.md) are executed
 
 ## <span id="assertRemovable"> Throwing UnsupportedOperationException for Append-Only Tables
 
@@ -295,7 +295,7 @@ For all other cases, `update`...FIXME
 
 * `OptimisticTransactionImpl` is requested to [doCommit](OptimisticTransactionImpl.md#doCommit) and [checkAndRetry](OptimisticTransactionImpl.md#checkAndRetry)
 
-* `ConvertToDeltaCommand` is requested to [run](commands/ConvertToDeltaCommand.md#run) and [streamWrite](commands/ConvertToDeltaCommand.md#streamWrite)
+* `ConvertToDeltaCommand` is requested to [run](commands/convert/ConvertToDeltaCommand.md#run) and [streamWrite](commands/convert/ConvertToDeltaCommand.md#streamWrite)
 
 * `VacuumCommand` utility is used to [gc](commands/vacuum/VacuumCommand.md#gc)
 
