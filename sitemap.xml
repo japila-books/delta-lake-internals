@@ -24,6 +24,10 @@
      <lastmod>2021-04-24</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
+     <loc>https://books.japila.pl/delta-lake-internals/configuration-properties/</loc>
+     <lastmod>2021-04-24</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
      <loc>https://books.japila.pl/delta-lake-internals/DeltaSQLConf/</loc>
      <lastmod>2021-04-24</lastmod>
      <changefreq>daily</changefreq>
@@ -49,10 +53,6 @@
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://books.japila.pl/delta-lake-internals/MetadataCleanup/</loc>
-     <lastmod>2021-04-24</lastmod>
-     <changefreq>daily</changefreq>
-    </url><url>
-     <loc>https://books.japila.pl/delta-lake-internals/LogStoreProvider/</loc>
      <lastmod>2021-04-24</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
@@ -105,6 +105,10 @@
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://books.japila.pl/delta-lake-internals/LogStore/</loc>
+     <lastmod>2021-04-24</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
+     <loc>https://books.japila.pl/delta-lake-internals/LogStoreProvider/</loc>
      <lastmod>2021-04-24</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
