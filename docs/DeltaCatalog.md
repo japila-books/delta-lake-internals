@@ -12,9 +12,11 @@ alterTable(
   changes: TableChange*): Table
 ```
 
-`alterTable`...FIXME
-
 `alterTable` is part of the `TableCatalog` ([Spark SQL]({{ book.spark_sql }}/connector/catalog/TableCatalog/#alterTable)) abstraction.
+
+`alterTable` tries to [load a table](#loadTable) and continues only when it is a [DeltaTableV2](DeltaTableV2.md). Otherwise, `alterTable` simply delegates to the parent `TableCatalog`.
+
+`alterTable`...FIXME
 
 ## <span id="createTable"> Creating Table
 
@@ -26,9 +28,9 @@ createTable(
   properties: util.Map[String, String]): Table
 ```
 
-`createTable`...FIXME
-
 `createTable` is part of the `TableCatalog` ([Spark SQL]({{ book.spark_sql }}/connector/catalog/TableCatalog/#createTable)) abstraction.
+
+`createTable`...FIXME
 
 ## <span id="loadTable"> Loading Table
 
@@ -37,11 +39,11 @@ loadTable(
   ident: Identifier): Table
 ```
 
+`loadTable` is part of the `TableCatalog` ([Spark SQL]({{ book.spark_sql }}/connector/catalog/TableCatalog/#loadTable)) abstraction.
+
 `loadTable` loads a table by the given identifier from a catalog.
 
 If found and the table is a delta table (Spark SQL's [V1Table]({{ book.spark_sql }}/connector/V1Table/) with `delta` provider), `loadTable` creates a [DeltaTableV2](DeltaTableV2.md).
-
-`loadTable` is part of the `TableCatalog` ([Spark SQL]({{ book.spark_sql }}/connector/catalog/TableCatalog/#loadTable)) abstraction.
 
 ## <span id="createDeltaTable"> Creating Delta Table
 

@@ -36,3 +36,30 @@ In the end, `fromMetaData` converts the text representation to the proper type u
 * `MetadataCleanup` is requested for the [enableExpiredLogCleanup](MetadataCleanup.md#enableExpiredLogCleanup) and the [deltaRetentionMillis](MetadataCleanup.md#deltaRetentionMillis)
 * `OptimisticTransactionImpl` is requested to [commit](OptimisticTransactionImpl.md#commit)
 * `Snapshot` is requested for the [numIndexedCols](Snapshot.md#numIndexedCols)
+
+## Demo
+
+```scala
+import org.apache.spark.sql.delta.{DeltaConfig, DeltaConfigs}
+```
+
+```text
+scala> :type DeltaConfigs.TOMBSTONE_RETENTION
+org.apache.spark.sql.delta.DeltaConfig[org.apache.spark.unsafe.types.CalendarInterval]
+```
+
+```scala
+import org.apache.spark.sql.delta.DeltaLog
+val path = "/tmp/delta/t1"
+val t1 = DeltaLog.forTable(spark, path)
+```
+
+```scala
+val metadata = t1.snapshot.metadata
+val retention = DeltaConfigs.TOMBSTONE_RETENTION.fromMetaData(metadata)
+```
+
+```text
+scala> :type retention
+org.apache.spark.unsafe.types.CalendarInterval
+```

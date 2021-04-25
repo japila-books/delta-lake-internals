@@ -1,6 +1,6 @@
 # AlterDeltaTableCommand
 
-**AlterDeltaTableCommand** is an [extension](#contract) of the [DeltaCommand](DeltaCommand.md) abstraction for [Delta commands](#implementations) that alter a [DeltaTableV2](#table).
+`AlterDeltaTableCommand` is an [extension](#contract) of the [DeltaCommand](DeltaCommand.md) abstraction for [Delta commands](#implementations) that alter a [DeltaTableV2](#table).
 
 ## Contract
 
@@ -12,7 +12,9 @@ table: DeltaTableV2
 
 [DeltaTableV2](../DeltaTableV2.md)
 
-Used when `AlterDeltaTableCommand` is requested to [startTransaction](#startTransaction)
+Used when:
+
+* `AlterDeltaTableCommand` is requested to [startTransaction](#startTransaction)
 
 ## Implementations
 
