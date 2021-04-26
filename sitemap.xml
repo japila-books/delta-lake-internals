@@ -392,11 +392,15 @@
      <lastmod>2021-04-26</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
-     <loc>https://books.japila.pl/delta-lake-internals/commands/DeleteCommand/</loc>
+     <loc>https://books.japila.pl/delta-lake-internals/commands/delete/</loc>
      <lastmod>2021-04-26</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
-     <loc>https://books.japila.pl/delta-lake-internals/commands/DeltaDelete/</loc>
+     <loc>https://books.japila.pl/delta-lake-internals/commands/delete/DeleteCommand/</loc>
+     <lastmod>2021-04-26</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
+     <loc>https://books.japila.pl/delta-lake-internals/commands/delete/DeltaDelete/</loc>
      <lastmod>2021-04-26</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
