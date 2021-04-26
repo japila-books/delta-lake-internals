@@ -418,15 +418,17 @@ getSnapshotAt(
 
 * `TahoeLogFileIndex` is requested for [historicalSnapshotOpt](TahoeLogFileIndex.md#historicalSnapshotOpt)
 
-## <span id="checkpointInterval"> checkpointInterval
+## <span id="checkpointInterval"> Checkpoint Interval
 
 ```scala
 checkpointInterval: Int
 ```
 
-`checkpointInterval` gives the value of [checkpointInterval](DeltaConfigs.md#CHECKPOINT_INTERVAL) table property ([from](DeltaConfigs.md#fromMetaData) the [Metadata](#metadata)).
+`checkpointInterval` is the current value of [checkpointInterval](DeltaConfigs.md#CHECKPOINT_INTERVAL) table property ([from](DeltaConfigs.md#fromMetaData) the [Metadata](#metadata)).
 
-`checkpointInterval` is used when...FIXME
+`checkpointInterval` is used when:
+
+* `OptimisticTransactionImpl` is requested to [postCommit](OptimisticTransactionImpl.md#postCommit)
 
 ## <span id="getChanges"> Changes (Actions) Of Delta Version And Later
 

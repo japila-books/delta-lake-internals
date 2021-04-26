@@ -189,6 +189,17 @@ postCommit(
 
 `postCommit` turns the [committed](#committed) flag on.
 
+`postCommit` requests the [DeltaLog](#deltaLog) to [checkpoint](DeltaLog.md#checkpoint) when the given `commitVersion` is not `0` (_first commit_) and the [checkpoint interval](DeltaConfigs.md#CHECKPOINT_INTERVAL) has been reached (based on the given `commitVersion`).
+
+!!! note
+    `commitActions` argument is not used.
+
+`postCommit` prints out the following WARN message to the logs in case of `IllegalStateException`:
+
+```text
+Failed to checkpoint table state.
+```
+
 ### <span id="prepareCommit"> prepareCommit
 
 ```scala
