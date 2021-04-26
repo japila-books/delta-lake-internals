@@ -77,12 +77,27 @@ checkpoint(
   snapshotToCheckpoint: Snapshot): CheckpointMetaData
 ```
 
-`checkpoint`...FIXME
+`checkpoint` [writes a checkpoint](#writeCheckpoint) of the current state of the delta table ([Snapshot](SnapshotManagement.md#snapshot)). That produces a checkpoint metadata with the version, the number of actions and possibly parts (for multi-part checkpoints).
+
+`checkpoint` requests the [LogStore](DeltaLog.md#store) to [overwrite](LogStore.md#write) the [_last_checkpoint](#LAST_CHECKPOINT) file with the JSON-encoded checkpoint metadata.
+
+In the end, `checkpoint` [cleans up the expired logs](MetadataCleanup.md#doLogCleanup) (if enabled).
 
 `checkpoint` is used when:
 
-* `OptimisticTransactionImpl` is requested to [postCommit](OptimisticTransactionImpl.md#postCommit)
-* `DeltaCommand` is requested to [updateAndCheckpoint](commands/DeltaCommand.md#updateAndCheckpoint)
+* `OptimisticTransactionImpl` is requested to [postCommit](OptimisticTransactionImpl.md#postCommit) (based on [checkpoint interval](DeltaConfigs.md#CHECKPOINT_INTERVAL) table property)
+* [ConvertToDelta](commands/convert/index.md) command is executed (that in the end requests `DeltaCommand` to [updateAndCheckpoint](commands/DeltaCommand.md#updateAndCheckpoint))
+
+### <span id="writeCheckpoint"> Writing Out State Checkpoint
+
+```scala
+writeCheckpoint(
+  spark: SparkSession,
+  deltaLog: DeltaLog,
+  snapshot: Snapshot): CheckpointMetaData
+```
+
+`writeCheckpoint`...FIXME
 
 ## <span id="lastCheckpoint"> Loading Latest Checkpoint Metadata
 
@@ -90,14 +105,14 @@ checkpoint(
 lastCheckpoint: Option[CheckpointMetaData]
 ```
 
-`lastCheckpoint` simply [loadMetadataFromFile](#loadMetadataFromFile) (allowing for 3 retries).
+`lastCheckpoint` [loadMetadataFromFile](#loadMetadataFromFile) (allowing for 3 retries).
 
 `lastCheckpoint` is used when:
 
 * `SnapshotManagement` is requested to [load the latest snapshot](SnapshotManagement.md#getSnapshotAtInit)
 * `MetadataCleanup` is requested to [listExpiredDeltaLogs](MetadataCleanup.md#listExpiredDeltaLogs)
 
-### <span id="loadMetadataFromFile"> loadMetadataFromFile Helper Method
+### <span id="loadMetadataFromFile"> loadMetadataFromFile
 
 ```scala
 loadMetadataFromFile(

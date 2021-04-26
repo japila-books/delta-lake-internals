@@ -19,7 +19,7 @@
 
 `MetadataCleanup` uses [logRetentionDuration](DeltaConfigs.md#LOG_RETENTION) table configuration for how long to keep around obsolete logs.
 
-## <span id="doLogCleanup"> doLogCleanup
+## <span id="doLogCleanup"> Cleaning Up Expired Logs
 
 ```scala
 doLogCleanup(): Unit
@@ -68,12 +68,4 @@ In the end, `listExpiredDeltaLogs` creates a `BufferingLogDeletionIterator` that
 
 ## Logging
 
-Enable `ALL` logging level for `org.apache.spark.sql.delta.MetadataCleanup` logger to see what happens inside.
-
-Add the following line to `conf/log4j.properties`:
-
-```text
-log4j.logger.org.apache.spark.sql.delta.MetadataCleanup=ALL
-```
-
-Refer to [Logging](spark-logging.md).
+Enable `ALL` logging level for the [Implementations](#implementations) logger to see what happens inside.
