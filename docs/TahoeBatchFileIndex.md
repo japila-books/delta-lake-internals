@@ -16,14 +16,14 @@
 `TahoeBatchFileIndex` is created when:
 
 * `DeltaLog` is requested for a [DataFrame for given AddFiles](DeltaLog.md#createDataFrame)
-* [DeleteCommand](commands/DeleteCommand.md) and [UpdateCommand](commands/UpdateCommand.md) are executed (and `DeltaCommand` is requested for a [HadoopFsRelation](commands/DeltaCommand.md#buildBaseRelation))
+* [DeleteCommand](commands/delete/DeleteCommand.md) and [UpdateCommand](commands/UpdateCommand.md) are executed (and `DeltaCommand` is requested for a [HadoopFsRelation](commands/DeltaCommand.md#buildBaseRelation))
 
 ## <span id="actionType"> Action Type
 
 `TahoeBatchFileIndex` is given an **Action Type** identifier when [created](#creating-instance):
 
 * **batch** or **streaming** when `DeltaLog` is requested for a batch or streaming [DataFrame for given AddFiles](DeltaLog.md#createDataFrame), respectively
-* **delete** for [DeleteCommand](commands/DeleteCommand.md)
+* **delete** for [DeleteCommand](commands/delete/DeleteCommand.md)
 * **update** for [UpdateCommand](commands/UpdateCommand.md)
 
 !!! important

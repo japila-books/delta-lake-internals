@@ -57,5 +57,5 @@ removeWithTimestamp(
 `removeWithTimestamp` is used when:
 
 * `AddFile` is requested to [create a RemoveFile action with the defaults](#remove)
-* [CreateDeltaTableCommand](commands/CreateDeltaTableCommand.md), [DeleteCommand](commands/DeleteCommand.md) and [UpdateCommand](commands/UpdateCommand.md) commands are executed
+* [CreateDeltaTableCommand](commands/CreateDeltaTableCommand.md), [DeleteCommand](commands/delete/DeleteCommand.md) and [UpdateCommand](commands/UpdateCommand.md) commands are executed
 * `DeltaCommand` is requested to [removeFilesFromPaths](commands/DeltaCommand.md#removeFilesFromPaths)

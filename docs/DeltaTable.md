@@ -164,7 +164,9 @@ delete(
   condition: String): Unit
 ```
 
-Deletes data from the DeltaTable that matches the given `condition`.
+Deletes data from the DeltaTable that matches the given `condition`
+
+`delete` [executes DeleteFromTable command](DeltaTableOperations.md#executeDelete).
 
 ### <span id="generate"> generate
 

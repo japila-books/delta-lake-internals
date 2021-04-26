@@ -224,9 +224,10 @@ nav:
       - ManualListingFileManifest: commands/convert/ManualListingFileManifest.md
       - MetadataLogFileManifest: commands/convert/MetadataLogFileManifest.md
     - CreateDeltaTableCommand: commands/CreateDeltaTableCommand.md
-    - DeleteCommand:
-      - DeleteCommand: commands/DeleteCommand.md
-      - DeltaDelete: commands/DeltaDelete.md
+    - Delete:
+      - commands/delete/index.md
+      - DeleteCommand: commands/delete/DeleteCommand.md
+      - DeltaDelete: commands/delete/DeltaDelete.md
     - DeltaGenerateCommand:
       - DeltaGenerateCommand: commands/DeltaGenerateCommand.md
       - GenerateSymlinkManifest: GenerateSymlinkManifest.md

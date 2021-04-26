@@ -5,73 +5,14 @@
 <span id="self">
 `DeltaTableOperations` is assumed to be associated with a [DeltaTable](DeltaTable.md).
 
+Method | Command | DeltaTable Operator
+---------|----------|---------
+ <span id="executeDelete"> executeDelete | [DeltaDelete](commands/delete/DeltaDelete.md) | [DeltaTable.delete](DeltaTable.md#delete)
+ <span id="executeGenerate"> executeGenerate | [DeltaGenerateCommand](commands/DeltaGenerateCommand.md) | [DeltaTable.generate](DeltaTable.md#generate)
+ <span id="executeHistory"> executeHistory | [DeltaHistoryManager.getHistory](DeltaHistoryManager.md#getHistory) | [DeltaTable.history](DeltaTable.md#history)
+ <span id="executeUpdate"> executeUpdate | `UpdateTable` ([Spark SQL]({{ book.spark_sql }}/logical-operators/UpdateTable)) | [DeltaTable.update](DeltaTable.md#update) / [DeltaTable.updateExpr](DeltaTable.md#updateExpr)
+ <span id="executeVacuum"> executeVacuum | [VacuumCommand.gc](commands/vacuum/VacuumCommand.md#gc) | [DeltaTable.vacuum](DeltaTable.md#vacuum)
+
 ## Implementations
 
 * [DeltaTable](DeltaTable.md)
-
-## <span id="executeDelete"> Executing DeleteFromTable Command
-
-```scala
-executeDelete(
-  condition: Option[Expression]): Unit
-```
-
-`executeDelete` creates a `DataFrame` for a `DeleteFromTable` logical operator (from Spark SQL) with (the analyzed logical plan of the [DeltaTable](#self) and the given `condition`).
-
-!!! note
-    `DeleteFromTable` is a `Command` (Spark SQL) that represents `DELETE FROM` SQL statement for v2 tables. As a `Command` it is executed eagerly.
-
-`executeDelete` is used for [DeltaTable.delete](DeltaTable.md#delete) operator.
-
-## <span id="executeGenerate"> Executing DeltaGenerateCommand Command
-
-```scala
-executeGenerate(
-  tblIdentifier: String,
-  mode: String): Unit
-```
-
-`executeGenerate` requests the SQL parser (of the `SparkSession`) to parse the given table identifier, creates a [DeltaGenerateCommand](commands/DeltaGenerateCommand.md) and runs it.
-
-`executeGenerate` is used for [DeltaTable.generate](DeltaTable.md#generate) operator.
-
-## <span id="executeHistory"> Executing History Command
-
-```scala
-executeHistory(
-  deltaLog: DeltaLog,
-  limit: Option[Int]): DataFrame
-```
-
-`executeHistory` creates [DeltaHistoryManager](DeltaHistoryManager.md) (for the given [DeltaLog](DeltaLog.md)) and requests it for the number of [commits](DeltaHistoryManager.md#getHistory) to match the `limit`. In the end, `executeHistory` creates a `DataFrame` for the commits.
-
-`executeHistory` is used for [DeltaTable.history](DeltaTable.md#history) operator.
-
-## <span id="executeUpdate"> Executing UpdateTable Command
-
-```scala
-executeUpdate(
-  set: Map[String, Column],
-  condition: Option[Column]): Unit
-```
-
-`executeUpdate` creates a `DataFrame` for an `UpdateTable` ([Spark SQL]({{ book.spark_sql }}/logical-operators/UpdateTable)) logical operator with the analyzed logical plan of the [DeltaTable](#self) and the given `condition`.
-
-!!! note
-    `UpdateTable` represents `UPDATE TABLE` SQL statement for v2 tables and is executed eagerly.
-
-`executeUpdate` is used for [DeltaTable.update](DeltaTable.md#update) and [DeltaTable.updateExpr](DeltaTable.md#updateExpr) operators.
-
-## <span id="executeVacuum"> Executing VacuumCommand
-
-```scala
-executeVacuum(
-  deltaLog: DeltaLog,
-  retentionHours: Option[Double]): DataFrame
-```
-
-`executeVacuum` uses the `VacuumCommand` utility to [gc](commands/vacuum/VacuumCommand.md#gc) (with the `dryRun` flag off and the given `retentionHours`).
-
-In the end, `executeVacuum` returns an empty `DataFrame` (not the one from [VacuumCommand.gc](commands/vacuum/VacuumCommand.md#gc)).
-
-`executeVacuum` is used for [DeltaTable.vacuum](DeltaTable.md#vacuum) operator.

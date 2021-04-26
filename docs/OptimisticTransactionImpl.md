@@ -70,7 +70,7 @@ commit(
 * ALTER delta table commands ([AlterTableSetPropertiesDeltaCommand](commands/AlterTableSetPropertiesDeltaCommand.md), [AlterTableUnsetPropertiesDeltaCommand](commands/AlterTableUnsetPropertiesDeltaCommand.md), [AlterTableAddColumnsDeltaCommand](commands/AlterTableAddColumnsDeltaCommand.md), [AlterTableChangeColumnDeltaCommand](commands/AlterTableChangeColumnDeltaCommand.md), [AlterTableReplaceColumnsDeltaCommand](commands/AlterTableReplaceColumnsDeltaCommand.md), [AlterTableAddConstraintDeltaCommand](commands/AlterTableAddConstraintDeltaCommand.md), [AlterTableDropConstraintDeltaCommand](commands/AlterTableDropConstraintDeltaCommand.md)) are executed
 * [ConvertToDeltaCommand](commands/convert/ConvertToDeltaCommand.md) command is executed
 * [CreateDeltaTableCommand](commands/CreateDeltaTableCommand.md) command is executed
-* [DeleteCommand](commands/DeleteCommand.md) command is executed
+* [DeleteCommand](commands/delete/DeleteCommand.md) command is executed
 * [MergeIntoCommand](commands/MergeIntoCommand.md) command is executed
 * [UpdateCommand](commands/UpdateCommand.md) command is executed
 * [WriteIntoDelta](commands/WriteIntoDelta.md) command is executed
@@ -592,5 +592,5 @@ Internally, `filterFiles` requests the [Snapshot](#snapshot) for the [filesForSc
 
 * [ActiveOptimisticTransactionRule](ActiveOptimisticTransactionRule.md) is executed
 * `DeltaSink` is requested to [add a streaming micro-batch](DeltaSink.md#addBatch) (with `Complete` output mode)
-* [DeleteCommand](commands/DeleteCommand.md), [MergeIntoCommand](commands/MergeIntoCommand.md) and [UpdateCommand](commands/UpdateCommand.md), [WriteIntoDelta](commands/WriteIntoDelta.md) are executed
+* [DeleteCommand](commands/delete/DeleteCommand.md), [MergeIntoCommand](commands/MergeIntoCommand.md) and [UpdateCommand](commands/UpdateCommand.md), [WriteIntoDelta](commands/WriteIntoDelta.md) are executed
 * [CreateDeltaTableCommand](commands/CreateDeltaTableCommand.md) is executed

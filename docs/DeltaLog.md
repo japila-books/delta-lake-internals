@@ -223,7 +223,7 @@ In the end, `withNewTransaction` makes the transaction [no longer active](Optimi
 
 `withNewTransaction` is used when:
 
-* [DeleteCommand](commands/DeleteCommand.md), [MergeIntoCommand](commands/MergeIntoCommand.md), [UpdateCommand](commands/UpdateCommand.md), and [WriteIntoDelta](commands/WriteIntoDelta.md) commands are executed
+* [DeleteCommand](commands/delete/DeleteCommand.md), [MergeIntoCommand](commands/MergeIntoCommand.md), [UpdateCommand](commands/UpdateCommand.md), and [WriteIntoDelta](commands/WriteIntoDelta.md) commands are executed
 
 * `DeltaSink` is requested to [add a streaming micro-batch](DeltaSink.md#addBatch)
 
@@ -261,7 +261,7 @@ This table is configured to only allow appends. If you would like to permit upda
 `assertRemovable` is used when:
 
 * `OptimisticTransactionImpl` is requested to [prepareCommit](OptimisticTransactionImpl.md#prepareCommit)
-* [DeleteCommand](commands/DeleteCommand.md), [UpdateCommand](commands/UpdateCommand.md), [WriteIntoDelta](commands/WriteIntoDelta.md) (with `Overwrite` mode) are executed
+* [DeleteCommand](commands/delete/DeleteCommand.md), [UpdateCommand](commands/UpdateCommand.md), [WriteIntoDelta](commands/WriteIntoDelta.md) (with `Overwrite` mode) are executed
 * `DeltaSink` is requested to [addBatch](DeltaSink.md#addBatch) (with `Complete` output mode)
 
 ## <span id="metadata"> metadata
@@ -330,7 +330,7 @@ snapshot: Snapshot
 
 * `OptimisticTransactionImpl` is requested to [getNextAttemptVersion](OptimisticTransactionImpl.md#getNextAttemptVersion)
 
-* [DeleteCommand](commands/DeleteCommand.md), [DeltaGenerateCommand](commands/DeltaGenerateCommand.md), [DescribeDeltaDetailCommand](commands/DescribeDeltaDetailCommand.md), [UpdateCommand](commands/UpdateCommand.md) commands are executed
+* [DeleteCommand](commands/delete/DeleteCommand.md), [DeltaGenerateCommand](commands/DeltaGenerateCommand.md), [DescribeDeltaDetailCommand](commands/DescribeDeltaDetailCommand.md), [UpdateCommand](commands/UpdateCommand.md) commands are executed
 
 * [GenerateSymlinkManifest](GenerateSymlinkManifest.md) is executed
 
