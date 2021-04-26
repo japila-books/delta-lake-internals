@@ -1,6 +1,6 @@
 # DeltaSqlAstBuilder
 
-`DeltaSqlAstBuilder` is a command builder for the Delta SQL statements (described in [DeltaSqlBase.g4]({{ delta.github }}/src/main/antlr4/io/delta/sql/parser/DeltaSqlBase.g4) ANTLR grammar).
+`DeltaSqlAstBuilder` is a command builder for the Delta SQL statements (described in [DeltaSqlBase.g4]({{ delta.github }}/core/src/main/antlr4/io/delta/sql/parser/DeltaSqlBase.g4) ANTLR grammar).
 
 `DeltaSqlParser` is used by [DeltaSqlParser](DeltaSqlParser.md#builder).
 

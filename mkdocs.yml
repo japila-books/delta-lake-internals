@@ -80,8 +80,8 @@ extra:
     - icon: fontawesome/brands/linkedin
       link: https://linkedin.com/in/jaceklaskowski
   delta:
-    version: 0.8.0
-    github: https://github.com/delta-io/delta/blob/v0.8.0
+    version: 0.9.0-SNAPSHOT
+    github: https://github.com/delta-io/delta/blob/master
     commit: https://github.com/delta-io/delta/commit
   scala:
     version: 2.12.10
