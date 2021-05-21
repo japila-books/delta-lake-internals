@@ -8,7 +8,7 @@
 * [ConvertToDeltaCommand](convert/ConvertToDeltaCommand.md)
 * [DeleteCommand](delete/DeleteCommand.md)
 * [MergeIntoCommand](MergeIntoCommand.md)
-* [UpdateCommand](UpdateCommand.md)
+* [UpdateCommand](update/UpdateCommand.md)
 * [VacuumCommandImpl](vacuum/VacuumCommandImpl.md)
 * [WriteIntoDelta](WriteIntoDelta.md)
 
@@ -63,7 +63,7 @@ removeFilesFromPaths(
 
 `removeFilesFromPaths` is used when:
 
-* [DeleteCommand](delete/DeleteCommand.md) and [UpdateCommand](UpdateCommand.md) commands are executed
+* [DeleteCommand](delete/DeleteCommand.md) and [UpdateCommand](update/UpdateCommand.md) commands are executed
 
 ## <span id="buildBaseRelation"> Creating HadoopFsRelation (with TahoeBatchFileIndex)
 
@@ -89,7 +89,7 @@ In the end, `buildBaseRelation` creates a `HadoopFsRelation` with the `TahoeBatc
 
 `buildBaseRelation` is used when:
 
-* [DeleteCommand](delete/DeleteCommand.md) and [UpdateCommand](UpdateCommand.md) commands are executed (with `delete` and `update` action types, respectively)
+* [DeleteCommand](delete/DeleteCommand.md) and [UpdateCommand](update/UpdateCommand.md) commands are executed (with `delete` and `update` action types, respectively)
 
 ## <span id="getTouchedFile"> getTouchedFile Method
 
@@ -104,7 +104,7 @@ getTouchedFile(
 
 `getTouchedFile` is used when:
 
-* `DeltaCommand` is requested to [removeFilesFromPaths](#removeFilesFromPaths) and [create a HadoopFsRelation](#buildBaseRelation) (for [DeleteCommand](delete/DeleteCommand.md) and [UpdateCommand](UpdateCommand.md) commands)
+* `DeltaCommand` is requested to [removeFilesFromPaths](#removeFilesFromPaths) and [create a HadoopFsRelation](#buildBaseRelation) (for [DeleteCommand](delete/DeleteCommand.md) and [UpdateCommand](update/UpdateCommand.md) commands)
 
 * [MergeIntoCommand](MergeIntoCommand.md) is executed
 

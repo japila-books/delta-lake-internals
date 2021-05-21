@@ -1,23 +1,35 @@
 # PreprocessTableUpdate Logical Resolution Rule
 
-*PreprocessTableUpdate* is a post-hoc logical resolution rule (`Rule[LogicalPlan]`) to <<apply, resolve DeltaUpdateTable logical commands>> in a query plan into UpdateCommand.md[]s.
+`PreprocessTableUpdate` is a post-hoc logical resolution rule (`Rule[LogicalPlan]`) to [resolve DeltaUpdateTable commands](#apply) in a logical query plan into [UpdateCommand](commands/update/UpdateCommand.md)s.
 
-PreprocessTableUpdate is _installed_ (injected) into a SparkSession using DeltaSparkSessionExtension.md[].
+`PreprocessTableUpdate` is _installed_ (injected) into a `SparkSession` using [DeltaSparkSessionExtension](DeltaSparkSessionExtension.md).
 
-== [[creating-instance]][[conf]] Creating Instance
+## Creating Instance
 
-PreprocessTableUpdate takes a single `SQLConf` to be created.
+`PreprocessTableUpdate` takes the following to be created:
 
-PreprocessTableUpdate is created when DeltaSparkSessionExtension is requested to DeltaSparkSessionExtension.md#apply[register Delta SQL support].
+* <span id="sqlConf"> `SQLConf` ([Spark SQL]({{ book.spark_sql }}/SQLConf/))
 
-== [[apply]] Executing Rule
+`PreprocessTableUpdate` is created when:
 
-[source, scala]
-----
+* [DeltaSparkSessionExtension](DeltaSparkSessionExtension.md) is executed (and registers Delta SQL support)
+
+## <span id="apply"> Executing Rule
+
+```scala
 apply(
   plan: LogicalPlan): LogicalPlan
-----
+```
 
-apply resolves (_replaces_) DeltaUpdateTable logical commands (in a logical query plan) into corresponding UpdateCommand.md[]s.
+`apply` is part of the `Rule` ([Spark SQL]({{ book.spark_sql }}/catalyst/Rule/)) abstraction.
 
-apply is part of the Spark SQL's `Rule` abstraction.
+apply resolves (_replaces_) [DeltaUpdateTable](commands/update/DeltaUpdateTable.md) logical commands (in a logical query plan) into [UpdateCommand](commands/update/UpdateCommand.md)s.
+
+### <span id="toCommand"> toCommand
+
+```scala
+toCommand(
+  update: DeltaUpdateTable): UpdateCommand
+```
+
+`toCommand`...FIXME

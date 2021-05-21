@@ -106,7 +106,7 @@ splitMetadataAndDataPredicates(
 
 * `PartitionFiltering` is requested for [filesForScan](PartitionFiltering.md#filesForScan)
 * [DeleteCommand](commands/delete/DeleteCommand.md) is executed (with a delete condition)
-* [UpdateCommand](commands/UpdateCommand.md) is executed
+* [UpdateCommand](commands/update/UpdateCommand.md) is executed
 
 ### <span id="isPredicateMetadataOnly"> isPredicateMetadataOnly
 

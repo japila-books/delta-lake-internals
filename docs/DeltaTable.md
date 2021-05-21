@@ -222,6 +222,8 @@ update(
 
 Updates data in the DeltaTable on the rows that match the given `condition` based on the rules defined by `set`
 
+`update` [executes UpdateTable command](DeltaTableOperations.md#executeUpdate).
+
 ### <span id="updateExpr"> updateExpr
 
 ```scala
@@ -233,6 +235,8 @@ updateExpr(
 ```
 
 Updates data in the DeltaTable on the rows that match the given `condition` based on the rules defined by `set`
+
+`update` [executes UpdateTable command](DeltaTableOperations.md#executeUpdate).
 
 ### <span id="upgradeTableProtocol"> upgradeTableProtocol
 

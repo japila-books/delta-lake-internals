@@ -1,6 +1,6 @@
 # DeleteCommand
 
-`DeleteCommand` is a [DeltaCommand](../DeltaCommand.md) that represents [DeltaDelete](DeltaDelete.md) logical command at execution (and hence `DELETE FROM` SQL statement indirectly).
+`DeleteCommand` is a [DeltaCommand](../DeltaCommand.md) that represents [DeltaDelete](DeltaDelete.md) logical command at execution.
 
 `DeleteCommand` is a `RunnableCommand` ([Spark SQL]({{ book.spark_sql }}/logical-operators/RunnableCommand/)) logical operator.
 
@@ -18,11 +18,11 @@
 
 ## Performance Metrics
 
-Name     | web UI
----------|----------
+Name              | web UI
+------------------|------------------------
 `numRemovedFiles` | number of files removed.
-`numAddedFiles` | number of files added.
-`numDeletedRows` | number of rows deleted.
+`numAddedFiles`   | number of files added.
+`numDeletedRows`  | number of rows deleted.
 
 ## <span id="run"> Executing Command
 
