@@ -17,9 +17,11 @@ theme:
     repo: fontawesome/brands/github
   features:
     - navigation.indexes
+    - navigation.instant
     - navigation.tabs
     - navigation.tabs.sticky
     - navigation.top
+    - navigation.tracking
     - search.highlight
     - search.share
     - search.suggest
@@ -79,16 +81,15 @@ extra:
       link: https://twitter.com/jaceklaskowski
     - icon: fontawesome/brands/linkedin
       link: https://linkedin.com/in/jaceklaskowski
+  book:
+    title: Delta Lake
+    spark_sql: https://jaceklaskowski.github.io/mastering-spark-sql-book
+    structured_streaming: https://jaceklaskowski.github.io/spark-structured-streaming-book
+    spark_core: https://books.japila.pl/apache-spark-internals
   delta:
-    version: 0.9.0-SNAPSHOT
+    version: 1.0.0-SNAPSHOT
     github: https://github.com/delta-io/delta/blob/master
     commit: https://github.com/delta-io/delta/commit
-  scala:
-    version: 2.12.10
-    api: https://www.scala-lang.org/api/2.12.10
-    docs: https://docs.scala-lang.org/
-  java:
-    api: https://docs.oracle.com/en/java/javase/11/docs/api
   hadoop:
     version: 3.2.0
     docs: https://hadoop.apache.org/docs/r3.2.0
@@ -96,11 +97,12 @@ extra:
   jackson:
     github: https://github.com/FasterXML/jackson
     scala: https://github.com/FasterXML/jackson-module-scala
-  book:
-    title: Delta Lake
-    spark_sql: https://jaceklaskowski.github.io/mastering-spark-sql-book
-    structured_streaming: https://jaceklaskowski.github.io/spark-structured-streaming-book
-    spark_core: https://books.japila.pl/apache-spark-internals
+  java:
+    api: https://docs.oracle.com/en/java/javase/11/docs/api
+  scala:
+    version: 2.12.10
+    api: https://www.scala-lang.org/api/2.12.10
+    docs: https://docs.scala-lang.org/
 
 google_analytics:
   - !!python/object/apply:os.getenv ["GOOGLE_ANALYTICS_KEY"]
