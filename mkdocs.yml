@@ -193,7 +193,6 @@ nav:
       - PreprocessTableUpdate: PreprocessTableUpdate.md
       - ActiveOptimisticTransactionRule: ActiveOptimisticTransactionRule.md
     - SQLMetricsReporting: SQLMetricsReporting.md
-    - DeltaConvert: DeltaConvert.md
     - File Indices:
       - TahoeFileIndex: TahoeFileIndex.md
       - PinnedTahoeFileIndex: PinnedTahoeFileIndex.md
@@ -225,6 +224,7 @@ nav:
       - FileManifest: commands/convert/FileManifest.md
       - ManualListingFileManifest: commands/convert/ManualListingFileManifest.md
       - MetadataLogFileManifest: commands/convert/MetadataLogFileManifest.md
+      - DeltaConvert: commands/convert/DeltaConvert.md
     - CreateDeltaTableCommand: commands/CreateDeltaTableCommand.md
     - Delete:
       - commands/delete/index.md

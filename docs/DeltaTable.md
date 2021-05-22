@@ -48,7 +48,7 @@ Internally, `convertToDelta` requests the `SparkSession` for the SQL parser (`Pa
 !!! tip
     Read up on [ParserInterface]({{ book.spark_sql }}/sql/ParserInterface/) in [The Internals of Spark SQL]({{ book.spark_sql }}) online book.
 
-In the end, `convertToDelta` uses the `DeltaConvert` utility to [convert the parquet table to delta format](DeltaConvert.md#executeConvert) and [creates a DeltaTable](#forPath).
+In the end, `convertToDelta` uses the `DeltaConvert` utility to [convert the parquet table to delta format](commands/convert/DeltaConvert.md#executeConvert) and [creates a DeltaTable](#forPath).
 
 ### <span id="forName"> forName
 
@@ -73,7 +73,7 @@ forName(
 [deltaTableIdentifier] is not a Delta table.
 ```
 
-`forName` is used internally when `DeltaConvert` utility is used to [executeConvert](DeltaConvert.md#executeConvert).
+`forName` is used internally when `DeltaConvert` utility is used to [executeConvert](commands/convert/DeltaConvert.md#executeConvert).
 
 ### <span id="forPath"> forPath
 
@@ -109,7 +109,7 @@ Internally, forPath creates a new `DeltaTable` with the following:
 * `Dataset` that represents loading data from the specified `path` using [delta](DeltaDataSource.md#delta-format) data source
 * [DeltaLog](DeltaLog.md) for the [(transaction log in) the specified path](DeltaLog.md#forTable)
 
-`forPath` is used internally in [DeltaTable.convertToDelta](#convertToDelta) (via [DeltaConvert](DeltaConvert.md) utility).
+`forPath` is used internally in [DeltaTable.convertToDelta](#convertToDelta) (via [DeltaConvert](commands/convert/DeltaConvert.md) utility).
 
 ### <span id="isDeltaTable"> isDeltaTable
 

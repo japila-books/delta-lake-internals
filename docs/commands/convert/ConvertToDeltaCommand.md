@@ -17,7 +17,7 @@
 `ConvertToDeltaCommand` is created when:
 
 * [CONVERT TO DELTA](../../sql/index.md#CONVERT-TO-DELTA) statement is used (and `DeltaSqlAstBuilder` is requested to [visitConvert](../../sql/DeltaSqlAstBuilder.md#visitConvert))
-* [DeltaTable.convertToDelta](../../DeltaTable.md#convertToDelta) utility is used (and `DeltaConvert` utility is used to [executeConvert](../../DeltaConvert.md#executeConvert))
+* [DeltaTable.convertToDelta](../../DeltaTable.md#convertToDelta) utility is used (and `DeltaConvert` utility is used to [executeConvert](DeltaConvert.md#executeConvert))
 
 ## <span id="run"> Executing Command
 
