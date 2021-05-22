@@ -96,6 +96,10 @@
      <lastmod>2021-05-22</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
+     <loc>https://books.japila.pl/delta-lake-internals/GenerateSymlinkManifest/</loc>
+     <lastmod>2021-05-22</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
      <loc>https://books.japila.pl/delta-lake-internals/Snapshot/</loc>
      <lastmod>2021-05-22</lastmod>
      <changefreq>daily</changefreq>
@@ -425,10 +429,6 @@
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://books.japila.pl/delta-lake-internals/commands/generate/DeltaGenerateCommand/</loc>
-     <lastmod>2021-05-22</lastmod>
-     <changefreq>daily</changefreq>
-    </url><url>
-     <loc>https://books.japila.pl/delta-lake-internals/commands/generate/GenerateSymlinkManifest/</loc>
      <lastmod>2021-05-22</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
