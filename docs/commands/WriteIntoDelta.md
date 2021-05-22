@@ -2,7 +2,7 @@
 
 `WriteIntoDelta` is a [Delta command](DeltaCommand.md) that can write [data(frame)](#data) transactionally into a [delta table](#deltaLog).
 
-`WriteIntoDelta` is a `RunnableCommand` ([Spark SQL]({{ book.spark_sql }}/logical-operators/RunnableCommand)).
+`WriteIntoDelta` is a `RunnableCommand` ([Spark SQL]({{ book.spark_sql }}/logical-operators/RunnableCommand)) logical operator.
 
 ## Creating Instance
 

@@ -1,186 +1,198 @@
 # DelayedCommitProtocol
 
+`DelayedCommitProtocol` is a `FileCommitProtocol` ([Apache Spark]({{ book.spark_core }}/FileCommitProtocol)) to write out data to a [directory](#path) and return the [files added](#addedStatuses).
+
 `DelayedCommitProtocol` is used to model a distributed write that is orchestrated by the Spark driver with the write itself happening on executors.
 
-`DelayedCommitProtocol` is a concrete `FileCommitProtocol` (Spark Core) to write out a result of a structured query to a <<path, directory>> and return a <<addedStatuses, list of files added>>.
+!!! note
+    `FileCommitProtocol` allows to track a write job (with a write task per partition) and inform the driver when all the write tasks finished successfully (and were [committed](#commitTask)) to consider the write job [completed](#commitJob). `TaskCommitMessage` (Spark Core) allows to "transfer" the files added (written out) on the executors to the driver for the [optimistic transactional writer](TransactionalWrite.md#writeFiles).
 
-`FileCommitProtocol` ([Apache Spark]({{ book.spark_core }}/io/FileCommitProtocol)) allows to track a write job (with a write task per partition) and inform the driver when all the write tasks finished successfully (and were <<commitTask, committed>>) to consider the write job <<commitJob, completed>>. `TaskCommitMessage` (Spark Core) allows to "transfer" the files added (written out) on the executors to the driver for the <<TransactionalWrite.md#writeFiles, optimistic transactional writer>>.
+`DelayedCommitProtocol` is a `Serializable`.
 
-`DelayedCommitProtocol` is <<creating-instance, created>> exclusively when `TransactionalWrite` is requested for a <<TransactionalWrite.md#getCommitter, committer>> to <<TransactionalWrite.md#writeFiles, write a structured query>> to the <<path, directory>>.
-
-[[logging]]
-[TIP]
-====
-Enable `ALL` logging level for `org.apache.spark.sql.delta.files.DelayedCommitProtocol` logger to see what happens inside.
-
-Add the following line to `conf/log4j.properties`:
-
-```
-log4j.logger.org.apache.spark.sql.delta.files.DelayedCommitProtocol=ALL
-```
-
-Refer to [Logging](spark-logging.md).
-====
-
-== [[creating-instance]] Creating DelayedCommitProtocol Instance
+## Creating Instance
 
 `DelayedCommitProtocol` takes the following to be created:
 
-* [[jobId]] Job ID (seems always <<TransactionalWrite.md#getCommitter, delta>>)
-* [[path]] Directory (to write files to)
-* [[randomPrefixLength]] Optional length of a random prefix (seems always <<TransactionalWrite.md#getCommitter, empty>>)
+* <span id="jobId"> Job ID
+* <span id="path"> Path (to write files to)
+* <span id="randomPrefixLength"> (optional) Length of Random Prefix
 
-`DelayedCommitProtocol` initializes the <<internal-properties, internal properties>>.
+`DelayedCommitProtocol` is created when:
 
-== [[setupTask]] `setupTask` Method
+* `TransactionalWrite` is requested for a [committer](TransactionalWrite.md#getCommitter) (to [write a structured query](TransactionalWrite.md#writeFiles) to the [directory](#path))
 
-[source, scala]
-----
+## <span id="addedFiles"> addedFiles
+
+```scala
+addedFiles: ArrayBuffer[(Map[String, String], String)]
+```
+
+`DelayedCommitProtocol` uses `addedFiles` internal registry to track the files [added by a Spark write task](#newTaskTempFile).
+
+`addedFiles` is used on the executors only.
+
+`addedFiles` is initialized (as an empty collection) when [setting up a task](#setupTask).
+
+`addedFiles` is used when:
+
+* `DelayedCommitProtocol` is requested to [commit a task](#commitTask) (on an executor and create a `TaskCommitMessage` with the files added while a task was writing out a partition of a streaming query)
+
+## <span id="addedStatuses"> addedStatuses
+
+```scala
+addedStatuses: ArrayBuffer[AddFile]
+```
+
+`DelayedCommitProtocol` uses `addedStatuses` internal registry to track the files that were added by [write tasks](#commitTask) (on executors) once all they finish successfully and the [write job is committed](#commitJob) (on a driver).
+
+`addedStatuses` is used on the driver only.
+
+`addedStatuses` is used when:
+
+* `DelayedCommitProtocol` is requested to [commit a job](#commitJob) (on a driver)
+* `TransactionalWrite` is requested to [write out a structured query](TransactionalWrite.md#writeFiles)
+
+## <span id="setupJob"> Setting Up Job
+
+```scala
+setupJob(
+  jobContext: JobContext): Unit
+```
+
+`setupJob` is part of the `FileCommitProtocol` ([Apache Spark]({{ book.spark_core }}/FileCommitProtocol#setupJob)) abstraction.
+
+`setupJob` is a noop.
+
+## <span id="commitJob"> Committing Job
+
+```scala
+commitJob(
+  jobContext: JobContext,
+  taskCommits: Seq[TaskCommitMessage]): Unit
+```
+
+`commitJob` is part of the `FileCommitProtocol` ([Apache Spark]({{ book.spark_core }}/FileCommitProtocol#commitJob)) abstraction.
+
+`commitJob` adds the [AddFile](AddFile.md)s (from the given `taskCommits` from every [commitTask](#commitTask)) to the [addedStatuses](#addedStatuses) internal registry.
+
+## <span id="abortJob"> Aborting Job
+
+```scala
+abortJob(
+  jobContext: JobContext): Unit
+```
+
+`abortJob` is part of the `FileCommitProtocol` ([Apache Spark]({{ book.spark_core }}/FileCommitProtocol#abortJob)) abstraction.
+
+`abortJob` is a noop.
+
+## <span id="setupTask"> Setting Up Task
+
+```scala
 setupTask(
   taskContext: TaskAttemptContext): Unit
-----
+```
 
-NOTE: `setupTask` is part of the `FileCommitProtocol` contract to set up a task for a writing job.
+`setupTask` is part of the `FileCommitProtocol` ([Apache Spark]({{ book.spark_core }}/FileCommitProtocol#setupTask)) abstraction.
 
-`setupTask` simply initializes the <<addedFiles, addedFiles>> internal registry to be empty.
+`setupTask` initializes the [addedFiles](#addedFiles) internal registry to be empty.
 
-== [[newTaskTempFile]] `newTaskTempFile` Method
+## <span id="newTaskTempFile"> New Temp File (Relative Path)
 
-[source, scala]
-----
+```scala
 newTaskTempFile(
   taskContext: TaskAttemptContext,
   dir: Option[String],
   ext: String): String
-----
+```
 
-NOTE: `newTaskTempFile` is part of the `FileCommitProtocol` contract to inform the committer to add a new file.
+`newTaskTempFile` is part of the `FileCommitProtocol` ([Apache Spark]({{ book.spark_core }}/FileCommitProtocol#newTaskTempFile)) abstraction.
 
-`newTaskTempFile` <<getFileName, creates a file name>> for the given `TaskAttemptContext` and `ext`.
+`newTaskTempFile` [creates a file name](#getFileName) for the given `TaskAttemptContext` and `ext`.
 
-`newTaskTempFile` tries to <<parsePartitions, parsePartitions>> with the given `dir` or falls back to an empty `partitionValues`.
+`newTaskTempFile` tries to [parsePartitions](#parsePartitions) with the given `dir` or falls back to an empty `partitionValues`.
 
-NOTE: The given `dir` defines a partition directory if the streaming query (and hence the write) is partitioned.
+!!! note
+    The given `dir` defines a partition directory if the streaming query (and hence the write) is partitioned.
 
 `newTaskTempFile` builds a path (based on the given `randomPrefixLength` and the `dir`, or uses the file name directly).
 
-NOTE: FIXME When would the optional `dir` and the <<randomPrefixLength, randomPrefixLength>> be defined?
+!!! FIXME
+    When are the optional `dir` and the [randomPrefixLength](#randomPrefixLength) defined?
 
-`newTaskTempFile` adds the partition values and the relative path to the <<addedFiles, addedFiles>> internal registry.
+`newTaskTempFile` adds the partition values and the relative path to the [addedFiles](#addedFiles) internal registry.
 
-In the end, `newTaskTempFile` returns the absolute path of the (relative) path in the <<path, directory>>.
+In the end, `newTaskTempFile` returns the absolute path of the (relative) path in the [directory](#path).
 
-== [[commitTask]] Committing Task (After Successful Write) -- `commitTask` Method
+### <span id="getFileName"> File Name
 
-[source, scala]
-----
-commitTask(
-  taskContext: TaskAttemptContext): TaskCommitMessage
-----
-
-NOTE: `commitTask` is part of the `FileCommitProtocol` contract to commit a task after the writes succeed.
-
-`commitTask` simply creates a `TaskCommitMessage` with an <<AddFile.md#, AddFile>> for every <<addedFiles, file added>> if there were any. Otherwise, the `TaskCommitMessage` is empty.
-
-NOTE: A file is added (to <<addedFiles, addedFiles>> internal registry) when `DelayedCommitProtocol` is requested for a <<newTaskTempFile, new file (path)>>.
-
-== [[commitJob]] Committing Spark Job (After Successful Write) -- `commitJob` Method
-
-[source, scala]
-----
-commitJob(
-  jobContext: JobContext,
-  taskCommits: Seq[TaskCommitMessage]): Unit
-----
-
-NOTE: `commitJob` is part of the `FileCommitProtocol` contract to commit a job after the writes succeed.
-
-`commitJob` simply adds the <<AddFile.md#, AddFiles>> (from the given `taskCommits` from every <<commitTask, commitTask>>) to the <<addedStatuses, addedStatuses>> internal registry.
-
-== [[parsePartitions]] `parsePartitions` Method
-
-[source, scala]
-----
-parsePartitions(
-  dir: String): Map[String, String]
-----
-
-`parsePartitions`...FIXME
-
-NOTE: `parsePartitions` is used exclusively when `DelayedCommitProtocol` is requested to <<newTaskTempFile, newTaskTempFile>>.
-
-== [[setupJob]] `setupJob` Method
-
-[source, scala]
-----
-setupJob(
-  jobContext: JobContext): Unit
-----
-
-NOTE: `setupJob` is part of the `FileCommitProtocol` contract to set up a Spark job.
-
-`setupJob` does nothing.
-
-== [[abortJob]] `abortJob` Method
-
-[source, scala]
-----
-abortJob(
-  jobContext: JobContext): Unit
-----
-
-NOTE: `abortJob` is part of the `FileCommitProtocol` contract to abort a Spark job.
-
-`abortJob` does nothing.
-
-== [[getFileName]] `getFileName` Method
-
-[source, scala]
-----
+```scala
 getFileName(
   taskContext: TaskAttemptContext,
-  ext: String): String
-----
+  ext: String,
+  partitionValues: Map[String, String]): String
+```
 
-`getFileName` takes the task ID from the given `TaskAttemptContext` (for the `split` part below).
+`getFileName` takes the task ID from the given `TaskAttemptContext` ([Apache Spark]({{ book.spark_core }}/TaskAttemptContext)) (for the `split` part below).
 
 `getFileName` generates a random UUID (for the `uuid` part below).
 
 In the end, `getFileName` returns a file name of the format:
 
+```text
+part-[split]-[uuid][ext]
 ```
-part-[split]%05d-[uuid][ext]
+
+## <span id="newTaskTempFileAbsPath"> New Temp File (Absolute Path)
+
+```scala
+newTaskTempFileAbsPath(
+  taskContext: TaskAttemptContext,
+  absoluteDir: String,
+  ext: String): String
 ```
 
-NOTE: `getFileName` is used exclusively when `DelayedCommitProtocol` is requested to <<newTaskTempFile, newTaskTempFile>>.
+`newTaskTempFileAbsPath` is part of the `FileCommitProtocol` ([Apache Spark]({{ book.spark_core }}/FileCommitProtocol#newTaskTempFileAbsPath)) abstraction.
 
-== [[addedFiles]] `addedFiles` Internal Registry
+`newTaskTempFileAbsPath` throws an `UnsupportedOperationException`:
 
-[source, scala]
-----
-addedFiles: ArrayBuffer[(Map[String, String], String)]
-----
+```text
+[this] does not support adding files with an absolute path
+```
 
-`addedFiles` tracks the files <<newTaskTempFile, added by a Spark write task>> (that runs on an executor).
+## <span id="commitTask"> Committing Task
 
-`addedFiles` is initialized (as an empty collection) in <<setupTask, setupTask>>.
+```scala
+commitTask(
+  taskContext: TaskAttemptContext): TaskCommitMessage
+```
 
-NOTE: `addedFiles` is used when `DelayedCommitProtocol` is requested to <<commitTask, commit a task>> (on an executor and create a `TaskCommitMessage` with the files added while a task was writing out a partition of a streaming query).
+`commitTask` is part of the `FileCommitProtocol` ([Apache Spark]({{ book.spark_core }}/FileCommitProtocol#commitTask)) abstraction.
 
-== [[addedStatuses]] `addedStatuses` Internal Registry
+`commitTask` creates a `TaskCommitMessage` with an [AddFile](AddFile.md) for every [file added](#addedFiles) if there are any. Otherwise, `commitTask` creates an empty `TaskCommitMessage`.
 
-[source, scala]
-----
-addedStatuses = new ArrayBuffer[AddFile]
-----
+!!! note
+    A file is added (to the [addedFiles](#addedFiles) internal registry) when `DelayedCommitProtocol` is requested for a [new file (path)](#newTaskTempFile).
 
-`addedStatuses` is the files that were added by <<commitTask, write tasks>> (on executors) once all they finish successfully and the <<commitJob, write job is committed>> (on a driver).
+## <span id="abortTask"> Aborting Task
 
-[NOTE]
-====
-`addedStatuses` is used when:
+```scala
+abortTask(
+  taskContext: TaskAttemptContext): Unit
+```
 
-* `DelayedCommitProtocol` is requested to <<commitJob, commit a job>> (on a driver)
+`abortTask` is part of the `FileCommitProtocol` ([Apache Spark]({{ book.spark_core }}/FileCommitProtocol#abortTask)) abstraction.
 
-* `TransactionalWrite` is requested to <<TransactionalWrite.md#writeFiles, write out a structured query>>
-====
+`abortTask` is a noop.
+
+## Logging
+
+Enable `ALL` logging level for `org.apache.spark.sql.delta.files.DelayedCommitProtocol` logger to see what happens inside.
+
+Add the following line to `conf/log4j.properties`:
+
+```text
+log4j.logger.org.apache.spark.sql.delta.files.DelayedCommitProtocol=ALL
+```
+
+Refer to [Logging](spark-logging.md).

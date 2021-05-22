@@ -35,9 +35,9 @@
 tableVersion: Long
 ```
 
-`tableVersion` is always the [version](Snapshot.md#version) of the [Snapshot](#snapshot).
-
 `tableVersion` is part of the [TahoeFileIndex](TahoeFileIndex.md#tableVersion) abstraction.
+
+`tableVersion` is always the [version](Snapshot.md#version) of the [Snapshot](#snapshot).
 
 ## <span id="matchingFiles"> matchingFiles
 
@@ -48,9 +48,9 @@ matchingFiles(
   keepStats: Boolean = false): Seq[AddFile]
 ```
 
-`matchingFiles` [filterFileList](DeltaLog.md#filterFileList) (that gives a `DataFrame`) and collects the [AddFile](AddFile.md)s (using `Dataset.collect`).
-
 `matchingFiles` is part of the [TahoeFileIndex](TahoeFileIndex.md#matchingFiles) abstraction.
+
+`matchingFiles` [filterFileList](DeltaLog.md#filterFileList) (that gives a `DataFrame`) and collects the [AddFile](AddFile.md)s (using `Dataset.collect`).
 
 ## <span id="inputFiles"> Input Files
 
@@ -58,9 +58,9 @@ matchingFiles(
 inputFiles: Array[String]
 ```
 
-`inputFiles` returns the [paths](AddFile.md#path) of all the given [AddFiles](#addFiles).
+`inputFiles` is part of the `FileIndex` ([Spark SQL]({{ book.spark_sql }}/FileIndex/#inputFiles)) abstraction.
 
-`inputFiles` is part of the `FileIndex` abstraction ([Spark SQL]({{ book.spark_sql }}/FileIndex/#inputFiles)).
+`inputFiles` returns the [paths](AddFile.md#path) of all the given [AddFiles](#addFiles).
 
 ## <span id="partitionSchema"> Partitions
 
@@ -68,9 +68,9 @@ inputFiles: Array[String]
 partitionSchema: StructType
 ```
 
-`partitionSchema` requests the [Snapshot](#snapshot) for the [metadata](Snapshot.md#metadata) that is in turn requested for the [partitionSchema](Metadata.md#partitionSchema).
+`partitionSchema` is part of the `FileIndex` ([Spark SQL]({{ book.spark_sql }}/FileIndex/#partitionSchema)) abstraction.
 
-`partitionSchema` is part of the `FileIndex` abstraction ([Spark SQL]({{ book.spark_sql }}/FileIndex/#partitionSchema)).
+`partitionSchema` requests the [Snapshot](#snapshot) for the [metadata](Snapshot.md#metadata) that is in turn requested for the [partitionSchema](Metadata.md#partitionSchema).
 
 ## <span id="sizeInBytes"> Estimated Size of Relation
 
@@ -78,6 +78,6 @@ partitionSchema: StructType
 sizeInBytes: Long
 ```
 
-`sizeInBytes` is a sum of the [sizes](AddFile.md#size) of all the given [AddFiles](#addFiles).
+`sizeInBytes` is part of the `FileIndex` ([Spark SQL]({{ book.spark_sql }}/FileIndex/#sizeInBytes)) abstraction.
 
-`sizeInBytes` is part of the `FileIndex` abstraction ([Spark SQL]({{ book.spark_sql }}/FileIndex/#sizeInBytes)).
+`sizeInBytes` is a sum of the [sizes](AddFile.md#size) of all the given [AddFiles](#addFiles).
