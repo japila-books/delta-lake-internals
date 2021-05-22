@@ -29,7 +29,7 @@ getHistory(
 `getHistory` is used when:
 
 * `DeltaTableOperations` is requested to [executeHistory](DeltaTableOperations.md#executeHistory) (for [DeltaTable.history](DeltaTable.md#history) operator)
-* [DescribeDeltaHistoryCommand](commands/DescribeDeltaHistoryCommand.md) is executed (for [DESCRIBE HISTORY](sql/index.md#DESCRIBE-HISTORY) SQL command)
+* [DescribeDeltaHistoryCommand](commands/describe-history/DescribeDeltaHistoryCommand.md) is executed (for [DESCRIBE HISTORY](sql/index.md#DESCRIBE-HISTORY) SQL command)
 
 ### <span id="getCommitInfo"> getCommitInfo Utility
 

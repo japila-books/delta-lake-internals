@@ -189,6 +189,8 @@ history(
 
 Gets available commits (_history_) of the DeltaTable
 
+`history` [requests the DeltaHistoryManager for history](DeltaTableOperations.md#executeHistory).
+
 ### <span id="merge"> merge
 
 ```scala

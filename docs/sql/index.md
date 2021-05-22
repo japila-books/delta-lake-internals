@@ -35,7 +35,7 @@ Executes [ConvertToDeltaCommand](../commands/convert/ConvertToDeltaCommand.md)
 (DESC | DESCRIBE) DETAIL (path | table)
 ```
 
-Executes [DescribeDeltaDetailCommand](../commands/DescribeDeltaDetailCommand.md)
+Executes [DescribeDeltaDetailCommand](../commands/describe-detail/DescribeDeltaDetailCommand.md)
 
 ## <span id="DESCRIBE-HISTORY"> DESCRIBE HISTORY
 
@@ -44,7 +44,7 @@ Executes [DescribeDeltaDetailCommand](../commands/DescribeDeltaDetailCommand.md)
   (LIMIT limit)?
 ```
 
-Executes [DescribeDeltaHistoryCommand](../commands/DescribeDeltaHistoryCommand.md)
+Executes [DescribeDeltaHistoryCommand](../commands/describe-history/DescribeDeltaHistoryCommand.md)
 
 ## <span id="GENERATE"> GENERATE
 

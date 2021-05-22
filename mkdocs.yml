@@ -233,8 +233,12 @@ nav:
     - DeltaGenerateCommand:
       - DeltaGenerateCommand: commands/DeltaGenerateCommand.md
       - GenerateSymlinkManifest: GenerateSymlinkManifest.md
-    - DescribeDeltaDetailCommand: commands/DescribeDeltaDetailCommand.md
-    - DescribeDeltaHistoryCommand: commands/DescribeDeltaHistoryCommand.md
+    - Describe Detail:
+      - commands/describe-detail/index.md
+      - DescribeDeltaDetailCommand: commands/describe-detail/DescribeDeltaDetailCommand.md
+    - Describe History:
+      - commands/describe-history/index.md
+      - DescribeDeltaHistoryCommand: commands/describe-history/DescribeDeltaHistoryCommand.md
     - Merge:
       - DeltaMergeBuilder: commands/DeltaMergeBuilder.md
       - DeltaMergeMatchedActionBuilder: commands/DeltaMergeMatchedActionBuilder.md

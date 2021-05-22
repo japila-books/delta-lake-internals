@@ -2,7 +2,7 @@
 
 `Metadata` is an [Action](Action.md) to update the metadata of a [delta table](DeltaLog.md#metadata) (indirectly via the [Snapshot](Snapshot.md#metadata)).
 
-Use [DescribeDeltaDetailCommand](commands/DescribeDeltaDetailCommand.md) to review the metadata of a delta table.
+Use [DescribeDeltaDetailCommand](commands/describe-detail/DescribeDeltaDetailCommand.md) to review the metadata of a delta table.
 
 ## Creating Instance
 

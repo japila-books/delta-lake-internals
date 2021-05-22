@@ -71,7 +71,7 @@ forTable(
 
 `forTable` is used when:
 
-* [AlterTableSetLocationDeltaCommand](commands/AlterTableSetLocationDeltaCommand.md), [ConvertToDeltaCommand](commands/convert/ConvertToDeltaCommand.md), [VacuumTableCommand](commands/vacuum/VacuumTableCommand.md), [CreateDeltaTableCommand](commands/CreateDeltaTableCommand.md), [DeltaGenerateCommand](commands/DeltaGenerateCommand.md), [DescribeDeltaDetailCommand](commands/DescribeDeltaDetailCommand.md), [DescribeDeltaHistoryCommand](commands/DescribeDeltaHistoryCommand.md) commands are executed
+* [AlterTableSetLocationDeltaCommand](commands/AlterTableSetLocationDeltaCommand.md), [ConvertToDeltaCommand](commands/convert/ConvertToDeltaCommand.md), [VacuumTableCommand](commands/vacuum/VacuumTableCommand.md), [CreateDeltaTableCommand](commands/CreateDeltaTableCommand.md), [DeltaGenerateCommand](commands/DeltaGenerateCommand.md), [DescribeDeltaDetailCommand](commands/describe-detail/DescribeDeltaDetailCommand.md), [DescribeDeltaHistoryCommand](commands/describe-history/DescribeDeltaHistoryCommand.md) commands are executed
 
 * `DeltaDataSource` is requested for the [source schema](DeltaDataSource.md#sourceSchema), a [source](DeltaDataSource.md#createSource), and a [relation](DeltaDataSource.md#createRelation)
 
@@ -330,7 +330,7 @@ snapshot: Snapshot
 
 * `OptimisticTransactionImpl` is requested to [getNextAttemptVersion](OptimisticTransactionImpl.md#getNextAttemptVersion)
 
-* [DeleteCommand](commands/delete/DeleteCommand.md), [DeltaGenerateCommand](commands/DeltaGenerateCommand.md), [DescribeDeltaDetailCommand](commands/DescribeDeltaDetailCommand.md), [UpdateCommand](commands/update/UpdateCommand.md) commands are executed
+* [DeleteCommand](commands/delete/DeleteCommand.md), [DeltaGenerateCommand](commands/DeltaGenerateCommand.md), [DescribeDeltaDetailCommand](commands/describe-detail/DescribeDeltaDetailCommand.md), [UpdateCommand](commands/update/UpdateCommand.md) commands are executed
 
 * [GenerateSymlinkManifest](GenerateSymlinkManifest.md) is executed
 
