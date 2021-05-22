@@ -1,35 +1,25 @@
-= [[DeltaFileFormat]] DeltaFileFormat Contract -- Spark FileFormat Of Delta Table
+# DeltaFileFormat
 
-`DeltaFileFormat` is the <<contract, abstraction>> of <<implementations, FileFormat "descriptors">> that can <<fileFormat, specify the Spark FileFormat of a Delta table>>.
+`DeltaFileFormat` is an [abstraction](#contract) of [format metadata](#implementations) that [specify the file format of a delta table](#fileFormat).
 
-[[contract]]
-.DeltaFileFormat Contract
-[cols="30m,70",options="header",width="100%"]
-|===
-| Method
-| Description
+## Contract
 
-| fileFormat
-a| [[fileFormat]]
+### <span id="fileFormat"> FileFormat
 
-[source, scala]
-----
+```scala
 fileFormat: FileFormat
-----
+```
 
-Spark SQL's `FileFormat` of a delta table
+`FileFormat` ([Spark SQL]({{ book.spark_sql }}/datasources/FileFormat)) of a delta table
 
-Default: `ParquetFileFormat`
+Default: `ParquetFileFormat` ([Spark SQL]({{ book.spark_sql }}/datasources/parquet/ParquetFileFormat))
 
 Used when:
 
-* `DeltaLog` is requested for a <<DeltaLog.md#createRelation, relation>> (in batch queries) and <<createDataFrame, DataFrame>>
+* `DeltaLog` is requested for a [relation](DeltaLog.md#createRelation) (in batch queries) and [DataFrame](DeltaLog.md#createDataFrame)
+* `DeltaCommand` is requested for a [relation](commands/DeltaCommand.md#buildBaseRelation)
+* `TransactionalWrite` is requested to [write data out](TransactionalWrite.md#writeFiles)
 
-* `DeltaCommand` is requested for a <<DeltaCommand.md#buildBaseRelation, relation>>
+## Implementations
 
-* `TransactionalWrite` is requested to <<TransactionalWrite.md#writeFiles, write data out>>
-
-|===
-
-[[implementations]]
-NOTE: <<Snapshot.md#, Snapshot>> is the only known `DeltaFileFormat`.
+* [Snapshot](Snapshot.md)

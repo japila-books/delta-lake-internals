@@ -5,7 +5,7 @@
 `MergeIntoCommand` is a `RunnableCommand` logical operator ([Spark SQL]({{ book.spark_sql }}/logical-operators/RunnableCommand/)).
 
 !!! tip
-    Learn more on the internals of `MergeIntoCommand` in [Demo: Merge Operation](../demo/merge-operation.md).
+    Learn more in [Demo: Merge Operation](../demo/merge-operation.md).
 
 ## Performance Metrics
 
@@ -209,10 +209,7 @@ findTouchedFiles(
 !!! note
     This step looks similar to **filter predicate pushdown**.
 
-`findTouchedFiles` creates one `DataFrame` for the [source data](#source) (using `Dataset.ofRows` utility).
-
-!!! tip
-    Learn more about [Dataset.ofRows]({{ book.spark_sql }}/Dataset/#ofRows) utility in [The Internals of Spark SQL]({{ book.spark_sql }}) online book.
+`findTouchedFiles` creates one `DataFrame` for the [source data](#source) (using [Spark SQL]({{ book.spark_sql }}/Dataset/#ofRows) utility).
 
 `findTouchedFiles` [builds a logical query plan](#buildTargetPlanWithFiles) for the files (matching the predicates) and creates another `DataFrame` for the target data. `findTouchedFiles` adds two columns to the target dataframe:
 

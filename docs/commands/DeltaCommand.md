@@ -77,15 +77,11 @@ buildBaseRelation(
   nameToAddFileMap: Map[String, AddFile]): HadoopFsRelation
 ```
 
-<span id="buildBaseRelation-scannedFiles">
 `buildBaseRelation` converts the given `inputLeafFiles` to [AddFiles](#getTouchedFile) (with the given `rootPath` and `nameToAddFileMap`).
 
-`buildBaseRelation` creates a [TahoeBatchFileIndex](../TahoeBatchFileIndex.md) for the `actionType`, the [AddFiles](#buildBaseRelation-scannedFiles) and the `rootPath`.
+`buildBaseRelation` creates a [TahoeBatchFileIndex](../TahoeBatchFileIndex.md) for the `AddFile`s (with the input `actionType` and `rootPath`).
 
-In the end, `buildBaseRelation` creates a `HadoopFsRelation` with the `TahoeBatchFileIndex` (and the other properties based on the [metadata](../OptimisticTransactionImpl.md#metadata) of the given [OptimisticTransaction](../OptimisticTransaction.md)).
-
-!!! note
-    Learn more on [HadoopFsRelation]({{ book.spark_sql }}/HadoopFsRelation/) in [The Internals of Spark SQL]({{ book.spark_sql }}/) online book.
+In the end, `buildBaseRelation` creates a `HadoopFsRelation` ([Spark SQL]({{ book.spark_sql }}/HadoopFsRelation/)) with the `TahoeBatchFileIndex` (and the other properties based on the [metadata](../OptimisticTransactionImpl.md#metadata) of the given [OptimisticTransaction](../OptimisticTransaction.md)).
 
 `buildBaseRelation` is used when:
 
