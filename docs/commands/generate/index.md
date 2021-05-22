@@ -5,4 +5,4 @@ Delta Lake supports executing generator functions on delta tables using the foll
 * [GENERATE](DeltaGenerateCommand.md) SQL command
 * [DeltaTable.generate](../../DeltaTable.md#generate)
 
-Only `symlink_format_manifest` mode is supported.
+Only [symlink_format_manifest](DeltaGenerateCommand.md#symlink_format_manifest) mode is supported.

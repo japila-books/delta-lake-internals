@@ -1,59 +1,30 @@
-= PostCommitHook
+# PostCommitHook
 
-*PostCommitHook* is an <<contract, abstraction>> of <<implementations, post-commit hooks>> that have a <<name, user-friendly name>> and can be <<run, executed>> (when `OptimisticTransactionImpl` is <<OptimisticTransactionImpl.md#commit, committed>>).
+`PostCommitHook` is an [abstraction](#contract) of [post-commit hooks](#implementations) that can be [executed](#run) (at the end of [transaction commit](OptimisticTransactionImpl.md#commit)).
 
-[[contract]]
-.PostCommitHook Contract
-[cols="30m,70",options="header",width="100%"]
-|===
-| Method
-| Description
+## Contract
 
-| handleError
-a| [[handleError]]
+### <span id="name"> Name
 
-[source, scala]
-----
-handleError(
-  error: Throwable,
-  version: Long): Unit = {}
-----
-
-Handles an error while <<run, running the post-commit hook>>
-
-Used when `OptimisticTransactionImpl` is requested to <<OptimisticTransactionImpl.md#runPostCommitHooks, run post-commit hooks>> (when <<OptimisticTransactionImpl.md#commit, committed>>)
-
-| name
-a| [[name]]
-
-[source, scala]
-----
+```scala
 name: String
-----
+```
 
 User-friendly name of the hook for error reporting
 
-Used when:
+### <span id="run"> Executing Post-Commit Hook
 
-* `DeltaErrors` utility is used to <<DeltaErrors.md#postCommitHookFailedException, report an post-commit hook failure>>
-
-* `OptimisticTransactionImpl` is requested to <<OptimisticTransactionImpl.md#runPostCommitHooks, run post-commit hooks>> (when <<OptimisticTransactionImpl.md#commit, committed>>)
-
-* `GenerateSymlinkManifestImpl` is requested to [handle an error](commands/generate/GenerateSymlinkManifest.md#handleError)
-
-| run
-a| [[run]]
-
-[source, scala]
-----
+```scala
 run(
   spark: SparkSession,
   txn: OptimisticTransactionImpl,
   committedActions: Seq[Action]): Unit
-----
+```
 
-Executes the post-commit hook
+Used when:
 
-Used when `OptimisticTransactionImpl` is requested to <<OptimisticTransactionImpl.md#runPostCommitHooks, run post-commit hooks>> (when <<OptimisticTransactionImpl.md#commit, committed>>)
+* `OptimisticTransactionImpl` is requested to [runPostCommitHooks](OptimisticTransactionImpl.md#runPostCommitHooks) (at the end of [transaction commit](OptimisticTransactionImpl.md#commit-runPostCommitHooks)).
 
-|===
+## Implementations
+
+* [GenerateSymlinkManifestImpl](GenerateSymlinkManifest.md)

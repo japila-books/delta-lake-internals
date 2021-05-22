@@ -34,4 +34,4 @@ Committing to the Delta table version [failedOnCommitVersion] succeeded but erro
 
 `postCommitHookFailedException` is used when:
 
-* `GenerateSymlinkManifestImpl` is requested to [handleError](commands/generate/GenerateSymlinkManifest.md#handleError)
+* `GenerateSymlinkManifestImpl` is requested to [handleError](GenerateSymlinkManifest.md#handleError)

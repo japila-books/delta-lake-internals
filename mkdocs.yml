@@ -138,7 +138,9 @@ nav:
       - TransactionalWrite: TransactionalWrite.md
       - DelayedCommitProtocol: DelayedCommitProtocol.md
       - IsolationLevel: IsolationLevel.md
-      - Post-Commit Hooks: PostCommitHook.md
+      - Post-Commit Hooks:
+        - PostCommitHook: PostCommitHook.md
+        - GenerateSymlinkManifest: GenerateSymlinkManifest.md
     - State Snapshot:
       - Snapshot: Snapshot.md
       - InMemoryLogReplay: InMemoryLogReplay.md
@@ -239,7 +241,6 @@ nav:
     - Generate:
       - commands/generate/index.md
       - DeltaGenerateCommand: commands/generate/DeltaGenerateCommand.md
-      - GenerateSymlinkManifest: commands/generate/GenerateSymlinkManifest.md
     - Merge:
       - DeltaMergeBuilder: commands/DeltaMergeBuilder.md
       - DeltaMergeMatchedActionBuilder: commands/DeltaMergeMatchedActionBuilder.md
