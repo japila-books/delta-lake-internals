@@ -52,7 +52,7 @@ Executes [DescribeDeltaHistoryCommand](../commands/describe-history/DescribeDelt
 GENERATE modeName FOR TABLE table
 ```
 
-Executes [DeltaGenerateCommand](../commands/DeltaGenerateCommand.md)
+Executes [DeltaGenerateCommand](../commands/generate/DeltaGenerateCommand.md)
 
 ## <span id="VACUUM"> VACUUM
 

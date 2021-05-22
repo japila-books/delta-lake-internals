@@ -20,7 +20,7 @@ Used when:
 * `DeltaCommand` is requested to [buildBaseRelation](commands/DeltaCommand.md#buildBaseRelation) and [commitLarge](commands/DeltaCommand.md#commitLarge)
 * [MergeIntoCommand](commands/MergeIntoCommand.md) is executed
 * `TransactionalWrite` is requested to [write a structured query out to a delta table](#writeFiles)
-* [GenerateSymlinkManifest](GenerateSymlinkManifest.md) post-commit hook is executed
+* [GenerateSymlinkManifest](commands/generate/GenerateSymlinkManifest.md) post-commit hook is executed
 * `ImplicitMetadataOperation` is requested to [updateMetadata](ImplicitMetadataOperation.md#updateMetadata)
 * `DeltaSink` is requested to [addBatch](DeltaSink.md#addBatch)
 

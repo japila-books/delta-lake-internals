@@ -39,7 +39,7 @@ Used when:
 
 * `OptimisticTransactionImpl` is requested to <<OptimisticTransactionImpl.md#runPostCommitHooks, run post-commit hooks>> (when <<OptimisticTransactionImpl.md#commit, committed>>)
 
-* `GenerateSymlinkManifestImpl` is requested to <<GenerateSymlinkManifest.md#handleError, handle an error>>
+* `GenerateSymlinkManifestImpl` is requested to [handle an error](commands/generate/GenerateSymlinkManifest.md#handleError)
 
 | run
 a| [[run]]
@@ -57,6 +57,3 @@ Executes the post-commit hook
 Used when `OptimisticTransactionImpl` is requested to <<OptimisticTransactionImpl.md#runPostCommitHooks, run post-commit hooks>> (when <<OptimisticTransactionImpl.md#commit, committed>>)
 
 |===
-
-[[implementations]]
-NOTE: <<GenerateSymlinkManifest.md#GenerateSymlinkManifestImpl, GenerateSymlinkManifestImpl>> is the default and only known PostCommitHook in Delta Lake.

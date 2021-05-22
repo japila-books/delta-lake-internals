@@ -99,7 +99,7 @@ With all [action](FileAction.md)s with [dataChange](FileAction.md#dataChange) fl
 
 ### <span id="commit-registerPostCommitHook"> Registering Post-Commit Hook
 
-`commit` [registers](#registerPostCommitHook) the [GenerateSymlinkManifest](GenerateSymlinkManifest.md) post-commit hook when there is a [FileAction](FileAction.md) among the actions and the [compatibility.symlinkFormatManifest.enabled](DeltaConfigs.md#SYMLINK_FORMAT_MANIFEST_ENABLED) table property is enabled.
+`commit` [registers](#registerPostCommitHook) the [GenerateSymlinkManifest](commands/generate/GenerateSymlinkManifest.md) post-commit hook when there is a [FileAction](FileAction.md) among the actions and the [compatibility.symlinkFormatManifest.enabled](DeltaConfigs.md#SYMLINK_FORMAT_MANIFEST_ENABLED) table property is enabled.
 
 ### <span id="commit-commitVersion"> Commit Version
 
@@ -438,7 +438,7 @@ postCommitHooks: ArrayBuffer[PostCommitHook]
 
 `OptimisticTransactionImpl` manages [PostCommitHook](PostCommitHook.md)s that will be [executed](#runPostCommitHooks) right after a [commit](#commit) is successful.
 
-Post-commit hooks can be [registered](#registerPostCommitHook), but only the [GenerateSymlinkManifest](GenerateSymlinkManifest.md) post-commit hook is supported.
+Post-commit hooks can be [registered](#registerPostCommitHook), but only the [GenerateSymlinkManifest](commands/generate/GenerateSymlinkManifest.md) post-commit hook is supported.
 
 ### <span id="newMetadata"> newMetadata
 

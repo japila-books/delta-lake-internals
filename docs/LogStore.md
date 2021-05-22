@@ -77,7 +77,7 @@ Used when:
 * `Checkpoints` is requested to [checkpoint](Checkpoints.md#checkpoint)
 * `OptimisticTransactionImpl` is requested to [doCommit](OptimisticTransactionImpl.md#doCommit)
 * `DeltaCommand` is requested to [commitLarge](commands/DeltaCommand.md#commitLarge)
-* `GenerateSymlinkManifestImpl` is requested to [writeManifestFiles](GenerateSymlinkManifest.md#writeManifestFiles)
+* `GenerateSymlinkManifestImpl` is requested to [writeManifestFiles](commands/generate/GenerateSymlinkManifest.md#writeManifestFiles)
 
 ## Implementations
 
@@ -97,6 +97,6 @@ apply(
 
 `apply` is used when:
 
-* `GenerateSymlinkManifestImpl` is requested to [writeManifestFiles](GenerateSymlinkManifest.md#writeManifestFiles) and [writeSingleManifestFile](GenerateSymlinkManifest.md#writeSingleManifestFile)
+* `GenerateSymlinkManifestImpl` is requested to [writeManifestFiles](commands/generate/GenerateSymlinkManifest.md#writeManifestFiles) and [writeSingleManifestFile](commands/generate/GenerateSymlinkManifest.md#writeSingleManifestFile)
 * `DeltaHistoryManager` is requested to [getHistory](DeltaHistoryManager.md#getHistory) and [getActiveCommitAtTime](DeltaHistoryManager.md#getActiveCommitAtTime)
 * `DeltaFileOperations` is requested to [recursiveListDirs](DeltaFileOperations.md#recursiveListDirs) and [localListDirs](DeltaFileOperations.md#localListDirs)

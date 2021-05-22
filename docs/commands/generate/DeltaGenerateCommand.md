@@ -4,8 +4,8 @@
 
 `DeltaGenerateCommand` is used for the following:
 
-* [GENERATE](../sql/index.md#GENERATE) SQL command
-* [DeltaTable.generate](../DeltaTable.md#generate) operation
+* [GENERATE](../../sql/index.md#GENERATE) SQL command
+* [DeltaTable.generate](../../DeltaTable.md#generate) operation
 
 `DeltaGenerateCommand` supports [symlink_format_manifest](#symlink_format_manifest) mode name only.
 
@@ -27,8 +27,8 @@ sql(q).collect
 
 `DeltaGenerateCommand` is created for:
 
-* [GENERATE](../sql/index.md#GENERATE) SQL command (that uses `DeltaSqlAstBuilder` to [parse GENERATE SQL command](../sql/DeltaSqlAstBuilder.md#visitGenerate))
-* [DeltaTable.generate](../DeltaTable.md#generate) operator (that uses `DeltaTableOperations` to [executeGenerate](../DeltaTableOperations.md#executeGenerate))
+* [GENERATE](../../sql/index.md#GENERATE) SQL command (that uses `DeltaSqlAstBuilder` to [parse GENERATE SQL command](../../sql/DeltaSqlAstBuilder.md#visitGenerate))
+* [DeltaTable.generate](../../DeltaTable.md#generate) operator (that uses `DeltaTableOperations` to [executeGenerate](../../DeltaTableOperations.md#executeGenerate))
 
 ## <span id="modeNameToGenerationFunc"><span id="modeName"><span id="symlink_format_manifest"> Generate Mode Name
 
@@ -38,7 +38,7 @@ sql(q).collect
 
 Mode Name | Generation Function
 --------- |----------
- `symlink_format_manifest` | [generateFullManifest](../GenerateSymlinkManifest.md#generateFullManifest)
+ `symlink_format_manifest` | [generateFullManifest](GenerateSymlinkManifest.md#generateFullManifest)
 
 ## <span id="run"> Executing Command
 
@@ -49,9 +49,9 @@ run(
 
 `run` is part of the `RunnableCommand` ([Spark SQL]({{ book.spark_sql }}/logical-operators/RunnableCommand#run)) abstraction.
 
-`run` creates a Hadoop `Path` to (the location of) the delta table (based on [DeltaTableIdentifier](../DeltaTableIdentifier.md)).
+`run` creates a Hadoop `Path` to (the location of) the delta table (based on [DeltaTableIdentifier](../../DeltaTableIdentifier.md)).
 
-`run` creates a [DeltaLog](../DeltaLog.md#forTable) for the delta table.
+`run` creates a [DeltaLog](../../DeltaLog.md#forTable) for the delta table.
 
 `run` executes the generation function for the [mode name](#modeName).
 
