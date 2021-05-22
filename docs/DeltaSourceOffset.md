@@ -1,59 +1,53 @@
-# DeltaSourceOffset
+# DeltaSourceOffset &mdash; Streaming Offset
 
-`DeltaSourceOffset` is a streaming `Offset` ([Spark Structured Streaming]({{ book.structured_streaming }}/Offset)) for [DeltaSource](DeltaSource.md).
+`DeltaSourceOffset` is an `Offset` ([Spark Structured Streaming]({{ book.structured_streaming }}/Offset)) for [DeltaSource](DeltaSource.md).
 
-`DeltaSourceOffset` is <<creating-instance, created>> (via <<apply, apply>> utility) when `DeltaSource` is requested for the DeltaSource.md#getOffset[latest offset] and a DeltaSource.md#getBatch[batch (for the given starting and ending offsets)].
-
-[[VERSION]]
-`DeltaSourceOffset` uses the version `1`.
-
-== [[creating-instance]] Creating DeltaSourceOffset Instance
+## Creating Instance
 
 `DeltaSourceOffset` takes the following to be created:
 
-* [[sourceVersion]] Source Version (always <<VERSION, 1>>)
-* [[reservoirId]] Reservoir ID (aka DeltaSource.md#tableId[Table ID])
-* [[reservoirVersion]] Reservoir Version
-* [[index]] Index
-* [[isStartingVersion]] `isStartingVersion` flag
+* <span id="sourceVersion"> [Source Version](#VERSION)
+* <span id="reservoirId"> Reservoir ID (aka [Table ID](DeltaSource.md#tableId))
+* <span id="reservoirVersion"> Reservoir Version
+* <span id="index"> Index
+* <span id="isStartingVersion"> `isStartingVersion` flag
 
-== [[apply]] Creating DeltaSourceOffset Instance -- `apply` Utility
+`DeltaSourceOffset` is created (using [apply](#apply) utility) when:
 
-[source, scala]
-----
+* `DeltaSource` is requested for the [starting](DeltaSource.md#getStartingOffset) and [latest](DeltaSource.md#latestOffset) offsets
+
+## <span id="apply"> Creating DeltaSourceOffset
+
+```scala
+apply(
+  reservoirId: String,
+  offset: Offset): DeltaSourceOffset
 apply(
   reservoirId: String,
   reservoirVersion: Long,
   index: Long,
   isStartingVersion: Boolean): DeltaSourceOffset
-apply(
-  reservoirId: String,
-  offset: Offset): DeltaSourceOffset
-----
+```
 
-`apply` creates a new `DeltaSourceOffset` (for the <<VERSION, version>> and the given arguments) or converts the given `Offset` to a `DeltaSourceOffset`.
+`apply` creates a [DeltaSourceOffset](#creating-instance) (for the [version](#VERSION) and the given arguments) or converts a `SerializedOffset` to a `DeltaSourceOffset`.
 
-NOTE: `apply` is used when `DeltaSource` is requested for the DeltaSource.md#getOffset[latest offset] and a DeltaSource.md#getBatch[batch (for the given starting and ending offsets)].
+`apply` is used when:
 
-== [[json]] `json` Method
+* `DeltaSource` is requested for the [starting](DeltaSource.md#getStartingOffset) and [latest](DeltaSource.md#latestOffset) offsets
 
-[source, scala]
-----
-json: String
-----
+### <span id="validateSourceVersion"> validateSourceVersion
 
-NOTE: `json` is part of the `Offset` contract to serialize an offset to JSON.
-
-`json`...FIXME
-
-== [[validateSourceVersion]] `validateSourceVersion` Internal Utility
-
-[source, scala]
-----
+```scala
 validateSourceVersion(
   json: String): Unit
-----
+```
 
 `validateSourceVersion`...FIXME
 
-NOTE: `validateSourceVersion` is used when...FIXME
+## <span id="VERSION"> Source Version
+
+`DeltaSourceOffset` uses `1` for the version (and does not allow changing it).
+
+The version is used when:
+
+* [DeltaSourceOffset.apply](#apply) and [validateSourceVersion](#validateSourceVersion) utilities are used
