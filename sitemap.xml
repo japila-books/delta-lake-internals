@@ -412,11 +412,19 @@
      <lastmod>2021-05-22</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
-     <loc>https://books.japila.pl/delta-lake-internals/commands/DescribeDeltaDetailCommand/</loc>
+     <loc>https://books.japila.pl/delta-lake-internals/commands/describe-detail/</loc>
      <lastmod>2021-05-22</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
-     <loc>https://books.japila.pl/delta-lake-internals/commands/DescribeDeltaHistoryCommand/</loc>
+     <loc>https://books.japila.pl/delta-lake-internals/commands/describe-detail/DescribeDeltaDetailCommand/</loc>
+     <lastmod>2021-05-22</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
+     <loc>https://books.japila.pl/delta-lake-internals/commands/describe-history/</loc>
+     <lastmod>2021-05-22</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
+     <loc>https://books.japila.pl/delta-lake-internals/commands/describe-history/DescribeDeltaHistoryCommand/</loc>
      <lastmod>2021-05-22</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
