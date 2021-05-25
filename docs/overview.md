@@ -9,9 +9,6 @@ hide:
 
 As [it was well said](https://github.com/delta-io/delta/issues/467#issuecomment-696708455): _"Delta is a storage format while Spark is an execution engine...to separate storage from compute."_
 
-!!! important
-    As of 0.7.0 Delta Lake requires Spark 3. Please note that [Spark 3.1.1 is not yet supported](https://github.com/delta-io/delta/issues/594). Use Spark 3.0.2 instead.
-
 Delta Lake is a table format. It introduces [DeltaTable](DeltaTable.md) abstraction that is simply a [parquet table](DeltaFileFormat.md#fileFormat) with a [transactional log](DeltaLog.md).
 
 Changes to (the state of) a delta table are reflected as [actions](Action.md) and persisted to the transactional log (in [JSON format](Action.md#json)).

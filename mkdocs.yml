@@ -87,8 +87,8 @@ extra:
     structured_streaming: https://jaceklaskowski.github.io/spark-structured-streaming-book
     spark_core: https://books.japila.pl/apache-spark-internals
   delta:
-    version: 1.0.0-SNAPSHOT
-    github: https://github.com/delta-io/delta/blob/master
+    version: 1.0.0
+    github: https://github.com/delta-io/delta/blob/v1.0.0
     commit: https://github.com/delta-io/delta/commit
   hadoop:
     version: 3.2.0
