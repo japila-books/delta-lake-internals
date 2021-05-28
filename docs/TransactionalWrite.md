@@ -18,7 +18,7 @@ Used when:
 * `OptimisticTransactionImpl` is requested to [prepare a commit](OptimisticTransactionImpl.md#prepareCommit), [doCommit](OptimisticTransactionImpl.md#doCommit), [checkAndRetry](OptimisticTransactionImpl.md#checkAndRetry), and [perform post-commit operations](OptimisticTransactionImpl.md#postCommit) (and execute [delta log checkpoint](Checkpoints.md#checkpoint))
 * [ConvertToDeltaCommand](commands/convert/ConvertToDeltaCommand.md) is executed
 * `DeltaCommand` is requested to [buildBaseRelation](commands/DeltaCommand.md#buildBaseRelation) and [commitLarge](commands/DeltaCommand.md#commitLarge)
-* [MergeIntoCommand](commands/MergeIntoCommand.md) is executed
+* [MergeIntoCommand](commands/merge/MergeIntoCommand.md) is executed
 * `TransactionalWrite` is requested to [write a structured query out to a delta table](#writeFiles)
 * [GenerateSymlinkManifest](GenerateSymlinkManifest.md) post-commit hook is executed
 * `ImplicitMetadataOperation` is requested to [updateMetadata](ImplicitMetadataOperation.md#updateMetadata)
@@ -162,5 +162,5 @@ makeOutputNullable(
 
 `writeFiles` is used when:
 
-* [DeleteCommand](commands/delete/DeleteCommand.md), [MergeIntoCommand](commands/MergeIntoCommand.md), [UpdateCommand](commands/update/UpdateCommand.md), and [WriteIntoDelta](commands/WriteIntoDelta.md) commands are executed
+* [DeleteCommand](commands/delete/DeleteCommand.md), [MergeIntoCommand](commands/merge/MergeIntoCommand.md), [UpdateCommand](commands/update/UpdateCommand.md), and [WriteIntoDelta](commands/WriteIntoDelta.md) commands are executed
 * `DeltaSink` is requested to [add a streaming micro-batch](DeltaSink.md#addBatch)

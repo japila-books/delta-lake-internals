@@ -1,6 +1,6 @@
 # DeltaMergeMatchedActionBuilder
 
-**DeltaMergeMatchedActionBuilder** is a [builder interface](#operators) for [DeltaMergeBuilder.whenMatched](DeltaMergeBuilder.md#whenMatched) operator.
+`DeltaMergeMatchedActionBuilder` is a [builder interface](#operators) for [DeltaMergeBuilder.whenMatched](DeltaMergeBuilder.md#whenMatched) operator.
 
 ## Creating Instance
 
@@ -51,4 +51,19 @@ apply(
 
 `apply` creates a `DeltaMergeMatchedActionBuilder` (for the given parameters).
 
-`apply` is used when `DeltaMergeBuilder` is requested to [whenMatched](DeltaMergeBuilder.md#whenMatched).
+`apply` is used when:
+
+* `DeltaMergeBuilder` is requested to [whenMatched](DeltaMergeBuilder.md#whenMatched)
+
+## <span id="addUpdateClause"> addUpdateClause
+
+```scala
+addUpdateClause(
+  set: Map[String, Column]): DeltaMergeBuilder
+```
+
+`addUpdateClause`...FIXME
+
+`addUpdateClause` is used when:
+
+* `DeltaMergeMatchedActionBuilder` is requested to [update](#update) and [updateExpr](#updateExpr)

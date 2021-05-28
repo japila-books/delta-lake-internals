@@ -40,7 +40,7 @@ remove: RemoveFile
 
 `remove` is used when:
 
-* [MergeIntoCommand](commands/MergeIntoCommand.md) is executed
+* [MergeIntoCommand](commands/merge/MergeIntoCommand.md) is executed
 * `WriteIntoDelta` is requested to [write](commands/WriteIntoDelta.md#write) (with `Overwrite` mode)
 * `DeltaSink` is requested to [add a streaming micro-batch](DeltaSink.md#addBatch) (with `Complete` output mode)
 

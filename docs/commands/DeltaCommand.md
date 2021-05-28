@@ -7,7 +7,7 @@
 * [AlterDeltaTableCommand](AlterDeltaTableCommand.md)
 * [ConvertToDeltaCommand](convert/ConvertToDeltaCommand.md)
 * [DeleteCommand](delete/DeleteCommand.md)
-* [MergeIntoCommand](MergeIntoCommand.md)
+* [MergeIntoCommand](merge/MergeIntoCommand.md)
 * [UpdateCommand](update/UpdateCommand.md)
 * [VacuumCommandImpl](vacuum/VacuumCommandImpl.md)
 * [WriteIntoDelta](WriteIntoDelta.md)
@@ -102,7 +102,7 @@ getTouchedFile(
 
 * `DeltaCommand` is requested to [removeFilesFromPaths](#removeFilesFromPaths) and [create a HadoopFsRelation](#buildBaseRelation) (for [DeleteCommand](delete/DeleteCommand.md) and [UpdateCommand](update/UpdateCommand.md) commands)
 
-* [MergeIntoCommand](MergeIntoCommand.md) is executed
+* [MergeIntoCommand](merge/MergeIntoCommand.md) is executed
 
 ## <span id="isCatalogTable"> isCatalogTable Method
 

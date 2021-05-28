@@ -223,7 +223,7 @@ In the end, `withNewTransaction` makes the transaction [no longer active](Optimi
 
 `withNewTransaction` is used when:
 
-* [DeleteCommand](commands/delete/DeleteCommand.md), [MergeIntoCommand](commands/MergeIntoCommand.md), [UpdateCommand](commands/update/UpdateCommand.md), and [WriteIntoDelta](commands/WriteIntoDelta.md) commands are executed
+* [DeleteCommand](commands/delete/DeleteCommand.md), [MergeIntoCommand](commands/merge/MergeIntoCommand.md), [UpdateCommand](commands/update/UpdateCommand.md), and [WriteIntoDelta](commands/WriteIntoDelta.md) commands are executed
 
 * `DeltaSink` is requested to [add a streaming micro-batch](DeltaSink.md#addBatch)
 
@@ -481,7 +481,7 @@ In the end, `createDataFrame` creates a `DataFrame` with a logical query plan wi
 
 `createDataFrame` is used when:
 
-* [MergeIntoCommand](commands/MergeIntoCommand.md) is executed
+* [MergeIntoCommand](commands/merge/MergeIntoCommand.md) is executed
 * `DeltaSource` is requested for a [DataFrame for data between start and end offsets](DeltaSource.md#getBatch)
 
 ## <span id="minFileRetentionTimestamp"> `minFileRetentionTimestamp` Method

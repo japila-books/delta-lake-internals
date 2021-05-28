@@ -71,7 +71,7 @@ commit(
 * [ConvertToDeltaCommand](commands/convert/ConvertToDeltaCommand.md) command is executed
 * [CreateDeltaTableCommand](commands/CreateDeltaTableCommand.md) command is executed
 * [DeleteCommand](commands/delete/DeleteCommand.md) command is executed
-* [MergeIntoCommand](commands/MergeIntoCommand.md) command is executed
+* [MergeIntoCommand](commands/merge/MergeIntoCommand.md) command is executed
 * [UpdateCommand](commands/update/UpdateCommand.md) command is executed
 * [WriteIntoDelta](commands/WriteIntoDelta.md) command is executed
 * `DeltaSink` is requested to [addBatch](DeltaSink.md#addBatch)
@@ -592,5 +592,5 @@ Internally, `filterFiles` requests the [Snapshot](#snapshot) for the [filesForSc
 
 * [ActiveOptimisticTransactionRule](ActiveOptimisticTransactionRule.md) is executed
 * `DeltaSink` is requested to [add a streaming micro-batch](DeltaSink.md#addBatch) (with `Complete` output mode)
-* [DeleteCommand](commands/delete/DeleteCommand.md), [MergeIntoCommand](commands/MergeIntoCommand.md) and [UpdateCommand](commands/update/UpdateCommand.md), [WriteIntoDelta](commands/WriteIntoDelta.md) are executed
+* [DeleteCommand](commands/delete/DeleteCommand.md), [MergeIntoCommand](commands/merge/MergeIntoCommand.md) and [UpdateCommand](commands/update/UpdateCommand.md), [WriteIntoDelta](commands/WriteIntoDelta.md) are executed
 * [CreateDeltaTableCommand](commands/CreateDeltaTableCommand.md) is executed

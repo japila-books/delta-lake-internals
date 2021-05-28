@@ -88,7 +88,7 @@ Used when:
 
 ### Merge
 
-Recorded when a merge operation is committed to a Delta table (when [MergeIntoCommand](commands/MergeIntoCommand.md) is executed)
+Recorded when a merge operation is committed to a Delta table (when [MergeIntoCommand](commands/merge/MergeIntoCommand.md) is executed)
 
 ## Creating Instance
 

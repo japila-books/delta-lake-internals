@@ -14,7 +14,7 @@ canMergeSchema: Boolean
 
 Used when:
 
-* `MergeIntoCommand` command is [executed](commands/MergeIntoCommand.md#run)
+* `MergeIntoCommand` command is [executed](commands/merge/MergeIntoCommand.md#run)
 * `ImplicitMetadataOperation` is requested to [updateMetadata](#updateMetadata)
 
 ### <span id="canOverwriteSchema"> canOverwriteSchema
@@ -30,7 +30,7 @@ Used when:
 ## Implementations
 
 * [DeltaSink](DeltaSink.md)
-* [MergeIntoCommand](commands/MergeIntoCommand.md)
+* [MergeIntoCommand](commands/merge/MergeIntoCommand.md)
 * [WriteIntoDelta](commands/WriteIntoDelta.md)
 
 ## <span id="updateMetadata"> Updating Metadata
@@ -59,7 +59,7 @@ updateMetadata(
 
 `updateMetadata` is used when:
 
-* [MergeIntoCommand](commands/MergeIntoCommand.md) and [WriteIntoDelta](commands/WriteIntoDelta.md) commands are executed
+* [MergeIntoCommand](commands/merge/MergeIntoCommand.md) and [WriteIntoDelta](commands/WriteIntoDelta.md) commands are executed
 * `DeltaSink` is requested to [add a streaming micro-batch](DeltaSink.md#addBatch)
 
 ### <span id="normalizePartitionColumns"> Normalizing Partition Columns

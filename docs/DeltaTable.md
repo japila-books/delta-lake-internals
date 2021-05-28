@@ -202,7 +202,7 @@ merge(
   condition: String): DeltaMergeBuilder
 ```
 
-Creates a [DeltaMergeBuilder](commands/DeltaMergeBuilder.md)
+Creates a [DeltaMergeBuilder](commands/merge/DeltaMergeBuilder.md)
 
 ### <span id="toDF"> toDF
 

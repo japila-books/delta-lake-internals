@@ -1,11 +1,11 @@
 # MergeIntoCommand
 
-`MergeIntoCommand` is a [DeltaCommand](DeltaCommand.md) that represents a [DeltaMergeInto](DeltaMergeInto.md) logical command at execution.
+`MergeIntoCommand` is a [DeltaCommand](../DeltaCommand.md) that represents a [DeltaMergeInto](DeltaMergeInto.md) logical command at execution.
 
 `MergeIntoCommand` is a `RunnableCommand` logical operator ([Spark SQL]({{ book.spark_sql }}/logical-operators/RunnableCommand/)).
 
 !!! tip
-    Learn more in [Demo: Merge Operation](../demo/merge-operation.md).
+    Learn more in [Demo: Merge Operation](../../demo/merge-operation.md).
 
 ## Performance Metrics
 
@@ -35,7 +35,7 @@ Name     | web UI
 
 * [Source Data](#source)
 * <span id="target"> Target Data ([LogicalPlan]({{ book.spark_sql }}/logical-operators/LogicalPlan/))
-* <span id="targetFileIndex"> [TahoeFileIndex](../TahoeFileIndex.md)
+* <span id="targetFileIndex"> [TahoeFileIndex](../../TahoeFileIndex.md)
 * <span id="condition"> Condition Expression
 * <span id="matchedClauses"> Matched Clauses (`Seq[DeltaMergeIntoMatchedClause]`)
 * <span id="notMatchedClause"> Optional Non-Matched Clause (`Option[DeltaMergeIntoInsertClause]`)
@@ -43,7 +43,7 @@ Name     | web UI
 
 `MergeIntoCommand` is created when:
 
-* [PreprocessTableMerge](../PreprocessTableMerge.md) logical resolution rule is executed (on a [DeltaMergeInto](DeltaMergeInto.md) logical command)
+* [PreprocessTableMerge](../../PreprocessTableMerge.md) logical resolution rule is executed (on a [DeltaMergeInto](DeltaMergeInto.md) logical command)
 
 ## <span id="source"> Source Data (to Merge From)
 
@@ -65,12 +65,12 @@ The source `LogicalPlan` is used twice:
 targetDeltaLog: DeltaLog
 ```
 
-`targetDeltaLog` is the [DeltaLog](../TahoeFileIndex.md#deltaLog) of the [TahoeFileIndex](#targetFileIndex).
+`targetDeltaLog` is the [DeltaLog](../../TahoeFileIndex.md#deltaLog) of the [TahoeFileIndex](#targetFileIndex).
 
 `targetDeltaLog` is used for the following:
 
-* [Start a new transaction](../DeltaLog.md#withNewTransaction) when [executed](#run)
-* To access the [Data Path](../DeltaLog.md#dataPath) when [finding files to rewrite](#findTouchedFiles)
+* [Start a new transaction](../../DeltaLog.md#withNewTransaction) when [executed](#run)
+* To access the [Data Path](../../DeltaLog.md#dataPath) when [finding files to rewrite](#findTouchedFiles)
 
 ??? note "Lazy Value"
     `targetDeltaLog` is a Scala **lazy value** to guarantee that the code to initialize it is executed once only (when accessed for the first time) and cached afterwards.
@@ -84,18 +84,18 @@ run(
 
 `run` is part of the `RunnableCommand` ([Spark SQL]({{ book.spark_sql }}/logical-operators/RunnableCommand/)) abstraction.
 
-`run` requests the [target DeltaLog](#targetDeltaLog) to [start a new transaction](../DeltaLog.md#withNewTransaction).
+`run` requests the [target DeltaLog](#targetDeltaLog) to [start a new transaction](../../DeltaLog.md#withNewTransaction).
 
-With [spark.databricks.delta.schema.autoMerge.enabled](../DeltaSQLConf.md#DELTA_SCHEMA_AUTO_MIGRATE) configuration property enabled, `run` [updates the metadata](../ImplicitMetadataOperation.md#updateMetadata) (of the transaction).
+With [spark.databricks.delta.schema.autoMerge.enabled](../../DeltaSQLConf.md#DELTA_SCHEMA_AUTO_MIGRATE) configuration property enabled, `run` [updates the metadata](../../ImplicitMetadataOperation.md#updateMetadata) (of the transaction).
 
 <span id="run-deltaActions">
-`run` determines Delta actions ([RemoveFile](../RemoveFile.md)s and [AddFile](../AddFile.md)s).
+`run` determines Delta actions ([RemoveFile](../../RemoveFile.md)s and [AddFile](../../AddFile.md)s).
 
 !!! todo "Describe `deltaActions` part"
 
-With [spark.databricks.delta.history.metricsEnabled](../DeltaSQLConf.md#DELTA_HISTORY_METRICS_ENABLED) configuration property enabled, `run` requests the [current transaction](../OptimisticTransaction.md) to [register SQL metrics for the Delta operation](../SQLMetricsReporting.md#registerSQLMetrics).
+With [spark.databricks.delta.history.metricsEnabled](../../DeltaSQLConf.md#DELTA_HISTORY_METRICS_ENABLED) configuration property enabled, `run` requests the [current transaction](../../OptimisticTransaction.md) to [register SQL metrics for the Delta operation](../../SQLMetricsReporting.md#registerSQLMetrics).
 
-`run` requests the [current transaction](../OptimisticTransaction.md) to [commit](../OptimisticTransactionImpl.md#commit) (with the [Delta actions](#run-deltaActions) and `Merge` operation).
+`run` requests the [current transaction](../../OptimisticTransaction.md) to [commit](../../OptimisticTransactionImpl.md#commit) (with the [Delta actions](#run-deltaActions) and `Merge` operation).
 
 `run` records the Delta event.
 
@@ -204,7 +204,7 @@ findTouchedFiles(
 `findTouchedFiles` defines a nondeterministic UDF that adds the file names to the accumulator (_recordTouchedFileName_).
 
 <span id="findTouchedFiles-dataSkippedFiles">
-`findTouchedFiles` splits conjunctive predicates (`And` binary expressions) in the [condition](#condition) expression and collects the predicates that use the [target](#target)'s columns (_targetOnlyPredicates_). `findTouchedFiles` requests the given [OptimisticTransaction](../OptimisticTransaction.md) for the [files that match the target-only predicates](../OptimisticTransactionImpl.md#filterFiles) (and creates a `dataSkippedFiles` collection of [AddFile](../AddFile.md)s).
+`findTouchedFiles` splits conjunctive predicates (`And` binary expressions) in the [condition](#condition) expression and collects the predicates that use the [target](#target)'s columns (_targetOnlyPredicates_). `findTouchedFiles` requests the given [OptimisticTransaction](../../OptimisticTransaction.md) for the [files that match the target-only predicates](../../OptimisticTransactionImpl.md#filterFiles) (and creates a `dataSkippedFiles` collection of [AddFile](../../AddFile.md)s).
 
 !!! note
     This step looks similar to **filter predicate pushdown**.
@@ -300,11 +300,11 @@ findTouchedFiles: matched files:
 
 `findTouchedFiles` updates the following performance metrics:
 
-* [numTargetFilesBeforeSkipping](#numTargetFilesBeforeSkipping) and adds the [numOfFiles](#numOfFiles) of the [Snapshot](../OptimisticTransaction.md#snapshot) of the given [OptimisticTransaction](../OptimisticTransaction.md)
+* [numTargetFilesBeforeSkipping](#numTargetFilesBeforeSkipping) and adds the [numOfFiles](#numOfFiles) of the [Snapshot](../../OptimisticTransaction.md#snapshot) of the given [OptimisticTransaction](../../OptimisticTransaction.md)
 * [numTargetFilesAfterSkipping](#numTargetFilesAfterSkipping) and adds the number of the [files that match the target-only predicates](#findTouchedFiles-dataSkippedFiles)
 * [numTargetFilesRemoved](#numTargetFilesRemoved) and adds the number of the touched files
 
-In the end, `findTouchedFiles` gives the touched files (as [AddFile](../AddFile.md)s).
+In the end, `findTouchedFiles` gives the touched files (as [AddFile](../../AddFile.md)s).
 
 ### <span id="writeAllChanges"> Writing All Changes
 
@@ -345,7 +345,7 @@ writeAllChanges: join output plan:
 [outputDF.queryExecution]
 ```
 
-`writeAllChanges` requests the input [OptimisticTransaction](../OptimisticTransaction.md) to [writeFiles](../TransactionalWrite.md#writeFiles) (possibly repartitioning by the partition columns if table is partitioned and [spark.databricks.delta.merge.repartitionBeforeWrite.enabled](../DeltaSQLConf.md#MERGE_REPARTITION_BEFORE_WRITE) configuration property is enabled).
+`writeAllChanges` requests the input [OptimisticTransaction](../../OptimisticTransaction.md) to [writeFiles](../../TransactionalWrite.md#writeFiles) (possibly repartitioning by the partition columns if table is partitioned and [spark.databricks.delta.merge.repartitionBeforeWrite.enabled](../../DeltaSQLConf.md#MERGE_REPARTITION_BEFORE_WRITE) configuration property is enabled).
 
 `writeAllChanges` is used when `MergeIntoCommand` is requested to [run](#run).
 
@@ -357,12 +357,12 @@ buildTargetPlanWithFiles(
   files: Seq[AddFile]): LogicalPlan
 ```
 
-`buildTargetPlanWithFiles` creates a DataFrame to represent the given [AddFile](../AddFile.md)s to access the analyzed logical query plan. `buildTargetPlanWithFiles` requests the given [OptimisticTransaction](../OptimisticTransaction.md) for the [DeltaLog](../OptimisticTransaction.md#deltaLog) to [create a DataFrame](../DeltaLog.md#createDataFrame) (for the [Snapshot](../OptimisticTransaction.md#snapshot) and the given [AddFile](../AddFile.md)s).
+`buildTargetPlanWithFiles` creates a DataFrame to represent the given [AddFile](../../AddFile.md)s to access the analyzed logical query plan. `buildTargetPlanWithFiles` requests the given [OptimisticTransaction](../../OptimisticTransaction.md) for the [DeltaLog](../../OptimisticTransaction.md#deltaLog) to [create a DataFrame](../../DeltaLog.md#createDataFrame) (for the [Snapshot](../../OptimisticTransaction.md#snapshot) and the given [AddFile](../../AddFile.md)s).
 
 In the end, `buildTargetPlanWithFiles` creates a `Project` logical operator with `Alias` expressions so the output columns of the analyzed logical query plan (of the `DataFrame` of the `AddFiles`) reference the target's output columns (by name).
 
 !!! note
-    The output columns of the target delta table are associated with a [OptimisticTransaction](../OptimisticTransaction.md) as the [Metadata](../OptimisticTransactionImpl.md#metadata).
+    The output columns of the target delta table are associated with a [OptimisticTransaction](../../OptimisticTransaction.md) as the [Metadata](../../OptimisticTransactionImpl.md#metadata).
 
     ```scala
     deltaTxn.metadata.schema
@@ -398,4 +398,4 @@ Add the following line to `conf/log4j.properties`:
 log4j.logger.org.apache.spark.sql.delta.commands.MergeIntoCommand=ALL
 ```
 
-Refer to [Logging](../spark-logging.md).
+Refer to [Logging](../../spark-logging.md).

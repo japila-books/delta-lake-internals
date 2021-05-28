@@ -1,6 +1,6 @@
 # PreprocessTableMerge Logical Resolution Rule
 
-`PreprocessTableMerge` is a post-hoc logical resolution rule ([Spark SQL]({{ book.spark_sql }}/catalyst/Rule)) to [resolve DeltaMergeInto logical commands](#apply) (in a logical query plan) into [MergeIntoCommand](commands/MergeIntoCommand.md)s.
+`PreprocessTableMerge` is a post-hoc logical resolution rule ([Spark SQL]({{ book.spark_sql }}/catalyst/Rule)) to [resolve DeltaMergeInto logical commands](#apply) (in a logical query plan) into [MergeIntoCommand](commands/merge/MergeIntoCommand.md)s.
 
 `PreprocessTableMerge` is injected (_installed_) into a `SparkSession` using [DeltaSparkSessionExtension](DeltaSparkSessionExtension.md).
 
@@ -13,7 +13,7 @@
 `PreprocessTableMerge` is created when:
 
 * `DeltaSparkSessionExtension` is requested to [register Delta SQL support](DeltaSparkSessionExtension.md)
-* `DeltaMergeBuilder` is requested to [execute](commands/DeltaMergeBuilder.md#execute)
+* `DeltaMergeBuilder` is requested to [execute](commands/merge/DeltaMergeBuilder.md#execute)
 
 ## <span id="apply"> Executing Rule
 
@@ -24,6 +24,6 @@ apply(
 
 `apply` is part of the `Rule` ([Spark SQL]({{ book.spark_sql }}/catalyst/Rule#apply)) abstraction.
 
-In summary, `apply` resolves (_replaces_) [DeltaMergeInto](commands/DeltaMergeInto.md) logical commands (in a logical query plan) into corresponding [MergeIntoCommand](commands/MergeIntoCommand.md)s.
+In summary, `apply` resolves (_replaces_) [DeltaMergeInto](commands/merge/DeltaMergeInto.md) logical commands (in a logical query plan) into corresponding [MergeIntoCommand](commands/merge/MergeIntoCommand.md)s.
 
 Internally, `apply`...FIXME
