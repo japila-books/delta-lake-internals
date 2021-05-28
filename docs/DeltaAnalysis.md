@@ -42,6 +42,35 @@ apply(
 
 ### <span id="MergeIntoTable"> MergeIntoTable
 
+```scala
+MergeIntoTable(target, source, condition, matched, notMatched)
+```
+
+`apply` resolves `MergeIntoTable` logical command ([Spark SQL]({{ book.spark_sql }}/logical-operators/MergeIntoTable)) into a [DeltaMergeInto](commands/merge/DeltaMergeInto.md).
+
+`apply` creates the following for the `matched` actions:
+
+* [DeltaMergeIntoDeleteClause](commands/merge/DeltaMergeIntoDeleteClause.md)s for `DeleteAction`s
+* [DeltaMergeIntoUpdateClause](commands/merge/DeltaMergeIntoUpdateClause.md)s for `UpdateAction`s
+
+`apply` throws an `AnalysisException` for `InsertAction`s:
+
+```text
+Insert clauses cannot be part of the WHEN MATCHED clause in MERGE INTO.
+```
+
+`apply` creates the following for the `notMatched` actions:
+
+* [DeltaMergeIntoInsertClause](commands/merge/DeltaMergeIntoInsertClause.md)s for `InsertAction`s
+
+`apply` throws an `AnalysisException` for the other actions:
+
+```text
+[name] clauses cannot be part of the WHEN NOT MATCHED clause in MERGE INTO.
+```
+
+In the end, `apply` creates a [DeltaMergeInto](commands/merge/DeltaMergeInto.md#apply) logical command (with the matched and not-matched actions).
+
 ### <span id="OverwriteDelta"> OverwriteDelta
 
 ### <span id="UpdateTable"> UpdateTable

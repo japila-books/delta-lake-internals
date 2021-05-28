@@ -1,6 +1,6 @@
 # Merge Command
 
-Delta Lake supports merging delta tables using the following high-level operators:
+Delta Lake supports merging records into a delta table using the following high-level operators:
 
-* [MERGE](../../DeltaAnalysis.md#MergeIntoTable) SQL command
+* [MERGE INTO](../../DeltaAnalysis.md#MergeIntoTable) SQL command ([Spark SQL]({{ book.spark_sql }}/logical-operators/MergeIntoTable))
 * [DeltaTable.merge](../../DeltaTable.md#merge)
