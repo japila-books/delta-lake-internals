@@ -9,7 +9,9 @@
 * <span id="mergeBuilder"> [DeltaMergeBuilder](DeltaMergeBuilder.md)
 * <span id="matchCondition"> Optional match condition
 
-`DeltaMergeMatchedActionBuilder` is created when `DeltaMergeBuilder` is requested to [whenMatched](DeltaMergeBuilder.md#whenMatched) (using [apply](#apply) factory method).
+`DeltaMergeMatchedActionBuilder` is created when:
+
+* `DeltaMergeBuilder` is requested to [whenMatched](DeltaMergeBuilder.md#whenMatched) (using [apply](#apply) factory method)
 
 ## Operators
 

@@ -73,7 +73,7 @@ targetDeltaLog: DeltaLog
 * To access the [Data Path](../../DeltaLog.md#dataPath) when [finding files to rewrite](#findTouchedFiles)
 
 ??? note "Lazy Value"
-    `targetDeltaLog` is a Scala **lazy value** to guarantee that the code to initialize it is executed once only (when accessed for the first time) and cached afterwards.
+    `targetDeltaLog` is a Scala **lazy value** to guarantee that the code to initialize it is executed once only (when accessed for the first time) and cached afterwards.
 
 ## <span id="run"> Executing Command
 

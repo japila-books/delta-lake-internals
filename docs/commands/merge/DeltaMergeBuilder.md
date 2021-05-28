@@ -1,8 +1,6 @@
 # DeltaMergeBuilder
 
-**DeltaMergeBuilder** is a [builder interface](#operators) to describe how to merge data from a [source DataFrame](#source) into the [target](#targetTable) delta table (using [whenMatched](#whenMatched) and [whenNotMatched](#whenNotMatched) conditions).
-
-`DeltaMergeBuilder` is created using [DeltaTable.merge](../../DeltaTable.md#merge) operator.
+`DeltaMergeBuilder` is a [builder interface](#operators) to describe how to merge data from a [source DataFrame](#source) into the [target](#targetTable) delta table (using [whenMatched](#whenMatched) and [whenNotMatched](#whenNotMatched) conditions).
 
 In the end, `DeltaMergeBuilder` is supposed to be [executed](#execute) to take action. `DeltaMergeBuilder` creates a [DeltaMergeInto](DeltaMergeInto.md) logical command that is resolved to a [MergeIntoCommand](MergeIntoCommand.md) runnable logical command (using [PreprocessTableMerge](../../PreprocessTableMerge.md) logical resolution rule).
 
