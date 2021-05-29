@@ -165,7 +165,6 @@ nav:
       - SetTransaction: SetTransaction.md
       - SingleAction: SingleAction.md
     - FileNames: FileNames.md
-    - Logging: spark-logging.md
     - Delta Data Source:
       - DeltaDataSource: DeltaDataSource.md
       - Options:
@@ -194,7 +193,6 @@ nav:
       - PreprocessTableMerge: PreprocessTableMerge.md
       - PreprocessTableUpdate: PreprocessTableUpdate.md
       - ActiveOptimisticTransactionRule: ActiveOptimisticTransactionRule.md
-    - SQLMetricsReporting: SQLMetricsReporting.md
     - File Indices:
       - TahoeFileIndex: TahoeFileIndex.md
       - PinnedTahoeFileIndex: PinnedTahoeFileIndex.md
@@ -293,5 +291,10 @@ nav:
     - StateCache:
       - StateCache: StateCache.md
       - CachedDS: CachedDS.md
+  - Monitoring:
+    - DeltaProgressReporter: DeltaProgressReporter.md
+    - DeltaLogging: DeltaLogging.md
+    - Logging: spark-logging.md
+    - SQLMetricsReporting: SQLMetricsReporting.md
   - Contenders:
     - Contenders: contenders/index.md
