@@ -304,6 +304,14 @@
      <lastmod>2021-05-29</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
+     <loc>https://books.japila.pl/delta-lake-internals/DeltaTableBuilder/</loc>
+     <lastmod>2021-05-29</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
+     <loc>https://books.japila.pl/delta-lake-internals/DeltaColumnBuilder/</loc>
+     <lastmod>2021-05-29</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
      <loc>https://books.japila.pl/delta-lake-internals/exceptions/</loc>
      <lastmod>2021-05-29</lastmod>
      <changefreq>daily</changefreq>
