@@ -304,6 +304,46 @@
      <lastmod>2021-05-29</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
+     <loc>https://books.japila.pl/delta-lake-internals/exceptions/</loc>
+     <lastmod>2021-05-29</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
+     <loc>https://books.japila.pl/delta-lake-internals/exceptions/ConcurrentAppendException/</loc>
+     <lastmod>2021-05-29</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
+     <loc>https://books.japila.pl/delta-lake-internals/exceptions/ConcurrentDeleteDeleteException/</loc>
+     <lastmod>2021-05-29</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
+     <loc>https://books.japila.pl/delta-lake-internals/exceptions/ConcurrentDeleteReadException/</loc>
+     <lastmod>2021-05-29</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
+     <loc>https://books.japila.pl/delta-lake-internals/exceptions/ConcurrentTransactionException/</loc>
+     <lastmod>2021-05-29</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
+     <loc>https://books.japila.pl/delta-lake-internals/exceptions/ConcurrentWriteException/</loc>
+     <lastmod>2021-05-29</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
+     <loc>https://books.japila.pl/delta-lake-internals/exceptions/DeltaConcurrentModificationException/</loc>
+     <lastmod>2021-05-29</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
+     <loc>https://books.japila.pl/delta-lake-internals/DeltaErrors/</loc>
+     <lastmod>2021-05-29</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
+     <loc>https://books.japila.pl/delta-lake-internals/exceptions/MetadataChangedException/</loc>
+     <lastmod>2021-05-29</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
+     <loc>https://books.japila.pl/delta-lake-internals/exceptions/ProtocolChangedException/</loc>
+     <lastmod>2021-05-29</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
      <loc>https://books.japila.pl/delta-lake-internals/sql/</loc>
      <lastmod>2021-05-29</lastmod>
      <changefreq>daily</changefreq>
@@ -565,10 +605,6 @@
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://books.japila.pl/delta-lake-internals/AlterTableDropConstraintStatement/</loc>
-     <lastmod>2021-05-29</lastmod>
-     <changefreq>daily</changefreq>
-    </url><url>
-     <loc>https://books.japila.pl/delta-lake-internals/DeltaErrors/</loc>
      <lastmod>2021-05-29</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
