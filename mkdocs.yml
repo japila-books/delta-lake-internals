@@ -201,6 +201,8 @@ nav:
       - DeltaLogFileIndex: DeltaLogFileIndex.md
   - Public APIs:
     - DeltaTable: DeltaTable.md
+    - DeltaTableBuilder: DeltaTableBuilder.md
+    - DeltaColumnBuilder: DeltaColumnBuilder.md
     - Exceptions:
       - exceptions/index.md
       - ConcurrentAppendException: exceptions/ConcurrentAppendException.md
