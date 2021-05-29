@@ -199,8 +199,19 @@ nav:
       - TahoeBatchFileIndex: TahoeBatchFileIndex.md
       - TahoeLogFileIndex: TahoeLogFileIndex.md
       - DeltaLogFileIndex: DeltaLogFileIndex.md
-  - APIs:
+  - Public APIs:
     - DeltaTable: DeltaTable.md
+    - Exceptions:
+      - exceptions/index.md
+      - ConcurrentAppendException: exceptions/ConcurrentAppendException.md
+      - ConcurrentDeleteDeleteException: exceptions/ConcurrentDeleteDeleteException.md
+      - ConcurrentDeleteReadException: exceptions/ConcurrentDeleteReadException.md
+      - ConcurrentTransactionException: exceptions/ConcurrentTransactionException.md
+      - ConcurrentWriteException: exceptions/ConcurrentWriteException.md
+      - DeltaConcurrentModificationException: exceptions/DeltaConcurrentModificationException.md
+      - DeltaErrors: DeltaErrors.md
+      - MetadataChangedException: exceptions/MetadataChangedException.md
+      - ProtocolChangedException: exceptions/ProtocolChangedException.md
   - Delta SQL:
     - Delta SQL: sql/index.md
     - DeltaSqlParser: sql/DeltaSqlParser.md
@@ -280,7 +291,6 @@ nav:
   - Misc:
     - AlterTableAddConstraintStatement: AlterTableAddConstraintStatement.md
     - AlterTableDropConstraintStatement: AlterTableDropConstraintStatement.md
-    - DeltaErrors: DeltaErrors.md
     - DeltaFileOperations: DeltaFileOperations.md
     - DeltaInvariantCheckerExec: DeltaInvariantCheckerExec.md
     - DeltaTableOperations: DeltaTableOperations.md

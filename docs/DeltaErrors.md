@@ -1,5 +1,145 @@
 # DeltaErrors Utility
 
+## <span id="concurrentAppendException"> concurrentAppendException
+
+```scala
+concurrentAppendException(
+  conflictingCommit: Option[CommitInfo],
+  partition: String,
+  customRetryMsg: Option[String] = None): ConcurrentAppendException
+```
+
+`concurrentAppendException` creates a [ConcurrentAppendException](exceptions/ConcurrentAppendException.md) with the following message:
+
+```text
+Files were added to [partition] by a concurrent update. [customRetryMsg] | Please try the operation again.
+Conflicting commit: [commitinfo]
+Refer to [docs]/concurrency-control.html for more details.
+```
+
+`concurrentAppendException` is used when:
+
+* `OptimisticTransactionImpl` is requested to [check logical conflicts with concurrent updates](OptimisticTransactionImpl.md#checkForConflicts)
+
+## <span id="concurrentDeleteDeleteException"> concurrentDeleteDeleteException
+
+```scala
+concurrentDeleteDeleteException(
+  conflictingCommit: Option[CommitInfo],
+  file: String): ConcurrentDeleteDeleteException
+```
+
+`concurrentDeleteDeleteException` creates a [ConcurrentDeleteDeleteException](exceptions/ConcurrentDeleteDeleteException.md) with the following message:
+
+```text
+This transaction attempted to delete one or more files that were deleted (for example [file]) by a concurrent update. Please try the operation again.
+Conflicting commit: [commitinfo]
+Refer to [docs]/concurrency-control.html for more details.
+```
+
+`concurrentDeleteDeleteException` is used when:
+
+* `OptimisticTransactionImpl` is requested to [check for logical conflicts with concurrent updates](OptimisticTransactionImpl.md#checkForConflicts)
+
+## <span id="concurrentDeleteReadException"> concurrentDeleteReadException
+
+```scala
+concurrentDeleteReadException(
+  conflictingCommit: Option[CommitInfo],
+  file: String): ConcurrentDeleteReadException
+```
+
+`concurrentDeleteReadException` creates a [ConcurrentDeleteReadException](exceptions/ConcurrentDeleteReadException.md) with the following message:
+
+```text
+This transaction attempted to read one or more files that were deleted (for example [file]) by a concurrent update. Please try the operation again.
+Conflicting commit: [commitinfo]
+Refer to [docs]/concurrency-control.html for more details.
+```
+
+`concurrentDeleteReadException` is used when:
+
+* `OptimisticTransactionImpl` is requested to [check for logical conflicts with concurrent updates](OptimisticTransactionImpl.md#checkForConflicts)
+
+## <span id="concurrentTransactionException"> concurrentTransactionException
+
+```scala
+concurrentTransactionException(
+  conflictingCommit: Option[CommitInfo]): ConcurrentTransactionException
+```
+
+`concurrentTransactionException` creates a [ConcurrentTransactionException](exceptions/ConcurrentTransactionException.md) with the following message:
+
+```text
+This error occurs when multiple streaming queries are using the same checkpoint to write into this table.
+Did you run multiple instances of the same streaming query at the same time?
+Conflicting commit: [commitinfo]
+Refer to [docs]/concurrency-control.html for more details.
+```
+
+`concurrentTransactionException` is used when:
+
+* `OptimisticTransactionImpl` is requested to [check for logical conflicts with concurrent updates](OptimisticTransactionImpl.md#checkForConflicts)
+
+## <span id="concurrentWriteException"> concurrentWriteException
+
+```scala
+concurrentWriteException(
+  conflictingCommit: Option[CommitInfo]): ConcurrentWriteException
+```
+
+`concurrentWriteException` creates a [ConcurrentWriteException](exceptions/ConcurrentWriteException.md) with the following message:
+
+```text
+A concurrent transaction has written new data since the current transaction read the table. Please try the operation again.
+Conflicting commit: [commitinfo]
+Refer to [docs]/concurrency-control.html for more details.
+```
+
+`concurrentWriteException` is used when:
+
+* [Convert to Delta](commands/convert/index.md) command is executed (and `DeltaCommand` is requested to [commitLarge](commands/DeltaCommand.md#commitLarge))
+
+## <span id="metadataChangedException"> metadataChangedException
+
+```scala
+metadataChangedException(
+  conflictingCommit: Option[CommitInfo]): MetadataChangedException
+```
+
+`metadataChangedException` creates a [MetadataChangedException](exceptions/MetadataChangedException.md) with the following message:
+
+```text
+The metadata of the Delta table has been changed by a concurrent update. Please try the operation again.
+Conflicting commit: [commitinfo]
+Refer to [docs]/concurrency-control.html for more details.
+```
+
+`metadataChangedException` is used when:
+
+* `OptimisticTransactionImpl` is requested to [check for logical conflicts with concurrent updates](OptimisticTransactionImpl.md#checkForConflicts)
+
+## <span id="protocolChangedException"> protocolChangedException
+
+```scala
+protocolChangedException(
+  conflictingCommit: Option[CommitInfo]): ProtocolChangedException
+```
+
+`protocolChangedException` creates a [ProtocolChangedException](exceptions/ProtocolChangedException.md) with the following message:
+
+```text
+The protocol version of the Delta table has been changed by a concurrent update.
+[additionalInfo]
+Please try the operation again.
+Conflicting commit: [commitinfo]
+Refer to [docs]/concurrency-control.html for more details.
+```
+
+`protocolChangedException` is used when:
+
+* `OptimisticTransactionImpl` is requested to [check for logical conflicts with concurrent updates](OptimisticTransactionImpl.md#checkForConflicts)
+
 ## <span id="modifyAppendOnlyTableException"> modifyAppendOnlyTableException
 
 ```scala
