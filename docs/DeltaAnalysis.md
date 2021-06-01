@@ -46,7 +46,7 @@ apply(
 MergeIntoTable(target, source, condition, matched, notMatched)
 ```
 
-`apply` resolves `MergeIntoTable` logical command ([Spark SQL]({{ book.spark_sql }}/logical-operators/MergeIntoTable)) into a [DeltaMergeInto](commands/merge/DeltaMergeInto.md).
+`apply` resolves `MergeIntoTable` ([Spark SQL]({{ book.spark_sql }}/logical-operators/MergeIntoTable)) logical command into a [DeltaMergeInto](commands/merge/DeltaMergeInto.md).
 
 `apply` creates the following for the `matched` actions:
 

@@ -2,7 +2,7 @@
 
 `MergeIntoCommand` is a [DeltaCommand](../DeltaCommand.md) that represents a [DeltaMergeInto](DeltaMergeInto.md) logical command at execution.
 
-`MergeIntoCommand` is a `RunnableCommand` logical operator ([Spark SQL]({{ book.spark_sql }}/logical-operators/RunnableCommand/)).
+`MergeIntoCommand` is a `RunnableCommand` ([Spark SQL]({{ book.spark_sql }}/logical-operators/RunnableCommand/)) logical operator.
 
 !!! tip
     Learn more in [Demo: Merge Operation](../../demo/merge-operation.md).
@@ -45,16 +45,16 @@ Name     | web UI
 
 * [PreprocessTableMerge](../../PreprocessTableMerge.md) logical resolution rule is executed (on a [DeltaMergeInto](DeltaMergeInto.md) logical command)
 
-## <span id="source"> Source Data (to Merge From)
+## <span id="source"> Source Data
 
-When [created](#creating-instance), `MergeIntoCommand` is given a `LogicalPlan` for the source data to merge from (referred to internally as _source_).
+When [created](#creating-instance), `MergeIntoCommand` is given a `LogicalPlan` ([Spark SQL]({{ book.spark_sql }}/logical-operators/LogicalPlan)) for the source data to merge from (internally referred to as _source_).
 
-The source `LogicalPlan` is used twice:
+The source is used twice:
 
 * Firstly, in one of the following:
     * An inner join (in [findTouchedFiles](#findTouchedFiles)) that is `count` in web UI
     * A leftanti join (in [writeInsertsOnlyWhenNoMatchedClauses](#writeInsertsOnlyWhenNoMatchedClauses))
-* Secondly, in rightOuter or fullOuter join (in [writeAllChanges](#writeAllChanges))
+* Secondly, in right or full outer join (in [writeAllChanges](#writeAllChanges))
 
 !!! tip
     Enable `DEBUG` logging level for [org.apache.spark.sql.delta.commands.MergeIntoCommand](#logging) logger to see the inner-workings of [writeAllChanges](#writeAllChanges).
@@ -65,7 +65,7 @@ The source `LogicalPlan` is used twice:
 targetDeltaLog: DeltaLog
 ```
 
-`targetDeltaLog` is the [DeltaLog](../../TahoeFileIndex.md#deltaLog) of the [TahoeFileIndex](#targetFileIndex).
+`targetDeltaLog` is the [DeltaLog](../../TahoeFileIndex.md#deltaLog) (of the [TahoeFileIndex](#targetFileIndex)) of the target delta table.
 
 `targetDeltaLog` is used for the following:
 

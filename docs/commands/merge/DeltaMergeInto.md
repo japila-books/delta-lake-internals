@@ -20,6 +20,10 @@ When created, `DeltaMergeInto` [verifies the actions](DeltaMergeIntoClause.md#ve
 * `DeltaMergeBuilder` is requested to [execute](DeltaMergeBuilder.md#execute)
 * [DeltaAnalysis](../../DeltaAnalysis.md) logical resolution rule is executed
 
+## <span id="PreprocessTableMerge"> PreprocessTableMerge
+
+`DeltaMergeInto` is resolved to [MergeIntoCommand](MergeIntoCommand.md) by [PreprocessTableMerge](../../PreprocessTableMerge.md) logical resolution rule.
+
 ## <span id="migrateSchema"> migrateSchema Flag
 
 `DeltaMergeInto` is given `migrateSchema` flag when [created](#creating-instance):
