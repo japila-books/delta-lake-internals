@@ -2,22 +2,28 @@
 
 `DeltaTableV2` is a logical representation of a writable Delta table.
 
-In Spark SQL 3's terms, `DeltaTableV2` is a `Table` ([Spark SQL]({{ book.spark_sql }}/connector/catalog/Table/)) that `SupportsWrite` ([Spark SQL]({{ book.spark_sql }}/connector/catalog/SupportsWrite/)).
+In Spark SQL 3's terms, `DeltaTableV2` is a `Table` ([Spark SQL]({{ book.spark_sql }}/connector/Table)) that `SupportsWrite` ([Spark SQL]({{ book.spark_sql }}/connector/SupportsWrite)).
 
 ## Creating Instance
 
 `DeltaTableV2` takes the following to be created:
 
-* <span id="spark"> `SparkSession`
-* <span id="path"> Hadoop Path
+* <span id="spark"> `SparkSession` ([Spark SQL]({{ book.spark_sql }}/SparkSession))
+* <span id="path"> Path ([Hadoop HDFS]({{ hadoop.api }}/org/apache/hadoop/fs/Path.html))
 * <span id="catalogTable"> Optional Catalog Metadata (`Option[CatalogTable]`)
 * <span id="tableIdentifier"> Optional Table ID (`Option[String]`)
 * Optional [DeltaTimeTravelSpec](#timeTravelOpt)
+* <span id="options"> Options (default: empty)
 
 `DeltaTableV2` is created when:
 
+* `DeltaTable` utility is used to [forPath](DeltaTable.md#forPath) and [forName](DeltaTable.md#forName)
 * `DeltaCatalog` is requested to [load a table](DeltaCatalog.md#loadTable)
 * `DeltaDataSource` is requested to [load a table](DeltaDataSource.md#getTable) or [create a table relation](DeltaDataSource.md#RelationProvider-createRelation)
+
+## <span id="V2TableWithV1Fallback"> V2TableWithV1Fallback
+
+`DeltaTableV2` is a `V2TableWithV1Fallback` ([Spark SQL]({{ book.spark_sql }}/connector/V2TableWithV1Fallback)).
 
 ## <span id="timeTravelOpt"> DeltaTimeTravelSpec
 
@@ -30,6 +36,50 @@ In Spark SQL 3's terms, `DeltaTableV2` is a `Table` ([Spark SQL]({{ book.spark_s
 * `DeltaDataSource` is requested for a [BaseRelation](DeltaDataSource.md#RelationProvider-createRelation)
 
 `DeltaTimeTravelSpec` is used for [timeTravelSpec](#timeTravelSpec).
+
+## <span id="properties"> Properties
+
+```scala
+properties(): Map[String, String]
+```
+
+`properties` is part of the `Table` ([Spark SQL]({{ book.spark_sql }}/connector/Table#properties)) abstraction.
+
+`properties` requests the [Snapshot](#snapshot) for the [table properties](Snapshot.md#getProperties) and adds the following:
+
+Name        | Value
+------------|----------
+ `provider` | `delta`
+ `location` | [path](#path)
+ `comment`  | [description](Metadata.md#description) (of the [Metadata](Snapshot.md#metadata)) if available
+ `Type`     | table type of the [CatalogTable](#catalogTable) if available
+
+## <span id="capabilities"> Table Capabilities
+
+```scala
+capabilities(): Set[TableCapability]
+```
+
+`capabilities` is part of the `Table` ([Spark SQL]({{ book.spark_sql }}/connector/Table#capabilities)) abstraction.
+
+`capabilities` is the following:
+
+* `ACCEPT_ANY_SCHEMA` ([Spark SQL]({{ book.spark_sql }}/connector/TableCapability#ACCEPT_ANY_SCHEMA))
+* `BATCH_READ` ([Spark SQL]({{ book.spark_sql }}/connector/TableCapability#BATCH_READ))
+* `V1_BATCH_WRITE` ([Spark SQL]({{ book.spark_sql }}/connector/TableCapability#V1_BATCH_WRITE))
+* `OVERWRITE_BY_FILTER` ([Spark SQL]({{ book.spark_sql }}/connector/TableCapability#OVERWRITE_BY_FILTER))
+* `TRUNCATE` ([Spark SQL]({{ book.spark_sql }}/connector/TableCapability#TRUNCATE))
+
+## <span id="newWriteBuilder"> Creating WriteBuilder
+
+```scala
+newWriteBuilder(
+  info: LogicalWriteInfo): WriteBuilder
+```
+
+`newWriteBuilder` is part of the `SupportsWrite` ([Spark SQL]({{ book.spark_sql }}/connector/SupportsWrite#newWriteBuilder)) abstraction.
+
+`newWriteBuilder` creates a [WriteIntoDeltaBuilder](WriteIntoDeltaBuilder.md) (for the [DeltaLog](#deltaLog) and the options from the `LogicalWriteInfo`).
 
 ## <span id="snapshot"> Snapshot
 

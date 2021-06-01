@@ -203,6 +203,22 @@ emptyActions: Dataset[SingleAction]
 
 `emptyActions` is an empty dataset of [SingleActions](SingleAction.md) for [loadActions](#loadActions) (and `InitialSnapshot`'s `state`).
 
+## <span id="getProperties"> Table Properties
+
+```scala
+getProperties: mutable.HashMap[String, String]
+```
+
+`getProperties` returns the following:
+
+* [Configuration](Metadata.md#configuration) (of the [Metadata](#metadata)) without `path`
+* [delta.minReaderVersion](Protocol.md#MIN_READER_VERSION_PROP) to be the [minReaderVersion](Protocol.md#minReaderVersion) (of the [Protocol](#protocol))
+* [delta.minWriterVersion](Protocol.md#MIN_WRITER_VERSION_PROP) to be the [minWriterVersion](Protocol.md#minWriterVersion) (of the [Protocol](#protocol))
+
+`getProperties` is used when:
+
+* `DeltaTableV2` is requested for the [table properties](DeltaTableV2.md#properties)
+
 ## <span id="fileIndices"> fileIndices
 
 ```scala

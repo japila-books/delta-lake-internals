@@ -91,12 +91,18 @@ In the end, DeltaDataSource creates a [DeltaSink](DeltaSink.md).
 getTable(
   schema: StructType,
   partitioning: Array[Transform],
-  properties: java.util.Map[String, String]): Table
+  properties: Map[String, String]): Table
 ```
 
-`getTable`...FIXME
+`getTable` is part of the `TableProvider` ([Spark SQL]({{ book.spark_sql }}/connector/TableProvider#getTable)) abstraction.
 
-`getTable` is part of the `TableProvider` (Spark SQL 3.0.0) abstraction.
+`getTable` takes the `path` option (from the `properties`) and creates a [DeltaTableV2](DeltaTableV2.md).
+
+`getTable` throws an `IllegalArgumentException` when `path` option is not specified:
+
+```text
+'path' is not specified
+```
 
 ## Utilities
 
