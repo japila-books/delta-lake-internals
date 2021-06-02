@@ -12,7 +12,7 @@ Use [DescribeDeltaDetailCommand](commands/describe-detail/DescribeDeltaDetailCom
 * <span id="name"> Name (default: `null`)
 * <span id="description"> Description (default: `null`)
 * <span id="format"> Format (default: empty)
-* <span id="schemaString"> Schema (default: `null`)
+* <span id="schemaString"><span id="schema"> Schema (default: `null`)
 * <span id="partitionColumns"> Partition Columns (default: `Nil`)
 * <span id="configuration"> Table Configuration (default: `Map.empty`)
 * <span id="createdTime"> Created Time (default: current time)

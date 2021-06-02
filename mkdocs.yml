@@ -201,6 +201,8 @@ nav:
       - TahoeLogFileIndex: TahoeLogFileIndex.md
       - DeltaLogFileIndex: DeltaLogFileIndex.md
     - GeneratedColumn: GeneratedColumn.md
+    - Constraint: Constraint.md
+    - DeltaInvariantCheckerStrategy: DeltaInvariantCheckerStrategy.md
   - Public APIs:
     - DeltaTable: DeltaTable.md
     - DeltaTableBuilder: DeltaTableBuilder.md
