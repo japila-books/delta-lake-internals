@@ -23,13 +23,13 @@ import io.delta.tables.DeltaColumnBuilder
 
 ## Operators
 
-### <span id="build"> build
+### <span id="build"> Building StructField
 
 ```scala
 build(): StructField
 ```
 
-`StructField` ([Spark SQL]({{ book.spark_sql }}/StructField))
+Create a `StructField` ([Spark SQL]({{ book.spark_sql }}/types/StructField))
 
 ### <span id="comment"> comment
 
@@ -54,9 +54,21 @@ generatedAlwaysAs(
   expr: String): DeltaColumnBuilder
 ```
 
+Registers the [Generation Expression](#generationExpr) of this field
+
 ### <span id="nullable"> nullable
 
 ```scala
 nullable(
   nullable: Boolean): DeltaColumnBuilder
 ```
+
+## <span id="generationExpr"> Generation Expression
+
+```scala
+generationExpr: Option[String] = None
+```
+
+`DeltaColumnBuilder` uses `generationExpr` internal registry for the [generatedAlwaysAs](#generatedAlwaysAs) expression.
+
+When requested to [build a StructField](#build), `DeltaColumnBuilder` registers it under [delta.generationExpression](DeltaSourceUtils.md#GENERATION_EXPRESSION_METADATA_KEY) key in the metadata (of the field).

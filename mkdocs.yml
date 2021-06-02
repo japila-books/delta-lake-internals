@@ -178,6 +178,7 @@ nav:
         - DeltaSource: DeltaSource.md
         - DeltaSourceOffset: DeltaSourceOffset.md
         - DeltaSourceSnapshot: DeltaSourceSnapshot.md
+        - DeltaSourceUtils: DeltaSourceUtils.md
         - SnapshotIterator: SnapshotIterator.md
         - AdmissionLimits: AdmissionLimits.md
       - DeltaSink: DeltaSink.md
@@ -199,6 +200,7 @@ nav:
       - TahoeBatchFileIndex: TahoeBatchFileIndex.md
       - TahoeLogFileIndex: TahoeLogFileIndex.md
       - DeltaLogFileIndex: DeltaLogFileIndex.md
+    - GeneratedColumn: GeneratedColumn.md
   - Public APIs:
     - DeltaTable: DeltaTable.md
     - DeltaTableBuilder: DeltaTableBuilder.md
