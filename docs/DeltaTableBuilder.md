@@ -47,6 +47,11 @@ addColumn(
   nullable: Boolean): DeltaTableBuilder
 addColumn(
   col: StructField): DeltaTableBuilder
+```
+
+### <span id="addColumns"> addColumns
+
+```scala
 addColumns(
   cols: StructType): DeltaTableBuilder
 ```
