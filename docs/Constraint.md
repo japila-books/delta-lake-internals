@@ -1,3 +1,0 @@
-# Constraint
-
-`Constraint` is...FIXME

@@ -156,6 +156,23 @@ This table is configured to only allow appends. If you would like to permit upda
 
 * `DeltaLog` is requested to [assertRemovable](DeltaLog.md#assertRemovable)
 
+## <span id="notNullColumnMissingException"> notNullColumnMissingException
+
+```scala
+notNullColumnMissingException(
+  constraint: Constraints.NotNull): Throwable
+```
+
+`notNullColumnMissingException` creates a [InvariantViolationException](constraints/InvariantViolationException.md) with the following error message:
+
+```text
+Column [name], which has a NOT NULL constraint, is missing from the data being written into the table.
+```
+
+`notNullColumnMissingException` is used when:
+
+* `DeltaInvariantCheckerExec` utility is used to [buildInvariantChecks](constraints/DeltaInvariantCheckerExec.md#buildInvariantChecks)
+
 ## <span id="postCommitHookFailedException"> Reporting Post-Commit Hook Failure
 
 ```scala

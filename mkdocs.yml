@@ -199,8 +199,16 @@ nav:
       - TahoeLogFileIndex: TahoeLogFileIndex.md
       - DeltaLogFileIndex: DeltaLogFileIndex.md
     - GeneratedColumn: GeneratedColumn.md
-    - Constraint: Constraint.md
-    - DeltaInvariantCheckerStrategy: DeltaInvariantCheckerStrategy.md
+    - Constraints:
+      - constraints/index.md
+      - CheckDeltaInvariant: constraints/CheckDeltaInvariant.md
+      - Constraint: constraints/Constraint.md
+      - Constraints: constraints/Constraints.md
+      - DeltaInvariantCheckerExec: constraints/DeltaInvariantCheckerExec.md
+      - Invariant: constraints/Invariant.md
+      - Invariants: constraints/Invariants.md
+      - InvariantViolationException: constraints/InvariantViolationException.md
+      - DeltaInvariantCheckerStrategy: constraints/DeltaInvariantCheckerStrategy.md
   - Public APIs:
     - DeltaTable: DeltaTable.md
     - DeltaTableBuilder: DeltaTableBuilder.md
@@ -296,11 +304,9 @@ nav:
     - AlterTableAddConstraintStatement: AlterTableAddConstraintStatement.md
     - AlterTableDropConstraintStatement: AlterTableDropConstraintStatement.md
     - DeltaFileOperations: DeltaFileOperations.md
-    - DeltaInvariantCheckerExec: DeltaInvariantCheckerExec.md
     - DeltaTableOperations: DeltaTableOperations.md
     - DeltaTableUtils: DeltaTableUtils.md
     - ImplicitMetadataOperation: ImplicitMetadataOperation.md
-    - Invariants: Invariants.md
     - SchemaUtils: SchemaUtils.md
     - StateCache:
       - StateCache: StateCache.md
