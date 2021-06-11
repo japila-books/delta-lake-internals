@@ -74,13 +74,9 @@ plugins:
   - macros
 
 extra:
-  social:
-    - icon: fontawesome/brands/github
-      link: https://github.com/jaceklaskowski
-    - icon: fontawesome/brands/twitter
-      link: https://twitter.com/jaceklaskowski
-    - icon: fontawesome/brands/linkedin
-      link: https://linkedin.com/in/jaceklaskowski
+  analytics:
+    provider: google
+    property: !!python/object/apply:os.getenv ["GOOGLE_ANALYTICS_KEY"]
   book:
     title: Delta Lake
     spark_sql: https://jaceklaskowski.github.io/mastering-spark-sql-book
@@ -100,13 +96,15 @@ extra:
   java:
     api: https://docs.oracle.com/en/java/javase/11/docs/api
   scala:
-    version: 2.12.10
     api: https://www.scala-lang.org/api/2.12.10
     docs: https://docs.scala-lang.org/
-
-google_analytics:
-  - !!python/object/apply:os.getenv ["GOOGLE_ANALYTICS_KEY"]
-  - auto
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/jaceklaskowski
+    - icon: fontawesome/brands/twitter
+      link: https://twitter.com/jaceklaskowski
+    - icon: fontawesome/brands/linkedin
+      link: https://linkedin.com/in/jaceklaskowski
 
 nav:
   - Home: index.md
