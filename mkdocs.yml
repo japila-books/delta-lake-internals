@@ -209,6 +209,7 @@ nav:
       - Constraints: constraints/Constraints.md
       - DeltaInvariantCheckerExec: constraints/DeltaInvariantCheckerExec.md
       - DeltaInvariantCheckerStrategy: constraints/DeltaInvariantCheckerStrategy.md
+      - DropConstraint: constraints/DropConstraint.md
       - Invariant: constraints/Invariant.md
       - Invariants: constraints/Invariants.md
       - InvariantViolationException: constraints/InvariantViolationException.md
@@ -234,16 +235,17 @@ nav:
   - Commands:
     - commands/index.md
     - DeltaCommand: commands/DeltaCommand.md
-    - Alter Table:
-      - AlterDeltaTableCommand: commands/AlterDeltaTableCommand.md
-      - AlterTableAddColumnsDeltaCommand: commands/AlterTableAddColumnsDeltaCommand.md
-      - AlterTableAddConstraintDeltaCommand: commands/AlterTableAddConstraintDeltaCommand.md
-      - AlterTableChangeColumnDeltaCommand: commands/AlterTableChangeColumnDeltaCommand.md
-      - AlterTableDropConstraintDeltaCommand: commands/AlterTableDropConstraintDeltaCommand.md
-      - AlterTableReplaceColumnsDeltaCommand: commands/AlterTableReplaceColumnsDeltaCommand.md
-      - AlterTableSetLocationDeltaCommand: commands/AlterTableSetLocationDeltaCommand.md
-      - AlterTableSetPropertiesDeltaCommand: commands/AlterTableSetPropertiesDeltaCommand.md
-      - AlterTableUnsetPropertiesDeltaCommand: commands/AlterTableUnsetPropertiesDeltaCommand.md
+    - Alter:
+      - commands/alter/index.md
+      - AlterDeltaTableCommand: commands/alter/AlterDeltaTableCommand.md
+      - AlterTableAddColumnsDeltaCommand: commands/alter/AlterTableAddColumnsDeltaCommand.md
+      - AlterTableAddConstraintDeltaCommand: commands/alter/AlterTableAddConstraintDeltaCommand.md
+      - AlterTableChangeColumnDeltaCommand: commands/alter/AlterTableChangeColumnDeltaCommand.md
+      - AlterTableDropConstraintDeltaCommand: commands/alter/AlterTableDropConstraintDeltaCommand.md
+      - AlterTableReplaceColumnsDeltaCommand: commands/alter/AlterTableReplaceColumnsDeltaCommand.md
+      - AlterTableSetLocationDeltaCommand: commands/alter/AlterTableSetLocationDeltaCommand.md
+      - AlterTableSetPropertiesDeltaCommand: commands/alter/AlterTableSetPropertiesDeltaCommand.md
+      - AlterTableUnsetPropertiesDeltaCommand: commands/alter/AlterTableUnsetPropertiesDeltaCommand.md
     - Convert to Delta:
       - commands/convert/index.md
       - ConvertToDeltaCommand: commands/convert/ConvertToDeltaCommand.md

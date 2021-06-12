@@ -1,3 +1,0 @@
-# AlterTableAddConstraintDeltaCommand
-
-`AlterTableAddConstraintDeltaCommand` is...FIXME

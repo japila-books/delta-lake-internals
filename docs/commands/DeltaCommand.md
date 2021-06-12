@@ -4,7 +4,7 @@
 
 ## Implementations
 
-* [AlterDeltaTableCommand](AlterDeltaTableCommand.md)
+* [AlterDeltaTableCommand](alter/AlterDeltaTableCommand.md)
 * [ConvertToDeltaCommand](convert/ConvertToDeltaCommand.md)
 * [DeleteCommand](delete/DeleteCommand.md)
 * [MergeIntoCommand](merge/MergeIntoCommand.md)

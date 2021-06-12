@@ -13,12 +13,16 @@ ALTER TABLE table
 ADD CONSTRAINT name constraint
 ```
 
+Creates a [AlterTableAddConstraintStatement](../constraints/AlterTableAddConstraintStatement.md)
+
 ## <span id="ALTER-TABLE-DROP-CONSTRAINT"> ALTER TABLE DROP CONSTRAINT
 
 ```text
 ALTER TABLE table
 DROP CONSTRAINT (IF EXISTS)? name
 ```
+
+Creates a [AlterTableDropConstraintStatement](../constraints/AlterTableDropConstraintStatement.md)
 
 ## <span id="CONVERT-TO-DELTA"> CONVERT TO DELTA
 

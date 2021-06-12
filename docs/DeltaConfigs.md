@@ -189,7 +189,7 @@ normalizeConfigKeys(
 
 `normalizeConfigKeys` is used when:
 
-* [AlterTableUnsetPropertiesDeltaCommand](commands/AlterTableUnsetPropertiesDeltaCommand.md) is executed
+* [AlterTableUnsetPropertiesDeltaCommand](commands/alter/AlterTableUnsetPropertiesDeltaCommand.md) is executed
 
 ## <span id="sqlConfPrefix"><span id="spark.databricks.delta.properties.defaults"> spark.databricks.delta.properties.defaults Prefix
 

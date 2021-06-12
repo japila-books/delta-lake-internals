@@ -30,7 +30,7 @@ apply(
 
 ### <span id="AlterTableDropConstraintStatement"> AlterTableDropConstraintStatement
 
-`apply` creates an `AlterTable` ([Spark SQL]({{ book.spark_sql }}/logical-operators/AlterTable)) logical command with an `DropConstraint` table change.
+`apply` creates an `AlterTable` ([Spark SQL]({{ book.spark_sql }}/logical-operators/AlterTable)) logical command with an [DropConstraint](constraints/DropConstraint.md) table change.
 
 ### <span id="AppendDelta"> AppendDelta
 

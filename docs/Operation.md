@@ -55,7 +55,7 @@ Used when `Operation` is requested for [parameters with the values in JSON forma
 
 Used when:
 
-* [AlterTableSetPropertiesDeltaCommand](commands/AlterTableSetPropertiesDeltaCommand.md) is executed
+* [AlterTableSetPropertiesDeltaCommand](commands/alter/AlterTableSetPropertiesDeltaCommand.md) is executed
 
 ### <span id="StreamingUpdate"> StreamingUpdate
 

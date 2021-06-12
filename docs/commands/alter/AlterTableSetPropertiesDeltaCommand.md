@@ -8,9 +8,9 @@
 
 `AlterTableSetPropertiesDeltaCommand` takes the following to be created:
 
-* <span id="table"> [DeltaTableV2](../DeltaTableV2.md)
+* <span id="table"> [DeltaTableV2](../../DeltaTableV2.md)
 * <span id="configuration"> Configuration (`Map[String, String]`)
 
 `AlterTableSetPropertiesDeltaCommand` is created when:
 
-* `DeltaCatalog` is requested to [alterTable](../DeltaCatalog.md#alterTable)
+* `DeltaCatalog` is requested to [alterTable](../../DeltaCatalog.md#alterTable)

@@ -71,7 +71,7 @@ forTable(
 
 `forTable` is used when:
 
-* [AlterTableSetLocationDeltaCommand](commands/AlterTableSetLocationDeltaCommand.md), [ConvertToDeltaCommand](commands/convert/ConvertToDeltaCommand.md), [VacuumTableCommand](commands/vacuum/VacuumTableCommand.md), [CreateDeltaTableCommand](commands/CreateDeltaTableCommand.md), [DeltaGenerateCommand](commands/generate/DeltaGenerateCommand.md), [DescribeDeltaDetailCommand](commands/describe-detail/DescribeDeltaDetailCommand.md), [DescribeDeltaHistoryCommand](commands/describe-history/DescribeDeltaHistoryCommand.md) commands are executed
+* [AlterTableSetLocationDeltaCommand](commands/alter/AlterTableSetLocationDeltaCommand.md), [ConvertToDeltaCommand](commands/convert/ConvertToDeltaCommand.md), [VacuumTableCommand](commands/vacuum/VacuumTableCommand.md), [CreateDeltaTableCommand](commands/CreateDeltaTableCommand.md), [DeltaGenerateCommand](commands/generate/DeltaGenerateCommand.md), [DescribeDeltaDetailCommand](commands/describe-detail/DescribeDeltaDetailCommand.md), [DescribeDeltaHistoryCommand](commands/describe-history/DescribeDeltaHistoryCommand.md) commands are executed
 
 * `DeltaDataSource` is requested for the [source schema](DeltaDataSource.md#sourceSchema), a [source](DeltaDataSource.md#createSource), and a [relation](DeltaDataSource.md#createRelation)
 
@@ -242,7 +242,7 @@ startTransaction(): OptimisticTransaction
 
 * `DeltaLog` is requested to [upgradeProtocol](#upgradeProtocol)
 
-* `AlterDeltaTableCommand` is requested to [startTransaction](commands/AlterDeltaTableCommand.md#startTransaction)
+* `AlterDeltaTableCommand` is requested to [startTransaction](commands/alter/AlterDeltaTableCommand.md#startTransaction)
 
 * [ConvertToDeltaCommand](commands/convert/ConvertToDeltaCommand.md) and [CreateDeltaTableCommand](commands/CreateDeltaTableCommand.md) are executed
 
