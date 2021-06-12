@@ -466,51 +466,6 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://books.japila.pl/delta-lake-internals/commands/AlterDeltaTableCommand/</loc>
-         <lastmod>2021-06-12</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://books.japila.pl/delta-lake-internals/commands/AlterTableAddColumnsDeltaCommand/</loc>
-         <lastmod>2021-06-12</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://books.japila.pl/delta-lake-internals/commands/AlterTableAddConstraintDeltaCommand/</loc>
-         <lastmod>2021-06-12</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://books.japila.pl/delta-lake-internals/commands/AlterTableChangeColumnDeltaCommand/</loc>
-         <lastmod>2021-06-12</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://books.japila.pl/delta-lake-internals/commands/AlterTableDropConstraintDeltaCommand/</loc>
-         <lastmod>2021-06-12</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://books.japila.pl/delta-lake-internals/commands/AlterTableReplaceColumnsDeltaCommand/</loc>
-         <lastmod>2021-06-12</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://books.japila.pl/delta-lake-internals/commands/AlterTableSetLocationDeltaCommand/</loc>
-         <lastmod>2021-06-12</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://books.japila.pl/delta-lake-internals/commands/AlterTableSetPropertiesDeltaCommand/</loc>
-         <lastmod>2021-06-12</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://books.japila.pl/delta-lake-internals/commands/AlterTableUnsetPropertiesDeltaCommand/</loc>
-         <lastmod>2021-06-12</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/CreateDeltaTableCommand/</loc>
          <lastmod>2021-06-12</lastmod>
          <changefreq>daily</changefreq>
@@ -522,6 +477,56 @@
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/WriteIntoDelta/</loc>
+         <lastmod>2021-06-12</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://books.japila.pl/delta-lake-internals/commands/alter/</loc>
+         <lastmod>2021-06-12</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://books.japila.pl/delta-lake-internals/commands/alter/AlterDeltaTableCommand/</loc>
+         <lastmod>2021-06-12</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://books.japila.pl/delta-lake-internals/commands/alter/AlterTableAddColumnsDeltaCommand/</loc>
+         <lastmod>2021-06-12</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://books.japila.pl/delta-lake-internals/commands/alter/AlterTableAddConstraintDeltaCommand/</loc>
+         <lastmod>2021-06-12</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://books.japila.pl/delta-lake-internals/commands/alter/AlterTableChangeColumnDeltaCommand/</loc>
+         <lastmod>2021-06-12</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://books.japila.pl/delta-lake-internals/commands/alter/AlterTableDropConstraintDeltaCommand/</loc>
+         <lastmod>2021-06-12</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://books.japila.pl/delta-lake-internals/commands/alter/AlterTableReplaceColumnsDeltaCommand/</loc>
+         <lastmod>2021-06-12</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://books.japila.pl/delta-lake-internals/commands/alter/AlterTableSetLocationDeltaCommand/</loc>
+         <lastmod>2021-06-12</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://books.japila.pl/delta-lake-internals/commands/alter/AlterTableSetPropertiesDeltaCommand/</loc>
+         <lastmod>2021-06-12</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://books.japila.pl/delta-lake-internals/commands/alter/AlterTableUnsetPropertiesDeltaCommand/</loc>
          <lastmod>2021-06-12</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -742,6 +747,11 @@
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/constraints/DeltaInvariantCheckerStrategy/</loc>
+         <lastmod>2021-06-12</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://books.japila.pl/delta-lake-internals/constraints/DropConstraint/</loc>
          <lastmod>2021-06-12</lastmod>
          <changefreq>daily</changefreq>
     </url>
