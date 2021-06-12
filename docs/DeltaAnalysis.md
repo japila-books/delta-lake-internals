@@ -26,7 +26,7 @@ apply(
 
 ### <span id="AlterTableAddConstraintStatement"> AlterTableAddConstraintStatement
 
-`apply` creates an `AlterTable` ([Spark SQL]({{ book.spark_sql }}/logical-operators/AlterTable)) logical command with an `AddConstraint` table change.
+`apply` creates an `AlterTable` ([Spark SQL]({{ book.spark_sql }}/logical-operators/AlterTable)) logical command with an [AddConstraint](constraints/AddConstraint.md) table change.
 
 ### <span id="AlterTableDropConstraintStatement"> AlterTableDropConstraintStatement
 

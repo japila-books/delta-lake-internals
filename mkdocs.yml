@@ -201,14 +201,17 @@ nav:
     - GeneratedColumn: GeneratedColumn.md
     - Constraints:
       - constraints/index.md
+      - AddConstraint: constraints/AddConstraint.md
+      - AlterTableAddConstraintStatement: constraints/AlterTableAddConstraintStatement.md
+      - AlterTableDropConstraintStatement: constraints/AlterTableDropConstraintStatement.md
       - CheckDeltaInvariant: constraints/CheckDeltaInvariant.md
       - Constraint: constraints/Constraint.md
       - Constraints: constraints/Constraints.md
       - DeltaInvariantCheckerExec: constraints/DeltaInvariantCheckerExec.md
+      - DeltaInvariantCheckerStrategy: constraints/DeltaInvariantCheckerStrategy.md
       - Invariant: constraints/Invariant.md
       - Invariants: constraints/Invariants.md
       - InvariantViolationException: constraints/InvariantViolationException.md
-      - DeltaInvariantCheckerStrategy: constraints/DeltaInvariantCheckerStrategy.md
   - Public APIs:
     - DeltaTable: DeltaTable.md
     - DeltaTableBuilder: DeltaTableBuilder.md
@@ -301,8 +304,6 @@ nav:
     - Schema Evolution: demo/schema-evolution.md
     - User Metadata for Labelling Commits: demo/user-metadata-for-labelling-commits.md
   - Misc:
-    - AlterTableAddConstraintStatement: AlterTableAddConstraintStatement.md
-    - AlterTableDropConstraintStatement: AlterTableDropConstraintStatement.md
     - DeltaFileOperations: DeltaFileOperations.md
     - DeltaTableOperations: DeltaTableOperations.md
     - DeltaTableUtils: DeltaTableUtils.md
