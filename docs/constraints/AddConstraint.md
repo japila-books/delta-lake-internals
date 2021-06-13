@@ -15,4 +15,4 @@
 
 ## Query Execution
 
-`AddConstraint` is resolved to [AlterTableAddConstraintDeltaCommand](../commands/alter/AlterTableAddConstraintDeltaCommand.md) and immediately executed when `DeltaCatalog` is requested to [alterTable](../DeltaCatalog.md#alterTable).
+`AddConstraint` is resolved to [AlterTableAddConstraintDeltaCommand](../commands/alter/AlterTableAddConstraintDeltaCommand.md) and immediately executed when `DeltaCatalog` is requested to [alter a delta table](../DeltaCatalog.md#alterTable).

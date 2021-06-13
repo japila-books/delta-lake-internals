@@ -19,7 +19,9 @@ Used when:
 ## Implementations
 
 * [AlterTableAddColumnsDeltaCommand](AlterTableAddColumnsDeltaCommand.md)
+* [AlterTableAddConstraintDeltaCommand](AlterTableAddConstraintDeltaCommand.md)
 * [AlterTableChangeColumnDeltaCommand](AlterTableChangeColumnDeltaCommand.md)
+* [AlterTableDropConstraintDeltaCommand](AlterTableDropConstraintDeltaCommand.md)
 * [AlterTableReplaceColumnsDeltaCommand](AlterTableReplaceColumnsDeltaCommand.md)
 * [AlterTableSetLocationDeltaCommand](AlterTableSetLocationDeltaCommand.md)
 * [AlterTableSetPropertiesDeltaCommand](AlterTableSetPropertiesDeltaCommand.md)

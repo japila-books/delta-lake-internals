@@ -14,7 +14,7 @@ alterTable(
 
 `alterTable` is part of the `TableCatalog` ([Spark SQL]({{ book.spark_sql }}/connector/catalog/TableCatalog/#alterTable)) abstraction.
 
-`alterTable` tries to [load a table](#loadTable) and continues only when it is a [DeltaTableV2](DeltaTableV2.md). Otherwise, `alterTable` simply delegates to the parent `TableCatalog`.
+`alterTable` [loads the table](#loadTable) and continues for [DeltaTableV2](DeltaTableV2.md). Otherwise, `alterTable` delegates to the parent `TableCatalog`.
 
 `alterTable`...FIXME
 
