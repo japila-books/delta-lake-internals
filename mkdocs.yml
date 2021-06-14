@@ -198,7 +198,9 @@ nav:
       - TahoeBatchFileIndex: TahoeBatchFileIndex.md
       - TahoeLogFileIndex: TahoeLogFileIndex.md
       - DeltaLogFileIndex: DeltaLogFileIndex.md
-    - GeneratedColumn: GeneratedColumn.md
+    - Generated Columns:
+      - generated-columns/index.md
+      - GeneratedColumn: generated-columns/GeneratedColumn.md
     - Constraints:
       - constraints/index.md
       - AddConstraint: constraints/AddConstraint.md

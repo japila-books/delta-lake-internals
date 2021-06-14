@@ -12,9 +12,9 @@ getAll(
 
 `getAll` is used when:
 
-* `TransactionalWrite` is requested to [writeFiles](../TransactionalWrite.md#writeFiles)
+* `TransactionalWrite` is requested to [write data out](../TransactionalWrite.md#writeFiles)
 
-## <span id="getCheckConstraints"> Ezxtracting Check Constraints from Table Metadata
+## <span id="getCheckConstraints"> Extracting Check Constraints from Table Metadata
 
 ```scala
 getCheckConstraints(

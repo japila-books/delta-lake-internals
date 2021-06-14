@@ -22,8 +22,8 @@ For the columns themselves, `getFromSchema` creates [Check](Constraints.md#Check
 
 `getFromSchema` is used when:
 
-* `Protocol` utility is used to [requiredMinimumProtocol](../Protocol.md#requiredMinimumProtocol)
-* `Constraints` utility is used to [getAll](Constraints.md#getAll)
+* `Protocol` utility is used to [determine the required minimum protocol](../Protocol.md#requiredMinimumProtocol)
+* `Constraints` utility is used to [extract constraints from a table metadata](Constraints.md#getAll)
 
 ## <span id="Rule"> Rule
 

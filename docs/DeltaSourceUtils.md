@@ -6,5 +6,5 @@
 
 Used when:
 
-* [GeneratedColumn](GeneratedColumn.md) utility is used
+* [GeneratedColumn](generated-columns/GeneratedColumn.md) utility is used
 * _others_ (_less important_)

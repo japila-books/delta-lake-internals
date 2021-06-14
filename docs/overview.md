@@ -77,7 +77,7 @@ df.format("delta").mode("append").save(...)
 
 ## Generated Columns
 
-Delta Lake supports [Generated Columns](GeneratedColumn.md).
+Delta Lake supports [Generated Columns](generated-columns/GeneratedColumn.md).
 
 ## Table Constraints
 
