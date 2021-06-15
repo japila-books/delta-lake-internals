@@ -891,6 +891,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://books.japila.pl/delta-lake-internals/generated-columns/demo/</loc>
+         <lastmod>2021-06-15</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://books.japila.pl/delta-lake-internals/sql/</loc>
          <lastmod>2021-06-15</lastmod>
          <changefreq>daily</changefreq>
