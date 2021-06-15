@@ -24,7 +24,7 @@ The `_delta_log` directory is resolved (in the [DeltaLog.apply](#apply) utility)
 
 Once resolved and turned into a qualified path, the `_delta_log` directory is [cached](#deltaLogCache).
 
-## <span id="forTable"> DeltaLog.forTable Utility
+## <span id="forTable"> DeltaLog.forTable
 
 ```scala
 forTable(
@@ -312,7 +312,7 @@ tryUpdate(
 
 `tryUpdate`...FIXME
 
-## <span id="snapshot"> Current State Snapshot
+## <span id="snapshot"> Snapshot
 
 ```scala
 snapshot: Snapshot

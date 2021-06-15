@@ -49,12 +49,16 @@ addColumn(
   col: StructField): DeltaTableBuilder
 ```
 
+Adds a column (that could be defined using [DeltaColumnBuilder](DeltaColumnBuilder.md))
+
 ### <span id="addColumns"> addColumns
 
 ```scala
 addColumns(
   cols: StructType): DeltaTableBuilder
 ```
+
+Adds columns based on the given `StructType` ([Spark SQL]({{ book.spark_sql }}/types/StructType))
 
 ### <span id="comment"> comment
 

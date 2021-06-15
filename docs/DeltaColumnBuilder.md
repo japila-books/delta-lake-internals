@@ -23,13 +23,13 @@ import io.delta.tables.DeltaColumnBuilder
 
 ## Operators
 
-### <span id="build"> Building StructField
+### <span id="build"> build
 
 ```scala
 build(): StructField
 ```
 
-Create a `StructField` ([Spark SQL]({{ book.spark_sql }}/types/StructField))
+Creates a `StructField` ([Spark SQL]({{ book.spark_sql }}/types/StructField))
 
 ### <span id="comment"> comment
 

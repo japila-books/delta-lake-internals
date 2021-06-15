@@ -1,6 +1,6 @@
 # DeltaTable
 
-`DeltaTable` is the [management interface](#operators) of a delta table.
+`DeltaTable` is the [management interface](#operators) of delta tables.
 
 ## io.delta.tables Package
 
@@ -17,7 +17,7 @@ import io.delta.tables.DeltaTable
 * <span id="_df"> Table Data (`Dataset[Row]`)
 * <span id="table"> [DeltaTableV2](DeltaTableV2.md)
 
-`DeltaTable` is created using [DeltaTable.forPath](#forPath) or [DeltaTable.forName](#forName) utilities.
+`DeltaTable` is created using [DeltaTable.forPath](#forPath) and [DeltaTable.forName](#forName) utilities (and indirectly using [create](#create), [createIfNotExists](#createIfNotExists), [createOrReplace](#createOrReplace) and [replace](#replace)).
 
 ## <span id="deltaLog"> DeltaLog
 
