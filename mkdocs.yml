@@ -201,6 +201,7 @@ nav:
     - Generated Columns:
       - generated-columns/index.md
       - GeneratedColumn: generated-columns/GeneratedColumn.md
+      - Demo: generated-columns/demo.md
     - Constraints:
       - constraints/index.md
       - AddConstraint: constraints/AddConstraint.md
