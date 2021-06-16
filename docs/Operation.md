@@ -122,13 +122,15 @@ operationMetrics: Set[String]
 
 `operationMetrics` is used when `Operation` is requested to [transformMetrics](#transformMetrics).
 
-## <span id="transformMetrics"> transformMetrics
+## <span id="transformMetrics"> Transforming Performance Metrics
 
 ```scala
 transformMetrics(
   metrics: Map[String, SQLMetric]): Map[String, String]
 ```
 
-`transformMetrics` returns a collection of performance metrics (`SQLMetric`) and their values (as a text) that are defined as the [operationMetrics](#operationMetrics).
+`transformMetrics` returns a collection of `SQLMetric`s ([Spark SQL]({{ book.spark_sql }}/physical-operators/SQLMetric)) and their values (as text) that are defined as the [operationMetrics](#operationMetrics).
 
-`transformMetrics` is used when `SQLMetricsReporting` is requested to [getMetricsForOperation](SQLMetricsReporting.md#getMetricsForOperation).
+`transformMetrics` is used when:
+
+* `SQLMetricsReporting` is requested for [operation metrics](SQLMetricsReporting.md#getMetricsForOperation)

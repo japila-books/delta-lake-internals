@@ -1,6 +1,6 @@
 # SQLMetricsReporting
 
-`SQLMetricsReporting` is an extension for [OptimisticTransactionImpl](OptimisticTransactionImpl.md) to track SQL metrics of [Operations](Operation.md).
+`SQLMetricsReporting` is an extension for [OptimisticTransactionImpl](OptimisticTransactionImpl.md) to track [performance metrics](#operationSQLMetrics) of [Operation](Operation.md)s for reporting.
 
 ## Implementations
 
@@ -9,16 +9,19 @@
 ## <span id="operationSQLMetrics"> operationSQLMetrics Registry
 
 ```scala
-operationSQLMetrics(
-  spark: SparkSession,
-  metrics: Map[String, SQLMetric]): Unit
+operationSQLMetrics: Map[String, SQLMetric]
 ```
 
-`operationSQLMetrics`...FIXME
+`SQLMetricsReporting` uses `operationSQLMetrics` internal registry for `SQLMetric`s ([Spark SQL]({{ book.spark_sql }}/physical-operators/SQLMetric)) by their names.
 
-`operationSQLMetrics` is used when...FIXME
+`SQLMetric`s are [registered](#registerSQLMetrics) only when [spark.databricks.delta.history.metricsEnabled](DeltaSQLConf.md#DELTA_HISTORY_METRICS_ENABLED) configuration property is enabled.
 
-## <span id="registerSQLMetrics"> registerSQLMetrics
+`operationSQLMetrics` is used when `SQLMetricsReporting` is requested for the following:
+
+* [Operation Metrics](#getMetricsForOperation)
+* [getMetric](#getMetric)
+
+## <span id="registerSQLMetrics"> Registering SQLMetrics
 
 ```scala
 registerSQLMetrics(
@@ -26,9 +29,13 @@ registerSQLMetrics(
   metrics: Map[String, SQLMetric]): Unit
 ```
 
-`registerSQLMetrics`...FIXME
+`registerSQLMetrics` adds (_registers_) the given metrics to the [operationSQLMetrics](#operationSQLMetrics) internal registry only when [spark.databricks.delta.history.metricsEnabled](DeltaSQLConf.md#DELTA_HISTORY_METRICS_ENABLED) configuration property is enabled.
 
-`registerSQLMetrics` is used when...FIXME
+`registerSQLMetrics` is used when:
+
+* [DeleteCommand](commands/delete/DeleteCommand.md), [MergeIntoCommand](commands/merge/MergeIntoCommand.md), [UpdateCommand](commands/update/UpdateCommand.md) commands are executed
+* `TransactionalWrite` is requested to [writeFiles](TransactionalWrite.md#writeFiles)
+* `DeltaSink` is requested to [addBatch](DeltaSink.md#addBatch)
 
 ## <span id="getMetricsForOperation"> Operation Metrics
 
@@ -41,4 +48,17 @@ getMetricsForOperation(
 
 `getMetricsForOperation` is used when:
 
-* `OptimisticTransactionImpl` is requested to [getOperationMetrics](OptimisticTransactionImpl.md#getOperationMetrics)
+* `OptimisticTransactionImpl` is requested for [operation metrics](OptimisticTransactionImpl.md#getOperationMetrics)
+
+## <span id="getMetric"> Looking Up Operation Metric
+
+```scala
+getMetric(
+  name: String): Option[SQLMetric]
+```
+
+`getMetric` uses the [operationSQLMetrics](#operationSQLMetrics) registry to look up the `SQLMetric` by name.
+
+`getMetric` is used when:
+
+* [UpdateCommand](commands/update/UpdateCommand.md) is executed
