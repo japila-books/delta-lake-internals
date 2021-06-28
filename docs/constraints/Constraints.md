@@ -8,7 +8,7 @@ getAll(
   spark: SparkSession): Seq[Constraint]
 ```
 
-`getAll` extracts constraints from the given [metadata](#getCheckConstraints) and the associated [schema](Invariants.md#getFromSchema).
+`getAll` extracts [Constraint](Constraint.md)s from the given [metadata](#getCheckConstraints) and the associated [schema](Invariants.md#getFromSchema).
 
 `getAll` is used when:
 

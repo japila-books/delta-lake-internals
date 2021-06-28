@@ -71,17 +71,10 @@ hasWritten: Boolean = false
 
 ```scala
 writeFiles(
-  data: Dataset[_]): Seq[AddFile]
+  data: Dataset[_]): Seq[FileAction]
 writeFiles(
   data: Dataset[_],
-  writeOptions: Option[DeltaOptions]): Seq[AddFile]
-writeFiles(
-  data: Dataset[_],
-  isOptimize: Boolean): Seq[AddFile]
-writeFiles(
-  data: Dataset[_],
-  writeOptions: Option[DeltaOptions],
-  isOptimize: Boolean): Seq[AddFile]
+  writeOptions: Option[DeltaOptions]): Seq[FileAction]
 ```
 
 `writeFiles` creates a [DeltaInvariantCheckerExec](constraints/DeltaInvariantCheckerExec.md) and a [DelayedCommitProtocol](DelayedCommitProtocol.md) to write out files to the [data path](DeltaLog.md#dataPath) (of the [DeltaLog](#deltaLog)).
