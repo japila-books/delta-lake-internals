@@ -57,6 +57,10 @@ snapshot: Snapshot
 
 * [OptimisticTransaction](OptimisticTransaction.md)
 
+## <span id="history.metricsEnabled"> spark.databricks.delta.history.metricsEnabled
+
+With [spark.databricks.delta.history.metricsEnabled](DeltaSQLConf.md#DELTA_HISTORY_METRICS_ENABLED) configuration property enabled, `TransactionalWrite` creates a `BasicWriteJobStatsTracker` and [registers SQL metrics](SQLMetricsReporting.md#registerSQLMetrics) (when requested to [writeFiles](#writeFiles)).
+
 ## <span id="hasWritten"> hasWritten Flag
 
 ```scala
@@ -79,19 +83,19 @@ writeFiles(
 
 `writeFiles` creates a [DeltaInvariantCheckerExec](constraints/DeltaInvariantCheckerExec.md) and a [DelayedCommitProtocol](DelayedCommitProtocol.md) to write out files to the [data path](DeltaLog.md#dataPath) (of the [DeltaLog](#deltaLog)).
 
-??? tip "Learn more"
+??? tip "FileFormatWriter"
     `writeFiles` uses Spark SQL's `FileFormatWriter` utility to write out a result of a streaming query.
 
     Learn about [FileFormatWriter]({{ book.spark_sql }}/FileFormatWriter) in [The Internals of Spark SQL]({{ book.spark_sql }}) online book.
 
 `writeFiles` is executed within `SQLExecution.withNewExecutionId`.
 
-??? tip "Learn more"
+??? tip "SQLAppStatusListener"
     `writeFiles` can be tracked using web UI or `SQLAppStatusListener` (using `SparkListenerSQLExecutionStart` and `SparkListenerSQLExecutionEnd` events).
 
     Learn about [SQLAppStatusListener]({{ book.spark_sql }}/SQLAppStatusListener) in [The Internals of Spark SQL]({{ book.spark_sql }}) online book.
 
-In the end, `writeFiles` returns the [addedStatuses](DelayedCommitProtocol.md#addedStatuses) of the `DelayedCommitProtocol` committer.
+In the end, `writeFiles` returns the [addedStatuses](DelayedCommitProtocol.md#addedStatuses) of the [DelayedCommitProtocol](#writeFiles-committer) committer.
 
 Internally, `writeFiles` turns the [hasWritten](#hasWritten) flag on (`true`).
 
@@ -104,13 +108,15 @@ Internally, `writeFiles` turns the [hasWritten](#hasWritten) flag on (`true`).
 
 ### <span id="writeFiles-committer"> DelayedCommitProtocol Committer
 
-`writeFiles` [creates a DelayedCommitProtocol committer](#getCommitter) for the [data path](DeltaLog.md#dataPath) of the [DeltaLog](#deltaLog).
+`writeFiles` [creates a DelayedCommitProtocol committer](#getCommitter) for the [data path](DeltaLog.md#dataPath) (of the [DeltaLog](#deltaLog)).
 
-`writeFiles` [gets the invariants](constraints/Invariants.md#getFromSchema) from the [schema](Metadata.md#schema) of the [Metadata](OptimisticTransactionImpl.md#metadata).
+### <span id="writeFiles-constraints"> Constraints
+
+`writeFiles` collects [constraints](constraints/Constraint.md)s from the [table metadata](constraints/Constraints.md#getAll) and the generated columns.
 
 ### <span id="writeFiles-DeltaInvariantCheckerExec"><span id="writeFiles-FileFormatWriter"> DeltaInvariantCheckerExec
 
-`writeFiles` requests a new Execution ID (that is used to track all Spark jobs of `FileFormatWriter.write` in Spark SQL) with a physical query plan of a new [DeltaInvariantCheckerExec](constraints/DeltaInvariantCheckerExec.md) unary physical operator (with the executed plan of the normalized query execution as the child operator).
+`writeFiles` requests a new Execution ID (that is used to track all Spark jobs of `FileFormatWriter.write` in Spark SQL) with a physical query plan of a new [DeltaInvariantCheckerExec](constraints/DeltaInvariantCheckerExec.md) unary physical operator (with the executed plan of the normalized query execution as the child operator)
 
 ### <span id="getCommitter"> Creating Committer
 
