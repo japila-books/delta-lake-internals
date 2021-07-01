@@ -6,7 +6,7 @@
 
 `DeltaInvariantCheckerExec` takes the following to be created:
 
-* <span id="child"> Child Physical Plan ([SparkPlan]({{ book.spark_sql }}/physical-operators/SparkPlan))
+* <span id="child"> Child `SparkPlan` ([Spark SQL]({{ book.spark_sql }}/physical-operators/SparkPlan))
 * <span id="constraints"> [Constraint](Constraint.md)s
 
 `DeltaInvariantCheckerExec` is created when:

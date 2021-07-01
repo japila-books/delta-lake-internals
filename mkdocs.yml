@@ -210,6 +210,7 @@ nav:
       - CheckDeltaInvariant: constraints/CheckDeltaInvariant.md
       - Constraint: constraints/Constraint.md
       - Constraints: constraints/Constraints.md
+      - DeltaInvariantChecker: constraints/DeltaInvariantChecker.md
       - DeltaInvariantCheckerExec: constraints/DeltaInvariantCheckerExec.md
       - DeltaInvariantCheckerStrategy: constraints/DeltaInvariantCheckerStrategy.md
       - DropConstraint: constraints/DropConstraint.md
