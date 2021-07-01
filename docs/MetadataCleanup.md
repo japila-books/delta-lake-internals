@@ -62,7 +62,7 @@ listExpiredDeltaLogs(
 
 If the last checkpoint is not available, `listExpiredDeltaLogs` returns an empty iterator.
 
-`listExpiredDeltaLogs` requests the [LogStore](DeltaLog.md#store) for the [paths](LogStore.md#listFrom) (in the same directory) that are (lexicographically) greater or equal to the ``0``th checkpoint file (per [checkpointPrefix](FileNames.md#checkpointPrefix) format) of the [checkpoint](FileNames.md#isCheckpointFile) and [delta](FileNames.md#isDeltaFile) files in the [log directory](DeltaLog.md#logPath).
+`listExpiredDeltaLogs` requests the [LogStore](DeltaLog.md#store) for the [paths](storage/LogStore.md#listFrom) (in the same directory) that are (lexicographically) greater or equal to the ``0``th checkpoint file (per [checkpointPrefix](FileNames.md#checkpointPrefix) format) of the [checkpoint](FileNames.md#isCheckpointFile) and [delta](FileNames.md#isDeltaFile) files in the [log directory](DeltaLog.md#logPath).
 
 In the end, `listExpiredDeltaLogs` creates a `BufferingLogDeletionIterator` that...FIXME
 

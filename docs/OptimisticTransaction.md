@@ -4,7 +4,7 @@
 
 `OptimisticTransaction` is [created](#creating-instance) for changes to a [delta table](#deltaLog) at a given [version](#snapshot).
 
-When `OptimisticTransaction` (as a [OptimisticTransactionImpl](OptimisticTransactionImpl.md)) is about to be [committed](OptimisticTransactionImpl.md#commit) (that does [doCommit](OptimisticTransactionImpl.md#doCommit) internally), the [LogStore](LogStore.md) (of the [delta table](#deltaLog)) is requested to [write actions to a delta file](LogStore.md#write) (e.g. `_delta_log/00000000000000000001.json` for the attempt version `1`). Unless a `FileAlreadyExistsException` is thrown a commit is considered successful or [retried](OptimisticTransactionImpl.md#checkAndRetry).
+When `OptimisticTransaction` (as a [OptimisticTransactionImpl](OptimisticTransactionImpl.md)) is about to be [committed](OptimisticTransactionImpl.md#commit) (that does [doCommit](OptimisticTransactionImpl.md#doCommit) internally), the [LogStore](storage/LogStore.md) (of the [delta table](#deltaLog)) is requested to [write actions to a delta file](storage/LogStore.md#write) (e.g. `_delta_log/00000000000000000001.json` for the attempt version `1`). Unless a `FileAlreadyExistsException` is thrown a commit is considered successful or [retried](OptimisticTransactionImpl.md#checkAndRetry).
 
 `OptimisticTransaction` can be associated with a thread as an [active transaction](#active).
 

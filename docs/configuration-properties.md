@@ -2,10 +2,10 @@
 
 ## <span id="spark.delta.logStore.class"> spark.delta.logStore.class
 
-The fully-qualified class name of a [LogStore](LogStore.md)
+The fully-qualified class name of a [LogStore](storage/LogStore.md)
 
-Default: [HDFSLogStore](HDFSLogStore.md)
+Default: [HDFSLogStore](storage/HDFSLogStore.md)
 
 Used when:
 
-* `LogStoreProvider` is requested for a [LogStore](LogStoreProvider.md#createLogStore)
+* `LogStoreProvider` is requested for a [LogStore](storage/LogStoreProvider.md#createLogStore)

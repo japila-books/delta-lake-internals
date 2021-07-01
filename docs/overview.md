@@ -54,7 +54,7 @@ Delta Lake supports reading and writing in streaming queries:
 
 ## LogStore
 
-Delta Lake uses [LogStore](LogStore.md) abstraction for reading and writing physical log files and checkpoints (using [Hadoop FileSystem API]({{ hadoop.docs }}/hadoop-project-dist/hadoop-common/filesystem/index.html)).
+Delta Lake uses [LogStore](storage/LogStore.md) abstraction for reading and writing physical log files and checkpoints (using [Hadoop FileSystem API]({{ hadoop.docs }}/hadoop-project-dist/hadoop-common/filesystem/index.html)).
 
 ## Delta Tables in Logical Query Plans
 

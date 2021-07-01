@@ -329,7 +329,7 @@ Attempting to commit version [attemptVersion] with [n] actions with [isolationLe
 
 ### <span id="doCommit-write"> Writing Out
 
-`doCommit` requests the [DeltaLog](#deltaLog) for the [LogStore](DeltaLog.md#store) to [write out](LogStore.md#write) the given [action](Action.md)s to a [delta file](FileNames.md#deltaFile) in the [log directory](DeltaLog.md#logPath) with the `attemptVersion` version, e.g.
+`doCommit` requests the [DeltaLog](#deltaLog) for the [LogStore](DeltaLog.md#store) to [write out](storage/LogStore.md#write) the given [action](Action.md)s to a [delta file](FileNames.md#deltaFile) in the [log directory](DeltaLog.md#logPath) with the `attemptVersion` version, e.g.
 
 ```text
 00000000000000000001.json
@@ -338,7 +338,7 @@ Attempting to commit version [attemptVersion] with [n] actions with [isolationLe
 `doCommit` writes the [action](Action.md)s out in [JSON format](Action.md#json).
 
 !!! NOTE
-    [LogStores](LogStore.md) must throw a `java.nio.file.FileAlreadyExistsException` exception if the delta file already exists. Any `FileAlreadyExistsExceptions` are caught by [doCommit](#doCommit-FileAlreadyExistsException) itself to [checkAndRetry](#checkAndRetry).
+    [LogStores](storage/LogStore.md) must throw a `java.nio.file.FileAlreadyExistsException` exception if the delta file already exists. Any `FileAlreadyExistsExceptions` are caught by [doCommit](#doCommit-FileAlreadyExistsException) itself to [checkAndRetry](#checkAndRetry).
 
 ### <span id="doCommit-postCommitSnapshot"> Post-Commit Snapshot
 

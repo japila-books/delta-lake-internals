@@ -55,7 +55,7 @@ snapshot: Snapshot
 store: LogStore
 ```
 
-[LogStore](LogStore.md)
+[LogStore](storage/LogStore.md)
 
 ## Implementations
 
@@ -79,7 +79,7 @@ checkpoint(
 
 `checkpoint` [writes a checkpoint](#writeCheckpoint) of the current state of the delta table ([Snapshot](SnapshotManagement.md#snapshot)). That produces a checkpoint metadata with the version, the number of actions and possibly parts (for multi-part checkpoints).
 
-`checkpoint` requests the [LogStore](DeltaLog.md#store) to [overwrite](LogStore.md#write) the [_last_checkpoint](#LAST_CHECKPOINT) file with the JSON-encoded checkpoint metadata.
+`checkpoint` requests the [LogStore](DeltaLog.md#store) to [overwrite](storage/LogStore.md#write) the [_last_checkpoint](#LAST_CHECKPOINT) file with the JSON-encoded checkpoint metadata.
 
 In the end, `checkpoint` [cleans up the expired logs](MetadataCleanup.md#doLogCleanup) (if enabled).
 

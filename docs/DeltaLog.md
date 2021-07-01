@@ -147,7 +147,7 @@ scala> println(deltaVersion)
 
 When created, `DeltaLog` does the following:
 
-1. Creates the [LogStore](#store) based on [spark.delta.logStore.class](LogStoreProvider.md#spark.delta.logStore.class) configuration property
+1. Creates the [LogStore](#store) based on [spark.delta.logStore.class](storage/LogStoreProvider.md#spark.delta.logStore.class) configuration property
 
 1. Initializes the [current snapshot](#currentSnapshot)
 
@@ -192,7 +192,7 @@ These `FileFormat`s are used to create [DeltaLogFileIndex](DeltaLogFileIndex.md)
 
 ## <span id="store"> LogStore
 
-`DeltaLog` uses a [LogStore](LogStore.md) for...FIXME
+`DeltaLog` uses a [LogStore](storage/LogStore.md) for...FIXME
 
 ## <span id="deltaLogCache"> Transaction Logs (DeltaLogs) per Fully-Qualified Path
 
@@ -447,9 +447,9 @@ assert(deltaLog.isInstanceOf[DeltaLog])
 val changesPerVersion = deltaLog.getChanges(startVersion = 0)
 ```
 
-Internally, `getChanges` requests the [LogStore](#store) for [files](LogStore.md#listFrom) that are lexicographically greater or equal to the [delta log file](FileNames.md#deltaFile) for the given `startVersion` (in the [logPath](#logPath)) and leaves only [delta log files](FileNames.md#isDeltaFile) (e.g. files with numbers only as file name and `.json` file extension).
+Internally, `getChanges` requests the [LogStore](#store) for [files](storage/LogStore.md#listFrom) that are lexicographically greater or equal to the [delta log file](FileNames.md#deltaFile) for the given `startVersion` (in the [logPath](#logPath)) and leaves only [delta log files](FileNames.md#isDeltaFile) (e.g. files with numbers only as file name and `.json` file extension).
 
-For every delta file, `getChanges` requests the [LogStore](#store) to [read the JSON content](LogStore.md#read) (every line is an [action](Action.md)), and then [deserializes it to an action](Action.md#fromJson).
+For every delta file, `getChanges` requests the [LogStore](#store) to [read the JSON content](storage/LogStore.md#read) (every line is an [action](Action.md)), and then [deserializes it to an action](Action.md#fromJson).
 
 `getChanges` is used when:
 
@@ -569,7 +569,7 @@ upgradeProtocol(
 
 ## LogStoreProvider
 
-`DeltaLog` is a [LogStoreProvider](LogStoreProvider.md).
+`DeltaLog` is a [LogStoreProvider](storage/LogStoreProvider.md).
 
 ## Logging
 

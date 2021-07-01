@@ -145,12 +145,14 @@ nav:
       - PartitionFiltering: PartitionFiltering.md
       - DeltaFileFormat: DeltaFileFormat.md
     - DeltaHistoryManager: DeltaHistoryManager.md
-    - LogStore:
-      - LogStore: LogStore.md
-      - LogStoreProvider: LogStoreProvider.md
-      - HDFSLogStore: HDFSLogStore.md
-      - HadoopFileSystemLogStore: HadoopFileSystemLogStore.md
-      - S3SingleDriverLogStore: S3SingleDriverLogStore.md
+    - Storage:
+      - storage/index.md
+      - LogStore: storage/LogStore.md
+      - LogStoreAdaptor: storage/LogStoreAdaptor.md
+      - LogStoreProvider: storage/LogStoreProvider.md
+      - HDFSLogStore: storage/HDFSLogStore.md
+      - HadoopFileSystemLogStore: storage/HadoopFileSystemLogStore.md
+      - S3SingleDriverLogStore: storage/S3SingleDriverLogStore.md
     - Actions:
       - Action: Action.md
       - AddCDCFile: AddCDCFile.md
@@ -217,7 +219,7 @@ nav:
       - Invariant: constraints/Invariant.md
       - Invariants: constraints/Invariants.md
       - InvariantViolationException: constraints/InvariantViolationException.md
-  - Public APIs:
+  - Developer API:
     - DeltaTable: DeltaTable.md
     - DeltaTableBuilder: DeltaTableBuilder.md
     - DeltaColumnBuilder: DeltaColumnBuilder.md
