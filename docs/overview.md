@@ -1,8 +1,3 @@
----
-hide:
-  - toc
----
-
 # {{ book.title }}
 
 [Delta Lake](https://delta.io/) is an open-source [Apache Spark](https://spark.apache.org/)-based storage layer with [ACID transactions](OptimisticTransaction.md) and [time travel](time-travel.md).
@@ -27,9 +22,13 @@ Structured queries can write (transactionally) to a delta table using the follow
 
 More importantly, multiple queries can write to the same delta table simultaneously (at exactly the same time).
 
-## DeltaTable API
+## Programmatic APIs
 
-Delta Lake provides [DeltaTable API](DeltaTable.md) to programmatically access Delta tables.
+Delta Lake provides the following _programmatic_ APIs:
+
+* [DeltaTable](DeltaTable.md)
+* [DeltaTableBuilder](DeltaTableBuilder.md) (new in 1.0.0)
+* [DeltaColumnBuilder](DeltaColumnBuilder.md) (new in 1.0.0)
 
 ## Structured Queries
 
@@ -55,7 +54,7 @@ Delta Lake supports reading and writing in streaming queries:
 
 ## LogStore
 
-Delta Lake uses [LogStore](DeltaLog.md#store) abstraction to read and write physical log files and checkpoints (using [Hadoop FileSystem API]({{ hadoop.docs }}/hadoop-project-dist/hadoop-common/filesystem/index.html)).
+Delta Lake uses [LogStore](LogStore.md) abstraction for reading and writing physical log files and checkpoints (using [Hadoop FileSystem API]({{ hadoop.docs }}/hadoop-project-dist/hadoop-common/filesystem/index.html)).
 
 ## Delta Tables in Logical Query Plans
 
@@ -82,3 +81,7 @@ Delta Lake supports [Generated Columns](generated-columns/GeneratedColumn.md).
 ## Table Constraints
 
 Delta Lake introduces [table constraints](constraints/index.md) to ensure data quality and integrity (during writes).
+
+## Exceptions
+
+Delta Lake introduces [exceptions](exceptions/index.md) due to conflicts between concurrent operations as a public API.
