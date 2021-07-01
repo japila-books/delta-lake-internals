@@ -236,16 +236,6 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://books.japila.pl/delta-lake-internals/HDFSLogStore/</loc>
-         <lastmod>2021-07-01</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://books.japila.pl/delta-lake-internals/HadoopFileSystemLogStore/</loc>
-         <lastmod>2021-07-01</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://books.japila.pl/delta-lake-internals/ImplicitMetadataOperation/</loc>
          <lastmod>2021-07-01</lastmod>
          <changefreq>daily</changefreq>
@@ -257,16 +247,6 @@
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/IsolationLevel/</loc>
-         <lastmod>2021-07-01</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://books.japila.pl/delta-lake-internals/LogStore/</loc>
-         <lastmod>2021-07-01</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://books.japila.pl/delta-lake-internals/LogStoreProvider/</loc>
          <lastmod>2021-07-01</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -337,11 +317,6 @@
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/RemoveFile/</loc>
-         <lastmod>2021-07-01</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://books.japila.pl/delta-lake-internals/S3SingleDriverLogStore/</loc>
          <lastmod>2021-07-01</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -912,6 +887,41 @@
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/sql/DeltaSqlParser/</loc>
+         <lastmod>2021-07-01</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://books.japila.pl/delta-lake-internals/storage/</loc>
+         <lastmod>2021-07-01</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://books.japila.pl/delta-lake-internals/storage/HDFSLogStore/</loc>
+         <lastmod>2021-07-01</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://books.japila.pl/delta-lake-internals/storage/HadoopFileSystemLogStore/</loc>
+         <lastmod>2021-07-01</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://books.japila.pl/delta-lake-internals/storage/LogStore/</loc>
+         <lastmod>2021-07-01</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://books.japila.pl/delta-lake-internals/storage/LogStoreAdaptor/</loc>
+         <lastmod>2021-07-01</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://books.japila.pl/delta-lake-internals/storage/LogStoreProvider/</loc>
+         <lastmod>2021-07-01</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://books.japila.pl/delta-lake-internals/storage/S3SingleDriverLogStore/</loc>
          <lastmod>2021-07-01</lastmod>
          <changefreq>daily</changefreq>
     </url>
