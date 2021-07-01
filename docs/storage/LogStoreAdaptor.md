@@ -6,7 +6,7 @@
 
 `LogStoreAdaptor` takes the following to be created:
 
-* <span id="logStoreImpl"> `io.delta.storage.LogStore`
+* <span id="logStoreImpl"> [io.delta.storage.LogStore](../LogStore.md)
 
 `LogStoreAdaptor` is created when:
 

@@ -147,11 +147,12 @@ nav:
     - DeltaHistoryManager: DeltaHistoryManager.md
     - Storage:
       - storage/index.md
+      - DelegatingLogStore: storage/DelegatingLogStore.md
       - LogStore: storage/LogStore.md
       - LogStoreAdaptor: storage/LogStoreAdaptor.md
       - LogStoreProvider: storage/LogStoreProvider.md
-      - HDFSLogStore: storage/HDFSLogStore.md
       - HadoopFileSystemLogStore: storage/HadoopFileSystemLogStore.md
+      - HDFSLogStore: storage/HDFSLogStore.md
       - S3SingleDriverLogStore: storage/S3SingleDriverLogStore.md
     - Actions:
       - Action: Action.md
@@ -234,6 +235,7 @@ nav:
       - DeltaErrors: DeltaErrors.md
       - MetadataChangedException: exceptions/MetadataChangedException.md
       - ProtocolChangedException: exceptions/ProtocolChangedException.md
+    - LogStore: LogStore.md
   - Delta SQL:
     - Delta SQL: sql/index.md
     - DeltaSqlParser: sql/DeltaSqlParser.md

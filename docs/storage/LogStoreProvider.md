@@ -16,10 +16,9 @@ createLogStore(
   hadoopConf: Configuration): LogStore
 ```
 
-`createLogStore`...FIXME
+`createLogStore` [creates a LogStore](LogStore.md#createLogStoreWithClassName) based on [spark.delta.logStore.class](../configuration-properties.md#spark.delta.logStore.class) configuration property (if defined) or defaults to [DelegatingLogStore](DelegatingLogStore.md).
 
 `createLogStore` is used when:
 
-* [DeltaLog](../DeltaLog.md#store) is created
-
-* [LogStore.apply](LogStore#apply) utility is used
+* `DeltaLog` is requested for the [LogStore](../DeltaLog.md#store)
+* [LogStore.apply](LogStore.md#apply) utility is used
