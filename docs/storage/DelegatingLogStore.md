@@ -18,7 +18,7 @@
 defaultLogStore: LogStore
 ```
 
-`DelegatingLogStore` [creates a LogStore](#createLogStore) (lazily) that is used when requested to [schemeBasedLogStore](#schemeBasedLogStore).
+`DelegatingLogStore` [creates a LogStore](#createLogStore) (_lazily_) that is used when requested to [schemeBasedLogStore](#schemeBasedLogStore).
 
 ??? note "Lazy Value"
     `defaultLogStore` is a Scala **lazy value** to guarantee that the code to initialize it is executed once only (when accessed for the first time) and the computed value never changes afterwards.

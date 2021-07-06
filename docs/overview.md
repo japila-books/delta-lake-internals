@@ -76,12 +76,16 @@ df.format("delta").mode("append").save(...)
 
 ## Generated Columns
 
-Delta Lake supports [Generated Columns](generated-columns/GeneratedColumn.md).
+Delta Lake supports [Generated Columns](generated-columns/index.md).
 
 ## Table Constraints
 
 Delta Lake introduces [table constraints](constraints/index.md) to ensure data quality and integrity (during writes).
 
-## Exceptions
+## Exception Public API
 
 Delta Lake introduces [exceptions](exceptions/index.md) due to conflicts between concurrent operations as a public API.
+
+## Simplified Storage Configuration
+
+[Storage](storage/index.md)
