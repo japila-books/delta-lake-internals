@@ -26,7 +26,7 @@ run(
 
 `run` creates a [DeltaLog](../DeltaLog.md#forTable) (for the given [table](#table) based on a table location) and a [DeltaOptions](../DeltaOptions.md).
 
-`run` [starts a transaction](../DeltaLog.md#startTransaction) (on the `DeltaLog`).
+`run` [starts a transaction](../DeltaLog.md#startTransaction).
 
 `run` branches off based on the optional [data query](#query). For [data query](#query) defined, `run` creates a [WriteIntoDelta](WriteIntoDelta.md) and requests it to [write](WriteIntoDelta.md#write). Otherwise, `run` creates an empty table.
 

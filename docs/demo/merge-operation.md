@@ -12,6 +12,35 @@ This demo shows [DeltaTable.merge](../DeltaTable.md#merge) operation (and the un
 
 ## Create Delta Table (Target Data)
 
+### Modern Delta Lake-Own Create Table
+
+```scala
+val path = "/tmp/delta/demo"
+import io.delta.tables.DeltaTable
+val target = DeltaTable.create.addColumn("id", "long").location(path).execute
+```
+
+```scala
+assert(target.isInstanceOf[io.delta.tables.DeltaTable])
+assert(target.history.count == 1, "There must be version 0 only")
+```
+
+Unfortunately, the above leaves us with an empty Delta table. Let's fix it.
+
+```scala
+import org.apache.spark.sql.SaveMode
+spark.range(5).write.format("delta").mode(SaveMode.Append).save(path)
+```
+
+```scala
+assert(target.history.count == 2)
+```
+
+### Legacy Spark-Based Create Table
+
+!!! note
+    This legacy Spark-based `CREATE TABLE` is left for comparison purposes only.
+
 ```scala
 val path = "/tmp/delta/demo"
 val data = spark.range(5)
@@ -31,14 +60,22 @@ case class Person(id: Long, name: String)
 val source = Seq(Person(0, "Zero"), Person(1, "One")).toDF
 ```
 
-Note the difference in schemas
+Note the difference in the schema of the `target` and `source` datasets.
+
+```scala
+target.toDF.printSchema
+```
 
 ```text
-scala> target.toDF.printSchema
 root
  |-- id: long (nullable = true)
+```
 
-scala> source.printSchema
+```scala
+source.printSchema
+```
+
+```text
 root
  |-- id: long (nullable = false)
  |-- name: string (nullable = true)
@@ -55,17 +92,20 @@ val mergeBuilder = target.as("to")
     condition = $"to.id" === $"from.id")
 ```
 
-```text
+```scala
 assert(mergeBuilder.isInstanceOf[io.delta.tables.DeltaMergeBuilder])
+```
+
+```text
 scala> mergeBuilder.execute
-org.apache.spark.sql.AnalysisException: There must be at least one WHEN clause in a MERGE query;
-  at org.apache.spark.sql.catalyst.plans.logical.DeltaMergeInto$.apply(deltaMerge.scala:217)
-  at io.delta.tables.DeltaMergeBuilder.mergePlan(DeltaMergeBuilder.scala:255)
-  at io.delta.tables.DeltaMergeBuilder.$anonfun$execute$1(DeltaMergeBuilder.scala:228)
-  at org.apache.spark.sql.delta.util.AnalysisHelper.improveUnsupportedOpError(AnalysisHelper.scala:60)
-  at org.apache.spark.sql.delta.util.AnalysisHelper.improveUnsupportedOpError$(AnalysisHelper.scala:48)
-  at io.delta.tables.DeltaMergeBuilder.improveUnsupportedOpError(DeltaMergeBuilder.scala:121)
-  at io.delta.tables.DeltaMergeBuilder.execute(DeltaMergeBuilder.scala:225)
+org.apache.spark.sql.AnalysisException: There must be at least one WHEN clause in a MERGE statement
+  at org.apache.spark.sql.catalyst.plans.logical.DeltaMergeInto$.apply(deltaMerge.scala:253)
+  at io.delta.tables.DeltaMergeBuilder.mergePlan(DeltaMergeBuilder.scala:268)
+  at io.delta.tables.DeltaMergeBuilder.$anonfun$execute$1(DeltaMergeBuilder.scala:215)
+  at org.apache.spark.sql.delta.util.AnalysisHelper.improveUnsupportedOpError(AnalysisHelper.scala:87)
+  at org.apache.spark.sql.delta.util.AnalysisHelper.improveUnsupportedOpError$(AnalysisHelper.scala:73)
+  at io.delta.tables.DeltaMergeBuilder.improveUnsupportedOpError(DeltaMergeBuilder.scala:120)
+  at io.delta.tables.DeltaMergeBuilder.execute(DeltaMergeBuilder.scala:204)
   ... 47 elided
 ```
 
@@ -77,8 +117,10 @@ val mergeBuilderDeleteMatched = mergeMatchedBuilder.delete()
 assert(mergeBuilderDeleteMatched.isInstanceOf[io.delta.tables.DeltaMergeBuilder])
 
 mergeBuilderDeleteMatched.execute()
+```
 
-assert(target.history.count == 2, "There must be two versions only")
+```scala
+assert(target.history.count == 3)
 ```
 
 ## Update All Columns Except One
@@ -92,13 +134,14 @@ val targetDF = target
   .withColumn("updated", lit(false))
 ```
 
+```scala
+targetDF.sort('id.asc).show
+```
+
 ```text
-scala> targetDF.sort('id.asc).show
 +---+---+-------+
 | id|num|updated|
 +---+---+-------+
-|  0|  1|  false|
-|  1|  1|  false|
 |  2|  1|  false|
 |  3|  1|  false|
 |  4|  1|  false|
@@ -145,19 +188,21 @@ target.as("to")
 
 Reload the delta table (with the merge changes).
 
-```scala
+```text
 val target = DeltaTable.forPath(path)
+target.toDF.sort('id.asc).show
 ```
 
 ```text
-scala> target.toDF.sort('id.asc).show
 +---+---+-------+
 | id|num|updated|
 +---+---+-------+
-|  0|  1|   true|
-|  1|  1|   true|
 |  2|  1|   true|
 |  3|  1|  false|
 |  4|  1|  false|
 +---+---+-------+
+```
+
+```scala
+assert(target.history.count == 5)
 ```
