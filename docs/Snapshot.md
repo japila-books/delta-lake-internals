@@ -7,11 +7,11 @@
 
 ## Creating Instance
 
-Snapshot takes the following to be created:
+`Snapshot` takes the following to be created:
 
 * <span id="path"> Hadoop [Path]({{ hadoop.api }}/org/apache/hadoop/fs/Path.html) to the [log directory](DeltaLog.md#logPath)
 * <span id="version"> Version
-* <span id="logSegment"> `LogSegment`
+* <span id="logSegment"> [LogSegment](LogSegment.md)
 * <span id="minFileRetentionTimestamp"> `minFileRetentionTimestamp` (that is exactly [DeltaLog.minFileRetentionTimestamp](DeltaLog.md#minFileRetentionTimestamp))
 * <span id="deltaLog"> [DeltaLog](DeltaLog.md)
 * <span id="timestamp"> Timestamp
@@ -23,7 +23,9 @@ While being created, `Snapshot` prints out the following INFO message to the log
 Created snapshot [this]
 ```
 
-`Snapshot` is created when `SnapshotManagement` is requested for [one](SnapshotManagement.md#createSnapshot).
+`Snapshot` is created when:
+
+* `SnapshotManagement` is requested for [one](SnapshotManagement.md#createSnapshot)
 
 ### <span id="init"> Initializing
 

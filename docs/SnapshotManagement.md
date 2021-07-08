@@ -116,11 +116,13 @@ getLogSegmentFrom(
   startingCheckpoint: Option[CheckpointMetaData]): LogSegment
 ```
 
-`getLogSegmentFrom` [getLogSegmentForVersion](#getLogSegmentForVersion) for the version of the given `CheckpointMetaData` (if specified) as a start checkpoint version or leaves it undefined.
+`getLogSegmentFrom` [getLogSegmentForVersion](#getLogSegmentForVersion) for the version of the given `CheckpointMetaData` as a start checkpoint version.
 
-`getLogSegmentFrom` is used when `SnapshotManagement` is requested for [getSnapshotAtInit](#getSnapshotAtInit).
+`getLogSegmentFrom` is used when:
 
-## <span id="getLogSegmentForVersion"> getLogSegmentForVersion
+* `SnapshotManagement` is requested for [getSnapshotAtInit](#getSnapshotAtInit)
+
+## <span id="getLogSegmentForVersion"> Fetching Log Files to Recreate Version
 
 ```scala
 getLogSegmentForVersion(
@@ -128,11 +130,25 @@ getLogSegmentForVersion(
   versionToLoad: Option[Long] = None): LogSegment
 ```
 
-`getLogSegmentForVersion`...FIXME
+`getLogSegmentForVersion` [list all the files](#listFrom) (in a transaction log) from the given `startCheckpoint` (or defaults to `0`).
 
-`getLogSegmentForVersion` is used when `SnapshotManagement` is requested for [getLogSegmentFrom](#getLogSegmentFrom), [updateInternal](#updateInternal) and [getSnapshotAt](#getSnapshotAt).
+`getLogSegmentForVersion` filters out unnecessary files and leaves [checkpoint](#isCheckpointFile) and [delta](#isDeltaFile) files only.
 
-### <span id="listFrom"> listFrom
+`getLogSegmentForVersion` filters out checkpoint files of size `0`.
+
+`getLogSegmentForVersion` takes all the files that are [older than](#getFileVersion) the requested `versionToLoad`.
+
+`getLogSegmentForVersion` splits the files into [checkpoint](#isCheckpointFile) and [delta](#isDeltaFile) files.
+
+`getLogSegmentForVersion` finds the latest checkpoint from the list.
+
+In the end, `getLogSegmentForVersion` creates a [LogSegment](LogSegment.md) with the (checkpoint and delta) files.
+
+`getLogSegmentForVersion` is used when:
+
+* `SnapshotManagement` is requested for [getLogSegmentFrom](#getLogSegmentFrom), [updateInternal](#updateInternal) and [getSnapshotAt](#getSnapshotAt)
+
+### <span id="listFrom"> Listing Files from Version Upwards
 
 ```scala
 listFrom(
@@ -150,7 +166,7 @@ createSnapshot(
   timestamp: Long): Snapshot
 ```
 
-`createSnapshot` [readChecksum](ReadChecksum.md#readChecksum) (for the version of the given `LogSegment`) and creates a [Snapshot](Snapshot.md).
+`createSnapshot` [readChecksum](ReadChecksum.md#readChecksum) (for the version of the given [LogSegment](LogSegment.md)) and creates a [Snapshot](Snapshot.md).
 
 `createSnapshot` is used when `SnapshotManagement` is requested for [getSnapshotAtInit](#getSnapshotAtInit), [getSnapshotAt](#getSnapshotAt) and [update](#update).
 

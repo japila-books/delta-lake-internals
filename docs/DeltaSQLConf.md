@@ -212,6 +212,9 @@ Default: `true`
 
 Default: `true`
 
+!!! note
+    The property seems unused.
+
 ## <span id="stats.limitPushdown.enabled"><span id="DELTA_LIMIT_PUSHDOWN_ENABLED"> stats.limitPushdown.enabled
 
 **spark.databricks.delta.stats.limitPushdown.enabled** (internal) enables using the limit clause and file statistics to prune files before they are collected to the driver

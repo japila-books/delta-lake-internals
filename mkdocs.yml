@@ -144,6 +144,7 @@ nav:
       - InMemoryLogReplay: InMemoryLogReplay.md
       - PartitionFiltering: PartitionFiltering.md
       - DeltaFileFormat: DeltaFileFormat.md
+      - LogSegment: LogSegment.md
     - DeltaHistoryManager: DeltaHistoryManager.md
     - Storage:
       - storage/index.md
