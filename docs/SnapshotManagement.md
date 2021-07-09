@@ -106,16 +106,36 @@ update(
   stalenessAcceptable: Boolean = false): Snapshot
 ```
 
+`update` determines whether to do update asynchronously or not based on the input `stalenessAcceptable` flag and [isSnapshotStale](#isSnapshotStale).
+
+With `stalenessAcceptable` flag turned off (the default value) and the state snapshot is not [stale](#isSnapshotStale), `update` [updates](#updateInternal) (with `isAsync` flag turned off).
+
 `update`...FIXME
+
+### <span id="update-usage"> Usage
 
 `update` is used when:
 
-* `DeltaLog` is requested to [start a transaction](DeltaLog.md#startTransaction) and [withNewTransaction](DeltaLog.md#withNewTransaction)
+* `DeltaHistoryManager` is requested to [getHistory](DeltaHistoryManager.md#getHistory), [getActiveCommitAtTime](DeltaHistoryManager.md#getActiveCommitAtTime), [checkVersionExists](DeltaHistoryManager.md#checkVersionExists)
+* `DeltaLog` is requested to [start a transaction](DeltaLog.md#startTransaction)
 * `OptimisticTransactionImpl` is requested to [doCommit](OptimisticTransactionImpl.md#doCommit) and [getNextAttemptVersion](OptimisticTransactionImpl.md#getNextAttemptVersion)
 * `DeltaTableV2` is requested for a [Snapshot](DeltaTableV2.md#snapshot)
 * `TahoeLogFileIndex` is requested for a [Snapshot](TahoeLogFileIndex.md#getSnapshot)
-* `DeltaHistoryManager` is requested to [getHistory](DeltaHistoryManager.md#getHistory), [getActiveCommitAtTime](DeltaHistoryManager.md#getActiveCommitAtTime), [checkVersionExists](DeltaHistoryManager.md#checkVersionExists)
+* `DeltaSource` is requested for the [getStartingVersion](DeltaSource.md#getStartingVersion)
 * In [Delta commands](commands/DeltaCommand.md)...
+
+### <span id="isSnapshotStale"> isSnapshotStale
+
+```scala
+isSnapshotStale: Boolean
+```
+
+`isSnapshotStale` reads [spark.databricks.delta.stalenessLimit](DeltaSQLConf.md#DELTA_ASYNC_UPDATE_STALENESS_TIME_LIMIT) configuration property.
+
+`isSnapshotStale` is enabled (`true`) when any of the following holds:
+
+1. [spark.databricks.delta.stalenessLimit](DeltaSQLConf.md#DELTA_ASYNC_UPDATE_STALENESS_TIME_LIMIT) configuration property is `0` (the default)
+1. Internal [lastUpdateTimestamp](#lastUpdateTimestamp) has never been updated (and is below `0`) or is at least [spark.databricks.delta.stalenessLimit](DeltaSQLConf.md#DELTA_ASYNC_UPDATE_STALENESS_TIME_LIMIT) configuration property old
 
 ### <span id="tryUpdate"> tryUpdate
 
@@ -126,8 +146,6 @@ tryUpdate(
 
 `tryUpdate`...FIXME
 
-`tryUpdate` is used when `SnapshotManagement` is requested to [update](#update).
-
 ### <span id="updateInternal"> updateInternal
 
 ```scala
@@ -137,14 +155,14 @@ updateInternal(
 
 `updateInternal`...FIXME
 
-### <span id="replaceSnapshot"> replaceSnapshot
+### <span id="replaceSnapshot"> Replacing Snapshots
 
 ```scala
 replaceSnapshot(
   newSnapshot: Snapshot): Unit
 ```
 
-`replaceSnapshot`...FIXME
+`replaceSnapshot` requests the [currentSnapshot](#currentSnapshot) to [uncache](StateCache.md#uncache) (and drop any cached data) and makes the given `newSnapshot` the [current one](#currentSnapshot).
 
 ## Demo
 
