@@ -2,40 +2,11 @@
 
 `SnapshotManagement` is an extension for [DeltaLog](DeltaLog.md) to manage [Snapshot](#currentSnapshot)s.
 
-## Demo
+## <span id="currentSnapshot"><span id="snapshot"> Current Snapshot
 
-```text
-val name = "employees"
-val dataPath = s"/tmp/delta/$name"
-sql(s"DROP TABLE $name")
-sql(s"""
-    | CREATE TABLE $name (id bigint, name string, city string)
-    | USING delta
-    | OPTIONS (path='$dataPath')
-    """.stripMargin)
+`SnapshotManagement` manages `currentSnapshot` registry with the recently-loaded [Snapshot](Snapshot.md) (of a Delta table).
 
-import org.apache.spark.sql.delta.DeltaLog
-val log = DeltaLog.forTable(spark, dataPath)
-
-import org.apache.spark.sql.delta.SnapshotManagement
-assert(log.isInstanceOf[SnapshotManagement], "DeltaLog is a SnapshotManagement")
-
-val snapshot = log.update(stalenessAcceptable = false)
-scala> :type snapshot
-org.apache.spark.sql.delta.Snapshot
-
-assert(snapshot.version == 0)
-```
-
-## <span id="currentSnapshot"> Current Snapshot
-
-```scala
-currentSnapshot: Snapshot
-```
-
-`currentSnapshot` is a registry with the current [Snapshot](Snapshot.md) of a Delta table.
-
-When [DeltaLog](DeltaLog.md) is created, `currentSnapshot` is initialized as [getSnapshotAtInit](#getSnapshotAtInit) and changed every [update](#update).
+`currentSnapshot` is initialized as the [latest available Snapshot](#getSnapshotAtInit) right when [DeltaLog](DeltaLog.md) is created and [updated](#update) on demand.
 
 `currentSnapshot`...FIXME
 
@@ -43,47 +14,7 @@ When [DeltaLog](DeltaLog.md) is created, `currentSnapshot` is initialized as [ge
 
 * `SnapshotManagement` is requested to...FIXME
 
-## <span id="update"> Updating Current Snapshot
-
-```scala
-update(
-  stalenessAcceptable: Boolean = false): Snapshot
-```
-
-`update`...FIXME
-
-`update` is used when:
-
-* `DeltaLog` is requested to [start a transaction](DeltaLog.md#startTransaction) and [withNewTransaction](DeltaLog.md#withNewTransaction)
-* `OptimisticTransactionImpl` is requested to [doCommit](OptimisticTransactionImpl.md#doCommit) and [getNextAttemptVersion](OptimisticTransactionImpl.md#getNextAttemptVersion)
-* `DeltaTableV2` is requested for a [Snapshot](DeltaTableV2.md#snapshot)
-* `TahoeLogFileIndex` is requested for a [Snapshot](TahoeLogFileIndex.md#getSnapshot)
-* `DeltaHistoryManager` is requested to [getHistory](DeltaHistoryManager.md#getHistory), [getActiveCommitAtTime](DeltaHistoryManager.md#getActiveCommitAtTime), [checkVersionExists](DeltaHistoryManager.md#checkVersionExists)
-* In [Delta commands](commands/DeltaCommand.md)...
-
-### <span id="tryUpdate"> tryUpdate
-
-```scala
-tryUpdate(
-  isAsync: Boolean = false): Snapshot
-```
-
-`tryUpdate`...FIXME
-
-`tryUpdate` is used when `SnapshotManagement` is requested to [update](#update).
-
-### <span id="updateInternal"> updateInternal
-
-```scala
-updateInternal(
-  isAsync: Boolean): Snapshot
-```
-
-`updateInternal`...FIXME
-
-`updateInternal` is used when `SnapshotManagement` is requested to [update](#update) (and [tryUpdate](#tryUpdate)).
-
-## <span id="getSnapshotAtInit"> Loading Latest Snapshot
+### <span id="getSnapshotAtInit"> Loading Latest Snapshot at Initialization
 
 ```scala
 getSnapshotAtInit: Snapshot
@@ -107,22 +38,16 @@ Loading version [version][startCheckpoint]
 Returning initial snapshot [snapshot]
 ```
 
-`getSnapshotAtInit` is used when `SnapshotManagement` is created (and initializes the [currentSnapshot](#currentSnapshot) registry).
-
-### <span id="getLogSegmentFrom"> getLogSegmentFrom
+### <span id="getLogSegmentFrom"> Fetching Log Files for Version Checkpointed
 
 ```scala
 getLogSegmentFrom(
   startingCheckpoint: Option[CheckpointMetaData]): LogSegment
 ```
 
-`getLogSegmentFrom` [getLogSegmentForVersion](#getLogSegmentForVersion) for the version of the given `CheckpointMetaData` as a start checkpoint version.
+`getLogSegmentFrom` [fetches log files for the version](#getLogSegmentForVersion) (based on the optional `CheckpointMetaData` as the starting checkpoint version to start listing log files from).
 
-`getLogSegmentFrom` is used when:
-
-* `SnapshotManagement` is requested for [getSnapshotAtInit](#getSnapshotAtInit)
-
-## <span id="getLogSegmentForVersion"> Fetching Log Files to Recreate Version
+## <span id="getLogSegmentForVersion"> Fetching Latest Checkpoint and Delta Log Files for Version
 
 ```scala
 getLogSegmentForVersion(
@@ -173,3 +98,71 @@ createSnapshot(
 ## <span id="lastUpdateTimestamp"> Last Successful Update Timestamp
 
 `SnapshotManagement` uses `lastUpdateTimestamp` internal registry for the timestamp of the last successful update.
+
+## <span id="update"> Updating Current Snapshot
+
+```scala
+update(
+  stalenessAcceptable: Boolean = false): Snapshot
+```
+
+`update`...FIXME
+
+`update` is used when:
+
+* `DeltaLog` is requested to [start a transaction](DeltaLog.md#startTransaction) and [withNewTransaction](DeltaLog.md#withNewTransaction)
+* `OptimisticTransactionImpl` is requested to [doCommit](OptimisticTransactionImpl.md#doCommit) and [getNextAttemptVersion](OptimisticTransactionImpl.md#getNextAttemptVersion)
+* `DeltaTableV2` is requested for a [Snapshot](DeltaTableV2.md#snapshot)
+* `TahoeLogFileIndex` is requested for a [Snapshot](TahoeLogFileIndex.md#getSnapshot)
+* `DeltaHistoryManager` is requested to [getHistory](DeltaHistoryManager.md#getHistory), [getActiveCommitAtTime](DeltaHistoryManager.md#getActiveCommitAtTime), [checkVersionExists](DeltaHistoryManager.md#checkVersionExists)
+* In [Delta commands](commands/DeltaCommand.md)...
+
+### <span id="tryUpdate"> tryUpdate
+
+```scala
+tryUpdate(
+  isAsync: Boolean = false): Snapshot
+```
+
+`tryUpdate`...FIXME
+
+`tryUpdate` is used when `SnapshotManagement` is requested to [update](#update).
+
+### <span id="updateInternal"> updateInternal
+
+```scala
+updateInternal(
+  isAsync: Boolean): Snapshot
+```
+
+`updateInternal`...FIXME
+
+### <span id="replaceSnapshot"> replaceSnapshot
+
+```scala
+replaceSnapshot(
+  newSnapshot: Snapshot): Unit
+```
+
+`replaceSnapshot`...FIXME
+
+## Demo
+
+```scala
+import org.apache.spark.sql.delta.DeltaLog
+val log = DeltaLog.forTable(spark, dataPath)
+
+import org.apache.spark.sql.delta.SnapshotManagement
+assert(log.isInstanceOf[SnapshotManagement], "DeltaLog is a SnapshotManagement")
+```
+
+```scala
+val snapshot = log.update(stalenessAcceptable = false)
+```
+
+```text
+scala> :type snapshot
+org.apache.spark.sql.delta.Snapshot
+
+assert(snapshot.version == 0)
+```

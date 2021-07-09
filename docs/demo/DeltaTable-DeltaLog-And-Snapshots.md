@@ -7,23 +7,37 @@ hide:
 
 ## Create Delta Table
 
-```text
+```scala
 import org.apache.spark.sql.SparkSession
 assert(spark.isInstanceOf[SparkSession])
+```
 
-val name = "users"
-sql(s"DROP TABLE IF EXISTS $name")
+```scala
+val tableName = "users"
+```
+
+```scala
+sql(s"DROP TABLE IF EXISTS $tableName")
 sql(s"""
-    | CREATE TABLE $name (id bigint, name string, city string, country string)
+    | CREATE TABLE $tableName (id bigint, name string, city string, country string)
     | USING delta
     """.stripMargin)
+```
+
+```text
+scala> spark.catalog.listTables.show
++-----+--------+-----------+---------+-----------+
+| name|database|description|tableType|isTemporary|
++-----+--------+-----------+---------+-----------+
+|users| default|       null|  MANAGED|      false|
++-----+--------+-----------+---------+-----------+
 ```
 
 ## Access Transaction Log (DeltaLog)
 
 ```text
 import org.apache.spark.sql.catalyst.TableIdentifier
-val tid = TableIdentifier(name)
+val tid = TableIdentifier(tableName)
 
 import org.apache.spark.sql.delta.DeltaLog
 val deltaLog = DeltaLog.forTable(spark, tid)
@@ -31,10 +45,12 @@ val deltaLog = DeltaLog.forTable(spark, tid)
 
 Update the state of the delta table to the most recent version.
 
-```text
+```scala
 val snapshot = deltaLog.update()
 assert(snapshot.version == 0)
+```
 
+```scala
 val state = snapshot.state
 ```
 
@@ -47,34 +63,43 @@ Review the cached RDD for the state snapshot in the Storage tab of the web UI (e
 
 ![Snapshot (Cached RDD) in web UI](../images/demo-snapshot-webui-storage.png)
 
-The "version" part of **Delta Table State** name of the cached RDD should match the version of the snapshot
+The "version" part of **Delta Table State** name of the cached RDD should match the version of the snapshot.
+
+Show the changes (actions).
 
 ```text
-// Show the changes (actions)
-scala> snapshot.state.show
-+----+----+------+--------------------+--------+----------+
-| txn| add|remove|            metaData|protocol|commitInfo|
-+----+----+------+--------------------+--------+----------+
-|null|null|  null|                null|  [1, 2]|      null|
-|null|null|  null|[5156c9e3-9668-43...|    null|      null|
-+----+----+------+--------------------+--------+----------+
+scala> state.show
++----+----+------+--------------------+--------+----+----------+
+| txn| add|remove|            metaData|protocol| cdc|commitInfo|
++----+----+------+--------------------+--------+----+----------+
+|null|null|  null|                null|  {1, 2}|null|      null|
+|null|null|  null|{90316970-5bf1-45...|    null|null|      null|
++----+----+------+--------------------+--------+----+----------+
 ```
 
 ## DeltaTable as DataFrame
 
-```text
+### DeltaTable
+
+```scala
 import io.delta.tables.DeltaTable
-val dt = DeltaTable.forName(name)
+val dt = DeltaTable.forName(tableName)
+```
+
+```scala
+val h = dt.history.select('version, 'operation, 'operationParameters, 'operationMetrics)
 ```
 
 ```text
-scala> dt.history.select('version, 'operation, 'operationParameters, 'operationMetrics).show(truncate = false)
-+-------+-------------------+------+--------+------------+--------------------+----+--------+---------+-----------+--------------+-------------+----------------+------------+
-|version|          timestamp|userId|userName|   operation| operationParameters| job|notebook|clusterId|readVersion|isolationLevel|isBlindAppend|operationMetrics|userMetadata|
-+-------+-------------------+------+--------+------------+--------------------+----+--------+---------+-----------+--------------+-------------+----------------+------------+
-|      0|2020-09-29 10:31:30|  null|    null|CREATE TABLE|[isManaged -> tru...|null|    null|     null|       null|          null|         true|              []|        null|
-+-------+-------------------+------+--------+------------+--------------------+----+--------+---------+-----------+--------------+-------------+----------------+------------+
+scala> h.show(truncate = false)
++-------+------------+-----------------------------------------------------------------------------+----------------+
+|version|operation   |operationParameters                                                          |operationMetrics|
++-------+------------+-----------------------------------------------------------------------------+----------------+
+|0      |CREATE TABLE|{isManaged -> true, description -> null, partitionBy -> [], properties -> {}}|{}              |
++-------+------------+-----------------------------------------------------------------------------+----------------+
 ```
+
+### Converting DeltaTable into DataFrame
 
 ```text
 val users = dt.toDF
@@ -108,13 +133,14 @@ scala> newUsers.show
 ```
 
 ```text
-newUsers.write.format("delta").mode("append").saveAsTable(name)
+// newUsers.write.format("delta").mode("append").saveAsTable(name)
+newUsers.writeTo(tableName).append
 assert(deltaLog.snapshot.version == 1)
 ```
 
 Review the cached RDD for the state snapshot in the Storage tab of the web UI (e.g. http://localhost:4040/storage/).
 
-The "version" part of **Delta Table State** name of the cached RDD should match the version of the snapshot
+Note that the `DataFrame` variant of the delta table has automatically been refreshed (making `REFRESH TABLE` unnecessary).
 
 ```text
 scala> users.show
@@ -126,12 +152,16 @@ scala> users.show
 +---+-------+------+-------+
 ```
 
+```scala
+val h = dt.history.select('version, 'operation, 'operationParameters, 'operationMetrics)
+```
+
 ```text
-scala> dt.history.select('version, 'operation, 'operationParameters, 'operationMetrics).show(truncate = false)
-+-------+------------+------------------------------------------------------------------------+-----------------------------------------------------------+
-|version|operation   |operationParameters                                                     |operationMetrics                                           |
-+-------+------------+------------------------------------------------------------------------+-----------------------------------------------------------+
-|1      |WRITE       |[mode -> Append, partitionBy -> []]                                     |[numFiles -> 2, numOutputBytes -> 2299, numOutputRows -> 2]|
-|0      |CREATE TABLE|[isManaged -> true, description ->, partitionBy -> [], properties -> {}]|[]                                                         |
-+-------+------------+------------------------------------------------------------------------+-----------------------------------------------------------+
+scala> h.show(truncate = false)
++-------+------------+-----------------------------------------------------------------------------+-----------------------------------------------------------+
+|version|operation   |operationParameters                                                          |operationMetrics                                           |
++-------+------------+-----------------------------------------------------------------------------+-----------------------------------------------------------+
+|1      |WRITE       |{mode -> Append, partitionBy -> []}                                          |{numFiles -> 2, numOutputBytes -> 2299, numOutputRows -> 2}|
+|0      |CREATE TABLE|{isManaged -> true, description -> null, partitionBy -> [], properties -> {}}|{}                                                         |
++-------+------------+-----------------------------------------------------------------------------+-----------------------------------------------------------+
 ```
