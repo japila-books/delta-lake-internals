@@ -295,7 +295,7 @@ getOperationMetrics(
   op: Operation): Option[Map[String, String]]
 ```
 
-`getOperationMetrics` gives the [metrics](SQLMetricsReporting.md#getMetricsForOperation) for the given [Operation](Operation.md) only when the [spark.databricks.delta.history.metricsEnabled](DeltaSQLConf.md#DELTA_HISTORY_METRICS_ENABLED) configuration property is enabled. Otherwise, `getOperationMetrics` gives `None`.
+`getOperationMetrics` gives the [metrics](SQLMetricsReporting.md#getMetricsForOperation) of the given [Operation](Operation.md) when the [spark.databricks.delta.history.metricsEnabled](DeltaSQLConf.md#DELTA_HISTORY_METRICS_ENABLED) configuration property is enabled. Otherwise, `getOperationMetrics` gives `None`.
 
 ## <span id="commitInfo"> CommitInfo
 

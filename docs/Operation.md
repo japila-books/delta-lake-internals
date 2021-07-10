@@ -1,6 +1,6 @@
 # Operation
 
-**Operation** is an [abstraction](#contract) of [operations](#implementations) that can be executed on Delta tables.
+`Operation` is an [abstraction](#contract) of [operations](#implementations) that can be executed on a Delta table.
 
 Operation is described by a [name](#name) and [parameters](#parameters) (that are simply used to create a [CommitInfo](CommitInfo.md) for `OptimisticTransactionImpl` when [committed](OptimisticTransactionImpl.md#commit) and, as a way to bypass a transaction, [ConvertToDeltaCommand](commands/convert/ConvertToDeltaCommand.md)).
 
@@ -16,11 +16,13 @@ parameters: Map[String, Any]
 
 Parameters of the operation (to create a [CommitInfo](CommitInfo.md) with the [JSON-encoded values](#jsonEncodedValues))
 
-Used when `Operation` is requested for [parameters with the values in JSON format](#jsonEncodedValues)
+Used when:
+
+* `Operation` is requested for the [parameters with the values in JSON format](#jsonEncodedValues)
 
 ## Implementations
 
-??? note "Sealed Abstract Class"
+!!! note "Sealed Abstract Class"
     `Operation` is a Scala **sealed abstract class** which means that all of the implementations are in the same compilation unit (a single file).
 
 ### AddColumns
@@ -40,6 +42,20 @@ Used when `Operation` is requested for [parameters with the values in JSON forma
 ### ManualUpdate
 
 ### Merge
+
+[Name](#name): `MERGE`
+
+[Parameters](#parameters):
+
+* predicate
+* matchedPredicates
+* notMatchedPredicates
+
+[changesData](#changesData): `true`
+
+Used when:
+
+* [MergeIntoCommand](commands/merge/MergeIntoCommand.md) is executed (and committed to a Delta table)
 
 ### ReplaceColumns
 
@@ -85,11 +101,6 @@ Used when:
 
 ### Write
 
-
-### Merge
-
-Recorded when a merge operation is committed to a Delta table (when [MergeIntoCommand](commands/merge/MergeIntoCommand.md) is executed)
-
 ## Creating Instance
 
 `Operation` takes the following to be created:
@@ -112,15 +123,17 @@ jsonEncodedValues: Map[String, String]
 * `OptimisticTransactionImpl` is requested to [commit](OptimisticTransactionImpl.md#commit)
 * `ConvertToDeltaCommand` command is requested to [streamWrite](commands/convert/ConvertToDeltaCommand.md#streamWrite)
 
-## <span id="operationMetrics"> operationMetrics Registry
+## <span id="operationMetrics"> Operation Metrics
 
 ```scala
 operationMetrics: Set[String]
 ```
 
-`operationMetrics` is empty by default (and is expected to be overriden by [concrete operations](#implementations))
+`operationMetrics` is empty by default (and is expected to be overriden by [concrete operations](#implementations)).
 
-`operationMetrics` is used when `Operation` is requested to [transformMetrics](#transformMetrics).
+`operationMetrics` is used when:
+
+* `Operation` is requested to [transformMetrics](#transformMetrics)
 
 ## <span id="transformMetrics"> Transforming Performance Metrics
 
@@ -129,8 +142,31 @@ transformMetrics(
   metrics: Map[String, SQLMetric]): Map[String, String]
 ```
 
-`transformMetrics` returns a collection of `SQLMetric`s ([Spark SQL]({{ book.spark_sql }}/physical-operators/SQLMetric)) and their values (as text) that are defined as the [operationMetrics](#operationMetrics).
+`transformMetrics` returns a collection of `SQLMetric`s ([Spark SQL]({{ book.spark_sql }}/physical-operators/SQLMetric)) and their values (as text) that are defined as the [operation metrics](#operationMetrics).
 
 `transformMetrics` is used when:
 
 * `SQLMetricsReporting` is requested for [operation metrics](SQLMetricsReporting.md#getMetricsForOperation)
+
+## <span id="userMetadata"> User Metadata
+
+```scala
+userMetadata: Option[String]
+```
+
+`userMetadata` is undefined (`None`) by default (and is expected to be overriden by [concrete operations](#implementations)).
+
+`userMetadata` is used when:
+
+* `OptimisticTransactionImpl` is requested for the [user metadata](OptimisticTransactionImpl.md#getUserMetadata)
+
+## <span id="changesData"> changesData Flag
+
+```scala
+changesData: Boolean
+```
+
+`changesData` is disabled (`false`) by default (and is expected to be overriden by [concrete operations](#implementations)).
+
+!!! note
+    `changesData` seems not used.

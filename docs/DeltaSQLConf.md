@@ -83,6 +83,9 @@ Used when:
 * `SQLMetricsReporting` is requested to [registerSQLMetrics](SQLMetricsReporting.md#registerSQLMetrics)
 * `TransactionalWrite` is requested to [writeFiles](TransactionalWrite.md#writeFiles)
 
+!!! note "Github Commit"
+    The feature was added as part of [[SC-24567][DELTA] Add additional metrics to Describe Delta History](https://github.com/delta-io/delta/commit/54643efc07dfaa9028d228dcad6502d59e4bdb3a) commit.
+
 ## <span id="import.batchSize.schemaInference"><span id="DELTA_IMPORT_BATCH_SIZE_SCHEMA_INFERENCE"> import.batchSize.schemaInference
 
 **spark.databricks.delta.import.batchSize.schemaInference** (internal) is the number of files per batch for schema inference during [import](commands/convert/ConvertToDeltaCommand.md#performConvert-schemaBatchSize).

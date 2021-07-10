@@ -48,7 +48,7 @@ getMetricsForOperation(
 
 `getMetricsForOperation` is used when:
 
-* `OptimisticTransactionImpl` is requested for [operation metrics](OptimisticTransactionImpl.md#getOperationMetrics)
+* `OptimisticTransactionImpl` is requested for the [operation metrics](OptimisticTransactionImpl.md#getOperationMetrics)
 
 ## <span id="getMetric"> Looking Up Operation Metric
 
