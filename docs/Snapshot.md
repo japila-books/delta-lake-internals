@@ -1,9 +1,6 @@
 # Snapshot
 
-**Snapshot** is an immutable snapshot of the [state](#state) of the [Delta table](#deltaLog) at the [version](#version).
-
-!!! tip
-    Use [Demo: DeltaTable, DeltaLog And Snapshots](demo/DeltaTable-DeltaLog-And-Snapshots.md) to learn more.
+`Snapshot` is an immutable snapshot of the [state](#state) of a [Delta table](#deltaLog) at the [version](#version).
 
 ## Creating Instance
 
@@ -15,7 +12,7 @@
 * <span id="minFileRetentionTimestamp"> `minFileRetentionTimestamp` (that is exactly [DeltaLog.minFileRetentionTimestamp](DeltaLog.md#minFileRetentionTimestamp))
 * <span id="deltaLog"> [DeltaLog](DeltaLog.md)
 * <span id="timestamp"> Timestamp
-* <span id="checksumOpt"> Optional `VersionChecksum`
+* <span id="checksumOpt"> `VersionChecksum`
 
 While being created, `Snapshot` prints out the following INFO message to the logs and [initialize](#init):
 
@@ -25,7 +22,7 @@ Created snapshot [this]
 
 `Snapshot` is created when:
 
-* `SnapshotManagement` is requested for [one](SnapshotManagement.md#createSnapshot)
+* `SnapshotManagement` is requested for a [Snapshot](SnapshotManagement.md#createSnapshot)
 
 ### <span id="init"> Initializing
 
@@ -35,18 +32,20 @@ init(): Unit
 
 `init` requests the [DeltaLog](#deltaLog) for the [protocolRead](DeltaLog.md#protocolRead) for the [Protocol](#protocol).
 
+## Demo
+
+* [Demo: DeltaTable, DeltaLog And Snapshots](demo/DeltaTable-DeltaLog-And-Snapshots.md)
+
 ## <span id="computedState"> Computed State
 
 ```scala
 computedState: State
 ```
 
-!!! note "Scala lazy value"
-    `computedState` is a Scala lazy value and is initialized once at the first access. Once computed it stays unchanged for the `Snapshot` instance.
+??? note "Lazy Value"
+    `computedState` is a Scala **lazy value** to guarantee that the code to initialize it is executed once only (when accessed for the first time) and the computed value never changes afterwards.
 
-    ```text
-    lazy val computedState: State
-    ```
+    Learn more in the [Scala Language Specification]({{ scala.spec }}/05-classes-and-objects.html#lazy).
 
 `computedState` takes the [current cached set of actions](#state) and reads the latest state (executes a `state.select(...).first()` query).
 
@@ -94,11 +93,13 @@ state: Dataset[SingleAction]
 ### <span id="cachedState"> Cached Delta Table State
 
 ```scala
-lazy val cachedState: CachedDS[SingleAction]
+cachedState: CachedDS[SingleAction]
 ```
 
-!!! note ""
-    `cachedState` is a Scala lazy value and is initialized once at the first access. Once computed it stays unchanged for the `Snapshot` instance.
+??? note "Lazy Value"
+    `cachedState` is a Scala **lazy value** to guarantee that the code to initialize it is executed once only (when accessed for the first time) and the computed value never changes afterwards.
+
+    Learn more in the [Scala Language Specification]({{ scala.spec }}/05-classes-and-objects.html#lazy).
 
 `cachedState` creates a [Cached Delta State](CachedDS.md) with the following:
 

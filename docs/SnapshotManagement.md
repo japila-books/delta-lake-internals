@@ -93,7 +93,9 @@ createSnapshot(
 
 `createSnapshot` [readChecksum](ReadChecksum.md#readChecksum) (for the version of the given [LogSegment](LogSegment.md)) and creates a [Snapshot](Snapshot.md).
 
-`createSnapshot` is used when `SnapshotManagement` is requested for [getSnapshotAtInit](#getSnapshotAtInit), [getSnapshotAt](#getSnapshotAt) and [update](#update).
+`createSnapshot` is used when:
+
+* `SnapshotManagement` is requested for [getSnapshotAtInit](#getSnapshotAtInit), [updateInternal](#updateInternal) and [getSnapshotAt](#getSnapshotAt)
 
 ## <span id="lastUpdateTimestamp"> Last Successful Update Timestamp
 
@@ -150,10 +152,28 @@ tryUpdate(
 
 ```scala
 updateInternal(
-  isAsync: Boolean): Snapshot
+  isAsync: Boolean): Snapshot // (1)
 ```
 
-`updateInternal`...FIXME
+1. `isAsync` flag is not used
+
+`updateInternal` requests the [current Snapshot](#currentSnapshot) for the [LogSegment](Snapshot.md#logSegment) that is in turn requested for the [checkpointVersion](LogSegment.md#checkpointVersion). `updateInternal` [gets the LogSegment](#getLogSegmentForVersion) for the `checkpointVersion`.
+
+If the `LogSegment`s are equal (and so no new files have been added), `updateInternal` updates the [lastUpdateTimestamp](#lastUpdateTimestamp) registry to the current timestamp and returns the [currentSnapshot](#currentSnapshot).
+
+Otherwise, if the fetched `LogSegment` is different than the [current Snapshot's](Snapshot.md#logSegment), `updateInternal` prints out the following INFO message to the logs:
+
+```text
+Loading version [version][ starting from checkpoint version [v]]
+```
+
+`updateInternal` [creates a new Snapshot](#createSnapshot) with the fetched `LogSegment`.
+
+`updateInternal` [replaces Snapshots](#replaceSnapshot) and prints out the following INFO message to the logs:
+
+```text
+Updated snapshot to [newSnapshot]
+```
 
 ### <span id="replaceSnapshot"> Replacing Snapshots
 
@@ -184,3 +204,7 @@ org.apache.spark.sql.delta.Snapshot
 
 assert(snapshot.version == 0)
 ```
+
+## Logging
+
+As an extension of [DeltaLog](DeltaLog.md), use [DeltaLog](DeltaLog.md#logging) logging to see what happens inside.
