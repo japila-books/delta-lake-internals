@@ -1,6 +1,7 @@
 # Based on https://github.com/squidfunk/mkdocs-material/blob/master/.github/workflows/ci.yml
 
-name: CI
+name: Deploying the docs
+
 on:
   push:
     branches:
@@ -10,6 +11,7 @@ jobs:
   deploy:
     if: github.event.pull_request.head.repo.fork == false
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v2
         with:
