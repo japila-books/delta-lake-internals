@@ -79,7 +79,7 @@ extra:
     property: !ENV GOOGLE_ANALYTICS_KEY
   book:
     title: Delta Lake
-    spark_sql: https://jaceklaskowski.github.io/mastering-spark-sql-book
+    spark_sql: https://books.japila.pl/spark-sql-internals
     structured_streaming: https://jaceklaskowski.github.io/spark-structured-streaming-book
     spark_core: https://books.japila.pl/apache-spark-internals
   delta:

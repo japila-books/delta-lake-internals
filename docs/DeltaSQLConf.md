@@ -98,6 +98,15 @@ Default: `1000000`
 
 Default: `50000`
 
+## <span id="loadFileSystemConfigsFromDataFrameOptions"><span id="LOAD_FILE_SYSTEM_CONFIGS_FROM_DATAFRAME_OPTIONS"> loadFileSystemConfigsFromDataFrameOptions
+
+**spark.databricks.delta.loadFileSystemConfigsFromDataFrameOptions** (internal) controls whether to load file systems configs provided in `DataFrameReader` or `DataFrameWriter` options when
+calling `DataFrameReader.load/DataFrameWriter.save` using a Delta table path.
+
+Not supported for `DataFrameReader.table` and `DataFrameWriter.saveAsTable`
+
+Default: `true`
+
 ## <span id="maxSnapshotLineageLength"><span id="DELTA_MAX_SNAPSHOT_LINEAGE_LENGTH"> maxSnapshotLineageLength
 
 **spark.databricks.delta.maxSnapshotLineageLength** (internal) is the maximum lineage length of a Snapshot before Delta forces to build a Snapshot from scratch
