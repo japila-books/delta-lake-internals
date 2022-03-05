@@ -98,6 +98,7 @@ extra:
   scala:
     api: https://www.scala-lang.org/api/2.12.14
     docs: https://docs.scala-lang.org/
+    spec: https://www.scala-lang.org/files/archive/spec/2.12
   social:
     - icon: fontawesome/brands/github
       link: https://github.com/jaceklaskowski
