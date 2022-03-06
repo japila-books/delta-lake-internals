@@ -2,24 +2,46 @@
 
 `DeltaTableV2` is a logical representation of a writable Delta table.
 
-In Spark SQL 3's terms, `DeltaTableV2` is a `Table` ([Spark SQL]({{ book.spark_sql }}/connector/Table)) that `SupportsWrite` ([Spark SQL]({{ book.spark_sql }}/connector/SupportsWrite)).
-
 ## Creating Instance
 
 `DeltaTableV2` takes the following to be created:
 
 * <span id="spark"> `SparkSession` ([Spark SQL]({{ book.spark_sql }}/SparkSession))
 * <span id="path"> Path ([Hadoop HDFS]({{ hadoop.api }}/org/apache/hadoop/fs/Path.html))
-* <span id="catalogTable"> Optional Catalog Metadata (`Option[CatalogTable]`)
-* <span id="tableIdentifier"> Optional Table ID (`Option[String]`)
+* <span id="catalogTable"> Optional Catalog Metadata ([Spark SQL]({{ book.spark_sql }}/CatalogTable))
+* <span id="tableIdentifier"> Optional Table ID
 * Optional [DeltaTimeTravelSpec](#timeTravelOpt)
-* <span id="options"> Options (default: empty)
+* [Options](#options)
+* <span id="cdcOptions"> CDC Options (empty in Delta Lake OSS)
 
 `DeltaTableV2` is created when:
 
 * `DeltaTable` utility is used to [forPath](DeltaTable.md#forPath) and [forName](DeltaTable.md#forName)
 * `DeltaCatalog` is requested to [load a table](DeltaCatalog.md#loadTable)
 * `DeltaDataSource` is requested to [load a table](DeltaDataSource.md#getTable) or [create a table relation](DeltaDataSource.md#RelationProvider-createRelation)
+
+## <span id="options"> Options
+
+`DeltaTableV2` can be given options (as a `Map[String, String]`). Options are empty by default.
+
+The options are defined when `DeltaDataSource` is requested for a [relation](DeltaDataSource.md#RelationProvider-createRelation) with [spark.databricks.delta.loadFileSystemConfigsFromDataFrameOptions](DeltaSQLConf.md#loadFileSystemConfigsFromDataFrameOptions) configuration property enabled.
+
+The options are used for the following:
+
+* Looking up `path` or `paths` options
+* [Creating the DeltaLog](#deltaLog)
+
+## <span id="deltaLog"> DeltaLog
+
+`DeltaTableV2` [creates a DeltaLog](DeltaLog.md#forTable) for the [rootPath](#rootPath) and the given [options](#options).
+
+## <span id="Table"> Table
+
+`DeltaTableV2` is a `Table` ([Spark SQL]({{ book.spark_sql }}/connector/Table)).
+
+## <span id="SupportsWrite"> SupportsWrite
+
+`DeltaTableV2` is a `SupportsWrite` ([Spark SQL]({{ book.spark_sql }}/connector/SupportsWrite)).
 
 ## <span id="V2TableWithV1Fallback"> V2TableWithV1Fallback
 

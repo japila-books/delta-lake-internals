@@ -86,6 +86,9 @@ extra:
     version: 1.1.0
     github: https://github.com/delta-io/delta/blob/v1.1.0
     commit: https://github.com/delta-io/delta/commit
+  guava:
+    version: 16.0.1
+    api: https://guava.dev/releases/16.0.1/api/docs
   hadoop:
     version: 3.2.0
     docs: https://hadoop.apache.org/docs/r3.2.0

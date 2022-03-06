@@ -1,10 +1,6 @@
 # DeltaDataSource
 
-`DeltaDataSource` is a [DataSourceRegister](#DataSourceRegister) and is the entry point to all the features provided by `delta` data source.
-
-`DeltaDataSource` is a [RelationProvider](#RelationProvider).
-
-`DeltaDataSource` is a [StreamSinkProvider](#StreamSinkProvider) for a streaming sink for streaming queries (Structured Streaming).
+`DeltaDataSource` is a [DataSourceRegister](#DataSourceRegister) and is the entry point to all the features provided by `delta` data source that supports batch and streaming queries.
 
 ## <span id="delta-format"><span id="DataSourceRegister"> DataSourceRegister and delta Alias
 

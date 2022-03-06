@@ -1,6 +1,6 @@
 # DeltaLog
 
-`DeltaLog` is a **transaction log** (_change log_) of [changes](Action.md) to the state of a Delta table (in the given [data directory](#dataPath)).
+`DeltaLog` is a **transaction log** (_change log_) of all the [changes](Action.md) to (the state of) a Delta table.
 
 ## Creating Instance
 
@@ -8,6 +8,7 @@
 
 * <span id="logPath"> Log directory (Hadoop [Path]({{ hadoop.api }}/org/apache/hadoop/fs/Path.html))
 * <span id="dataPath"> Data directory (Hadoop [Path]({{ hadoop.api }}/org/apache/hadoop/fs/Path.html))
+* <span id="options"> Options (`Map[String, String]`)
 * <span id="clock"> `Clock`
 
 `DeltaLog` is created (indirectly via [DeltaLog.apply](#apply) utility) when:
@@ -24,82 +25,59 @@ The `_delta_log` directory is resolved (in the [DeltaLog.apply](#apply) utility)
 
 Once resolved and turned into a qualified path, the `_delta_log` directory is [cached](#deltaLogCache).
 
+## <span id="deltaLogCache"><span id="delta.log.cacheSize"> DeltaLog Cache
+
+```scala
+deltaLogCache: Cache[(Path, Map[String, String]), DeltaLog]
+```
+
+`DeltaLog` uses Guava's [Cache]({{ guava.api }}/com/google/common/cache/Cache.html) as a cache of `DeltaLog`s by their HDFS-qualified [_delta_log](#_delta_log) directories (with their`fs.`-prefixed file system options).
+
+`deltaLogCache` is part of `DeltaLog` Scala object and so becomes an application-wide cache by design (an object in Scala is available as a single instance).
+
+### Caching DeltaLog Instance
+
+A new instance of `DeltaLog` is added when [DeltaLog.apply](#apply) utility is used and the instance is not available for a path (and file system options).
+
+### Cache Size
+
+The size of the cache is controlled by `delta.log.cacheSize` system property.
+
+### DeltaLog Instance Expiration
+
+`DeltaLog`s expire and are automatically removed from the `deltaLogCache` after 60 minutes (non-configurable) of inactivity. Upon expiration, `deltaLogCache` requests the [Snapshot](SnapshotManagement.md#snapshot) of the `DeltaLog` to [uncache](StateCache.md#uncache).
+
+### Cache Clearance
+
+`deltaLogCache` is invalidated:
+
+* For a delta table using [DeltaLog.invalidateCache](#invalidateCache) utility
+
+* For all delta tables using [DeltaLog.clearCache](#clearCache) utility
+
 ## <span id="forTable"> DeltaLog.forTable
 
 ```scala
-forTable(
-  spark: SparkSession,
-  table: CatalogTable): DeltaLog
-forTable(
-  spark: SparkSession,
-  table: CatalogTable,
-  clock: Clock): DeltaLog
-forTable(
-  spark: SparkSession,
-  deltaTable: DeltaTableIdentifier): DeltaLog
-forTable(
-  spark: SparkSession,
-  dataPath: File): DeltaLog
-forTable(
-  spark: SparkSession,
-  dataPath: File,
-  clock: Clock): DeltaLog
-forTable(
-  spark: SparkSession,
-  dataPath: Path): DeltaLog
-forTable(
-  spark: SparkSession,
-  dataPath: Path,
-  clock: Clock): DeltaLog
-forTable(
-  spark: SparkSession,
-  dataPath: String): DeltaLog
-forTable(
-  spark: SparkSession,
-  dataPath: String,
-  clock: Clock): DeltaLog
-forTable(
-  spark: SparkSession,
-  tableName: TableIdentifier): DeltaLog
-forTable(
-  spark: SparkSession,
-  tableName: TableIdentifier,
-  clock: Clock): DeltaLog
+// There are many forTable's
+forTable(...): DeltaLog
 ```
 
-`forTable` creates a [DeltaLog](#apply) with [_delta_log](#_delta_log) directory (in the given `dataPath` directory).
+`forTable` is an utility that [creates a DeltaLog](#apply) with [_delta_log](#_delta_log) directory (in the given `dataPath` directory).
 
-`forTable` is used when:
-
-* [AlterTableSetLocationDeltaCommand](commands/alter/AlterTableSetLocationDeltaCommand.md), [ConvertToDeltaCommand](commands/convert/ConvertToDeltaCommand.md), [VacuumTableCommand](commands/vacuum/VacuumTableCommand.md), [CreateDeltaTableCommand](commands/CreateDeltaTableCommand.md), [DeltaGenerateCommand](commands/generate/DeltaGenerateCommand.md), [DescribeDeltaDetailCommand](commands/describe-detail/DescribeDeltaDetailCommand.md), [DescribeDeltaHistoryCommand](commands/describe-history/DescribeDeltaHistoryCommand.md) commands are executed
-
-* `DeltaDataSource` is requested for the [source schema](DeltaDataSource.md#sourceSchema), a [source](DeltaDataSource.md#createSource), and a [relation](DeltaDataSource.md#createRelation)
-
-* [DeltaTable.isDeltaTable](DeltaTable.md#isDeltaTable) utility is used
-
-* [DeltaTableUtils.combineWithCatalogMetadata](DeltaTableUtils.md#combineWithCatalogMetadata) utility is used
-
-* `DeltaTableIdentifier` is requested to [getDeltaLog](DeltaTableIdentifier.md#getDeltaLog)
-
-* `DeltaCatalog` is requested to [createDeltaTable](DeltaCatalog.md#createDeltaTable)
-
-* `DeltaTableV2` is requested for the [DeltaLog](DeltaTableV2.md#deltaLog)
-
-* [DeltaSink](DeltaSink.md#deltaLog) is created
-
-### <span id="apply"> Looking Up Or Creating DeltaLog Instance
+### <span id="forTable-demo"> Demo: Creating DeltaLog
 
 ```scala
-apply(
-  spark: SparkSession,
-  rawPath: Path,
-  clock: Clock = new SystemClock): DeltaLog
+import org.apache.spark.sql.SparkSession
+assert(spark.isInstanceOf[SparkSession])
+
+val dataPath = "/tmp/delta/t1"
+import org.apache.spark.sql.delta.DeltaLog
+val deltaLog = DeltaLog.forTable(spark, dataPath)
+
+import org.apache.hadoop.fs.Path
+val expected = new Path(s"file:$dataPath/_delta_log/_last_checkpoint")
+assert(deltaLog.LAST_CHECKPOINT == expected)
 ```
-
-!!! note
-    `rawPath` is a Hadoop [Path]({{ hadoop.api }}/org/apache/hadoop/fs/Path.html) to the [_delta_log](#_delta_log) directory at the root of the data of a delta table.
-
-`apply`...FIXME
 
 ## <span id="tableExists"> tableExists
 
@@ -114,21 +92,6 @@ is used when:
 * `DeltaTable` utility is used to [isDeltaTable](DeltaTable.md#isDeltaTable)
 * [DeltaUnsupportedOperationsCheck](DeltaUnsupportedOperationsCheck.md) logical check rule is executed
 * `DeltaTableV2` is requested to [toBaseRelation](DeltaTableV2.md#toBaseRelation)
-
-## Demo: Creating DeltaLog
-
-```scala
-import org.apache.spark.sql.SparkSession
-assert(spark.isInstanceOf[SparkSession])
-
-val dataPath = "/tmp/delta/t1"
-import org.apache.spark.sql.delta.DeltaLog
-val deltaLog = DeltaLog.forTable(spark, dataPath)
-
-import org.apache.hadoop.fs.Path
-val expected = new Path(s"file:$dataPath/_delta_log/_last_checkpoint")
-assert(deltaLog.LAST_CHECKPOINT == expected)
-```
 
 ## Accessing Current Version
 
@@ -159,7 +122,7 @@ In other words, the version of (the `DeltaLog` of) a delta table is at version `
 assert(deltaLog.snapshot.version >= 0)
 ```
 
-## <span id="filterFileList"> filterFileList Utility
+## <span id="filterFileList"> filterFileList
 
 ```scala
 filterFileList(
@@ -193,22 +156,6 @@ These `FileFormat`s are used to create [DeltaLogFileIndex](DeltaLogFileIndex.md)
 ## <span id="store"> LogStore
 
 `DeltaLog` uses a [LogStore](storage/LogStore.md) for...FIXME
-
-## <span id="deltaLogCache"> Transaction Logs (DeltaLogs) per Fully-Qualified Path
-
-```scala
-deltaLogCache: Cache[Path, DeltaLog]
-```
-
-`deltaLogCache` is part of `DeltaLog` Scala object which makes it an application-wide cache "for free". Once used, `deltaLogCache` will only be one until the application that uses it stops.
-
-`deltaLogCache` is a registry of `DeltaLogs` by their fully-qualified [_delta_log](#_delta_log) directories. A new instance of `DeltaLog` is added when [DeltaLog.apply](#apply) utility is used and the instance hasn't been created before for a path.
-
-`deltaLogCache` is invalidated:
-
-* For a delta table using [DeltaLog.invalidateCache](#invalidateCache) utility
-
-* For all delta tables using [DeltaLog.clearCache](#clearCache) utility
 
 ## <span id="withNewTransaction"> Executing Single-Threaded Operation in New Transaction
 
@@ -484,7 +431,7 @@ In the end, `createDataFrame` creates a `DataFrame` with a logical query plan wi
 * [MergeIntoCommand](commands/merge/MergeIntoCommand.md) is executed
 * `DeltaSource` is requested for a [DataFrame for data between start and end offsets](DeltaSource.md#getBatch)
 
-## <span id="minFileRetentionTimestamp"> `minFileRetentionTimestamp` Method
+## <span id="minFileRetentionTimestamp"> minFileRetentionTimestamp
 
 ```scala
 minFileRetentionTimestamp: Long
@@ -498,7 +445,7 @@ minFileRetentionTimestamp: Long
 
 * `VacuumCommand` is requested for [garbage collecting of a delta table](commands/vacuum/VacuumCommand.md#gc)
 
-## <span id="tombstoneRetentionMillis"> `tombstoneRetentionMillis` Method
+## <span id="tombstoneRetentionMillis"> tombstoneRetentionMillis
 
 ```scala
 tombstoneRetentionMillis: Long
@@ -512,7 +459,7 @@ tombstoneRetentionMillis: Long
 
 * `VacuumCommand` is requested for [garbage collecting of a delta table](commands/vacuum/VacuumCommand.md#gc)
 
-## <span id="updateInternal"> `updateInternal` Internal Method
+## <span id="updateInternal"> updateInternal
 
 ```scala
 updateInternal(
@@ -570,6 +517,31 @@ upgradeProtocol(
 ## LogStoreProvider
 
 `DeltaLog` is a [LogStoreProvider](storage/LogStoreProvider.md).
+
+## <span id="apply"> Looking Up Cached Or Creating New DeltaLog Instance
+
+```scala
+apply(
+  spark: SparkSession,
+  rawPath: Path,
+  clock: Clock = new SystemClock): DeltaLog // (1)!
+apply(
+  spark: SparkSession,
+  rawPath: Path,
+  options: Map[String, String],
+  clock: Clock): DeltaLog
+```
+
+1. Uses empty `options`
+
+!!! note
+    `rawPath` is a Hadoop [Path]({{ hadoop.api }}/org/apache/hadoop/fs/Path.html) to the [_delta_log](#_delta_log) directory at the root of the data of a delta table.
+
+`apply` creates a Hadoop `Configuration` (perhaps with `fs.`-prefixed options when [spark.databricks.delta.loadFileSystemConfigsFromDataFrameOptions](DeltaSQLConf.md#loadFileSystemConfigsFromDataFrameOptions) configuration property is enabled).
+
+`apply` resolves the raw path to be HDFS-qualified (using the given Hadoop `Path` to get a Hadoop `FileSystem`).
+
+In the end, `apply` looks up a `DeltaLog` for the HDFS-qualified path (with the file system options) in the [deltaLogCache](#deltaLogCache) or creates (and caches) a new [DeltaLog](#creating-instance).
 
 ## Logging
 
