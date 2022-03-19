@@ -25,7 +25,17 @@ Used when:
 !!! note "Sealed Abstract Class"
     `Operation` is a Scala **sealed abstract class** which means that all of the implementations are in the same compilation unit (a single file).
 
-### AddColumns
+### <span id="AddColumns"> AddColumns
+
+[Name](#name): `ADD COLUMNS`
+
+[Parameters](#parameters):
+
+* `columns`
+
+Used when:
+
+* [AlterTableAddColumnsDeltaCommand](commands/alter/AlterTableAddColumnsDeltaCommand.md) is executed (and committed to a Delta table)
 
 ### AddConstraint
 

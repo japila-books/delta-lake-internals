@@ -250,10 +250,10 @@ nav:
   - Commands:
     - commands/index.md
     - DeltaCommand: commands/DeltaCommand.md
-    - Alter:
+    - ALTER TABLE:
       - commands/alter/index.md
       - AlterDeltaTableCommand: commands/alter/AlterDeltaTableCommand.md
-      - AlterTableAddColumnsDeltaCommand: commands/alter/AlterTableAddColumnsDeltaCommand.md
+      - ADD COLUMNS: commands/alter/AlterTableAddColumnsDeltaCommand.md
       - AlterTableAddConstraintDeltaCommand: commands/alter/AlterTableAddConstraintDeltaCommand.md
       - AlterTableChangeColumnDeltaCommand: commands/alter/AlterTableChangeColumnDeltaCommand.md
       - AlterTableDropConstraintDeltaCommand: commands/alter/AlterTableDropConstraintDeltaCommand.md
