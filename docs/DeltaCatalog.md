@@ -2,7 +2,7 @@
 
 `DeltaCatalog` is a `DelegatingCatalogExtension` ([Spark SQL]({{ book.spark_sql }}/connector/catalog/DelegatingCatalogExtension/)) and a `StagingTableCatalog` ([Spark SQL]({{ book.spark_sql }}/connector/catalog/StagingTableCatalog/)).
 
-`DeltaCatalog` is [registered](installation.md) using **spark.sql.catalog.spark_catalog** configuration property (while creating a `SparkSession` in a Spark application).
+`DeltaCatalog` is [registered](installation.md) using `spark.sql.catalog.spark_catalog` ([Spark SQL]({{ book.spark_sql }}/configuration-properties/#spark.sql.catalog.spark_catalog)) configuration property.
 
 ## <span id="alterTable"> Altering Table
 
