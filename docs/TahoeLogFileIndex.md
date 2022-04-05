@@ -17,6 +17,10 @@
 
 * `DeltaLog` is requested for an [Insertable HadoopFsRelation](DeltaLog.md#createRelation)
 
+## <span id="checkSchemaOnRead"><span id="checkLatestSchemaOnRead"><span id="spark.databricks.delta.checkLatestSchemaOnRead"> spark.databricks.delta.checkLatestSchemaOnRead
+
+`TahoeLogFileIndex` uses the [spark.databricks.delta.checkLatestSchemaOnRead](DeltaSQLConf.md#spark.databricks.delta.checkLatestSchemaOnRead) configuration property when requested for a [Snapshot](#getSnapshot).
+
 ## <span id="isTimeTravelQuery"> isTimeTravelQuery flag
 
 `TahoeLogFileIndex` is given a `isTimeTravelQuery` flag when [created](#creating-instance).
@@ -70,9 +74,11 @@ inputFiles: Array[String]
 ## <span id="getSnapshot"> Historical Or Latest Snapshot
 
 ```scala
-getSnapshot(
-  stalenessAcceptable: Boolean): Snapshot
+getSnapshot: Snapshot
 ```
+
+!!! danger "FIXME"
+    Review Me
 
 `getSnapshot` returns a [Snapshot](Snapshot.md) that is either the [historical snapshot](#historicalSnapshotOpt) (for the [snapshot version](#versionToUse) if specified) or requests the [DeltaLog](#deltaLog) to [update](DeltaLog.md#update) (and give one).
 

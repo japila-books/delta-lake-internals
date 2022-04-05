@@ -80,7 +80,7 @@ extra:
   book:
     title: Delta Lake
     spark_sql: https://books.japila.pl/spark-sql-internals
-    structured_streaming: https://jaceklaskowski.github.io/spark-structured-streaming-book
+    structured_streaming: https://books.japila.pl/spark-structured-streaming-internals/
     spark_core: https://books.japila.pl/apache-spark-internals
   delta:
     version: 1.1.0

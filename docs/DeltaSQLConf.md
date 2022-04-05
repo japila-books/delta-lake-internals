@@ -10,11 +10,11 @@ Default: `false`
 
 ## <span id="checkLatestSchemaOnRead"><span id="DELTA_SCHEMA_ON_READ_CHECK_ENABLED"> checkLatestSchemaOnRead
 
-**spark.databricks.delta.checkLatestSchemaOnRead** (internal) enables a check that ensures that users won't read corrupt data if the source schema changes in an incompatible way.
+**spark.databricks.delta.checkLatestSchemaOnRead** enables a check that ensures that users won't read corrupt data if the source schema changes in an incompatible way.
 
 Default: `true`
 
-In Delta, we always try to give users the latest version of their data without having to call REFRESH TABLE or redefine their DataFrames when used in the context of streaming. There is a possibility that the schema of the latest version of the table may be incompatible with the schema at the time of DataFrame creation.
+Delta always tries to give users the latest version of table data without having to call `REFRESH TABLE` or redefine their DataFrames when used in the context of streaming. There is a possibility that the schema of the latest version of the table may be incompatible with the schema at the time of DataFrame creation.
 
 ## <span id="checkpoint.partSize"><span id="DELTA_CHECKPOINT_PART_SIZE"> checkpoint.partSize
 
