@@ -83,16 +83,16 @@ extra:
     structured_streaming: https://books.japila.pl/spark-structured-streaming-internals/
     spark_core: https://books.japila.pl/apache-spark-internals
   delta:
-    version: 1.1.0
-    github: https://github.com/delta-io/delta/blob/v1.1.0
+    version: 1.2.0
+    github: https://github.com/delta-io/delta/blob/v1.2.0
     commit: https://github.com/delta-io/delta/commit
   guava:
     version: 16.0.1
     api: https://guava.dev/releases/16.0.1/api/docs
   hadoop:
-    version: 3.2.0
-    docs: https://hadoop.apache.org/docs/r3.2.0
-    api: https://hadoop.apache.org/docs/r3.2.0/api
+    version: 3.3.1
+    docs: https://hadoop.apache.org/docs/r3.3.1
+    api: https://hadoop.apache.org/docs/r3.3.1/api
   jackson:
     github: https://github.com/FasterXML/jackson
     scala: https://github.com/FasterXML/jackson-module-scala
