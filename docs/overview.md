@@ -8,7 +8,7 @@ As [it was well said](https://github.com/delta-io/delta/issues/467#issuecomment-
 
 Delta Lake is yet another data source for Spark SQL (and uses Spark SQL's infrastructure for its work).
 
-Delta Lake 1.1.0 supports Apache Spark 3.2.0 (cf. [build.sbt]({{ delta.github }}/build.sbt#L19)).
+Delta Lake 1.2.0 supports Apache Spark 3.2.0 (cf. [build.sbt]({{ delta.github }}/build.sbt#L19)).
 
 ## Delta Tables
 

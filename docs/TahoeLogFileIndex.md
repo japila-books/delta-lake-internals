@@ -71,18 +71,31 @@ inputFiles: Array[String]
 
 `inputFiles` is part of the `FileIndex` contract (Spark SQL).
 
-## <span id="getSnapshot"> Historical Or Latest Snapshot
+## <span id="getSnapshot"> Snapshot
 
 ```scala
 getSnapshot: Snapshot
 ```
 
-!!! danger "FIXME"
-    Review Me
+`getSnapshot` returns the [Snapshot to scan](#getSnapshotToScan).
 
-`getSnapshot` returns a [Snapshot](Snapshot.md) that is either the [historical snapshot](#historicalSnapshotOpt) (for the [snapshot version](#versionToUse) if specified) or requests the [DeltaLog](#deltaLog) to [update](DeltaLog.md#update) (and give one).
+---
 
-`getSnapshot` is used when `TahoeLogFileIndex` is requested for the [matching files](#matchingFiles) and the [input files](#inputFiles).
+With [checkSchemaOnRead](#checkSchemaOnRead) enabled or the [DeltaColumnMappingMode](#columnMappingMode) (of the [Metadata](Snapshot.md#metadata) of the [Snapshot](Snapshot.md)) set (different from `NoMapping`), `getSnapshot` makes sure that the [schemas are read-compatible](SchemaUtils.md#isReadCompatible) (and hasn't changed in an incompatible manner since analysis time)
+
+---
+
+`getSnapshot` is used when:
+
+* `TahoeLogFileIndex` is requested for the [matching files](#matchingFiles) and the [input files](#inputFiles)
+
+### <span id="getSnapshotToScan"> getSnapshotToScan
+
+```scala
+getSnapshotToScan: Snapshot
+```
+
+`getSnapshot` returns the [Snapshot](#snapshotAtAnalysis) with [isTimeTravelQuery](#isTimeTravelQuery) enabled or requests the [DeltaLog](#deltaLog) to [update and give one](DeltaLog.md#update).
 
 ## Internal Properties
 
