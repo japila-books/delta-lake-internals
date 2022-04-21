@@ -33,8 +33,8 @@ More importantly, multiple queries can write to the same delta table simultaneou
 Delta Lake provides the following _programmatic_ APIs:
 
 * [DeltaTable](DeltaTable.md)
-* [DeltaTableBuilder](DeltaTableBuilder.md) (new in 1.0.0)
-* [DeltaColumnBuilder](DeltaColumnBuilder.md) (new in 1.0.0)
+* [DeltaTableBuilder](DeltaTableBuilder.md)
+* [DeltaColumnBuilder](DeltaColumnBuilder.md)
 
 ## Structured Queries
 

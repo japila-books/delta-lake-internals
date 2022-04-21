@@ -16,6 +16,9 @@
 * [isBlindAppend](#isBlindAppend) flag (optional)
 * <span id="operationMetrics"> Operation Metrics (optional)
 * <span id="userMetadata"> User metadata (optional)
+* <span id="tags"> Tags
+* [engineInfo](#engineInfo)
+* <span id="txnId"> Transaction ID
 
 `CommitInfo` is created (using [apply](#apply) and [empty](#empty) utilities) when:
 
@@ -24,6 +27,24 @@
 * `DeltaCommand` is requested to [commitLarge](commands/DeltaCommand.md#commitLarge) (for [ConvertToDeltaCommand](commands/convert/ConvertToDeltaCommand.md) command and `FileAlreadyExistsException` was thrown)
 
 `CommitInfo` is used as a part of [OptimisticTransactionImpl](OptimisticTransactionImpl.md#commitInfo) and `CommitStats`.
+
+## <span id="engineInfo"> engineInfo
+
+`CommitInfo` can be given extra `engineInfo` identifier (when [created](#apply)) for the engine that made the commit.
+
+This `engineInfo` is by default [getEngineInfo](#getEngineInfo).
+
+### <span id="getEngineInfo"> getEngineInfo
+
+```scala
+getEngineInfo: Option[String]
+```
+
+`getEngineInfo` is the following text:
+
+```text
+Apache-Spark/[SPARK_VERSION] Delta-Lake/[VERSION]
+```
 
 ## <span id="isBlindAppend"> Blind Append
 
@@ -69,7 +90,9 @@ apply(
   isolationLevel: Option[String],
   isBlindAppend: Option[Boolean],
   operationMetrics: Option[Map[String, String]],
-  userMetadata: Option[String]): CommitInfo
+  userMetadata: Option[String],
+  tags: Option[Map[String, String]],
+  txnId: Option[String]): CommitInfo
 ```
 
 `apply` creates a `CommitInfo` (for the given arguments and based on the given `commandContext` for the user ID, user name, job, notebook, cluster).

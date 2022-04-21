@@ -12,8 +12,7 @@ Make sure that the version of Scala in Apache Spark should match Delta Lake's.
 ```scala
 import org.apache.spark.sql.SparkSession
 val spark = SparkSession
-  .builder()
-  .appName("...")
+  .builder
   .config("spark.sql.extensions", "io.delta.sql.DeltaSparkSessionExtension")
   .config("spark.sql.catalog.spark_catalog", "org.apache.spark.sql.delta.catalog.DeltaCatalog")
   .getOrCreate
@@ -35,7 +34,18 @@ Using Scala version 2.12.15, OpenJDK 64-Bit Server VM, 11.0.14
 
 ```text
 ./bin/spark-shell \
-  --packages io.delta:delta-core_2.12:1.1.0 \
+  --packages io.delta:delta-core_2.12:1.2.0 \
   --conf spark.sql.extensions=io.delta.sql.DeltaSparkSessionExtension \
   --conf spark.sql.catalog.spark_catalog=org.apache.spark.sql.delta.catalog.DeltaCatalog
 ```
+
+## <span id="VERSION"> Version
+
+`io.delta.VERSION` can be used to show the version of Delta Lake installed.
+
+```text
+scala> println(io.delta.VERSION)
+1.2.0
+```
+
+It is also possible to use [DESCRIBE HISTORY](sql/index.md#DESCRIBE-HISTORY) and check out the [engineInfo](CommitInfo.md#engineInfo) column.
