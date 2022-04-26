@@ -137,6 +137,25 @@ Default: `true`
 
 Default: `false`
 
+## <span id="optimize.maxFileSize"><span id="DELTA_OPTIMIZE_MAX_FILE_SIZE"> optimize.maxFileSize
+
+**spark.databricks.delta.optimize.maxFileSize** (internal) Target file size produced by [OPTIMIZE](sql/index.md#OPTIMIZE) command.
+
+Default: `1024 * 1024 * 1024`
+
+## <span id="optimize.maxThreads"><span id="DELTA_OPTIMIZE_MAX_THREADS"> optimize.maxThreads
+
+**spark.databricks.delta.optimize.maxThreads** (internal) Maximum number of parallel jobs allowed in [OPTIMIZE](sql/index.md#OPTIMIZE) command.
+Increasing the maximum parallel jobs allows the OPTIMIZE command to run faster, but increases the job management on the Spark driver side.
+
+Default: `15`
+
+## <span id="optimize.minFileSize"><span id="DELTA_OPTIMIZE_MIN_FILE_SIZE"> optimize.minFileSize
+
+**spark.databricks.delta.optimize.minFileSize** (internal) Files which are smaller than this threshold (in bytes) will be grouped together and rewritten as larger files by the [OPTIMIZE](sql/index.md#OPTIMIZE) command.
+
+Default: `1024 * 1024 * 1024`
+
 ## <span id="partitionColumnValidity.enabled"><span id="DELTA_PARTITION_COLUMN_CHECK_ENABLED"> partitionColumnValidity.enabled
 
 **spark.databricks.delta.partitionColumnValidity.enabled** (internal) enables validation of the partition column names (just like the data columns)
