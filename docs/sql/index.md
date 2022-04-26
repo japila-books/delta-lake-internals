@@ -58,6 +58,15 @@ GENERATE modeName FOR TABLE table
 
 Executes [DeltaGenerateCommand](../commands/generate/DeltaGenerateCommand.md)
 
+## <span id="OPTIMIZE"> OPTIMIZE
+
+```text
+OPTIMIZE (path | table)
+  (WHERE partitionPredicate)?
+```
+
+Executes [OptimizeTableCommand](../commands/optimize/OptimizeTableCommand.md) (on the Delta table identified by a directory path or a table name)
+
 ## <span id="VACUUM"> VACUUM
 
 ```text

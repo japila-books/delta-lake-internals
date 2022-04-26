@@ -296,6 +296,10 @@ nav:
       - DeltaMergeNotMatchedActionBuilder: commands/merge/DeltaMergeNotMatchedActionBuilder.md
       - JoinedRowProcessor: commands/merge/JoinedRowProcessor.md
       - MergeIntoCommand: commands/merge/MergeIntoCommand.md
+    - Optimize:
+      - commands/optimize/index.md
+      - OptimizeExecutor: commands/optimize/OptimizeExecutor.md
+      - OptimizeTableCommand: commands/optimize/OptimizeTableCommand.md
     - Update:
       - commands/update/index.md
       - UpdateCommand: commands/update/UpdateCommand.md
