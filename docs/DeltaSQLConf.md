@@ -143,18 +143,30 @@ Default: `false`
 
 Default: `1024 * 1024 * 1024`
 
+Used when:
+
+* `OptimizeExecutor` is requested to [optimize](commands/optimize/OptimizeExecutor.md#optimize)
+
 ## <span id="optimize.maxThreads"><span id="DELTA_OPTIMIZE_MAX_THREADS"> optimize.maxThreads
 
 **spark.databricks.delta.optimize.maxThreads** (internal) Maximum number of parallel jobs allowed in [OPTIMIZE](sql/index.md#OPTIMIZE) command.
-Increasing the maximum parallel jobs allows the OPTIMIZE command to run faster, but increases the job management on the Spark driver side.
+Increasing the maximum parallel jobs allows `OPTIMIZE` command to run faster, but increases the job management on the Spark driver.
 
 Default: `15`
+
+Used when:
+
+* `OptimizeExecutor` is requested to [optimize](commands/optimize/OptimizeExecutor.md#optimize)
 
 ## <span id="optimize.minFileSize"><span id="DELTA_OPTIMIZE_MIN_FILE_SIZE"> optimize.minFileSize
 
 **spark.databricks.delta.optimize.minFileSize** (internal) Files which are smaller than this threshold (in bytes) will be grouped together and rewritten as larger files by the [OPTIMIZE](sql/index.md#OPTIMIZE) command.
 
 Default: `1024 * 1024 * 1024`
+
+Used when:
+
+* `OptimizeExecutor` is requested to [optimize](commands/optimize/OptimizeExecutor.md#optimize)
 
 ## <span id="partitionColumnValidity.enabled"><span id="DELTA_PARTITION_COLUMN_CHECK_ENABLED"> partitionColumnValidity.enabled
 
