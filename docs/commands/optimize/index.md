@@ -1,8 +1,8 @@
-# Optimize Command
+# OPTIMIZE Command
 
-`OPTIMIZE` command compacts files together (that are smaller than `spark.databricks.delta.optimize.minFileSize` to files of `spark.databricks.delta.optimize.maxFileSize` size).
+`OPTIMIZE` command compacts files together (that are smaller than [spark.databricks.delta.optimize.minFileSize](../../configuration-properties.md#spark.databricks.delta.optimize.minFileSize) to files of [spark.databricks.delta.optimize.maxFileSize](../../configuration-properties.md#spark.databricks.delta.optimize.maxFileSize) size).
 
-`OPTIMIZE` command uses `spark.databricks.delta.optimize.maxThreads` threads for compaction.
+`OPTIMIZE` command uses [spark.databricks.delta.optimize.maxThreads](../../configuration-properties.md#spark.databricks.delta.optimize.maxThreads) threads for compaction.
 
 `OPTIMIZE` command can be executed using [OPTIMIZE](OptimizeTableCommand.md) SQL command.
 
