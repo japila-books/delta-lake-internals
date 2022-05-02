@@ -59,6 +59,13 @@ The number of columns to collect stats on for data skipping. `-1` means collecti
 
 Default: `32`
 
+Must be larger than or equal to `-1`.
+
+Used when:
+
+* `Snapshot` is requested to [numIndexedCols](Snapshot.md#numIndexedCols)
+* `TransactionalWrite` is requested to [writeFiles](TransactionalWrite.md#writeFiles)
+
 ### <span id="deletedFileRetentionDuration"><span id="TOMBSTONE_RETENTION"> deletedFileRetentionDuration
 
 How long to keep logically deleted data files around before deleting them physically (to prevent failures in stale readers after compactions or partition overwrites)

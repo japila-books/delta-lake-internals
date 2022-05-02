@@ -32,6 +32,21 @@ init(): Unit
 
 `init` requests the [DeltaLog](#deltaLog) for the [protocolRead](DeltaLog.md#protocolRead) for the [Protocol](#protocol).
 
+## <span id="numIndexedCols"> numIndexedCols
+
+```scala
+numIndexedCols: Int
+```
+
+`numIndexedCols` is the value of [dataSkippingNumIndexedCols](DeltaConfigs.md#DATA_SKIPPING_NUM_INDEXED_COLS) table property.
+
+??? note "Lazy Value"
+    `numIndexedCols` is a Scala **lazy value** to guarantee that the code to initialize it is executed once only (when accessed for the first time) and the computed value never changes afterwards.
+
+    Learn more in the [Scala Language Specification]({{ scala.spec }}/05-classes-and-objects.html#lazy).
+
+`numIndexedCols` is part of the [StatisticsCollection](StatisticsCollection.md#numIndexedCols) abstraction.
+
 ## Demo
 
 * [Demo: DeltaTable, DeltaLog And Snapshots](demo/DeltaTable-DeltaLog-And-Snapshots.md)

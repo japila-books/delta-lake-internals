@@ -326,6 +326,7 @@ nav:
     - Schema Evolution: demo/schema-evolution.md
     - User Metadata for Labelling Commits: demo/user-metadata-for-labelling-commits.md
   - Misc:
+    - DataSkippingReaderBase: DataSkippingReaderBase.md
     - DeltaFileOperations: DeltaFileOperations.md
     - DeltaTableOperations: DeltaTableOperations.md
     - DeltaTableUtils: DeltaTableUtils.md
@@ -334,6 +335,7 @@ nav:
     - StateCache:
       - StateCache: StateCache.md
       - CachedDS: CachedDS.md
+    - StatisticsCollection: StatisticsCollection.md
   - Monitoring:
     - DeltaProgressReporter: DeltaProgressReporter.md
     - DeltaLogging: DeltaLogging.md
