@@ -133,9 +133,13 @@ Default: `true`
 
 ## <span id="merge.repartitionBeforeWrite.enabled"><span id="MERGE_REPARTITION_BEFORE_WRITE"> merge.repartitionBeforeWrite.enabled
 
-**spark.databricks.delta.merge.repartitionBeforeWrite.enabled** (internal) controls merge will repartition the output by the table's partition columns before writing the files
+**spark.databricks.delta.merge.repartitionBeforeWrite.enabled** (internal) controls whether [MERGE](commands/merge/index.md) command repartitions output before writing the files (by the table's partition columns)
 
-Default: `false`
+Default: `true`
+
+Used when:
+
+* `MergeIntoCommand` is requested to [repartitionIfNeeded](commands/merge/MergeIntoCommand.md#repartitionIfNeeded)
 
 ## <span id="optimize.maxFileSize"><span id="DELTA_OPTIMIZE_MAX_FILE_SIZE"> optimize.maxFileSize
 

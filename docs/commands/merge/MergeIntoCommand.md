@@ -2,7 +2,7 @@
 
 `MergeIntoCommand` is a [DeltaCommand](../DeltaCommand.md) that represents a [DeltaMergeInto](DeltaMergeInto.md) logical command at execution.
 
-`MergeIntoCommand` is a `RunnableCommand` ([Spark SQL]({{ book.spark_sql }}/logical-operators/RunnableCommand/)) logical operator.
+`MergeIntoCommand` is a `LeafRunnableCommand` ([Spark SQL]({{ book.spark_sql }}/logical-operators/LeafRunnableCommand/)) logical operator.
 
 !!! tip
     Learn more in [Demo: Merge Operation](../../demo/merge-operation.md).
@@ -38,7 +38,7 @@ Name     | web UI
 * <span id="targetFileIndex"> [TahoeFileIndex](../../TahoeFileIndex.md)
 * <span id="condition"> Condition Expression
 * <span id="matchedClauses"> Matched Clauses (`Seq[DeltaMergeIntoMatchedClause]`)
-* <span id="notMatchedClause"> Optional Non-Matched Clause (`Option[DeltaMergeIntoInsertClause]`)
+* <span id="notMatchedClauses"> Non-Matched Clauses (`Seq[DeltaMergeIntoInsertClause]`)
 * <span id="migratedSchema"> Migrated Schema
 
 `MergeIntoCommand` is created when:
@@ -368,16 +368,6 @@ In the end, `buildTargetPlanWithFiles` creates a `Project` logical operator with
     deltaTxn.metadata.schema
     ```
 
-### <span id="writeInsertsOnlyWhenNoMatchedClauses"> writeInsertsOnlyWhenNoMatchedClauses
-
-```scala
-writeInsertsOnlyWhenNoMatchedClauses(
-  spark: SparkSession,
-  deltaTxn: OptimisticTransaction): Seq[AddFile]
-```
-
-`writeInsertsOnlyWhenNoMatchedClauses`...FIXME
-
 ### <span id="run-exceptions"> Exceptions
 
 `run` throws an `AnalysisException` when the target schema is different than the delta table's (has changed after analysis phase):
@@ -387,6 +377,51 @@ The schema of your Delta table has changed in an incompatible way since your Dat
 [schemaDiff]
 This check can be turned off by setting the session configuration key spark.databricks.delta.checkLatestSchemaOnRead to false.
 ```
+
+## <span id="isSingleInsertOnly"> isSingleInsertOnly
+
+```scala
+isSingleInsertOnly: Boolean
+```
+
+`isSingleInsertOnly` is positive when this `MERGE` command has only a single insert (`NOT MATCHED`) clause.
+
+In other words, `isSingleInsertOnly` is `true` when all the following hold:
+
+1. No [matched clauses](#matchedClauses) is specified
+1. There is just a single [notMatchedClauses](#notMatchedClauses)
+
+## <span id="writeInsertsOnlyWhenNoMatchedClauses"> writeInsertsOnlyWhenNoMatchedClauses
+
+```scala
+writeInsertsOnlyWhenNoMatchedClauses(
+  spark: SparkSession,
+  deltaTxn: OptimisticTransaction): Seq[AddFile]
+```
+
+`writeInsertsOnlyWhenNoMatchedClauses`...FIXME
+
+`writeInsertsOnlyWhenNoMatchedClauses` is used when:
+
+* `MergeIntoCommand` is requested to [run](#run) (when [isSingleInsertOnly](#isSingleInsertOnly) and [spark.databricks.delta.merge.optimizeInsertOnlyMerge.enabled](../../DeltaSQLConf.md#MERGE_INSERT_ONLY_ENABLED) is `true`)
+
+## <span id="repartitionIfNeeded"> repartitionIfNeeded
+
+```scala
+repartitionIfNeeded(
+  spark: SparkSession,
+  df: DataFrame,
+  partitionColumns: Seq[String]): DataFrame
+```
+
+`repartitionIfNeeded` repartitions the given `DataFrame` by the `partitionColumns` (using `Dataset.repartition` operation) when all the following hold:
+
+1. There is at least one column name among the input `partitionColumns`
+1. [spark.databricks.delta.merge.repartitionBeforeWrite.enabled](../../DeltaSQLConf.md#MERGE_REPARTITION_BEFORE_WRITE) is `true`
+
+`repartitionIfNeeded` is used when:
+
+* `MergeIntoCommand` is requested to [writeInsertsOnlyWhenNoMatchedClauses](#writeInsertsOnlyWhenNoMatchedClauses) and [writeAllChanges](#writeAllChanges)
 
 ## Logging
 
