@@ -46,6 +46,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://books.japila.pl/delta-lake-internals/DataSkippingReaderBase/</loc>
+         <lastmod>2022-05-02</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://books.japila.pl/delta-lake-internals/DelayedCommitProtocol/</loc>
          <lastmod>2022-05-02</lastmod>
          <changefreq>daily</changefreq>
@@ -372,6 +377,11 @@
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/StateCache/</loc>
+         <lastmod>2022-05-02</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://books.japila.pl/delta-lake-internals/StatisticsCollection/</loc>
          <lastmod>2022-05-02</lastmod>
          <changefreq>daily</changefreq>
     </url>
