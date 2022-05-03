@@ -328,6 +328,8 @@ nav:
   - Misc:
     - DataSkippingReaderBase: DataSkippingReaderBase.md
     - DeltaFileOperations: DeltaFileOperations.md
+    - DeltaScanGenerator: DeltaScanGenerator.md
+    - DeltaScanGeneratorBase: DeltaScanGeneratorBase.md
     - DeltaTableOperations: DeltaTableOperations.md
     - DeltaTableUtils: DeltaTableUtils.md
     - ImplicitMetadataOperation: ImplicitMetadataOperation.md

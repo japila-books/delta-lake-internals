@@ -1,0 +1,3 @@
+# DeltaScanGeneratorBase
+
+`DeltaScanGeneratorBase` is...FIXME
