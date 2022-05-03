@@ -4,11 +4,7 @@
 
 As [it was well said](https://github.com/delta-io/delta/issues/467#issuecomment-696708455): _"Delta is a storage format while Spark is an execution engine...to separate storage from compute."_
 
-## Spark SQL
-
-Delta Lake is yet another data source for Spark SQL (and uses Spark SQL's infrastructure for its work).
-
-Delta Lake 1.2.0 supports Apache Spark 3.2.0 (cf. [build.sbt]({{ delta.github }}/build.sbt#L19)).
+Delta Lake {{ delta.version }} supports Apache Spark {{ spark.version }} (cf. [build.sbt]({{ delta.github }}/build.sbt#L19)).
 
 ## Delta Tables
 

@@ -80,11 +80,11 @@ extra:
   book:
     title: Delta Lake
     spark_sql: https://books.japila.pl/spark-sql-internals
-    structured_streaming: https://books.japila.pl/spark-structured-streaming-internals/
+    structured_streaming: https://books.japila.pl/spark-structured-streaming-internals
     spark_core: https://books.japila.pl/apache-spark-internals
   delta:
-    version: 1.2.0
-    github: https://github.com/delta-io/delta/blob/v1.2.0
+    version: 1.2.1
+    github: https://github.com/delta-io/delta/blob/v1.2.1
     commit: https://github.com/delta-io/delta/commit
   guava:
     version: 16.0.1
