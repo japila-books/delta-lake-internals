@@ -32,7 +32,7 @@ init(): Unit
 
 `init` requests the [DeltaLog](#deltaLog) for the [protocolRead](DeltaLog.md#protocolRead) for the [Protocol](#protocol).
 
-## <span id="numIndexedCols"> numIndexedCols
+## <span id="numIndexedCols"> Maximum Number of Indexed Columns
 
 ```scala
 numIndexedCols: Int

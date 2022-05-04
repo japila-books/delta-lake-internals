@@ -255,12 +255,13 @@ Default: `true`
 
 ## <span id="stats.collect"><span id="DELTA_COLLECT_STATS"> stats.collect
 
-**spark.databricks.delta.stats.collect** (internal) enables statistics to be collected while writing files into a Delta table
+**spark.databricks.delta.stats.collect** (internal) Enables statistics to be collected while writing files into a Delta table
 
 Default: `true`
 
-!!! note
-    The property seems unused.
+Used when:
+
+* `TransactionalWrite` is requested to [writeFiles](TransactionalWrite.md#writeFiles)
 
 ## <span id="stats.limitPushdown.enabled"><span id="DELTA_LIMIT_PUSHDOWN_ENABLED"> stats.limitPushdown.enabled
 
@@ -293,3 +294,13 @@ Default: `true`
 Default: `false`
 
 Enabling may result hitting rate limits on some storage backends. When enabled, parallelization is controlled by the default number of shuffle partitions.
+
+## <span id="io.skipping.stringPrefixLength"><span id="DATA_SKIPPING_STRING_PREFIX_LENGTH"> io.skipping.stringPrefixLength
+
+**spark.databricks.io.skipping.stringPrefixLength** (internal) The length of the prefix of string columns to store in the data skipping index
+
+Default: `32`
+
+Used when:
+
+* `StatisticsCollection` is requested for the [statsCollector Column](StatisticsCollection.md#statsCollector)

@@ -63,8 +63,8 @@ Must be larger than or equal to `-1`.
 
 Used when:
 
-* `Snapshot` is requested to [numIndexedCols](Snapshot.md#numIndexedCols)
-* `TransactionalWrite` is requested to [writeFiles](TransactionalWrite.md#writeFiles)
+* `Snapshot` is requested for the [maximum number of indexed columns](Snapshot.md#numIndexedCols)
+* `TransactionalWrite` is requested to [write data out](TransactionalWrite.md#writeFiles)
 
 ### <span id="deletedFileRetentionDuration"><span id="TOMBSTONE_RETENTION"> deletedFileRetentionDuration
 
