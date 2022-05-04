@@ -6,8 +6,10 @@
 
 `DeltaTableIdentifier` takes the following to be created:
 
-* <span id="path"> Directory (default: undefined)
+* <span id="path"> Path to a delta table (default: undefined)
 * <span id="table"> `TableIdentifier` (default: undefined)
+
+Either a [path](#path) or a [table identifier](#table) is required.
 
 ## <span id="apply"> Creating DeltaTableIdentifier
 
@@ -17,11 +19,29 @@ apply(
   identifier: TableIdentifier): Option[DeltaTableIdentifier]
 ```
 
-`apply` creates a new [DeltaTableIdentifier](#creating-instance) for the given `TableIdentifier` if the specified table identifier represents a Delta table or `None`.
+`apply` creates a new [DeltaTableIdentifier](#creating-instance) for the given `TableIdentifier`:
 
-`apply` is used when:
+1. For a [path](#isDeltaPath) (to a delta table), `apply` creates a `DeltaTableIdentifier` with the [path](#path)
+1. For a [delta table](DeltaTableUtils.md#isDeltaTable), `apply` creates a `DeltaTableIdentifier` with a [TableIdentifier](#table)
+1. For all the other cases, `apply` returns `None`
 
-* [VacuumTableCommand](commands/vacuum/VacuumTableCommand.md), [DeltaGenerateCommand](commands/generate/DeltaGenerateCommand.md), [DescribeDeltaDetailCommand](commands/describe-detail/DescribeDeltaDetailCommand.md) and [DescribeDeltaHistoryCommand](commands/describe-history/DescribeDeltaHistoryCommand.md) are executed
+## <span id="isDeltaPath"> isDeltaPath
+
+```scala
+isDeltaPath(
+  spark: SparkSession,
+  identifier: TableIdentifier): Boolean
+```
+
+`isDeltaPath` checks whether the input `TableIdentifier` represents an (absolute) path to a delta table.
+
+`isDeltaPath` is positive (`true`) when all the following hold:
+
+1. `spark.sql.runSQLOnFiles` ([Spark SQL]({{ book.spark_sql }}/configuration-properties#spark.sql.runSQLOnFiles)) configuration property is `true`
+1. [DeltaSourceUtils.isDeltaTable(identifier.database)](DeltaSourceUtils.md#isDeltaTable)
+1. The `TableIdentifier` is not a temporary view
+1. The table in the database (as specified in the `TableIdentifier`) does not exist
+1. The table part (of the `TableIdentifier`) is absolute (starts with `/`)
 
 ## <span id="getDeltaLog"> Creating DeltaLog
 

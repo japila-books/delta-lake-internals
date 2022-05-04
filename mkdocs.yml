@@ -300,6 +300,7 @@ nav:
       - commands/optimize/index.md
       - OptimizeExecutor: commands/optimize/OptimizeExecutor.md
       - OptimizeTableCommand: commands/optimize/OptimizeTableCommand.md
+      - commands/optimize/demo.md
     - Update:
       - commands/update/index.md
       - UpdateCommand: commands/update/UpdateCommand.md

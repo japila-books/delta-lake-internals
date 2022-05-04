@@ -34,7 +34,7 @@ Using Scala version 2.12.15, OpenJDK 64-Bit Server VM, 11.0.14
 
 ```text
 ./bin/spark-shell \
-  --packages io.delta:delta-core_2.12:1.2.0 \
+  --packages io.delta:delta-core_2.12:1.2.1 \
   --conf spark.sql.extensions=io.delta.sql.DeltaSparkSessionExtension \
   --conf spark.sql.catalog.spark_catalog=org.apache.spark.sql.delta.catalog.DeltaCatalog
 ```
@@ -45,7 +45,7 @@ Using Scala version 2.12.15, OpenJDK 64-Bit Server VM, 11.0.14
 
 ```text
 scala> println(io.delta.VERSION)
-1.2.0
+1.2.1
 ```
 
 It is also possible to use [DESCRIBE HISTORY](sql/index.md#DESCRIBE-HISTORY) and check out the [engineInfo](CommitInfo.md#engineInfo) column.

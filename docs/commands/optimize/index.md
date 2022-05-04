@@ -1,3 +1,9 @@
+---
+hide:
+
+- toc
+---
+
 # OPTIMIZE Command
 
 `OPTIMIZE` command compacts files together (that are smaller than [spark.databricks.delta.optimize.minFileSize](../../configuration-properties.md#spark.databricks.delta.optimize.minFileSize) to files of [spark.databricks.delta.optimize.maxFileSize](../../configuration-properties.md#spark.databricks.delta.optimize.maxFileSize) size).
@@ -6,19 +12,11 @@
 
 `OPTIMIZE` command can be executed using [OPTIMIZE](OptimizeTableCommand.md) SQL command.
 
-## Demo
+!!! note "Delta Lake Documentation"
+    From [Optimize performance with file management](https://docs.databricks.com/delta/optimizations/file-mgmt.html):
 
-```scala
-// val q = sql("OPTIMIZE delta.`/tmp/delta/t1`")
-val q = sql("OPTIMIZE delta_01")
-```
+    > To improve query speed, Delta Lake on Databricks supports the ability to optimize the layout of data stored in cloud storage. Delta Lake on Databricks supports two layout algorithms: bin-packing and Z-Ordering.
 
-```text
+    **bin-packing** is exactly this `OPTIMIZE` command.
 
-scala> q.show(truncate = false)
-+--------------------------------------------------------+--------------------------------------------------------------------------------------------------+
-|path                                                    |metrics                                                                                           |
-+--------------------------------------------------------+--------------------------------------------------------------------------------------------------+
-|file:/Users/jacek/dev/oss/spark/spark-warehouse/delta_01|{1, 9, {778, 778, 778.0, 1, 778}, {296, 692, 552.8888888888889, 9, 4976}, 1, null, 1, 9, 0, false}|
-+--------------------------------------------------------+--------------------------------------------------------------------------------------------------+
-```
+Learn more in the [Optimize Demo](demo.md).
