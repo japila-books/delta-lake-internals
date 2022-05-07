@@ -16,13 +16,20 @@ Changes to (the state of) a delta table are reflected as [actions](Action.md) an
 
 Delta Lake uses [OptimisticTransaction](OptimisticTransaction.md) for [transactional writes](TransactionalWrite.md). A [commit](OptimisticTransactionImpl.md#commit) is successful when the transaction can [write](OptimisticTransactionImpl.md#doCommit-write) the actions to a delta file (in the [transactional log](DeltaLog.md)). In case the delta file for the commit version already exists, the transaction is [retried](OptimisticTransactionImpl.md#checkAndRetry).
 
-Structured queries can write (transactionally) to a delta table using the following interfaces:
-
-* [WriteIntoDelta](commands/WriteIntoDelta.md) command for batch queries (Spark SQL)
-
-* [DeltaSink](DeltaSink.md) for streaming queries (Spark Structured Streaming)
-
 More importantly, multiple queries can write to the same delta table simultaneously (at exactly the same time).
+
+## Transactional Writers
+
+[TransactionalWrite](TransactionalWrite.md) is an interface for writing out data to a delta table.
+
+The following commands and operations can [transactionally write new data files out](TransactionalWrite.md#writeFiles-usage) to a data directory of a delta table:
+
+* [DeleteCommand](commands/delete/DeleteCommand.md)
+* [MergeIntoCommand](commands/merge/MergeIntoCommand.md)
+* [OptimizeTableCommand](./commands/optimize/OptimizeTableCommand.md)
+* [UpdateCommand](commands/update/UpdateCommand.md)
+* [WriteIntoDelta](commands/WriteIntoDelta.md)
+* [DeltaSink](DeltaSink.md#addBatch)
 
 ## Programmatic APIs
 
@@ -37,6 +44,11 @@ Delta Lake provides the following _programmatic_ APIs:
 Delta Lake supports batch and streaming queries (Spark SQL and Structured Streaming, respectively) using [delta](DeltaDataSource.md#DataSourceRegister) format.
 
 In order to fine tune queries over data in Delta Lake use [options](options.md).
+
+Structured queries can write (transactionally) to a delta table using the following interfaces:
+
+* [WriteIntoDelta](commands/WriteIntoDelta.md) command for batch queries (Spark SQL)
+* [DeltaSink](DeltaSink.md) for streaming queries (Spark Structured Streaming)
 
 ### Batch Queries
 
