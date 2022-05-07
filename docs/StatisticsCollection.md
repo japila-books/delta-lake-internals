@@ -113,3 +113,19 @@ truncateSchema(
 ```
 
 `truncateSchema`...FIXME
+
+## <span id="recompute"> Recomputing Statistics
+
+```scala
+recompute(
+  spark: SparkSession,
+  deltaLog: DeltaLog,
+  predicates: Seq[Expression] = Seq(Literal(true)),
+  fileFilter: AddFile => Boolean = af => true): Unit
+```
+
+`recompute`...FIXME
+
+---
+
+`recompute` _seems_ unused.

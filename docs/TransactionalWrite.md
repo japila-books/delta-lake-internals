@@ -71,15 +71,29 @@ hasWritten: Boolean = false
 
 `hasWritten` is initially `false` and changes to `true` after [having written out files](#writeFiles).
 
-## <span id="writeFiles"> Writing Data Out (Result Of Structured Query)
+## <span id="writeFiles"> Writing Data Out
 
 ```scala
 writeFiles(
-  data: Dataset[_]): Seq[FileAction]
+  data: Dataset[_]): Seq[FileAction]  // (1)!
 writeFiles(
   data: Dataset[_],
   writeOptions: Option[DeltaOptions]): Seq[FileAction]
+writeFiles(
+  data: Dataset[_],
+  writeOptions: Option[DeltaOptions],
+  additionalConstraints: Seq[Constraint]): Seq[FileAction]  // (2)!
+writeFiles(
+  data: Dataset[_],
+  additionalConstraints: Seq[Constraint]): Seq[FileAction]
 ```
+
+1. Uses no `additionalConstraints`
+2. `writeOptions` are ignored
+
+`writeFiles` writes the given `data` (the result of a structured query) to a [delta table](#deltaLog).
+
+---
 
 `writeFiles` creates a [DeltaInvariantCheckerExec](constraints/DeltaInvariantCheckerExec.md) and a [DelayedCommitProtocol](DelayedCommitProtocol.md) to write out files to the [data path](DeltaLog.md#dataPath) (of the [DeltaLog](#deltaLog)).
 
@@ -125,7 +139,7 @@ getCommitter(
   outputPath: Path): DelayedCommitProtocol
 ```
 
-`getCommitter` creates a new [DelayedCommitProtocol](DelayedCommitProtocol.md) with the **delta** job ID and the given `outputPath` (and no random prefix).
+`getCommitter` creates a new [DelayedCommitProtocol](DelayedCommitProtocol.md) with the `delta` job ID and the given `outputPath` (and no random prefix).
 
 ### <span id="getPartitioningColumns"> getPartitioningColumns
 
@@ -161,5 +175,5 @@ makeOutputNullable(
 
 `writeFiles` is used when:
 
-* [DeleteCommand](commands/delete/DeleteCommand.md), [MergeIntoCommand](commands/merge/MergeIntoCommand.md), [UpdateCommand](commands/update/UpdateCommand.md), and [WriteIntoDelta](commands/WriteIntoDelta.md) commands are executed
+* [DeleteCommand](commands/delete/DeleteCommand.md), [MergeIntoCommand](commands/merge/MergeIntoCommand.md), [OptimizeTableCommand](./commands/optimize/OptimizeTableCommand.md), [UpdateCommand](commands/update/UpdateCommand.md) and [WriteIntoDelta](commands/WriteIntoDelta.md) commands are executed
 * `DeltaSink` is requested to [add a streaming micro-batch](DeltaSink.md#addBatch)

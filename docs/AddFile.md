@@ -11,7 +11,7 @@
 * <span id="size"> Size (in bytes)
 * <span id="modificationTime"> Modification time
 * <span id="dataChange"> `dataChange` flag
-* <span id="stats"> Stats (default: `null`)
+* [File Statistics](#stats)
 * <span id="tags"> Tags (`Map[String, String]`) (default: `null`)
 
 `AddFile` is created when:
@@ -19,6 +19,17 @@
 * [ConvertToDeltaCommand](commands/convert/ConvertToDeltaCommand.md) is executed (for [every data file to import](commands/convert/ConvertToDeltaCommand.md#createAddFile))
 
 * `DelayedCommitProtocol` is requested to [commit a task (after successful write)](DelayedCommitProtocol.md#commitTask) (for [optimistic transactional writers](TransactionalWrite.md))
+
+### <span id="stats"> File Statistics
+
+`AddFile` can be given a JSON-encoded file statistics when [created](#creating-instance).
+
+The statistics are undefined (`null`) by default.
+
+The statistics can be defined when:
+
+* `TransactionalWrite` is requested to [write data out](TransactionalWrite.md#writeFiles) (and [spark.databricks.delta.stats.collect](DeltaSQLConf.md#DELTA_COLLECT_STATS) configuration property is enabled)
+* `StatisticsCollection` utility is used to [recompute statistics for a delta table](StatisticsCollection.md#recompute) (that _seems_ unused though)
 
 ## <span id="wrap"> Converting to SingleAction
 

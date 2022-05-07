@@ -13,13 +13,29 @@
 
 `DelayedCommitProtocol` takes the following to be created:
 
-* <span id="jobId"> Job ID
-* <span id="path"> Path (to write files to)
-* <span id="randomPrefixLength"> (optional) Length of Random Prefix
+* [Job ID](#jobId)
+* [Data path](#path)
+* [Length of Random Prefix](#randomPrefixLength)
 
 `DelayedCommitProtocol` is created when:
 
-* `TransactionalWrite` is requested for a [committer](TransactionalWrite.md#getCommitter) (to [write a structured query](TransactionalWrite.md#writeFiles) to the [directory](#path))
+* `TransactionalWrite` is requested for a [committer](TransactionalWrite.md#getCommitter) (to [write data out](TransactionalWrite.md#writeFiles) to the [directory](#path))
+
+### <span id="jobId"> Job ID
+
+`DelayedCommitProtocol` is given a job ID that is always `delta`.
+
+### <span id="path"> Data Path
+
+`DelayedCommitProtocol` is given a `path` when [created](#creating-instance).
+
+The path is the [data directory](DeltaLog.md#dataPath) of a [delta table](DeltaLog.md).
+
+### <span id="randomPrefixLength"> Length of Random Prefix
+
+`DelayedCommitProtocol` can be given a `randomPrefixLength` when [created](#creating-instance).
+
+The `randomPrefixLength` is [always undefined](TransactionalWrite.md#getCommitter) (`None`).
 
 ## <span id="addedFiles"> addedFiles
 

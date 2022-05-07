@@ -329,6 +329,7 @@ nav:
   - Misc:
     - DataSkippingReaderBase: DataSkippingReaderBase.md
     - DeltaFileOperations: DeltaFileOperations.md
+    - DeltaJobStatisticsTracker: DeltaJobStatisticsTracker.md
     - DeltaScanGenerator: DeltaScanGenerator.md
     - DeltaScanGeneratorBase: DeltaScanGeneratorBase.md
     - DeltaTableOperations: DeltaTableOperations.md
