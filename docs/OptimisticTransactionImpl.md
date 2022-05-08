@@ -60,7 +60,7 @@ commit(
   op: DeltaOperations.Operation): Long
 ```
 
-`commit` attempts to commit the transaction (with the [Action](Action.md)s and the [Operation](Operation.md)) and gives the commit version.
+`commit` attempts to commit the given [Action](Action.md)s (as part of the [Operation](Operation.md)) and gives the commit version.
 
 ### <span id="commit-usage"> Usage
 

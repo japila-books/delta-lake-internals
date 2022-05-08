@@ -8,6 +8,7 @@ hide:
 
 The following demos are available:
 
+- [Data Skipping](data-skipping.md)
 - [Time Travel](time-travel.md)
 - [Vacuum](vacuum.md)
 - [dataChange](dataChange.md)

@@ -91,7 +91,8 @@ writeFiles(
 1. Uses no `additionalConstraints`
 2. `writeOptions` are ignored
 
-`writeFiles` writes the given `data` (the result of a structured query) to a [delta table](#deltaLog).
+`writeFiles` writes the given `data` to a [delta table](#deltaLog).
+`writeFiles` returns [AddFile](AddFile.md)s (that are the new files added to a reservoir).
 
 ---
 
