@@ -117,6 +117,8 @@ nav:
   - Internals:
     - Overview: overview.md
     - Installation: installation.md
+    - Data Skipping:
+      - data-skipping/index.md
     - Time Travel:
       - Time Travel: time-travel.md
       - DeltaTimeTravelSpec: DeltaTimeTravelSpec.md

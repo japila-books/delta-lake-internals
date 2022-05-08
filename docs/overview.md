@@ -112,4 +112,4 @@ Delta Lake 1.2.0 introduces a new [OPTIMIZE](./commands/optimize/index.md) SQL c
 
 ### Data Skipping
 
-Delta Lake 1.2.0 introduces support for data skipping.
+Delta Lake 1.2.0 introduces support for [Data Skipping](data-skipping/index.md).
