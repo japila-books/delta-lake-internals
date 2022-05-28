@@ -16,6 +16,13 @@ This demo shows **Data Skipping** in action.
 
 ```scala
 val tableName = "d01"
+```
+
+```scala
+sql(s"DROP TABLE $tableName")
+```
+
+```scala
 spark.range(5).write.format("delta").saveAsTable(tableName)
 ```
 

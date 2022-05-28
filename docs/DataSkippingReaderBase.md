@@ -10,6 +10,8 @@
 allFiles: Dataset[AddFile]
 ```
 
+`Dataset` of [AddFile](AddFile.md)s
+
 Used when:
 
 * `DataSkippingReaderBase` is requested to [withStatsInternal0](#withStatsInternal0), [withNoStats](#withNoStats), [getAllFiles](#getAllFiles), [filterOnPartitions](#filterOnPartitions), [getSpecificFilesWithStats](#getSpecificFilesWithStats)
@@ -20,6 +22,8 @@ Used when:
 deltaLog: DeltaLog
 ```
 
+[DeltaLog](DeltaLog.md)
+
 Used when:
 
 * `DataSkippingReaderBase` is requested to [filesForScan](#filesForScan)
@@ -29,6 +33,8 @@ Used when:
 ```scala
 metadata: Metadata
 ```
+
+[Metadata](Metadata.md)
 
 Used when:
 
@@ -49,6 +55,8 @@ Used when:
 ```scala
 path: Path
 ```
+
+Hadoop [Path]({{ hadoop.api }}/org/apache/hadoop/fs/Path.html)
 
 ### <span id="redactedPath"> Redacted Path
 

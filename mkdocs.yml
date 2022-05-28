@@ -119,6 +119,7 @@ nav:
     - Installation: installation.md
     - Data Skipping:
       - data-skipping/index.md
+      - data-skipping/PrepareDeltaScanBase.md
     - Time Travel:
       - Time Travel: time-travel.md
       - DeltaTimeTravelSpec: DeltaTimeTravelSpec.md

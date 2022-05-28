@@ -1,6 +1,6 @@
 # DeltaJobStatisticsTracker
 
-`DeltaJobStatisticsTracker` is a `WriteJobStatsTracker` ([Spark SQL]({{ book.spark_sql }}/WriteJobStatsTracker)) for per-file statistics collection (when [spark.databricks.delta.stats.collect](DeltaSQLConf.md#DELTA_COLLECT_STATS) is enabled).
+`DeltaJobStatisticsTracker` is a `WriteJobStatsTracker` ([Spark SQL]({{ book.spark_sql }}/datasources/WriteJobStatsTracker)) for per-file statistics collection (when [spark.databricks.delta.stats.collect](DeltaSQLConf.md#DELTA_COLLECT_STATS) is enabled).
 
 ## Creating Instance
 
@@ -37,4 +37,4 @@ processStats(
 
 `processStats` extracts a `DeltaFileStatistics` (from the given `WriteTaskStats`) to access [collected per-file statistics](#recordedStats).
 
-`processStats` is part of the `WriteJobStatsTracker` ([Spark SQL]({{ book.spark_sql }}/WriteJobStatsTracker#processStats)) abstraction.
+`processStats` is part of the `WriteJobStatsTracker` ([Spark SQL]({{ book.spark_sql }}/datasources/WriteJobStatsTracker#processStats)) abstraction.

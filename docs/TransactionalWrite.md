@@ -59,7 +59,7 @@ snapshot: Snapshot
 
 ## <span id="history.metricsEnabled"> spark.databricks.delta.history.metricsEnabled
 
-With [spark.databricks.delta.history.metricsEnabled](DeltaSQLConf.md#DELTA_HISTORY_METRICS_ENABLED) configuration property enabled, `TransactionalWrite` creates a `BasicWriteJobStatsTracker` and [registers SQL metrics](SQLMetricsReporting.md#registerSQLMetrics) (when requested to [writeFiles](#writeFiles)).
+With [spark.databricks.delta.history.metricsEnabled](DeltaSQLConf.md#DELTA_HISTORY_METRICS_ENABLED) configuration property enabled, `TransactionalWrite` creates a `BasicWriteJobStatsTracker` ([Spark SQL]({{ book.spark_sql }}/datasources/BasicWriteJobStatsTracker)) and [registers SQL metrics](SQLMetricsReporting.md#registerSQLMetrics) (when requested to [write data out](#writeFiles)).
 
 ## <span id="hasWritten"> hasWritten Flag
 
@@ -69,7 +69,7 @@ hasWritten: Boolean = false
 
 `TransactionalWrite` uses `hasWritten` internal registry to prevent `OptimisticTransactionImpl` from [updating metadata](OptimisticTransactionImpl.md#updateMetadata) after [having written out files](#writeFiles).
 
-`hasWritten` is initially `false` and changes to `true` after [having written out files](#writeFiles).
+`hasWritten` is initially `false` and changes to `true` after [having data written out](#writeFiles).
 
 ## <span id="writeFiles"> Writing Data Out
 
