@@ -58,7 +58,7 @@ matchingFiles(
 inputFiles: Array[String]
 ```
 
-`inputFiles` is part of the `FileIndex` ([Spark SQL]({{ book.spark_sql }}/FileIndex/#inputFiles)) abstraction.
+`inputFiles` is part of the `FileIndex` ([Spark SQL]({{ book.spark_sql }}/datasources/FileIndex/#inputFiles)) abstraction.
 
 `inputFiles` returns the [paths](AddFile.md#path) of all the given [AddFiles](#addFiles).
 
@@ -68,7 +68,7 @@ inputFiles: Array[String]
 partitionSchema: StructType
 ```
 
-`partitionSchema` is part of the `FileIndex` ([Spark SQL]({{ book.spark_sql }}/FileIndex/#partitionSchema)) abstraction.
+`partitionSchema` is part of the `FileIndex` ([Spark SQL]({{ book.spark_sql }}/datasources/FileIndex/#partitionSchema)) abstraction.
 
 `partitionSchema` requests the [Snapshot](#snapshot) for the [metadata](Snapshot.md#metadata) that is in turn requested for the [partitionSchema](Metadata.md#partitionSchema).
 
@@ -78,6 +78,6 @@ partitionSchema: StructType
 sizeInBytes: Long
 ```
 
-`sizeInBytes` is part of the `FileIndex` ([Spark SQL]({{ book.spark_sql }}/FileIndex/#sizeInBytes)) abstraction.
+`sizeInBytes` is part of the `FileIndex` ([Spark SQL]({{ book.spark_sql }}/datasources/FileIndex/#sizeInBytes)) abstraction.
 
 `sizeInBytes` is a sum of the [sizes](AddFile.md#size) of all the given [AddFiles](#addFiles).

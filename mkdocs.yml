@@ -120,9 +120,9 @@ nav:
     - Data Skipping:
       - data-skipping/index.md
       - DeltaScan: data-skipping/DeltaScan.md
-      - PrepareDeltaScanBase: data-skipping/PrepareDeltaScanBase.md
-      - PrepareDeltaScan: data-skipping/PrepareDeltaScan.md
       - PreparedDeltaFileIndex: data-skipping/PreparedDeltaFileIndex.md
+      - PrepareDeltaScan: data-skipping/PrepareDeltaScan.md
+      - PrepareDeltaScanBase: data-skipping/PrepareDeltaScanBase.md
     - Time Travel:
       - Time Travel: time-travel.md
       - DeltaTimeTravelSpec: DeltaTimeTravelSpec.md

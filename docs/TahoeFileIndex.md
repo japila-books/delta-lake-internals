@@ -1,6 +1,6 @@
 # TahoeFileIndex
 
-`TahoeFileIndex` is an [extension](#contract) of the `FileIndex` abstraction ([Spark SQL]({{ book.spark_sql }}/FileIndex/)) for [file indices](#implementations) of delta tables that can [list data files](#listFiles) to scan (based on [partition and data filters](#matchingFiles)).
+`TahoeFileIndex` is an [extension](#contract) of the `FileIndex` ([Spark SQL]({{ book.spark_sql }}/datasources/FileIndex/)) abstraction for [file indices](#implementations) of [delta tables](#deltaLog) that can [list data files](#listFiles) to scan (based on [partition and data filters](#matchingFiles)).
 
 The aim of `TahoeFileIndex` (and `FileIndex` in general) is to reduce usage of very expensive disk access for file-related information using Hadoop [FileSystem]({{ hadoop.api }}/org/apache/hadoop/fs/FileSystem.html) API.
 
@@ -21,6 +21,7 @@ Used for [listing data files](#listFiles)
 ## Implementations
 
 * [PinnedTahoeFileIndex](PinnedTahoeFileIndex.md)
+* [PreparedDeltaFileIndex](data-skipping/PreparedDeltaFileIndex.md)
 * [TahoeBatchFileIndex](TahoeBatchFileIndex.md)
 * [TahoeLogFileIndex](TahoeLogFileIndex.md)
 
@@ -43,7 +44,7 @@ rootPaths: Seq[Path]
 
 `rootPaths` is the [path](#path) only.
 
-`rootPaths` is part of the `FileIndex` abstraction ([Spark SQL]({{ book.spark_sql }}/FileIndex/#rootPaths)).
+`rootPaths` is part of the `FileIndex` ([Spark SQL]({{ book.spark_sql }}/datasources/FileIndex/#rootPaths)) abstraction.
 
 ## <span id="listFiles"> Listing Files
 
@@ -55,7 +56,7 @@ listFiles(
 
 `listFiles` is the [path](#path) only.
 
-`listFiles` is part of the `FileIndex` abstraction ([Spark SQL]({{ book.spark_sql }}/FileIndex/#listFiles)).
+`listFiles` is part of the `FileIndex` ([Spark SQL]({{ book.spark_sql }}/datasources/FileIndex/#listFiles))abstraction.
 
 ## <span id="partitionSchema"> Partitions
 
@@ -65,7 +66,7 @@ partitionSchema: StructType
 
 `partitionSchema` is the [partition schema](Metadata.md#partitionSchema) of (the [Metadata](Snapshot.md#metadata) of the [Snapshot](DeltaLog.md#snapshot)) of the [DeltaLog](#deltaLog).
 
-`partitionSchema` is part of the `FileIndex` abstraction ([Spark SQL]({{ book.spark_sql }}/FileIndex/#partitionSchema)).
+`partitionSchema` is part of the `FileIndex` ([Spark SQL]({{ book.spark_sql }}/datasources/FileIndex/#partitionSchema)) abstraction.
 
 ## <span id="tableVersion"> Version of Delta Table
 
@@ -88,5 +89,3 @@ toString: String
 ```text
 Delta[version=[tableVersion], [truncatedPath]]
 ```
-
- `toString` is part of the `java.lang.Object` contract for a string representation of the object.

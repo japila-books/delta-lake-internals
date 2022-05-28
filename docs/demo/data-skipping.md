@@ -15,6 +15,11 @@ This demo shows **Data Skipping** in action.
 ```
 
 ```scala
+import org.apache.spark.sql.delta.sources.DeltaSQLConf
+assert(spark.sessionState.conf.getConf(DeltaSQLConf.DELTA_STATS_SKIPPING), "Data skipping should be enabled")
+```
+
+```scala
 val tableName = "d01"
 ```
 

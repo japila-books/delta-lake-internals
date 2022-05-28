@@ -5,9 +5,11 @@ hide:
 
 # Data Skipping
 
-**Data Skipping** is an optimization technique that Delta Lake uses internally to avoid (_skip_) scanning parquet files not matching the filters in a query.
+**Data Skipping** is a Delta Lake optimization to skip scanning parquet data files that do not match the filters in a query (and no filters effectively skips data skipping).
 
-Data Skipping is a new feature in Delta Lake 1.2.0.
+Data Skipping is enabled using [spark.databricks.delta.stats.skipping](../DeltaSQLConf.md#DELTA_STATS_SKIPPING) configuration property.
+
+Data Skipping is available as of Delta Lake 1.2.0.
 
 ## Demo
 
