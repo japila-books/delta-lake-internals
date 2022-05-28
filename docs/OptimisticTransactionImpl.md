@@ -590,7 +590,6 @@ Internally, `filterFiles` requests the [Snapshot](#snapshot) for the [filesForSc
 
 `filterFiles` is used when:
 
-* [ActiveOptimisticTransactionRule](ActiveOptimisticTransactionRule.md) is executed
 * `DeltaSink` is requested to [add a streaming micro-batch](DeltaSink.md#addBatch) (with `Complete` output mode)
 * [DeleteCommand](commands/delete/DeleteCommand.md), [MergeIntoCommand](commands/merge/MergeIntoCommand.md) and [UpdateCommand](commands/update/UpdateCommand.md), [WriteIntoDelta](commands/WriteIntoDelta.md) are executed
 * [CreateDeltaTableCommand](commands/CreateDeltaTableCommand.md) is executed

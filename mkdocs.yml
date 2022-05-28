@@ -119,7 +119,10 @@ nav:
     - Installation: installation.md
     - Data Skipping:
       - data-skipping/index.md
-      - data-skipping/PrepareDeltaScanBase.md
+      - DeltaScan: data-skipping/DeltaScan.md
+      - PrepareDeltaScanBase: data-skipping/PrepareDeltaScanBase.md
+      - PrepareDeltaScan: data-skipping/PrepareDeltaScan.md
+      - PreparedDeltaFileIndex: data-skipping/PreparedDeltaFileIndex.md
     - Time Travel:
       - Time Travel: time-travel.md
       - DeltaTimeTravelSpec: DeltaTimeTravelSpec.md
@@ -203,8 +206,8 @@ nav:
       - DeltaUnsupportedOperationsCheck: DeltaUnsupportedOperationsCheck.md
       - PreprocessTableDelete: PreprocessTableDelete.md
       - PreprocessTableMerge: PreprocessTableMerge.md
+      - PreprocessTableRestore: PreprocessTableRestore.md
       - PreprocessTableUpdate: PreprocessTableUpdate.md
-      - ActiveOptimisticTransactionRule: ActiveOptimisticTransactionRule.md
     - File Indices:
       - TahoeFileIndex: TahoeFileIndex.md
       - PinnedTahoeFileIndex: PinnedTahoeFileIndex.md

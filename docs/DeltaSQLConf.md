@@ -277,7 +277,7 @@ Default: `2000`
 
 ## <span id="stats.skipping"><span id="DELTA_STATS_SKIPPING"> stats.skipping
 
-**spark.databricks.delta.stats.skipping** (internal) enables statistics used for skipping
+**spark.databricks.delta.stats.skipping** (internal) enables statistics for [Data Skipping](data-skipping/index.md) optimization
 
 Default: `true`
 

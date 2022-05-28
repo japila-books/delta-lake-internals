@@ -14,7 +14,6 @@ deltaLog: DeltaLog
 
 Used when:
 
-* [ActiveOptimisticTransactionRule](ActiveOptimisticTransactionRule.md) logical rule is executed
 * `OptimisticTransactionImpl` is requested to [prepare a commit](OptimisticTransactionImpl.md#prepareCommit), [doCommit](OptimisticTransactionImpl.md#doCommit), [checkAndRetry](OptimisticTransactionImpl.md#checkAndRetry), and [perform post-commit operations](OptimisticTransactionImpl.md#postCommit) (and execute [delta log checkpoint](Checkpoints.md#checkpoint))
 * [ConvertToDeltaCommand](commands/convert/ConvertToDeltaCommand.md) is executed
 * `DeltaCommand` is requested to [buildBaseRelation](commands/DeltaCommand.md#buildBaseRelation) and [commitLarge](commands/DeltaCommand.md#commitLarge)

@@ -13,4 +13,4 @@
 
 `PinnedTahoeFileIndex` is created when:
 
-* [ActiveOptimisticTransactionRule](ActiveOptimisticTransactionRule.md) logical optimization rule is executed
+* FIXME

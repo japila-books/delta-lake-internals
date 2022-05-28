@@ -1,0 +1,3 @@
+# PreparedDeltaFileIndex
+
+`PreparedDeltaFileIndex` is...FIXME
