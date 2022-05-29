@@ -192,3 +192,29 @@ Committing to the Delta table version [failedOnCommitVersion] succeeded but erro
 `postCommitHookFailedException` is used when:
 
 * `GenerateSymlinkManifestImpl` is requested to [handleError](GenerateSymlinkManifest.md#handleError)
+
+## <span id="changeColumnMappingModeOnOldProtocol"> changeColumnMappingModeOnOldProtocol
+
+```scala
+changeColumnMappingModeOnOldProtocol(
+  oldProtocol: Protocol): Throwable
+```
+
+`changeColumnMappingModeOnOldProtocol` creates a `DeltaColumnMappingUnsupportedException` with `UNSUPPORTED_COLUMN_MAPPING_PROTOCOL` error class.
+
+`changeColumnMappingModeOnOldProtocol` is used when:
+
+* `DeltaColumnMappingBase` is requested to [verifyAndUpdateMetadataChange](DeltaColumnMappingBase.md#verifyAndUpdateMetadataChange)
+
+## <span id="convertToDeltaWithColumnMappingNotSupported"> convertToDeltaWithColumnMappingNotSupported
+
+```scala
+convertToDeltaWithColumnMappingNotSupported(
+  mode: DeltaColumnMappingMode): Throwable
+```
+
+`convertToDeltaWithColumnMappingNotSupported` creates a `DeltaColumnMappingUnsupportedException` with `UNSUPPORTED_COLUMN_MAPPING_CONVERT_TO_DELTA` error class.
+
+`convertToDeltaWithColumnMappingNotSupported` is used when:
+
+* `ConvertToDeltaCommandBase` is requested to [checkColumnMapping](commands/convert/ConvertToDeltaCommand.md#checkColumnMapping)

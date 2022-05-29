@@ -58,3 +58,15 @@ Table ID is given `Metadata` is [created](#creating-instance) or defaults to a r
     > Any reference to "reservoir" is just legacy code. In the early days of this project, the project was called "Tahoe" and each table is called a "reservoir" (Tahoe is one of the 2nd deepest lake in US, and is a very large reservoir of water ;) ). So you may still find those two terms all around the codebase.
 
     > In some cases, like DeltaSourceOffset, the term `reservoirId` is in the json that is written to the streaming checkpoint directory. So we cannot change that for backward compatibility.
+
+## <span id="columnMappingMode"> Column Mapping Mode
+
+```scala
+columnMappingMode: DeltaColumnMappingMode
+```
+
+`columnMappingMode` is the value of [columnMapping.mode](DeltaConfigs.md#COLUMN_MAPPING_MODE) table property ([from this Metadata](DeltaConfig.md#fromMetaData)).
+
+`columnMappingMode` is used when:
+
+* `DeltaFileFormat` is requested for the [FileFormat](DeltaFileFormat.md#fileFormat)

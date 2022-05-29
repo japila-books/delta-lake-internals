@@ -10,16 +10,37 @@
 fileFormat: FileFormat
 ```
 
-`FileFormat` ([Spark SQL]({{ book.spark_sql }}/datasources/FileFormat)) of a delta table
+`FileFormat` ([Spark SQL]({{ book.spark_sql }}/datasources/FileFormat)) of this delta table
 
-Default: `ParquetFileFormat` ([Spark SQL]({{ book.spark_sql }}/datasources/parquet/ParquetFileFormat))
+Default: [DeltaParquetFileFormat](DeltaParquetFileFormat.md) (with the [columnMappingMode](Metadata.md#columnMappingMode) and the [schema](Metadata.md#schema) of the given [Metadata](Metadata.md))
 
 Used when:
 
-* `DeltaLog` is requested for a [relation](DeltaLog.md#createRelation) (in batch queries) and [DataFrame](DeltaLog.md#createDataFrame)
+* `DeltaLog` is requested for a [relation](DeltaLog.md#createRelation) (in batch queries) and a [DataFrame](DeltaLog.md#createDataFrame)
 * `DeltaCommand` is requested for a [relation](commands/DeltaCommand.md#buildBaseRelation)
+* `MergeIntoCommand` is requested to [buildTargetPlanWithFiles](commands/merge/MergeIntoCommand.md#buildTargetPlanWithFiles)
 * `TransactionalWrite` is requested to [write data out](TransactionalWrite.md#writeFiles)
+
+### <span id="metadata"> Metadata
+
+```scala
+metadata: Metadata
+```
+
+Current [Metadata](Metadata.md)
+
+Used when:
+
+* `DeltaFileFormat` is requested for the [FileFormat](#fileFormat)
+
+### <span id="spark"> SparkSession
+
+```scala
+spark: SparkSession
+```
+
+Current `SparkSession` ([Spark SQL]({{ book.spark_sql }}/SparkSession))
 
 ## Implementations
 
-* [Snapshot](Snapshot.md)
+* [DeltaLog](DeltaLog.md)

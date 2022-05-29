@@ -47,6 +47,23 @@ Controls whether to write file statistics in the checkpoint in the struct format
 
 Default: `undefined` (`Option[Boolean]`)
 
+### <span id="columnMapping.mode"><span id="COLUMN_MAPPING_MODE"> columnMapping.mode
+
+Delta column mapping mode to read and write parquet data files
+
+Name    | Description
+--------|------------
+ `none` | **(default)** A display name is the identifier of a column
+ `id`   | A column ID is the identifier of a column. Stored as `StructField` metadata in the schema. This mode is used for tables converted from Iceberg and parquet files in this mode will also have corresponding field Ids for each column in their file schema.
+ `name` | The physical column name is the identifier of a column. Stored as part of `StructField` metadata in the schema. Used for reading statistics and partition values in the [DeltaLog](DeltaLog.md).
+
+Used when:
+
+* `DeltaColumnMappingBase` is requested to [tryFixMetadata](DeltaColumnMappingBase.md#tryFixMetadata) (while `OptimisticTransactionImpl` is requested to [update the metadata](OptimisticTransactionImpl.md#updateMetadata))
+* `DeltaErrors` utility is used to [create a DeltaColumnMappingUnsupportedException](DeltaErrors.md#changeColumnMappingModeOnOldProtocol) (while `OptimisticTransactionImpl` is requested to [update the metadata](OptimisticTransactionImpl.md#updateMetadata))
+* `DeltaErrors` utility is used to [create a DeltaColumnMappingUnsupportedException](DeltaErrors.md#convertToDeltaWithColumnMappingNotSupported) (while [ConvertToDeltaCommand](commands/convert/ConvertToDeltaCommand.md) is executed)
+* `Metadata` is requested for the [column mapping mode](Metadata.md#columnMappingMode) (while `DeltaFileFormat` is requested for the [FileFormat](DeltaFileFormat.md#fileFormat))
+
 ### <span id="compatibility.symlinkFormatManifest.enabled"><span id="SYMLINK_FORMAT_MANIFEST_ENABLED"> compatibility.symlinkFormatManifest.enabled
 
 Whether to register the [GenerateSymlinkManifest](GenerateSymlinkManifest.md) post-commit hook while [committing a transaction](OptimisticTransactionImpl.md#commit) or not

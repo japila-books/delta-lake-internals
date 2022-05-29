@@ -126,10 +126,12 @@ nav:
     - Time Travel:
       - Time Travel: time-travel.md
       - DeltaTimeTravelSpec: DeltaTimeTravelSpec.md
-    - DeltaTableIdentifier: DeltaTableIdentifier.md
     - Configuration Properties:
       - Configuration Properties: configuration-properties.md
       - DeltaSQLConf: DeltaSQLConf.md
+    - DeltaTableIdentifier: DeltaTableIdentifier.md
+    - DeltaFileFormat: DeltaFileFormat.md
+    - DeltaParquetFileFormat: DeltaParquetFileFormat.md
     - Table Properties:
       - Table Properties: table-properties.md
       - DeltaConfigs: DeltaConfigs.md
@@ -155,7 +157,6 @@ nav:
       - Snapshot: Snapshot.md
       - InMemoryLogReplay: InMemoryLogReplay.md
       - PartitionFiltering: PartitionFiltering.md
-      - DeltaFileFormat: DeltaFileFormat.md
       - LogSegment: LogSegment.md
     - DeltaHistoryManager: DeltaHistoryManager.md
     - Storage:
@@ -269,6 +270,7 @@ nav:
       - AlterTableUnsetPropertiesDeltaCommand: commands/alter/AlterTableUnsetPropertiesDeltaCommand.md
     - Convert to Delta:
       - commands/convert/index.md
+      - ConvertTargetTable: commands/convert/ConvertTargetTable.md
       - ConvertToDeltaCommand: commands/convert/ConvertToDeltaCommand.md
       - FileManifest: commands/convert/FileManifest.md
       - ManualListingFileManifest: commands/convert/ManualListingFileManifest.md
@@ -307,6 +309,7 @@ nav:
       - OptimizeExecutor: commands/optimize/OptimizeExecutor.md
       - OptimizeTableCommand: commands/optimize/OptimizeTableCommand.md
       - commands/optimize/demo.md
+    - RestoreTableCommand: commands/RestoreTableCommand.md
     - Update:
       - commands/update/index.md
       - UpdateCommand: commands/update/UpdateCommand.md
@@ -335,6 +338,7 @@ nav:
     - User Metadata for Labelling Commits: demo/user-metadata-for-labelling-commits.md
   - Misc:
     - DataSkippingReaderBase: DataSkippingReaderBase.md
+    - DeltaColumnMappingBase: DeltaColumnMappingBase.md
     - DeltaFileOperations: DeltaFileOperations.md
     - DeltaJobStatisticsTracker: DeltaJobStatisticsTracker.md
     - DeltaScanGenerator: DeltaScanGenerator.md

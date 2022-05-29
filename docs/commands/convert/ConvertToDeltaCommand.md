@@ -1,4 +1,4 @@
-# ConvertToDeltaCommand
+# ConvertToDeltaCommand (ConvertToDeltaCommandBase)
 
 `ConvertToDeltaCommand` is a [DeltaCommand](../DeltaCommand.md) that [converts a parquet table to delta format](#run) (_imports_ it into Delta).
 
@@ -85,6 +85,16 @@ performConvert(
 
 <span id="performConvert-streamWrite"><span id="performConvert-unpersist">
 In the end, `performConvert` [streamWrite](#streamWrite) (with the `OptimisticTransaction`, the `AddFile`s, and [Convert](../../Operation.md#Convert) operation) and unpersists the `Dataset` of file names.
+
+### <span id="checkColumnMapping"> checkColumnMapping
+
+```scala
+checkColumnMapping(
+  txnMetadata: Metadata,
+  convertTargetTable: ConvertTargetTable): Unit
+```
+
+`checkColumnMapping` throws a [DeltaColumnMappingUnsupportedException](../../DeltaErrors.md#convertToDeltaWithColumnMappingNotSupported) when the [requiredColumnMappingMode](ConvertTargetTable.md#requiredColumnMappingMode) of the given [ConvertTargetTable](ConvertTargetTable.md) is not [DeltaColumnMappingMode](../../Metadata.md#columnMappingMode) of the given [Metadata](../../Metadata.md).
 
 ### <span id="streamWrite"> streamWrite
 

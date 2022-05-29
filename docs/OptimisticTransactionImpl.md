@@ -537,38 +537,33 @@ metadata: Metadata
 
 ```scala
 updateMetadata(
-  metadata: Metadata): Unit
+  _metadata: Metadata): Unit
 ```
 
-`updateMetadata` updates the [newMetadata](#newMetadata) internal property based on the [readVersion](#readVersion):
+`updateMetadata` asserts the following:
 
-* For `-1`, `updateMetadata` updates the [configuration](Metadata.md#configuration) of the given metadata with a [new metadata](DeltaConfigs.md#mergeGlobalConfigs) based on the `SQLConf` (of the active `SparkSession`), the [configuration](Metadata.md#configuration) of the given metadata and a new [Protocol](Protocol.md)
+* The current transaction has not written data out yet (and the [hasWritten](TransactionalWrite.md#hasWritten) flag is still disabled since it is not allowed to update the metadata in a transaction that has already written data)
+* The metadata has not been changed already (and the [newMetadata](TransactionalWrite.md#newMetadata) has not been assigned yet since it is not allowed to change the metadata more than once in a transaction)
 
-* For other versions, `updateMetadata` leaves the given [Metadata](Action.md#Metadata) unchanged
+In the end, `updateMetadata` [updateMetadataInternal](#updateMetadataInternal).
+
+---
 
 `updateMetadata` is used when:
 
 * `OptimisticTransactionImpl` is requested to [updateMetadataForNewTable](#updateMetadataForNewTable)
 * [AlterTableSetPropertiesDeltaCommand](commands/alter/AlterTableSetPropertiesDeltaCommand.md), [AlterTableUnsetPropertiesDeltaCommand](commands/alter/AlterTableUnsetPropertiesDeltaCommand.md), [AlterTableAddColumnsDeltaCommand](commands/alter/AlterTableAddColumnsDeltaCommand.md), [AlterTableChangeColumnDeltaCommand](commands/alter/AlterTableChangeColumnDeltaCommand.md), [AlterTableReplaceColumnsDeltaCommand](commands/alter/AlterTableReplaceColumnsDeltaCommand.md) are executed
-* [ConvertToDeltaCommand](commands/convert/ConvertToDeltaCommand.md) is executed
-
+* [RestoreTableCommand](commands/RestoreTableCommand.md) is executed
 * `ImplicitMetadataOperation` is requested to [updateMetadata](ImplicitMetadataOperation.md#updateMetadata)
 
-### <span id="updateMetadata-AssertionError-hasWritten"> AssertionError
+### <span id="updateMetadataInternal"> updateMetadataInternal
 
-`updateMetadata` throws an `AssertionError` when the [hasWritten](TransactionalWrite.md#hasWritten) flag is enabled:
-
-```text
-Cannot update the metadata in a transaction that has already written data.
+```scala
+updateMetadataInternal(
+  _metadata: Metadata): Unit
 ```
 
-### <span id="updateMetadata-AssertionError-newMetadata"> AssertionError
-
-`updateMetadata` throws an `AssertionError` when the [newMetadata](#newMetadata) is not empty:
-
-```text
-Cannot change the metadata more than once in a transaction.
-```
+`updateMetadataInternal`...FIXME
 
 ## <span id="filterFiles"> Files To Scan Matching Given Predicates
 

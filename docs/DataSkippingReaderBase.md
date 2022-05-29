@@ -38,7 +38,7 @@ metadata: Metadata
 
 Used when:
 
-* `DataSkippingReaderBase` is requested to [columnMappingMode](#columnMappingMode), [getStatsColumnOpt](#getStatsColumnOpt), [filesWithStatsForScan](#filesWithStatsForScan), [constructPartitionFilters](#constructPartitionFilters), [filterOnPartitions](#filterOnPartitions), [filesForScan](#filesForScan)
+* `DataSkippingReaderBase` is requested for the [columnMappingMode](#columnMappingMode), and to [getStatsColumnOpt](#getStatsColumnOpt), [filesWithStatsForScan](#filesWithStatsForScan), [constructPartitionFilters](#constructPartitionFilters), [filterOnPartitions](#filterOnPartitions), [filesForScan](#filesForScan)
 
 ### <span id="numOfFiles"> numOfFiles
 
@@ -131,3 +131,11 @@ filesForScan(
 `filesForScan`...FIXME
 
 `filesForScan` is part of the [DeltaScanGeneratorBase](DeltaScanGeneratorBase.md#filesForScan) abstraction.
+
+## <span id="columnMappingMode"> Column Mapping Mode
+
+```scala
+columnMappingMode: DeltaColumnMappingMode
+```
+
+`columnMappingMode` is the value of [columnMapping.mode](DeltaConfigs.md#COLUMN_MAPPING_MODE) table property (in the [Metadata](#metadata)).
