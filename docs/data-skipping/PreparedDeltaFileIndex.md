@@ -1,6 +1,6 @@
 # PreparedDeltaFileIndex
 
-`PreparedDeltaFileIndex` is a [TahoeFileIndex](../TahoeFileIndex.md).
+`PreparedDeltaFileIndex` is a [TahoeFileIndex](../TahoeFileIndex.md) that uses [DeltaScan](#preparedScan) for all the work.
 
 ## Creating Instance
 
@@ -9,13 +9,19 @@
 * <span id="spark"> `SparkSession` ([Spark SQL]({{ book.spark_sql }}/SparkSession))
 * <span id="deltaLog"> [DeltaLog](../DeltaLog.md)
 * <span id="path"> Hadoop [Path]({{ hadoop.api }}/org/apache/hadoop/fs/Path.html)
-* <span id="preparedScan"> [DeltaScan](DeltaScan.md)
+* [DeltaScan](#preparedScan)
 * <span id="partitionSchema"> Partition schema ([StructType]({{ book.spark_sql }}/types/StructType))
 * <span id="versionScanned"> Version scanned
 
 `PreparedDeltaFileIndex` is created when:
 
 * `PrepareDeltaScanBase` logical optimization rule is [executed](PrepareDeltaScanBase.md#getPreparedIndex)
+
+## <span id="preparedScan"> DeltaScan
+
+`PreparedDeltaFileIndex` is given a [DeltaScan](DeltaScan.md) when [created](#creating-instance).
+
+The `DeltaScan` is used for all its methods.
 
 ## <span id="inputFiles"> Input Files
 

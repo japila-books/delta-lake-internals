@@ -1,6 +1,6 @@
 # PrepareDeltaScanBase Logical Optimization Rules
 
-`PrepareDeltaScanBase` is an [extension](#contract) of the `Rule[LogicalPlan]` ([Spark SQL]({{ book.spark_sql }}/catalyst/Rule)) abstraction for [logical optimization rules](#implementations) that [prepareDeltaScan](#prepareDeltaScan).
+`PrepareDeltaScanBase` is an extension of the `Rule[LogicalPlan]` ([Spark SQL]({{ book.spark_sql }}/catalyst/Rule)) abstraction for [logical optimization rules](#implementations) that [prepareDeltaScan](#prepareDeltaScan).
 
 ## Implementations
 
@@ -34,7 +34,7 @@ prepareDeltaScan(
 
 For a delta table scan, `prepareDeltaScan` [finds a DeltaScanGenerator](#getDeltaScanGenerator) for the `TahoeLogFileIndex`.
 
-`prepareDeltaScan` uses an internal `deltaScans` registry (of canonicalized logical scans and their [Snapshot](../Snapshot.md)s and `DeltaScan`s) to look up the delta table scan or [create a new pair](#filesForScan).
+`prepareDeltaScan` uses an internal `deltaScans` registry (of canonicalized logical scans and their [Snapshot](../Snapshot.md)s and [DeltaScan](DeltaScan.md)s) to look up the delta table scan or [creates a new entry](#filesForScan).
 
 `prepareDeltaScan` [creates a PreparedDeltaFileIndex](#getPreparedIndex).
 
@@ -76,7 +76,27 @@ filesForScan(
   delta: LogicalRelation): (Snapshot, DeltaScan)
 ```
 
-`filesForScan`...FIXME
+!!! note
+    The given `limitOpt` argument is not used.
+
+`filesForScan` prints out the following INFO message to the logs:
+
+```text
+DELTA: Filtering files for query
+```
+
+`filesForScan` determines the filters for a scan based on [generatedColumn.partitionFilterOptimization.enabled](../generated-columns/GeneratedColumn.md#partitionFilterOptimizationEnabled) configuration property:
+
+* If disabled, `filesForScan` uses the given `filters` expressions unchanged
+* With [generatedColumn.partitionFilterOptimization.enabled](../generated-columns/GeneratedColumn.md#partitionFilterOptimizationEnabled) enabled, `filesForScan` [generates the partition filters](../generated-columns/GeneratedColumn.md#generatePartitionFilters) that are used alongside the given `filters` expressions
+
+`filesForScan` requests the given [DeltaScanGenerator](../DeltaScanGenerator.md) for the [Snapshot to scan](../DeltaScanGenerator.md#snapshotToScan) and a [DeltaScan](../DeltaScanGenerator.md#filesForScan) (that are the return pair).
+
+In the end, `filesForScan` prints out the following INFO message to the logs:
+
+```text
+DELTA: Done
+```
 
 ### <span id="optimizeGeneratedColumns"> optimizeGeneratedColumns
 
@@ -91,3 +111,7 @@ optimizeGeneratedColumns(
 ```
 
 `optimizeGeneratedColumns`...FIXME
+
+## Logging
+
+`PrepareDeltaScanBase` is an abstract class and logging is configured using the logger of the [implementations](#implementations).

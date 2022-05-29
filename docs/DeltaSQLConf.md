@@ -281,6 +281,11 @@ Default: `2000`
 
 Default: `true`
 
+Used when:
+
+* `DataSkippingReaderBase` is requested for the [files to scan](data-skipping/DataSkippingReaderBase.md#filesForScan)
+* `PrepareDeltaScanBase` logical optimization is [executed](data-skipping/PrepareDeltaScanBase.md#apply)
+
 ## <span id="timeTravel.resolveOnIdentifier.enabled"><span id="RESOLVE_TIME_TRAVEL_ON_IDENTIFIER"> timeTravel.resolveOnIdentifier.enabled
 
 **spark.databricks.delta.timeTravel.resolveOnIdentifier.enabled** (internal) controls whether to resolve patterns as `@v123` and `@yyyyMMddHHmmssSSS` in path identifiers as [time travel](time-travel.md) nodes.

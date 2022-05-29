@@ -4,13 +4,15 @@
 
 ## Contract
 
-### <span id="filesForScan"> filesForScan
+### <span id="filesForScan"> Files to Scan
 
 ```scala
 filesForScan(
   projection: Seq[Attribute],
   filters: Seq[Expression]): DeltaScan
 ```
+
+Creates a [DeltaScan](data-skipping/DeltaScan.md) with the files to scan
 
 Used when:
 

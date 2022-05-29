@@ -5,7 +5,19 @@ hide:
 
 # Demo: Data Skipping
 
-This demo shows **Data Skipping** in action.
+This demo shows [Data Skipping](../data-skipping/index.md) in action.
+
+## Logging
+
+Enable logging for [PrepareDeltaScan](../data-skipping/PrepareDeltaScan.md#logging) and the others used in data skipping.
+
+Add the following line to `conf/log4j.properties`:
+
+```text
+log4j.logger.org.apache.spark.sql.delta.stats=ALL
+```
+
+## Spark Shell
 
 ```text
 ./bin/spark-shell \
@@ -19,17 +31,15 @@ import org.apache.spark.sql.delta.sources.DeltaSQLConf
 assert(spark.sessionState.conf.getConf(DeltaSQLConf.DELTA_STATS_SKIPPING), "Data skipping should be enabled")
 ```
 
+## Create Delta Table
+
 ```scala
 val tableName = "d01"
-```
-
-```scala
 sql(s"DROP TABLE $tableName")
+spark.range(5).writeTo(tableName).using("delta").create
 ```
 
-```scala
-spark.range(5).write.format("delta").saveAsTable(tableName)
-```
+## Show Column Statistics
 
 ```scala
 import org.apache.spark.sql.delta._
@@ -39,7 +49,8 @@ val d01 = DeltaLog.forTable(spark, TableIdentifier(tableName))
 
 ```scala
 val partitionFilters = Nil
-d01.snapshot.filesWithStatsForScan(partitionFilters).printSchema
+val filesWithStatsForScan = d01.snapshot.filesWithStatsForScan(partitionFilters)
+filesWithStatsForScan.printSchema
 ```
 
 ```text
@@ -65,19 +76,43 @@ root
 ```
 
 ```scala
-val tableStats = d01.snapshot.filesWithStatsForScan(partitionFilters).select('path, 'size, $"stats.*")
+val tableStats = filesWithStatsForScan.select('path, 'size, $"stats.*")
+tableStats.orderBy('path).show
 ```
 
 ```text
-scala> tableStats.show
 +--------------------+----+----------+---------+---------+---------+
 |                path|size|numRecords|minValues|maxValues|nullCount|
 +--------------------+----+----------+---------+---------+---------+
-|part-00003-e2489b...| 478|         1|      {0}|      {0}|      {0}|
-|part-00012-81afe9...| 478|         1|      {3}|      {3}|      {0}|
-|part-00015-10c3b3...| 478|         1|      {4}|      {4}|      {0}|
-|part-00006-fc62fe...| 478|         1|      {1}|      {1}|      {0}|
-|part-00009-04ceb6...| 478|         1|      {2}|      {2}|      {0}|
-|part-00000-ef076d...| 296|         0|   {null}|   {null}|   {null}|
+|part-00000-43b9e4...| 296|         0|   {null}|   {null}|   {null}|
+|part-00003-2685fb...| 478|         1|      {0}|      {0}|      {0}|
+|part-00006-815e72...| 478|         1|      {1}|      {1}|      {0}|
+|part-00009-654322...| 478|         1|      {2}|      {2}|      {0}|
+|part-00012-f3a708...| 478|         1|      {3}|      {3}|      {0}|
+|part-00015-5ca541...| 478|         1|      {4}|      {4}|      {0}|
 +--------------------+----+----------+---------+---------+---------+
 ```
+
+## Execute Query with Data Skipping
+
+```scala
+val q = sql(s"SELECT * FROM $tableName WHERE id IN (2, 3)")
+q.show
+```
+
+You should see the following logs and the output.
+
+```text
+22/05/29 22:58:02 INFO PrepareDeltaScan: DELTA: Filtering files for query
+22/05/29 22:58:02 INFO PrepareDeltaScan: DELTA: Done
++---+
+| id|
++---+
+|  3|
+|  2|
++---+
+```
+
+## web UI
+
+Open the [web UI](http://localhost:4040) to review the query and the associated job with the name `Filtering files for query`.
