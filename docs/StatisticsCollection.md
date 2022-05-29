@@ -39,7 +39,7 @@ Used when:
 ## Implementations
 
 * [writeFiles](TransactionalWrite.md#writeFiles)
-* [DataSkippingReaderBase](DataSkippingReaderBase.md)
+* [DataSkippingReaderBase](data-skipping/DataSkippingReaderBase.md)
 * [Snapshot](Snapshot.md)
 
 ## <span id="statsSchema"> statsSchema
@@ -52,7 +52,7 @@ statsSchema: StructType
 
 `statsSchema` is used when:
 
-* `DataSkippingReaderBase` is requested for [getStatsColumnOpt](DataSkippingReaderBase.md#getStatsColumnOpt), [withStatsInternal0](DataSkippingReaderBase.md#withStatsInternal0), [getStatsColumnOpt](DataSkippingReaderBase.md#getStatsColumnOpt)
+* `DataSkippingReaderBase` is requested for [getStatsColumnOpt](data-skipping/DataSkippingReaderBase.md#getStatsColumnOpt), [withStatsInternal0](data-skipping/DataSkippingReaderBase.md#withStatsInternal0), [getStatsColumnOpt](data-skipping/DataSkippingReaderBase.md#getStatsColumnOpt)
 
 ## <span id="statsCollector"> statsCollector Column
 

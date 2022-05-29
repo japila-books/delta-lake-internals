@@ -1,6 +1,6 @@
 # DataSkippingReaderBase
 
-`DataSkippingReaderBase` is an [extension](#contract) of the [DeltaScanGenerator](DeltaScanGenerator.md) abstraction for [DeltaScan generators](#implementations).
+`DataSkippingReaderBase` is an [extension](#contract) of the [DeltaScanGenerator](../DeltaScanGenerator.md) abstraction for [DeltaScan generators](#implementations).
 
 ## Contract
 
@@ -10,7 +10,7 @@
 allFiles: Dataset[AddFile]
 ```
 
-`Dataset` of [AddFile](AddFile.md)s
+`Dataset` of [AddFile](../AddFile.md)s
 
 Used when:
 
@@ -22,7 +22,7 @@ Used when:
 deltaLog: DeltaLog
 ```
 
-[DeltaLog](DeltaLog.md)
+[DeltaLog](../DeltaLog.md)
 
 Used when:
 
@@ -34,7 +34,7 @@ Used when:
 metadata: Metadata
 ```
 
-[Metadata](Metadata.md)
+[Metadata](../Metadata.md)
 
 Used when:
 
@@ -100,7 +100,7 @@ Used when:
 
 ## Implementations
 
-* [Snapshot](Snapshot.md)
+* [Snapshot](../Snapshot.md)
 
 ## <span id="useStats"><span id="spark.databricks.delta.stats.skipping"> spark.databricks.delta.stats.skipping
 
@@ -108,7 +108,7 @@ Used when:
 useStats: Boolean
 ```
 
-`useStats` is the value of [spark.databricks.delta.stats.skipping](DeltaSQLConf.md#DELTA_STATS_SKIPPING) configuration property.
+`useStats` is the value of [spark.databricks.delta.stats.skipping](../DeltaSQLConf.md#DELTA_STATS_SKIPPING) configuration property.
 
 `useStats` is used when:
 
@@ -128,9 +128,42 @@ filesForScan(
 
 1. `keepNumRecords` flag is `false`
 
+`filesForScan` is part of the [DeltaScanGeneratorBase](../DeltaScanGeneratorBase.md#filesForScan) abstraction.
+
+`filesForScan` branches off based on the given `filters` expressions and the [schema](#schema).
+
+If the given `filters` expressions are either `TrueLiteral` or empty, or the [schema](#schema) is empty, `filesForScan` executes [delta.skipping.none](#delta.skipping.none) code path.
+
+If there are partition-based filter expressions only (among the `filters` expressions), `filesForScan` executes [delta.skipping.partition](#delta.skipping.partition) code path. Otherwise, `filesForScan` executes [delta.skipping.data](#delta.skipping.data) code path.
+
+### <span id="delta.skipping.none"> No Data Skipping
+
 `filesForScan`...FIXME
 
-`filesForScan` is part of the [DeltaScanGeneratorBase](DeltaScanGeneratorBase.md#filesForScan) abstraction.
+### <span id="delta.skipping.partition"> delta.skipping.partition
+
+`filesForScan`...FIXME
+
+### <span id="delta.skipping.data"> delta.skipping.data
+
+`filesForScan` [constructs the final partition filters](#constructPartitionFilters) with the partition filters (of the given `filters` expressions).
+
+With [spark.databricks.delta.stats.skipping](#useStats) configuration property enabled, `filesForScan` [creates a file skipping predicate expression](#constructDataFilters) for every data filter.
+
+`filesForScan` [getDataSkippedFiles](#getDataSkippedFiles) for the final partition-only and data skipping filters (that leverages data skipping statistics to find the set of parquet files that need to be queried).
+
+In the end, creates a [DeltaScan](DeltaScan.md) (with the [files and sizes](#getDataSkippedFiles), and `dataSkippingOnlyV1` or `dataSkippingAndPartitionFilteringV1` data skipping types).
+
+### <span id="getDataSkippedFiles"> getDataSkippedFiles
+
+```scala
+getDataSkippedFiles(
+  partitionFilters: Column,
+  dataFilters: DataSkippingPredicate,
+  keepNumRecords: Boolean): (Seq[AddFile], Seq[DataSize])
+```
+
+`getDataSkippedFiles`...FIXME
 
 ## <span id="columnMappingMode"> Column Mapping Mode
 
@@ -138,4 +171,4 @@ filesForScan(
 columnMappingMode: DeltaColumnMappingMode
 ```
 
-`columnMappingMode` is the value of [columnMapping.mode](DeltaConfigs.md#COLUMN_MAPPING_MODE) table property (in the [Metadata](#metadata)).
+`columnMappingMode` is the value of [columnMapping.mode](../DeltaConfigs.md#COLUMN_MAPPING_MODE) table property (in the [Metadata](#metadata)).
