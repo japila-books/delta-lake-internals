@@ -131,8 +131,9 @@ nav:
       - Configuration Properties: configuration-properties.md
       - DeltaSQLConf: DeltaSQLConf.md
     - DeltaTableIdentifier: DeltaTableIdentifier.md
-    - DeltaFileFormat: DeltaFileFormat.md
-    - DeltaParquetFileFormat: DeltaParquetFileFormat.md
+    - FileFormat:
+      - DeltaFileFormat: DeltaFileFormat.md
+      - DeltaParquetFileFormat: DeltaParquetFileFormat.md
     - Table Properties:
       - Table Properties: table-properties.md
       - DeltaConfigs: DeltaConfigs.md

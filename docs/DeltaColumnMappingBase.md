@@ -1,4 +1,4 @@
-# DeltaColumnMappingBase
+# DeltaColumnMappingBase (DeltaColumnMapping)
 
 ## <span id="verifyAndUpdateMetadataChange"> verifyAndUpdateMetadataChange
 
