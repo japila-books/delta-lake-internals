@@ -486,11 +486,6 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://books.japila.pl/delta-lake-internals/commands/RestoreTableCommand/</loc>
-         <lastmod>2022-05-31</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/WriteIntoDelta/</loc>
          <lastmod>2022-05-31</lastmod>
          <changefreq>daily</changefreq>
@@ -707,6 +702,26 @@
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/optimize/demo/</loc>
+         <lastmod>2022-05-31</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://books.japila.pl/delta-lake-internals/commands/restore/</loc>
+         <lastmod>2022-05-31</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://books.japila.pl/delta-lake-internals/commands/restore/RestoreTableCommand/</loc>
+         <lastmod>2022-05-31</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://books.japila.pl/delta-lake-internals/commands/restore/RestoreTableCommandBase/</loc>
+         <lastmod>2022-05-31</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://books.japila.pl/delta-lake-internals/commands/restore/RestoreTableStatement/</loc>
          <lastmod>2022-05-31</lastmod>
          <changefreq>daily</changefreq>
     </url>
