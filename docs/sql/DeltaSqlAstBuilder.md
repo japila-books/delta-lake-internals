@@ -13,4 +13,5 @@ SQL Statement | Logical Command
  [DESCRIBE HISTORY](index.md#DESCRIBE-HISTORY) | [DescribeDeltaHistoryCommand](../commands/describe-history/DescribeDeltaHistoryCommand.md)
  [GENERATE](index.md#GENERATE) | [DeltaGenerateCommand](../commands/generate/DeltaGenerateCommand.md)
  [OPTIMIZE](index.md#OPTIMIZE) | [OptimizeTableCommand](../commands/optimize/OptimizeTableCommand.md)
+ <span id="visitRestore"> [RESTORE](index.md#RESTORE) | [RestoreTableStatement](../commands/restore/RestoreTableStatement.md)
  [VACUUM](index.md#VACUUM) | [VacuumTableCommand](../commands/vacuum/VacuumTableCommand.md)

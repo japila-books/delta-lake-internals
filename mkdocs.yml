@@ -311,7 +311,11 @@ nav:
       - OptimizeExecutor: commands/optimize/OptimizeExecutor.md
       - OptimizeTableCommand: commands/optimize/OptimizeTableCommand.md
       - commands/optimize/demo.md
-    - RestoreTableCommand: commands/RestoreTableCommand.md
+    - Restore:
+      - commands/restore/index.md
+      - RestoreTableCommand: commands/restore/RestoreTableCommand.md
+      - RestoreTableCommandBase: commands/restore/RestoreTableCommandBase.md
+      - RestoreTableStatement: commands/restore/RestoreTableStatement.md
     - Update:
       - commands/update/index.md
       - UpdateCommand: commands/update/UpdateCommand.md

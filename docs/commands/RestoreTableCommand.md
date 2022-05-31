@@ -1,3 +1,0 @@
-# RestoreTableCommand
-
-`RestoreTableCommand` is...FIXME

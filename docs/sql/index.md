@@ -4,7 +4,7 @@ Delta Lake registers custom SQL statements (using [DeltaSparkSessionExtension](.
 
 The SQL statements support `table` of the format `` delta.`path` `` (with backticks), e.g. `` delta.`/tmp/delta/t1` `` while `path` is between single quotes, e.g. `'/tmp/delta/t1'`.
 
-The SQL statements can also refer to a table registered in a metastore.
+The SQL statements can also refer to tables registered in a metastore.
 
 ## <span id="ALTER-TABLE-ADD-CONSTRAINT"> ALTER TABLE ADD CONSTRAINT
 
@@ -66,6 +66,20 @@ OPTIMIZE (path | table)
 ```
 
 Executes [OptimizeTableCommand](../commands/optimize/OptimizeTableCommand.md) (on the Delta table identified by a directory path or a table name)
+
+## <span id="RESTORE"> RESTORE
+
+```text
+RESTORE TABLE? table
+TO? temporalClause
+
+temporalClause
+    : FOR? (SYSTEM_VERSION | VERSION) AS OF version
+    | FOR? (SYSTEM_TIME | TIMESTAMP) AS OF timestamp
+    ;
+```
+
+Creates a [RestoreTableStatement](../commands/restore/RestoreTableStatement.md)
 
 ## <span id="VACUUM"> VACUUM
 

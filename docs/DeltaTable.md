@@ -222,6 +222,24 @@ merge(
 
 Creates a [DeltaMergeBuilder](commands/merge/DeltaMergeBuilder.md)
 
+### <span id="restoreToTimestamp"> restoreToTimestamp
+
+```scala
+restoreToTimestamp(
+  timestamp: String): DataFrame
+```
+
+[Executes Restore](DeltaTableOperations.md#executeRestore)
+
+### <span id="restoreToVersion"> restoreToVersion
+
+```scala
+restoreToVersion(
+  version: Long): DataFrame
+```
+
+[Executes Restore](DeltaTableOperations.md#executeRestore)
+
 ### <span id="toDF"> toDF
 
 ```scala

@@ -1,6 +1,6 @@
 # DeltaCommand
 
-**DeltaCommand** is a marker interface for [commands](#implementations) to work with data in delta tables.
+`DeltaCommand` is a marker interface for [delta commands](#implementations) to work with delta tables.
 
 ## Implementations
 
@@ -8,11 +8,15 @@
 * [ConvertToDeltaCommand](convert/ConvertToDeltaCommand.md)
 * [DeleteCommand](delete/DeleteCommand.md)
 * [MergeIntoCommand](merge/MergeIntoCommand.md)
+* [OptimizeExecutor](optimize/OptimizeExecutor.md)
+* [OptimizeTableCommand](optimize/OptimizeTableCommand.md)
+* [RestoreTableCommand](restore/RestoreTableCommand.md)
+* [StatisticsCollection](../StatisticsCollection.md)
 * [UpdateCommand](update/UpdateCommand.md)
 * [VacuumCommandImpl](vacuum/VacuumCommandImpl.md)
 * [WriteIntoDelta](WriteIntoDelta.md)
 
-## <span id="parsePartitionPredicates"> parsePartitionPredicates Method
+## <span id="parsePartitionPredicates"> parsePartitionPredicates
 
 ```scala
 parsePartitionPredicates(
@@ -24,7 +28,7 @@ parsePartitionPredicates(
 
 `parsePartitionPredicates` is used when...FIXME
 
-## <span id="verifyPartitionPredicates"> verifyPartitionPredicates Method
+## <span id="verifyPartitionPredicates"> verifyPartitionPredicates
 
 ```scala
 verifyPartitionPredicates(
@@ -37,7 +41,7 @@ verifyPartitionPredicates(
 
 `verifyPartitionPredicates` is used when...FIXME
 
-## <span id="generateCandidateFileMap"> generateCandidateFileMap Method
+## <span id="generateCandidateFileMap"> generateCandidateFileMap
 
 ```scala
 generateCandidateFileMap(
@@ -49,7 +53,7 @@ generateCandidateFileMap(
 
 `generateCandidateFileMap` is used when...FIXME
 
-## <span id="removeFilesFromPaths"> removeFilesFromPaths Method
+## <span id="removeFilesFromPaths"> removeFilesFromPaths
 
 ```scala
 removeFilesFromPaths(
@@ -87,7 +91,7 @@ In the end, `buildBaseRelation` creates a `HadoopFsRelation` ([Spark SQL]({{ boo
 
 * [DeleteCommand](delete/DeleteCommand.md) and [UpdateCommand](update/UpdateCommand.md) commands are executed (with `delete` and `update` action types, respectively)
 
-## <span id="getTouchedFile"> getTouchedFile Method
+## <span id="getTouchedFile"> getTouchedFile
 
 ```scala
 getTouchedFile(
@@ -104,7 +108,7 @@ getTouchedFile(
 
 * [MergeIntoCommand](merge/MergeIntoCommand.md) is executed
 
-## <span id="isCatalogTable"> isCatalogTable Method
+## <span id="isCatalogTable"> isCatalogTable
 
 ```scala
 isCatalogTable(
@@ -116,7 +120,7 @@ isCatalogTable(
 
 `isCatalogTable` is used when...FIXME
 
-## <span id="isPathIdentifier"> isPathIdentifier Method
+## <span id="isPathIdentifier"> isPathIdentifier
 
 ```scala
 isPathIdentifier(

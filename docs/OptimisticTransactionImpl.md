@@ -553,7 +553,7 @@ In the end, `updateMetadata` [updateMetadataInternal](#updateMetadataInternal).
 
 * `OptimisticTransactionImpl` is requested to [updateMetadataForNewTable](#updateMetadataForNewTable)
 * [AlterTableSetPropertiesDeltaCommand](commands/alter/AlterTableSetPropertiesDeltaCommand.md), [AlterTableUnsetPropertiesDeltaCommand](commands/alter/AlterTableUnsetPropertiesDeltaCommand.md), [AlterTableAddColumnsDeltaCommand](commands/alter/AlterTableAddColumnsDeltaCommand.md), [AlterTableChangeColumnDeltaCommand](commands/alter/AlterTableChangeColumnDeltaCommand.md), [AlterTableReplaceColumnsDeltaCommand](commands/alter/AlterTableReplaceColumnsDeltaCommand.md) are executed
-* [RestoreTableCommand](commands/RestoreTableCommand.md) is executed
+* [RestoreTableCommand](commands/restore/RestoreTableCommand.md) is executed
 * `ImplicitMetadataOperation` is requested to [updateMetadata](ImplicitMetadataOperation.md#updateMetadata)
 
 ### <span id="updateMetadataInternal"> updateMetadataInternal
