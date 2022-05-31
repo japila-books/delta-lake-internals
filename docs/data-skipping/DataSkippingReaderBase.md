@@ -4,7 +4,7 @@
 
 ## Contract
 
-### <span id="allFiles"> Dataset of AddFiles
+### <span id="allFiles"> allFiles Dataset (of AddFiles)
 
 ```scala
 allFiles: Dataset[AddFile]
@@ -104,15 +104,7 @@ Used when:
 
 ## <span id="useStats"><span id="spark.databricks.delta.stats.skipping"> spark.databricks.delta.stats.skipping
 
-```scala
-useStats: Boolean
-```
-
-`useStats` is the value of [spark.databricks.delta.stats.skipping](../DeltaSQLConf.md#DELTA_STATS_SKIPPING) configuration property.
-
-`useStats` is used when:
-
-* `DataSkippingReaderBase` is requested to [filesForScan](#filesForScan)
+`DataSkippingReaderBase` uses [spark.databricks.delta.stats.skipping](../DeltaSQLConf.md#DELTA_STATS_SKIPPING) configuration property for [filesForScan](#filesForScan).
 
 ## <span id="withStats"> withStats DataFrame
 
@@ -125,6 +117,39 @@ withStats: DataFrame
 `withStats` is used when:
 
 * `DataSkippingReaderBase` is requested to [filesWithStatsForScan](#filesWithStatsForScan), [getAllFiles](#getAllFiles), [filterOnPartitions](#filterOnPartitions) and [getDataSkippedFiles](#getDataSkippedFiles)
+
+### <span id="withStatsInternal"> withStatsInternal DataFrame
+
+```scala
+withStatsInternal: DataFrame
+```
+
+`withStatsInternal` requests the [withStatsCache](#withStatsCache) for the [DS](../CachedDS.md#getDS).
+
+### <span id="withStatsCache"> withStatsCache
+
+```scala
+withStatsCache: CachedDS[Row]
+```
+
+??? note "Lazy Value"
+    `withStatsCache` is a Scala **lazy value** to guarantee that the code to initialize it is executed once only (when accessed for the first time) and the computed value never changes afterwards.
+
+    Learn more in the [Scala Language Specification]({{ scala.spec }}/05-classes-and-objects.html#lazy).
+
+`withStatsCache` [caches](../StateCache.md#cacheDS) the [withStatsInternal0 DataFrame](#withStatsInternal0) under the following name (with the [version](#version) and the [redactedPath](#redactedPath)):
+
+```text
+Delta Table State with Stats #[version] - [redactedPath]
+```
+
+### <span id="withStatsInternal0"> withStatsInternal0 DataFrame
+
+```scala
+withStatsInternal0: DataFrame
+```
+
+`withStatsInternal0` is the [allFiles Dataset](#allFiles) with the statistics parsed (the `stats` column decoded from JSON).
 
 ## <span id="filesForScan"> filesForScan
 

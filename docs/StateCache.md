@@ -41,8 +41,9 @@ cacheDS[A](
 
 `cacheDS` is used when:
 
-* `Snapshot` is requested for a [cached state](Snapshot.md#cachedState))
-* `DeltaSourceSnapshot` is requested to [initialFiles](DeltaSourceSnapshot.md#initialFiles)
+* `Snapshot` is requested for the [cachedState](Snapshot.md#cachedState)
+* `DeltaSourceSnapshot` is requested for the [initialFiles](DeltaSourceSnapshot.md#initialFiles)
+* `DataSkippingReaderBase` is requested for the [withStatsCache](data-skipping/DataSkippingReaderBase.md#withStatsCache)
 
 ## <span id="uncache"> Uncaching All Cached Datasets
 

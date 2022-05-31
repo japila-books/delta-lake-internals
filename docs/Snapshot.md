@@ -105,7 +105,7 @@ state: Dataset[SingleAction]
 * `Snapshot` is requested for [computedState](#computedState), [all files](#allFiles) and [files removed (tombstones)](#tombstones)
 * `VacuumCommand` utility is requested for [garbage collection](commands/vacuum/VacuumCommand.md#gc)
 
-### <span id="cachedState"> Cached Delta Table State
+### <span id="cachedState"> Cached State
 
 ```scala
 cachedState: CachedDS[SingleAction]
@@ -116,11 +116,11 @@ cachedState: CachedDS[SingleAction]
 
     Learn more in the [Scala Language Specification]({{ scala.spec }}/05-classes-and-objects.html#lazy).
 
-`cachedState` creates a [Cached Delta State](CachedDS.md) with the following:
+`withStatsCache` [caches](StateCache.md#cacheDS) the [stateReconstruction DataFrame](#stateReconstruction) under the following name (with the [version](#version) and the [redactedPath](#redactedPath)):
 
-* The [dataset](CachedDS.md#ds) part is the [stateReconstruction](#stateReconstruction) dataset of [SingleAction](SingleAction.md)s
-
-* The [name](CachedDS.md#name) in the format **Delta Table State #version - [redactedPath]** (with the [version](#version) and the path redacted)
+```text
+Delta Table State #[version] - [redactedPath]
+```
 
 ## <span id="allFiles"> All AddFiles
 

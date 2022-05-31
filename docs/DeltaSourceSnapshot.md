@@ -14,7 +14,7 @@
 
 * `DeltaSource` is requested for the [snapshot of a delta table at a given version](DeltaSource.md#getSnapshotAt)
 
-## <span id="initialFiles"> Initial Files (Indexed AddFiles)
+## <span id="initialFiles"> initialFiles Dataset (of IndexedFiles)
 
 ```scala
 initialFiles: Dataset[IndexedFile]
@@ -39,10 +39,10 @@ initialFiles: Dataset[IndexedFile]
 
 ### <span id="initialFiles-cacheDS"> Creating CachedDS
 
-`initialFiles` [creates a CachedDS](StateCache.md#cacheDS) with the following name (with the [version](#version) and [path](#path) of the [Snapshot](#snapshot)):
+`initialFiles` [caches](StateCache.md#cacheDS) the `Dataset[IndexedFile]` under the following name (with the [version](#version) and the [redactedPath](Snapshot.md#redactedPath) of this [Snapshot](#snapshot)):
 
 ```text
-Delta Source Snapshot #[version] - [path]
+Delta Source Snapshot #[version] - [redactedPath]
 ```
 
 ### <span id="initialFiles-getDS"> Cached Dataset of Indexed AddFiles
