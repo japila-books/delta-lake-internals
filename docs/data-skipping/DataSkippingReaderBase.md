@@ -114,6 +114,18 @@ useStats: Boolean
 
 * `DataSkippingReaderBase` is requested to [filesForScan](#filesForScan)
 
+## <span id="withStats"> withStats DataFrame
+
+```scala
+withStats: DataFrame
+```
+
+`withStats` [withStatsInternal](#withStatsInternal).
+
+`withStats` is used when:
+
+* `DataSkippingReaderBase` is requested to [filesWithStatsForScan](#filesWithStatsForScan), [getAllFiles](#getAllFiles), [filterOnPartitions](#filterOnPartitions) and [getDataSkippedFiles](#getDataSkippedFiles)
+
 ## <span id="filesForScan"> filesForScan
 
 ```scala
@@ -154,7 +166,7 @@ With [spark.databricks.delta.stats.skipping](#useStats) configuration property e
 
 In the end, creates a [DeltaScan](DeltaScan.md) (with the [files and sizes](#getDataSkippedFiles), and `dataSkippingOnlyV1` or `dataSkippingAndPartitionFilteringV1` data skipping types).
 
-### <span id="getDataSkippedFiles"> getDataSkippedFiles
+#### <span id="getDataSkippedFiles"> getDataSkippedFiles
 
 ```scala
 getDataSkippedFiles(
@@ -163,7 +175,58 @@ getDataSkippedFiles(
   keepNumRecords: Boolean): (Seq[AddFile], Seq[DataSize])
 ```
 
-`getDataSkippedFiles`...FIXME
+`getDataSkippedFiles` [builds the size collectors and the filter functions](#buildSizeCollectorFilter):
+
+ Size Collector | Filter Function
+----------------|----------------
+ totalSize      | totalFilter
+ partitionSize  | partitionFilter
+ scanSize       | scanFilter
+
+??? note "Size Collectors are Accumulators"
+    The size collectors are `ArrayAccumulator`s that are `AccumulatorV2`s ([Spark Core]({{ book.spark_core }}/accumulators/AccumulatorV2)).
+
+    ```scala
+    class ArrayAccumulator(val size: Int)
+    extends AccumulatorV2[(Int, Long), Array[Long]]
+    ```
+
+`getDataSkippedFiles` takes the [withStats DataFrame](#withStats) adds the following`WHERE` clauses (and creates a `filteredFiles` dataset):
+
+1. The above `totalFilter` with `trueLiteral`
+1. The above `partitionFilter` with the given `partitionFilters`
+1. The above `scanFilter` with the given `dataFilters` and a negation of [verifyStatsForFilter](#verifyStatsForFilter)
+
+`getDataSkippedFiles` adds `stats` column that includes `numRecords` stats when the given `keepNumRecords` flag is enabled.
+
+??? note "keepNumRecords Flag is Disabled"
+    The given `keepNumRecords` flag is always off (`false`).
+
+In the end, `getDataSkippedFiles` returns the rows (as [AddFile](../AddFile.md)s) and the `DataSize`s based on the following `ArrayAccumulator`s:
+
+1. `totalSize`
+1. `partitionSize`
+1. `scanSize`
+
+??? note "Dataset.collect"
+    `getDataSkippedFiles` uses `Dataset.collect` action to collect the rows that runs the Spark SQL query and  runs a Spark job.
+
+### <span id="buildSizeCollectorFilter"> buildSizeCollectorFilter
+
+```scala
+buildSizeCollectorFilter(): (ArrayAccumulator, Column => Column)
+```
+
+`buildSizeCollectorFilter`...FIXME
+
+### <span id="verifyStatsForFilter"> verifyStatsForFilter
+
+```scala
+verifyStatsForFilter(
+  referencedStats: Set[StatsColumn]): Column
+```
+
+`verifyStatsForFilter`...FIXME
 
 ## <span id="columnMappingMode"> Column Mapping Mode
 

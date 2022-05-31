@@ -1,6 +1,6 @@
 # Data Skipping
 
-**Data Skipping** is an optimization of queries with filter clauses that uses data skipping column statistics to prune away files that contain no rows the query cares about (and thus skips scanning parquet data files that do not match the filters). That means that no filters effectively skips data skipping.
+**Data Skipping** is an optimization of queries with filter clauses that uses data skipping column statistics to find the set of parquet data files that need to be queried (and prune away files that do not match the filters and contain no rows the query cares about). That means that no filters effectively skips data skipping.
 
 Data Skipping is enabled using [spark.databricks.delta.stats.skipping](../DeltaSQLConf.md#DELTA_STATS_SKIPPING) configuration property.
 
