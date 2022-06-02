@@ -15,7 +15,7 @@ As per the [comment](https://github.com/delta-io/delta/blob/50f80f1a813309db5f22
 
 `DeltaDelete` is created when:
 
-* [DeltaAnalysis](../../DeltaAnalysis.md) logical resolution rule is executed and resolves `DeleteFromTable`s ([Spark SQL]({{ book.spark_sql }}/logical-operators/DeleteFromTable/))
+* [DeltaAnalysis](../../DeltaAnalysis.md) logical resolution rule is executed and resolves `DeleteFromTable`s
 
 ## Logical Resolution
 

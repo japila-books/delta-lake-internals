@@ -13,7 +13,7 @@
 
 `DeltaUpdateTable` is created when:
 
-* [DeltaAnalysis](../../DeltaAnalysis.md) logical resolution rule is executed (on an `UpdateTable`)
+* [DeltaAnalysis](../../DeltaAnalysis.md) logical resolution rule is executed and resolves `UpdateTable`s
 
 ## Logical Resolution
 

@@ -1,8 +1,6 @@
 # RestoreTableStatement
 
-`RestoreTableStatement` is a unary logical operator ([Spark SQL]({{ book.spark_sql }}/logical-operators/LogicalPlan#UnaryNode)) for [RESTORE TABLE](../../sql/index.md#RESTORE) SQL statement.
-
-`RestoreTableStatement` is used for the following:
+`RestoreTableStatement` is a unary logical operator ([Spark SQL]({{ book.spark_sql }}/logical-operators/LogicalPlan#UnaryNode)) that represents the following:
 
 * [RESTORE TABLE](../../sql/index.md#RESTORE) SQL statement
 * [DeltaTable.restoreToVersion](../../DeltaTable.md#restoreToVersion) operation
