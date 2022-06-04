@@ -201,16 +201,16 @@ nav:
       - DeltaSink: DeltaSink.md
       - WriteIntoDeltaBuilder: WriteIntoDeltaBuilder.md
     - Spark SQL Extensions:
-      - DeltaCatalog: DeltaCatalog.md
-      - DeltaTableV2: DeltaTableV2.md
-      - StagedDeltaTableV2: StagedDeltaTableV2.md
-      - DeltaSparkSessionExtension: DeltaSparkSessionExtension.md
       - DeltaAnalysis: DeltaAnalysis.md
+      - DeltaCatalog: DeltaCatalog.md
+      - DeltaSparkSessionExtension: DeltaSparkSessionExtension.md
+      - DeltaTableV2: DeltaTableV2.md
       - DeltaUnsupportedOperationsCheck: DeltaUnsupportedOperationsCheck.md
       - PreprocessTableDelete: PreprocessTableDelete.md
       - PreprocessTableMerge: PreprocessTableMerge.md
       - PreprocessTableRestore: PreprocessTableRestore.md
       - PreprocessTableUpdate: PreprocessTableUpdate.md
+      - StagedDeltaTableV2: StagedDeltaTableV2.md
     - File Indices:
       - TahoeFileIndex: TahoeFileIndex.md
       - PinnedTahoeFileIndex: PinnedTahoeFileIndex.md

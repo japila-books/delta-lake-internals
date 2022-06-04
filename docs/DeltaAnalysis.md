@@ -13,7 +13,7 @@
 
 * `DeltaSparkSessionExtension` is requested to [inject Delta extensions](DeltaSparkSessionExtension.md)
 
-## Executing Rule
+## <span id="apply"> Executing Rule
 
 ```scala
 apply(
