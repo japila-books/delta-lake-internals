@@ -15,3 +15,17 @@ SQL Statement | Logical Command
  [OPTIMIZE](index.md#OPTIMIZE) | [OptimizeTableCommand](../commands/optimize/OptimizeTableCommand.md)
  <span id="visitRestore"> [RESTORE](index.md#RESTORE) | [RestoreTableStatement](../commands/restore/RestoreTableStatement.md)
  [VACUUM](index.md#VACUUM) | [VacuumTableCommand](../commands/vacuum/VacuumTableCommand.md)
+
+## <span id="maybeTimeTravelChild"> maybeTimeTravelChild
+
+```scala
+maybeTimeTravelChild(
+  ctx: TemporalClauseContext,
+  child: LogicalPlan): LogicalPlan
+```
+
+`maybeTimeTravelChild` creates a [TimeTravel](../commands/restore/TimeTravel.md) (with `sql` ID).
+
+`maybeTimeTravelChild` is used when:
+
+* `DeltaSqlAstBuilder` is requested to [parse RESTORE command](#visitRestore)

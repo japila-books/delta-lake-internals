@@ -316,6 +316,7 @@ nav:
       - RestoreTableCommand: commands/restore/RestoreTableCommand.md
       - RestoreTableCommandBase: commands/restore/RestoreTableCommandBase.md
       - RestoreTableStatement: commands/restore/RestoreTableStatement.md
+      - TimeTravel: commands/restore/TimeTravel.md
     - Update:
       - commands/update/index.md
       - UpdateCommand: commands/update/UpdateCommand.md

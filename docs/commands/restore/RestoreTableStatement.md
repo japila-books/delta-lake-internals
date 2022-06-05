@@ -1,4 +1,4 @@
-# RestoreTableStatement
+# RestoreTableStatement Unary Logical Operator
 
 `RestoreTableStatement` is a unary logical operator ([Spark SQL]({{ book.spark_sql }}/logical-operators/LogicalPlan#UnaryNode)) that represents the following:
 
