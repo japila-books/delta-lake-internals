@@ -726,6 +726,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://books.japila.pl/delta-lake-internals/commands/restore/TimeTravel/</loc>
+         <lastmod>2022-06-05</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/update/</loc>
          <lastmod>2022-06-05</lastmod>
          <changefreq>daily</changefreq>
