@@ -1,26 +1,39 @@
 # DeltaTimeTravelSpec
 
-## <span id="TIMESTAMP_URI_FOR_TIME_TRAVEL"><span id="VERSION_URI_FOR_TIME_TRAVEL"> Time Travel Patterns
-
-`DeltaTimeTravelSpec` defines regular expressions for timestamp- and version-based time travel identifiers:
-
-* Version URI: `(path)@[vV](some numbers)`
-* Timestamp URI: `(path)@(yyyyMMddHHmmssSSS)`
-
 ## Creating Instance
 
 `DeltaTimeTravelSpec` takes the following to be created:
 
 * <span id="timestamp"> Timestamp
 * <span id="version"> Version
-* <span id="creationSource"> `creationSource` identifier
+* [Creation Source ID](#creationSource)
 
 `DeltaTimeTravelSpec` asserts that either [version](#version) or [timestamp](#timestamp) is provided (and throws an `AssertionError`).
 
 `DeltaTimeTravelSpec` is created when:
 
+* [DeltaAnalysis](DeltaAnalysis.md) logical resolution rule is resolving [RestoreTableStatement](commands/restore/RestoreTableStatement.md) unary logical operator
 * `DeltaTimeTravelSpec` utility is used to [resolve a path](#resolvePath)
 * `DeltaDataSource` utility is used to [getTimeTravelVersion](DeltaDataSource.md#getTimeTravelVersion)
+* `DeltaSource` is requested to for the [getStartingVersion](DeltaSource.md#getStartingVersion)
+
+## <span id="creationSource"> Creation Source ID
+
+`DeltaTimeTravelSpec` is given a **Creation Source ID** when [created](#creating-instance).
+
+The Creation Source ID indicates the API used to time travel:
+
+* [Creation Source ID](commands/restore/TimeTravel.md#creationSource) of the [TimeTravel](commands/restore/RestoreTableStatement.md#table) of [RestoreTableStatement](commands/restore/RestoreTableStatement.md) unary logical operator (when [DeltaAnalysis](DeltaAnalysis.md) logical resolution rule is executed)
+* `atSyntax.path` for [DeltaTimeTravelSpec](#resolvePath)
+* `dfReader` for [DeltaDataSource](DeltaDataSource.md#getTimeTravelVersion)
+* `deltaSource` for [DeltaSource](DeltaSource.md#getStartingVersion)
+
+## <span id="TIMESTAMP_URI_FOR_TIME_TRAVEL"><span id="VERSION_URI_FOR_TIME_TRAVEL"> Time Travel Patterns
+
+`DeltaTimeTravelSpec` defines regular expressions for timestamp- and version-based time travel identifiers:
+
+* Version URI: `(path)@[vV](some numbers)`
+* Timestamp URI: `(path)@(yyyyMMddHHmmssSSS)`
 
 ## <span id="resolvePath"> Resolving Path
 

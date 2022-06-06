@@ -10,7 +10,7 @@
 
 `RestoreTableStatement` takes the following to be created:
 
-* <span id="table"> `TimeTravel` specification
+* <span id="table"> [TimeTravel](TimeTravel.md) specification
 
 `RestoreTableStatement` is created when:
 
