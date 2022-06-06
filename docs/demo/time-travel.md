@@ -62,3 +62,11 @@ The above query over a previous version is also possible using [version pattern]
 ```scala
 spark.read.delta("/tmp/delta/demo@v1").show
 ```
+
+## Cataloged Delta Table
+
+For a delta table registered in a catalog, you could use the following query:
+
+```scala
+spark.read.format("delta").option("versionAsOf", 0).table(tableName).show
+```

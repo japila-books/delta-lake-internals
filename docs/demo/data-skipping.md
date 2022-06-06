@@ -17,7 +17,7 @@ Add the following line to `conf/log4j.properties`:
 log4j.logger.org.apache.spark.sql.delta.stats=ALL
 ```
 
-## Spark Shell
+## Start Spark Shell
 
 ```text
 ./bin/spark-shell \
@@ -35,7 +35,7 @@ assert(spark.sessionState.conf.getConf(DeltaSQLConf.DELTA_STATS_SKIPPING), "Data
 
 ```scala
 val tableName = "d01"
-sql(s"DROP TABLE $tableName")
+sql(s"DROP TABLE IF EXISTS $tableName")
 spark.range(5).writeTo(tableName).using("delta").create
 ```
 

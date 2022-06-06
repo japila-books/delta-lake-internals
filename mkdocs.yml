@@ -63,7 +63,8 @@ markdown_extensions:
   - pymdownx.superfences
   - pymdownx.tasklist:
       custom_checkbox: true
-  - pymdownx.tabbed
+  - pymdownx.tabbed:
+      alternate_style: true
   - pymdownx.tilde
 
 plugins:
@@ -111,6 +112,7 @@ extra:
       link: https://linkedin.com/in/jaceklaskowski
   spark:
     version: 3.2.0
+    docs: https://spark.apache.org/docs/3.2.0
 
 nav:
   - Home: index.md
@@ -329,6 +331,7 @@ nav:
     - WriteIntoDelta: commands/WriteIntoDelta.md
   - Demos:
     - demo/index.md
+    - Rolling Back Table Changes (Restore Command): demo/rolling-back-table-changes-restore-command.md
     - Data Skipping: demo/data-skipping.md
     - Time Travel: demo/time-travel.md
     - Vacuum: demo/vacuum.md
