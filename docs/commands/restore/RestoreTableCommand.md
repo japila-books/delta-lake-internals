@@ -128,3 +128,15 @@ getTimestamp(): Option[String]
 ```
 
 `getTimestamp`...FIXME
+
+## Logging
+
+Enable `ALL` logging level for `org.apache.spark.sql.delta.commands.RestoreTableCommand` logger to see what happens inside.
+
+Add the following line to `conf/log4j.properties`:
+
+```text
+log4j.logger.org.apache.spark.sql.delta.commands.RestoreTableCommand=ALL
+```
+
+Refer to [Logging](../../spark-logging.md).

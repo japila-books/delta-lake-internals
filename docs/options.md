@@ -64,6 +64,8 @@ Default: (undefined)
 
 ## <span id="REPLACE_WHERE_OPTION"><span id="replaceWhere"> replaceWhere
 
+Partition predicates (unless [replaceWhere.dataColumns.enabled](DeltaSQLConf.md#replaceWhere.dataColumns.enabled) is enabled to allow for arbitrary non-partition data predicates)
+
 Available as [DeltaWriteOptions.replaceWhere](DeltaWriteOptions.md#replaceWhere)
 
 !!! example "Demo"

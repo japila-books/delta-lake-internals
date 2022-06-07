@@ -7,14 +7,13 @@ hide:
 
 This demo shows [RESTORE command](../commands/restore/index.md) in action (using the [SQL variant](../sql/index.md#RESTORE)).
 
+## Logging
+
+Enable logging for [RestoreTableCommand](../commands/restore/RestoreTableCommand.md#logging).
+
 ## Start Spark Shell
 
-```text
-./bin/spark-shell \
-  --packages io.delta:delta-core_2.12:{{ delta.version }} \
-  --conf spark.sql.extensions=io.delta.sql.DeltaSparkSessionExtension \
-  --conf spark.sql.catalog.spark_catalog=org.apache.spark.sql.delta.catalog.DeltaCatalog
-```
+Start [Spark Shell with Delta Lake](../installation.md#spark-shell).
 
 ## Create Delta Table
 
@@ -56,6 +55,29 @@ spark.table(tableName).show
 ```
 
 This is the first `0`th version of the delta table with just a single row.
+
+=== "Scala"
+
+    ``` scala
+    sql(s"desc history $tableName")
+      .select('version, 'timestamp, 'operation)
+      .show(truncate = false)
+    ```
+
+=== "SQL"
+
+    ``` sql
+    SELECT version, timestamp, operation
+    FROM (DESC HISTORY $tableName)
+    ```
+
+```text
++-------+-----------------------+----------------------+
+|version|timestamp              |operation             |
++-------+-----------------------+----------------------+
+|0      |2022-06-07 11:37:28.707|CREATE TABLE AS SELECT|
++-------+-----------------------+----------------------+
+```
 
 ## Create Multiple Table Versions
 
@@ -101,9 +123,9 @@ sql(s"MERGE INTO $tableName USING (VALUES 2 t(id)) ON demo01.id = t.id WHEN NOT 
 +-------+-----------------------+----------------------+
 |version|timestamp              |operation             |
 +-------+-----------------------+----------------------+
-|2      |2022-06-06 12:56:37.099|MERGE                 |
-|1      |2022-06-06 12:52:13.576|WRITE                 |
-|0      |2022-06-06 12:23:26.881|CREATE TABLE AS SELECT|
+|2      |2022-06-07 11:38:52.448|MERGE                 |
+|1      |2022-06-07 11:38:42.148|WRITE                 |
+|0      |2022-06-07 11:37:28.707|CREATE TABLE AS SELECT|
 +-------+-----------------------+----------------------+
 ```
 
@@ -133,11 +155,27 @@ Let's restore the initial (`0`th) version and review the history of this delta t
 sql(s"RESTORE TABLE $tableName TO VERSION AS OF 0").show
 ```
 
+You should see the following INFO messages in the logs:
+
+```text
+RestoreTableCommand: DELTA: RestoreTableCommand: compute missing files validation  (table path file:/Users/jacek/dev/oss/spark/spark-warehouse/demo01)
+RestoreTableCommand: DELTA: Done
+RestoreTableCommand: DELTA: RestoreTableCommand: compute metrics  (table path file:/Users/jacek/dev/oss/spark/spark-warehouse/demo01)
+RestoreTableCommand: DELTA: Done
+RestoreTableCommand: DELTA: RestoreTableCommand: compute add actions  (table path file:/Users/jacek/dev/oss/spark/spark-warehouse/demo01)
+RestoreTableCommand: DELTA: Done
+RestoreTableCommand: DELTA: RestoreTableCommand: compute remove actions  (table path file:/Users/jacek/dev/oss/spark/spark-warehouse/demo01)
+RestoreTableCommand: DELTA: Done
+RestoreTableCommand: Committed delta #3 to file:/Users/jacek/dev/oss/spark/spark-warehouse/demo01/_delta_log. Wrote 4 actions.
+```
+
+`RestoreTableCommand` should also give you command statistics.
+
 ```text
 +------------------------+--------------------------+-----------------+------------------+------------------+-------------------+
 |table_size_after_restore|num_of_files_after_restore|num_removed_files|num_restored_files|removed_files_size|restored_files_size|
 +------------------------+--------------------------+-----------------+------------------+------------------+-------------------+
-|                     452|                         1|                3|                 0|              1203|                  0|
+|                     774|                         2|                2|                 0|               956|                  0|
 +------------------------+--------------------------+-----------------+------------------+------------------+-------------------+
 ```
 
@@ -157,9 +195,28 @@ spark.table(tableName).show
 
 That looks OK. That's the row of the `0`th version. Use the following query to prove it.
 
-```scala
-spark.read.format("delta").option("versionAsOf", 0).table(tableName).show
-```
+=== "Scala"
+
+    ```scala
+    spark.read.format("delta").option("versionAsOf", 0).table(tableName).show
+    ```
+
+=== "Delta-specific"
+
+    ```scala
+    import org.apache.spark.sql.catalyst.TableIdentifier
+    val tid = TableIdentifier(tableName)
+
+    import org.apache.spark.sql.delta.DeltaTableIdentifier
+    val did = DeltaTableIdentifier(table = Some(tid))
+
+    val log = did.getDeltaLog(spark)
+    val snapshotAt = log.getSnapshotAt(0)
+
+    val relation = log.createRelation(snapshotToUseOpt = Some(snapshotAt))
+    val df = spark.baseRelationToDataFrame(relation)
+    df.show
+    ```
 
 ```text
 +---+
@@ -179,10 +236,10 @@ sql(s"desc history $tableName").select('version, 'timestamp, 'operation).show(tr
 +-------+-----------------------+----------------------+
 |version|timestamp              |operation             |
 +-------+-----------------------+----------------------+
-|3      |2022-06-06 13:08:32.612|RESTORE               |
-|2      |2022-06-06 12:56:37.099|MERGE                 |
-|1      |2022-06-06 12:52:13.576|WRITE                 |
-|0      |2022-06-06 12:23:26.881|CREATE TABLE AS SELECT|
+|3      |2022-06-07 11:40:09.496|RESTORE               |
+|2      |2022-06-07 11:38:52.448|MERGE                 |
+|1      |2022-06-07 11:38:42.148|WRITE                 |
+|0      |2022-06-07 11:37:28.707|CREATE TABLE AS SELECT|
 +-------+-----------------------+----------------------+
 ```
 

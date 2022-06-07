@@ -1,6 +1,6 @@
 # DeltaCommand
 
-`DeltaCommand` is a marker interface for [delta commands](#implementations) to work with delta tables.
+`DeltaCommand` is a marker interface for [delta commands](#implementations).
 
 ## Implementations
 
@@ -16,19 +16,28 @@
 * [VacuumCommandImpl](vacuum/VacuumCommandImpl.md)
 * [WriteIntoDelta](WriteIntoDelta.md)
 
-## <span id="parsePartitionPredicates"> parsePartitionPredicates
+## <span id="parsePredicates"> Converting Predicate Text to Catalyst Expression
 
 ```scala
-parsePartitionPredicates(
+parsePredicates(
   spark: SparkSession,
   predicate: String): Seq[Expression]
 ```
 
-`parsePartitionPredicates`...FIXME
+`parsePredicates` converts the given `predicate` text to an `Expression` ([Spark SQL]({{ book.spark_sql }}/expressions/Expression)).
 
-`parsePartitionPredicates` is used when...FIXME
+---
 
-## <span id="verifyPartitionPredicates"> verifyPartitionPredicates
+`parsePredicates` requests the given `SparkSession` ([Spark SQL]({{ book.spark_sql }}/SparkSession)) for the session `ParserInterface` ([Spark SQL]({{ book.spark_sql }}/sql/ParserInterface)) to `parseExpression` the given `predicate` text.
+
+---
+
+`parsePredicates` is used when:
+
+* [OptimizeTableCommand](optimize/OptimizeTableCommand.md) is executed (to convert the [partitionPredicate](optimize/OptimizeTableCommand.md#partitionPredicate))
+* `WriteIntoDelta` command is requested to [write](WriteIntoDelta.md#write) (to convert the [replaceWhere](../DeltaWriteOptions.md#replaceWhere) option with predicates)
+
+## <span id="verifyPartitionPredicates"> Verifying Partition Predicates
 
 ```scala
 verifyPartitionPredicates(
@@ -37,9 +46,16 @@ verifyPartitionPredicates(
   predicates: Seq[Expression]): Unit
 ```
 
-`verifyPartitionPredicates`...FIXME
+`verifyPartitionPredicates` asserts that the given `predicates` expressions are as follows:
 
-`verifyPartitionPredicates` is used when...FIXME
+* Contain no subqueries
+* Reference partition columns only (`partitionColumns`)
+
+`verifyPartitionPredicates` is used when:
+
+* [OptimizeTableCommand](optimize/OptimizeTableCommand.md) is executed (to verify the [partitionPredicate](optimize/OptimizeTableCommand.md#partitionPredicate) if defined)
+* `WriteIntoDelta` command is requested to [write](WriteIntoDelta.md#write) (to verify the [replaceWhere](../DeltaWriteOptions.md#replaceWhere) option for [SaveMode.Overwrite](WriteIntoDelta.md#mode) mode)
+* `StatisticsCollection` utility is used to [recompute statistics of a delta table](../StatisticsCollection.md#recompute)
 
 ## <span id="generateCandidateFileMap"> generateCandidateFileMap
 
@@ -118,7 +134,9 @@ isCatalogTable(
 
 `isCatalogTable`...FIXME
 
-`isCatalogTable` is used when...FIXME
+`isCatalogTable` is used when:
+
+* `ConvertToDeltaCommandBase` is requested to [isCatalogTable](convert/ConvertToDeltaCommand.md#isCatalogTable)
 
 ## <span id="isPathIdentifier"> isPathIdentifier
 
@@ -147,7 +165,8 @@ commitLarge(
 
 `commitLarge` is used when:
 
-* [ConvertToDeltaCommand](convert/ConvertToDeltaCommand.md) command is executed
+* [ConvertToDeltaCommand](convert/ConvertToDeltaCommand.md) command is executed (and requested to [performConvert](convert/ConvertToDeltaCommand.md#performConvert))
+* [RestoreTableCommand](restore/RestoreTableCommand.md) command is executed
 
 ### <span id="updateAndCheckpoint"> updateAndCheckpoint
 
@@ -159,4 +178,24 @@ updateAndCheckpoint(
   attemptVersion: Long): Unit
 ```
 
-`updateAndCheckpoint`...FIXME
+`updateAndCheckpoint` requests the given [DeltaLog](../DeltaLog.md) to [update](../SnapshotManagement.md#update).
+
+`updateAndCheckpoint` prints out the following INFO message to the logs:
+
+```text
+Committed delta #[attemptVersion] to [logPath]. Wrote [commitSize] actions.
+```
+
+In the end, `updateAndCheckpoint` requests the given [DeltaLog](../DeltaLog.md) to [checkpoint](../Checkpoints.md#checkpoint) the current snapshot.
+
+#### <span id="updateAndCheckpoint-IllegalStateException"> IllegalStateException
+
+`updateAndCheckpoint` throws an `IllegalStateException` if the version after update does not match the assumed `attemptVersion`:
+
+```text
+The committed version is [attemptVersion] but the current version is [currentSnapshot].
+```
+
+## Logging
+
+`DeltaCommand` is an abstract class and logging is configured using the logger of the [implementations](#implementations).

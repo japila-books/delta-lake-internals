@@ -8,7 +8,7 @@
 
 * <span id="path"> Table Path
 * <span id="tableId"> `TableIdentifier`
-* <span id="partitionPredicate"> Optional partition predicate
+* <span id="partitionPredicate"> Partition Predicate (optional)
 
 `OptimizeTableCommand` is created when:
 

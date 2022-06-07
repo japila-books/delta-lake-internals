@@ -18,7 +18,7 @@ val spark = SparkSession
   .getOrCreate
 ```
 
-## <span id="spark-shell"> Spark Shell
+## Spark Shell
 
 ```text
 $ ./bin/spark-shell --version

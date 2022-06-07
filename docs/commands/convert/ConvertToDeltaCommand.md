@@ -155,3 +155,15 @@ constructTableSchema(
 ## <span id="ConvertToDeltaCommandBase"> ConvertToDeltaCommandBase
 
 `ConvertToDeltaCommandBase` is the base of `ConvertToDeltaCommand`-like commands with the only known implementation being `ConvertToDeltaCommand` itself.
+
+## <span id="isCatalogTable"> isCatalogTable
+
+```scala
+isCatalogTable(
+  analyzer: Analyzer,
+  tableIdent: TableIdentifier): Boolean
+```
+
+`isCatalogTable`...FIXME
+
+`isCatalogTable` is part of the [DeltaCommand](../DeltaCommand.md#isCatalogTable) abstraction.

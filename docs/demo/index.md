@@ -8,6 +8,7 @@ hide:
 
 The following demos are available:
 
+- [Rolling Back Table Changes (Restore Command)](rolling-back-table-changes-restore-command.md)
 - [Data Skipping](data-skipping.md)
 - [Time Travel](time-travel.md)
 - [Vacuum](vacuum.md)
