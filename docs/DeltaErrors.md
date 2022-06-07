@@ -204,7 +204,7 @@ changeColumnMappingModeOnOldProtocol(
 
 `changeColumnMappingModeOnOldProtocol` is used when:
 
-* `DeltaColumnMappingBase` is requested to [verifyAndUpdateMetadataChange](DeltaColumnMappingBase.md#verifyAndUpdateMetadataChange)
+* `DeltaColumnMappingBase` is requested to [verifyAndUpdateMetadataChange](column-mapping/DeltaColumnMappingBase.md#verifyAndUpdateMetadataChange)
 
 ## <span id="convertToDeltaWithColumnMappingNotSupported"> convertToDeltaWithColumnMappingNotSupported
 

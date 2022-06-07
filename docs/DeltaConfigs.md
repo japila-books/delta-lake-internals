@@ -49,7 +49,7 @@ Default: `undefined` (`Option[Boolean]`)
 
 ### <span id="columnMapping.mode"><span id="COLUMN_MAPPING_MODE"> columnMapping.mode
 
-Delta column mapping mode to read and write parquet data files
+[DeltaColumnMappingMode](column-mapping/DeltaColumnMappingMode.md) to read and write parquet data files
 
 Name    | Description
 --------|------------
@@ -59,7 +59,7 @@ Name    | Description
 
 Used when:
 
-* `DeltaColumnMappingBase` is requested to [tryFixMetadata](DeltaColumnMappingBase.md#tryFixMetadata) (while `OptimisticTransactionImpl` is requested to [update the metadata](OptimisticTransactionImpl.md#updateMetadata))
+* `DeltaColumnMappingBase` is requested to [tryFixMetadata](column-mapping/DeltaColumnMappingBase.md#tryFixMetadata) (while `OptimisticTransactionImpl` is requested to [update the metadata](OptimisticTransactionImpl.md#updateMetadata))
 * `DeltaErrors` utility is used to [create a DeltaColumnMappingUnsupportedException](DeltaErrors.md#changeColumnMappingModeOnOldProtocol) (while `OptimisticTransactionImpl` is requested to [update the metadata](OptimisticTransactionImpl.md#updateMetadata))
 * `DeltaErrors` utility is used to [create a DeltaColumnMappingUnsupportedException](DeltaErrors.md#convertToDeltaWithColumnMappingNotSupported) (while [ConvertToDeltaCommand](commands/convert/ConvertToDeltaCommand.md) is executed)
 * `Metadata` is requested for the [column mapping mode](Metadata.md#columnMappingMode) (while `DeltaFileFormat` is requested for the [FileFormat](DeltaFileFormat.md#fileFormat))

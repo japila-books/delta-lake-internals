@@ -1,0 +1,3 @@
+# ConflictChecker
+
+`ConflictChecker` is...FIXME

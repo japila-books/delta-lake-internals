@@ -6,7 +6,7 @@
 
 `DeltaParquetFileFormat` takes the following to be created:
 
-* <span id="columnMappingMode"> `DeltaColumnMappingMode`
+* <span id="columnMappingMode"> [DeltaColumnMappingMode](column-mapping/DeltaColumnMappingMode.md)
 * <span id="referenceSchema"> Reference schema ([StructType]({{ book.spark_sql }}/types/StructType))
 
 `DeltaParquetFileFormat` is created when:
@@ -37,7 +37,7 @@ prepareSchema(
   inputSchema: StructType): StructType
 ```
 
-`prepareSchema` [creates a physical schema](DeltaColumnMappingBase.md#createPhysicalSchema) (for the `inputSchema`, the [referenceSchema](#referenceSchema) and the [DeltaColumnMappingMode](#columnMappingMode)).
+`prepareSchema` [creates a physical schema](column-mapping/DeltaColumnMappingBase.md#createPhysicalSchema) (for the `inputSchema`, the [referenceSchema](#referenceSchema) and the [DeltaColumnMappingMode](#columnMappingMode)).
 
 ## <span id="supportFieldName"> supportFieldName
 

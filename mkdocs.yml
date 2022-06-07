@@ -119,6 +119,10 @@ nav:
   - Internals:
     - Overview: overview.md
     - Installation: installation.md
+    - Column Mapping:
+      - column-mapping/index.md
+      - DeltaColumnMappingBase: column-mapping/DeltaColumnMappingBase.md
+      - DeltaColumnMappingMode: column-mapping/DeltaColumnMappingMode.md
     - Data Skipping:
       - data-skipping/index.md
       - DataSkippingReaderBase: data-skipping/DataSkippingReaderBase.md
@@ -144,6 +148,7 @@ nav:
       - DeltaLog: DeltaLog.md
       - Operation: Operation.md
       - Checkpoints: Checkpoints.md
+      - CheckpointV2: CheckpointV2.md
       - SnapshotManagement: SnapshotManagement.md
       - ReadChecksum: ReadChecksum.md
       - MetadataCleanup: MetadataCleanup.md
@@ -347,7 +352,7 @@ nav:
     - Schema Evolution: demo/schema-evolution.md
     - User Metadata for Labelling Commits: demo/user-metadata-for-labelling-commits.md
   - Misc:
-    - DeltaColumnMappingBase: DeltaColumnMappingBase.md
+    - ConflictChecker: ConflictChecker.md
     - DeltaFileOperations: DeltaFileOperations.md
     - DeltaJobStatisticsTracker: DeltaJobStatisticsTracker.md
     - DeltaScanGenerator: DeltaScanGenerator.md
