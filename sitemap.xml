@@ -31,12 +31,22 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://books.japila.pl/delta-lake-internals/CheckpointV2/</loc>
+         <lastmod>2022-06-07</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://books.japila.pl/delta-lake-internals/Checkpoints/</loc>
          <lastmod>2022-06-07</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/CommitInfo/</loc>
+         <lastmod>2022-06-07</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://books.japila.pl/delta-lake-internals/ConflictChecker/</loc>
          <lastmod>2022-06-07</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -57,11 +67,6 @@
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/DeltaColumnBuilder/</loc>
-         <lastmod>2022-06-07</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://books.japila.pl/delta-lake-internals/DeltaColumnMappingBase/</loc>
          <lastmod>2022-06-07</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -467,6 +472,21 @@
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/time-travel/</loc>
+         <lastmod>2022-06-07</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://books.japila.pl/delta-lake-internals/column-mapping/</loc>
+         <lastmod>2022-06-07</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://books.japila.pl/delta-lake-internals/column-mapping/DeltaColumnMappingBase/</loc>
+         <lastmod>2022-06-07</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://books.japila.pl/delta-lake-internals/column-mapping/DeltaColumnMappingMode/</loc>
          <lastmod>2022-06-07</lastmod>
          <changefreq>daily</changefreq>
     </url>
