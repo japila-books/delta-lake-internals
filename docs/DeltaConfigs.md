@@ -53,8 +53,8 @@ Default: `undefined` (`Option[Boolean]`)
 
 Name    | Description
 --------|------------
- `none` | **(default)** A display name is the identifier of a column
- `id`   | A column ID is the identifier of a column. Stored as `StructField` metadata in the schema. This mode is used for tables converted from Iceberg and parquet files in this mode will also have corresponding field Ids for each column in their file schema.
+ `none` | **(default)** A display name is the only valid identifier of a column
+ `id`   | A column ID is the identifier of a column. This mode is used for tables converted from Iceberg and parquet files in this mode will also have corresponding field Ids for each column in their file schema.
  `name` | The physical column name is the identifier of a column. Stored as part of `StructField` metadata in the schema. Used for reading statistics and partition values in the [DeltaLog](DeltaLog.md).
 
 Used when:

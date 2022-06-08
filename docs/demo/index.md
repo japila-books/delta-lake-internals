@@ -8,6 +8,7 @@ hide:
 
 The following demos are available:
 
+- [Column Mapping](column-mapping.md)
 - [Rolling Back Table Changes (Restore Command)](rolling-back-table-changes-restore-command.md)
 - [Data Skipping](data-skipping.md)
 - [Time Travel](time-travel.md)

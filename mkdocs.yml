@@ -336,6 +336,7 @@ nav:
     - WriteIntoDelta: commands/WriteIntoDelta.md
   - Demos:
     - demo/index.md
+    - Column Mapping: demo/column-mapping.md
     - Rolling Back Table Changes (Restore Command): demo/rolling-back-table-changes-restore-command.md
     - Data Skipping: demo/data-skipping.md
     - Time Travel: demo/time-travel.md

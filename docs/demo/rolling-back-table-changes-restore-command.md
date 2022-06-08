@@ -39,7 +39,7 @@ sql(s"DROP TABLE IF EXISTS $tableName")
     CREATE TABLE $tableName
     USING delta
     COMMENT 'Demo delta table'
-    AS VALUES ((0)) t(id)
+    AS VALUES 0 t(id)
     ```
 
 ```scala
