@@ -67,6 +67,16 @@ Used when:
 
 * [MergeIntoCommand](commands/merge/MergeIntoCommand.md) is executed (and committed to a Delta table)
 
+### Optimize
+
+Name | Parameters | changesData
+-----|------------|------------
+ `OPTIMIZE` | `predicate` | true
+
+Used when:
+
+* `OptimizeExecutor` is requested to [optimize](commands/optimize/OptimizeExecutor.md#optimize)
+
 ### ReplaceColumns
 
 ### ReplaceTable
