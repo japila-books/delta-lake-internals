@@ -19,4 +19,6 @@ hide:
 
     **bin-packing** is exactly this `OPTIMIZE` command.
 
-Learn more in the [Optimize Demo](demo.md).
+## Demo
+
+[Demo: Optimize](../../demo/optimize.md)

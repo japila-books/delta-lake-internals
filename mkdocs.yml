@@ -317,7 +317,6 @@ nav:
       - commands/optimize/index.md
       - OptimizeExecutor: commands/optimize/OptimizeExecutor.md
       - OptimizeTableCommand: commands/optimize/OptimizeTableCommand.md
-      - commands/optimize/demo.md
     - Restore:
       - commands/restore/index.md
       - RestoreTableCommand: commands/restore/RestoreTableCommand.md
@@ -338,6 +337,7 @@ nav:
     - demo/index.md
     - Column Mapping: demo/column-mapping.md
     - Rolling Back Table Changes (Restore Command): demo/rolling-back-table-changes-restore-command.md
+    - Optimize: demo/optimize.md
     - Data Skipping: demo/data-skipping.md
     - Time Travel: demo/time-travel.md
     - Vacuum: demo/vacuum.md

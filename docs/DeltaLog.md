@@ -1,6 +1,6 @@
 # DeltaLog
 
-`DeltaLog` is a **transaction log** (_change log_) of all the [changes](Action.md) to (the state of) a Delta table.
+`DeltaLog` is a **transaction log** (_change log_) of all the [changes](Action.md) to (the state of) a delta table.
 
 ## Creating Instance
 
@@ -384,7 +384,7 @@ getChanges(
   startVersion: Long): Iterator[(Long, Seq[Action])]
 ```
 
-`getChanges` gives all [action](Action.md)s (_changes_) per delta log file for the given `startVersion` of a delta table and later.
+`getChanges` gives all the [Action](Action.md)s (_changes_) per delta log file for the given `startVersion` (inclusive) of a delta table and later.
 
 ```scala
 val dataPath = "/tmp/delta/users"
@@ -394,13 +394,11 @@ assert(deltaLog.isInstanceOf[DeltaLog])
 val changesPerVersion = deltaLog.getChanges(startVersion = 0)
 ```
 
+---
+
 Internally, `getChanges` requests the [LogStore](#store) for [files](storage/LogStore.md#listFrom) that are lexicographically greater or equal to the [delta log file](FileNames.md#deltaFile) for the given `startVersion` (in the [logPath](#logPath)) and leaves only [delta log files](FileNames.md#isDeltaFile) (e.g. files with numbers only as file name and `.json` file extension).
 
 For every delta file, `getChanges` requests the [LogStore](#store) to [read the JSON content](storage/LogStore.md#read) (every line is an [action](Action.md)), and then [deserializes it to an action](Action.md#fromJson).
-
-`getChanges` is used when:
-
-* `DeltaSource` is requested for the [indexed file additions (FileAdd actions)](DeltaSource.md#getChanges)
 
 ## <span id="createDataFrame"> Creating DataFrame For Given AddFiles
 
