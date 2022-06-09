@@ -39,7 +39,16 @@ Used when:
 
 ### AddConstraint
 
-### ChangeColumn
+### <span id="ChangeColumn"> ChangeColumn
+
+Name | Parameters | changesData
+-----|------------|------------
+`CHANGE COLUMN` | `column` | `false`
+ | `position` |
+
+Used when:
+
+* [AlterTableChangeColumnDeltaCommand](commands/alter/AlterTableChangeColumnDeltaCommand.md#optimize) is executed
 
 ### Convert
 
@@ -67,7 +76,7 @@ Used when:
 
 * [MergeIntoCommand](commands/merge/MergeIntoCommand.md) is executed (and committed to a Delta table)
 
-### Optimize
+### <span id="Optimize"> Optimize
 
 Name | Parameters | changesData
 -----|------------|------------

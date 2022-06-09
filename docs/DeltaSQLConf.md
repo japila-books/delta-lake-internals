@@ -8,6 +8,20 @@
 
 Default: `false`
 
+## <span id="alterTable.changeColumn.checkExpressions"><span id="DELTA_ALTER_TABLE_CHANGE_COLUMN_CHECK_EXPRESSIONS"> alterTable.changeColumn.checkExpressions
+
+**spark.databricks.delta.alterTable.changeColumn.checkExpressions** (internal)
+
+Given an [ALTER TABLE CHANGE COLUMN](commands/alter/index.md) command, check whether [Constraints](constraints/index.md) or [Generated Columns](generated-columns/index.md) use expressions that reference this column (that will be affected by this change and should be changed along).
+
+Turn this off when there is an issue with expression checking logic that prevents a valid column change from going through.
+
+Default: `true`
+
+Used when:
+
+* [AlterTableChangeColumnDeltaCommand](commands/alter/AlterTableChangeColumnDeltaCommand.md) is executed
+
 ## <span id="checkLatestSchemaOnRead"><span id="DELTA_SCHEMA_ON_READ_CHECK_ENABLED"> checkLatestSchemaOnRead
 
 **spark.databricks.delta.checkLatestSchemaOnRead** enables a check that ensures that users won't read corrupt data if the source schema changes in an incompatible way.

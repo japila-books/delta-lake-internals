@@ -14,7 +14,31 @@ alterTable(
 
 `alterTable` is part of the `TableCatalog` ([Spark SQL]({{ book.spark_sql }}/connector/catalog/TableCatalog/#alterTable)) abstraction.
 
-`alterTable` [loads the table](#loadTable) and continues for [DeltaTableV2](DeltaTableV2.md). Otherwise, `alterTable` delegates to the parent `TableCatalog`.
+---
+
+`alterTable` [loads the table](#loadTable) and continues only when it is a [DeltaTableV2](DeltaTableV2.md). Otherwise, `alterTable` delegates to the parent `TableCatalog`.
+
+`alterTable` groups the given `TableChange`s by their (class) type.
+
+`ColumnChange`s are collected together as column updates (and executed as [AlterTableChangeColumnDeltaCommand](commands/alter/AlterTableChangeColumnDeltaCommand.md)):
+
+* `UpdateColumnComment`
+* `UpdateColumnType`
+* `UpdateColumnPosition`
+* `UpdateColumnNullability`
+* `RenameColumn`
+
+`alterTable` executes the table changes as [AlterDeltaTableCommand](commands/alter/AlterDeltaTableCommand.md).
+
+TableChange | AlterDeltaTableCommand
+------------|----------
+ `AddColumn` | [AlterTableAddColumnsDeltaCommand](commands/alter/AlterTableAddColumnsDeltaCommand.md)
+ `AddConstraint` | [AlterTableAddConstraintDeltaCommand](commands/alter/AlterTableAddConstraintDeltaCommand.md)
+ `ColumnChange` | [AlterTableChangeColumnDeltaCommand](commands/alter/AlterTableChangeColumnDeltaCommand.md)
+ `DropConstraint` | [AlterTableDropConstraintDeltaCommand](commands/alter/AlterTableDropConstraintDeltaCommand.md)
+ `RemoveProperty` | [AlterTableUnsetPropertiesDeltaCommand](commands/alter/AlterTableUnsetPropertiesDeltaCommand.md)
+ `SetLocation`<br>(`SetProperty` with `location` property)<br>catalog delta tables only | [AlterTableSetLocationDeltaCommand](commands/alter/AlterTableSetLocationDeltaCommand.md)
+ `SetProperty` | [AlterTableSetPropertiesDeltaCommand](commands/alter/AlterTableSetPropertiesDeltaCommand.md)
 
 `alterTable`...FIXME
 
