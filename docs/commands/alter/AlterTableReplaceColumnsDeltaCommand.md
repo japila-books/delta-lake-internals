@@ -2,16 +2,15 @@
 
 `AlterTableReplaceColumnsDeltaCommand` is a [AlterDeltaTableCommand](AlterDeltaTableCommand.md).
 
+!!! danger
+    `AlterTableReplaceColumnsDeltaCommand` seems to be no longer used and obsolete by [AlterTableChangeColumnDeltaCommand](AlterTableChangeColumnDeltaCommand.md) that handles all `ColumnChange`s (incl. `RenameColumn`).
+
 ## Creating Instance
 
 `AlterTableReplaceColumnsDeltaCommand` takes the following to be created:
 
 * <span id="table"> [DeltaTableV2](../../DeltaTableV2.md)
 * <span id="columns"> Columns (as [StructField]({{ book.spark_sql }}/types/StructField)s)
-
-`AlterTableReplaceColumnsDeltaCommand` is created when:
-
-* _It does not seem to be created ever! How is so?!_
 
 ## <span id="LeafRunnableCommand"> LeafRunnableCommand
 

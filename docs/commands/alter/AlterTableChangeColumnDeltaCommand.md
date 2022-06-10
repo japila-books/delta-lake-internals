@@ -1,6 +1,16 @@
 # AlterTableChangeColumnDeltaCommand
 
-`AlterTableChangeColumnDeltaCommand` is an [AlterDeltaTableCommand](AlterDeltaTableCommand.md) to change the name, comment, nullability and data type of a [column](#columnName) (of a [table](#table)).
+`AlterTableChangeColumnDeltaCommand` is an [AlterDeltaTableCommand](AlterDeltaTableCommand.md) to change (_alter_) the name, the comment, the nullability, the position and the data type of a [column](#columnName) (of a [DeltaTableV2](#table)).
+
+`AlterTableChangeColumnDeltaCommand` is used when [DeltaCatalog.alterTable](../../DeltaCatalog.md#alterTable) is requested to execute the following `TableChange`s (that are all `ColumnChange`s).
+
+ColumnChange | SQL
+-------------|----------
+ `RenameColumn` ([Spark SQL]({{ book.spark_sql }}/connector/catalog/TableChange/#RenameColumn)) | `ALTER TABLE RENAME COLUMN` ([Spark SQL]({{ book.spark_sql }}/sql/AstBuilder#visitRenameTableColumn))
+ `UpdateColumnComment` |
+ `UpdateColumnNullability` |
+ `UpdateColumnPosition` |
+ `UpdateColumnType` |
 
 ## Creating Instance
 

@@ -20,15 +20,15 @@ alterTable(
 
 `alterTable` groups the given `TableChange`s by their (class) type.
 
-`ColumnChange`s are collected together as column updates (and executed as [AlterTableChangeColumnDeltaCommand](commands/alter/AlterTableChangeColumnDeltaCommand.md)):
+In addition, `alterTable` collects the following `ColumnChange`s together (that are then executed as column updates as [AlterTableChangeColumnDeltaCommand](commands/alter/AlterTableChangeColumnDeltaCommand.md)):
 
-* `UpdateColumnComment`
-* `UpdateColumnType`
-* `UpdateColumnPosition`
-* `UpdateColumnNullability`
 * `RenameColumn`
+* `UpdateColumnComment`
+* `UpdateColumnNullability`
+* `UpdateColumnPosition`
+* `UpdateColumnType`
 
-`alterTable` executes the table changes as [AlterDeltaTableCommand](commands/alter/AlterDeltaTableCommand.md).
+`alterTable` executes the table changes as one of [AlterDeltaTableCommand](commands/alter/AlterDeltaTableCommand.md)s.
 
 TableChange | AlterDeltaTableCommand
 ------------|----------
