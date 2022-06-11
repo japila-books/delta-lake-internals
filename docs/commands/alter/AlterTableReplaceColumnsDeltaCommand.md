@@ -1,6 +1,6 @@
 # AlterTableReplaceColumnsDeltaCommand
 
-`AlterTableReplaceColumnsDeltaCommand` is a [AlterDeltaTableCommand](AlterDeltaTableCommand.md).
+`AlterTableReplaceColumnsDeltaCommand` is an [AlterDeltaTableCommand](AlterDeltaTableCommand.md).
 
 !!! danger
     `AlterTableReplaceColumnsDeltaCommand` seems to be no longer used and obsolete by [AlterTableChangeColumnDeltaCommand](AlterTableChangeColumnDeltaCommand.md) that handles all `ColumnChange`s (incl. `RenameColumn`).

@@ -87,7 +87,7 @@ getPhysicalName(
   field: StructField): String
 ```
 
-`getPhysicalName` requests the given `StructField` ([Spark SQL]({{ book.spark_sql }}/types/StructField/#metadata)) for the `Metadata` to extract `delta.columnMapping.physicalName` key if available. Otherwise, `getPhysicalName` does nothing and returns the name of the given `StructField`.
+`getPhysicalName` requests the given `StructField` ([Spark SQL]({{ book.spark_sql }}/types/StructField/#metadata)) for the `Metadata` to extract `delta.columnMapping.physicalName` key, if available (for [column mapping](index.md)). Otherwise, `getPhysicalName` returns the name of the given `StructField` (with no name changes).
 
 `getPhysicalName` is used when:
 
