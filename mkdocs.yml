@@ -116,13 +116,26 @@ extra:
 
 nav:
   - Home: index.md
-  - Internals:
-    - Overview: overview.md
-    - Installation: installation.md
+  - Features:
     - Column Mapping:
       - column-mapping/index.md
       - DeltaColumnMappingBase: column-mapping/DeltaColumnMappingBase.md
       - DeltaColumnMappingMode: column-mapping/DeltaColumnMappingMode.md
+    - Table Constraints:
+      - constraints/index.md
+      - AddConstraint: constraints/AddConstraint.md
+      - AlterTableAddConstraintStatement: constraints/AlterTableAddConstraintStatement.md
+      - AlterTableDropConstraintStatement: constraints/AlterTableDropConstraintStatement.md
+      - CheckDeltaInvariant: constraints/CheckDeltaInvariant.md
+      - Constraint: constraints/Constraint.md
+      - Constraints: constraints/Constraints.md
+      - DeltaInvariantChecker: constraints/DeltaInvariantChecker.md
+      - DeltaInvariantCheckerExec: constraints/DeltaInvariantCheckerExec.md
+      - DeltaInvariantCheckerStrategy: constraints/DeltaInvariantCheckerStrategy.md
+      - DropConstraint: constraints/DropConstraint.md
+      - Invariant: constraints/Invariant.md
+      - Invariants: constraints/Invariants.md
+      - InvariantViolationException: constraints/InvariantViolationException.md
     - Data Skipping:
       - data-skipping/index.md
       - DataSkippingReaderBase: data-skipping/DataSkippingReaderBase.md
@@ -130,6 +143,13 @@ nav:
       - PreparedDeltaFileIndex: data-skipping/PreparedDeltaFileIndex.md
       - PrepareDeltaScan: data-skipping/PrepareDeltaScan.md
       - PrepareDeltaScanBase: data-skipping/PrepareDeltaScanBase.md
+    - Generated Columns:
+      - generated-columns/index.md
+      - GeneratedColumn: generated-columns/GeneratedColumn.md
+      - Demo: generated-columns/demo.md
+  - Internals:
+    - Overview: overview.md
+    - Installation: installation.md
     - Time Travel:
       - Time Travel: time-travel.md
       - DeltaTimeTravelSpec: DeltaTimeTravelSpec.md
@@ -162,7 +182,7 @@ nav:
       - Post-Commit Hooks:
         - PostCommitHook: PostCommitHook.md
         - GenerateSymlinkManifest: GenerateSymlinkManifest.md
-    - State Snapshot:
+    - (State) Snapshot:
       - Snapshot: Snapshot.md
       - InMemoryLogReplay: InMemoryLogReplay.md
       - PartitionFiltering: PartitionFiltering.md
@@ -224,25 +244,6 @@ nav:
       - TahoeBatchFileIndex: TahoeBatchFileIndex.md
       - TahoeLogFileIndex: TahoeLogFileIndex.md
       - DeltaLogFileIndex: DeltaLogFileIndex.md
-    - Generated Columns:
-      - generated-columns/index.md
-      - GeneratedColumn: generated-columns/GeneratedColumn.md
-      - Demo: generated-columns/demo.md
-    - Constraints:
-      - constraints/index.md
-      - AddConstraint: constraints/AddConstraint.md
-      - AlterTableAddConstraintStatement: constraints/AlterTableAddConstraintStatement.md
-      - AlterTableDropConstraintStatement: constraints/AlterTableDropConstraintStatement.md
-      - CheckDeltaInvariant: constraints/CheckDeltaInvariant.md
-      - Constraint: constraints/Constraint.md
-      - Constraints: constraints/Constraints.md
-      - DeltaInvariantChecker: constraints/DeltaInvariantChecker.md
-      - DeltaInvariantCheckerExec: constraints/DeltaInvariantCheckerExec.md
-      - DeltaInvariantCheckerStrategy: constraints/DeltaInvariantCheckerStrategy.md
-      - DropConstraint: constraints/DropConstraint.md
-      - Invariant: constraints/Invariant.md
-      - Invariants: constraints/Invariants.md
-      - InvariantViolationException: constraints/InvariantViolationException.md
   - Developer API:
     - DeltaTable: DeltaTable.md
     - DeltaTableBuilder: DeltaTableBuilder.md
@@ -353,6 +354,7 @@ nav:
     - Schema Evolution: demo/schema-evolution.md
     - User Metadata for Labelling Commits: demo/user-metadata-for-labelling-commits.md
   - Misc:
+    - ColumnWithDefaultExprUtils: ColumnWithDefaultExprUtils.md
     - ConflictChecker: ConflictChecker.md
     - DeltaFileOperations: DeltaFileOperations.md
     - DeltaJobStatisticsTracker: DeltaJobStatisticsTracker.md

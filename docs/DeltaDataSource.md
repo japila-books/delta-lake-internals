@@ -139,9 +139,9 @@ sourceSchema(
 
 `sourceSchema` [creates a DeltaLog](DeltaLog.md#forTable) for the required `path` parameter (from the given `parameters`).
 
-`sourceSchema` takes the [schema](Snapshot.md#schema) (of the [Snapshot](SnapshotManagement.md#snapshot)) of the `DeltaLog` and [removes generation expressions](generated-columns/GeneratedColumn.md#removeGenerationExpressions) (if defined).
+`sourceSchema` takes the [schema](Snapshot.md#schema) (of the [Snapshot](SnapshotManagement.md#snapshot)) of the `DeltaLog` and [removes default expressions](ColumnWithDefaultExprUtils.md#removeDefaultExpressions).
 
-In the end, `sourceSchema` returns the [delta](#shortName) name with the schema (of the Delta table without the generation expressions).
+In the end, `sourceSchema` returns the [delta](#shortName) name with the table schema.
 
 ---
 

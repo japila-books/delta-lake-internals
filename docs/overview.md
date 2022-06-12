@@ -1,6 +1,6 @@
 # {{ book.title }}
 
-[Delta Lake](https://delta.io/) is an open-source [Apache Spark](https://spark.apache.org/)-based storage layer with [ACID transactions](OptimisticTransaction.md) and [time travel](time-travel.md).
+[Delta Lake](https://delta.io/) is an open-source [Apache Spark](https://spark.apache.org/)-based data lake storage layer with [ACID transactions](OptimisticTransaction.md) and [time travel](time-travel.md).
 
 As [it was well said](https://github.com/delta-io/delta/issues/467#issuecomment-696708455): _"Delta is a storage format while Spark is an execution engine...to separate storage from compute."_
 
