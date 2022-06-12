@@ -192,6 +192,10 @@ Used when:
 
 Default: `true`
 
+Used when:
+
+* `OptimisticTransactionImpl` is requested to [verify a new metadata](OptimisticTransactionImpl.md#verifyNewMetadata)
+
 ## <span id="properties.defaults.minReaderVersion"><span id="DELTA_PROTOCOL_DEFAULT_READER_VERSION"> properties.defaults.minReaderVersion
 
 **spark.databricks.delta.properties.defaults.minReaderVersion** is the default reader protocol version to create new tables with, unless a feature that requires a higher version for correctness is enabled.

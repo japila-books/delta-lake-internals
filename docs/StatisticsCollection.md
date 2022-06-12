@@ -10,9 +10,11 @@
 dataSchema: StructType
 ```
 
+Schema ([StructType]({{ book.spark_sql }}/types/StructType)) of the data files
+
 Used when:
 
-* `StatisticsCollection` is requested for [statCollectionSchema](#statCollectionSchema) and [statsSchema](#statsSchema)
+* `StatisticsCollection` is requested for the [statCollectionSchema](#statCollectionSchema) and the [statsSchema](#statsSchema)
 
 ### <span id="numIndexedCols"> Maximum Number of Indexed Columns
 
@@ -60,7 +62,7 @@ statsSchema: StructType
 statsCollector: Column
 ```
 
-`statsCollector` takes the value of [DeltaSQLConf.DATA_SKIPPING_STRING_PREFIX_LENGTH](DeltaSQLConf.md#DATA_SKIPPING_STRING_PREFIX_LENGTH) configuration property.
+`statsCollector` takes the value of the [spark.databricks.io.skipping.stringPrefixLength](DeltaSQLConf.md#DATA_SKIPPING_STRING_PREFIX_LENGTH) configuration property.
 
 `statsCollector` creates a `Column` with `stats` name to be a `struct` of the following:
 

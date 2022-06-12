@@ -70,3 +70,21 @@ columnMappingMode: DeltaColumnMappingMode
 `columnMappingMode` is used when:
 
 * `DeltaFileFormat` is requested for the [FileFormat](DeltaFileFormat.md#fileFormat)
+
+## <span id="dataSchema"> Data Schema (of Delta Table)
+
+```scala
+dataSchema: StructType
+```
+
+??? note "Lazy Value"
+    `dataSchema` is a Scala **lazy value** to guarantee that the code to initialize it is executed once only (when accessed for the first time) and the computed value never changes afterwards.
+
+    Learn more in the [Scala Language Specification]({{ scala.spec }}/05-classes-and-objects.html#lazy).
+
+`dataSchema` is the [schema](#schema) without the [partition columns](#partitionColumns) (and is the columns written out to data files).
+
+`dataSchema` is used when:
+
+* `OptimisticTransactionImpl` is requested to [verify a new metadata](OptimisticTransactionImpl.md#verifyNewMetadata)
+* `Snapshot` is requested for the [data schema](Snapshot.md#dataSchema)

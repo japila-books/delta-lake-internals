@@ -373,14 +373,28 @@ checkAndRetry(
 
 `checkAndRetry` is used when OptimisticTransactionImpl is requested to [commit](#commit) (and [attempts a commit](#doCommit) that failed with an `FileAlreadyExistsException`).
 
-## <span id="verifyNewMetadata"> verifyNewMetadata
+## <span id="verifyNewMetadata"> Verifying New Metadata
 
 ```scala
 verifyNewMetadata(
   metadata: Metadata): Unit
 ```
 
-`verifyNewMetadata`...FIXME
+`verifyNewMetadata` does validation of the input [Metadata](Metadata.md) (and throws an exception if incorrect).
+
+---
+
+`verifyNewMetadata` makes sure that there are no column duplicates in the [schema](Metadata.md#schema).
+
+`verifyNewMetadata` branches off based on the [DeltaColumnMappingMode](Metadata.md#columnMappingMode).
+
+In [NoMapping](column-mapping/DeltaColumnMappingMode.md#NoMapping) mode, `verifyNewMetadata` [check the field names](SchemaUtils.md#checkSchemaFieldNames) of the [dataSchema](Metadata.md#dataSchema). `verifyNewMetadata`...FIXME
+
+For the other [DeltaColumnMappingMode](column-mapping/DeltaColumnMappingMode.md#implementations)s, `verifyNewMetadata` [checkColumnIdAndPhysicalNameAssignments](column-mapping/DeltaColumnMappingBase.md#checkColumnIdAndPhysicalNameAssignments) of the [schema](Metadata.md#schema).
+
+`verifyNewMetadata` [validates generated columns](generated-columns/GeneratedColumn.md#validateGeneratedColumns) if [there are any](generated-columns/GeneratedColumn.md#hasGeneratedColumns) (in the [schema](Metadata.md#schema)).
+
+In the end, `verifyNewMetadata` [checks the protocol requirements](Protocol.md#checkProtocolRequirements) and, in case the minimum required protocol is given, records it in the [newProtocol](#newProtocol) registry.
 
 `verifyNewMetadata` is used when:
 
@@ -399,7 +413,7 @@ withGlobalConfigDefaults(
 
 * `OptimisticTransactionImpl` is requested to [updateMetadata](#updateMetadata) and [updateMetadataForNewTable](#updateMetadataForNewTable)
 
-## <span id="txnVersion"> Looking Up Transaction Version For Given (Streaming Query) ID
+## <span id="txnVersion"> Looking Up Transaction Version (by Streaming Query ID)
 
 ```scala
 txnVersion(

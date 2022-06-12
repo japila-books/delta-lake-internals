@@ -111,3 +111,17 @@ hasGeneratedColumns(
 * `OptimisticTransactionImpl` is requested to [verifyNewMetadata](../OptimisticTransactionImpl.md#verifyNewMetadata)
 * `Protocol` is requested to [requiredMinimumProtocol](../Protocol.md#requiredMinimumProtocol)
 * [AlterTableChangeColumnDeltaCommand](../commands/alter/AlterTableChangeColumnDeltaCommand.md) is executed
+
+## <span id="validateGeneratedColumns"> validateGeneratedColumns
+
+```scala
+validateGeneratedColumns(
+  spark: SparkSession,
+  schema: StructType): Unit
+```
+
+`validateGeneratedColumns`...FIXME
+
+`validateGeneratedColumns` is used when:
+
+* `OptimisticTransactionImpl` is requested to [verify a new metadata](../OptimisticTransactionImpl.md#verifyNewMetadata)

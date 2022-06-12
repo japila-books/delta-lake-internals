@@ -14,7 +14,7 @@
 * `DeltaTable` is requested to [upgradeTableProtocol](DeltaTable.md#upgradeTableProtocol)
 * _FIXME_
 
-## <span id="forNewTable"> forNewTable Utility
+## <span id="forNewTable"> forNewTable
 
 ```scala
 forNewTable(
@@ -39,7 +39,7 @@ apply(
 
 `apply`...FIXME
 
-## <span id="checkProtocolRequirements"> checkProtocolRequirements Utility
+## <span id="checkProtocolRequirements"> checkProtocolRequirements
 
 ```scala
 checkProtocolRequirements(

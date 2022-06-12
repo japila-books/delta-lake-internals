@@ -314,3 +314,13 @@ scala> deltaLog.snapshot.tombstones.show(false)
 +----+-----------------+----------+
 +----+-----------------+----------+
 ```
+
+## <span id="dataSchema"> Data Schema (of Delta Table)
+
+```scala
+dataSchema: StructType
+```
+
+`dataSchema` requests the [Metadata](#metadata) for the [data schema](Metadata.md#dataSchema).
+
+`dataSchema` is part of the [StatisticsCollection](StatisticsCollection.md#dataSchema) abstraction.
