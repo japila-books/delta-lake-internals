@@ -54,7 +54,7 @@ checkProtocolRequirements(
 
 * `OptimisticTransactionImpl` is requested to [verifyNewMetadata](OptimisticTransactionImpl.md#verifyNewMetadata)
 
-## <span id="requiredMinimumProtocol"> Minimum Protocol Required
+## <span id="requiredMinimumProtocol"> Required Minimum Protocol
 
 ```scala
 requiredMinimumProtocol(

@@ -8,7 +8,7 @@ Column Mapping turns [ALTER TABLE RENAME COLUMN](../commands/alter/AlterTableCha
 
 Column Mapping uses the metadata of a `StructField` ([Spark SQL]({{ book.spark_sql }}/types/StructField)) to  store the logical column name under the `delta.columnMapping.physicalName` metadata key.
 
-Data Skipping is available as of Delta Lake 1.2.0.
+Column Mapping is available as of Delta Lake 1.2.0.
 
 ## Demo
 
