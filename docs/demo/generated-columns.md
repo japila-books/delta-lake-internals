@@ -1,27 +1,33 @@
+---
+hide:
+  - navigation
+---
+
 # Demo: Generated Columns
+
+This demo shows [Generated Columns](../generated-columns/index.md) in action.
 
 ## Create Delta Table with Generated Column
 
-```scala
-val dataPath = "/tmp/delta/values"
-```
+This step uses [DeltaColumnBuilder](../DeltaColumnBuilder.md) API to define a generated column using [DeltaColumnBuilder.generatedAlwaysAs](../DeltaColumnBuilder.md#generatedAlwaysAs).
 
-```scala
-import io.delta.tables.DeltaTable
-import org.apache.spark.sql.types.DataTypes
-```
+=== "Scala"
 
-```scala
-DeltaTable.create
-  .addColumn("id", DataTypes.LongType, nullable = false)
-  .addColumn(
-    DeltaTable.columnBuilder("value")
-      .dataType(DataTypes.BooleanType)
-      .generatedAlwaysAs("true")
-      .build)
-  .location(dataPath)
-  .execute
-```
+    ```scala
+    import io.delta.tables.DeltaTable
+    import org.apache.spark.sql.types.DataTypes
+
+    val dataPath = "/tmp/delta/values"
+    DeltaTable.create
+      .addColumn("id", DataTypes.LongType, nullable = false)
+      .addColumn(
+        DeltaTable.columnBuilder("value")
+          .dataType(DataTypes.BooleanType)
+          .generatedAlwaysAs("true")
+          .build)
+      .location(dataPath)
+      .execute
+    ```
 
 ## Review Metadata
 

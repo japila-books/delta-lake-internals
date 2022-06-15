@@ -146,7 +146,6 @@ nav:
     - Generated Columns:
       - generated-columns/index.md
       - GeneratedColumn: generated-columns/GeneratedColumn.md
-      - Demo: generated-columns/demo.md
   - Internals:
     - Overview: overview.md
     - Installation: installation.md
@@ -336,6 +335,7 @@ nav:
     - WriteIntoDelta: commands/WriteIntoDelta.md
   - Demos:
     - demo/index.md
+    - Generated Columns: demo/generated-columns.md
     - Column Mapping: demo/column-mapping.md
     - Rolling Back Table Changes (Restore Command): demo/rolling-back-table-changes-restore-command.md
     - Optimize: demo/optimize.md
