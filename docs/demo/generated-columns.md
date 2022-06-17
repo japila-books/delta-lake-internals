@@ -17,7 +17,8 @@ This step uses [DeltaColumnBuilder](../DeltaColumnBuilder.md) API to define a ge
     import io.delta.tables.DeltaTable
     import org.apache.spark.sql.types.DataTypes
 
-    val dataPath = "/tmp/delta/values"
+    val tableName = "delta_gencols"
+    sql(s"DROP TABLE IF EXISTS $tableName")
     DeltaTable.create
       .addColumn("id", DataTypes.LongType, nullable = false)
       .addColumn(
@@ -25,20 +26,23 @@ This step uses [DeltaColumnBuilder](../DeltaColumnBuilder.md) API to define a ge
           .dataType(DataTypes.BooleanType)
           .generatedAlwaysAs("true")
           .build)
-      .location(dataPath)
+      .tableName(tableName)
       .execute
     ```
 
 ## Review Metadata
 
-```scala
-import org.apache.spark.sql.delta.DeltaLog
-val deltaLog = DeltaLog.forTable(spark, dataPath)
-```
+=== "Scala"
 
-```scala
-println(deltaLog.snapshot.metadata.dataSchema("value").metadata.json)
-```
+    ```scala
+    import org.apache.spark.sql.delta.DeltaLog
+    import org.apache.spark.sql.catalyst.TableIdentifier
+    val deltaLog = DeltaLog.forTable(spark, TableIdentifier(tableName))
+    ```
+
+    ```scala
+    println(deltaLog.snapshot.metadata.dataSchema("value").metadata.json)
+    ```
 
 ```text
 {"delta.generationExpression":"true"}
@@ -46,23 +50,40 @@ println(deltaLog.snapshot.metadata.dataSchema("value").metadata.json)
 
 ## Write to Delta Table
 
-```scala
-import io.delta.implicits._
-import org.apache.spark.sql.SaveMode
-```
+=== "Scala"
 
-```scala
-spark.range(5)
-  .write
-  .mode(SaveMode.Append)
-  .delta(dataPath)
-```
+    ```scala
+    spark.range(5).writeTo(tableName).append()
+    ```
+
+=== "SQL"
+
+    !!! bug ""
+
+        The following SQL query fails with an `AnalysisException` due to [this issue](https://github.com/delta-io/delta/issues/1215).
+
+    ```sql
+    --- FIXME: Fails with org.apache.spark.sql.
+    sql("""
+    INSERT INTO delta_gencols (id)
+    SELECT * FROM RANGE(5)
+    """)
+    ```
 
 ## Show Table
 
-```scala
-DeltaTable.forPath(dataPath).toDF.orderBy('id).show
-```
+=== "Scala"
+
+    ```scala
+    spark.table(tableName).orderBy('id).show
+    ```
+
+=== "SQL"
+
+    ```sql
+    SELECT * FROM delta_gencols
+    ORDER BY id
+    ```
 
 ```text
 +---+-----+
@@ -78,35 +99,25 @@ DeltaTable.forPath(dataPath).toDF.orderBy('id).show
 
 ## InvariantViolationException
 
-The following one-row query will break the CHECK constraint on the generated column since the value is not `true`.
+It is possible to give the value of the generated column, but it has to pass a `CHECK` constraint.
 
-```scala
-spark.range(5, 6)
-  .withColumn("value", lit(false))
-  .write
-  .mode(SaveMode.Append)
-  .delta(dataPath)
-```
+The following one-row query will break the constraint since the value is not `true`.
+
+=== "Scala"
+
+    ```scala
+    Seq(5L).toDF("id")
+      .withColumn("value", lit(false))
+      .writeTo(tableName)
+      .append()
+    ```
 
 ```text
-org.apache.spark.sql.delta.schema.InvariantViolationException: CHECK constraint Generated Column (`value` <=> true) violated by row with values:
+org.apache.spark.sql.delta.schema.InvariantViolationException: CHECK constraint Generated Column (value <=> true) violated by row with values:
  - value : false
-  at org.apache.spark.sql.delta.schema.InvariantViolationException$.apply(InvariantViolationException.scala:50)
-  at org.apache.spark.sql.delta.schema.InvariantViolationException$.apply(InvariantViolationException.scala:60)
+  at org.apache.spark.sql.delta.schema.InvariantViolationException$.apply(InvariantViolationException.scala:72)
+  at org.apache.spark.sql.delta.schema.InvariantViolationException$.apply(InvariantViolationException.scala:82)
   at org.apache.spark.sql.delta.schema.InvariantViolationException.apply(InvariantViolationException.scala)
   at org.apache.spark.sql.catalyst.expressions.GeneratedClass$SpecificUnsafeProjection.apply(Unknown Source)
-  at org.apache.spark.sql.delta.constraints.DeltaInvariantCheckerExec.$anonfun$doExecute$3(DeltaInvariantCheckerExec.scala:86)
-  at scala.collection.Iterator$$anon$10.next(Iterator.scala:459)
-  at org.apache.spark.sql.execution.datasources.FileFormatWriter$.$anonfun$executeTask$1(FileFormatWriter.scala:278)
-  at org.apache.spark.util.Utils$.tryWithSafeFinallyAndFailureCallbacks(Utils.scala:1473)
-  at org.apache.spark.sql.execution.datasources.FileFormatWriter$.executeTask(FileFormatWriter.scala:286)
-  at org.apache.spark.sql.execution.datasources.FileFormatWriter$.$anonfun$write$15(FileFormatWriter.scala:210)
-  at org.apache.spark.scheduler.ResultTask.runTask(ResultTask.scala:90)
-  at org.apache.spark.scheduler.Task.run(Task.scala:131)
-  at org.apache.spark.executor.Executor$TaskRunner.$anonfun$run$3(Executor.scala:497)
-  at org.apache.spark.util.Utils$.tryWithSafeFinally(Utils.scala:1439)
-  at org.apache.spark.executor.Executor$TaskRunner.run(Executor.scala:500)
-  at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
-  at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
-  at java.base/java.lang.Thread.run(Thread.java:829)
+  at org.apache.spark.sql.delta.constraints.DeltaInvariantCheckerExec.$anonfun$doExecute$3(DeltaInvariantCheckerExec.scala:87)
 ```

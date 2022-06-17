@@ -227,6 +227,7 @@ nav:
       - DeltaSink: DeltaSink.md
       - WriteIntoDeltaBuilder: WriteIntoDeltaBuilder.md
     - Spark SQL Extensions:
+      - AppendDelta: AppendDelta.md
       - DeltaAnalysis: DeltaAnalysis.md
       - DeltaCatalog: DeltaCatalog.md
       - DeltaSparkSessionExtension: DeltaSparkSessionExtension.md

@@ -6,12 +6,12 @@
 
 `DeltaAnalysis` takes the following to be created:
 
-* <span id="session"> `SparkSession`
-* <span id="conf"> `SQLConf`
+* <span id="session"> `SparkSession` ([Spark SQL]({{ book.spark_sql }}/SparkSession))
+* <span id="conf"> `SQLConf` ([Spark SQL]({{ book.spark_sql }}/SQLConf))
 
 `DeltaAnalysis` is created when:
 
-* `DeltaSparkSessionExtension` is requested to [inject Delta extensions](DeltaSparkSessionExtension.md)
+* `DeltaSparkSessionExtension` is requested to [register Delta extensions](DeltaSparkSessionExtension.md)
 
 ## <span id="apply"> Executing Rule
 
@@ -22,7 +22,9 @@ apply(
 
 `apply` is part of the `Rule` ([Spark SQL]({{ book.spark_sql }}/catalyst/Rule/#apply)) abstraction.
 
-`apply` resolves logical operators.
+---
+
+`apply` resolves the following logical operators.
 
 ### <span id="AlterTableAddConstraintStatement"> AlterTableAddConstraintStatement
 
@@ -32,7 +34,13 @@ apply(
 
 `apply` creates an `AlterTable` ([Spark SQL]({{ book.spark_sql }}/logical-operators/AlterTable)) logical command with an [DropConstraint](constraints/DropConstraint.md) table change.
 
-### <span id="AppendDelta"> AppendDelta
+### <span id="AppendDelta"><span id="AppendData"> AppendData
+
+For `AppendData` ([Spark SQL]({{ book.spark_sql }}/logical-operators/AppendData)), `apply` tries to [destructure it](AppendDelta.md#unapply) to a pair of `DataSourceV2Relation` ([Spark SQL]({{ book.spark_sql }}/logical-operators/DataSourceV2Relation)) and a [DeltaTableV2](DeltaTableV2.md).
+
+`apply` proceeds for `AppendData` operators that are not `isByName`.
+
+`apply`...FIXME
 
 ### <span id="DataSourceV2Relation"> DataSourceV2Relation
 
