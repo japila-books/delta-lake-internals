@@ -12,7 +12,7 @@
 * <span id="mode"> `SaveMode`
 * <span id="options"> [DeltaOptions](../DeltaOptions.md)
 * <span id="partitionColumns"> Names of the partition columns
-* <span id="configuration"> Configuration
+* [Configuration](#configuration)
 * <span id="data"> Data (`DataFrame`)
 
 `WriteIntoDelta` is created when:
@@ -22,6 +22,16 @@
 * `WriteIntoDeltaBuilder` is requested to [buildForV1Write](../WriteIntoDeltaBuilder.md#buildForV1Write)
 * `CreateDeltaTableCommand` command is [executed](CreateDeltaTableCommand.md#run)
 * `DeltaDataSource` is requested to [create a relation (for writing)](../DeltaDataSource.md#CreatableRelationProvider-createRelation) (as a [CreatableRelationProvider](../DeltaDataSource.md#CreatableRelationProvider))
+
+### <span id="configuration"> Configuration
+
+`WriteIntoDelta` is given a `configuration` when [created](#creating-instance) as follows:
+
+* Always empty for [DeltaLog](../DeltaLog.md#createRelation)
+* Always empty for [DeltaDataSource](../DeltaDataSource.md#createRelation)
+* Existing properties of a delta table in [DeltaCatalog](../DeltaCatalog.md#createDeltaTable) (with the `comment` key based on the value in the catalog)
+* Existing [configuration](../Metadata.md#configuration) (of the [Metadata](../Snapshot.md#metadata) of the [Snapshot](../DeltaLog.md#snapshot) of the [DeltaLog](../WriteIntoDeltaBuilder.md#log)) for [WriteIntoDeltaBuilder](../WriteIntoDeltaBuilder.md#build)
+* Existing properties of a delta table for [CreateDeltaTableCommand](CreateDeltaTableCommand.md) (with the `comment` key based on the value in the catalog)
 
 ## ImplicitMetadataOperation
 
