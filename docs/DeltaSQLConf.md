@@ -240,6 +240,13 @@ Default: `false`
 
 Equivalent DataFrame option: [mergeSchema](options.md#mergeSchema)
 
+Used when:
+
+* `DeltaMergeInto` utility is used to [resolveReferencesAndSchema](commands/merge/DeltaMergeInto.md#resolveReferencesAndSchema)
+* `MetadataMismatchErrorBuilder` is requested to `addSchemaMismatch`
+* `DeltaWriteOptionsImpl` is requested for [canMergeSchema](DeltaWriteOptionsImpl.md#canMergeSchema)
+* `MergeIntoCommand` is requested for [canMergeSchema](commands/merge/MergeIntoCommand.md#canMergeSchema)
+
 ## <span id="snapshotIsolation.enabled"><span id="DELTA_SNAPSHOT_ISOLATION"> snapshotIsolation.enabled
 
 **spark.databricks.delta.snapshotIsolation.enabled** (internal) controls whether queries on Delta tables are guaranteed to have snapshot isolation

@@ -12,59 +12,79 @@ This demo shows [DeltaTable.merge](../DeltaTable.md#merge) operation (and the un
 
 ## Create Delta Table (Target Data)
 
-### Modern Delta Lake-Own Create Table
+### Create Table
 
-```scala
-val path = "/tmp/delta/demo"
-import io.delta.tables.DeltaTable
-val target = DeltaTable.create.addColumn("id", "long").location(path).execute
-```
+=== "Scala"
 
-```scala
-assert(target.isInstanceOf[io.delta.tables.DeltaTable])
-assert(target.history.count == 1, "There must be version 0 only")
-```
+    ```scala
+    val path = "/tmp/delta/demo"
+    import io.delta.tables.DeltaTable
+    val target = DeltaTable.create.addColumn("id", "long").location(path).execute
+    ```
 
-Unfortunately, the above leaves us with an empty Delta table. Let's fix it.
+    ```scala
+    assert(target.isInstanceOf[io.delta.tables.DeltaTable])
+    assert(target.history.count == 1, "There must be version 0 only")
+    ```
 
-```scala
-import org.apache.spark.sql.SaveMode
-spark.range(5).write.format("delta").mode(SaveMode.Append).save(path)
-```
+=== "SQL"
 
-```scala
-assert(target.history.count == 2)
-```
+    ```sql
+    DROP TABLE IF EXISTS delta_demo;
+    CREATE TABLE delta_demo (id LONG)
+    USING delta;
+    ```
 
-### Legacy Spark-Based Create Table
+Please note that the above commands leave us with an empty Delta table. Let's fix it.
 
-!!! note
-    This legacy Spark-based `CREATE TABLE` is left for comparison purposes only.
+=== "Scala"
 
-```scala
-val path = "/tmp/delta/demo"
-val data = spark.range(5)
-data.write.format("delta").save(path)
+    ```scala
+    import org.apache.spark.sql.SaveMode
+    spark.range(5).write.format("delta").mode(SaveMode.Append).save(path)
+    ```
 
-import io.delta.tables.DeltaTable
-val target = DeltaTable.forPath(path)
+    ```scala
+    assert(target.history.count == 2)
+    ```
 
-assert(target.isInstanceOf[io.delta.tables.DeltaTable])
-assert(target.history.count == 1, "There must be version 0 only")
-```
+=== "SQL"
+
+    ```sql
+    INSERT INTO delta_demo
+    SELECT * FROM range(5);
+    ```
 
 ## Source Data
 
-```scala
-case class Person(id: Long, name: String)
-val source = Seq(Person(0, "Zero"), Person(1, "One")).toDF
-```
+=== "Scala"
+
+    ```scala
+    case class Person(id: Long, name: String)
+    val source = Seq(Person(0, "Zero"), Person(1, "One")).toDF
+    ```
+
+=== "SQL"
+
+    ```sql
+    DROP TABLE IF EXISTS delta_demo_src;
+    CREATE TABLE delta_demo_src (id LONG, name STRING)
+    USING delta;
+    ```
 
 Note the difference in the schema of the `target` and `source` datasets.
 
-```scala
-target.toDF.printSchema
-```
+=== "Scala"
+
+    ```scala
+    target.toDF.printSchema
+    ```
+
+=== "SQL"
+
+    ```sql
+    DESC delta_demo_src;
+    ```
 
 ```text
 root
@@ -83,41 +103,63 @@ root
 
 ## Merge with Schema Evolution
 
-Not only do we update the matching rows, but also update the schema (schema evolution)
+Not only are we about to update the matching rows, but also update the schema (schema evolution).
 
-```scala
-val mergeBuilder = target.as("to")
-  .merge(
-    source = source.as("from"),
-    condition = $"to.id" === $"from.id")
-```
+=== "Scala"
 
-```scala
-assert(mergeBuilder.isInstanceOf[io.delta.tables.DeltaMergeBuilder])
-```
+    ```scala
+    val mergeBuilder = target.as("to")
+      .merge(
+        source = source.as("from"),
+        condition = $"to.id" === $"from.id")
+    ```
 
-```text
-scala> mergeBuilder.execute
-org.apache.spark.sql.AnalysisException: There must be at least one WHEN clause in a MERGE statement
-  at org.apache.spark.sql.catalyst.plans.logical.DeltaMergeInto$.apply(deltaMerge.scala:253)
-  at io.delta.tables.DeltaMergeBuilder.mergePlan(DeltaMergeBuilder.scala:268)
-  at io.delta.tables.DeltaMergeBuilder.$anonfun$execute$1(DeltaMergeBuilder.scala:215)
-  at org.apache.spark.sql.delta.util.AnalysisHelper.improveUnsupportedOpError(AnalysisHelper.scala:87)
-  at org.apache.spark.sql.delta.util.AnalysisHelper.improveUnsupportedOpError$(AnalysisHelper.scala:73)
-  at io.delta.tables.DeltaMergeBuilder.improveUnsupportedOpError(DeltaMergeBuilder.scala:120)
-  at io.delta.tables.DeltaMergeBuilder.execute(DeltaMergeBuilder.scala:204)
-  ... 47 elided
-```
+    ```scala
+    assert(mergeBuilder.isInstanceOf[io.delta.tables.DeltaMergeBuilder])
+    ```
 
-```scala
-val mergeMatchedBuilder = mergeBuilder.whenMatched()
-assert(mergeMatchedBuilder.isInstanceOf[io.delta.tables.DeltaMergeMatchedActionBuilder])
+    ```text
+    scala> mergeBuilder.execute
+    org.apache.spark.sql.AnalysisException: There must be at least one WHEN clause in a MERGE statement
+      at org.apache.spark.sql.catalyst.plans.logical.DeltaMergeInto$.apply(deltaMerge.scala:253)
+      at io.delta.tables.DeltaMergeBuilder.mergePlan(DeltaMergeBuilder.scala:268)
+      at io.delta.tables.DeltaMergeBuilder.$anonfun$execute$1(DeltaMergeBuilder.scala:215)
+      at org.apache.spark.sql.delta.util.AnalysisHelper.improveUnsupportedOpError(AnalysisHelper.scala:87)
+      at org.apache.spark.sql.delta.util.AnalysisHelper.improveUnsupportedOpError$(AnalysisHelper.scala:73)
+      at io.delta.tables.DeltaMergeBuilder.improveUnsupportedOpError(DeltaMergeBuilder.scala:120)
+      at io.delta.tables.DeltaMergeBuilder.execute(DeltaMergeBuilder.scala:204)
+      ... 47 elided
+    ```
 
-val mergeBuilderDeleteMatched = mergeMatchedBuilder.delete()
-assert(mergeBuilderDeleteMatched.isInstanceOf[io.delta.tables.DeltaMergeBuilder])
+    ```scala
+    val mergeMatchedBuilder = mergeBuilder.whenMatched()
+    assert(mergeMatchedBuilder.isInstanceOf[io.delta.tables.DeltaMergeMatchedActionBuilder])
 
-mergeBuilderDeleteMatched.execute()
-```
+    val mergeBuilderDeleteMatched = mergeMatchedBuilder.delete()
+    assert(mergeBuilderDeleteMatched.isInstanceOf[io.delta.tables.DeltaMergeBuilder])
+
+    mergeBuilderDeleteMatched.execute()
+    ```
+
+=== "SQL"
+
+    ```sql
+    MERGE INTO delta_demo to
+    USING delta_demo_src from
+    ON to.id = from.id;
+    ```
+
+    ```text
+    Error in query:
+    There must be at least one WHEN clause in a MERGE statement(line 1, pos 0)
+    ```
+
+    ```sql
+    MERGE INTO delta_demo to
+    USING delta_demo_src from
+    ON to.id = from.id
+    WHEN MATCHED THEN DELETE;
+    ```
 
 ```scala
 assert(target.history.count == 3)

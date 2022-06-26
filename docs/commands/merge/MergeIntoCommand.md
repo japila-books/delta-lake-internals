@@ -396,14 +396,14 @@ In other words, `isSingleInsertOnly` is `true` when all the following hold:
 ```scala
 writeInsertsOnlyWhenNoMatchedClauses(
   spark: SparkSession,
-  deltaTxn: OptimisticTransaction): Seq[AddFile]
+  deltaTxn: OptimisticTransaction): Seq[FileAction]
 ```
 
 `writeInsertsOnlyWhenNoMatchedClauses`...FIXME
 
 `writeInsertsOnlyWhenNoMatchedClauses` is used when:
 
-* `MergeIntoCommand` is requested to [run](#run) (when [isSingleInsertOnly](#isSingleInsertOnly) and [spark.databricks.delta.merge.optimizeInsertOnlyMerge.enabled](../../DeltaSQLConf.md#MERGE_INSERT_ONLY_ENABLED) is `true`)
+* `MergeIntoCommand` is requested to [run](#run) (when [isSingleInsertOnly](#isSingleInsertOnly) with [spark.databricks.delta.merge.optimizeInsertOnlyMerge.enabled](../../DeltaSQLConf.md#MERGE_INSERT_ONLY_ENABLED) enabled)
 
 ## <span id="repartitionIfNeeded"> repartitionIfNeeded
 

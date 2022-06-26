@@ -51,6 +51,13 @@ apply(
 
 `apply` collects [DeltaMergeIntoInsertClause](DeltaMergeIntoInsertClause.md)s and [DeltaMergeIntoMatchedClause](DeltaMergeIntoMatchedClause.md)s from the given `whenClauses` and creates a `DeltaMergeInto` command (with [migrateSchema](#migrateSchema) flag off).
 
+`apply` is used when:
+
+* `DeltaMergeBuilder` is requested to [execute](DeltaMergeBuilder.md#execute) (when [mergePlan](DeltaMergeBuilder.md#mergePlan))
+* [DeltaAnalysis](../../DeltaAnalysis.md) logical resolution rule is executed (and resolves `MergeIntoTable` logical command)
+
+### <span id="apply-AnalysisException"> AnalysisExceptions
+
 `apply` throws an `AnalysisException` for the `whenClauses` empty:
 
 ```text
@@ -60,32 +67,29 @@ There must be at least one WHEN clause in a MERGE statement
 `apply` throws an `AnalysisException` if there is a matched clause with no condition (except the last matched clause):
 
 ```text
-When there are more than one MATCHED clauses in a MERGE statement, only the last MATCHED clause can omit the condition.
+When there are more than one MATCHED clauses in a MERGE statement,
+only the last MATCHED clause can omit the condition.
 ```
 
 `apply` throws an `AnalysisException` if there is an insert clause with no condition (except the last matched clause):
 
 ```text
-When there are more than one NOT MATCHED clauses in a MERGE statement, only the last NOT MATCHED clause can omit the condition.
+When there are more than one NOT MATCHED clauses in a MERGE statement,
+only the last NOT MATCHED clause can omit the condition.
 ```
 
-`apply` is used when:
-
-* `DeltaMergeBuilder` is requested to [execute](DeltaMergeBuilder.md#execute) (when [mergePlan](DeltaMergeBuilder.md#mergePlan))
-* [DeltaAnalysis](../../DeltaAnalysis.md) logical resolution rule is executed (and resolves `MergeIntoTable` logical command)
-
-## <span id="resolveReferences"> resolveReferences
+## <span id="resolveReferencesAndSchema"> resolveReferencesAndSchema
 
 ```scala
-resolveReferences(
+resolveReferencesAndSchema(
   merge: DeltaMergeInto,
   conf: SQLConf)(
   resolveExpr: (Expression, LogicalPlan) => Expression): DeltaMergeInto
 ```
 
-`resolveReferences`...FIXME
+`resolveReferencesAndSchema`...FIXME
 
-`resolveReferences` is used when:
+`resolveReferencesAndSchema` is used when:
 
 * `DeltaMergeBuilder` is requested to [execute](DeltaMergeBuilder.md#execute)
-* [DeltaAnalysis](../../DeltaAnalysis.md) logical resolution rule is executed (and resolves `MergeIntoTable` logical command)
+* [DeltaAnalysis](../../DeltaAnalysis.md) logical resolution rule is executed (to resolve `MergeIntoTable` logical command)
