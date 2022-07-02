@@ -1,3 +1,0 @@
-# ParquetTable
-
-`ParquetTable` is...FIXME

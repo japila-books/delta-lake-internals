@@ -282,10 +282,11 @@ nav:
       - commands/convert/index.md
       - ConvertTargetTable: commands/convert/ConvertTargetTable.md
       - ConvertToDeltaCommand: commands/convert/ConvertToDeltaCommand.md
+      - DeltaConvert: commands/convert/DeltaConvert.md
       - FileManifest: commands/convert/FileManifest.md
       - ManualListingFileManifest: commands/convert/ManualListingFileManifest.md
       - MetadataLogFileManifest: commands/convert/MetadataLogFileManifest.md
-      - DeltaConvert: commands/convert/DeltaConvert.md
+      - ParquetTable: commands/convert/ParquetTable.md
     - CreateDeltaTableCommand: commands/CreateDeltaTableCommand.md
     - Delete:
       - commands/delete/index.md
@@ -364,7 +365,6 @@ nav:
     - DeltaTableOperations: DeltaTableOperations.md
     - DeltaTableUtils: DeltaTableUtils.md
     - ImplicitMetadataOperation: ImplicitMetadataOperation.md
-    - ParquetTable: ParquetTable.md
     - SchemaMergingUtils: SchemaMergingUtils.md
     - SchemaUtils: SchemaUtils.md
     - StateCache:

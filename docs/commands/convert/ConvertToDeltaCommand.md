@@ -167,3 +167,17 @@ isCatalogTable(
 `isCatalogTable`...FIXME
 
 `isCatalogTable` is part of the [DeltaCommand](../DeltaCommand.md#isCatalogTable) abstraction.
+
+## <span id="getTargetTable"> getTargetTable
+
+```scala
+getTargetTable(
+  spark: SparkSession,
+  target: ConvertTarget): ConvertTargetTable
+```
+
+`getTargetTable`...FIXME
+
+`getTargetTable` is used when:
+
+* `ConvertToDeltaCommandBase` is [executed](#run)

@@ -16,7 +16,7 @@ mergeSchemas(
 `mergeSchemas` is used when:
 
 * `DeltaMergeInto` utility is used to [resolveReferencesAndSchema](commands/merge/DeltaMergeInto.md#resolveReferencesAndSchema)
-* `ParquetTable` is requested to [mergeSchemasInParallel](ParquetTable.md#mergeSchemasInParallel) and [inferSchema](ParquetTable.md#inferSchema)
+* `ParquetTable` is requested to [mergeSchemasInParallel](commands/convert/ParquetTable.md#mergeSchemasInParallel) and [inferSchema](commands/convert/ParquetTable.md#inferSchema)
 * `ImplicitMetadataOperation` is requested to [update a metadata](ImplicitMetadataOperation.md#updateMetadata) (and [mergeSchema](ImplicitMetadataOperation.md#mergeSchema))
 
 ## <span id="checkSchemaFieldNames"> Asserting Valid Column Names in NoMapping Mode
