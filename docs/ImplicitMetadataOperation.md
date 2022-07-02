@@ -121,3 +121,15 @@ normalizePartitionColumns(
 ```
 
 `normalizePartitionColumns`...FIXME
+
+### <span id="mergeSchema"> mergeSchema
+
+```scala
+mergeSchema(
+  txn: OptimisticTransaction,
+  dataSchema: StructType,
+  isOverwriteMode: Boolean,
+  canOverwriteSchema: Boolean): StructType
+```
+
+`mergeSchema`...FIXME

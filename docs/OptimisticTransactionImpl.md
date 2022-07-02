@@ -389,6 +389,7 @@ verifyNewMetadata(
 ---
 
 `verifyNewMetadata` [asserts that there are no column duplicates](SchemaMergingUtils.md#checkColumnNameDuplication) in the [schema](Metadata.md#schema) (of the given [Metadata](Metadata.md)).
+`verifyNewMetadata` throws a `DeltaAnalysisException` if there are duplicates.
 
 `verifyNewMetadata` branches off based on the [DeltaColumnMappingMode](Metadata.md#columnMappingMode) (of the given [Metadata](Metadata.md)):
 

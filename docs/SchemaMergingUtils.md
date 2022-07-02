@@ -8,7 +8,7 @@ checkColumnNameDuplication(
   colType: String): Unit
 ```
 
-`checkColumnNameDuplication` [explodes the nested field names](#explodeNestedFieldNames) in the given schema (`StructType`) and throws a `DeltaAnalysisException` if there are any duplicates.
+`checkColumnNameDuplication` [explodes the nested field names](#explodeNestedFieldNames) in the given schema (`StructType`) and throws a `DeltaAnalysisException` if there are duplicates.
 
 ??? note "Possible performance improvement"
     I think it's possible to make `checkColumnNameDuplication` faster as it currently seems to do more than is really required to check for column duplication.
