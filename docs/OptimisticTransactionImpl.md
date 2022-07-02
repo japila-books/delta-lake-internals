@@ -405,6 +405,23 @@ With [spark.databricks.delta.schema.typeCheck.enabled](DeltaSQLConf.md#DELTA_SCH
 
 In the end, `verifyNewMetadata` [checks the protocol requirements](Protocol.md#checkProtocolRequirements) and, in case the protocol has been updated, records it in the [newProtocol](#newProtocol) registry.
 
+## <span id="newProtocol"> newProtocol
+
+```scala
+newProtocol: Option[Protocol]
+```
+
+`OptimisticTransactionImpl` defines `newProtocol` registry for a new [Protocol](Protocol.md).
+
+`newProtocol` is undefined (`None`) by default.
+
+`newProtocol` is defined when:
+
+* [updateMetadataInternal](#updateMetadataInternal)
+* [verifyNewMetadata](#verifyNewMetadata)
+
+`newProtocol` is used for the [protocol](#protocol) and to [prepareCommit](#prepareCommit).
+
 ## <span id="withGlobalConfigDefaults"> withGlobalConfigDefaults
 
 ```scala
