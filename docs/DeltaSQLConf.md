@@ -194,7 +194,7 @@ Default: `true`
 
 Used when:
 
-* `OptimisticTransactionImpl` is requested to [verify a new metadata](OptimisticTransactionImpl.md#verifyNewMetadata)
+* `OptimisticTransactionImpl` is requested to [verify a new metadata](OptimisticTransactionImpl.md#verifyNewMetadata) (with [NoMapping](column-mapping/DeltaColumnMappingMode.md#NoMapping) column mapping mode)
 
 ## <span id="properties.defaults.minReaderVersion"><span id="DELTA_PROTOCOL_DEFAULT_READER_VERSION"> properties.defaults.minReaderVersion
 
@@ -219,6 +219,19 @@ Available values: `1`, `2`, `3`
 Used when:
 
 * `Protocol` utility is used to [create a Protocol](Protocol.md#apply)
+
+## <span id="schema.typeCheck.enabled"><span id="DELTA_SCHEMA_TYPE_CHECK"> schema.typeCheck.enabled
+
+**spark.databricks.delta.schema.typeCheck.enabled** (internal) controls whether to check unsupported data types while updating a table schema
+
+Disabling this flag may allow users to create unsupported Delta tables and should only be used when trying to read/write legacy tables.
+
+Default: `true`
+
+Used when:
+
+* `OptimisticTransactionImpl` is requested for [checkUnsupportedDataType flag](OptimisticTransactionImpl.md#checkUnsupportedDataType)
+* `DeltaErrorsBase` is requested to [unsupportedDataTypes](DeltaErrors.md#unsupportedDataTypes)
 
 ## <span id="retentionDurationCheck.enabled"><span id="DELTA_VACUUM_RETENTION_CHECK_ENABLED"> retentionDurationCheck.enabled
 

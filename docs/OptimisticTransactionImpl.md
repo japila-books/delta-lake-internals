@@ -388,26 +388,21 @@ verifyNewMetadata(
 
 ---
 
-`verifyNewMetadata` makes sure that there are no column duplicates in the [schema](Metadata.md#schema).
+`verifyNewMetadata` [asserts that there are no column duplicates](SchemaMergingUtils.md#checkColumnNameDuplication) in the [schema](Metadata.md#schema) (of the given [Metadata](Metadata.md)).
 
-```scala
-import org.apache.spark.sql.delta.schema.SchemaMergingUtils
-import org.apache.spark.sql.types.{StructField, StructType}
+`verifyNewMetadata` branches off based on the [DeltaColumnMappingMode](Metadata.md#columnMappingMode) (of the given [Metadata](Metadata.md)):
 
-val schema = StructType(Seq.empty[StructField])
-val colType = "fixme"
-SchemaMergingUtils.checkColumnNameDuplication(schema, colType)
-```
+* In [NoMapping](column-mapping/DeltaColumnMappingMode.md#NoMapping) mode, `verifyNewMetadata` [checks](SchemaUtils.md#checkSchemaFieldNames) the [data schema](Metadata.md#dataSchema) and [checks](SchemaUtils.md#checkFieldNames) the [partition columns](Metadata.md#partitionColumns) (of the given [Metadata](Metadata.md)).
 
-`verifyNewMetadata` branches off based on the [DeltaColumnMappingMode](Metadata.md#columnMappingMode).
+    In case of `AnalysisException` and [spark.databricks.delta.partitionColumnValidity.enabled](DeltaSQLConf.md#DELTA_PARTITION_COLUMN_CHECK_ENABLED) configuration property enabled, `verifyNewMetadata` throws a `DeltaAnalysisException`.
 
-In [NoMapping](column-mapping/DeltaColumnMappingMode.md#NoMapping) mode, `verifyNewMetadata` [check the field names](SchemaUtils.md#checkSchemaFieldNames) of the [dataSchema](Metadata.md#dataSchema). `verifyNewMetadata`...FIXME
-
-For the other [DeltaColumnMappingMode](column-mapping/DeltaColumnMappingMode.md#implementations)s, `verifyNewMetadata` [checkColumnIdAndPhysicalNameAssignments](column-mapping/DeltaColumnMappingBase.md#checkColumnIdAndPhysicalNameAssignments) of the [schema](Metadata.md#schema).
+* For the other [DeltaColumnMappingMode](column-mapping/DeltaColumnMappingMode.md#implementations)s, `verifyNewMetadata` [checkColumnIdAndPhysicalNameAssignments](column-mapping/DeltaColumnMappingBase.md#checkColumnIdAndPhysicalNameAssignments) of the [schema](Metadata.md#schema).
 
 `verifyNewMetadata` [validates generated columns](generated-columns/GeneratedColumn.md#validateGeneratedColumns) if [there are any](generated-columns/GeneratedColumn.md#hasGeneratedColumns) (in the [schema](Metadata.md#schema)).
 
-In the end, `verifyNewMetadata` [checks the protocol requirements](Protocol.md#checkProtocolRequirements) and, in case the minimum required protocol is given, records it in the [newProtocol](#newProtocol) registry.
+With [spark.databricks.delta.schema.typeCheck.enabled](DeltaSQLConf.md#DELTA_SCHEMA_TYPE_CHECK) configuration property enabled, `verifyNewMetadata`...FIXME
+
+In the end, `verifyNewMetadata` [checks the protocol requirements](Protocol.md#checkProtocolRequirements) and, in case the protocol has been updated, records it in the [newProtocol](#newProtocol) registry.
 
 ## <span id="withGlobalConfigDefaults"> withGlobalConfigDefaults
 
