@@ -380,11 +380,24 @@ verifyNewMetadata(
   metadata: Metadata): Unit
 ```
 
-`verifyNewMetadata` does validation of the input [Metadata](Metadata.md) (and throws an exception if incorrect).
+`verifyNewMetadata` validates the given [Metadata](Metadata.md) (and throws an exception if incorrect).
+
+`verifyNewMetadata` is used when:
+
+* `OptimisticTransactionImpl` is requested to [prepareCommit](#prepareCommit) and [updateMetadata](#updateMetadata)
 
 ---
 
 `verifyNewMetadata` makes sure that there are no column duplicates in the [schema](Metadata.md#schema).
+
+```scala
+import org.apache.spark.sql.delta.schema.SchemaMergingUtils
+import org.apache.spark.sql.types.{StructField, StructType}
+
+val schema = StructType(Seq.empty[StructField])
+val colType = "fixme"
+SchemaMergingUtils.checkColumnNameDuplication(schema, colType)
+```
 
 `verifyNewMetadata` branches off based on the [DeltaColumnMappingMode](Metadata.md#columnMappingMode).
 
@@ -395,10 +408,6 @@ For the other [DeltaColumnMappingMode](column-mapping/DeltaColumnMappingMode.md#
 `verifyNewMetadata` [validates generated columns](generated-columns/GeneratedColumn.md#validateGeneratedColumns) if [there are any](generated-columns/GeneratedColumn.md#hasGeneratedColumns) (in the [schema](Metadata.md#schema)).
 
 In the end, `verifyNewMetadata` [checks the protocol requirements](Protocol.md#checkProtocolRequirements) and, in case the minimum required protocol is given, records it in the [newProtocol](#newProtocol) registry.
-
-`verifyNewMetadata` is used when:
-
-* `OptimisticTransactionImpl` is requested to [prepareCommit](#prepareCommit) and [updateMetadata](#updateMetadata)
 
 ## <span id="withGlobalConfigDefaults"> withGlobalConfigDefaults
 

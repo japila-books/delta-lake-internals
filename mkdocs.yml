@@ -364,6 +364,7 @@ nav:
     - DeltaTableOperations: DeltaTableOperations.md
     - DeltaTableUtils: DeltaTableUtils.md
     - ImplicitMetadataOperation: ImplicitMetadataOperation.md
+    - SchemaMergingUtils: SchemaMergingUtils.md
     - SchemaUtils: SchemaUtils.md
     - StateCache:
       - StateCache: StateCache.md
