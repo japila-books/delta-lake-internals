@@ -273,6 +273,7 @@ nav:
       - ADD COLUMNS: commands/alter/AlterTableAddColumnsDeltaCommand.md
       - AlterTableAddConstraintDeltaCommand: commands/alter/AlterTableAddConstraintDeltaCommand.md
       - AlterTableChangeColumnDeltaCommand: commands/alter/AlterTableChangeColumnDeltaCommand.md
+      - AlterTableDropColumnsDeltaCommand: commands/alter/AlterTableDropColumnsDeltaCommand.md
       - AlterTableDropConstraintDeltaCommand: commands/alter/AlterTableDropConstraintDeltaCommand.md
       - AlterTableReplaceColumnsDeltaCommand: commands/alter/AlterTableReplaceColumnsDeltaCommand.md
       - AlterTableSetLocationDeltaCommand: commands/alter/AlterTableSetLocationDeltaCommand.md

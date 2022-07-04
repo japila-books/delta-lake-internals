@@ -20,7 +20,7 @@ Default: `true`
 
 Used when:
 
-* [AlterTableChangeColumnDeltaCommand](commands/alter/AlterTableChangeColumnDeltaCommand.md) is executed
+* `AlterDeltaTableCommand` is requested to [checkDependentExpressions](commands/alter/AlterDeltaTableCommand.md#checkDependentExpressions)
 
 ## <span id="checkLatestSchemaOnRead"><span id="DELTA_SCHEMA_ON_READ_CHECK_ENABLED"> checkLatestSchemaOnRead
 

@@ -108,9 +108,9 @@ hasGeneratedColumns(
 
 `hasGeneratedColumns` is used when:
 
-* `OptimisticTransactionImpl` is requested to [verifyNewMetadata](../OptimisticTransactionImpl.md#verifyNewMetadata)
-* `Protocol` is requested to [requiredMinimumProtocol](../Protocol.md#requiredMinimumProtocol)
-* [AlterTableChangeColumnDeltaCommand](../commands/alter/AlterTableChangeColumnDeltaCommand.md) is executed
+* `OptimisticTransactionImpl` is requested to [verify a new metadata](../OptimisticTransactionImpl.md#verifyNewMetadata)
+* `Protocol` is requested for the [required minimum protocol](../Protocol.md#requiredMinimumProtocol)
+* `SchemaUtils` utility is used to [findDependentGeneratedColumns](../SchemaUtils.md#findDependentGeneratedColumns)
 
 ## <span id="validateGeneratedColumns"> validateGeneratedColumns
 

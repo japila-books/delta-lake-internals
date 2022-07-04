@@ -1,0 +1,3 @@
+# AlterTableDropColumnsDeltaCommand
+
+`AlterTableDropColumnsDeltaCommand` is...FIXME

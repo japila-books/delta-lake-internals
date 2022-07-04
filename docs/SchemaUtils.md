@@ -72,3 +72,19 @@ org.apache.spark.sql.AnalysisException:  Column name " " contains invalid charac
   at org.apache.spark.sql.delta.schema.SchemaUtils$.checkFieldNames(SchemaUtils.scala:905)
   ... 49 elided
 ```
+
+## <span id="findDependentGeneratedColumns"> findDependentGeneratedColumns
+
+```scala
+findDependentGeneratedColumns(
+  sparkSession: SparkSession,
+  targetColumn: Seq[String],
+  protocol: Protocol,
+  schema: StructType): Seq[StructField]
+```
+
+`findDependentGeneratedColumns`...FIXME
+
+`findDependentGeneratedColumns` is used when:
+
+* `AlterDeltaTableCommand` is requested to [checkDependentExpressions](commands/alter/AlterDeltaTableCommand.md#checkDependentExpressions)
