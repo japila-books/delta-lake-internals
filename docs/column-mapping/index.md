@@ -10,6 +10,10 @@ Column Mapping uses the metadata of a `StructField` ([Spark SQL]({{ book.spark_s
 
 Column Mapping is available as of Delta Lake 1.2.0.
 
+## Protocol
+
+Column Mapping requires the minimum protocol version to be [2 for readers and 5 for writers](DeltaColumnMappingBase.md#MIN_PROTOCOL_VERSION).
+
 ## Demo
 
 [Demo: Column Mapping](../demo/column-mapping.md)

@@ -47,6 +47,14 @@ Controls whether to write file statistics in the checkpoint in the struct format
 
 Default: `undefined` (`Option[Boolean]`)
 
+### <span id="columnMapping.maxColumnId"><span id="COLUMN_MAPPING_MAX_ID"> columnMapping.maxColumnId
+
+Maximum columnId used in the schema so far for [column mapping](column-mapping/index.md)
+
+Cannot be set
+
+Default: `0`
+
 ### <span id="columnMapping.mode"><span id="COLUMN_MAPPING_MODE"> columnMapping.mode
 
 [DeltaColumnMappingMode](column-mapping/DeltaColumnMappingMode.md) to read and write parquet data files

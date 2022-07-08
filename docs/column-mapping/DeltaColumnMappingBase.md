@@ -6,6 +6,23 @@
 
 * [DeltaColumnMapping](#DeltaColumnMapping)
 
+## <span id="MIN_PROTOCOL_VERSION"> Compatible Protocol
+
+`DeltaColumnMappingBase` defines a [Protocol](../Protocol.md) (with [MIN_READER_VERSION](#MIN_READER_VERSION) and [MIN_WRITER_VERSION](#MIN_WRITER_VERSION)) as the minimum protocol version for the readers and writers to delta tables with [column mapping](index.md).
+
+* `Protocol` utility is used for [requiredMinimumProtocol](../Protocol.md#requiredMinimumProtocol)
+* [delta.columnMapping.mode](../DeltaConfigs.md#COLUMN_MAPPING_MODE) configuration property
+* [delta.columnMapping.maxColumnId](../DeltaConfigs.md#COLUMN_MAPPING_MAX_ID) configuration property
+* `DeltaErrors` is requested to [changeColumnMappingModeOnOldProtocol](../DeltaErrors.md#changeColumnMappingModeOnOldProtocol) (for error reporting)
+
+### <span id="MIN_READER_VERSION"> Minimum Reader Version
+
+`DeltaColumnMappingBase` defines `MIN_READER_VERSION` constant as `2` for the minimum version of the compatible readers of delta tables to [satisfyColumnMappingProtocol](#satisfyColumnMappingProtocol).
+
+### <span id="MIN_WRITER_VERSION"> Minimum Writer Version
+
+`DeltaColumnMappingBase` defines `MIN_WRITER_VERSION` constant as `5` for the minimum version of the compatible writers to delta tables to [satisfyColumnMappingProtocol](#satisfyColumnMappingProtocol).
+
 ## <span id="createPhysicalSchema"> createPhysicalSchema
 
 ```scala
@@ -43,11 +60,11 @@ requiresNewProtocol(
   metadata: Metadata): Boolean
 ```
 
-`requiresNewProtocol`...FIXME
+`requiresNewProtocol` is `true` when the [DeltaColumnMappingMode](../Metadata.md#columnMappingMode) (of this delta table per the given [Metadata](../Metadata.md)) is either [IdMapping](DeltaColumnMappingMode.md#IdMapping) or [NameMapping](DeltaColumnMappingMode.md#NameMapping). Otherwise, `requiresNewProtocol` is `false`
 
 `requiresNewProtocol` is used when:
 
-* `Protocol` utility is used for the [required minimum protocol](../Protocol.md#requiredMinimumProtocol)
+* `Protocol` utility is used to [determine the required minimum protocol](../Protocol.md#requiredMinimumProtocol).
 
 ## <span id="checkColumnIdAndPhysicalNameAssignments"> checkColumnIdAndPhysicalNameAssignments
 
@@ -133,6 +150,18 @@ tryFixMetadata(
 If the [DeltaColumnMappingMode](DeltaColumnMappingMode.md) is [IdMapping](DeltaColumnMappingMode.md#IdMapping) or [NameMapping](DeltaColumnMappingMode.md#NameMapping), `tryFixMetadata` [assignColumnIdAndPhysicalName](#assignColumnIdAndPhysicalName) with the given `newMetadata` and `oldMetadata` metadata and `isChangingModeOnExistingTable` flag.
 
 For `NoMapping`, `tryFixMetadata` does nothing and returns the given `newMetadata`.
+
+### <span id="satisfyColumnMappingProtocol"> satisfyColumnMappingProtocol
+
+```scala
+satisfyColumnMappingProtocol(
+  protocol: Protocol): Boolean
+```
+
+`satisfyColumnMappingProtocol` returns `true` when all the following hold true:
+
+1. [minWriterVersion](../Protocol.md#minWriterVersion) of the given `Protocol` is at least [5](#MIN_WRITER_VERSION)
+1. [minReaderVersion](../Protocol.md#minReaderVersion) of the given `Protocol` is at least [2](#MIN_READER_VERSION)
 
 ## <span id="DeltaColumnMapping"> DeltaColumnMapping
 
