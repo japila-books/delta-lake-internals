@@ -1,6 +1,6 @@
 # DeltaColumnMappingMode
 
-`DeltaColumnMappingMode` is an [abstraction](#contract) of the available [column mapping modes](#implementations) in [Column Mapping](index.md).
+`DeltaColumnMappingMode` is an [abstraction](#contract) of the [column mapping modes](#implementations) in [Column Mapping](index.md).
 
 ## Contract
 
@@ -10,7 +10,7 @@
 name: String
 ```
 
-Human-friendly name of this `DeltaColumnMappingMode` used in error reporting
+Human-friendly name of this `DeltaColumnMappingMode` (for error reporting)
 
 Used when:
 
@@ -32,13 +32,21 @@ This mode uses the column ID as the identifier of a column.
 
 Used for tables converted from Apache Iceberg.
 
-This mode does [require a new protocol](DeltaColumnMappingBase.md#requiresNewProtocol)
+This mode [requires a new protocol](DeltaColumnMappingBase.md#requiresNewProtocol)
 
 ### <span id="NameMapping"> NameMapping
 
 [Name](#name): `name`
 
-This mode does [require a new protocol](DeltaColumnMappingBase.md#requiresNewProtocol)
+`NameMapping` is the only [allowed mapping mode change](DeltaColumnMappingBase.md#allowMappingModeChange) (from [NoMapping](#NoMapping))
+
+This mode [requires a new protocol](DeltaColumnMappingBase.md#requiresNewProtocol)
+
+`NameMapping` is among the [supportedModes](DeltaColumnMappingBase.md#supportedModes)
+
+`NameMapping` is used when:
+
+* `DeltaColumnMappingBase` is requested for the [column mapping metadata](DeltaColumnMappingBase.md#getColumnMappingMetadata), [tryFixMetadata](DeltaColumnMappingBase.md#tryFixMetadata), [getPhysicalNameFieldMap](DeltaColumnMappingBase.md#getPhysicalNameFieldMap)
 
 ### <span id="NoMapping"> NoMapping
 
@@ -47,3 +55,23 @@ No column mapping and the display name of a column is the only valid identifier 
 [Name](#name): `none`
 
 This mode does not [require a new protocol](DeltaColumnMappingBase.md#requiresNewProtocol)
+
+`NoMapping` is among the [supportedModes](DeltaColumnMappingBase.md#supportedModes)
+
+## <span id="apply"> Creating DeltaColumnMappingMode
+
+```scala
+apply(
+  name: String): DeltaColumnMappingMode
+```
+
+`apply` returns the [DeltaColumnMappingMode](#implementations) for the given `name` (if defined) or [throws a ColumnMappingUnsupportedException](../DeltaErrors.md#unsupportedColumnMappingMode):
+
+```text
+The column mapping mode `[mode]` is not supported for this Delta version.
+Please upgrade if you want to use this mode.
+```
+
+`apply` is used when:
+
+* `DeltaConfigsBase` is requested to build [delta.columnMapping.mode](../DeltaConfigs.md#COLUMN_MAPPING_MODE) configuration property

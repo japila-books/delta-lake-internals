@@ -163,6 +163,50 @@ satisfyColumnMappingProtocol(
 1. [minWriterVersion](../Protocol.md#minWriterVersion) of the given `Protocol` is at least [5](#MIN_WRITER_VERSION)
 1. [minReaderVersion](../Protocol.md#minReaderVersion) of the given `Protocol` is at least [2](#MIN_READER_VERSION)
 
+### <span id="allowMappingModeChange"> Allowed Mapping Mode Change
+
+```scala
+allowMappingModeChange(
+  oldMode: DeltaColumnMappingMode,
+  newMode: DeltaColumnMappingMode): Boolean
+```
+
+`allowMappingModeChange` is `true` when either of the following holds true:
+
+1. There is no mode change (and the old and new modes are the same)
+1. There is a mode change from [NoMapping](DeltaColumnMappingMode#NoMapping) old mode to [NameMapping](DeltaColumnMappingMode#NameMapping)
+
+Otherwise, `allowMappingModeChange` is `false`.
+
 ## <span id="DeltaColumnMapping"> DeltaColumnMapping
 
 `DeltaColumnMapping` is the only [DeltaColumnMappingBase](#implementations).
+
+## <span id="supportedModes"> Supported Column Mapping Modes
+
+```scala
+supportedModes: Set[DeltaColumnMappingMode]
+```
+
+`DeltaColumnMappingBase` defines `supportedModes` value with [NoMapping](DeltaColumnMappingMode.md#NoMapping) and [NameMapping](DeltaColumnMappingMode.md#NameMapping) column mapping modes.
+
+`supportedModes` is used when:
+
+* `DeltaColumnMappingBase` is requested to [verifyAndUpdateMetadataChange](#verifyAndUpdateMetadataChange) and [createPhysicalSchema](#createPhysicalSchema)
+
+## <span id="getColumnMappingMetadata"> getColumnMappingMetadata
+
+```scala
+getColumnMappingMetadata(
+  field: StructField,
+  mode: DeltaColumnMappingMode): Metadata
+```
+
+!!! note
+    `getColumnMappingMetadata` returns Spark SQL's [Metadata]({{ book.spark_sql }}/types/Metadata) not Delta Lake's.
+
+`getColumnMappingMetadata`...FIXME
+
+`getColumnMappingMetadata` is used when:
+
+* `DeltaColumnMappingBase` is requested to [setColumnMetadata](#setColumnMetadata) and [createPhysicalSchema](#createPhysicalSchema)
