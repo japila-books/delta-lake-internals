@@ -272,7 +272,7 @@ nav:
       - AlterDeltaTableCommand: commands/alter/AlterDeltaTableCommand.md
       - ADD COLUMNS: commands/alter/AlterTableAddColumnsDeltaCommand.md
       - AlterTableAddConstraintDeltaCommand: commands/alter/AlterTableAddConstraintDeltaCommand.md
-      - AlterTableChangeColumnDeltaCommand: commands/alter/AlterTableChangeColumnDeltaCommand.md
+      - CHANGE COLUMN: commands/alter/AlterTableChangeColumnDeltaCommand.md
       - AlterTableDropColumnsDeltaCommand: commands/alter/AlterTableDropColumnsDeltaCommand.md
       - AlterTableDropConstraintDeltaCommand: commands/alter/AlterTableDropConstraintDeltaCommand.md
       - AlterTableReplaceColumnsDeltaCommand: commands/alter/AlterTableReplaceColumnsDeltaCommand.md
@@ -319,7 +319,9 @@ nav:
     - Optimize:
       - commands/optimize/index.md
       - OptimizeExecutor: commands/optimize/OptimizeExecutor.md
+      - OptimizeMetrics: commands/optimize/OptimizeMetrics.md
       - OptimizeTableCommand: commands/optimize/OptimizeTableCommand.md
+      - OptimizeTableCommandBase: commands/optimize/OptimizeTableCommandBase.md
     - Restore:
       - commands/restore/index.md
       - RestoreTableCommand: commands/restore/RestoreTableCommand.md

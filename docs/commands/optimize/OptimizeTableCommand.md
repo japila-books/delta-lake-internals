@@ -1,6 +1,8 @@
 # OptimizeTableCommand
 
-`OptimizeTableCommand` is a `LeafRunnableCommand` ([Spark SQL]({{ book.spark_sql }}/logical-operators/LeafRunnableCommand)).
+`OptimizeTableCommand` is a [OptimizeTableCommandBase](OptimizeTableCommandBase.md).
+
+`OptimizeTableCommand` is also a `LeafRunnableCommand` ([Spark SQL]({{ book.spark_sql }}/logical-operators/LeafRunnableCommand)).
 
 ## Creating Instance
 

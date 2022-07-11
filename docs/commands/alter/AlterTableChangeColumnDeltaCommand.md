@@ -36,11 +36,20 @@ run(
 
 `run` [starts a transaction](AlterDeltaTableCommand.md#startTransaction).
 
+`run` [asserts that the column is available](../../SchemaUtils.md#findColumnPosition) (in the [schema](../../Metadata.md#schema) of the [metadata](../../OptimisticTransactionImpl.md#metadata) of the transaction).
+
+`run` [transforms the current (old) schema](../../SchemaUtils.md#transformColumnsStructs) to a new one based on the column changes (given by [newColumn](#newColumn)). As part of the changes, for every column, `run` checks whether [column mapping](../../column-mapping/DeltaColumnMappingBase.md#getPhysicalName) is used to determine the column name.
+
 `run`...FIXME
 
-`run` transforms the current schema to a new one based on the column changes (given by [newColumn](#newColumn)). As part of the changes, for every column, `run` checks whether [column mapping](../../column-mapping/DeltaColumnMappingBase.md#getPhysicalName) is used to determine the column name.
+`run` [updates the metadata](../../OptimisticTransactionImpl.md#updateMetadata) (for the active transaction).
 
-`run`...FIXME
+`run` [commits the transaction](../../OptimisticTransactionImpl.md#commit) with the following operation (and  no actions):
+
+1. [RENAME COLUMN](../../Operation.md#RenameColumn) when the name of the given `newColumn` is different from the given `columnName`
+1. [CHANGE COLUMN](../../Operation.md#ChangeColumn), otherwise
+
+In the end, `run` returns an empty collection.
 
 ### <span id="run-update"> Updating Metadata
 

@@ -41,10 +41,9 @@ Used when:
 
 ### <span id="ChangeColumn"> ChangeColumn
 
-Name | Parameters | changesData
------|------------|------------
-`CHANGE COLUMN` | `column` | `false`
- | `position` |
+Name            | Parameters | changesData
+----------------|------------|------------
+`CHANGE COLUMN` | <ul><li>`column`</li><li>`position` (optional)</li></ul> | `false`
 
 Used when:
 
@@ -85,6 +84,16 @@ Name | Parameters | changesData
 Used when:
 
 * `OptimizeExecutor` is requested to [optimize](commands/optimize/OptimizeExecutor.md#optimize)
+
+### <span id="RenameColumn"> RenameColumn
+
+Name             | Parameters | changesData
+-----------------|------------|------------
+ `RENAME COLUMN` | <ul><li>oldColumnPath</li><li>newColumnPath</li></ul> | false
+
+Used when:
+
+* [AlterTableChangeColumnDeltaCommand](commands/alter/AlterTableChangeColumnDeltaCommand.md) is executed
 
 ### ReplaceColumns
 

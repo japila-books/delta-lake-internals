@@ -88,3 +88,18 @@ findDependentGeneratedColumns(
 `findDependentGeneratedColumns` is used when:
 
 * `AlterDeltaTableCommand` is requested to [checkDependentExpressions](commands/alter/AlterDeltaTableCommand.md#checkDependentExpressions)
+
+## <span id="findColumnPosition"> findColumnPosition
+
+```scala
+findColumnPosition(
+  column: Seq[String],
+  schema: StructType,
+  resolver: Resolver = DELTA_COL_RESOLVER): (Seq[Int], Int)
+```
+
+`findColumnPosition`...FIXME
+
+`findColumnPosition` is used when:
+
+* [AlterTableAddColumnsDeltaCommand](commands/alter/AlterTableAddColumnsDeltaCommand.md), [AlterTableDropColumnsDeltaCommand](commands/alter/AlterTableDropColumnsDeltaCommand.md), [AlterTableChangeColumnDeltaCommand](commands/alter/AlterTableChangeColumnDeltaCommand.md) and [OptimizeTableCommand](commands/optimize/OptimizeTableCommand.md) are executed

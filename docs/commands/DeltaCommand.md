@@ -9,7 +9,7 @@
 * [DeleteCommand](delete/DeleteCommand.md)
 * [MergeIntoCommand](merge/MergeIntoCommand.md)
 * [OptimizeExecutor](optimize/OptimizeExecutor.md)
-* [OptimizeTableCommand](optimize/OptimizeTableCommand.md)
+* [OptimizeTableCommandBase](optimize/OptimizeTableCommandBase.md)
 * [RestoreTableCommand](restore/RestoreTableCommand.md)
 * [StatisticsCollection](../StatisticsCollection.md)
 * [UpdateCommand](update/UpdateCommand.md)
