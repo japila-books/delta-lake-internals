@@ -63,9 +63,15 @@ Executes [DeltaGenerateCommand](../commands/generate/DeltaGenerateCommand.md)
 ```text
 OPTIMIZE (path | table)
   (WHERE partitionPredicate)?
+  (zorderSpec)?
+
+zorderSpec
+    : ZORDER BY '(' interleave (, interleave)* ')'
+    | ZORDER BY interleave (, interleave)*
+    ;
 ```
 
-Executes [OptimizeTableCommand](../commands/optimize/OptimizeTableCommand.md) (on the Delta table identified by a directory path or a table name)
+Executes [OptimizeTableCommand](../commands/optimize/OptimizeTableCommand.md) (on a Delta table identified by a directory path or a table name)
 
 ## <span id="RESTORE"> RESTORE
 

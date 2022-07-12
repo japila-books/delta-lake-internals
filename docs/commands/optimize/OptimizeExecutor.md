@@ -46,3 +46,27 @@ In the end, `optimize` returns a `Row` with the data path (of the Delta table) a
 `optimize` is used when:
 
 * `OptimizeTableCommand` is requested to [run](OptimizeTableCommand.md#run)
+
+### <span id="runOptimizeBinJob"> runOptimizeBinJob
+
+```scala
+runOptimizeBinJob(
+  txn: OptimisticTransaction,
+  partition: Map[String, String],
+  bin: Seq[AddFile],
+  maxFileSize: Long): Seq[FileAction]
+```
+
+`runOptimizeBinJob`...FIXME
+
+## <span id="isMultiDimClustering"> isMultiDimClustering Flag
+
+`OptimizeExecutor` defines `isMultiDimClustering` flag based on whether there are [zOrderByColumns](#zOrderByColumns) specified or not. In other words, `isMultiDimClustering` is `true` for Z-Order Optimize.
+
+The most important use of `isMultiDimClustering` flag is for [multi-dimensional clustering](MultiDimClustering.md#cluster) while [runOptimizeBinJob](#runOptimizeBinJob).
+
+`OptimizeExecutor` uses it also for the following:
+
+* Determine data (parquet) files to [optimize](#optimize) (that in fact keeps all the files by partition)
+* Create a `ZOrderStats` at the end of [optimize](#optimize)
+* Keep all the files of a partition in a single bin in [groupFilesIntoBins](#groupFilesIntoBins)

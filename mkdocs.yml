@@ -319,11 +319,14 @@ nav:
       - MergeIntoCommand: commands/merge/MergeIntoCommand.md
     - Optimize:
       - commands/optimize/index.md
+      - MultiDimClustering: commands/optimize/MultiDimClustering.md
       - OptimizeExecutor: commands/optimize/OptimizeExecutor.md
       - OptimizeMetrics: commands/optimize/OptimizeMetrics.md
       - OptimizeStats: commands/optimize/OptimizeStats.md
       - OptimizeTableCommand: commands/optimize/OptimizeTableCommand.md
       - OptimizeTableCommandBase: commands/optimize/OptimizeTableCommandBase.md
+      - SpaceFillingCurveClustering: commands/optimize/SpaceFillingCurveClustering.md
+      - ZOrderClustering: commands/optimize/ZOrderClustering.md
     - Restore:
       - commands/restore/index.md
       - RestoreTableCommand: commands/restore/RestoreTableCommand.md
