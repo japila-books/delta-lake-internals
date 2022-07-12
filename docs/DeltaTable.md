@@ -222,6 +222,14 @@ merge(
 
 Creates a [DeltaMergeBuilder](commands/merge/DeltaMergeBuilder.md)
 
+### <span id="optimize"> optimize
+
+```scala
+optimize(): DeltaOptimizeBuilder
+```
+
+Creates a [DeltaOptimizeBuilder](DeltaOptimizeBuilder.md)
+
 ### <span id="restoreToTimestamp"> restoreToTimestamp
 
 ```scala

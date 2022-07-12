@@ -1,8 +1,6 @@
 # OptimizeTableCommand
 
-`OptimizeTableCommand` is a [OptimizeTableCommandBase](OptimizeTableCommandBase.md).
-
-`OptimizeTableCommand` is also a `LeafRunnableCommand` ([Spark SQL]({{ book.spark_sql }}/logical-operators/LeafRunnableCommand)).
+`OptimizeTableCommand` is an [OptimizeTableCommandBase](OptimizeTableCommandBase.md).
 
 ## Creating Instance
 
@@ -11,10 +9,12 @@
 * <span id="path"> Table Path
 * <span id="tableId"> `TableIdentifier`
 * <span id="partitionPredicate"> Partition Predicate (optional)
+* <span id="zOrderBy"> `zOrderBy` attributes
 
 `OptimizeTableCommand` is created when:
 
 * `DeltaSqlAstBuilder` is requested to [parse OPTIMIZE SQL statement](../../sql/DeltaSqlAstBuilder.md#visitOptimizeTable)
+* `DeltaOptimizeBuilder` is requested to [execute](../../DeltaOptimizeBuilder.md#execute)
 
 ## <span id="run"> Executing Command
 
@@ -30,3 +30,7 @@ In the end, `run` creates an [OptimizeExecutor](OptimizeExecutor.md) that is in 
 ---
 
 `run` is part of the `RunnableCommand` ([Spark SQL]({{ book.spark_sql }}/logical-operators/RunnableCommand#run)) abstraction.
+
+## <span id="LeafRunnableCommand"> LeafRunnableCommand
+
+`OptimizeTableCommand` is a `LeafRunnableCommand` ([Spark SQL]({{ book.spark_sql }}/logical-operators/LeafRunnableCommand)).

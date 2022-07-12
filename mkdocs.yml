@@ -248,6 +248,7 @@ nav:
     - DeltaTable: DeltaTable.md
     - DeltaTableBuilder: DeltaTableBuilder.md
     - DeltaColumnBuilder: DeltaColumnBuilder.md
+    - DeltaOptimizeBuilder: DeltaOptimizeBuilder.md
     - Exceptions:
       - exceptions/index.md
       - ConcurrentAppendException: exceptions/ConcurrentAppendException.md
@@ -320,6 +321,7 @@ nav:
       - commands/optimize/index.md
       - OptimizeExecutor: commands/optimize/OptimizeExecutor.md
       - OptimizeMetrics: commands/optimize/OptimizeMetrics.md
+      - OptimizeStats: commands/optimize/OptimizeStats.md
       - OptimizeTableCommand: commands/optimize/OptimizeTableCommand.md
       - OptimizeTableCommandBase: commands/optimize/OptimizeTableCommandBase.md
     - Restore:

@@ -9,6 +9,7 @@
 * <span id="sparkSession"> `SparkSession` ([Spark SQL]({{ book.spark_sql }}/SparkSession))
 * <span id="deltaLog"> [DeltaLog](../../DeltaLog.md) (of the Delta table to be optimized)
 * <span id="partitionPredicate"> Partition predicate expressions ([Spark SQL]({{ book.spark_sql }}/expressions/Expression))
+* <span id="zOrderByColumns"> zOrderByColumns
 
 `OptimizeExecutor` is created when:
 
