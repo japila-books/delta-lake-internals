@@ -741,6 +741,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://books.japila.pl/delta-lake-internals/commands/optimize/MultiDimClustering/</loc>
+         <lastmod>2022-07-12</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/optimize/OptimizeExecutor/</loc>
          <lastmod>2022-07-12</lastmod>
          <changefreq>daily</changefreq>
@@ -762,6 +767,16 @@
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/optimize/OptimizeTableCommandBase/</loc>
+         <lastmod>2022-07-12</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://books.japila.pl/delta-lake-internals/commands/optimize/SpaceFillingCurveClustering/</loc>
+         <lastmod>2022-07-12</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://books.japila.pl/delta-lake-internals/commands/optimize/ZOrderClustering/</loc>
          <lastmod>2022-07-12</lastmod>
          <changefreq>daily</changefreq>
     </url>
