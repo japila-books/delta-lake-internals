@@ -57,11 +57,13 @@ runOptimizeBinJob(
   maxFileSize: Long): Seq[FileAction]
 ```
 
+`runOptimizeBinJob` requests the [deltaLog](../../OptimisticTransaction.md#deltaLog) (of the given [OptimisticTransaction](../../OptimisticTransaction.md)) to [createDataFrame](../../DeltaLog.md#createDataFrame).
+
 `runOptimizeBinJob`...FIXME
 
 ## <span id="isMultiDimClustering"> isMultiDimClustering Flag
 
-`OptimizeExecutor` defines `isMultiDimClustering` flag based on whether there are [zOrderByColumns](#zOrderByColumns) specified or not. In other words, `isMultiDimClustering` is `true` for Z-Order Optimize.
+`OptimizeExecutor` defines `isMultiDimClustering` flag based on whether there are [zOrderByColumns](#zOrderByColumns) specified or not. In other words, `isMultiDimClustering` is `true` for OPTIMIZE ZORDER.
 
 The most important use of `isMultiDimClustering` flag is for [multi-dimensional clustering](MultiDimClustering.md#cluster) while [runOptimizeBinJob](#runOptimizeBinJob).
 

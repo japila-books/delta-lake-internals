@@ -400,7 +400,7 @@ Internally, `getChanges` requests the [LogStore](#store) for [files](storage/Log
 
 For every delta file, `getChanges` requests the [LogStore](#store) to [read the JSON content](storage/LogStore.md#read) (every line is an [action](Action.md)), and then [deserializes it to an action](Action.md#fromJson).
 
-## <span id="createDataFrame"> Creating DataFrame For Given AddFiles
+## <span id="createDataFrame"> Creating DataFrame (From AddFiles)
 
 ```scala
 createDataFrame(
@@ -415,19 +415,134 @@ createDataFrame(
 * **streaming** when `isStreaming` flag is enabled (`true`)
 * **batch** when `isStreaming` flag is disabled (`false`)
 
-!!! note
-    `actionTypeOpt` seems not to be defined ever.
-
-`createDataFrame` creates a new [TahoeBatchFileIndex](TahoeBatchFileIndex.md) (for the action type, and the given [AddFile](AddFile.md)s and [Snapshot](Snapshot.md)).
+`createDataFrame` creates a new [TahoeBatchFileIndex](TahoeBatchFileIndex.md) (for the action type, and the given [AddFile](AddFile.md)s, this `DeltaLog`, and [Snapshot](Snapshot.md)).
 
 `createDataFrame` creates a `HadoopFsRelation` ([Spark SQL]({{ book.spark_sql }}/HadoopFsRelation)) with the `TahoeBatchFileIndex` and the other properties based on the given `Snapshot` (and the associated [Metadata](Snapshot.md#metadata)).
 
-In the end, `createDataFrame` creates a `DataFrame` with a logical query plan with a `LogicalRelation` ([Spark SQL]({{ book.spark_sql }}/logical-operators/LogicalRelation/)) over the `HadoopFsRelation`.
+In the end, `createDataFrame` creates a `DataFrame` with (a logical query plan with) a `LogicalRelation` ([Spark SQL]({{ book.spark_sql }}/logical-operators/LogicalRelation/)) over the `HadoopFsRelation`.
 
 `createDataFrame` is used when:
 
-* [MergeIntoCommand](commands/merge/MergeIntoCommand.md) is executed
-* `DeltaSource` is requested for a [DataFrame for data between start and end offsets](DeltaSource.md#getBatch)
+* [AlterTableAddConstraintDeltaCommand](commands/alter/AlterTableAddConstraintDeltaCommand.md) is executed
+* [MergeIntoCommand](commands/merge/MergeIntoCommand.md) is executed (and requested to [buildTargetPlanWithFiles](commands/merge/MergeIntoCommand.md#buildTargetPlanWithFiles))
+* `OptimizeExecutor` is requested to [runOptimizeBinJob](commands/optimize/OptimizeExecutor.md#runOptimizeBinJob)
+* `DeltaSourceBase` is requested to [createDataFrame](DeltaSourceBase.md#createDataFrame)
+* `StatisticsCollection` utility is used to [recompute](StatisticsCollection.md#recompute)
+
+### <span id="createDataFrame-demo"> Demo: DeltaLog.createDataFrame
+
+Create a delta table with some data to work with. We need data files for this demo.
+
+=== "Scala"
+
+    ```scala
+    sql("DROP TABLE IF EXISTS delta_demo")
+    spark.range(5).write.format("delta").saveAsTable("delta_demo")
+    ```
+
+Review the data (parquet) files created. These are our [AddFile](AddFile.md)s.
+
+```console
+$ tree spark-warehouse/delta_demo/
+spark-warehouse/delta_demo/
+├── _delta_log
+│   └── 00000000000000000000.json
+├── part-00000-993a2fad-3643-48f5-b2be-d1b9036fb29d-c000.snappy.parquet
+├── part-00003-74b48672-e869-47fc-818b-e422062c1427-c000.snappy.parquet
+├── part-00006-91497579-5f25-42e6-82c9-1dc8416fe987-c000.snappy.parquet
+├── part-00009-6f3e75fd-828d-4e1b-9d38-7aa65f928a9e-c000.snappy.parquet
+├── part-00012-309fbcfe-4d34-45f7-b414-034f676480c6-c000.snappy.parquet
+└── part-00015-5d72e873-e4df-493a-8bcf-2a3af9dfd636-c000.snappy.parquet
+
+1 directory, 7 files
+```
+
+Let's load the delta table.
+
+=== "Scala"
+
+    ```scala
+    // FIXME I feel there should be a better way to access a DeltaLog
+    val tableName = "delta_demo"
+    val tableId = spark.sessionState.sqlParser.parseTableIdentifier(tableName)
+    val tbl = spark.sessionState.catalog.getTableMetadata(tableId)
+    import org.apache.spark.sql.delta.catalog.DeltaTableV2
+    import org.apache.hadoop.fs.Path
+    val table: DeltaTableV2 = DeltaTableV2(
+      spark, new Path(tbl.location), Some(tbl), Some(tableName))
+    ```
+
+We've finally got the [DeltaTableV2](DeltaTableV2.md) so we can proceed.
+
+=== "Scala"
+
+    ```scala
+    val txn = table.deltaLog.startTransaction()
+    // FIXME Create a fake collection of AddFiles
+    // We could avoid transactions and the other extra steps
+    // that blur what is demo'ed
+    import org.apache.spark.sql.delta.actions.AddFile
+    val fakeAddFile = AddFile(
+      path = "/a/fake/file/path",
+      partitionValues = Map.empty,
+      size = 10,
+      modificationTime = 0,
+      dataChange = false)
+    // val addFiles: Seq[AddFile] = txn.filterFiles()
+    val addFiles = Seq(fakeAddFile)
+    val actionType = Some("createDataFrame Demo")
+    val df = txn.snapshot.deltaLog.createDataFrame(
+      txn.snapshot,
+      addFiles,
+      actionTypeOpt = actionType)
+    ```
+
+Up to this point, all should work just fine (since no addfiles were checked whether they are available or not).
+
+Let's trigger an action to see what happens when Spark SQL (with Delta Lake) decides to access the data.
+
+```scala
+df.show
+```
+
+The above `show` action will surely lead to an exception (since the fake file does not really exist).
+
+```text
+scala> df.show
+22/07/13 14:00:39 ERROR Executor: Exception in task 0.0 in stage 19.0 (TID 179)
+java.io.FileNotFoundException:
+File /a/fake/file/path does not exist
+
+It is possible the underlying files have been updated. You can explicitly invalidate
+the cache in Spark by running 'REFRESH TABLE tableName' command in SQL or by
+recreating the Dataset/DataFrame involved.
+
+	at org.apache.spark.sql.errors.QueryExecutionErrors$.readCurrentFileNotFoundError(QueryExecutionErrors.scala:506)
+	at org.apache.spark.sql.execution.datasources.FileScanRDD$$anon$1.org$apache$spark$sql$execution$datasources$FileScanRDD$$anon$$readCurrentFile(FileScanRDD.scala:130)
+	at org.apache.spark.sql.execution.datasources.FileScanRDD$$anon$1.nextIterator(FileScanRDD.scala:187)
+	at org.apache.spark.sql.execution.datasources.FileScanRDD$$anon$1.hasNext(FileScanRDD.scala:104)
+	at org.apache.spark.sql.execution.FileSourceScanExec$$anon$1.hasNext(DataSourceScanExec.scala:522)
+	at org.apache.spark.sql.catalyst.expressions.GeneratedClass$GeneratedIteratorForCodegenStage1.columnartorow_nextBatch_0$(Unknown Source)
+	at org.apache.spark.sql.catalyst.expressions.GeneratedClass$GeneratedIteratorForCodegenStage1.processNext(Unknown Source)
+	at org.apache.spark.sql.execution.BufferedRowIterator.hasNext(BufferedRowIterator.java:43)
+	at org.apache.spark.sql.execution.WholeStageCodegenExec$$anon$1.hasNext(WholeStageCodegenExec.scala:759)
+	at org.apache.spark.sql.execution.SparkPlan.$anonfun$getByteArrayRdd$1(SparkPlan.scala:349)
+	at org.apache.spark.rdd.RDD.$anonfun$mapPartitionsInternal$2(RDD.scala:898)
+	at org.apache.spark.rdd.RDD.$anonfun$mapPartitionsInternal$2$adapted(RDD.scala:898)
+	at org.apache.spark.rdd.MapPartitionsRDD.compute(MapPartitionsRDD.scala:52)
+	at org.apache.spark.rdd.RDD.computeOrReadCheckpoint(RDD.scala:373)
+	at org.apache.spark.rdd.RDD.iterator(RDD.scala:337)
+	at org.apache.spark.scheduler.ResultTask.runTask(ResultTask.scala:90)
+	at org.apache.spark.scheduler.Task.run(Task.scala:131)
+	at org.apache.spark.executor.Executor$TaskRunner.$anonfun$run$3(Executor.scala:506)
+	at org.apache.spark.util.Utils$.tryWithSafeFinally(Utils.scala:1462)
+	at org.apache.spark.executor.Executor$TaskRunner.run(Executor.scala:509)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+22/07/13 14:00:39 WARN TaskSetManager: Lost task 0.0 in stage 19.0 (TID 179) (localhost executor driver): java.io.FileNotFoundException:
+File /a/fake/file/path does not exist
+```
 
 ## <span id="minFileRetentionTimestamp"> minFileRetentionTimestamp
 

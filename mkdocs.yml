@@ -219,6 +219,7 @@ nav:
         - DeltaWriteOptionsImpl: DeltaWriteOptionsImpl.md
       - DeltaSource:
         - DeltaSource: DeltaSource.md
+        - DeltaSourceBase: DeltaSourceBase.md
         - DeltaSourceOffset: DeltaSourceOffset.md
         - DeltaSourceSnapshot: DeltaSourceSnapshot.md
         - DeltaSourceUtils: DeltaSourceUtils.md
