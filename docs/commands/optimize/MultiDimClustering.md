@@ -4,7 +4,7 @@
 
 ## Contract
 
-### <span id="cluster"> cluster
+### <span id="contract-cluster"> cluster
 
 ```scala
 cluster(
@@ -21,7 +21,7 @@ cluster(
 
 * [SpaceFillingCurveClustering](SpaceFillingCurveClustering.md)
 
-## <span id="cluster-utility"> cluster
+## <span id="cluster"> cluster
 
 ```scala
 cluster(

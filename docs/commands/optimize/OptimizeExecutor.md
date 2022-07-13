@@ -9,7 +9,7 @@
 * <span id="sparkSession"> `SparkSession` ([Spark SQL]({{ book.spark_sql }}/SparkSession))
 * <span id="deltaLog"> [DeltaLog](../../DeltaLog.md) (of the Delta table to be optimized)
 * <span id="partitionPredicate"> Partition predicate expressions ([Spark SQL]({{ book.spark_sql }}/expressions/Expression))
-* <span id="zOrderByColumns"> zOrderByColumns
+* <span id="zOrderByColumns"> Z-OrderBy Columns (Names)
 
 `OptimizeExecutor` is created when:
 
@@ -57,9 +57,29 @@ runOptimizeBinJob(
   maxFileSize: Long): Seq[FileAction]
 ```
 
-`runOptimizeBinJob` requests the [deltaLog](../../OptimisticTransaction.md#deltaLog) (of the given [OptimisticTransaction](../../OptimisticTransaction.md)) to [createDataFrame](../../DeltaLog.md#createDataFrame).
+`runOptimizeBinJob` creates an input `DataFrame` to represent data described by the given [AddFile](../../AddFile.md)s. `runOptimizeBinJob` requests the [deltaLog](../../OptimisticTransaction.md#deltaLog) (of the given [OptimisticTransaction](../../OptimisticTransaction.md)) to [create the DataFrame](../../DeltaLog.md#createDataFrame) with `Optimize` action type.
 
-`runOptimizeBinJob`...FIXME
+For [Z-Ordering](index.md#z-ordering) ([isMultiDimClustering](#isMultiDimClustering) flag is enabled), `runOptimizeBinJob` does the following:
+
+1. Calculates the approximate number of files (as the total [size](../../AddFile.md#size) of all the given `AddFile`s divided by the given `maxFileSize`)
+1. Repartitions the `DataFrame` to as many partitions as the approximate number of files using [multi-dimensional clustering](MultiDimClustering.md#cluster) for the [z-orderby columns](#zOrderByColumns)
+
+Otherwise, `runOptimizeBinJob` coalesces the `DataFrame` to `1` partition (using `DataFrame.coalesce` operator).
+
+`runOptimizeBinJob` sets a custom description for the job group (for all future Spark jobs started by this thread).
+
+`runOptimizeBinJob` writes out the repartitioned `DataFrame`. `runOptimizeBinJob` requests the given [OptimisticTransaction](../../OptimisticTransaction.md) to [writeFiles](../../TransactionalWrite.md#writeFiles).
+
+`runOptimizeBinJob` marks all the [AddFile](../../AddFile.md)s (as the result of [writeFiles](../../TransactionalWrite.md#writeFiles)) as [not dataChange](../../AddFile.md#dataChange). No other [FileAction](../../FileAction.md)s are expected or `runOptimizeBinJob` throws an `IllegalStateException`:
+
+```text
+Unexpected action [other] with type [class].
+File compaction job output should only have AddFiles
+```
+
+`runOptimizeBinJob` [creates RemoveFiles for all the given AddFiles](../../AddFile.md#removeWithTimestamp). `runOptimizeBinJob` uses the current timestamp and the `dataChange` flag is disabled (as was earlier with the `AddFile`s).
+
+In the end, `runOptimizeBinJob` returns the [AddFile](../../AddFile.md)s and [RemoveFile](../../RemoveFile.md)s.
 
 ## <span id="isMultiDimClustering"> isMultiDimClustering Flag
 
