@@ -112,6 +112,28 @@ Default: `1000000`
 
 Default: `50000`
 
+## <span id="io.skipping.mdc.addNoise"><span id="MDC_ADD_NOISE"> io.skipping.mdc.addNoise
+
+**spark.databricks.io.skipping.mdc.addNoise** (internal) controls whether or not to add a random byte as a suffix to the interleaved bits when computing the Z-order values for MDC. This can help deal with skew, but may have a negative impact on overall min/max skipping effectiveness.
+
+Default: `true`
+
+Used when:
+
+* `SpaceFillingCurveClustering` is requested to [cluster](commands/optimize/SpaceFillingCurveClustering.md#cluster)
+
+## <span id="io.skipping.mdc.rangeId.max"><span id="MDC_NUM_RANGE_IDS"> io.skipping.mdc.rangeId.max
+
+**spark.databricks.io.skipping.mdc.rangeId.max** (internal) controls the domain of `rangeId` values to be interleaved. The bigger, the better granularity, but at the expense of performance (more data gets sampled).
+
+Default: `1000`
+
+Must be greater than `1`
+
+Used when:
+
+* `SpaceFillingCurveClustering` is requested to [cluster](commands/optimize/SpaceFillingCurveClustering.md#cluster)
+
 ## <span id="loadFileSystemConfigsFromDataFrameOptions"><span id="LOAD_FILE_SYSTEM_CONFIGS_FROM_DATAFRAME_OPTIONS"> loadFileSystemConfigsFromDataFrameOptions
 
 **spark.databricks.delta.loadFileSystemConfigsFromDataFrameOptions** (internal) controls whether to load file systems configs provided in `DataFrameReader` or `DataFrameWriter` options when

@@ -4,7 +4,7 @@
 
 ## Contract
 
-### <span id="contract-cluster"> cluster
+### <span id="cluster"> cluster
 
 ```scala
 cluster(
@@ -15,13 +15,13 @@ cluster(
 
 !!! note
     It can be surprising to find out that this method is never really used.
-    The reason is that there is a companion object `MultiDimClustering` with [cluster](#cluster-utility) utility of the same signature that simply [ZOrderClustering.cluster](ZOrderClustering.md#cluster) (bypassing any virtual calls as if there were multiple [implementations](#implementations) but there is just one).
+    The reason is that there is a companion object `MultiDimClustering` with the [cluster](#cluster-utility) utility of the same signature that simply [ZOrderClustering.cluster](SpaceFillingCurveClustering.md#cluster) (bypassing any virtual calls as if there were multiple [implementations](#implementations) yet there is just one).
 
 ## Implementations
 
 * [SpaceFillingCurveClustering](SpaceFillingCurveClustering.md)
 
-## <span id="cluster"> cluster
+## <span id="cluster-utility"> cluster
 
 ```scala
 cluster(
@@ -30,14 +30,16 @@ cluster(
   colNames: Seq[String]): DataFrame
 ```
 
-`cluster` does [Z-Order clustering](ZOrderClustering.md#cluster).
-
-`cluster` asserts that there are `colNames` specified or throws an `AssertionError`:
-
-```text
-Cannot cluster by zero columns!
-```
+`cluster` does [Z-Order clustering](SpaceFillingCurveClustering.md#cluster).
 
 `cluster` is used when:
 
 * `OptimizeExecutor` is requested to [runOptimizeBinJob](OptimizeExecutor.md#runOptimizeBinJob) (with [isMultiDimClustering](OptimizeExecutor.md#isMultiDimClustering) flag enabled)
+
+### <span id="cluster-utility-AssertionError"> AssertionError
+
+`cluster` throws an `AssertionError` when there are no `colNames` specified:
+
+```text
+Cannot cluster by zero columns!
+```

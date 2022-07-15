@@ -1,6 +1,6 @@
 # SpaceFillingCurveClustering
 
-`SpaceFillingCurveClustering` is an [extension](#contract) of the [MultiDimClustering](MultiDimClustering.md) abstraction for [FIXME](#implementations).
+`SpaceFillingCurveClustering` is an [extension](#contract) of the [MultiDimClustering](MultiDimClustering.md) abstraction for [space filling curve based clustering algorithms](#implementations).
 
 ## Contract
 
@@ -14,13 +14,13 @@ getClusteringExpression(
 
 Used when:
 
-* `SpaceFillingCurveClustering` is requested to [cluster](#cluster)
+* `SpaceFillingCurveClustering` is requested to execute [multi-dimensional clustering](#cluster)
 
 ## Implementations
 
 * [ZOrderClustering](ZOrderClustering.md)
 
-## <span id="cluster"> cluster
+## <span id="cluster"> Multi-Dimensional Clustering
 
 ```scala
 cluster(
@@ -29,6 +29,43 @@ cluster(
   approxNumPartitions: Int): DataFrame
 ```
 
-`cluster`...FIXME
-
 `cluster` is part of the [MultiDimClustering](MultiDimClustering.md#cluster) abstraction.
+
+`cluster` converts the given `colNames` into `Column`s (using the given `df` dataframe).
+
+`cluster` adds two column expressions (to the given `DataFrame`):
+
+1. `[randomUUID]-rpKey1` for a [clustering expression](#getClusteringExpression) (with the `colNames` and the [spark.databricks.io.skipping.mdc.rangeId.max](../../DeltaSQLConf.md#MDC_NUM_RANGE_IDS) configuration property)
+1. `[randomUUID]-rpKey2` for an extra noise (for an independent and identically distributed samples uniformly distributed in `[0.0, 1.0)` using `rand` standard function)
+
+`cluster` uses `rpKey2` column only with [spark.databricks.io.skipping.mdc.addNoise](../../DeltaSQLConf.md#MDC_ADD_NOISE) enabled.
+
+`cluster` repartitions the given `DataFrame` by the `rpKey1` and `rpKey2` partitioning expressions into the `approxNumPartitions` partitions (using [Dataset.repartitionByRange]({{ book.spark_sql }}/Dataset#repartitionByRange) operator).
+
+In the end, `cluster` returns the repartitioned `DataFrame` (with the two columns to be dropped).
+
+### <span id="cluster-demo"> Demo
+
+```scala
+import org.apache.spark.sql.delta.skipping.ZOrderClustering
+val df = spark.range(5).toDF
+val colNames = "id" :: Nil
+val approxNumPartitions = 3
+val repartByRangeDf = ZOrderClustering.cluster(df, colNames, approxNumPartitions)
+```
+
+```scala
+println(repartByRangeDf.queryExecution.executedPlan.numberedTreeString)
+```
+
+```text
+00 AdaptiveSparkPlan isFinalPlan=false
+01 +- Project [id#0L]
+02    +- Exchange rangepartitioning(1075d2d7-0cd9-4ce2-be11-ff345ff45047-rpKey1#3 ASC NULLS FIRST, f311bca4-4b5a-4bd8-b9e6-5fb05570c8e1-rpKey2#6 ASC NULLS FIRST, 3), REPARTITION_BY_NUM, [id=#21]
+03       +- Project [id#0L, cast(interleavebits(partitionerexpr(id#0L, org.apache.spark.RangePartitioner@442452be)) as string) AS 1075d2d7-0cd9-4ce2-be11-ff345ff45047-rpKey1#3, cast(((rand(5298108963717326846) * 255.0) - 128.0) as tinyint) AS f311bca4-4b5a-4bd8-b9e6-5fb05570c8e1-rpKey2#6]
+04          +- Range (0, 5, step=1, splits=16)
+```
+
+```scala
+assert(repartByRangeDf.rdd.getNumPartitions == 3)
+```
