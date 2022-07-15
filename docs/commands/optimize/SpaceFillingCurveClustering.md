@@ -69,3 +69,47 @@ println(repartByRangeDf.queryExecution.executedPlan.numberedTreeString)
 ```scala
 assert(repartByRangeDf.rdd.getNumPartitions == 3)
 ```
+
+I'm sure that the demo begs for some more love but let's explore the data in the parquet data files anyway.
+The dataset is very basic (yet I'm hoping someone will take it from there).
+
+```scala
+repartByRangeDf.write.format("delta").save("/tmp/zorder")
+```
+
+```text
+$ tree /tmp/zorder
+/tmp/zorder
+├── _delta_log
+│   └── 00000000000000000000.json
+├── part-00000-5677c9b7-7439-4365-8233-8f0e6184dcf3-c000.snappy.parquet
+├── part-00001-9dfb628f-c225-4d23-acb8-0946f0c3617d-c000.snappy.parquet
+└── part-00002-e1172c78-4d47-4947-bd37-f67c72701062-c000.snappy.parquet
+```
+
+```text
+scala> spark.read.load("/tmp/zorder/part-00000-*").show
++---+
+| id|
++---+
+|  0|
+|  1|
++---+
+
+
+scala> spark.read.load("/tmp/zorder/part-00001-*").show
++---+
+| id|
++---+
+|  2|
+|  3|
++---+
+
+
+scala> spark.read.load("/tmp/zorder/part-00002-*").show
++---+
+| id|
++---+
+|  4|
++---+
+```
