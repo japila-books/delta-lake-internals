@@ -14,4 +14,6 @@ getClusteringExpression(
 
 ---
 
-`getClusteringExpression` applies [range_partition_id](MultiDimClusteringFunctions.md#range_partition_id) function (with the given `numRanges` number of partitions) on every `Column` (in `cols`).
+`getClusteringExpression` creates a [range_partition_id](MultiDimClusteringFunctions.md#range_partition_id) function (with the given `numRanges` for the number of partitions) for every `Column` (in `cols`).
+
+In the end, `getClusteringExpression` [interleave_bits](MultiDimClusteringFunctions.md#interleave_bits) with the `range_partition_id` columns and casts the (evaluation) result to `StringType`.

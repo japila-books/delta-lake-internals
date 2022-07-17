@@ -9,7 +9,7 @@
 * <span id="child"> Child `Expression` ([Spark SQL]({{ book.spark_sql }}/expressions/Expression))
 * <span id="numPartitions"> Number of partitions
 
-`RangePartitionId` requires that the [number of partitions](#numPartitions) is greater than `0`.
+`RangePartitionId` requires the [number of partitions](#numPartitions) to be greater than `0`.
 
 `RangePartitionId` is created when:
 

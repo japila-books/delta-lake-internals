@@ -20,9 +20,13 @@ eval(
   input: InternalRow): Any
 ```
 
-`eval`...FIXME
-
 `eval` is part of the `Expression` ([Spark SQL]({{ book.spark_sql }}/expressions/Expression#eval)) abstraction.
+
+---
+
+`eval` requests the [child expression](#child) to `eval` for the given `InternalRow` and uses the evaluation result to update the [GenericInternalRow](#row) at `0`th position.
+
+In the end, `eval` requests the [Partitioner](#partitioner) to `getPartition` for the just-updated [GenericInternalRow](#row).
 
 ## <span id="doGenCode"> Code-Generated Expression Evaluation
 
@@ -35,3 +39,23 @@ doGenCode(
 `doGenCode`...FIXME
 
 `doGenCode` is part of the `Expression` ([Spark SQL]({{ book.spark_sql }}/expressions/Expression#doGenCode)) abstraction.
+
+## <span id="dataType"> Evaluation Result DataType
+
+```scala
+dataType: DataType
+```
+
+`dataType` is always `IntegerType`.
+
+`dataType` is part of the `Expression` ([Spark SQL]({{ book.spark_sql }}/expressions/Expression#dataType)) abstraction.
+
+## <span id="nullable"> nullable
+
+```scala
+nullable: Boolean
+```
+
+`nullable` is always `false`.
+
+`nullable` is part of the `Expression` ([Spark SQL]({{ book.spark_sql }}/expressions/Expression#nullable)) abstraction.

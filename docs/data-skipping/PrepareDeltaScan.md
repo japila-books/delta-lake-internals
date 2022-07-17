@@ -10,7 +10,7 @@
 
 `PrepareDeltaScan` is created when:
 
-* `DeltaSparkSessionExtension` is requested to [inject extensions](../DeltaSparkSessionExtension.md#apply) (and injects pre-CBO optimizer rules)
+* `DeltaSparkSessionExtension` is requested to [register delta extensions](../DeltaSparkSessionExtension.md#apply) (and injects pre-CBO optimizer rules)
 
 ## Logging
 

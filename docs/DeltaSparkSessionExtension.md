@@ -10,5 +10,6 @@
 * [PreprocessTableMerge](PreprocessTableMerge.md)
 * [PreprocessTableRestore](PreprocessTableRestore.md)
 * [PreprocessTableUpdate](PreprocessTableUpdate.md)
+* [RangePartitionIdRewrite](commands/optimize/RangePartitionIdRewrite.md)
 
 `DeltaSparkSessionExtension` is [registered](installation.md) using **spark.sql.extensions** configuration property (while creating a `SparkSession` in a Spark application).

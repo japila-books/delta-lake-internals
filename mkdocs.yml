@@ -320,6 +320,7 @@ nav:
       - MergeIntoCommand: commands/merge/MergeIntoCommand.md
     - Optimize:
       - commands/optimize/index.md
+      - InterleaveBits: commands/optimize/InterleaveBits.md
       - MultiDimClustering: commands/optimize/MultiDimClustering.md
       - MultiDimClusteringFunctions: commands/optimize/MultiDimClusteringFunctions.md
       - OptimizeExecutor: commands/optimize/OptimizeExecutor.md
