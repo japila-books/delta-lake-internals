@@ -46,9 +46,11 @@ doGenCode(
 dataType: DataType
 ```
 
-`dataType` is always `IntegerType`.
-
 `dataType` is part of the `Expression` ([Spark SQL]({{ book.spark_sql }}/expressions/Expression#dataType)) abstraction.
+
+---
+
+`dataType` is always `IntegerType`.
 
 ## <span id="nullable"> nullable
 
@@ -56,6 +58,8 @@ dataType: DataType
 nullable: Boolean
 ```
 
-`nullable` is always `false`.
-
 `nullable` is part of the `Expression` ([Spark SQL]({{ book.spark_sql }}/expressions/Expression#nullable)) abstraction.
+
+---
+
+`nullable` is always `false`.

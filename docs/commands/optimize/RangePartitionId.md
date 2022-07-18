@@ -1,6 +1,6 @@
 # RangePartitionId Unary Expression
 
-`RangePartitionId` is a `UnaryExpression` ([Spark SQL]({{ book.spark_sql }}/expressions/UnaryExpression)) for [range_partition_id](MultiDimClusteringFunctions.md#range_partition_id) function.
+`RangePartitionId` is a `UnaryExpression` ([Spark SQL]({{ book.spark_sql }}/expressions/UnaryExpression)) that represents [range_partition_id](MultiDimClusteringFunctions.md#range_partition_id) function in a logical query plan (until it is resolved into [PartitionerExpr](PartitionerExpr.md) by [RangePartitionIdRewrite](RangePartitionIdRewrite.md) optimization).
 
 ## Creating Instance
 
@@ -13,7 +13,7 @@
 
 `RangePartitionId` is created when:
 
-* `MultiDimClusteringFunctions` utility is used to [range_partition_id](MultiDimClusteringFunctions.md#range_partition_id)
+* [range_partition_id](MultiDimClusteringFunctions.md#range_partition_id) function is used
 
 ## <span id="Unevaluable"> Unevaluable
 
@@ -25,6 +25,32 @@
 checkInputDataTypes(): TypeCheckResult
 ```
 
+`checkInputDataTypes` is part of the `Expression` ([Spark SQL]({{ book.spark_sql }}/expressions/Expression#checkInputDataTypes)) abstraction.
+
+---
+
 `checkInputDataTypes` is successful when the `DataType` ([Spark SQL]({{ book.spark_sql }}/types/DataType)) of the [child](#child) expression is row-orderable ([Spark SQL]({{ book.spark_sql }}/expressions/RowOrdering#isOrderable)). Otherwise, `checkInputDataTypes` is negative.
 
-`checkInputDataTypes` is part of the `Expression` ([Spark SQL]({{ book.spark_sql }}/expressions/Expression#checkInputDataTypes)) abstraction.
+## <span id="dataType"> Evaluation Result DataType
+
+```scala
+dataType: DataType
+```
+
+`dataType` is part of the `Expression` ([Spark SQL]({{ book.spark_sql }}/expressions/Expression#dataType)) abstraction.
+
+---
+
+`dataType` is always `IntegerType`.
+
+## <span id="nullable"> nullable
+
+```scala
+nullable: Boolean
+```
+
+`nullable` is part of the `Expression` ([Spark SQL]({{ book.spark_sql }}/expressions/Expression#nullable)) abstraction.
+
+---
+
+`nullable` is always `false`.
