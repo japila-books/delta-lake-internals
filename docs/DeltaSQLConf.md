@@ -208,6 +208,16 @@ Used when:
 
 * `OptimizeExecutor` is requested to [optimize](commands/optimize/OptimizeExecutor.md#optimize)
 
+## <span id="optimize.zorder.checkStatsCollection.enabled"><span id="DELTA_OPTIMIZE_ZORDER_COL_STAT_CHECK"> optimize.zorder.checkStatsCollection.enabled
+
+**spark.databricks.delta.optimize.zorder.checkStatsCollection.enabled** (internal) Controls whether there are [column statistics](StatisticsCollection.md#statCollectionSchema) available for the `zOrderBy` columns of [OPTIMIZE](commands/optimize/index.md) command
+
+Default: `true`
+
+Used when:
+
+* `OptimizeTableCommandBase` is requested to [validate zOrderBy columns](commands/optimize/OptimizeTableCommandBase.md#validateZorderByColumns)
+
 ## <span id="partitionColumnValidity.enabled"><span id="DELTA_PARTITION_COLUMN_CHECK_ENABLED"> partitionColumnValidity.enabled
 
 **spark.databricks.delta.partitionColumnValidity.enabled** (internal) enables validation of the partition column names (just like the data columns)

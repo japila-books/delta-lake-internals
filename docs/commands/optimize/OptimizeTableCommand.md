@@ -31,6 +31,8 @@ run(
 
 `run` [gets the DeltaLog](../DeltaCommand.md#getDeltaLog) of the Delta table (by the [path](#path) or [tableId](#tableId)).
 
+`run` [validates the zOrderBy columns](OptimizeTableCommandBase.md#validateZorderByColumns) (that may throw `DeltaIllegalArgumentException` or `DeltaAnalysisException` exceptions and so break the command execution).
+
 In the end, `run` creates an [OptimizeExecutor](OptimizeExecutor.md) that is in turn requested to [optimize](OptimizeExecutor.md#optimize).
 
 ---

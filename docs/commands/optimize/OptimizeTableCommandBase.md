@@ -21,7 +21,7 @@ Name | DataType
  `path` | `StringType`
  `metrics` | [OptimizeMetrics](OptimizeMetrics.md)
 
-## <span id="validateZorderByColumns"> validateZorderByColumns
+## <span id="validateZorderByColumns"> Validating zOrderBy Columns
 
 ```scala
 validateZorderByColumns(
@@ -30,8 +30,17 @@ validateZorderByColumns(
   unresolvedZOrderByCols: Seq[UnresolvedAttribute]): Unit
 ```
 
-`validateZorderByColumns`...FIXME
+!!! note
+    Since `validateZorderByColumns` returns `Unit` (no value to work with), I'm sure you have already figured out that it is mainly to throw an exception when things are not as expected for the [OPTIMIZE](index.md) command.
+
+`validateZorderByColumns` does nothing (and returns) when there is no `unresolvedZOrderByCols` columns specified.
+
+`validateZorderByColumns` makes sure that no `unresolvedZOrderByCols` column violates the following requirements (or throws `DeltaIllegalArgumentException` or `DeltaAnalysisException`):
+
+1. It is part of [data schema](../../Metadata.md#dataSchema)
+1. [Column statistics](../../StatisticsCollection.md#statCollectionSchema) are available for the column (when [spark.databricks.delta.optimize.zorder.checkStatsCollection.enabled](../../DeltaSQLConf.md#DELTA_OPTIMIZE_ZORDER_COL_STAT_CHECK) enabled)
+1. It is not a [partition column](../../Metadata.md#partitionColumns) (as Z-Ordering can only be performed on data columns)
 
 `validateZorderByColumns` is used when:
 
-* [OptimizeTableCommand](OptimizeTableCommand.md) is executed
+* `OptimizeTableCommand` is [executed](OptimizeTableCommand.md#run)
