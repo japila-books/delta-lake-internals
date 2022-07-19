@@ -2,6 +2,21 @@
 
 `DeltaOptimizeBuilder` is a builder interface for constructing and executing [OPTIMIZE](commands/optimize/index.md) command.
 
+`DeltaOptimizeBuilder` is [created](#apply) using [DeltaTable.optimize](DeltaTable.md#optimize) operator.
+
+In the end, `DeltaOptimizeBuilder` is supposed to be executed to take action using the following operators:
+
+* [executeCompaction](#executeCompaction)
+* [executeZOrderBy](#executeZOrderBy)
+
+## io.delta.tables Package
+
+`DeltaTableBuilder` belongs to `io.delta.tables` package.
+
+```scala
+import io.delta.tables.DeltaTableBuilder
+```
+
 ## Demo
 
 ```scala
