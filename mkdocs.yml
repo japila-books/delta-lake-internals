@@ -116,36 +116,6 @@ extra:
 
 nav:
   - Home: index.md
-  - Features:
-    - Column Mapping:
-      - column-mapping/index.md
-      - DeltaColumnMappingBase: column-mapping/DeltaColumnMappingBase.md
-      - DeltaColumnMappingMode: column-mapping/DeltaColumnMappingMode.md
-    - Table Constraints:
-      - constraints/index.md
-      - AddConstraint: constraints/AddConstraint.md
-      - AlterTableAddConstraintStatement: constraints/AlterTableAddConstraintStatement.md
-      - AlterTableDropConstraintStatement: constraints/AlterTableDropConstraintStatement.md
-      - CheckDeltaInvariant: constraints/CheckDeltaInvariant.md
-      - Constraint: constraints/Constraint.md
-      - Constraints: constraints/Constraints.md
-      - DeltaInvariantChecker: constraints/DeltaInvariantChecker.md
-      - DeltaInvariantCheckerExec: constraints/DeltaInvariantCheckerExec.md
-      - DeltaInvariantCheckerStrategy: constraints/DeltaInvariantCheckerStrategy.md
-      - DropConstraint: constraints/DropConstraint.md
-      - Invariant: constraints/Invariant.md
-      - Invariants: constraints/Invariants.md
-      - InvariantViolationException: constraints/InvariantViolationException.md
-    - Data Skipping:
-      - data-skipping/index.md
-      - DataSkippingReaderBase: data-skipping/DataSkippingReaderBase.md
-      - DeltaScan: data-skipping/DeltaScan.md
-      - PreparedDeltaFileIndex: data-skipping/PreparedDeltaFileIndex.md
-      - PrepareDeltaScan: data-skipping/PrepareDeltaScan.md
-      - PrepareDeltaScanBase: data-skipping/PrepareDeltaScanBase.md
-    - Generated Columns:
-      - generated-columns/index.md
-      - GeneratedColumn: generated-columns/GeneratedColumn.md
   - Internals:
     - Overview: overview.md
     - Installation: installation.md
@@ -208,26 +178,6 @@ nav:
       - SetTransaction: SetTransaction.md
       - SingleAction: SingleAction.md
     - FileNames: FileNames.md
-    - Delta Data Source:
-      - DeltaDataSource: DeltaDataSource.md
-      - Options:
-        - Options: options.md
-        - DeltaOptions: DeltaOptions.md
-        - DeltaOptionParser: DeltaOptionParser.md
-        - DeltaReadOptions: DeltaReadOptions.md
-        - DeltaWriteOptions: DeltaWriteOptions.md
-        - DeltaWriteOptionsImpl: DeltaWriteOptionsImpl.md
-      - DeltaSource:
-        - DeltaSource: DeltaSource.md
-        - DeltaSourceBase: DeltaSourceBase.md
-        - DeltaSourceCDCSupport: DeltaSourceCDCSupport.md
-        - DeltaSourceOffset: DeltaSourceOffset.md
-        - DeltaSourceSnapshot: DeltaSourceSnapshot.md
-        - DeltaSourceUtils: DeltaSourceUtils.md
-        - SnapshotIterator: SnapshotIterator.md
-        - AdmissionLimits: AdmissionLimits.md
-      - DeltaSink: DeltaSink.md
-      - WriteIntoDeltaBuilder: WriteIntoDeltaBuilder.md
     - Spark SQL Extensions:
       - AppendDelta: AppendDelta.md
       - DeltaAnalysis: DeltaAnalysis.md
@@ -246,6 +196,57 @@ nav:
       - TahoeBatchFileIndex: TahoeBatchFileIndex.md
       - TahoeLogFileIndex: TahoeLogFileIndex.md
       - DeltaLogFileIndex: DeltaLogFileIndex.md
+  - Features:
+    - Column Mapping:
+      - column-mapping/index.md
+      - DeltaColumnMappingBase: column-mapping/DeltaColumnMappingBase.md
+      - DeltaColumnMappingMode: column-mapping/DeltaColumnMappingMode.md
+    - Table Constraints:
+      - constraints/index.md
+      - AddConstraint: constraints/AddConstraint.md
+      - AlterTableAddConstraintStatement: constraints/AlterTableAddConstraintStatement.md
+      - AlterTableDropConstraintStatement: constraints/AlterTableDropConstraintStatement.md
+      - CheckDeltaInvariant: constraints/CheckDeltaInvariant.md
+      - Constraint: constraints/Constraint.md
+      - Constraints: constraints/Constraints.md
+      - DeltaInvariantChecker: constraints/DeltaInvariantChecker.md
+      - DeltaInvariantCheckerExec: constraints/DeltaInvariantCheckerExec.md
+      - DeltaInvariantCheckerStrategy: constraints/DeltaInvariantCheckerStrategy.md
+      - DropConstraint: constraints/DropConstraint.md
+      - Invariant: constraints/Invariant.md
+      - Invariants: constraints/Invariants.md
+      - InvariantViolationException: constraints/InvariantViolationException.md
+    - Data Skipping:
+      - data-skipping/index.md
+      - DataSkippingReaderBase: data-skipping/DataSkippingReaderBase.md
+      - DeltaScan: data-skipping/DeltaScan.md
+      - PreparedDeltaFileIndex: data-skipping/PreparedDeltaFileIndex.md
+      - PrepareDeltaScan: data-skipping/PrepareDeltaScan.md
+      - PrepareDeltaScanBase: data-skipping/PrepareDeltaScanBase.md
+    - Delta Data Source:
+      - DeltaDataSource: DeltaDataSource.md
+      - Options:
+        - Options: options.md
+        - DeltaOptions: DeltaOptions.md
+        - DeltaOptionParser: DeltaOptionParser.md
+        - DeltaReadOptions: DeltaReadOptions.md
+        - DeltaWriteOptions: DeltaWriteOptions.md
+        - DeltaWriteOptionsImpl: DeltaWriteOptionsImpl.md
+      - DeltaSource:
+        - AdmissionLimits: AdmissionLimits.md
+        - DeltaSource: DeltaSource.md
+        - DeltaSourceBase: DeltaSourceBase.md
+        - DeltaSourceCDCSupport: DeltaSourceCDCSupport.md
+        - DeltaSourceOffset: DeltaSourceOffset.md
+        - DeltaSourceSnapshot: DeltaSourceSnapshot.md
+        - DeltaSourceUtils: DeltaSourceUtils.md
+        - IndexedChangeFileSeq: IndexedChangeFileSeq.md
+        - SnapshotIterator: SnapshotIterator.md
+      - DeltaSink: DeltaSink.md
+      - WriteIntoDeltaBuilder: WriteIntoDeltaBuilder.md
+    - Generated Columns:
+      - generated-columns/index.md
+      - GeneratedColumn: generated-columns/GeneratedColumn.md
   - Developer API:
     - DeltaTable: DeltaTable.md
     - DeltaTableBuilder: DeltaTableBuilder.md

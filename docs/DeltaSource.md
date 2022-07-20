@@ -316,6 +316,22 @@ iteratorLast[T](
 
 * `DeltaSource` is requested to [getStartingOffset](#getStartingOffset) and [getOffset](#getOffset)
 
+## <span id="excludeRegex"> excludeRegex Option
+
+```scala
+excludeRegex: Option[Regex]
+```
+
+`excludeRegex` requests the [DeltaOptions](#options) for the [excludeRegex](DeltaReadOptions.md#excludeRegex).
+
+!!! note "Refactor It"
+    `excludeRegex` should not really be part of `DeltaSource` since it's used elsewhere anyway.
+
+`excludeRegex` is used when:
+
+* `DeltaSourceBase` is requested to [getFileChangesAndCreateDataFrame](DeltaSourceBase.md#getFileChangesAndCreateDataFrame)
+* `IndexedChangeFileSeq` is requested to [isValidIndexedFile](IndexedChangeFileSeq.md#isValidIndexedFile)
+
 ## Logging
 
 Enable `ALL` logging level for `org.apache.spark.sql.delta.sources.DeltaSource` logger to see what happens inside.
