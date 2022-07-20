@@ -220,6 +220,7 @@ nav:
       - DeltaSource:
         - DeltaSource: DeltaSource.md
         - DeltaSourceBase: DeltaSourceBase.md
+        - DeltaSourceCDCSupport: DeltaSourceCDCSupport.md
         - DeltaSourceOffset: DeltaSourceOffset.md
         - DeltaSourceSnapshot: DeltaSourceSnapshot.md
         - DeltaSourceUtils: DeltaSourceUtils.md

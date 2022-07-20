@@ -1,6 +1,8 @@
 # DeltaSource
 
-`DeltaSource` is the `Source` ([Spark Structured Streaming]({{ book.structured_streaming }}/Source)) of the [delta](DeltaDataSource.md) data source for streaming queries.
+`DeltaSource` is a [DeltaSourceBase](DeltaSourceBase.md) of the [delta](DeltaDataSource.md) data source for streaming queries.
+
+`DeltaSource` is a [DeltaSourceCDCSupport](DeltaSourceCDCSupport.md).
 
 ## Creating Instance
 
@@ -9,7 +11,7 @@
 * <span id="spark"> `SparkSession` ([Spark SQL]({{ book.spark_sql }}/SparkSession))
 * <span id="deltaLog"> [DeltaLog](DeltaLog.md)
 * <span id="options"> [DeltaOptions](DeltaOptions.md)
-* <span id="filters"> Filters (default: empty)
+* <span id="filters"> Filter `Expression`s (default: empty)
 
 `DeltaSource` is created when:
 
@@ -40,6 +42,30 @@ assert(relation.source.asInstanceOf[DeltaSource])
 scala> println(relation.source)
 DeltaSource[file:/tmp/delta/users]
 ```
+
+## <span id="getBatch"> Batch DataFrame
+
+```scala
+getBatch(
+  start: Option[Offset],
+  end: Offset): DataFrame
+```
+
+`getBatch` is part of the `Source` ([Spark Structured Streaming]({{ book.structured_streaming }}/Source#getBatch)) abstraction.
+
+---
+
+`getBatch` creates a [DeltaSourceOffset](DeltaSourceOffset.md) for the [tableId](#tableId) (aka [reservoirId](DeltaSourceOffset.md#reservoirId)) and the given `end` offset.
+
+`getBatch` [gets the changes](#getChanges)...FIXME
+
+`getBatch` prints out the following DEBUG message to the logs:
+
+```text
+start: [start] end: [end] [addFiles]
+```
+
+In the end, `getBatch` requests the [DeltaLog](#deltaLog) to [createDataFrame](DeltaLog.md#createDataFrame) (for the [current snapshot](SnapshotManagement.md#snapshot) of the [DeltaLog](#deltaLog), `addFiles` and `isStreaming` flag enabled).
 
 ## <span id="latestOffset"> Latest Available Offset
 
@@ -133,28 +159,6 @@ getOffset: Option[Offset]
 ```text
 latestOffset(Offset, ReadLimit) should be called instead of this method
 ```
-
-## <span id="getBatch"> Requesting Micro-Batch DataFrame
-
-```scala
-getBatch(
-  start: Option[Offset],
-  end: Offset): DataFrame
-```
-
-`getBatch` is part of the `Source` ([Spark Structured Streaming]({{ book.structured_streaming }}/Source#getBatch)) abstraction.
-
-`getBatch` creates an [DeltaSourceOffset](DeltaSourceOffset.md) for the [tableId](#tableId) (aka [reservoirId](DeltaSourceOffset.md#reservoirId)) and the given `end` offset.
-
-`getBatch` [gets the changes](#getChanges)...FIXME
-
-`getBatch` prints out the following DEBUG message to the logs:
-
-```text
-start: [start] end: [end] [addFiles]
-```
-
-In the end, `getBatch` requests the [DeltaLog](#deltaLog) to [createDataFrame](DeltaLog.md#createDataFrame) (for the [current snapshot](SnapshotManagement.md#snapshot) of the [DeltaLog](#deltaLog), `addFiles` and `isStreaming` flag on).
 
 ## Snapshot Management
 
