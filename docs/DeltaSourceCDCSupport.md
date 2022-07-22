@@ -35,3 +35,27 @@ getFileChangesForCDC(
 
 * `DeltaSourceBase` is requested to [getFileChangesWithRateLimit](DeltaSourceBase.md#getFileChangesWithRateLimit)
 * `DeltaSourceCDCSupport` is requested to [getCDCFileChangesAndCreateDataFrame](#getCDCFileChangesAndCreateDataFrame)
+
+### <span id="filterAndIndexDeltaLogs"> filterAndIndexDeltaLogs
+
+```scala
+filterAndIndexDeltaLogs(
+  startVersion: Long): Iterator[(Long, IndexedChangeFileSeq)]
+```
+
+`filterAndIndexDeltaLogs`...FIXME
+
+### <span id="filterCDCActions"> filterCDCActions
+
+```scala
+filterCDCActions(
+  actions: Seq[Action],
+  version: Long): Seq[FileAction]
+```
+
+!!! note
+    `version` argument is ignored.
+
+`filterCDCActions` collects the [AddCDCFile](AddCDCFile.md) actions from the given `actions` if there are any.
+
+Otherwise, `filterCDCActions` collects [AddFile](AddFile.md)s and [RemoveFile](RemoveFile.md)s with `dataChange` enabled.

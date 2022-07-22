@@ -197,6 +197,9 @@ nav:
       - TahoeLogFileIndex: TahoeLogFileIndex.md
       - DeltaLogFileIndex: DeltaLogFileIndex.md
   - Features:
+    - Change Data Feed:
+      - change-data-feed/index.md
+      - CDCReader: change-data-feed/CDCReader.md
     - Column Mapping:
       - column-mapping/index.md
       - DeltaColumnMappingBase: column-mapping/DeltaColumnMappingBase.md
@@ -376,6 +379,7 @@ nav:
     - ConflictChecker: ConflictChecker.md
     - DeltaFileOperations: DeltaFileOperations.md
     - DeltaJobStatisticsTracker: DeltaJobStatisticsTracker.md
+    - DeltaRelation: DeltaRelation.md
     - DeltaScanGenerator: DeltaScanGenerator.md
     - DeltaScanGeneratorBase: DeltaScanGeneratorBase.md
     - DeltaTableOperations: DeltaTableOperations.md

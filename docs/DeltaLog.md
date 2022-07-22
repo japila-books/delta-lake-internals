@@ -322,6 +322,11 @@ createRelation(
 
 `createRelation`...FIXME
 
+With non-empty `cdcOptions`, `createRelation` [creates a CDC-aware relation](change-data-feed/CDCReader.md#getCDCRelation) (that represents data change between two snapshots of the table).
+
+!!! note "When `cdcOptions` is non-empty"
+    `cdcOptions` is empty by default and can only be specified when `DeltaTableV2` is [created](DeltaTableV2.md#cdcOptions).
+
 `createRelation` creates a [TahoeLogFileIndex](TahoeLogFileIndex.md) for the [data path](#dataPath), the given `partitionFilters` and a version (if defined).
 
 `createRelation`...FIXME

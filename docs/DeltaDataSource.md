@@ -16,7 +16,7 @@ org.apache.spark.sql.delta.sources.DeltaDataSource
 
 `DeltaDataSource` is a `RelationProvider` ([Spark SQL]({{ book.spark_sql }}/RelationProvider)).
 
-### <span id="RelationProvider-createRelation"> Creating Relation
+### <span id="RelationProvider-createRelation"> Creating BaseRelation
 
 ```scala
 createRelation(
@@ -48,7 +48,7 @@ In the end, `createRelation` creates a [DeltaTableV2](DeltaTableV2.md) (with the
 
 `DeltaDataSource` is a `CreatableRelationProvider` ([Spark SQL]({{ book.spark_sql }}/CreatableRelationProvider)).
 
-### <span id="CreatableRelationProvider-createRelation"> Creating Relation
+### <span id="CreatableRelationProvider-createRelation"> Creating BaseRelation
 
 ```scala
 createRelation(
@@ -127,7 +127,7 @@ Table schema is not set.  Write data into it or use CREATE TABLE to set the sche
 
 `createSource` is part of the `StreamSourceProvider` ([Spark Structured Streaming]({{ book.structured_streaming }}/StreamSourceProvider/#createSource)) abstraction.
 
-### <span id="sourceSchema"> Streaming Schema
+### <span id="sourceSchema"> Streaming Source Schema
 
 ```scala
 sourceSchema(
@@ -274,3 +274,18 @@ parsePathIdentifier(
 `parsePathIdentifier`...FIXME
 
 `parsePathIdentifier` is used when `DeltaTableV2` is requested for [metadata](DeltaTableV2.md#rootPath) (for a non-catalog table).
+
+## <span id="CDC_ENABLED_KEY"><span id="readChangeFeed"> readChangeFeed
+
+`DeltaDataSource` utility defines `readChangeFeed` value to indicate [CDC-aware table scan](change-data-feed/CDCReader.md#isCDCRead) (when it is used as an read option and `true`).
+
+`readChangeFeed` is used alongside the following CDC options:
+
+* [startingVersion](#CDC_START_VERSION_KEY)
+* [startingTimestamp](#CDC_START_TIMESTAMP_KEY)
+* [endingVersion](#CDC_END_VERSION_KEY)
+* [endingTimestamp](#CDC_END_TIMESTAMP_KEY)
+
+`readChangeFeed` is used when:
+
+* `DeltaDataSource` is requested to [create a BaseRelation](#RelationProvider-createRelation)

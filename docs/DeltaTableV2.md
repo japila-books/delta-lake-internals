@@ -12,13 +12,32 @@
 * <span id="tableIdentifier"> Optional Table ID
 * Optional [DeltaTimeTravelSpec](#timeTravelOpt)
 * [Options](#options)
-* <span id="cdcOptions"> CDC Options (empty in Delta Lake OSS)
+* [CDC Options](#cdcOptions)
 
 `DeltaTableV2` is created when:
 
 * `DeltaTable` utility is used to [forPath](DeltaTable.md#forPath) and [forName](DeltaTable.md#forName)
 * `DeltaCatalog` is requested to [load a table](DeltaCatalog.md#loadTable)
 * `DeltaDataSource` is requested to [load a table](DeltaDataSource.md#getTable) or [create a table relation](DeltaDataSource.md#RelationProvider-createRelation)
+
+### <span id="cdcOptions"> CDC Options
+
+```scala
+cdcOptions: CaseInsensitiveStringMap
+```
+
+`DeltaTableV2` can be given `cdcOptions` when [created](#creating-instance).
+
+`cdcOptions` is empty by default (and most of the time).
+
+`cdcOptions` is not empty when:
+
+* `DeltaDataSource` is requested to [create a relation](DeltaDataSource.md#RelationProvider-createRelation) (for [CDC read](change-data-feed/CDCReader.md#isCDCRead))
+* `DeltaTableV2` is requested to [withOptions](#withOptions)
+
+`cdcOptions` is used when:
+
+* `DeltaTableV2` is requested for a [BaseRelation](#toBaseRelation)
 
 ## <span id="options"> Options
 
