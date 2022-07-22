@@ -1,6 +1,6 @@
 # DeltaTableV2
 
-`DeltaTableV2` is a logical representation of a writable Delta table.
+`DeltaTableV2` is a logical representation of a [writable](#SupportsWrite) Delta [table](#Table).
 
 ## Creating Instance
 
@@ -8,7 +8,7 @@
 
 * <span id="spark"> `SparkSession` ([Spark SQL]({{ book.spark_sql }}/SparkSession))
 * <span id="path"> Path ([Hadoop HDFS]({{ hadoop.api }}/org/apache/hadoop/fs/Path.html))
-* <span id="catalogTable"> Optional Catalog Metadata ([Spark SQL]({{ book.spark_sql }}/CatalogTable))
+* [CatalogTable Metadata](#catalogTable)
 * <span id="tableIdentifier"> Optional Table ID
 * Optional [DeltaTimeTravelSpec](#timeTravelOpt)
 * [Options](#options)
@@ -20,17 +20,36 @@
 * `DeltaCatalog` is requested to [load a table](DeltaCatalog.md#loadTable)
 * `DeltaDataSource` is requested to [load a table](DeltaDataSource.md#getTable) or [create a table relation](DeltaDataSource.md#RelationProvider-createRelation)
 
+### <span id="catalogTable"> Table Metadata (CatalogTable)
+
+```scala
+catalogTable: Option[CatalogTable] = None
+```
+
+`DeltaTableV2` can be given `CatalogTable` ([Spark SQL]({{ book.spark_sql }}/CatalogTable)) when [created](#creating-instance). It is undefined by default.
+
+`catalogTable` is specified when:
+
+* [DeltaTable.forName](DeltaTable.md#forName) is used (for a [cataloged delta table](DeltaTableUtils.md#isDeltaTable))
+* [PreprocessTableRestore](PreprocessTableRestore.md) logical resolution rule is executed (with a [RestoreTableStatement](commands/restore/RestoreTableStatement.md) over a [cataloged delta table](DeltaTableUtils.md#isDeltaTable))
+* `DeltaCatalog` is requested to [load a table](DeltaCatalog.md#loadTable) (that is a `V1Table` and a [cataloged delta table](DeltaTableUtils.md#isDeltaTable))
+
+`catalogTable` is used when:
+
+* `DeltaTableV2` is requested for the [rootPath](#rootPath) (to avoid [parsing the path](DeltaDataSource.md#parsePathIdentifier)), the [name](#name), the [properties](#properties) and the [CatalogTable](#v1Table) itself
+* [DeltaAnalysis](DeltaAnalysis.md) logical resolution rule is requested to resolve a [RestoreTableStatement](commands/restore/RestoreTableStatement.md) (for a `TableIdentifier`)
+* `DeltaRelation` utility is used to [fromV2Relation](DeltaRelation.md#fromV2Relation)
+* [AlterTableSetLocationDeltaCommand](commands/alter/AlterTableSetLocationDeltaCommand.md) is executed
+
 ### <span id="cdcOptions"> CDC Options
 
 ```scala
 cdcOptions: CaseInsensitiveStringMap
 ```
 
-`DeltaTableV2` can be given `cdcOptions` when [created](#creating-instance).
+`DeltaTableV2` can be given `cdcOptions` when [created](#creating-instance). It is empty by default (and most of the time).
 
-`cdcOptions` is empty by default (and most of the time).
-
-`cdcOptions` is not empty when:
+`cdcOptions` is specified when:
 
 * `DeltaDataSource` is requested to [create a relation](DeltaDataSource.md#RelationProvider-createRelation) (for [CDC read](change-data-feed/CDCReader.md#isCDCRead))
 * `DeltaTableV2` is requested to [withOptions](#withOptions)
@@ -64,7 +83,27 @@ The options are used for the following:
 
 ## <span id="V2TableWithV1Fallback"> V2TableWithV1Fallback
 
-`DeltaTableV2` is a `V2TableWithV1Fallback` ([Spark SQL]({{ book.spark_sql }}/connector/V2TableWithV1Fallback)).
+`DeltaTableV2` is a `V2TableWithV1Fallback` ([Spark SQL]({{ book.spark_sql }}/connector/catalog/V2TableWithV1Fallback)).
+
+### <span id="v1Table"> v1Table
+
+```scala
+v1Table: CatalogTable
+```
+
+`v1Table` is part of the `V2TableWithV1Fallback` ([Spark SQL]({{ book.spark_sql }}/connector/catalog/V2TableWithV1Fallback#v1Table)) abstraction.
+
+---
+
+`v1Table` returns the [CatalogTable](#catalogTable) (with `CatalogStatistics` removed if [DeltaTimeTravelSpec](#timeTravelSpec) has also been specified).
+
+---
+
+`v1Table` expects that the (optional) [CatalogTable](#catalogTable) metadata is specified or throws a `DeltaIllegalStateException`:
+
+```text
+v1Table call is not expected with path based DeltaTableV2
+```
 
 ## <span id="timeTravelOpt"> DeltaTimeTravelSpec
 
