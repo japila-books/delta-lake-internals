@@ -87,6 +87,7 @@ extra:
     version: 2.0.0
     github: https://github.com/delta-io/delta/blob/v2.0.0
     commit: https://github.com/delta-io/delta/commit
+    issues: https://github.com/delta-io/delta/issues
   guava:
     version: 16.0.1
     api: https://guava.dev/releases/16.0.1/api/docs
@@ -199,7 +200,10 @@ nav:
   - Features:
     - Change Data Feed:
       - change-data-feed/index.md
+      - CdcAddFileIndex: change-data-feed/CdcAddFileIndex.md
       - CDCReader: change-data-feed/CDCReader.md
+      - DeltaSourceCDCSupport: change-data-feed/DeltaSourceCDCSupport.md
+      - TahoeRemoveFileIndex: change-data-feed/TahoeRemoveFileIndex.md
     - Column Mapping:
       - column-mapping/index.md
       - DeltaColumnMappingBase: column-mapping/DeltaColumnMappingBase.md
@@ -239,7 +243,6 @@ nav:
         - AdmissionLimits: AdmissionLimits.md
         - DeltaSource: DeltaSource.md
         - DeltaSourceBase: DeltaSourceBase.md
-        - DeltaSourceCDCSupport: DeltaSourceCDCSupport.md
         - DeltaSourceOffset: DeltaSourceOffset.md
         - DeltaSourceSnapshot: DeltaSourceSnapshot.md
         - DeltaSourceUtils: DeltaSourceUtils.md

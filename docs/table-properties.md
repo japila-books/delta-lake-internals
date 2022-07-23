@@ -2,6 +2,10 @@
 
 Delta Lake allows setting up [table properties](DeltaConfigs.md) for a custom behaviour of a delta table.
 
+## delta Prefix
+
+All table properties start with `delta.` prefix.
+
 ## SHOW TBLPROPERTIES
 
 Table properties can be displayed using `SHOW TBLPROPERTIES` SQL command:

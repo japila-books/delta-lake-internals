@@ -1,0 +1,3 @@
+# TahoeRemoveFileIndex
+
+`TahoeRemoveFileIndex` is...FIXME

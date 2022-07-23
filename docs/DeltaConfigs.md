@@ -2,7 +2,26 @@
 
 `DeltaConfigs` holds the [table properties](table-properties.md) that can be set on a delta table.
 
-## Configuration Properties
+## Accessing DeltaConfigs
+
+```scala
+import org.apache.spark.sql.delta.OptimisticTransaction
+val txn: OptimisticTransaction = ???
+```
+
+```scala
+import org.apache.spark.sql.delta.actions.Metadata
+val metadata: Metadata = txn.metadata
+```
+
+```scala
+import org.apache.spark.sql.delta.DeltaConfigs
+DeltaConfigs.CHANGE_DATA_FEED.fromMetaData(metadata)
+```
+
+## Table Properties
+
+All table properties start with `delta.` prefix.
 
 ### <span id="appendOnly"><span id="IS_APPEND_ONLY"> appendOnly
 
@@ -96,6 +115,22 @@ Used when:
 How long to keep logically deleted data files around before deleting them physically (to prevent failures in stale readers after compactions or partition overwrites)
 
 Default: `interval 1 week`
+
+### <span id="enableChangeDataFeed"><span id="CHANGE_DATA_FEED"><span id="enableChangeDataCapture"> enableChangeDataFeed
+
+Enables [Change Data Feed](change-data-feed/index.md)
+
+Default: `false`
+
+Legacy configuration: `enableChangeDataCapture`
+
+Used when:
+
+* `Protocol` is requested for the [requiredMinimumProtocol](Protocol.md#requiredMinimumProtocol)
+* `DeleteCommand` is requested to [rewriteFiles](commands/delete/DeleteCommand.md#rewriteFiles)
+* `MergeIntoCommand` is requested to [writeAllChanges](commands/merge/MergeIntoCommand.md#writeAllChanges)
+* `UpdateCommand` is requested to [shouldOutputCdc](commands/update/UpdateCommand.md#shouldOutputCdc)
+* `CDCReader` is requested to [isCDCEnabledOnTable](change-data-feed/CDCReader.md#isCDCEnabledOnTable)
 
 ### <span id="enableExpiredLogCleanup"><span id="ENABLE_EXPIRED_LOG_CLEANUP"> enableExpiredLogCleanup
 

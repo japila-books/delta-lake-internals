@@ -76,9 +76,17 @@ commit(
 * [WriteIntoDelta](commands/WriteIntoDelta.md) command is executed
 * `DeltaSink` is requested to [addBatch](DeltaSink.md#addBatch)
 
+### <span id="performCdcMetadataCheck"> performCdcMetadataCheck
+
+```scala
+performCdcMetadataCheck(): Unit
+```
+
+`performCdcMetadataCheck`...FIXME
+
 ### <span id="commit-prepareCommit"><span id="commit-finalActions"> Preparing Commit
 
-`commit` firstly [prepares a commit](#prepareCommit) (that gives the final actions to commit that may be different from the given [action](Action.md)s).
+`commit` then [prepares a commit](#prepareCommit) (that gives the final actions to commit that may be different from the given [action](Action.md)s).
 
 ### <span id="commit-isolationLevelToUse"> Isolation Level
 
@@ -233,6 +241,16 @@ prepareCommit throws an `AssertionError` when the [committed](#committed) intern
 ```text
 Transaction already committed.
 ```
+
+### <span id="performCdcColumnMappingCheck"> performCdcColumnMappingCheck
+
+```scala
+performCdcColumnMappingCheck(
+  actions: Seq[Action],
+  op: DeltaOperations.Operation): Unit
+```
+
+`performCdcColumnMappingCheck`...FIXME
 
 ### <span id="registerPostCommitHook"> Registering Post-Commit Hook
 

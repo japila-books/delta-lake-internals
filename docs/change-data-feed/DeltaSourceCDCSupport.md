@@ -1,6 +1,6 @@
 # DeltaSourceCDCSupport
 
-`DeltaSourceCDCSupport` is an abstraction of CDC support for [DeltaSource](DeltaSource.md).
+`DeltaSourceCDCSupport` is an abstraction of [CDC support](index.md) for [DeltaSource](../DeltaSource.md).
 
 ## <span id="getCDCFileChangesAndCreateDataFrame"> getCDCFileChangesAndCreateDataFrame
 
@@ -16,7 +16,7 @@ getCDCFileChangesAndCreateDataFrame(
 
 `getCDCFileChangesAndCreateDataFrame` is used when:
 
-* `DeltaSourceBase` is requested to [createDataFrameBetweenOffsets](DeltaSourceBase.md#createDataFrameBetweenOffsets) (and [getFileChangesAndCreateDataFrame](DeltaSourceBase.md#getFileChangesAndCreateDataFrame))
+* `DeltaSourceBase` is requested to [createDataFrameBetweenOffsets](../DeltaSourceBase.md#createDataFrameBetweenOffsets) (and [getFileChangesAndCreateDataFrame](../DeltaSourceBase.md#getFileChangesAndCreateDataFrame))
 
 ## <span id="getFileChangesForCDC"> getFileChangesForCDC
 
@@ -33,7 +33,7 @@ getFileChangesForCDC(
 
 `getFileChangesForCDC` is used when:
 
-* `DeltaSourceBase` is requested to [getFileChangesWithRateLimit](DeltaSourceBase.md#getFileChangesWithRateLimit)
+* `DeltaSourceBase` is requested to [getFileChangesWithRateLimit](../DeltaSourceBase.md#getFileChangesWithRateLimit)
 * `DeltaSourceCDCSupport` is requested to [getCDCFileChangesAndCreateDataFrame](#getCDCFileChangesAndCreateDataFrame)
 
 ### <span id="filterAndIndexDeltaLogs"> filterAndIndexDeltaLogs
@@ -56,6 +56,6 @@ filterCDCActions(
 !!! note
     `version` argument is ignored.
 
-`filterCDCActions` collects the [AddCDCFile](AddCDCFile.md) actions from the given `actions` if there are any.
+`filterCDCActions` collects the [AddCDCFile](../AddCDCFile.md) actions from the given `actions` if there are any.
 
-Otherwise, `filterCDCActions` collects [AddFile](AddFile.md)s and [RemoveFile](RemoveFile.md)s with `dataChange` enabled.
+Otherwise, `filterCDCActions` collects [AddFile](../AddFile.md)s and [RemoveFile](../RemoveFile.md)s with `dataChange` enabled.

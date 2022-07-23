@@ -1,0 +1,3 @@
+# CdcAddFileIndex
+
+`CdcAddFileIndex` is...FIXME

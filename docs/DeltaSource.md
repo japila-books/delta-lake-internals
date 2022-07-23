@@ -2,7 +2,9 @@
 
 `DeltaSource` is a [DeltaSourceBase](DeltaSourceBase.md) of the [delta](DeltaDataSource.md) data source for streaming queries.
 
-`DeltaSource` is a [DeltaSourceCDCSupport](DeltaSourceCDCSupport.md).
+## <span id="DeltaSourceCDCSupport"> DeltaSourceCDCSupport
+
+`DeltaSource` is a [DeltaSourceCDCSupport](change-data-feed/DeltaSourceCDCSupport.md).
 
 ## Creating Instance
 

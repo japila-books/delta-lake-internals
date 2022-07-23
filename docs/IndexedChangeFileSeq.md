@@ -9,7 +9,7 @@
 
 `IndexedChangeFileSeq` is created when:
 
-* `DeltaSourceCDCSupport` is requested to [getFileChangesForCDC](DeltaSourceCDCSupport.md#getFileChangesForCDC)
+* `DeltaSourceCDCSupport` is requested to [getFileChangesForCDC](change-data-feed/DeltaSourceCDCSupport.md#getFileChangesForCDC)
 
 ## <span id="filterFiles"> filterFiles
 
@@ -25,7 +25,7 @@ filterFiles(
 
 `filterFiles` is used when:
 
-* `DeltaSourceCDCSupport` is requested to [getFileChangesForCDC](DeltaSourceCDCSupport.md#getFileChangesForCDC)
+* `DeltaSourceCDCSupport` is requested to [getFileChangesForCDC](change-data-feed/DeltaSourceCDCSupport.md#getFileChangesForCDC)
 
 ## <span id="isValidIndexedFile"> isValidIndexedFile
 

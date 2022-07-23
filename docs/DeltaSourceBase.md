@@ -49,7 +49,7 @@ getFileChangesAndCreateDataFrame(
   endOffset: DeltaSourceOffset): DataFrame
 ```
 
-With [readChangeFeed](DeltaReadOptions.md#readChangeFeed) option enabled, `getFileChangesAndCreateDataFrame` [getCDCFileChangesAndCreateDataFrame](DeltaSourceCDCSupport.md#getCDCFileChangesAndCreateDataFrame).
+With [readChangeFeed](DeltaReadOptions.md#readChangeFeed) option enabled, `getFileChangesAndCreateDataFrame` [getCDCFileChangesAndCreateDataFrame](change-data-feed/DeltaSourceCDCSupport.md#getCDCFileChangesAndCreateDataFrame).
 
 Otherwise, `getFileChangesAndCreateDataFrame`...FIXME
 

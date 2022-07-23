@@ -79,19 +79,29 @@ writeFiles(
   data: Dataset[_],
   writeOptions: Option[DeltaOptions]): Seq[FileAction]
 writeFiles(
-  data: Dataset[_],
+  inputData: Dataset[_],
   writeOptions: Option[DeltaOptions],
-  additionalConstraints: Seq[Constraint]): Seq[FileAction]  // (2)!
+  additionalConstraints: Seq[Constraint]): Seq[FileAction]
 writeFiles(
   data: Dataset[_],
-  additionalConstraints: Seq[Constraint]): Seq[FileAction]
+  additionalConstraints: Seq[Constraint]): Seq[FileAction]  // (2)!
 ```
 
 1. Uses no `additionalConstraints`
-2. `writeOptions` are ignored
+2. Uses no `writeOptions`
 
-`writeFiles` writes the given `data` to a [delta table](#deltaLog).
-`writeFiles` returns [AddFile](AddFile.md)s (that are the new files added to a reservoir).
+`writeFiles` writes the given `data` to a [delta table](#deltaLog) and returns [AddFile](AddFile.md)s with [AddCDCFile](AddCDCFile.md)s (from the [DelayedCommitProtocol](#writeFiles-committer)).
+
+---
+
+`writeFiles` is used when:
+
+* `WriteIntoDelta` is requested to [write](commands/WriteIntoDelta.md#write)
+* `DeleteCommand` is requested to [rewriteFiles](commands/delete/DeleteCommand.md#rewriteFiles)
+* `MergeIntoCommand` is requested to [writeInsertsOnlyWhenNoMatchedClauses](commands/merge/MergeIntoCommand.md#writeInsertsOnlyWhenNoMatchedClauses) and [writeAllChanges](commands/merge/MergeIntoCommand.md#writeAllChanges)
+* `OptimizeExecutor` is requested to [runOptimizeBinJob](commands/optimize/OptimizeExecutor.md#runOptimizeBinJob)
+* `UpdateCommand` is requested to [rewriteFiles](commands/update/UpdateCommand.md#rewriteFiles)
+* `DeltaSink` is requested to [add a streaming micro-batch](DeltaSink.md#addBatch)
 
 ---
 
@@ -111,28 +121,66 @@ writeFiles(
 
 In the end, `writeFiles` returns the [addedStatuses](DelayedCommitProtocol.md#addedStatuses) of the [DelayedCommitProtocol](#writeFiles-committer) committer.
 
+---
+
 Internally, `writeFiles` turns the [hasWritten](#hasWritten) flag on (`true`).
 
 !!! note
     After `writeFiles`, no [metadata updates](OptimisticTransactionImpl.md#updateMetadata-AssertionError-hasWritten) in the transaction are permitted.
 
-`writeFiles` [normalize](#normalizeData) the given `data` dataset (based on the [partitionColumns](Metadata.md#partitionColumns) of the [Metadata](OptimisticTransactionImpl.md#metadata)).
+`writeFiles` [performCDCPartition](#performCDCPartition) (into a possibly-augmented CDF-aware `DataFrame` and a corresponding schema with an additional [CDF-aware __is_cdc column](change-data-feed/CDCReader.md#CDC_PARTITION_COL)).
 
-`writeFiles` [getPartitioningColumns](#getPartitioningColumns) based on the [partitionSchema](Metadata.md#partitionSchema) of the [Metadata](OptimisticTransactionImpl.md#metadata).
+`writeFiles` [normalize](#normalizeData) the (possibly-augmented CDF-aware) `DataFrame`.
+
+`writeFiles` [gets the partitioning columns](#getPartitioningColumns) based on the (possibly-augmented CDF-aware) partition schema.
 
 ### <span id="writeFiles-committer"> DelayedCommitProtocol Committer
 
 `writeFiles` [creates a DelayedCommitProtocol committer](#getCommitter) for the [data path](DeltaLog.md#dataPath) (of the [DeltaLog](#deltaLog)).
 
+### <span id="writeFiles-optionalStatsTracker"> DeltaJobStatisticsTracker
+
+`writeFiles` creates a [DeltaJobStatisticsTracker](DeltaJobStatisticsTracker.md) if [spark.databricks.delta.stats.collect](DeltaSQLConf.md#DELTA_COLLECT_STATS) configuration property is enabled.
+
 ### <span id="writeFiles-constraints"> Constraints
 
-`writeFiles` collects [constraints](constraints/Constraint.md)s from the [table metadata](constraints/Constraints.md#getAll) and the generated columns.
+`writeFiles` collects [constraints](constraints/Constraint.md)s:
+
+1. From the [table metadata](constraints/Constraints.md#getAll)
+1. Generated columns (after [normalizeData](#normalizeData))
+1. The given `additionalConstraints`
+
+### <span id="writeFiles-deltaTransactionalWrite"> deltaTransactionalWrite Execution ID
+
+`writeFiles` requests a new Execution ID (that is used to track all Spark jobs of `FileFormatWriter.write` in Spark SQL) with the physical query plan after [normalizeData](#normalizeData) and `deltaTransactionalWrite` name.
 
 ### <span id="writeFiles-DeltaInvariantCheckerExec"><span id="writeFiles-FileFormatWriter"> DeltaInvariantCheckerExec
 
-`writeFiles` requests a new Execution ID (that is used to track all Spark jobs of `FileFormatWriter.write` in Spark SQL) with a physical query plan of a new [DeltaInvariantCheckerExec](constraints/DeltaInvariantCheckerExec.md) unary physical operator (with the executed plan of the normalized query execution as the child operator)
+`writeFiles` creates a [DeltaInvariantCheckerExec](constraints/DeltaInvariantCheckerExec.md) unary physical operator (with the executed plan of the normalized query execution as the child operator).
 
-### <span id="getCommitter"> Creating Committer
+### <span id="writeFiles-BasicWriteJobStatsTracker"> BasicWriteJobStatsTracker
+
+`writeFiles` creates a `BasicWriteJobStatsTracker` ([Spark SQL]({{ book.spark_sql }}/datasources/BasicWriteJobStatsTracker)) if [spark.databricks.delta.history.metricsEnabled](DeltaSQLConf.md#DELTA_HISTORY_METRICS_ENABLED) configuration property is enabled.
+
+### <span id="writeFiles-options"> Write Options
+
+`writeFiles` filters out all the [write options](DeltaOptions.md) (from the given `writeOptions`) except the following:
+
+1. [maxRecordsPerFile](DeltaOptions.md#MAX_RECORDS_PER_FILE)
+1. [compression](DeltaOptions.md#COMPRESSION)
+
+### <span id="writeFiles-FileFormatWriter"> FileFormatWriter
+
+As the last step under the [new execution ID](#writeFiles-deltaTransactionalWrite) `writeFiles` writes out the data (using [FileFormatWriter]({{ book.spark_sql }}/datasources/FileFormatWriter#write)).
+
+!!! tip
+    Enable `ALL` logging level for [org.apache.spark.sql.execution.datasources.FileFormatWriter]({{ book.spark_sql }}/datasources/FileFormatWriter#logging) logger to see what happens inside.
+
+### <span id="writeFiles-FileActions"> AddFiles and AddCDCFiles
+
+In the end, `writeFiles` returns [AddFile](AddFile.md)s and [AddCDCFile](AddCDCFile.md)s (from the [DelayedCommitProtocol](#writeFiles-committer)).
+
+## <span id="getCommitter"> Creating Committer
 
 ```scala
 getCommitter(
@@ -141,7 +189,7 @@ getCommitter(
 
 `getCommitter` creates a new [DelayedCommitProtocol](DelayedCommitProtocol.md) with the `delta` job ID and the given `outputPath` (and no random prefix).
 
-### <span id="getPartitioningColumns"> getPartitioningColumns
+## <span id="getPartitioningColumns"> getPartitioningColumns
 
 ```scala
 getPartitioningColumns(
@@ -152,17 +200,17 @@ getPartitioningColumns(
 
 `getPartitioningColumns`...FIXME
 
-### <span id="normalizeData"> normalizeData
+## <span id="normalizeData"> normalizeData
 
 ```scala
 normalizeData(
-  data: Dataset[_],
-  partitionCols: Seq[String]): (QueryExecution, Seq[Attribute])
+  deltaLog: DeltaLog,
+  data: Dataset[_]): (QueryExecution, Seq[Attribute], Seq[Constraint], Set[String])
 ```
 
 `normalizeData`...FIXME
 
-### <span id="makeOutputNullable"> makeOutputNullable
+## <span id="makeOutputNullable"> makeOutputNullable
 
 ```scala
 makeOutputNullable(
@@ -171,9 +219,18 @@ makeOutputNullable(
 
 `makeOutputNullable`...FIXME
 
-### <span id="writeFiles-usage"> Usage
+## <span id="performCDCPartition"> performCDCPartition
 
-`writeFiles` is used when:
+```scala
+performCDCPartition(
+  inputData: Dataset[_]): (DataFrame, StructType)
+```
 
-* [DeleteCommand](commands/delete/DeleteCommand.md), [MergeIntoCommand](commands/merge/MergeIntoCommand.md), [OptimizeTableCommand](./commands/optimize/OptimizeTableCommand.md), [UpdateCommand](commands/update/UpdateCommand.md) and [WriteIntoDelta](commands/WriteIntoDelta.md) commands are executed
-* `DeltaSink` is requested to [add a streaming micro-batch](DeltaSink.md#addBatch)
+`performCDCPartition` returns the input `inputData` with or without [__is_cdc](change-data-feed/CDCReader.md#CDC_PARTITION_COL) extra column based on whether [Change Data Feed is enabled](change-data-feed/CDCReader.md#isCDCEnabledOnTable) for the table and [_change_type](change-data-feed/CDCReader.md#CDC_TYPE_COLUMN_NAME) column is available in the schema of the given `inputData` or not.
+
+The value of the [__is_cdc](change-data-feed/CDCReader.md#CDC_PARTITION_COL) extra column is as follows:
+
+* `true` for non-null `_change_type`s
+* `false` otherwise
+
+The schema (the `StructType` of the tuple to be returned) includes the [__is_cdc](change-data-feed/CDCReader.md#CDC_PARTITION_COL) extra column as the first column (followed by the [physicalPartitionSchema](Metadata.md#physicalPartitionSchema)).
