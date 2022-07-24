@@ -1041,6 +1041,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://books.japila.pl/delta-lake-internals/demo/change-data-feed/</loc>
+         <lastmod>2022-07-24</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://books.japila.pl/delta-lake-internals/demo/column-mapping/</loc>
          <lastmod>2022-07-24</lastmod>
          <changefreq>daily</changefreq>
