@@ -46,23 +46,33 @@ Otherwise, `getVersionForCDC` uses the given `options` map to get the value of t
 
 If neither the given `versionKey` nor the `timestampKey` key is available in the `options` map, `getVersionForCDC` returns `None` (_undefined value_).
 
-## <span id="CDC_COLUMNS_IN_DATA"> CDC_COLUMNS_IN_DATA
+## <span id="CDC_COLUMNS_IN_DATA"> CDF Virtual Columns
 
 ```scala
 CDC_COLUMNS_IN_DATA: Seq[String]
 ```
 
-`CDCReader` defines a `CDC_COLUMNS_IN_DATA` collection with [CDC_PARTITION_COL](#CDC_PARTITION_COL) and [CDC_TYPE_COLUMN_NAME](#CDC_TYPE_COLUMN_NAME) column names.
+`CDCReader` defines a `CDC_COLUMNS_IN_DATA` collection with [__is_cdc](#CDC_PARTITION_COL) and [_change_type](#CDC_TYPE_COLUMN_NAME) CDF-specific columns.
 
-## <span id="CDC_PARTITION_COL"><span id="__is_cdc"> __is_cdc Column
+### <span id="CDC_PARTITION_COL"><span id="__is_cdc"> __is_cdc Partition Column
 
-`CDCReader` defines `__is_cdc` virtual column name...FIXME
+`CDCReader` defines `__is_cdc` column name to partition on with [Change Data Feed](#isCDCEnabledOnTable) enabled.
 
-## <span id="CDC_TYPE_COLUMN_NAME"><span id="_change_type"> _change_type Column
+`__is_cdc` column is added when `TransactionalWrite` is requested to [performCDCPartition](../TransactionalWrite.md#performCDCPartition) with [CDF enabled on a delta table](#isCDCEnabledOnTable) (and [_change_type](#CDC_TYPE_COLUMN_NAME) among the columns).
 
-`CDCReader` defines `_change_type` column name that represents a change type column.
+If added, `__is_cdc` column becomes the first partitioning column. It is then "consumed" by [DelayedCommitProtocol](../DelayedCommitProtocol.md#cdc) (to write changes to `cdc-`-prefixed files, not `part-`).
 
-`CDC_TYPE_COLUMN_NAME` is among the [CDC_COLUMNS_IN_DATA](#CDC_COLUMNS_IN_DATA) and [cdcReadSchema](#cdcReadSchema).
+`__is_cdc` is one of the [CDF Virtual Columns](#CDC_COLUMNS_IN_DATA).
+
+Used when:
+
+* `DelayedCommitProtocol` is requested to [getFileName](../DelayedCommitProtocol.md#getFileName) and [buildActionFromAddedFile](../DelayedCommitProtocol.md#buildActionFromAddedFile)
+
+### <span id="CDC_TYPE_COLUMN_NAME"><span id="_change_type"> _change_type Column
+
+`CDCReader` defines `_change_type` column name for a column that represents a change type.
+
+`_change_type` is one of the [CDF Virtual Columns](#CDC_COLUMNS_IN_DATA) and [cdcReadSchema](#cdcReadSchema).
 
 `CDC_TYPE_COLUMN_NAME` is used when:
 

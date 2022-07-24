@@ -7,15 +7,13 @@
 !!! note
     `FileCommitProtocol` allows to track a write job (with a write task per partition) and inform the driver when all the write tasks finished successfully (and were [committed](#commitTask)) to consider the write job [completed](#commitJob). `TaskCommitMessage` (Spark Core) allows to "transfer" the files added (written out) on the executors to the driver for the [optimistic transactional writer](TransactionalWrite.md#writeFiles).
 
-`DelayedCommitProtocol` is a `Serializable`.
-
 ## Creating Instance
 
 `DelayedCommitProtocol` takes the following to be created:
 
 * [Job ID](#jobId)
 * [Data path](#path)
-* [Length of Random Prefix](#randomPrefixLength)
+* [Length of the random prefix](#randomPrefixLength)
 
 `DelayedCommitProtocol` is created when:
 
@@ -36,6 +34,16 @@ The path is the [data directory](DeltaLog.md#dataPath) of a [delta table](DeltaL
 `DelayedCommitProtocol` can be given a `randomPrefixLength` when [created](#creating-instance).
 
 The `randomPrefixLength` is [always undefined](TransactionalWrite.md#getCommitter) (`None`).
+
+## <span id="cdc"><span id="cdcPartitionFalse"><span id="cdcPartitionTrue"><span id="cdcPartitionTrueRegex"> Change Data Feed Partition Handling
+
+`DelayedCommitProtocol` defines 3 values to support [Change Data Feed](change-data-feed/index.md):
+
+* `__is_cdc=false`
+* `__is_cdc=true`
+* A `Regex` to match on `__is_cdc=true` text
+
+`DelayedCommitProtocol` uses them for [newTaskTempFile](#newTaskTempFile) (to create temporary files in [_change_data](change-data-feed/CDCReader.md#CDC_LOCATION) directory instead based on the regular expression).
 
 ## <span id="addedFiles"> addedFiles
 
@@ -149,15 +157,19 @@ getFileName(
   partitionValues: Map[String, String]): String
 ```
 
-`getFileName` takes the task ID from the given `TaskAttemptContext` ([Apache Spark]({{ book.spark_core }}/TaskAttemptContext)) (for the `split` part below).
-
-`getFileName` generates a random UUID (for the `uuid` part below).
-
-In the end, `getFileName` returns a file name of the format:
+`getFileName` returns a file name of the format:
 
 ```text
-part-[split]-[uuid][ext]
+[prefix]-[split]-[uuid][ext]
 ```
+
+The file name is created as follows:
+
+1. The `prefix` part is one of the following:
+    * `cdc` for the given `partitionValues` with the [__is_cdc](change-data-feed/CDCReader.md#CDC_PARTITION_COL) partition column with `true` value
+    * `part` otherwise
+1. The `split` part is the task ID from the given `TaskAttemptContext` ([Apache Hadoop]({{ hadoop.api }}/org/apache/hadoop/mapreduce/TaskAttemptContext.html))
+1. The `uuid` part is a random UUID
 
 ## <span id="newTaskTempFileAbsPath"> New Temp File (Absolute Path)
 
@@ -185,10 +197,26 @@ commitTask(
 
 `commitTask` is part of the `FileCommitProtocol` ([Apache Spark]({{ book.spark_core }}/FileCommitProtocol#commitTask)) abstraction.
 
-`commitTask` creates a `TaskCommitMessage` with an [AddFile](AddFile.md) for every [file added](#addedFiles) if there are any. Otherwise, `commitTask` creates an empty `TaskCommitMessage`.
+---
+
+`commitTask` creates a `TaskCommitMessage` with a [FileAction](#buildActionFromAddedFile) for every [file added](#addedFiles) (if there are any). Otherwise, `commitTask` creates an empty `TaskCommitMessage`.
 
 !!! note
     A file is added (to the [addedFiles](#addedFiles) internal registry) when `DelayedCommitProtocol` is requested for a [new file (path)](#newTaskTempFile).
+
+### <span id="buildActionFromAddedFile"> buildActionFromAddedFile
+
+```scala
+buildActionFromAddedFile(
+  f: (Map[String, String], String),
+  stat: FileStatus,
+  taskContext: TaskAttemptContext): FileAction
+```
+
+`buildActionFromAddedFile` removes the [__is_cdc](change-data-feed/CDCReader.md#CDC_PARTITION_COL) virtual partition column and creates a [FileAction](FileAction.md):
+
+* [AddCDCFile](AddCDCFile.md)s for [__is_cdc=true](change-data-feed/CDCReader.md#CDC_PARTITION_COL) partition files
+* [AddFile](AddFile.md)s otherwise
 
 ## <span id="abortTask"> Aborting Task
 
