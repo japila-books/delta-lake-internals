@@ -29,12 +29,12 @@ Welcome to
    /___/ .__/\_,_/_/ /_/\_\   version 3.2.1
       /_/
 
-Using Scala version 2.12.15, OpenJDK 64-Bit Server VM, 11.0.14
+Using Scala version 2.12.15, OpenJDK 64-Bit Server VM, 11.0.15
 ```
 
 ```text
 ./bin/spark-shell \
-  --packages io.delta:delta-core_2.12:1.2.1 \
+  --packages io.delta:delta-core_2.12:{{ delta.version }} \
   --conf spark.sql.extensions=io.delta.sql.DeltaSparkSessionExtension \
   --conf spark.sql.catalog.spark_catalog=org.apache.spark.sql.delta.catalog.DeltaCatalog
 ```
@@ -43,9 +43,8 @@ Using Scala version 2.12.15, OpenJDK 64-Bit Server VM, 11.0.14
 
 `io.delta.VERSION` can be used to show the version of Delta Lake installed.
 
-```text
-scala> println(io.delta.VERSION)
-1.2.1
+```scala
+assert(io.delta.VERSION == "{{ delta.version }}")
 ```
 
 It is also possible to use [DESCRIBE HISTORY](sql/index.md#DESCRIBE-HISTORY) and check out the [engineInfo](CommitInfo.md#engineInfo) column.

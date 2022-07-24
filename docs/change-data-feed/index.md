@@ -8,9 +8,9 @@ As they put it (in [this comment](https://github.com/delta-io/delta/commit/d90f9
 
 Change Data Feed is a new feature in Delta Lake 2.0.0 (that was tracked under [Support for Change Data Feed in Delta Lake #1105]({{ delta.issues }}/1105)).
 
-## Enabling CDC for a Delta table
+## Enabling CDF for a Delta table
 
-Enable CDC for a table using [delta.enableChangeDataFeed](#delta.enableChangeDataFeed) table property.
+Enable CDF for a table using [delta.enableChangeDataFeed](#delta.enableChangeDataFeed) table property.
 
 ```sql
 ALTER TABLE myDeltaTable
@@ -19,7 +19,7 @@ SET TBLPROPERTIES (delta.enableChangeDataFeed = true)
 
 ```sql
 CREATE TABLE student (id INT, name STRING, age INT)
-USING DELTA
+USING delta
 TBLPROPERTIES (delta.enableChangeDataFeed = true)
 ```
 
@@ -70,6 +70,10 @@ Change Data Feed requires the [minimum protocol version to be 0 for readers and 
 ## Column Mapping Not Supported
 
 Change data feed reads are currently not supported on tables with [column mapping](../column-mapping/index.md) enabled (and a [DeltaUnsupportedOperationException is thrown](CDCReader.md#changesToDF)).
+
+## Demo
+
+[Change Data Feed](../demo/change-data-feed.md)
 
 ## Learn More
 

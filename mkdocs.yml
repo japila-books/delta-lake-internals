@@ -359,6 +359,7 @@ nav:
     - WriteIntoDelta: commands/WriteIntoDelta.md
   - Demos:
     - demo/index.md
+    - Change Data Feed: demo/change-data-feed.md
     - Generated Columns: demo/generated-columns.md
     - Column Mapping: demo/column-mapping.md
     - Rolling Back Table Changes (Restore Command): demo/rolling-back-table-changes-restore-command.md
