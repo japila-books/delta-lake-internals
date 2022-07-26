@@ -1,12 +1,8 @@
 # DeltaOptions
 
-`DeltaOptions` is a [DeltaWriteOptions](DeltaWriteOptions.md) and [DeltaReadOptions](DeltaReadOptions.md).
-
-`DeltaOptions` is a type-safe abstraction of write and read options.
+`DeltaOptions` is a type-safe abstraction of the supported [write](DeltaWriteOptions.md) and [read](DeltaReadOptions.md) options.
 
 `DeltaOptions` is used to create [WriteIntoDelta](commands/WriteIntoDelta.md) command, [DeltaSink](DeltaSink.md), and [DeltaSource](DeltaSource.md).
-
-`DeltaOptions` is a `Serializable` ([Java]({{ java.api }}/java.base/java/io/Serializable.html)) (so it can be used in Spark tasks).
 
 ## Creating Instance
 
@@ -15,7 +11,7 @@
 * <span id="options"> Case-Insensitive Options
 * <span id="sqlConf"> `SQLConf` ([Spark SQL]({{ book.spark_sql }}/SQLConf))
 
-When created, `DeltaOptions` [verifies](#verifyOptions) the input options.
+When created, `DeltaOptions` [verifies](#verifyOptions) the [options](#options).
 
 `DeltaOptions` is created when:
 
@@ -35,9 +31,13 @@ verifyOptions(
 `verifyOptions` finds invalid options among the input `options`.
 
 !!! note
-    In the open-source version `verifyOptions` does nothing. The underlying objects (`recordDeltaEvent` and the others) are no-ops.
+    In the open-source version `verifyOptions` does really nothing. The underlying objects (`recordDeltaEvent` and the others) are no-ops.
 
 `verifyOptions` is used when:
 
 * `DeltaOptions` is [created](#creating-instance)
 * `DeltaDataSource` is requested for a [relation (for loading data in batch queries)](DeltaDataSource.md#RelationProvider-createRelation)
+
+## <span id="Serializable"> Serializable
+
+`DeltaOptions` is a `Serializable` ([Java]({{ java.api }}/java.base/java/io/Serializable.html)) (so it can be used in Spark tasks).

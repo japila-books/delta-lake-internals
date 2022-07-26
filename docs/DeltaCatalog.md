@@ -1,8 +1,48 @@
 # DeltaCatalog
 
-`DeltaCatalog` is a `DelegatingCatalogExtension` ([Spark SQL]({{ book.spark_sql }}/connector/catalog/DelegatingCatalogExtension/)) and a `StagingTableCatalog` ([Spark SQL]({{ book.spark_sql }}/connector/catalog/StagingTableCatalog/)).
+`DeltaCatalog` is a `DelegatingCatalogExtension` ([Spark SQL]({{ book.spark_sql }}/connector/catalog/DelegatingCatalogExtension/)) and a [StagingTableCatalog](#StagingTableCatalog).
 
 `DeltaCatalog` is [registered](installation.md) using `spark.sql.catalog.spark_catalog` ([Spark SQL]({{ book.spark_sql }}/configuration-properties/#spark.sql.catalog.spark_catalog)) configuration property.
+
+## <span id="StagingTableCatalog"> StagingTableCatalog
+
+`DeltaCatalog` is a `StagingTableCatalog` ([Spark SQL]({{ book.spark_sql }}/connector/catalog/StagingTableCatalog/)).
+
+### <span id="stageCreate"> stageCreate
+
+```scala
+stageCreate
+```
+
+`stageCreate` is part of the `StagingTableCatalog` ([Spark SQL]({{ book.spark_sql }}/connector/catalog/StagingTableCatalog/#stageCreate)) abstraction.
+
+---
+
+`stageCreate`...FIXME
+
+### <span id="stageCreateOrReplace"> stageCreateOrReplace
+
+```scala
+stageCreateOrReplace
+```
+
+`stageCreateOrReplace` is part of the `StagingTableCatalog` ([Spark SQL]({{ book.spark_sql }}/connector/catalog/StagingTableCatalog/#stageCreateOrReplace)) abstraction.
+
+---
+
+`stageCreateOrReplace`...FIXME
+
+### <span id="stageReplace"> stageReplace
+
+```scala
+stageReplace
+```
+
+`stageReplace` is part of the `StagingTableCatalog` ([Spark SQL]({{ book.spark_sql }}/connector/catalog/StagingTableCatalog/#stageReplace)) abstraction.
+
+---
+
+`stageReplace`...FIXME
 
 ## <span id="alterTable"> Altering Table
 
@@ -76,8 +116,9 @@ createDeltaTable(
   ident: Identifier,
   schema: StructType,
   partitions: Array[Transform],
-  properties: util.Map[String, String],
-  sourceQuery: Option[LogicalPlan],
+  allTableProperties: Map[String, String],
+  writeOptions: Map[String, String],
+  sourceQuery: Option[DataFrame],
   operation: TableCreationModes.CreationMode): Table
 ```
 
@@ -85,5 +126,5 @@ createDeltaTable(
 
 `createDeltaTable` is used when:
 
-* `DeltaCatalog` is requested to [createTable](#createTable)
+* `DeltaCatalog` is requested to [create a table](#createTable) (with `Create` operation)
 * `StagedDeltaTableV2` is requested to [commitStagedChanges](StagedDeltaTableV2.md#commitStagedChanges)

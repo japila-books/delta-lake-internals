@@ -1,6 +1,9 @@
 # DeltaWriteOptionsImpl
 
-`DeltaWriteOptionsImpl` is a [DeltaOptionParser](DeltaOptionParser.md).
+`DeltaWriteOptionsImpl` is an [extension](#contract) of the [DeltaOptionParser](DeltaOptionParser.md) abstraction.
+
+!!! note "Fun Fact"
+    Despite the suffix (`Impl`), `DeltaWriteOptionsImpl` is not an implementation (_class_) but a trait.
 
 ## <span id="canMergeSchema"> canMergeSchema
 
@@ -21,7 +24,7 @@ canMergeSchema: Boolean
 canOverwriteSchema: Boolean
 ```
 
-`canOverwriteSchema` is the value of [overwriteSchema](options.md#OVERWRITE_SCHEMA_OPTION) option.
+`canOverwriteSchema` is the value of [overwriteSchema](options.md#OVERWRITE_SCHEMA_OPTION) option (in the [options](DeltaOptionParser.md#options)).
 
 `canOverwriteSchema` is used when:
 
