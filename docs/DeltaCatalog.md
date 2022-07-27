@@ -6,43 +6,61 @@
 
 ## <span id="StagingTableCatalog"> StagingTableCatalog
 
-`DeltaCatalog` is a `StagingTableCatalog` ([Spark SQL]({{ book.spark_sql }}/connector/catalog/StagingTableCatalog/)).
+`DeltaCatalog` is a `StagingTableCatalog` ([Spark SQL]({{ book.spark_sql }}/connector/catalog/StagingTableCatalog/)) that creates a [StagedDeltaTableV2](StagedDeltaTableV2.md) (for [delta data source](DeltaSourceUtils.md#isDeltaDataSourceName)) or a `BestEffortStagedTable`.
 
 ### <span id="stageCreate"> stageCreate
 
 ```scala
-stageCreate
+stageCreate(
+  ident: Identifier,
+  schema: StructType,
+  partitions: Array[Transform],
+  properties: util.Map[String, String]): StagedTable
 ```
 
 `stageCreate` is part of the `StagingTableCatalog` ([Spark SQL]({{ book.spark_sql }}/connector/catalog/StagingTableCatalog/#stageCreate)) abstraction.
 
 ---
 
-`stageCreate`...FIXME
+`stageCreate` creates a [StagedDeltaTableV2](StagedDeltaTableV2.md) (with `TableCreationModes.Create` operation) for [delta data source](DeltaSourceUtils.md#isDeltaDataSourceName) only (based on the given `properties` or [spark.sql.sources.default](#getProvider) configuration property).
+
+Otherwise, `stageCreate` creates a `BestEffortStagedTable` (requesting the parent `TableCatalog` to create a table).
 
 ### <span id="stageCreateOrReplace"> stageCreateOrReplace
 
 ```scala
-stageCreateOrReplace
+stageCreateOrReplace(
+  ident: Identifier,
+  schema: StructType,
+  partitions: Array[Transform],
+  properties: util.Map[String, String]): StagedTable
 ```
 
 `stageCreateOrReplace` is part of the `StagingTableCatalog` ([Spark SQL]({{ book.spark_sql }}/connector/catalog/StagingTableCatalog/#stageCreateOrReplace)) abstraction.
 
 ---
 
-`stageCreateOrReplace`...FIXME
+`stageCreateOrReplace` creates a [StagedDeltaTableV2](StagedDeltaTableV2.md) (with `TableCreationModes.CreateOrReplace` operation) for [delta data source](DeltaSourceUtils.md#isDeltaDataSourceName) only (based on the given `properties` or [spark.sql.sources.default](#getProvider) configuration property).
+
+Otherwise, `stageCreateOrReplace` requests the parent `TableCatalog` to drop the table first and then creates a `BestEffortStagedTable` (requesting the parent `TableCatalog` to create the table).
 
 ### <span id="stageReplace"> stageReplace
 
 ```scala
-stageReplace
+stageReplace(
+  ident: Identifier,
+  schema: StructType,
+  partitions: Array[Transform],
+  properties: util.Map[String, String]): StagedTable
 ```
 
 `stageReplace` is part of the `StagingTableCatalog` ([Spark SQL]({{ book.spark_sql }}/connector/catalog/StagingTableCatalog/#stageReplace)) abstraction.
 
 ---
 
-`stageReplace`...FIXME
+`stageReplace` creates a [StagedDeltaTableV2](StagedDeltaTableV2.md) (with `TableCreationModes.Replace` operation) for [delta data source](DeltaSourceUtils.md#isDeltaDataSourceName) only (based on the given `properties` or [spark.sql.sources.default](#getProvider) configuration property).
+
+Otherwise, `stageReplace` requests the parent `TableCatalog` to drop the table first and then creates a `BestEffortStagedTable` (requesting the parent `TableCatalog` to create the table).
 
 ## <span id="alterTable"> Altering Table
 
@@ -94,6 +112,8 @@ createTable(
 
 `createTable` is part of the `TableCatalog` ([Spark SQL]({{ book.spark_sql }}/connector/catalog/TableCatalog/#createTable)) abstraction.
 
+---
+
 `createTable`...FIXME
 
 ## <span id="loadTable"> Loading Table
@@ -104,6 +124,8 @@ loadTable(
 ```
 
 `loadTable` is part of the `TableCatalog` ([Spark SQL]({{ book.spark_sql }}/connector/catalog/TableCatalog/#loadTable)) abstraction.
+
+---
 
 `loadTable` loads a table by the given identifier from a catalog.
 
@@ -126,5 +148,25 @@ createDeltaTable(
 
 `createDeltaTable` is used when:
 
-* `DeltaCatalog` is requested to [create a table](#createTable) (with `Create` operation)
+* `DeltaCatalog` is requested to [create a table](#createTable)
 * `StagedDeltaTableV2` is requested to [commitStagedChanges](StagedDeltaTableV2.md#commitStagedChanges)
+
+### <span id="createDeltaTable-operation"> Operation
+
+`createDeltaTable` is given an argument of type `TableCreationModes.CreationMode`:
+
+* `Create` when [DeltaCatalog creates a table](#createTable)
+* `StagedDeltaTableV2` is given a [CreationMode](StagedDeltaTableV2.md#operation) when created
+
+## <span id="getProvider"> Looking Up Table Provider
+
+```scala
+getProvider(
+  properties: util.Map[String, String]): String
+```
+
+`getProvider` takes the value of the `provider` from the given `properties` (if available) or defaults to the value of `spark.sql.sources.default` ([Spark SQL]({{ book.spark_sql }}/configuration-properties#spark.sql.sources.default)) configuration property.
+
+`getProvider` is used when:
+
+* `DeltaCatalog` is requested to [createTable](#createTable), [stageReplace](#stageReplace), [stageCreateOrReplace](#stageCreateOrReplace) and [stageCreate](#stageCreate)

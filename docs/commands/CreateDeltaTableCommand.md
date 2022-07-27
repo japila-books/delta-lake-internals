@@ -1,6 +1,6 @@
 # CreateDeltaTableCommand
 
-`CreateDeltaTableCommand` is a `RunnableCommand` ([Spark SQL]({{ book.spark_sql }}/logical-operators/RunnableCommand/)) to [create a delta table](#run) (for [DeltaCatalog](../DeltaCatalog.md#createDeltaTable)).
+`CreateDeltaTableCommand` is a leaf `RunnableCommand` ([Spark SQL]({{ book.spark_sql }}/logical-operators/RunnableCommand/)) to [create a delta table](#run) (for [DeltaCatalog](../DeltaCatalog.md#createDeltaTable)).
 
 ## Creating Instance
 
@@ -20,13 +20,13 @@
 
 ### <span id="operation"> CreationMode
 
-`CreateDeltaTableCommand` is given a `CreationMode` when [created](#creating-instance):
+`CreateDeltaTableCommand` can be given a `CreationMode` when [created](#creating-instance):
 
-* `Create`
+* `Create` (default)
 * `CreateOrReplace`
 * `Replace`
 
-The `CreationMode` is passed on from [DeltaCatalog](../DeltaCatalog.md#createDeltaTable).
+`CreationMode` is `Create` by default or specified by [DeltaCatalog](../DeltaCatalog.md#createDeltaTable).
 
 ## <span id="run"> Executing Command
 
@@ -39,18 +39,7 @@ run(
 
 ---
 
-`run` creates a [DeltaLog](../DeltaLog.md#forTable) (for the given [table](#table) based on a table location) and a [DeltaOptions](../DeltaOptions.md).
-
-`run` [starts a transaction](../DeltaLog.md#startTransaction).
-
-`run` branches off based on the optional [data query](#query). For [data query](#query) defined, `run` creates a [WriteIntoDelta](WriteIntoDelta.md) and requests it to [write](WriteIntoDelta.md#write). Otherwise, `run` creates an empty table.
-
-!!! note
-    `run` does a bit more, but I don't think it's of much interest.
-
-`run` [commits the transaction](../DeltaLog.md#commit).
-
-In the end, `run` [updateCatalog](#updateCatalog).
+`run`...FIXME
 
 ### <span id="updateCatalog"> updateCatalog
 

@@ -20,9 +20,9 @@
 
 `StagedDeltaTableV2` is given a `CreationMode` when [created](#creating-instance):
 
-* `Create` when [stageCreate](DeltaCatalog.md#stageCreate)
-* `CreateOrReplace` when [stageCreateOrReplace](DeltaCatalog.md#stageCreateOrReplace)
-* `Replace` when [stageReplace](DeltaCatalog.md#stageReplace)
+* `Create` for [stageCreate](DeltaCatalog.md#stageCreate)
+* `CreateOrReplace` for [stageCreateOrReplace](DeltaCatalog.md#stageCreateOrReplace)
+* `Replace` for [stageReplace](DeltaCatalog.md#stageReplace)
 
 ## <span id="commitStagedChanges"> commitStagedChanges
 
@@ -35,18 +35,6 @@ commitStagedChanges(): Unit
 ---
 
 `commitStagedChanges`...FIXME
-
-## <span id="abortStagedChanges"> abortStagedChanges
-
-```scala
-abortStagedChanges(): Unit
-```
-
-`abortStagedChanges` is part of the `StagedTable` ([Spark SQL]({{ book.spark_sql }}/connector/StagedTable/#abortStagedChanges)) abstraction.
-
----
-
-`abortStagedChanges` does nothing.
 
 ## <span id="newWriteBuilder"> Creating WriteBuilder
 
