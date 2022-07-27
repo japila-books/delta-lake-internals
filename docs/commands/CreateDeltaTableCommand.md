@@ -75,7 +75,7 @@ replaceMetadataIfNecessary(
 !!! note "Unused argument"
     `tableDesc` argument is not used.
 
-`replaceMetadataIfNecessary` determines whether or not it is a replace operation (based on the [CreationMode](#operation)). It is for `CreateOrReplace` or `Replace`.
+`replaceMetadataIfNecessary` determines whether or not it is a replace operation (i.e., `CreateOrReplace` or `Replace` based on the [CreationMode](#operation)).
 
 `replaceMetadataIfNecessary` determines whether or not it is supposed not to overwrite the schema of a Delta table (based on the [overwriteSchema](../DeltaWriteOptionsImpl.md#canOverwriteSchema) option in the input [DeltaOptions](../DeltaOptions.md)).
 

@@ -8,7 +8,7 @@
 
 * <span id="sqlContext"> `SQLContext`
 * <span id="path"> Hadoop [Path]({{ hadoop.api }}/org/apache/hadoop/fs/Path.html) of the delta table (to [write data to](#addBatch) as configured by the [path](options.md#path) option)
-* <span id="partitionColumns"> Names of the partition columns
+* <span id="partitionColumns"> Partition columns
 * <span id="outputMode"> `OutputMode` ([Spark Structured Streaming]({{ book.structured_streaming }}/OutputMode))
 * <span id="options"> [DeltaOptions](DeltaOptions.md)
 
@@ -36,6 +36,10 @@ addBatch(
   data: DataFrame): Unit
 ```
 
+`addBatch` is part of the `Sink` ([Spark Structured Streaming]({{ book.structured_streaming }}/Sink#addBatch)) abstraction.
+
+---
+
 `addBatch` requests the [DeltaLog](#deltaLog) to [start a new transaction](DeltaLog.md#withNewTransaction).
 
 `addBatch` registers the following performance metrics.
@@ -59,10 +63,6 @@ If the batch reads the same delta table as this sink is going to write to, `addB
 
 In the end, `addBatch` requests the `OptimisticTransaction` to [commit](OptimisticTransactionImpl.md#commit) (with a new [SetTransaction](SetTransaction.md), [AddFile](AddFile.md)s and [RemoveFile](RemoveFile.md)s, and [StreamingUpdate](Operation.md#StreamingUpdate) operation).
 
----
-
-`addBatch` is part of the `Sink` ([Spark Structured Streaming]({{ book.structured_streaming }}/Sink#addBatch)) abstraction.
-
 ## <span id="toString"> Text Representation
 
 ```scala
@@ -78,3 +78,30 @@ DeltaSink[path]
 ## <span id="ImplicitMetadataOperation"> ImplicitMetadataOperation
 
 `DeltaSink` is an [ImplicitMetadataOperation](ImplicitMetadataOperation.md).
+
+### <span id="canMergeSchema"> canMergeSchema
+
+```scala
+canMergeSchema: Boolean
+```
+
+`canMergeSchema` is part of the [ImplicitMetadataOperation](ImplicitMetadataOperation.md#canMergeSchema) abstraction.
+
+---
+
+`canMergeSchema` is the value of [canMergeSchema](DeltaWriteOptionsImpl.md#canMergeSchema) option (in the [DeltaOptions](#options)).
+
+### <span id="canOverwriteSchema"> canOverwriteSchema
+
+```scala
+canOverwriteSchema: Boolean
+```
+
+`canOverwriteSchema` is part of the [ImplicitMetadataOperation](ImplicitMetadataOperation.md#canOverwriteSchema) abstraction.
+
+---
+
+`canOverwriteSchema` is `true` when all the following hold:
+
+1. [OutputMode](DeltaWriteOptionsImpl.md#outputMode) is `OutputMode.Complete`
+1. [canOverwriteSchema](DeltaWriteOptionsImpl.md#canOverwriteSchema) is enabled (`true`) (in the [DeltaOptions](#options))

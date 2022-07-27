@@ -100,3 +100,29 @@ val writeCmd = WriteIntoDelta(
 
 writeCmd.run(spark)
 ```
+
+## <span id="canOverwriteSchema"> canOverwriteSchema
+
+```scala
+canOverwriteSchema: Boolean
+```
+
+`canOverwriteSchema` is part of the [ImplicitMetadataOperation](../ImplicitMetadataOperation.md#canOverwriteSchema) abstraction.
+
+---
+
+`canOverwriteSchema` is `true` when all the following hold:
+
+1. [canOverwriteSchema](../DeltaWriteOptionsImpl.md#canOverwriteSchema) is enabled (`true`) (in the [DeltaOptions](#options))
+1. This `WriteIntoDelta` is [overwrite](#isOverwriteOperation) operation
+1. [replaceWhere](../DeltaWriteOptions.md#replaceWhere) option is undefined (in the [DeltaOptions](#options))
+
+## <span id="isOverwriteOperation"> isOverwriteOperation
+
+```scala
+isOverwriteOperation: Boolean
+```
+
+`isOverwriteOperation` is `true` for the [SaveMode](#mode) to be `SaveMode.Overwrite`.
+
+* `WriteIntoDelta` is requested for the [canOverwriteSchema](#canOverwriteSchema) and to [write](#write)

@@ -1,6 +1,6 @@
 # ImplicitMetadataOperation
 
-`ImplicitMetadataOperation` is an [abstraction](#contract) of [operations](#implementations) that can [update metadata](#updateMetadata) of a delta table (while writing out a new data).
+`ImplicitMetadataOperation` is an [abstraction](#contract) of [operations](#implementations) that can [update the metadata](#updateMetadata) of a delta table (while writing out a new data).
 
 `ImplicitMetadataOperation` operations can update schema by [merging](#canMergeSchema) and [overwriting](#canOverwriteSchema) schema.
 
@@ -14,7 +14,7 @@ canMergeSchema: Boolean
 
 Used when:
 
-* `ImplicitMetadataOperation` is requested to [updateMetadata](#updateMetadata)
+* `ImplicitMetadataOperation` is requested to [update the metadata](#updateMetadata)
 
 ### <span id="canOverwriteSchema"> canOverwriteSchema
 
@@ -24,7 +24,7 @@ canOverwriteSchema: Boolean
 
 Used when:
 
-* `ImplicitMetadataOperation` is requested to [updateMetadata](#updateMetadata)
+* `ImplicitMetadataOperation` is requested to [update the metadata](#updateMetadata)
 
 ## Implementations
 
