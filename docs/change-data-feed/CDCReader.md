@@ -54,6 +54,14 @@ CDC_COLUMNS_IN_DATA: Seq[String]
 
 `CDCReader` defines a `CDC_COLUMNS_IN_DATA` collection with [__is_cdc](#CDC_PARTITION_COL) and [_change_type](#CDC_TYPE_COLUMN_NAME) CDF-specific columns.
 
+### <span id="CDC_LOCATION"><span id="_change_data"> _change_data Directory
+
+`CDCReader` defines `_change_data` as the name of the directory (under the data directory) where data changes of a delta table are written out (using [DelayedCommitProtocol](../DelayedCommitProtocol.md#newTaskTempFile)). This directory may contain partition directories.
+
+Used when:
+
+* `DelayedCommitProtocol` is requested for the [newTaskTempFile](../DelayedCommitProtocol.md#newTaskTempFile)
+
 ### <span id="CDC_PARTITION_COL"><span id="__is_cdc"> __is_cdc Partition Column
 
 `CDCReader` defines `__is_cdc` column name to partition on with [Change Data Feed](#isCDCEnabledOnTable) enabled.

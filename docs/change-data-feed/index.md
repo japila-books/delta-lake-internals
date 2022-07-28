@@ -6,6 +6,8 @@ With so-called [CDC-Aware Table Scan (CDC Read)](CDCReader.md#isCDCRead), [loadi
 
 As they put it (in [this comment](https://github.com/delta-io/delta/commit/d90f90b6656648e170835f92152b69f77346dfcf)), [CDCReader](CDCReader.md) is the key class used for Change Data Feed (with [DelayedCommitProtocol](../DelayedCommitProtocol.md) to handle it properly).
 
+Non-CDC data is written out to the base directory of a delta table, while CDC data is written out to the [_change_data](CDCReader.md#CDC_LOCATION) special folder.
+
 Change Data Feed is a new feature in Delta Lake 2.0.0 (that was tracked under [Support for Change Data Feed in Delta Lake #1105]({{ delta.issues }}/1105)).
 
 ## Enabling CDF for a Delta table

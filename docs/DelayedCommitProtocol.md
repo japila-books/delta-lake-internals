@@ -1,6 +1,6 @@
 # DelayedCommitProtocol
 
-`DelayedCommitProtocol` is a `FileCommitProtocol` ([Apache Spark]({{ book.spark_core }}/FileCommitProtocol)) to write out data to a [directory](#path) and return the [files added](#addedStatuses).
+`DelayedCommitProtocol` is a `FileCommitProtocol` ([Apache Spark]({{ book.spark_core }}/FileCommitProtocol)) to write out data to a [directory](#path) and return the [files added](#addedFiles).
 
 `DelayedCommitProtocol` is used to model a distributed write that is orchestrated by the Spark driver with the write itself happening on executors.
 
@@ -53,15 +53,15 @@ The `randomPrefixLength` is [always undefined](TransactionalWrite.md#getCommitte
 addedFiles: ArrayBuffer[(Map[String, String], String)]
 ```
 
-`DelayedCommitProtocol` uses `addedFiles` internal registry to track the files [added by a Spark write task](#newTaskTempFile).
+`DelayedCommitProtocol` uses `addedFiles` internal registry to track the [partition values](#parsePartitions) (if writing happened to a partitioned table) and the relative paths of the files that were [added by a write task](#newTaskTempFile).
 
-`addedFiles` is used on the executors only.
+`addedFiles` is used on executors only.
 
 `addedFiles` is initialized (as an empty collection) when [setting up a task](#setupTask).
 
 `addedFiles` is used when:
 
-* `DelayedCommitProtocol` is requested to [commit a task](#commitTask) (on an executor and create a `TaskCommitMessage` with the files added while a task was writing out a partition of a streaming query)
+* `DelayedCommitProtocol` is requested to [commit a task](#commitTask) (on an executor and create a `TaskCommitMessage` with the files added while a task was writing data out)
 
 ## <span id="addedStatuses"> AddFiles
 
@@ -114,7 +114,11 @@ commitJob(
 
 `commitJob` is part of the `FileCommitProtocol` ([Apache Spark]({{ book.spark_core }}/FileCommitProtocol#commitJob)) abstraction.
 
-`commitJob` adds the [AddFile](AddFile.md)s (from the given `taskCommits` from every [commitTask](#commitTask)) to the [addedStatuses](#addedStatuses) internal registry.
+---
+
+`commitJob` partitions the given `TaskCommitMessage`s into a collection of [AddFile](AddFile.md)s and [AddCDCFile](AddCDCFile.md)s.
+
+In the end, `commitJob` adds the `AddFile`s to [addedStatuses](#addedStatuses) registry while the `AddCDCFile`s to the [changeFiles](#changeFiles).
 
 ## <span id="abortJob"> Aborting Job
 
@@ -138,7 +142,7 @@ setupTask(
 
 `setupTask` initializes the [addedFiles](#addedFiles) internal registry to be empty.
 
-## <span id="newTaskTempFile"> New Temp File (Relative Path)
+## <span id="newTaskTempFile"> New Temp File
 
 ```scala
 newTaskTempFile(
@@ -149,17 +153,39 @@ newTaskTempFile(
 
 `newTaskTempFile` is part of the `FileCommitProtocol` ([Apache Spark]({{ book.spark_core }}/FileCommitProtocol#newTaskTempFile)) abstraction.
 
-`newTaskTempFile` [creates a file name](#getFileName) for the given `TaskAttemptContext` and `ext`.
-
-`newTaskTempFile` tries to [parsePartitions](#parsePartitions) with the given `dir` or falls back to an empty `partitionValues`.
+---
 
 !!! note
-    The given `dir` defines a partition directory if the streaming query (and hence the write) is partitioned.
+    The given `dir` defines a partition directory if a query is written out to a partitioned table.
 
-`newTaskTempFile` builds a path (based on the given `randomPrefixLength` and the `dir`, or uses the file name directly).
+`newTaskTempFile` [parses the partition values](#parsePartitions) out of the given `dir` or falls back to an empty `partitionValues`.
 
-!!! FIXME
-    When are the optional `dir` and the [randomPrefixLength](#randomPrefixLength) defined?
+`newTaskTempFile` [creates a file name](#getFileName) (for the given `TaskAttemptContext`, `ext` and the partition values).
+
+`newTaskTempFile` builds a relative directory path (using the [randomPrefixLength](#randomPrefixLength) or the optional `dir` if either is defined).
+
+!!! note "randomPrefixLength always undefined"
+    [randomPrefixLength](#randomPrefixLength) is always undefined (`None`) so we can safely skip this branch.
+
+* For the directory to be exactly [__is_cdc=false](#cdcPartitionFalse), `newTaskTempFile` returns the file name (with no further changes).
+
+* For the directory with the [__is_cdc=true](#cdcPartitionTrue) path prefix, `newTaskTempFile` replaces the prefix with [_change_data](change-data-feed/CDCReader.md#CDC_LOCATION) and uses the changed directory as the parent of the file name.
+
+    ```scala
+    val subDir = "__is_cdc=true/a/b/c"
+
+    val cdcPartitionTrue = "__is_cdc=true"
+    val cdcPartitionTrueRegex = cdcPartitionTrue.r
+    val path = cdcPartitionTrueRegex.replaceFirstIn(subDir, "_change_data")
+
+    assert(path == "_change_data/a/b/c")
+    ```
+
+* For the directory with the [__is_cdc=false](#cdcPartitionFalse) path prefix, `newTaskTempFile` removes the prefix and uses the changed directory as the parent of the file name.
+
+* For other cases, `newTaskTempFile` uses the directory as the parent of the file name.
+
+When neither the [randomPrefixLength](#randomPrefixLength) nor the partition directory (`dir`) is defined, `newTaskTempFile` uses the file name (with no further changes).
 
 `newTaskTempFile` adds the partition values and the relative path to the [addedFiles](#addedFiles) internal registry.
 
@@ -216,7 +242,7 @@ commitTask(
 
 ---
 
-`commitTask` creates a `TaskCommitMessage` with a [FileAction](#buildActionFromAddedFile) for every [file added](#addedFiles) (if there are any). Otherwise, `commitTask` creates an empty `TaskCommitMessage`.
+`commitTask` creates a `TaskCommitMessage` with a [FileAction](#buildActionFromAddedFile) (a [AddCDCFile](AddCDCFile.md) or a [AddFile](AddFile.md)) for every [file added](#addedFiles) (if [there were any added successfully](#newTaskTempFile)). Otherwise, `commitTask` creates an empty `TaskCommitMessage`.
 
 !!! note
     A file is added (to the [addedFiles](#addedFiles) internal registry) when `DelayedCommitProtocol` is requested for a [new file (path)](#newTaskTempFile).
