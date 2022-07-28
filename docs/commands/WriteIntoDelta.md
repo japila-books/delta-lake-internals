@@ -115,7 +115,7 @@ canOverwriteSchema: Boolean
 
 1. [canOverwriteSchema](../DeltaWriteOptionsImpl.md#canOverwriteSchema) is enabled (`true`) (in the [DeltaOptions](#options))
 1. This `WriteIntoDelta` is [overwrite](#isOverwriteOperation) operation
-1. [replaceWhere](../DeltaWriteOptions.md#replaceWhere) option is undefined (in the [DeltaOptions](#options))
+1. [replaceWhere](../DeltaWriteOptions.md#replaceWhere) option is not defined (in the [DeltaOptions](#options))
 
 ## <span id="isOverwriteOperation"> isOverwriteOperation
 
@@ -124,5 +124,7 @@ isOverwriteOperation: Boolean
 ```
 
 `isOverwriteOperation` is `true` for the [SaveMode](#mode) to be `SaveMode.Overwrite`.
+
+`isOverwriteOperation` is used when:
 
 * `WriteIntoDelta` is requested for the [canOverwriteSchema](#canOverwriteSchema) and to [write](#write)

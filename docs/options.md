@@ -6,6 +6,24 @@ Delta Lake comes with options to fine-tune its uses. They can be defined using `
 * `DataStreamReader` ([Spark Structured Streaming]({{ book.structured_streaming }}/DataStreamReader)) and `DataStreamWriter` ([Spark Structured Streaming]({{ book.structured_streaming }}/DataStreamWriter)) for streaming queries
 * SQL queries
 
+## <span id="DeltaOptions"> Accessing Options
+
+The options are available at runtime as [DeltaOptions](DeltaOptions.md).
+
+```scala
+import org.apache.spark.sql.delta.DeltaOptions
+assert(DeltaOptions.OVERWRITE_SCHEMA_OPTION == "overwriteSchema")
+```
+
+```scala
+val options = new DeltaOptions(
+  Map(DeltaOptions.OVERWRITE_SCHEMA_OPTION -> true.toString),
+  spark.sessionState.conf)
+assert(
+  options.canOverwriteSchema,
+  s"${DeltaOptions.OVERWRITE_SCHEMA_OPTION} should be enabled")
+```
+
 ## <span id="checkpointLocation"> checkpointLocation
 
 Checkpoint directory for storing checkpoint data of streaming queries ([Spark Structured Streaming]({{ book.structured_streaming }}/configuration-properties/#spark.sql.streaming.checkpointLocation)).
@@ -50,6 +68,13 @@ Equivalent SQL Session configuration: [spark.databricks.delta.schema.autoMerge.e
 Enables...FIXME
 
 ## <span id="OVERWRITE_SCHEMA_OPTION"><span id="overwriteSchema"> overwriteSchema
+
+Enables overwriting schema or change partitioning of a delta table during an overwrite write operation
+
+Use [DeltaOptions.canOverwriteSchema](DeltaWriteOptionsImpl.md#canOverwriteSchema) to access the value
+
+!!! note
+    The schema cannot be overwritten when using [replaceWhere](#REPLACE_WHERE_OPTION) option.
 
 ## <span id="path"> path
 
