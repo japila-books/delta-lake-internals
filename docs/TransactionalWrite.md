@@ -180,14 +180,21 @@ As the last step under the [new execution ID](#writeFiles-deltaTransactionalWrit
 
 In the end, `writeFiles` returns [AddFile](AddFile.md)s and [AddCDCFile](AddCDCFile.md)s (from the [DelayedCommitProtocol](#writeFiles-committer)).
 
-## <span id="getCommitter"> Creating Committer
+## <span id="getCommitter"> Creating FileCommitProtocol Committer
 
 ```scala
 getCommitter(
   outputPath: Path): DelayedCommitProtocol
 ```
 
-`getCommitter` creates a new [DelayedCommitProtocol](DelayedCommitProtocol.md) with the `delta` job ID and the given `outputPath` (and no random prefix).
+`getCommitter` creates a new [DelayedCommitProtocol](DelayedCommitProtocol.md) with the `delta` job ID and the given `outputPath` (and no random prefix length).
+
+!!! note
+    The [DelayedCommitProtocol](DelayedCommitProtocol.md) is used for `FileFormatWriter` ([Spark SQL]({{ book.spark_sql }}/datasources/FileFormatWriter#write)) to write data out and, in the end, for the [addedStatuses](DelayedCommitProtocol.md#addedStatuses) and [changeFiles](DelayedCommitProtocol.md#changeFiles).
+
+`getCommitter` is used when:
+
+* `TransactionalWrite` is requested to [write data out](#writeFiles)
 
 ## <span id="getPartitioningColumns"> getPartitioningColumns
 

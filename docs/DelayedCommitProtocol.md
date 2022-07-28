@@ -5,7 +5,9 @@
 `DelayedCommitProtocol` is used to model a distributed write that is orchestrated by the Spark driver with the write itself happening on executors.
 
 !!! note
-    `FileCommitProtocol` allows to track a write job (with a write task per partition) and inform the driver when all the write tasks finished successfully (and were [committed](#commitTask)) to consider the write job [completed](#commitJob). `TaskCommitMessage` (Spark Core) allows to "transfer" the files added (written out) on the executors to the driver for the [optimistic transactional writer](TransactionalWrite.md#writeFiles).
+    `FileCommitProtocol` allows to track a write job (with a write task per partition) and inform the driver when all the write tasks finished successfully (and were [committed](#commitTask)) to consider the write job [completed](#commitJob).
+
+    `TaskCommitMessage` (Spark Core) allows to "transfer" the file names added (written out) on the executors to the driver for the [optimistic transactional writer](TransactionalWrite.md#writeFiles).
 
 ## Creating Instance
 
@@ -27,7 +29,7 @@
 
 `DelayedCommitProtocol` is given a `path` when [created](#creating-instance).
 
-The path is the [data directory](DeltaLog.md#dataPath) of a [delta table](DeltaLog.md).
+The path is the [data directory](DeltaLog.md#dataPath) of a [delta table](DeltaLog.md) (this `DelayedCommitProtocol` coordinates a write process to)
 
 ### <span id="randomPrefixLength"> Length of Random Prefix
 
@@ -61,17 +63,32 @@ addedFiles: ArrayBuffer[(Map[String, String], String)]
 
 * `DelayedCommitProtocol` is requested to [commit a task](#commitTask) (on an executor and create a `TaskCommitMessage` with the files added while a task was writing out a partition of a streaming query)
 
-## <span id="addedStatuses"> addedStatuses
+## <span id="addedStatuses"> AddFiles
 
 ```scala
 addedStatuses: ArrayBuffer[AddFile]
 ```
 
-`DelayedCommitProtocol` uses `addedStatuses` internal registry to track the files that were added by [write tasks](#commitTask) (on executors) once all they finish successfully and the [write job is committed](#commitJob) (on a driver).
+`DelayedCommitProtocol` uses `addedStatuses` internal registry to track the [AddFile](AddFile.md) files added by [write tasks](#commitTask) (on executors) once all they finish successfully and the [write job is committed](#commitJob) (on a driver).
 
 `addedStatuses` is used on the driver only.
 
 `addedStatuses` is used when:
+
+* `DelayedCommitProtocol` is requested to [commit a job](#commitJob) (on a driver)
+* `TransactionalWrite` is requested to [write out a structured query](TransactionalWrite.md#writeFiles)
+
+## <span id="changeFiles"> AddCDCFiles
+
+```scala
+changeFiles: ArrayBuffer[AddCDCFile]
+```
+
+`DelayedCommitProtocol` uses `changeFiles` internal registry to track the [AddCDCFile](AddCDCFile.md) files added by [write tasks](#commitTask) (on executors) once all they finish successfully and the [write job is committed](#commitJob) (on a driver).
+
+`changeFiles` is used on the driver only.
+
+`changeFiles` is used when:
 
 * `DelayedCommitProtocol` is requested to [commit a job](#commitJob) (on a driver)
 * `TransactionalWrite` is requested to [write out a structured query](TransactionalWrite.md#writeFiles)
