@@ -134,6 +134,12 @@ Used when:
 
 * `SpaceFillingCurveClustering` is requested to [cluster](commands/optimize/SpaceFillingCurveClustering.md#cluster)
 
+## <span id="lastCommitVersionInSession"><span id="DELTA_LAST_COMMIT_VERSION_IN_SESSION"> lastCommitVersionInSession
+
+**spark.databricks.delta.lastCommitVersionInSession** is the version of the last commit made in the `SparkSession` for any delta table (after `OptimisticTransactionImpl` is done with [doCommit](OptimisticTransactionImpl.md#doCommit) or `DeltaCommand` with [commitLarge](commands/DeltaCommand.md#commitLarge))
+
+Default: (undefined)
+
 ## <span id="loadFileSystemConfigsFromDataFrameOptions"><span id="LOAD_FILE_SYSTEM_CONFIGS_FROM_DATAFRAME_OPTIONS"> loadFileSystemConfigsFromDataFrameOptions
 
 **spark.databricks.delta.loadFileSystemConfigsFromDataFrameOptions** (internal) controls whether to load file systems configs provided in `DataFrameReader` or `DataFrameWriter` options when

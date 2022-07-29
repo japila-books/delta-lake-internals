@@ -132,8 +132,8 @@ In the end, commit [runs post-commit hooks](#runPostCommitHooks) and returns the
 ```scala
 doCommitRetryIteratively(
   attemptVersion: Long,
-  actions: Seq[Action],
-  isolationLevel: IsolationLevel): Long
+  currentTransactionInfo: CurrentTransactionInfo,
+  isolationLevel: IsolationLevel): (Long, CurrentTransactionInfo, Boolean)
 ```
 
 `doCommitRetryIteratively`...FIXME
@@ -192,21 +192,12 @@ getPrettyPartitionMessage(
 ```scala
 postCommit(
   commitVersion: Long,
-  commitActions: Seq[Action]): Unit
+  needsCheckpoint: Boolean): Unit
 ```
 
 `postCommit` turns the [committed](#committed) flag on.
 
-`postCommit` requests the [DeltaLog](#deltaLog) to [checkpoint](Checkpoints.md#checkpoint) when the given `commitVersion` is not `0` (_first commit_) and the [checkpoint interval](DeltaConfigs.md#CHECKPOINT_INTERVAL) has been reached (based on the given `commitVersion`).
-
-!!! note
-    `commitActions` argument is not used.
-
-`postCommit` prints out the following WARN message to the logs in case of `IllegalStateException`:
-
-```text
-Failed to checkpoint table state.
-```
+With the given `needsCheckpoint` enabled (that comes indirectly from [doCommit](#doCommit)), `postCommit` requests the [DeltaLog](#deltaLog) for the [Snapshot](SnapshotManagement.md#getSnapshotAt) at the given `commitVersion` followed by [checkpointing](Checkpoints.md#checkpoint).
 
 ### <span id="prepareCommit"> prepareCommit
 
@@ -326,20 +317,22 @@ getOperationMetrics(
 ```scala
 doCommit(
   attemptVersion: Long,
-  actions: Seq[Action],
+  currentTransactionInfo: CurrentTransactionInfo,
   attemptNumber: Int,
-  isolationLevel: IsolationLevel): Long
+  isolationLevel: IsolationLevel): Boolean
 ```
 
-`doCommit` returns the given `attemptVersion` as the commit version if successful or [checkAndRetry](#checkAndRetry).
+`doCommit` returns whether or not this commit (attempt) [should trigger checkpointing](#doCommit-needsCheckpoint).
 
 `doCommit` is used when:
 
-* OptimisticTransactionImpl is requested to [commit](#commit) (and [checkAndRetry](#checkAndRetry)).
+* `OptimisticTransactionImpl` is requested to [doCommitRetryIteratively](#doCommitRetryIteratively)
 
 ---
 
-Internally, `doCommit` prints out the following DEBUG message to the logs:
+`doCommit` requests the given `CurrentTransactionInfo` for the final actions to commit ([Action](Action.md)s).
+
+`doCommit` prints out the following DEBUG message to the logs:
 
 ```text
 Attempting to commit version [attemptVersion] with [n] actions with [isolationLevel] isolation level
@@ -347,36 +340,37 @@ Attempting to commit version [attemptVersion] with [n] actions with [isolationLe
 
 ### <span id="doCommit-write"> Writing Out
 
-`doCommit` requests the [DeltaLog](#deltaLog) for the [LogStore](DeltaLog.md#store) to [write out](storage/LogStore.md#write) the given [action](Action.md)s to a [delta file](FileNames.md#deltaFile) in the [log directory](DeltaLog.md#logPath) with the `attemptVersion` version, e.g.
+`doCommit` requests the [DeltaLog](#deltaLog) for the [LogStore](DeltaLog.md#store) to [write out](storage/LogStore.md#write) the actions to a [delta file](FileNames.md#deltaFile) in the [log directory](DeltaLog.md#logPath) with the `attemptVersion` version, e.g.
 
 ```text
 00000000000000000001.json
 ```
 
-`doCommit` writes the [action](Action.md)s out in [JSON format](Action.md#json).
+`doCommit` writes the actions out in [JSON format](Action.md#json).
 
 !!! NOTE
     [LogStores](storage/LogStore.md) must throw a `java.nio.file.FileAlreadyExistsException` exception if the delta file already exists. Any `FileAlreadyExistsExceptions` are caught by [doCommit](#doCommit-FileAlreadyExistsException) itself to [checkAndRetry](#checkAndRetry).
+
+### <span id="doCommit-lastCommitVersionInSession"> lastCommitVersionInSession
+
+`doCommit` sets the [spark.databricks.delta.lastCommitVersionInSession](DeltaSQLConf.md#DELTA_LAST_COMMIT_VERSION_IN_SESSION) configuration property to the given `attemptVersion`.
 
 ### <span id="doCommit-postCommitSnapshot"> Post-Commit Snapshot
 
 `doCommit` requests the [DeltaLog](#deltaLog) to [update](DeltaLog.md#update).
 
-### <span id="doCommit-IllegalStateException"> IllegalStateException
+### <span id="doCommit-needsCheckpoint"> Needs Checkpointing
 
-`doCommit` throws an `IllegalStateException` when the version of the snapshot after update is smaller than the given `attemptVersion` version.
+`doCommit` determines whether or not this commit should trigger checkpointing based on the committed version (`attemptVersion`).
 
-```text
-The committed version is [attemptVersion] but the current version is [version].
-```
+A commit triggers checkpointing when the following all hold:
+
+1. The committed version is any version greater than `0`
+1. The committed version is a multiple of [delta.checkpointInterval](DeltaConfigs.md#CHECKPOINT_INTERVAL) table property
 
 ### <span id="doCommit-stats"> CommitStats
 
-`doCommit` records a new `CommitStats` and returns the given `attemptVersion` as the commit version.
-
-### <span id="doCommit-FileAlreadyExistsException"> FileAlreadyExistsExceptions
-
-`doCommit` catches `FileAlreadyExistsExceptions` and [checkAndRetry](#checkAndRetry).
+`doCommit` records a new `CommitStats` event.
 
 ## <span id="checkAndRetry"> Retrying Commit
 

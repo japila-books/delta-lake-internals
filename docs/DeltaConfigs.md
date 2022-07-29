@@ -150,6 +150,12 @@ How long to keep obsolete logs around before deleting them. Delta can keep logs 
 
 Default: `interval 30 days` (`CalendarInterval`)
 
+Examples: `2 weeks`, `365 days` (`months` and `years` are not accepted)
+
+Used when:
+
+* `MetadataCleanup` is requested for the [deltaRetentionMillis](MetadataCleanup.md#deltaRetentionMillis)
+
 ### <span id="minReaderVersion"><span id="MIN_READER_VERSION"> minReaderVersion
 
 The protocol reader version

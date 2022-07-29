@@ -17,7 +17,7 @@
 
 ### <span id="deltaRetentionMillis"> logRetentionDuration
 
-`MetadataCleanup` uses [logRetentionDuration](DeltaConfigs.md#LOG_RETENTION) table configuration for how long to keep around obsolete logs.
+`MetadataCleanup` uses [logRetentionDuration](DeltaConfigs.md#LOG_RETENTION) table configuration for [cleanUpExpiredLogs](#cleanUpExpiredLogs) (to determine `fileCutOffTime`).
 
 ## <span id="doLogCleanup"> Cleaning Up Expired Logs
 
@@ -26,6 +26,8 @@ doLogCleanup(): Unit
 ```
 
 `doLogCleanup` is part of the [Checkpoints](Checkpoints.md#doLogCleanup) abstraction.
+
+---
 
 `doLogCleanup` [cleanUpExpiredLogs](#cleanUpExpiredLogs) when [enabled](#enableExpiredLogCleanup).
 

@@ -21,9 +21,11 @@ Hadoop [Path]({{ hadoop.api }}/org/apache/hadoop/fs/Path.html) to the data direc
 doLogCleanup(): Unit
 ```
 
+Performs log cleanup (to remove stale log files)
+
 Used when:
 
-* `Checkpoints` is requested to [checkpoint](#checkpoint)
+* `Checkpoints` is requested to [checkpointAndCleanUpDeltaLog](#checkpointAndCleanUpDeltaLog)
 
 ### <span id="logPath"> logPath
 
@@ -86,7 +88,16 @@ In the end, `checkpoint` [cleans up the expired logs](MetadataCleanup.md#doLogCl
 `checkpoint` is used when:
 
 * `OptimisticTransactionImpl` is requested to [postCommit](OptimisticTransactionImpl.md#postCommit) (based on [checkpoint interval](DeltaConfigs.md#CHECKPOINT_INTERVAL) table property)
-* [ConvertToDelta](commands/convert/index.md) command is executed (that in the end requests `DeltaCommand` to [updateAndCheckpoint](commands/DeltaCommand.md#updateAndCheckpoint))
+* `DeltaCommand` is requested to [updateAndCheckpoint](commands/DeltaCommand.md#updateAndCheckpoint)
+
+### <span id="checkpointAndCleanUpDeltaLog"> checkpointAndCleanUpDeltaLog
+
+```scala
+checkpointAndCleanUpDeltaLog(
+  snapshotToCheckpoint: Snapshot): Unit
+```
+
+`checkpointAndCleanUpDeltaLog`...FIXME
 
 ### <span id="writeCheckpoint"> Writing Out State Checkpoint
 
