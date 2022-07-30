@@ -29,12 +29,12 @@ run(
   sparkSession: SparkSession): Seq[Row]
 ```
 
+`run` is part of the `RunnableCommand` ([Spark SQL]({{ book.spark_sql }}/logical-operators/RunnableCommand#run)) abstraction.
+
+---
+
 `run` [gets the DeltaLog](../DeltaCommand.md#getDeltaLog) of the Delta table (by the [path](#path) or [tableId](#tableId)).
 
 `run` [validates the zOrderBy columns](OptimizeTableCommandBase.md#validateZorderByColumns) (that may throw `DeltaIllegalArgumentException` or `DeltaAnalysisException` exceptions and so break the command execution).
 
 In the end, `run` creates an [OptimizeExecutor](OptimizeExecutor.md) that is in turn requested to [optimize](OptimizeExecutor.md#optimize).
-
----
-
-`run` is part of the `RunnableCommand` ([Spark SQL]({{ book.spark_sql }}/logical-operators/RunnableCommand#run)) abstraction.

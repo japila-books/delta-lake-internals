@@ -288,6 +288,13 @@ upgradeTableProtocol(
   writerVersion: Int): Unit
 ```
 
+`upgradeTableProtocol` creates a new [Protocol](Protocol.md) (for the given reader and writer versions) and requests the [DeltaLog](#deltaLog) to [upgrade the protocol](DeltaLog.md#upgradeProtocol).
+
+!!! note "Transactional Operation"
+    `upgradeTableProtocol` is a transactional operation.
+
+---
+
 Updates the protocol version of the table to leverage new features.
 
 Upgrading the reader version will prevent all clients that have an older version of Delta Lake from accessing this table.
@@ -295,8 +302,6 @@ Upgrading the reader version will prevent all clients that have an older version
 Upgrading the writer version will prevent older versions of Delta Lake to write to this table.
 
 The reader or writer version cannot be downgraded.
-
-Internally, `upgradeTableProtocol` creates a new [Protocol](Protocol.md) (with the given versions) and requests the [DeltaLog](#deltaLog) to [upgradeProtocol](DeltaLog.md#upgradeProtocol).
 
 ??? "[SC-44271][DELTA] Introduce default protocol version for Delta tables"
     `upgradeTableProtocol` was introduced in [[SC-44271][DELTA] Introduce default protocol version for Delta tables]({{ delta.commit }}/6500abbf9a2f52046cbd30daaa81ffdc00cbb26f) commit.

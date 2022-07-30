@@ -18,7 +18,7 @@ clock: Clock
 deltaLog: DeltaLog
 ```
 
-[DeltaLog](DeltaLog.md) (of a delta table) that this transaction is changing
+[DeltaLog](DeltaLog.md) (of a delta table) this transaction commits changes to
 
 `deltaLog` is part of the [TransactionalWrite](TransactionalWrite.md#deltaLog) abstraction and seems to change it to `val` (from `def`).
 
@@ -28,7 +28,7 @@ deltaLog: DeltaLog
 snapshot: Snapshot
 ```
 
-[Snapshot](Snapshot.md) (of the [delta table](#deltaLog)) that this transaction is changing
+[Snapshot](Snapshot.md) (of the [delta table](#deltaLog)) this transaction commits changes to
 
 `snapshot` is part of the [TransactionalWrite](TransactionalWrite.md#deltaLog) contract and seems to change it to `val` (from `def`).
 
@@ -66,15 +66,25 @@ commit(
 
 `commit` is used when:
 
+* [ALTER TABLE](commands/alter/index.md) commands are executed
+    * [AlterTableAddColumnsDeltaCommand](commands/alter/AlterTableAddColumnsDeltaCommand.md)
+    * [AlterTableAddConstraintDeltaCommand](commands/alter/AlterTableAddConstraintDeltaCommand.md)
+    * [AlterTableChangeColumnDeltaCommand](commands/alter/AlterTableChangeColumnDeltaCommand.md)
+    * [AlterTableDropColumnsDeltaCommand](commands/alter/AlterTableDropColumnsDeltaCommand.md)
+    * [AlterTableDropConstraintDeltaCommand](commands/alter/AlterTableDropConstraintDeltaCommand.md)
+    * [AlterTableReplaceColumnsDeltaCommand](commands/alter/AlterTableReplaceColumnsDeltaCommand.md)
+    * [AlterTableSetPropertiesDeltaCommand](commands/alter/AlterTableSetPropertiesDeltaCommand.md)
+    * [AlterTableUnsetPropertiesDeltaCommand](commands/alter/AlterTableUnsetPropertiesDeltaCommand.md)
+* [ConvertToDeltaCommand](commands/convert/ConvertToDeltaCommand.md) is executed
+* [CreateDeltaTableCommand](commands/CreateDeltaTableCommand.md) is executed
+* [DeleteCommand](commands/delete/DeleteCommand.md) is executed
 * `DeltaLog` is requested to [upgrade the protocol](DeltaLog.md#upgradeProtocol)
-* ALTER delta table commands ([AlterTableSetPropertiesDeltaCommand](commands/alter/AlterTableSetPropertiesDeltaCommand.md), [AlterTableUnsetPropertiesDeltaCommand](commands/alter/AlterTableUnsetPropertiesDeltaCommand.md), [AlterTableAddColumnsDeltaCommand](commands/alter/AlterTableAddColumnsDeltaCommand.md), [AlterTableChangeColumnDeltaCommand](commands/alter/AlterTableChangeColumnDeltaCommand.md), [AlterTableReplaceColumnsDeltaCommand](commands/alter/AlterTableReplaceColumnsDeltaCommand.md), [AlterTableAddConstraintDeltaCommand](commands/alter/AlterTableAddConstraintDeltaCommand.md), [AlterTableDropConstraintDeltaCommand](commands/alter/AlterTableDropConstraintDeltaCommand.md)) are executed
-* [ConvertToDeltaCommand](commands/convert/ConvertToDeltaCommand.md) command is executed
-* [CreateDeltaTableCommand](commands/CreateDeltaTableCommand.md) command is executed
-* [DeleteCommand](commands/delete/DeleteCommand.md) command is executed
-* [MergeIntoCommand](commands/merge/MergeIntoCommand.md) command is executed
-* [UpdateCommand](commands/update/UpdateCommand.md) command is executed
-* [WriteIntoDelta](commands/WriteIntoDelta.md) command is executed
-* `DeltaSink` is requested to [addBatch](DeltaSink.md#addBatch)
+* `DeltaSink` is requested to [add a streaming micro-batch](DeltaSink.md#addBatch)
+* [MergeIntoCommand](commands/merge/MergeIntoCommand.md) is executed
+* [OptimizeTableCommand](commands/optimize/OptimizeTableCommand.md) is executed (and requests `OptimizeExecutor` to [commitAndRetry](commands/optimize/OptimizeExecutor.md#commitAndRetry))
+* `StatisticsCollection` is requested to [recompute](StatisticsCollection.md#recompute)
+* [UpdateCommand](commands/update/UpdateCommand.md) is executed
+* [WriteIntoDelta](commands/WriteIntoDelta.md) is executed
 
 ### <span id="performCdcMetadataCheck"> performCdcMetadataCheck
 
@@ -109,9 +119,9 @@ With all [action](FileAction.md)s with [dataChange](FileAction.md#dataChange) fl
 
 `commit` [registers](#registerPostCommitHook) the [GenerateSymlinkManifest](GenerateSymlinkManifest.md) post-commit hook when there is a [FileAction](FileAction.md) among the actions and the [compatibility.symlinkFormatManifest.enabled](DeltaConfigs.md#SYMLINK_FORMAT_MANIFEST_ENABLED) table property is enabled.
 
-### <span id="commit-commitVersion"> Commit Version
+### <span id="commit-doCommitRetryIteratively"><span id="commit-commitVersion"><span id="commit-needsCheckpoint"> doCommitRetryIteratively
 
-`commit` [doCommit](#doCommit) with the next version, the actions, attempt number `0`, and the select isolation level.
+`commit` [doCommitRetryIteratively](#doCommitRetryIteratively).
 
 `commit` prints out the following INFO message to the logs:
 
@@ -121,7 +131,7 @@ Committed delta #[commitVersion] to [logPath]
 
 ### <span id="commit-postCommit"> Performing Post-Commit Operations
 
-`commit` [postCommit](#postCommit) (with the version committed and the actions).
+`commit` [postCommit](#postCommit) (with the version committed and the `needsCheckpoint` flag).
 
 ### <span id="commit-runPostCommitHooks"> Executing Post-Commit Hooks
 
@@ -136,7 +146,33 @@ doCommitRetryIteratively(
   isolationLevel: IsolationLevel): (Long, CurrentTransactionInfo, Boolean)
 ```
 
-`doCommitRetryIteratively`...FIXME
+`doCommitRetryIteratively` [acquires a lock on the delta table if enabled](#lockCommitIfEnabled) for the commit.
+
+`doCommitRetryIteratively` uses `attemptNumber` internal counter to track the number of attempts. In case of a `FileAlreadyExistsException`, `doCommitRetryIteratively` increments the `attemptNumber` and tries over.
+
+In the end, `doCommitRetryIteratively` returns a tuple with the following:
+
+1. Commit version (from the given `attemptVersion` inclusive up to [spark.databricks.delta.maxCommitAttempts](DeltaSQLConf.md#DELTA_MAX_RETRY_COMMIT_ATTEMPTS))
+1. `CurrentTransactionInfo`
+1. Whether the commit needs checkpoint or not (`needsCheckpoint`)
+
+---
+
+Firstly, `doCommitRetryIteratively` does the first attempt at [commit](#doCommit). If successful, the commit is done.
+
+If there is a retry, `doCommitRetryIteratively` [checkForConflicts](#checkForConflicts) followed by another attempt at [commit](#doCommit).
+
+If the number of commit attempts (`attemptNumber`) is above the [spark.databricks.delta.maxCommitAttempts](DeltaSQLConf.md#DELTA_MAX_RETRY_COMMIT_ATTEMPTS) configuration property, `doCommitRetryIteratively` throws a [DeltaIllegalStateException](DeltaErrors.md#maxCommitRetriesExceededException):
+
+```text
+This commit has failed as it has been tried <numAttempts> times but did not succeed.
+This can be caused by the Delta table being committed continuously by many concurrent commits.
+
+Commit started at version: [attemptNumber]
+Commit failed at version: [attemptVersion]
+Number of actions attempted to commit: [numActions]
+Total time spent attempting this commit: [timeSpent] ms
+```
 
 ### <span id="checkForConflicts"> Checking Logical Conflicts with Concurrent Updates
 
@@ -199,7 +235,7 @@ postCommit(
 
 With the given `needsCheckpoint` enabled (that comes indirectly from [doCommit](#doCommit)), `postCommit` requests the [DeltaLog](#deltaLog) for the [Snapshot](SnapshotManagement.md#getSnapshotAt) at the given `commitVersion` followed by [checkpointing](Checkpoints.md#checkpoint).
 
-### <span id="prepareCommit"> prepareCommit
+## <span id="prepareCommit"> prepareCommit
 
 ```scala
 prepareCommit(
@@ -663,3 +699,7 @@ isCommitLockEnabled: Boolean
 
     1. [spark.databricks.delta.commitLock.enabled](DeltaSQLConf.md#DELTA_COMMIT_LOCK_ENABLED) configuration property is undefined by default
     1. [isPartialWriteVisible](storage/LogStore.md#isPartialWriteVisible) is `true` by default
+
+## Logging
+
+`OptimisticTransactionImpl` is a Scala trait and logging is configured using the logger of the [implementations](#implementations).

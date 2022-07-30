@@ -1,7 +1,12 @@
-# Alter Command
+# ALTER TABLE Commands
 
 Delta Lake supports altering delta tables using `ALTER TABLE` high-level operators:
 
-* [ALTER TABLE ADD CONSTRAINT](../../constraints/AddConstraint.md)
-* [ALTER TABLE DROP CONSTRAINT](../../constraints/DropConstraint.md)
-* _others_
+* [ALTER TABLE ADD COLUMNS](AlterTableAddColumnsDeltaCommand.md)
+* [AlterTableAddConstraintDeltaCommand](AlterTableAddConstraintDeltaCommand.md)
+* [ALTER TABLE CHANGE COLUMNS](AlterTableChangeColumnDeltaCommand.md)
+* [AlterTableDropColumnsDeltaCommand](AlterTableDropColumnsDeltaCommand.md)
+* [AlterTableDropConstraintDeltaCommand](AlterTableDropConstraintDeltaCommand.md)
+* [AlterTableReplaceColumnsDeltaCommand](AlterTableReplaceColumnsDeltaCommand.md)
+* [AlterTableSetPropertiesDeltaCommand](AlterTableSetPropertiesDeltaCommand.md)
+* [AlterTableUnsetPropertiesDeltaCommand](AlterTableUnsetPropertiesDeltaCommand.md)

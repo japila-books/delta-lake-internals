@@ -159,6 +159,16 @@ Not supported for `DataFrameReader.table` and `DataFrameWriter.saveAsTable`
 
 Default: `true`
 
+## <span id="maxCommitAttempts"><span id="DELTA_MAX_RETRY_COMMIT_ATTEMPTS"> maxCommitAttempts
+
+**spark.databricks.delta.maxCommitAttempts** (internal) is the maximum number of commit attempts to try for a single commit before failing
+
+Default: `10000000`
+
+Used when:
+
+* `OptimisticTransactionImpl` is requested to [doCommitRetryIteratively](OptimisticTransactionImpl.md#doCommitRetryIteratively)
+
 ## <span id="maxSnapshotLineageLength"><span id="DELTA_MAX_SNAPSHOT_LINEAGE_LENGTH"> maxSnapshotLineageLength
 
 **spark.databricks.delta.maxSnapshotLineageLength** (internal) is the maximum lineage length of a Snapshot before Delta forces to build a Snapshot from scratch

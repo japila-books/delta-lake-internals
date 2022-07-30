@@ -21,6 +21,12 @@
 optimize(): Seq[Row]
 ```
 
+`optimize` is used when:
+
+* `OptimizeTableCommand` is requested to [run](OptimizeTableCommand.md#run)
+
+---
+
 `optimize` reads the following configuration properties:
 
 * [spark.databricks.delta.optimize.minFileSize](../../DeltaSQLConf.md#spark.databricks.delta.optimize.minFileSize) for the threshold of the size of files to be grouped together and rewritten as larger ones
@@ -42,10 +48,6 @@ optimize(): Seq[Row]
 Once the compaction jobs are done, `optimize` tries to commit the transaction (the given actions to the log) when there were any [AddFile](../../AddFile.md)s.
 
 In the end, `optimize` returns a `Row` with the data path (of the Delta table) and the optimize statistics.
-
-`optimize` is used when:
-
-* `OptimizeTableCommand` is requested to [run](OptimizeTableCommand.md#run)
 
 ### <span id="runOptimizeBinJob"> runOptimizeBinJob
 
@@ -80,6 +82,18 @@ File compaction job output should only have AddFiles
 `runOptimizeBinJob` [creates RemoveFiles for all the given AddFiles](../../AddFile.md#removeWithTimestamp). `runOptimizeBinJob` uses the current timestamp and the `dataChange` flag is disabled (as was earlier with the `AddFile`s).
 
 In the end, `runOptimizeBinJob` returns the [AddFile](../../AddFile.md)s and [RemoveFile](../../RemoveFile.md)s.
+
+### <span id="commitAndRetry"> commitAndRetry
+
+```scala
+commitAndRetry(
+  txn: OptimisticTransaction,
+  optimizeOperation: Operation,
+  actions: Seq[Action],
+  metrics: Map[String, SQLMetric])(f: OptimisticTransaction => Boolean): Unit
+```
+
+`commitAndRetry`...FIXME
 
 ## <span id="isMultiDimClustering"> isMultiDimClustering Flag
 
