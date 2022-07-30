@@ -92,7 +92,7 @@ maxFilesPerTrigger: Option[Int]
 readChangeFeed: Boolean
 ```
 
-`readChangeFeed` uses the [options](DeltaOptionParser.md#options) for the value of [readChangeFeed](DeltaOptions.md#CDC_READ_OPTION) option (if available or falls back to the legacy [readChangeData](DeltaOptions.md#readChangeData)).
+`readChangeFeed` uses the [options](DeltaOptionParser.md#options) for the value of [readChangeFeed](options.md#CDC_READ_OPTION) option (if available or falls back to the legacy [readChangeData](options.md#readChangeData)).
 
 `readChangeFeed` is used when:
 

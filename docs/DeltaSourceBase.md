@@ -2,11 +2,7 @@
 
 `DeltaSourceBase` is an extension of the `Source` ([Spark Structured Streaming]({{ book.structured_streaming }}/Source)) abstraction for [DeltaSource](DeltaSource.md).
 
-## <span id="SupportsAdmissionControl"> SupportsAdmissionControl
-
-`DeltaSourceBase` is a `SupportsAdmissionControl` ([Spark Structured Streaming]({{ book.structured_streaming }}/SupportsAdmissionControl)).
-
-## <span id="schema"> Source Schema
+## <span id="schema"> Read (Source) Schema
 
 ```scala
 schema: StructType
@@ -16,7 +12,9 @@ schema: StructType
 
 ---
 
-`schema`...FIXME
+`schema` [removes the default expressions](ColumnWithDefaultExprUtils.md#removeDefaultExpressions) from the table schema (from the [Metadata](Snapshot.md#metadata) of the [Snapshot](SnapshotManagement.md#snapshot) of the [DeltaLog](DeltaSource.md#deltaLog)).
+
+In the end, `schema` [adds the CDF columns](change-data-feed/CDCReader.md#cdcReadSchema) to the schema when [readChangeFeed](DeltaReadOptions.md#readChangeFeed) option is enabled. Otherwise, `schema` returns the schema with no CDF columns and default expressions.
 
 ## <span id="createDataFrameBetweenOffsets"> createDataFrameBetweenOffsets
 
@@ -114,3 +112,10 @@ buildOffsetFromIndexedFile(
 `buildOffsetFromIndexedFile` is used when:
 
 * `DeltaSourceBase` is requested to [getStartingOffsetFromSpecificDeltaVersion](#getStartingOffsetFromSpecificDeltaVersion) and [getNextOffsetFromPreviousOffset](#getNextOffsetFromPreviousOffset)
+
+## <span id="SupportsAdmissionControl"> SupportsAdmissionControl
+
+`DeltaSourceBase` is a `SupportsAdmissionControl` ([Spark Structured Streaming]({{ book.structured_streaming }}/SupportsAdmissionControl)).
+
+!!! note
+    All the methods of `SupportsAdmissionControl` are in [DeltaSource](DeltaSource.md).

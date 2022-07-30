@@ -52,7 +52,7 @@ isIdentityColumn(
 
 * `ColumnWithDefaultExprUtils` is used to [hasIdentityColumn](#hasIdentityColumn) and [removeDefaultExpressions](#removeDefaultExpressions)
 
-## <span id="removeDefaultExpressions"> removeDefaultExpressions
+## <span id="removeDefaultExpressions"> Removing Default Expressions
 
 ```scala
 removeDefaultExpressions(

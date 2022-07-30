@@ -128,14 +128,20 @@ Otherwise, `isCDCRead` is `false`.
 * `DeltaTableV2` is requested to [withOptions](../DeltaTableV2.md#withOptions)
 * `DeltaDataSource` is requested for the [streaming source schema](../DeltaDataSource.md#sourceSchema) and to [create a BaseRelation](../DeltaDataSource.md#RelationProvider-createRelation)
 
-## <span id="cdcReadSchema"> cdcReadSchema
+## <span id="cdcReadSchema"> CDF-Aware Read Schema (Adding CDF Columns)
 
 ```scala
 cdcReadSchema(
   deltaSchema: StructType): StructType
 ```
 
-`cdcReadSchema`...FIXME
+`cdcReadSchema` adds the CDF columns to the given `deltaSchema`.
+
+ Name | Type
+------|-----
+ [_change_type](#CDC_TYPE_COLUMN_NAME) | `StringType`
+ [_commit_version](#CDC_COMMIT_VERSION) | `LongType`
+ [_commit_timestamp](#CDC_COMMIT_TIMESTAMP) | `TimestampType`
 
 `cdcReadSchema` is used when:
 

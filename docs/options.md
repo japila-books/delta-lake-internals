@@ -87,6 +87,10 @@ Default: (undefined)
 
 ## <span id="queryName"> queryName
 
+## <span id="CDC_READ_OPTION"><span id="readChangeFeed"> readChangeFeed
+
+Use [DeltaOptions.readChangeFeed](DeltaReadOptions.md#readChangeFeed) to access the value
+
 ## <span id="REPLACE_WHERE_OPTION"><span id="replaceWhere"> replaceWhere
 
 Partition predicates (unless [replaceWhere.dataColumns.enabled](DeltaSQLConf.md#replaceWhere.dataColumns.enabled) is enabled to allow for arbitrary non-partition data predicates)
