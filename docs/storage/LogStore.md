@@ -20,14 +20,22 @@ Used when:
 
 ```scala
 isPartialWriteVisible(
-  path: Path): Boolean
+  path: Path): Boolean // (1)!
+isPartialWriteVisible(
+  path: Path,
+  hadoopConf: Configuration): Boolean
 ```
+
+1. deprecated
+
+Whether a partial write is visible when writing to `path`
 
 Default: `true`
 
 Used when:
 
-* `Checkpoints` utility is used to [writeCheckpoint](../Checkpoints.md#writeCheckpoint)
+* `Checkpoints` is requested to [writeCheckpoint](../Checkpoints.md#writeCheckpoint)
+* `OptimisticTransactionImpl` is requested to [isCommitLockEnabled](../OptimisticTransactionImpl.md#isCommitLockEnabled)
 * `DelegatingLogStore` is requested to [isPartialWriteVisible](DelegatingLogStore.md#isPartialWriteVisible)
 
 ### <span id="listFrom"> listFrom

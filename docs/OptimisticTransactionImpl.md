@@ -636,3 +636,30 @@ Internally, `filterFiles` requests the [Snapshot](#snapshot) for the [filesForSc
 * `DeltaSink` is requested to [add a streaming micro-batch](DeltaSink.md#addBatch) (with `Complete` output mode)
 * [DeleteCommand](commands/delete/DeleteCommand.md), [MergeIntoCommand](commands/merge/MergeIntoCommand.md) and [UpdateCommand](commands/update/UpdateCommand.md), [WriteIntoDelta](commands/WriteIntoDelta.md) are executed
 * [CreateDeltaTableCommand](commands/CreateDeltaTableCommand.md) is executed
+
+## <span id="lockCommitIfEnabled"> lockCommitIfEnabled
+
+```scala
+lockCommitIfEnabled[T](
+  body: => T): T
+```
+
+`lockCommitIfEnabled` executes the `body` with a [lock](DeltaLog.md#lockInterruptibly) on a delta table when [isCommitLockEnabled](#isCommitLockEnabled). Otherwise, `lockCommitIfEnabled` does not acquire a lock.
+
+`lockCommitIfEnabled` is used when:
+
+* `OptimisticTransactionImpl` is requested to [doCommitRetryIteratively](#doCommitRetryIteratively)
+
+### <span id="isCommitLockEnabled"> isCommitLockEnabled
+
+```scala
+isCommitLockEnabled: Boolean
+```
+
+`isCommitLockEnabled` is the value of [spark.databricks.delta.commitLock.enabled](DeltaSQLConf.md#DELTA_COMMIT_LOCK_ENABLED) configuration property (if defined) or [isPartialWriteVisible](storage/LogStore.md#isPartialWriteVisible) (requesting the [LogStore](DeltaLog.md#store) from the [DeltaLog](#deltaLog)).
+
+!!! note
+    `isCommitLockEnabled` is `true` by default given the following:
+
+    1. [spark.databricks.delta.commitLock.enabled](DeltaSQLConf.md#DELTA_COMMIT_LOCK_ENABLED) configuration property is undefined by default
+    1. [isPartialWriteVisible](storage/LogStore.md#isPartialWriteVisible) is `true` by default

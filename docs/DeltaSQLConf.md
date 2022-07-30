@@ -48,6 +48,16 @@ Default: `true`
 
 Default: (empty)
 
+## <span id="commitLock.enabled"><span id="DELTA_COMMIT_LOCK_ENABLED"> commitLock.enabled
+
+**spark.databricks.delta.commitLock.enabled** (internal) controls [whether or not to use a lock on a delta table at transaction commit](OptimisticTransactionImpl.md#lockCommitIfEnabled).
+
+Default: (undefined)
+
+Used when:
+
+* `OptimisticTransactionImpl` is requested to [isCommitLockEnabled](OptimisticTransactionImpl.md#isCommitLockEnabled)
+
 ## <span id="commitValidation.enabled"><span id="DELTA_COMMIT_VALIDATION_ENABLED"> commitValidation.enabled
 
 **spark.databricks.delta.commitValidation.enabled** (internal) controls whether to perform validation checks before commit or not
