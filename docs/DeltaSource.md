@@ -45,7 +45,7 @@ scala> println(relation.source)
 DeltaSource[file:/tmp/delta/users]
 ```
 
-## <span id="getBatch"> Batch DataFrame
+## <span id="getBatch"> Streaming Batch DataFrame
 
 ```scala
 getBatch(
@@ -59,15 +59,19 @@ getBatch(
 
 `getBatch` creates a [DeltaSourceOffset](DeltaSourceOffset.md) for the [tableId](#tableId) (aka [reservoirId](DeltaSourceOffset.md#reservoirId)) and the given `end` offset.
 
-`getBatch` [gets the changes](#getChanges)...FIXME
+`getBatch` determines the `startVersion`, `startIndex`, `isStartingVersion` and `startSourceVersion` based on the given `startOffsetOption`:
+
+If undefined, `getBatch` [getStartingVersion](#getStartingVersion) and _does some computation_.
+
+If specified, `getBatch` creates a [DeltaSourceOffset](DeltaSourceOffset.md). Unless the `DeltaSourceOffset` is [isStartingVersion](DeltaSourceOffset.md#isStartingVersion), `getBatch` [cleanUpSnapshotResources](DeltaSourceBase.md#cleanUpSnapshotResources). `getBatch` uses the `DeltaSourceOffset` for the versions and the index.
 
 `getBatch` prints out the following DEBUG message to the logs:
 
 ```text
-start: [start] end: [end] [addFiles]
+start: [startOffsetOption] end: [end]
 ```
 
-In the end, `getBatch` requests the [DeltaLog](#deltaLog) to [createDataFrame](DeltaLog.md#createDataFrame) (for the [current snapshot](SnapshotManagement.md#snapshot) of the [DeltaLog](#deltaLog), `addFiles` and `isStreaming` flag enabled).
+In the end, `getBatch` [createDataFrameBetweenOffsets](DeltaSourceBase.md#createDataFrameBetweenOffsets) (for the `startVersion`, `startIndex`, `isStartingVersion` and `endOffset`).
 
 ## <span id="latestOffset"> Latest Available Offset
 
@@ -328,6 +332,8 @@ excludeRegex: Option[Regex]
 
 !!! note "Refactor It"
     `excludeRegex` should not really be part of `DeltaSource` (more of [DeltaSourceBase](DeltaSourceBase.md)) since it's used elsewhere anyway.
+
+---
 
 `excludeRegex` is used when:
 

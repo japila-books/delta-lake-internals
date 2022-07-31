@@ -1,6 +1,6 @@
 # DeltaSourceCDCSupport
 
-`DeltaSourceCDCSupport` is an abstraction of [CDC support](index.md) for [DeltaSource](../DeltaSource.md).
+`DeltaSourceCDCSupport` is an abstraction to bring [CDC support](index.md) to [DeltaSource](../DeltaSource.md).
 
 ## <span id="getCDCFileChangesAndCreateDataFrame"> getCDCFileChangesAndCreateDataFrame
 
@@ -12,11 +12,18 @@ getCDCFileChangesAndCreateDataFrame(
   endOffset: DeltaSourceOffset): DataFrame
 ```
 
-`getCDCFileChangesAndCreateDataFrame`...FIXME
+`getCDCFileChangesAndCreateDataFrame` [changesToDF](CDCReader.md#changesToDF) with the following:
+
+* [getFileChangesForCDC](#getFileChangesForCDC) (with no `AdmissionLimits`) for the versions and their [FileAction](../FileAction.md)s
+* `isStreaming` enabled
+
+In the end, `getCDCFileChangesAndCreateDataFrame` returns the `DataFrame` with the file changes (out of the `CDCVersionDiffInfo`).
+
+---
 
 `getCDCFileChangesAndCreateDataFrame` is used when:
 
-* `DeltaSourceBase` is requested to [createDataFrameBetweenOffsets](../DeltaSourceBase.md#createDataFrameBetweenOffsets) (and [getFileChangesAndCreateDataFrame](../DeltaSourceBase.md#getFileChangesAndCreateDataFrame))
+* `DeltaSourceBase` is requested to [createDataFrameBetweenOffsets](../DeltaSourceBase.md#createDataFrameBetweenOffsets) (and to [getFileChangesAndCreateDataFrame](../DeltaSourceBase.md#getFileChangesAndCreateDataFrame)) for `DeltaSource` for a [streaming DataFrame (with data between the start and end offsets)](../DeltaSource.md#getBatch) with the [readChangeFeed](../options.md#readChangeFeed) option enabled
 
 ## <span id="getFileChangesForCDC"> getFileChangesForCDC
 
