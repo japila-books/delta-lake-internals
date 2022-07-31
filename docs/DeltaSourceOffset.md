@@ -10,11 +10,21 @@
 * <span id="reservoirId"> Reservoir ID (aka [Table ID](DeltaSource.md#tableId))
 * <span id="reservoirVersion"> Reservoir Version
 * <span id="index"> Index
-* <span id="isStartingVersion"> `isStartingVersion` flag
+* [isStartingVersion](#isStartingVersion) flag
 
 `DeltaSourceOffset` is created (using [apply](#apply) utility) when:
 
 * `DeltaSource` is requested for the [starting](DeltaSource.md#getStartingOffset) and [latest](DeltaSource.md#latestOffset) offsets
+
+### <span id="isStartingVersion"> isStartingVersion Flag
+
+`DeltaSourceOffset` is given `isStartingVersion` flag when [created](#creating-instance) to denote a query that is starting rather than processing changes.
+
+`isStartingVersion` flag is `false` when:
+
+* `DeltaSourceBase` is requested to [buildOffsetFromIndexedFile](DeltaSourceBase.md#buildOffsetFromIndexedFile) with the last `IndexedFile` for a given `version`
+
+`isStartingVersion` flag is _copied over_ (_continued_) as long as the versions are the same when [buildOffsetFromIndexedFile](DeltaSourceBase.md#buildOffsetFromIndexedFile)
 
 ## <span id="apply"> Creating DeltaSourceOffset
 

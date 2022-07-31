@@ -203,6 +203,7 @@ nav:
       - CdcAddFileIndex: change-data-feed/CdcAddFileIndex.md
       - CDCReader: change-data-feed/CDCReader.md
       - DeltaSourceCDCSupport: change-data-feed/DeltaSourceCDCSupport.md
+      - IndexedChangeFileSeq: change-data-feed/IndexedChangeFileSeq.md
       - TahoeRemoveFileIndex: change-data-feed/TahoeRemoveFileIndex.md
     - Column Mapping:
       - column-mapping/index.md
@@ -246,7 +247,6 @@ nav:
         - DeltaSourceOffset: DeltaSourceOffset.md
         - DeltaSourceSnapshot: DeltaSourceSnapshot.md
         - DeltaSourceUtils: DeltaSourceUtils.md
-        - IndexedChangeFileSeq: IndexedChangeFileSeq.md
         - SnapshotIterator: SnapshotIterator.md
       - DeltaSink: DeltaSink.md
       - WriteIntoDeltaBuilder: WriteIntoDeltaBuilder.md

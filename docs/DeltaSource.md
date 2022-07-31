@@ -332,7 +332,7 @@ excludeRegex: Option[Regex]
 `excludeRegex` is used when:
 
 * `DeltaSourceBase` is requested to [getFileChangesAndCreateDataFrame](DeltaSourceBase.md#getFileChangesAndCreateDataFrame)
-* `IndexedChangeFileSeq` (of [DeltaSourceCDCSupport](change-data-feed/DeltaSourceCDCSupport.md)) is requested to [isValidIndexedFile](IndexedChangeFileSeq.md#isValidIndexedFile)
+* `IndexedChangeFileSeq` (of [DeltaSourceCDCSupport](change-data-feed/DeltaSourceCDCSupport.md)) is requested to [isValidIndexedFile](change-data-feed/IndexedChangeFileSeq.md#isValidIndexedFile)
 
 ## Logging
 

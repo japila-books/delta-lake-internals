@@ -12,7 +12,15 @@ The options are available at runtime as [DeltaOptions](DeltaOptions.md).
 
 ```scala
 import org.apache.spark.sql.delta.DeltaOptions
+```
+
+```scala
 assert(DeltaOptions.OVERWRITE_SCHEMA_OPTION == "overwriteSchema")
+```
+
+```scala
+val options = new DeltaOptions(Map.empty[String, String], spark.sessionState.conf)
+assert(options.failOnDataLoss, "failOnDataLoss should be enabled by default")
 ```
 
 ```scala
@@ -51,6 +59,14 @@ Used when:
 
 * `DeltaSourceBase` is requested for the [data](DeltaSourceBase.md#getFileChangesAndCreateDataFrame) (for a given [DeltaSourceOffset](DeltaSourceOffset.md))
 * `DeltaSourceCDCSupport` is requested for the [data](change-data-feed/DeltaSourceCDCSupport.md#getFileChangesForCDC)
+
+## <span id="FAIL_ON_DATA_LOSS_OPTION"><span id="failOnDataLoss"> failOnDataLoss
+
+Controls whether or not to [fail](DeltaErrors.md#failOnDataLossException) loading a delta table when the earliest available version (in the `_delta_log` directory) is after the version requested
+
+Default: `true`
+
+Use [DeltaOptions.failOnDataLoss](DeltaReadOptions.md#failOnDataLoss) to access the value
 
 ## <span id="IGNORE_CHANGES_OPTION"><span id="ignoreChanges"> ignoreChanges
 

@@ -14,17 +14,20 @@ excludeRegex: Option[Regex]
 
 * `DeltaSource` is requested for the [excludeRegex](DeltaSource.md#excludeRegex)
 
-## <span id="failOnDataLoss"> failOnDataLoss
+## <span id="failOnDataLoss"><span id="FAIL_ON_DATA_LOSS_OPTION"> failOnDataLoss
 
 ```scala
 failOnDataLoss: Boolean
 ```
 
-`failOnDataLoss`...FIXME
+`failOnDataLoss` uses the [options](DeltaOptionParser.md#options) for the value of [failOnDataLoss](options.md#FAIL_ON_DATA_LOSS_OPTION) option.
+
+`failOnDataLoss` is `true` by default.
 
 `failOnDataLoss` is used when:
 
-* FIXME
+* `DeltaSource` is requested to [getFileChanges](DeltaSource.md#getFileChanges)
+* `DeltaSourceCDCSupport` is requested to [getFileChangesForCDC](change-data-feed/DeltaSourceCDCSupport.md#getFileChangesForCDC)
 
 ## <span id="ignoreChanges"> ignoreChanges
 
