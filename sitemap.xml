@@ -296,11 +296,6 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://books.japila.pl/delta-lake-internals/IndexedChangeFileSeq/</loc>
-         <lastmod>2022-07-31</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://books.japila.pl/delta-lake-internals/IsolationLevel/</loc>
          <lastmod>2022-07-31</lastmod>
          <changefreq>daily</changefreq>
@@ -527,6 +522,11 @@
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/change-data-feed/DeltaSourceCDCSupport/</loc>
+         <lastmod>2022-07-31</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://books.japila.pl/delta-lake-internals/change-data-feed/IndexedChangeFileSeq/</loc>
          <lastmod>2022-07-31</lastmod>
          <changefreq>daily</changefreq>
     </url>
