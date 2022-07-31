@@ -1,6 +1,6 @@
-# DeltaSourceOffset &mdash; Streaming Offset
+# DeltaSourceOffset
 
-`DeltaSourceOffset` is an `Offset` ([Spark Structured Streaming]({{ book.structured_streaming }}/Offset)) for [DeltaSource](DeltaSource.md).
+`DeltaSourceOffset` is a streaming `Offset` ([Spark Structured Streaming]({{ book.structured_streaming }}/Offset)) for [DeltaSource](DeltaSource.md).
 
 ## Creating Instance
 

@@ -31,7 +31,7 @@ createDataFrameBetweenOffsets(
 `createDataFrameBetweenOffsets` [getFileChangesAndCreateDataFrame](#getFileChangesAndCreateDataFrame).
 
 !!! note
-    The `startSourceVersion` and `startOffsetOption` input arguments are ignored.
+    The `startSourceVersion` and `startOffsetOption` input arguments are ignored. It looks like the method should be marked as `@obsolete` and soon removed.
 
 `createDataFrameBetweenOffsets` is used when:
 
@@ -49,7 +49,18 @@ getFileChangesAndCreateDataFrame(
 
 With [readChangeFeed](DeltaReadOptions.md#readChangeFeed) option enabled, `getFileChangesAndCreateDataFrame` [getCDCFileChangesAndCreateDataFrame](change-data-feed/DeltaSourceCDCSupport.md#getCDCFileChangesAndCreateDataFrame).
 
-Otherwise, `getFileChangesAndCreateDataFrame`...FIXME
+Otherwise, `getFileChangesAndCreateDataFrame` [gets the file changes](#getFileChanges) (as `IndexedFile`s with [AddFile](AddFile.md)s, [RemoveFile](RemoveFile.md)s or [AddCDCFile](AddCDCFile.md)s) and take as much file changes so their version and index (these actions belong to) are up to and including [DeltaSourceOffset](DeltaSourceOffset.md) (based on the [reservoirVersion](DeltaSourceOffset.md#reservoirVersion) and [index](DeltaSourceOffset.md#index)). `getFileChangesAndCreateDataFrame` filters out the file changes with the [path](FileAction.md#path) that matches the [excludeRegex](DeltaSource.md#excludeRegex) option. In the end, `getFileChangesAndCreateDataFrame` [createDataFrame](#createDataFrame) (from the filtered file changes).
+
+### <span id="createDataFrame"> createDataFrame
+
+```scala
+createDataFrame(
+  indexedFiles: Iterator[IndexedFile]): DataFrame
+```
+
+`createDataFrame` collects [AddFile](AddFile.md)s from the given `indexedFiles` collection.
+
+In the end, `createDataFrame` requests the [DeltaLog](DeltaSource.md#deltaLog) to [createDataFrame](DeltaLog.md#createDataFrame) (for the `AddFile`s and with `isStreaming` flag enabled).
 
 ## <span id="getStartingOffsetFromSpecificDeltaVersion"> getStartingOffsetFromSpecificDeltaVersion
 

@@ -8,7 +8,7 @@
 excludeRegex: Option[Regex]
 ```
 
-`excludeRegex` uses the [options](DeltaOptionParser.md#options) for the value of [excludeRegex](DeltaOptions.md#EXCLUDE_REGEX_OPTION) option and converts it to a [scala.util.matching.Regex]({{ scala.api }}/scala/util/matching/Regex.html).
+`excludeRegex` uses the [options](DeltaOptionParser.md#options) for the value of [excludeRegex](options.md#EXCLUDE_REGEX_OPTION) option and converts it to a [scala.util.matching.Regex]({{ scala.api }}/scala/util/matching/Regex.html).
 
 `excludeRegex` is used when:
 
