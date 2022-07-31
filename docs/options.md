@@ -41,6 +41,17 @@ Used when:
 
 ## <span id="EXCLUDE_REGEX_OPTION"><span id="excludeRegex"> excludeRegex
 
+[scala.util.matching.Regex]({{ scala.api }}/scala/util/matching/Regex.html) to filter out the paths of [FileAction](FileAction.md#path)s
+
+Default: (undefined)
+
+Use [DeltaOptions.excludeRegex](DeltaReadOptions.md#excludeRegex) to access the value
+
+Used when:
+
+* `DeltaSourceBase` is requested for the [data](DeltaSourceBase.md#getFileChangesAndCreateDataFrame) (for a given [DeltaSourceOffset](DeltaSourceOffset.md))
+* `DeltaSourceCDCSupport` is requested for the [data](change-data-feed/DeltaSourceCDCSupport.md#getFileChangesForCDC)
+
 ## <span id="IGNORE_CHANGES_OPTION"><span id="ignoreChanges"> ignoreChanges
 
 ## <span id="IGNORE_DELETES_OPTION"><span id="ignoreDeletes"> ignoreDeletes

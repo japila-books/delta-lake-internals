@@ -324,15 +324,15 @@ iteratorLast[T](
 excludeRegex: Option[Regex]
 ```
 
-`excludeRegex` requests the [DeltaOptions](#options) for the [excludeRegex](DeltaReadOptions.md#excludeRegex).
+`excludeRegex` requests the [DeltaOptions](#options) for the value of [excludeRegex](DeltaReadOptions.md#excludeRegex) option.
 
 !!! note "Refactor It"
-    `excludeRegex` should not really be part of `DeltaSource` since it's used elsewhere anyway.
+    `excludeRegex` should not really be part of `DeltaSource` (more of [DeltaSourceBase](DeltaSourceBase.md)) since it's used elsewhere anyway.
 
 `excludeRegex` is used when:
 
 * `DeltaSourceBase` is requested to [getFileChangesAndCreateDataFrame](DeltaSourceBase.md#getFileChangesAndCreateDataFrame)
-* `IndexedChangeFileSeq` is requested to [isValidIndexedFile](IndexedChangeFileSeq.md#isValidIndexedFile)
+* `IndexedChangeFileSeq` (of [DeltaSourceCDCSupport](change-data-feed/DeltaSourceCDCSupport.md)) is requested to [isValidIndexedFile](IndexedChangeFileSeq.md#isValidIndexedFile)
 
 ## Logging
 
