@@ -1,6 +1,6 @@
 # DeltaDataSource
 
-`DeltaDataSource` is a [DataSourceRegister](#DataSourceRegister) and is the entry point to all the features provided by `delta` data source that supports batch and streaming queries.
+`DeltaDataSource` ties Delta Lake with Spark SQL (and Spark Structured Streaming) together as [delta](#DataSourceRegister) data source that supports batch and streaming queries.
 
 ## <span id="delta-format"><span id="DataSourceRegister"> DataSourceRegister and delta Alias
 
@@ -16,7 +16,7 @@ org.apache.spark.sql.delta.sources.DeltaDataSource
 
 `DeltaDataSource` is a `RelationProvider` ([Spark SQL]({{ book.spark_sql }}/RelationProvider)).
 
-### <span id="RelationProvider-createRelation"> Creating BaseRelation
+### <span id="RelationProvider-createRelation"> Creating BaseRelation for Table Scan
 
 ```scala
 createRelation(
@@ -24,31 +24,38 @@ createRelation(
   parameters: Map[String, String]): BaseRelation
 ```
 
-`createRelation` [verifies the given parameters](DeltaOptions.md#verifyOptions).
-
-`createRelation` [extracts time travel specification](#getTimeTravelVersion) from the given parameters.
-
-With [spark.databricks.delta.loadFileSystemConfigsFromDataFrameOptions](DeltaSQLConf.md#LOAD_FILE_SYSTEM_CONFIGS_FROM_DATAFRAME_OPTIONS) enabled, `createRelation` uses the given `parameters` as `options`.
-
-In the end, `createRelation` creates a [DeltaTableV2](DeltaTableV2.md) (with the required `path` option and the optional time travel specification) and requests it for an [insertable HadoopFsRelation](DeltaTableV2.md#toBaseRelation).
-
----
-
-`createRelation` makes sure that there is `path` parameter defined (in the given `parameters`) or throws an `IllegalArgumentException`:
-
-```text
-'path' is not specified
-```
-
----
-
 `createRelation` is part of the `RelationProvider` ([Spark SQL]({{ book.spark_sql }}/RelationProvider/#createRelation)) abstraction.
+
+---
+
+`createRelation` [verifies the given parameters](DeltaOptions.md#verifyOptions) (_options_).
+
+`createRelation` [extracts time travel specification](#getTimeTravelVersion) (from the given `parameters`).
+
+`createRelation` collects CDF-specific options with [change data feed enabled](change-data-feed/CDCReader.md#isCDCRead):
+
+* [readChangeFeed](DeltaDataSource.md#CDC_ENABLED_KEY) (with `true` value)
+* [startingVersion](DeltaDataSource.md#CDC_START_VERSION_KEY)
+* [startingTimestamp](DeltaDataSource.md#CDC_START_TIMESTAMP_KEY)
+* [endingVersion](DeltaDataSource.md#CDC_END_VERSION_KEY)
+* [endingTimestamp](DeltaDataSource.md#CDC_END_TIMESTAMP_KEY)
+
+`createRelation` creates a [DeltaTableV2](DeltaTableV2.md) (with the given `parameters` as options when [spark.databricks.delta.loadFileSystemConfigsFromDataFrameOptions](DeltaSQLConf.md#LOAD_FILE_SYSTEM_CONFIGS_FROM_DATAFRAME_OPTIONS) configuration property is enabled).
+
+In the end, `createRelation` requests the `DeltaTableV2` for an [insertable HadoopFsRelation](DeltaTableV2.md#toBaseRelation).
+
+??? note "`path` Parameter is Required"
+    `createRelation` makes sure that there is `path` parameter defined (in the given `parameters`) or throws an `IllegalArgumentException`:
+
+    ```text
+    'path' is not specified
+    ```
 
 ## <span id="CreatableRelationProvider"> CreatableRelationProvider
 
 `DeltaDataSource` is a `CreatableRelationProvider` ([Spark SQL]({{ book.spark_sql }}/CreatableRelationProvider)).
 
-### <span id="CreatableRelationProvider-createRelation"> Creating BaseRelation
+### <span id="CreatableRelationProvider-createRelation"> Creating BaseRelation after Data Writing
 
 ```scala
 createRelation(
@@ -58,25 +65,26 @@ createRelation(
   data: DataFrame): BaseRelation
 ```
 
+`createRelation` is part of the `CreatableRelationProvider` ([Spark SQL]({{ book.spark_sql }}/CreatableRelationProvider/#createRelation)) abstraction.
+
+---
+
 `createRelation` [creates a DeltaLog](DeltaLog.md#forTable) for the required `path` parameter (from the given `parameters`) and the given `parameters` itself.
 
 `createSource` creates a [DeltaOptions](DeltaOptions.md) (with the given `parameters` and the current `SQLConf`).
 
-`createRelation` [creates and executes a WriteIntoDelta command](commands/WriteIntoDelta.md) for the given `data`.
+`createSource` [validateConfigurations](DeltaConfigs.md#validateConfigurations) (with `delta.`-prefixed keys in the given`parameters`).
 
-In the end, `createRelation` requests the `DeltaLog` for a [HadoopFsRelation](DeltaLog.md#createRelation).
+`createRelation` [creates and executes a WriteIntoDelta command](commands/WriteIntoDelta.md) with the given `data`.
 
----
+In the end, `createRelation` requests the `DeltaLog` for a [BaseRelation](DeltaLog.md#createRelation).
 
-`createRelation` makes sure that there is `path` parameter defined (in the given `parameters`) or throws an `IllegalArgumentException`:
+??? note "`path` Parameter is Required"
+    `createRelation` makes sure that there is `path` parameter defined (in the given `parameters`) or throws an `IllegalArgumentException`:
 
-```text
-'path' is not specified
-```
-
----
-
-`createRelation` is part of the `CreatableRelationProvider` ([Spark SQL]({{ book.spark_sql }}/CreatableRelationProvider/#createRelation)) abstraction.
+    ```text
+    'path' is not specified
+    ```
 
 ## <span id="StreamSourceProvider"> StreamSourceProvider
 
@@ -250,20 +258,31 @@ getTable(
 'path' is not specified
 ```
 
-## Utilities
-
-### <span id="getTimeTravelVersion"> getTimeTravelVersion
+## <span id="getTimeTravelVersion"> Creating DeltaTimeTravelSpec
 
 ```scala
 getTimeTravelVersion(
   parameters: Map[String, String]): Option[DeltaTimeTravelSpec]
 ```
 
-`getTimeTravelVersion`...FIXME
+`getTimeTravelVersion` reads the following options (from the given `parameters`):
 
-`getTimeTravelVersion` is used when `DeltaDataSource` is requested to [create a relation (as a RelationProvider)](#RelationProvider-createRelation).
+* [timestampAsOf](options.md#TIME_TRAVEL_TIMESTAMP_KEY)
+* [versionAsOf](options.md#TIME_TRAVEL_VERSION_KEY)
+* `__time_travel_source__`
 
-### <span id="parsePathIdentifier"> parsePathIdentifier
+`getTimeTravelVersion` creates a [DeltaTimeTravelSpec](time-travel/DeltaTimeTravelSpec.md) if either `timestampAsOf` or `versionAsOf` is defined. The `DeltaTimeTravelSpec` is created with the [creationSource](#creationSource) based on `__time_travel_source__` (if specified) or defaults to `dfReader`.
+
+!!! note "Undocumented Feature"
+    `__time_travel_source__` looks like an undocumented feature to use for the [creationSource](time-travel/DeltaTimeTravelSpec.md#creationSource).
+
+---
+
+`getTimeTravelVersion` is used when:
+
+* `DeltaDataSource` is requested to [create a relation (as a RelationProvider)](#RelationProvider-createRelation)
+
+## <span id="parsePathIdentifier"> parsePathIdentifier
 
 ```scala
 parsePathIdentifier(
@@ -273,7 +292,9 @@ parsePathIdentifier(
 
 `parsePathIdentifier`...FIXME
 
-`parsePathIdentifier` is used when `DeltaTableV2` is requested for [metadata](DeltaTableV2.md#rootPath) (for a non-catalog table).
+`parsePathIdentifier` is used when:
+
+* `DeltaTableV2` is requested for [metadata](DeltaTableV2.md#rootPath) (for a non-catalog table)
 
 ## <span id="CDC_ENABLED_KEY"><span id="readChangeFeed"> readChangeFeed
 

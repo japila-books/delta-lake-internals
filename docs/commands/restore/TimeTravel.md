@@ -28,4 +28,4 @@ The Creation Source ID indicates the API used to time travel:
 
 ## Analysis Phase
 
-`TimeTravel` is resolved to [DeltaTimeTravelSpec](../../DeltaTimeTravelSpec.md) when [DeltaAnalysis](../../DeltaAnalysis.md) logical resolution rule is resolving [RestoreTableStatement](RestoreTableStatement.md) unary logical operator.
+`TimeTravel` is resolved to [DeltaTimeTravelSpec](../../time-travel/DeltaTimeTravelSpec.md) when [DeltaAnalysis](../../DeltaAnalysis.md) logical resolution rule is resolving [RestoreTableStatement](RestoreTableStatement.md) unary logical operator.

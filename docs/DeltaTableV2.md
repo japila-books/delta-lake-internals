@@ -107,7 +107,7 @@ v1Table call is not expected with path based DeltaTableV2
 
 ## <span id="timeTravelOpt"> DeltaTimeTravelSpec
 
-`DeltaTableV2` may be given a [DeltaTimeTravelSpec](DeltaTimeTravelSpec.md) when [created](#creating-instance).
+`DeltaTableV2` may be given a [DeltaTimeTravelSpec](time-travel/DeltaTimeTravelSpec.md) when [created](#creating-instance).
 
 `DeltaTimeTravelSpec` is assumed not to be defined by default (`None`).
 
@@ -182,7 +182,7 @@ snapshot: Snapshot
 timeTravelSpec: Option[DeltaTimeTravelSpec]
 ```
 
-`DeltaTableV2` may have a [DeltaTimeTravelSpec](DeltaTimeTravelSpec.md) specified that is either [given](#timeTravelOpt) or [extracted from the path](DeltaTableUtils.md#extractIfPathContainsTimeTravel) (for [timeTravelByPath](#timeTravelByPath)).
+`DeltaTableV2` may have a [DeltaTimeTravelSpec](time-travel/DeltaTimeTravelSpec.md) specified that is either [given](#timeTravelOpt) or [extracted from the path](DeltaTableUtils.md#extractIfPathContainsTimeTravel) (for [timeTravelByPath](#timeTravelByPath)).
 
 `timeTravelSpec` throws an `AnalysisException` when [timeTravelOpt](#timeTravelOpt) and [timeTravelByPath](#timeTravelByPath) are both defined:
 
@@ -203,7 +203,7 @@ timeTravelByPath: Option[DeltaTimeTravelSpec]
 
 `timeTravelByPath` is undefined when [CatalogTable](#catalogTable) is defined.
 
-With no [CatalogTable](#catalogTable) defined, `DeltaTableV2` [parses](DeltaDataSource.md#parsePathIdentifier) the given [Path](#path) for the `timeTravelByPath` (that [resolvePath](DeltaTimeTravelSpec.md#resolvePath) under the covers).
+With no [CatalogTable](#catalogTable) defined, `DeltaTableV2` [parses](DeltaDataSource.md#parsePathIdentifier) the given [Path](#path) for the `timeTravelByPath` (that [resolvePath](time-travel/DeltaTimeTravelSpec.md#resolvePath) under the covers).
 
 ## <span id="toBaseRelation"> Converting to Insertable HadoopFsRelation
 

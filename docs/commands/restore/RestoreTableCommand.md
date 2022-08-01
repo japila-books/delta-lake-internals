@@ -42,11 +42,11 @@ run(
 
 `run` requests the [DeltaTableV2](#sourceTable) for the [DeltaLog](../../DeltaTableV2.md#deltaLog).
 
-`run` requests the [DeltaTableV2](#sourceTable) for the [DeltaTimeTravelSpec](../../DeltaTableV2.md#timeTravelOpt) to access the [version](../../DeltaTimeTravelSpec.md#version).
+`run` requests the [DeltaTableV2](#sourceTable) for the [DeltaTimeTravelSpec](../../DeltaTableV2.md#timeTravelOpt) to access the [version](../../time-travel/DeltaTimeTravelSpec.md#version).
 
 !!! note
     `RestoreTableCommand` does not even bother itself to check if the optional [DeltaTimeTravelSpec](../../DeltaTableV2.md#timeTravelOpt) (of the [DeltaTableV2](#sourceTable)) is defined or not.
-    It is assumed that it is available and so is the [version](../../DeltaTimeTravelSpec.md#version).
+    It is assumed that it is available and so is the [version](../../time-travel/DeltaTimeTravelSpec.md#version).
 
     It is unlike the [timestamp](#getTimestamp). _Why?!_
 

@@ -5,7 +5,7 @@ hide:
 
 # Demo: Time Travel
 
-This demo shows [Time Travel](../time-travel.md) in action.
+This demo shows [Time Travel](../time-travel/index.md) in action.
 
 ```text
 ./bin/spark-shell \
@@ -57,7 +57,7 @@ spark.read.option("versionAsOf", 0).delta("/tmp/delta/demo").show
 // +---+-----+
 ```
 
-The above query over a previous version is also possible using [version pattern](../DeltaTimeTravelSpec.md#time-travel-patterns).
+The above query over a previous version is also possible using [version pattern](../time-travel/DeltaTimeTravelSpec.md#time-travel-patterns).
 
 ```scala
 spark.read.delta("/tmp/delta/demo@v1").show

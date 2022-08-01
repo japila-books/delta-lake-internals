@@ -120,9 +120,6 @@ nav:
   - Internals:
     - Overview: overview.md
     - Installation: installation.md
-    - Time Travel:
-      - Time Travel: time-travel.md
-      - DeltaTimeTravelSpec: DeltaTimeTravelSpec.md
     - Configuration Properties:
       - Configuration Properties: configuration-properties.md
       - DeltaSQLConf: DeltaSQLConf.md
@@ -224,6 +221,9 @@ nav:
       - Invariant: constraints/Invariant.md
       - Invariants: constraints/Invariants.md
       - InvariantViolationException: constraints/InvariantViolationException.md
+    - Time Travel:
+      - time-travel/index.md
+      - DeltaTimeTravelSpec: time-travel/DeltaTimeTravelSpec.md
     - Data Skipping:
       - data-skipping/index.md
       - DataSkippingReaderBase: data-skipping/DataSkippingReaderBase.md

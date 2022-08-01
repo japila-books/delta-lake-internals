@@ -105,7 +105,7 @@ Use [DeltaOptions.canOverwriteSchema](DeltaWriteOptionsImpl.md#canOverwriteSchem
 
 ## <span id="path"> path
 
-**(required)** Directory on a Hadoop DFS-compliant file system with an optional [time travel](time-travel.md) identifier
+**(required)** Directory on a Hadoop DFS-compliant file system with an optional [time travel](time-travel/index.md) identifier
 
 Default: (undefined)
 
@@ -131,11 +131,15 @@ Available as [DeltaWriteOptions.replaceWhere](DeltaWriteOptions.md#replaceWhere)
 !!! example "Demo"
     Learn more in [Demo: replaceWhere](demo/replaceWhere.md).
 
-## <span id="timestampAsOf"> timestampAsOf
+## <span id="timestampAsOf"><span id="TIME_TRAVEL_TIMESTAMP_KEY"> timestampAsOf
 
-Timestamp of the version of a Delta table for [Time Travel](time-travel.md)
+[Timestamp](time-travel/DeltaTimeTravelSpec.md#timestamp) of the version of a delta table for [Time Travel](time-travel/index.md)
 
 Mutually exclusive with [versionAsOf](#versionAsOf) option and the time travel identifier of the [path](#path) option.
+
+Used when:
+
+* `DeltaDataSource` utility is used to [get a DeltaTimeTravelSpec](DeltaDataSource.md#getTimeTravelVersion)
 
 ## <span id="USER_METADATA_OPTION"><span id="userMetadata"> userMetadata
 
@@ -148,12 +152,14 @@ Available by inspecting [CommitInfo](CommitInfo.md)s using [DESCRIBE HISTORY](sq
 !!! example "Demo"
     Learn more in [Demo: User Metadata for Labelling Commits](demo/user-metadata-for-labelling-commits.md).
 
-## <span id="versionAsOf"> versionAsOf
+## <span id="versionAsOf"><span id="TIME_TRAVEL_VERSION_KEY"> versionAsOf
 
-Version of a Delta table for [Time Travel](time-travel.md)
+[Version](time-travel/DeltaTimeTravelSpec.md#version) of a delta table for [Time Travel](time-travel/index.md)
+
+Must be _castable_ to a `long` number
 
 Mutually exclusive with [timestampAsOf](#timestampAsOf) option and the time travel identifier of the [path](#path) option.
 
 Used when:
 
-* `DeltaDataSource` is requested for a [relation](DeltaDataSource.md#RelationProvider-createRelation)
+* `DeltaDataSource` utility is used to [get a DeltaTimeTravelSpec](DeltaDataSource.md#getTimeTravelVersion)

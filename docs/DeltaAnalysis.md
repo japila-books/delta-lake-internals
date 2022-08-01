@@ -81,4 +81,6 @@ In the end, `apply` creates a [DeltaMergeInto](commands/merge/DeltaMergeInto.md#
 
 ### <span id="OverwriteDelta"> OverwriteDelta
 
+### <span id="RestoreTableStatement"> RestoreTableStatement
+
 ### <span id="UpdateTable"> UpdateTable
