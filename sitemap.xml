@@ -251,11 +251,6 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://books.japila.pl/delta-lake-internals/DeltaTimeTravelSpec/</loc>
-         <lastmod>2022-08-01</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://books.japila.pl/delta-lake-internals/DeltaUnsupportedOperationsCheck/</loc>
          <lastmod>2022-08-01</lastmod>
          <changefreq>daily</changefreq>
@@ -497,11 +492,6 @@
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/table-properties/</loc>
-         <lastmod>2022-08-01</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://books.japila.pl/delta-lake-internals/time-travel/</loc>
          <lastmod>2022-08-01</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -1217,6 +1207,16 @@
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/storage/S3SingleDriverLogStore/</loc>
+         <lastmod>2022-08-01</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://books.japila.pl/delta-lake-internals/time-travel/</loc>
+         <lastmod>2022-08-01</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://books.japila.pl/delta-lake-internals/time-travel/DeltaTimeTravelSpec/</loc>
          <lastmod>2022-08-01</lastmod>
          <changefreq>daily</changefreq>
     </url>
