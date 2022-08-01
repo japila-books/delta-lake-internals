@@ -78,13 +78,13 @@ Used when:
 
 ### <span id="CDC_TYPE_COLUMN_NAME"><span id="_change_type"> _change_type Column
 
-`CDCReader` defines `_change_type` column name for a column that represents a change type.
+`CDCReader` defines `_change_type` column name for the column that represents a change type.
 
-`_change_type` is one of the [CDF Virtual Columns](#CDC_COLUMNS_IN_DATA) and [cdcReadSchema](#cdcReadSchema).
+`_change_type` is one of the [CDF Virtual Columns](#CDC_COLUMNS_IN_DATA) and among the columns in the [CDF-aware read schema](#cdcReadSchema).
 
 `CDC_TYPE_COLUMN_NAME` is used when:
 
-* `DeleteCommand` is requested to [rewriteFiles](../commands/delete/DeleteCommand.md#rewriteFiles)
+* `DeleteCommand` is requested to [performDelete](../commands/delete/DeleteCommand.md#performDelete) (and then [rewriteFiles](../commands/delete/DeleteCommand.md#rewriteFiles))
 * `MergeIntoCommand` is requested to [writeAllChanges](../commands/merge/MergeIntoCommand.md#writeAllChanges) (to [matchedClauseOutput](../commands/merge/MergeIntoCommand.md#matchedClauseOutput) and [notMatchedClauseOutput](../commands/merge/MergeIntoCommand.md#notMatchedClauseOutput))
 * `UpdateCommand` is requested to [withUpdatedColumns](../commands/update/UpdateCommand.md#withUpdatedColumns)
 * `WriteIntoDelta` is requested to [write](../commands/WriteIntoDelta.md#write)

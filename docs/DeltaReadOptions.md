@@ -99,7 +99,7 @@ readChangeFeed: Boolean
 
 `readChangeFeed` is used when:
 
-* `DeltaSourceBase` is requested for the [schema](DeltaSourceBase.md#schema), to [getFileChangesWithRateLimit](DeltaSourceBase.md#getFileChangesWithRateLimit) and [getFileChangesAndCreateDataFrame](DeltaSourceBase.md#getFileChangesAndCreateDataFrame)
+* `DeltaSourceBase` is requested for the [read schema](DeltaSourceBase.md#schema), to [getFileChangesWithRateLimit](DeltaSourceBase.md#getFileChangesWithRateLimit) (indirectly for `DeltaSource` to determine the [latest offset](DeltaSource.md#latestOffset)) and [getFileChangesAndCreateDataFrame](DeltaSourceBase.md#getFileChangesAndCreateDataFrame) (indirectly for the `DeltaSource` to [get a streaming micro-batch dataframe](DeltaSource.md#getBatch))
 
 ## <span id="startingTimestamp"> startingTimestamp
 

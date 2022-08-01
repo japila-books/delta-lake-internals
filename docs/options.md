@@ -116,7 +116,11 @@ Default: (undefined)
 
 ## <span id="CDC_READ_OPTION"><span id="readChangeFeed"> readChangeFeed
 
+Enables [Change Data Feed](change-data-feed/index.md) while reading a delta table (_CDC read_)
+
 Use [DeltaOptions.readChangeFeed](DeltaReadOptions.md#readChangeFeed) to access the value
+
+Requires either [startingVersion](#startingVersion) or [startingTimestamp](#startingTimestamp) option
 
 ## <span id="REPLACE_WHERE_OPTION"><span id="replaceWhere"> replaceWhere
 

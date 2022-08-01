@@ -39,7 +39,7 @@ run(
 
 In the end, `run` re-caches all cached plans (incl. this relation itself) by requesting the `CacheManager` ([Spark SQL]({{ book.spark_sql }}/CacheManager)) to recache the [target](#target).
 
-### <span id="performDelete"> performDelete
+## <span id="performDelete"> performDelete
 
 ```scala
 performDelete(
@@ -48,11 +48,16 @@ performDelete(
   txn: OptimisticTransaction): Unit
 ```
 
-#### <span id="performDelete-numFilesTotal"> Number of Table Files
+`performDelete` is used when:
+
+* [DeleteCommand](DeleteCommand.md) is executed
+* `WriteIntoDelta` is requested to [removeFiles](../WriteIntoDelta.md#removeFiles)
+
+### <span id="performDelete-numFilesTotal"> Number of Table Files
 
 `performDelete` requests the given [DeltaLog](../../DeltaLog.md) for the [current Snapshot](../../DeltaLog.md#snapshot) that is in turn requested for the [number of files](../../Snapshot.md#numOfFiles) in the delta table.
 
-#### <span id="performDelete-deleteActions"> Finding Delete Actions
+### <span id="performDelete-deleteActions"> Finding Delete Actions
 
 `performDelete` branches off based on the optional [condition](#condition):
 
@@ -60,21 +65,39 @@ performDelete(
 1. [Condition defined on metadata only](#performDelete-deleteActions-condition-metadata-only)
 1. [Other conditions](#performDelete-deleteActions-condition-others)
 
-#### <span id="performDelete-deleteActions-condition-undefined"> Delete Condition Undefined
+### <span id="performDelete-deleteActions-condition-undefined"> Delete Condition Undefined
 
 `performDelete`...FIXME
 
-#### <span id="performDelete-deleteActions-condition-metadata-only"> Metadata-Only Delete Condition
+### <span id="performDelete-deleteActions-condition-metadata-only"> Metadata-Only Delete Condition
 
 `performDelete`...FIXME
 
-#### <span id="performDelete-deleteActions-condition-others"> Other Delete Conditions
+### <span id="performDelete-deleteActions-condition-others"> Other Delete Conditions
 
 `performDelete`...FIXME
 
-#### <span id="performDelete-deleteActions-nonEmpty"> Delete Actions Available
+### <span id="performDelete-deleteActions-nonEmpty"> Delete Actions Available
 
 `performDelete`...FIXME
+
+### <span id="rewriteFiles"> rewriteFiles
+
+```scala
+rewriteFiles(
+  txn: OptimisticTransaction,
+  baseData: DataFrame,
+  filterCondition: Expression,
+  numFilesToRewrite: Long): Seq[FileAction]
+```
+
+`rewriteFiles` reads the [delta.enableChangeDataFeed](../../DeltaConfigs.md#CHANGE_DATA_FEED) table property of the delta table (from the [Metadata](../../OptimisticTransactionImpl.md#metadata) of the given [OptimisticTransaction](../../OptimisticTransaction.md)).
+
+`rewriteFiles` creates a `numTouchedRows` metric and a `numTouchedRowsUdf` UDF to count the number of rows that have been _touched_.
+
+`rewriteFiles` creates a `DataFrame` to write (with the `numTouchedRowsUdf` UDF and the `filterCondition` column). The `DataFrame` can also include [_change_type](../../change-data-feed/CDCReader.md#CDC_TYPE_COLUMN_NAME) column (with `null` or `delete` values based on the `filterCondition`).
+
+In the end, `rewriteFiles` requests the given [OptimisticTransaction](../../OptimisticTransaction.md) to [write the DataFrame](../../TransactionalWrite.md#writeFiles).
 
 ## <span id="apply"> Creating DeleteCommand
 

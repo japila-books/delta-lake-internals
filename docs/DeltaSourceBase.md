@@ -2,7 +2,7 @@
 
 `DeltaSourceBase` is an extension of the `Source` ([Spark Structured Streaming]({{ book.structured_streaming }}/Source)) abstraction for [DeltaSource](DeltaSource.md).
 
-## <span id="schema"> Read (Source) Schema
+## <span id="schema"> Read Schema
 
 ```scala
 schema: StructType
@@ -35,7 +35,7 @@ createDataFrameBetweenOffsets(
 
 `createDataFrameBetweenOffsets` is used when:
 
-* `DeltaSource` is requested for the [batch DataFrame](DeltaSource.md#getBatch)
+* `DeltaSource` is requested for the [streaming micro-batch DataFrame](DeltaSource.md#getBatch)
 
 ### <span id="getFileChangesAndCreateDataFrame"> getFileChangesAndCreateDataFrame
 

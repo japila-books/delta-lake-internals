@@ -45,7 +45,7 @@ scala> println(relation.source)
 DeltaSource[file:/tmp/delta/users]
 ```
 
-## <span id="getBatch"> Streaming Batch DataFrame
+## <span id="getBatch"> Streaming Micro-Batch DataFrame
 
 ```scala
 getBatch(
@@ -73,7 +73,7 @@ start: [startOffsetOption] end: [end]
 
 In the end, `getBatch` [createDataFrameBetweenOffsets](DeltaSourceBase.md#createDataFrameBetweenOffsets) (for the `startVersion`, `startIndex`, `isStartingVersion` and `endOffset`).
 
-## <span id="latestOffset"> Latest Available Offset
+## <span id="latestOffset"> Latest Available Streaming Offset
 
 ```scala
 latestOffset(
@@ -82,6 +82,8 @@ latestOffset(
 ```
 
 `latestOffset` is part of the `SupportsAdmissionControl` ([Spark Structured Streaming]({{ book.structured_streaming }}/SupportsAdmissionControl#latestOffset)) abstraction.
+
+---
 
 `latestOffset` determines the latest offset (_currentOffset_) based on whether the [previousOffset](#previousOffset) internal registry is [initialized](#latestOffset-previousOffset-defined) or [not](#latestOffset-previousOffset-null).
 
