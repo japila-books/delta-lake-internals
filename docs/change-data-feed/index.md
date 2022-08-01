@@ -12,7 +12,7 @@ Change Data Feed is a new feature in Delta Lake 2.0.0 (that was tracked under [S
 
 ## Enabling CDF for a Delta table
 
-Enable CDF for a table using [delta.enableChangeDataFeed](#delta.enableChangeDataFeed) table property.
+Enable CDF for a table using [delta.enableChangeDataFeed](../DeltaConfigs.md#enableChangeDataFeed) table property.
 
 ```sql
 ALTER TABLE myDeltaTable

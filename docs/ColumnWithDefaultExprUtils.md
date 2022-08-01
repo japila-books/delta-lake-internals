@@ -1,5 +1,12 @@
 # ColumnWithDefaultExprUtils
 
+!!! danger "IDENTITY Columns feature is unsupported yet"
+    [Protocol.requiredMinimumProtocol](Protocol.md#requiredMinimumProtocol) throws an `AnalysisException` when a delta table uses [identity columns](#hasIdentityColumn):
+
+    ```text
+    IDENTITY column is not supported
+    ```
+
 ## <span id="IDENTITY_MIN_WRITER_VERSION"> IDENTITY_MIN_WRITER_VERSION
 
 `ColumnWithDefaultExprUtils` uses `6` as the [minimum version of a writer](Protocol.md#minWriterVersion) for writing to `IDENTITY` columns.
