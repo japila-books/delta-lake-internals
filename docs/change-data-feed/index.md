@@ -67,7 +67,12 @@ Change Data Feed is enabled in batch and streaming queries using [readChangeFeed
 
 ## <span id="_change_type"> _change_type Column
 
-[_change_type](CDCReader.md#_change_type)
+[_change_type](CDCReader.md#_change_type) column represents a change type.
+
+ _change_type | Command
+--------------|---------
+ `delete` | [DeleteCommand](../commands/delete/DeleteCommand.md#performDelete)
+ FIXME |
 
 ## Protocol
 

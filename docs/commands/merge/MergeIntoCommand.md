@@ -1,8 +1,6 @@
 # MergeIntoCommand
 
-`MergeIntoCommand` is a [DeltaCommand](../DeltaCommand.md) that represents a [DeltaMergeInto](DeltaMergeInto.md) logical command at execution.
-
-`MergeIntoCommand` is a `LeafRunnableCommand` ([Spark SQL]({{ book.spark_sql }}/logical-operators/LeafRunnableCommand/)) logical operator.
+`MergeIntoCommand` is a transactional [DeltaCommand](../DeltaCommand.md) that represents a [DeltaMergeInto](DeltaMergeInto.md) logical command at execution.
 
 !!! tip
     Learn more in [Demo: Merge Operation](../../demo/merge-operation.md).
@@ -36,16 +34,20 @@ Name     | web UI
 * [Source Data](#source)
 * <span id="target"> Target Data ([LogicalPlan]({{ book.spark_sql }}/logical-operators/LogicalPlan/))
 * <span id="targetFileIndex"> [TahoeFileIndex](../../TahoeFileIndex.md)
-* <span id="condition"> Condition Expression
+* <span id="condition"> Condition ([Expression]({{ book.spark_sql }}/expressions/Expression/))
 * <span id="matchedClauses"> Matched Clauses (`Seq[DeltaMergeIntoMatchedClause]`)
 * <span id="notMatchedClauses"> Non-Matched Clauses (`Seq[DeltaMergeIntoInsertClause]`)
-* <span id="migratedSchema"> Migrated Schema
+* [Migrated Schema](#migratedSchema)
 
 `MergeIntoCommand` is created when:
 
-* [PreprocessTableMerge](../../PreprocessTableMerge.md) logical resolution rule is executed (on a [DeltaMergeInto](DeltaMergeInto.md) logical command)
+* [PreprocessTableMerge](../../PreprocessTableMerge.md) logical resolution rule is executed (to resolve a [DeltaMergeInto](DeltaMergeInto.md) logical command)
 
-## <span id="source"> Source Data
+### <span id="source"> Source Data
+
+```scala
+source: LogicalPlan
+```
 
 When [created](#creating-instance), `MergeIntoCommand` is given a `LogicalPlan` ([Spark SQL]({{ book.spark_sql }}/logical-operators/LogicalPlan)) for the source data to merge from (internally referred to as _source_).
 
@@ -59,7 +61,15 @@ The source is used twice:
 !!! tip
     Enable `DEBUG` logging level for [org.apache.spark.sql.delta.commands.MergeIntoCommand](#logging) logger to see the inner-workings of [writeAllChanges](#writeAllChanges).
 
-## <span id="targetDeltaLog"> Target DeltaLog
+### <span id="migratedSchema"> Migrated Schema
+
+```scala
+migratedSchema: Option[StructType]
+```
+
+`MergeIntoCommand` can be given a `migratedSchema` ([Spark SQL]({{ book.spark_sql }}/types/StructType)).
+
+## <span id="targetDeltaLog"> Target Delta Table
 
 ```scala
 targetDeltaLog: DeltaLog
@@ -84,24 +94,54 @@ run(
 
 `run` is part of the `RunnableCommand` ([Spark SQL]({{ book.spark_sql }}/logical-operators/RunnableCommand/)) abstraction.
 
-`run` requests the [target DeltaLog](#targetDeltaLog) to [start a new transaction](../../DeltaLog.md#withNewTransaction).
+---
 
-With [spark.databricks.delta.schema.autoMerge.enabled](../../DeltaSQLConf.md#DELTA_SCHEMA_AUTO_MIGRATE) configuration property enabled, `run` [updates the metadata](../../ImplicitMetadataOperation.md#updateMetadata) (of the transaction).
+`run` is a transactional operation that is made up of the following steps:
 
-<span id="run-deltaActions">
-`run` determines Delta actions ([RemoveFile](../../RemoveFile.md)s and [AddFile](../../AddFile.md)s).
+1. [Begin Transaction](#run-withNewTransaction)
+    1. [schema.autoMerge.enabled](#run-canMergeSchema)
+    1. [FileActions](#run-deltaActions)
+    1. [Register Metrics](#run-registerSQLMetrics)
+1. [Commit Transaction](#run-commit)
+1. [Re-Cache Target Delta Table](#run-recacheByPlan)
+1. [Post Metric Updates](#run-postDriverMetricUpdates)
+
+### <span id="run-withNewTransaction"> Begin Transaction
+
+`run` [starts a new transaction](../../DeltaLog.md#withNewTransaction) (on the [target delta table](#targetDeltaLog)).
+
+### <span id="run-canMergeSchema"> schema.autoMerge.enabled
+
+Only when [spark.databricks.delta.schema.autoMerge.enabled](../../DeltaSQLConf.md#DELTA_SCHEMA_AUTO_MIGRATE) configuration property is enabled, `run` [updates the metadata](../../ImplicitMetadataOperation.md#updateMetadata) (of the transaction) with the following:
+
+* [migratedSchema](#migratedSchema) (if defined) or the schema of the [target](#target)
+* `isOverwriteMode` flag off
+* `rearrangeOnly` flag off
+
+### <span id="run-deltaActions"> FileActions
+
+`run` determines [FileAction](../../FileAction.md)s.
 
 !!! todo "Describe `deltaActions` part"
 
-With [spark.databricks.delta.history.metricsEnabled](../../DeltaSQLConf.md#DELTA_HISTORY_METRICS_ENABLED) configuration property enabled, `run` requests the [current transaction](../../OptimisticTransaction.md) to [register SQL metrics for the Delta operation](../../SQLMetricsReporting.md#registerSQLMetrics).
+### <span id="run-registerSQLMetrics"> Register Metrics
 
-`run` requests the [current transaction](../../OptimisticTransaction.md) to [commit](../../OptimisticTransactionImpl.md#commit) (with the [Delta actions](#run-deltaActions) and `Merge` operation).
+`run` [registers](../../SQLMetricsReporting.md#registerSQLMetrics) the [SQL metrics](#metrics) (with the [current transaction](../../OptimisticTransaction.md)).
 
-`run` records the Delta event.
+### <span id="run-commit"> Commit Transaction
 
-`run` posts a `SparkListenerDriverAccumUpdates` Spark event (with the metrics).
+`run` [commits](../../OptimisticTransactionImpl.md#commit) the [current transaction](../../OptimisticTransaction.md) (with the [FileActions](#run-deltaActions) and `MERGE` operation).
 
-In the end, `run` requests the `CacheManager` to `recacheByPlan`.
+### <span id="run-recacheByPlan"> Re-Cache Target Delta Table
+
+`run` requests the `CacheManager` to re-cache the [target](#target) plan.
+
+### <span id="run-postDriverMetricUpdates"> Post Metric Updates
+
+In the end, `run` posts the SQL metric updates (as a `SparkListenerDriverAccumUpdates` ([Apache Spark]({{ book.spark_core }}/SparkListenerEvent#SparkListenerDriverAccumUpdates)) Spark event) to `SparkListener`s (incl. Spark UI).
+
+!!! note
+    Use `SparkListener` ([Apache Spark]({{ book.spark_core }}/SparkListener)) to intercept `SparkListenerDriverAccumUpdates` events.
 
 ### <span id="findTouchedFiles"> Finding Files to Rewrite
 
@@ -306,49 +346,6 @@ findTouchedFiles: matched files:
 
 In the end, `findTouchedFiles` gives the touched files (as [AddFile](../../AddFile.md)s).
 
-### <span id="writeAllChanges"> Writing All Changes
-
-```scala
-writeAllChanges(
-  spark: SparkSession,
-  deltaTxn: OptimisticTransaction,
-  filesToRewrite: Seq[AddFile]): Seq[AddFile]
-```
-
-`writeAllChanges` builds the target output columns (possibly with some `null`s for the target columns that are not in the current schema).
-
-<span id="writeAllChanges-newTarget">
-`writeAllChanges` [builds a target logical query plan for the AddFiles](#buildTargetPlanWithFiles).
-
-<span id="writeAllChanges-joinType">
-`writeAllChanges` determines a join type to use (`rightOuter` or `fullOuter`).
-
-`writeAllChanges` prints out the following DEBUG message to the logs:
-
-```text
-writeAllChanges using [joinType] join:
-source.output: [outputSet]
-target.output: [outputSet]
-condition: [condition]
-newTarget.output: [outputSet]
-```
-
-<span id="writeAllChanges-joinedDF">
-`writeAllChanges` creates a `joinedDF` DataFrame that is a join of the DataFrames for the [source](#source) and the new [target](#writeAllChanges-newTarget) logical plans with the given [join condition](#condition) and the [join type](#writeAllChanges-joinType).
-
-`writeAllChanges` creates a `JoinedRowProcessor` that is then used to map over partitions of the [joined DataFrame](#writeAllChanges-joinedDF).
-
-`writeAllChanges` prints out the following DEBUG message to the logs:
-
-```text
-writeAllChanges: join output plan:
-[outputDF.queryExecution]
-```
-
-`writeAllChanges` requests the input [OptimisticTransaction](../../OptimisticTransaction.md) to [writeFiles](../../TransactionalWrite.md#writeFiles) (possibly repartitioning by the partition columns if table is partitioned and [spark.databricks.delta.merge.repartitionBeforeWrite.enabled](../../DeltaSQLConf.md#MERGE_REPARTITION_BEFORE_WRITE) configuration property is enabled).
-
-`writeAllChanges` is used when `MergeIntoCommand` is requested to [run](#run).
-
 ### <span id="buildTargetPlanWithFiles"> Building Target Logical Query Plan for AddFiles
 
 ```scala
@@ -422,6 +419,64 @@ repartitionIfNeeded(
 `repartitionIfNeeded` is used when:
 
 * `MergeIntoCommand` is requested to [writeInsertsOnlyWhenNoMatchedClauses](#writeInsertsOnlyWhenNoMatchedClauses) and [writeAllChanges](#writeAllChanges)
+
+## <span id="LeafRunnableCommand"> LeafRunnableCommand
+
+`MergeIntoCommand` is a `LeafRunnableCommand` ([Spark SQL]({{ book.spark_sql }}/logical-operators/LeafRunnableCommand/)) logical operator.
+
+## <span id="writeAllChanges"> Writing Merged Data
+
+```scala
+writeAllChanges(
+  spark: SparkSession,
+  deltaTxn: OptimisticTransaction,
+  filesToRewrite: Seq[AddFile]): Seq[FileAction]
+```
+
+`writeAllChanges` is used when:
+
+* `MergeIntoCommand` is [executed](#run) (that is either not [isSingleInsertOnly](#isSingleInsertOnly) or [DeltaSQLConf.MERGE_INSERT_ONLY_ENABLED](../../DeltaSQLConf.md#MERGE_INSERT_ONLY_ENABLED) configuration property is disabled for which [writeInsertsOnlyWhenNoMatchedClauses](#writeInsertsOnlyWhenNoMatchedClauses) is used instead)
+
+### <span id="writeAllChanges-targetOutputCols"> targetOutputCols
+
+`writeAllChanges` builds the target output schema (possibly with some `null`s for the target columns that are not in the current schema).
+
+### <span id="writeAllChanges-newTarget"> newTarget
+
+`writeAllChanges` [builds a target logical query plan for the AddFiles](#buildTargetPlanWithFiles).
+
+### <span id="writeAllChanges-joinType"> joinType
+
+`writeAllChanges` determines the join type to use (`rightOuter` or `fullOuter`).
+
+`writeAllChanges` prints out the following DEBUG message to the logs:
+
+```text
+writeAllChanges using [joinType] join:
+source.output: [outputSet]
+target.output: [outputSet]
+condition: [condition]
+newTarget.output: [outputSet]
+```
+
+### <span id="writeAllChanges-joinedDF"> joinedDF
+
+`writeAllChanges` creates a `joinedDF` DataFrame that is a join of the DataFrames for the [source](#source) and the new [target](#writeAllChanges-newTarget) logical plans with the given [join condition](#condition) and the [join type](#writeAllChanges-joinType).
+
+`writeAllChanges` creates a `JoinedRowProcessor` that is then used to map over partitions of the [joined DataFrame](#writeAllChanges-joinedDF).
+
+`writeAllChanges` prints out the following DEBUG message to the logs:
+
+```text
+writeAllChanges: join output plan:
+[outputDF.queryExecution]
+```
+
+`writeAllChanges` requests the input [OptimisticTransaction](../../OptimisticTransaction.md) to [writeFiles](../../TransactionalWrite.md#writeFiles) (possibly repartitioning by the partition columns if table is partitioned and [spark.databricks.delta.merge.repartitionBeforeWrite.enabled](../../DeltaSQLConf.md#MERGE_REPARTITION_BEFORE_WRITE) configuration property is enabled).
+
+`writeAllChanges` updates the [metrics](#metrics).
+
+In the end, `writeAllChanges` returns the [FileAction](../../FileAction.md)s (from [writing data out](../../TransactionalWrite.md#writeFiles)).
 
 ## Logging
 
