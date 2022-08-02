@@ -206,24 +206,6 @@ nav:
       - column-mapping/index.md
       - DeltaColumnMappingBase: column-mapping/DeltaColumnMappingBase.md
       - DeltaColumnMappingMode: column-mapping/DeltaColumnMappingMode.md
-    - Table Constraints:
-      - constraints/index.md
-      - AddConstraint: constraints/AddConstraint.md
-      - AlterTableAddConstraintStatement: constraints/AlterTableAddConstraintStatement.md
-      - AlterTableDropConstraintStatement: constraints/AlterTableDropConstraintStatement.md
-      - CheckDeltaInvariant: constraints/CheckDeltaInvariant.md
-      - Constraint: constraints/Constraint.md
-      - Constraints: constraints/Constraints.md
-      - DeltaInvariantChecker: constraints/DeltaInvariantChecker.md
-      - DeltaInvariantCheckerExec: constraints/DeltaInvariantCheckerExec.md
-      - DeltaInvariantCheckerStrategy: constraints/DeltaInvariantCheckerStrategy.md
-      - DropConstraint: constraints/DropConstraint.md
-      - Invariant: constraints/Invariant.md
-      - Invariants: constraints/Invariants.md
-      - InvariantViolationException: constraints/InvariantViolationException.md
-    - Time Travel:
-      - time-travel/index.md
-      - DeltaTimeTravelSpec: time-travel/DeltaTimeTravelSpec.md
     - Data Skipping:
       - data-skipping/index.md
       - DataSkippingReaderBase: data-skipping/DataSkippingReaderBase.md
@@ -253,6 +235,24 @@ nav:
     - Generated Columns:
       - generated-columns/index.md
       - GeneratedColumn: generated-columns/GeneratedColumn.md
+    - Table Constraints:
+      - constraints/index.md
+      - AddConstraint: constraints/AddConstraint.md
+      - AlterTableAddConstraintStatement: constraints/AlterTableAddConstraintStatement.md
+      - AlterTableDropConstraintStatement: constraints/AlterTableDropConstraintStatement.md
+      - CheckDeltaInvariant: constraints/CheckDeltaInvariant.md
+      - Constraint: constraints/Constraint.md
+      - Constraints: constraints/Constraints.md
+      - DeltaInvariantChecker: constraints/DeltaInvariantChecker.md
+      - DeltaInvariantCheckerExec: constraints/DeltaInvariantCheckerExec.md
+      - DeltaInvariantCheckerStrategy: constraints/DeltaInvariantCheckerStrategy.md
+      - DropConstraint: constraints/DropConstraint.md
+      - Invariant: constraints/Invariant.md
+      - Invariants: constraints/Invariants.md
+      - InvariantViolationException: constraints/InvariantViolationException.md
+    - Time Travel:
+      - time-travel/index.md
+      - DeltaTimeTravelSpec: time-travel/DeltaTimeTravelSpec.md
   - Developer API:
     - DeltaTable: DeltaTable.md
     - DeltaTableBuilder: DeltaTableBuilder.md
