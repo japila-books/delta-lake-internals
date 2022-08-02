@@ -1146,6 +1146,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://books.japila.pl/delta-lake-internals/features/</loc>
+         <lastmod>2022-08-02</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://books.japila.pl/delta-lake-internals/generated-columns/</loc>
          <lastmod>2022-08-02</lastmod>
          <changefreq>daily</changefreq>
