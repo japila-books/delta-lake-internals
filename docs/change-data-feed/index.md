@@ -65,7 +65,11 @@ Change Data Feed is enabled in batch and streaming queries using [readChangeFeed
 * [endingVersion](../DeltaDataSource.md#CDC_END_VERSION_KEY)
 * [endingTimestamp](../DeltaDataSource.md#CDC_END_TIMESTAMP_KEY)
 
-## Minimum Required Protocol
+## <span id="_change_type"> _change_type Column
+
+[_change_type](CDCReader.md#_change_type)
+
+## Protocol
 
 Change Data Feed requires the [minimum protocol version to be 0 for readers and 4 for writers](../Protocol.md#requiredMinimumProtocol).
 

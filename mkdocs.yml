@@ -195,6 +195,7 @@ nav:
       - TahoeLogFileIndex: TahoeLogFileIndex.md
       - DeltaLogFileIndex: DeltaLogFileIndex.md
   - Features:
+    - features/index.md
     - Change Data Feed:
       - change-data-feed/index.md
       - CdcAddFileIndex: change-data-feed/CdcAddFileIndex.md
