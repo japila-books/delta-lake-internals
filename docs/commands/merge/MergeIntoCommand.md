@@ -118,11 +118,13 @@ Only when [spark.databricks.delta.schema.autoMerge.enabled](../../DeltaSQLConf.m
 * `isOverwriteMode` flag off
 * `rearrangeOnly` flag off
 
-### <span id="run-deltaActions"> FileActions
+### <span id="run-deltaActions"><span id="run-isSingleInsertOnly"> FileActions
 
 `run` determines [FileAction](../../FileAction.md)s.
 
-!!! todo "Describe `deltaActions` part"
+For a [single insert-only merge](#isSingleInsertOnly) with [spark.databricks.delta.merge.optimizeInsertOnlyMerge.enabled](../../DeltaSQLConf.md#MERGE_INSERT_ONLY_ENABLED) configuration property enabled, `run` [writeInsertsOnlyWhenNoMatchedClauses](#writeInsertsOnlyWhenNoMatchedClauses).
+
+Otherwise, `run`...FIXME
 
 ### <span id="run-registerSQLMetrics"> Register Metrics
 
@@ -375,19 +377,6 @@ The schema of your Delta table has changed in an incompatible way since your Dat
 This check can be turned off by setting the session configuration key spark.databricks.delta.checkLatestSchemaOnRead to false.
 ```
 
-## <span id="isSingleInsertOnly"> isSingleInsertOnly
-
-```scala
-isSingleInsertOnly: Boolean
-```
-
-`isSingleInsertOnly` is positive when this `MERGE` command has only a single insert (`NOT MATCHED`) clause.
-
-In other words, `isSingleInsertOnly` is `true` when all the following hold:
-
-1. No [matched clauses](#matchedClauses) is specified
-1. There is just a single [notMatchedClauses](#notMatchedClauses)
-
 ## <span id="writeInsertsOnlyWhenNoMatchedClauses"> writeInsertsOnlyWhenNoMatchedClauses
 
 ```scala
@@ -400,7 +389,7 @@ writeInsertsOnlyWhenNoMatchedClauses(
 
 `writeInsertsOnlyWhenNoMatchedClauses` is used when:
 
-* `MergeIntoCommand` is requested to [run](#run) (when [isSingleInsertOnly](#isSingleInsertOnly) with [spark.databricks.delta.merge.optimizeInsertOnlyMerge.enabled](../../DeltaSQLConf.md#MERGE_INSERT_ONLY_ENABLED) enabled)
+* `MergeIntoCommand` is [executed](#run) (for [insert-only merge](#isSingleInsertOnly) with [spark.databricks.delta.merge.optimizeInsertOnlyMerge.enabled](../../DeltaSQLConf.md#MERGE_INSERT_ONLY_ENABLED) enabled)
 
 ## <span id="repartitionIfNeeded"> repartitionIfNeeded
 
@@ -477,6 +466,24 @@ writeAllChanges: join output plan:
 `writeAllChanges` updates the [metrics](#metrics).
 
 In the end, `writeAllChanges` returns the [FileAction](../../FileAction.md)s (from [writing data out](../../TransactionalWrite.md#writeFiles)).
+
+## <span id="isSingleInsertOnly"> Single Insert-Only Merge
+
+```scala
+isSingleInsertOnly: Boolean
+```
+
+`isSingleInsertOnly` holds true when this `MERGE` command is a single `WHEN NOT MATCHED THEN INSERT` action:
+
+1. No [matched clauses](#matchedClauses)
+1. There is just a single [notMatchedClauses](#notMatchedClauses)
+
+```sql
+MERGE INTO merge_demo to
+USING merge_demo_source from
+ON to.id = from.id
+WHEN NOT MATCHED THEN INSERT *;
+```
 
 ## Logging
 

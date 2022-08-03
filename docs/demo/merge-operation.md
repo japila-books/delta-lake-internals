@@ -10,7 +10,7 @@ This demo shows [DeltaTable.merge](../DeltaTable.md#merge) operation (and the un
 !!! tip
     Enable `ALL` logging level for `org.apache.spark.sql.delta.commands.MergeIntoCommand` logger as described in [Logging](../commands/merge/MergeIntoCommand.md#logging).
 
-## Create Delta Table (Target Data)
+## Target Table
 
 ### Create Table
 
@@ -30,8 +30,9 @@ This demo shows [DeltaTable.merge](../DeltaTable.md#merge) operation (and the un
 === "SQL"
 
     ```sql
-    DROP TABLE IF EXISTS delta_demo;
-    CREATE TABLE delta_demo (id LONG)
+    DROP TABLE IF EXISTS merge_demo;
+
+    CREATE TABLE merge_demo (id LONG)
     USING delta;
     ```
 
@@ -51,11 +52,11 @@ Please note that the above commands leave us with an empty Delta table. Let's fi
 === "SQL"
 
     ```sql
-    INSERT INTO delta_demo
+    INSERT INTO merge_demo
     SELECT * FROM range(5);
     ```
 
-## Source Data
+## Source Table
 
 === "Scala"
 
@@ -67,8 +68,9 @@ Please note that the above commands leave us with an empty Delta table. Let's fi
 === "SQL"
 
     ```sql
-    DROP TABLE IF EXISTS delta_demo_src;
-    CREATE TABLE delta_demo_src (id LONG, name STRING)
+    DROP TABLE IF EXISTS merge_demo_source;
+
+    CREATE TABLE merge_demo_source (id LONG, name STRING)
     USING delta;
     ```
 
@@ -82,18 +84,25 @@ Note the difference in the schema of the `target` and `source` datasets.
 
 === "SQL"
 
-    ```sql
-    DESC delta_demo_src;
+    ```scala
+    DESC merge_demo;
     ```
 
 ```text
-root
- |-- id: long (nullable = true)
+|-- id: long (nullable = true)
 ```
 
-```scala
-source.printSchema
-```
+=== "Scala"
+
+    ```scala
+    source.printSchema
+    ```
+
+=== "SQL"
+
+    ```sql
+    DESC merge_demo_source;
+    ```
 
 ```text
 root
@@ -101,7 +110,7 @@ root
  |-- name: string (nullable = true)
 ```
 
-## Merge with Schema Evolution
+## MERGE MATCHED DELETE with Schema Evolution
 
 Not only are we about to update the matching rows, but also update the schema (schema evolution).
 
@@ -144,8 +153,8 @@ Not only are we about to update the matching rows, but also update the schema (s
 === "SQL"
 
     ```sql
-    MERGE INTO delta_demo to
-    USING delta_demo_src from
+    MERGE INTO merge_demo to
+    USING merge_demo_source from
     ON to.id = from.id;
     ```
 
@@ -155,8 +164,8 @@ Not only are we about to update the matching rows, but also update the schema (s
     ```
 
     ```sql
-    MERGE INTO delta_demo to
-    USING delta_demo_src from
+    MERGE INTO merge_demo to
+    USING merge_demo_source from
     ON to.id = from.id
     WHEN MATCHED THEN DELETE;
     ```
@@ -248,3 +257,14 @@ target.toDF.sort('id.asc).show
 ```scala
 assert(target.history.count == 5)
 ```
+
+## MERGE NOT MATCHED INSERT
+
+=== "SQL"
+
+    ```sql
+    MERGE INTO merge_demo to
+    USING merge_demo_source from
+    ON to.id = from.id
+    WHEN NOT MATCHED THEN INSERT *;
+    ```

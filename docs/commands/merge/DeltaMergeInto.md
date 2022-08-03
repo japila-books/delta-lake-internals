@@ -20,7 +20,7 @@ When created, `DeltaMergeInto` [verifies the actions](DeltaMergeIntoClause.md#ve
 * `DeltaMergeBuilder` is requested to [execute](DeltaMergeBuilder.md#execute)
 * [DeltaAnalysis](../../DeltaAnalysis.md) logical resolution rule is executed
 
-## <span id="PreprocessTableMerge"> PreprocessTableMerge
+## Logical Resolution
 
 `DeltaMergeInto` is resolved to [MergeIntoCommand](MergeIntoCommand.md) by [PreprocessTableMerge](../../PreprocessTableMerge.md) logical resolution rule.
 
