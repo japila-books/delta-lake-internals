@@ -2,22 +2,21 @@
 
 `MergeIntoCommand` is a transactional [DeltaCommand](../DeltaCommand.md) that represents a [DeltaMergeInto](DeltaMergeInto.md) logical command at execution.
 
-!!! tip
-    Learn more in [Demo: Merge Operation](../../demo/merge-operation.md).
-
 ## Performance Metrics
 
 Name     | web UI
 ---------|----------
 `numSourceRows` | number of source rows
+`numSourceRowsInSecondScan` | number of source rows (during repeated scan)
+`numTargetFilesAdded` | number of files added to target
+<span id="numTargetFilesAfterSkipping"> `numTargetFilesAfterSkipping` | number of target files after skipping
+<span id="numTargetFilesBeforeSkipping"> `numTargetFilesBeforeSkipping` | number of target files before skipping
+<span id="numTargetFilesRemoved"> `numTargetFilesRemoved` | number of files removed to target
 [numTargetRowsCopied](#numTargetRowsCopied) | number of target rows rewritten unmodified
 `numTargetRowsInserted` | number of inserted rows
-`numTargetRowsUpdated` | number of updated rows
 `numTargetRowsDeleted` | number of deleted rows
-<span id="numTargetFilesBeforeSkipping"> `numTargetFilesBeforeSkipping` | number of target files before skipping
-<span id="numTargetFilesAfterSkipping"> `numTargetFilesAfterSkipping` | number of target files after skipping
-<span id="numTargetFilesRemoved"> `numTargetFilesRemoved` | number of files removed to target
-`numTargetFilesAdded` | number of files added to target
+`numTargetRowsUpdated` | number of updated rows
+_others_ |
 
 ### <span id="numTargetRowsCopied"> number of target rows rewritten unmodified
 
@@ -34,7 +33,7 @@ Name     | web UI
 * [Source Data](#source)
 * <span id="target"> Target Data ([LogicalPlan]({{ book.spark_sql }}/logical-operators/LogicalPlan/))
 * <span id="targetFileIndex"> [TahoeFileIndex](../../TahoeFileIndex.md)
-* <span id="condition"> Condition ([Expression]({{ book.spark_sql }}/expressions/Expression/))
+* <span id="condition"> Merge Condition ([Expression]({{ book.spark_sql }}/expressions/Expression/))
 * <span id="matchedClauses"> Matched Clauses (`Seq[DeltaMergeIntoMatchedClause]`)
 * <span id="notMatchedClauses"> Non-Matched Clauses (`Seq[DeltaMergeIntoInsertClause]`)
 * [Migrated Schema](#migratedSchema)
@@ -118,11 +117,15 @@ Only when [spark.databricks.delta.schema.autoMerge.enabled](../../DeltaSQLConf.m
 * `isOverwriteMode` flag off
 * `rearrangeOnly` flag off
 
-### <span id="run-deltaActions"><span id="run-isSingleInsertOnly"> FileActions
+### <span id="run-deltaActions"> FileActions
 
 `run` determines [FileAction](../../FileAction.md)s.
 
+#### <span id="run-isSingleInsertOnly"> Single Insert-Only Merge
+
 For a [single insert-only merge](#isSingleInsertOnly) with [spark.databricks.delta.merge.optimizeInsertOnlyMerge.enabled](../../DeltaSQLConf.md#MERGE_INSERT_ONLY_ENABLED) configuration property enabled, `run` [writeInsertsOnlyWhenNoMatchedClauses](#writeInsertsOnlyWhenNoMatchedClauses).
+
+#### <span id="run-deltaActions-otherwise"> Otherwise
 
 Otherwise, `run`...FIXME
 
@@ -377,7 +380,7 @@ The schema of your Delta table has changed in an incompatible way since your Dat
 This check can be turned off by setting the session configuration key spark.databricks.delta.checkLatestSchemaOnRead to false.
 ```
 
-## <span id="writeInsertsOnlyWhenNoMatchedClauses"> writeInsertsOnlyWhenNoMatchedClauses
+## <span id="writeInsertsOnlyWhenNoMatchedClauses"> Writing Out Single Insert-Only Merge
 
 ```scala
 writeInsertsOnlyWhenNoMatchedClauses(
@@ -385,11 +388,97 @@ writeInsertsOnlyWhenNoMatchedClauses(
   deltaTxn: OptimisticTransaction): Seq[FileAction]
 ```
 
-`writeInsertsOnlyWhenNoMatchedClauses`...FIXME
-
 `writeInsertsOnlyWhenNoMatchedClauses` is used when:
 
-* `MergeIntoCommand` is [executed](#run) (for [insert-only merge](#isSingleInsertOnly) with [spark.databricks.delta.merge.optimizeInsertOnlyMerge.enabled](../../DeltaSQLConf.md#MERGE_INSERT_ONLY_ENABLED) enabled)
+* `MergeIntoCommand` is [executed](#run) (for [single insert-only merge](#isSingleInsertOnly) with [spark.databricks.delta.merge.optimizeInsertOnlyMerge.enabled](../../DeltaSQLConf.md#MERGE_INSERT_ONLY_ENABLED) enabled)
+
+### <span id="writeInsertsOnlyWhenNoMatchedClauses-outputCols"> Target Output Columns
+
+`writeInsertsOnlyWhenNoMatchedClauses` gets the names of the output (_target_) columns.
+
+`writeInsertsOnlyWhenNoMatchedClauses` creates a collection of output columns with the target names and the [resolved DeltaMergeActions](DeltaMergeIntoClause.md#resolvedActions) of a single [DeltaMergeIntoInsertClause](#notMatchedClauses) (as `Alias` expressions).
+
+### <span id="writeInsertsOnlyWhenNoMatchedClauses-sourceDF"> Source DataFrame
+
+`writeInsertsOnlyWhenNoMatchedClauses` [creates a UDF](#makeMetricUpdateUDF) to update [numSourceRows](#numSourceRows) metric.
+
+`writeInsertsOnlyWhenNoMatchedClauses` creates a source `DataFrame` for the [source](#source) data with `Dataset.filter`s with the UDF and the [condition](DeltaMergeIntoInsertClause.md#condition) of the [DeltaMergeIntoInsertClause](DeltaMergeIntoInsertClause.md) (if defined) or `Literal.TrueLiteral`.
+
+!!! note "Use condition for filter pushdown optimization"
+    The [condition](DeltaMergeIntoInsertClause.md#condition) of this single [DeltaMergeIntoInsertClause](DeltaMergeIntoInsertClause.md) is pushed down to the [source](#source) when Spark SQL optimizes the query.
+
+### <span id="writeInsertsOnlyWhenNoMatchedClauses-dataSkippedFiles"> Data-Skipped AddFiles
+
+`writeInsertsOnlyWhenNoMatchedClauses` splits conjunctive predicates (`And` expressions) in the [merge condition](#condition) and determines a so-called _targetOnlyPredicates_ (predicates with the [target](#target) columns only). `writeInsertsOnlyWhenNoMatchedClauses` requests the given [OptimisticTransaction](../../OptimisticTransaction.md) to [filterFiles](../../OptimisticTransactionImpl.md#filterFiles) matching the target-only predicates (that gives [AddFile](../../AddFile.md)s).
+
+!!! note "Merge Condition and Data Skipping"
+    The [merge condition](#condition) of this [MergeIntoCommand](MergeIntoCommand.md) is used for [Data Skipping](../../data-skipping/index.md).
+
+### <span id="writeInsertsOnlyWhenNoMatchedClauses-targetDF"> Target DataFrame
+
+`writeInsertsOnlyWhenNoMatchedClauses` creates a target `DataFrame` for the data-skipped `AddFile`s.
+
+### <span id="writeInsertsOnlyWhenNoMatchedClauses-insertDf"> Insert DataFrame
+
+`writeInsertsOnlyWhenNoMatchedClauses` [creates a UDF](#makeMetricUpdateUDF) to update [numTargetRowsInserted](#numTargetRowsInserted) metric.
+
+`writeInsertsOnlyWhenNoMatchedClauses` left-anti joins the source `DataFrame` with the target `DataFrame` on the [merge condition](#condition). `writeInsertsOnlyWhenNoMatchedClauses` selects the output columns and uses `Dataset.filter` with the UDF.
+
+??? note "Demo: Left-Anti Join"
+
+    ```scala
+    val source = Seq(0, 1, 2, 3).toDF("id") // (1)!
+    val target = Seq(3, 4, 5).toDF("id") // (2)!
+    val usingColumns = Seq("id")
+    val q = source.join(target, usingColumns, "leftanti")
+    ```
+
+    1. Equivalent to `spark.range(4)`
+
+        ```text
+        +---+
+        | id|
+        +---+
+        |  0|
+        |  1|
+        |  2|
+        |  3|
+        +---+
+        ```
+
+    1. Equivalent to `spark.range(3, 6)`
+
+        ```text
+        +---+
+        | id|
+        +---+
+        |  3|
+        |  4|
+        |  5|
+        +---+
+        ```
+
+    ```text
+    scala> q.show
+    +---+
+    | id|
+    +---+
+    |  0|
+    |  1|
+    |  2|
+    +---+
+    ```
+
+### <span id="writeInsertsOnlyWhenNoMatchedClauses-writeFiles"> writeFiles
+
+`writeInsertsOnlyWhenNoMatchedClauses` requests the given [OptimisticTransaction](../../OptimisticTransaction.md) to [write out](../../TransactionalWrite.md#writeFiles) the [insertDf](#writeInsertsOnlyWhenNoMatchedClauses-insertDf) (possibly [repartitionIfNeeded](#repartitionIfNeeded) on the [partitionColumns](../../Metadata.md#partitionColumns) of the [target delta table](#targetFileIndex)).
+
+!!! note
+    This step triggers a Spark write job (and this active [transaction](../../OptimisticTransaction.md) is marked as [hasWritten](../../TransactionalWrite.md#hasWritten)).
+
+### <span id="writeInsertsOnlyWhenNoMatchedClauses-metrics"> Update Metrics
+
+In the end, `writeInsertsOnlyWhenNoMatchedClauses` updates the [metrics](#metrics).
 
 ## <span id="repartitionIfNeeded"> repartitionIfNeeded
 
@@ -484,6 +573,35 @@ USING merge_demo_source from
 ON to.id = from.id
 WHEN NOT MATCHED THEN INSERT *;
 ```
+
+## <span id="makeMetricUpdateUDF"> Creating Metric Update UDF
+
+```scala
+makeMetricUpdateUDF(
+  name: String): Expression
+```
+
+`makeMetricUpdateUDF` looks up the performance metric (by `name`) in the [metrics](#metrics).
+
+In the end, `makeMetricUpdateUDF` defines a non-deterministic UDF to increment the metric (when executed).
+
+!!! note
+    This `Expression` is used to increment the following performance metrics:
+
+    * [number of source rows](#numSourceRows)
+    * [numSourceRowsInSecondScan](#numSourceRowsInSecondScan)
+    * [number of target rows rewritten unmodified](#numTargetRowsCopied)
+    * [number of deleted rows](#numTargetRowsDeleted)
+    * [number of inserted rows](#numTargetRowsInserted)
+    * [number of updated rows](#numTargetRowsUpdated)
+
+`makeMetricUpdateUDF` is used when:
+
+* `MergeIntoCommand` is requested to [findTouchedFiles](#findTouchedFiles), [writeInsertsOnlyWhenNoMatchedClauses](#writeInsertsOnlyWhenNoMatchedClauses), [writeAllChanges](#writeAllChanges)
+
+## Demo
+
+[Demo: Merge Operation](../../demo/merge-operation.md).
 
 ## Logging
 
