@@ -260,6 +260,8 @@ assert(target.history.count == 5)
 
 ## MERGE NOT MATCHED INSERT
 
+Use `spark-sql` to execute the following query.
+
 === "SQL"
 
     ```sql
@@ -268,3 +270,58 @@ assert(target.history.count == 5)
     ON to.id = from.id
     WHEN NOT MATCHED THEN INSERT *;
     ```
+
+## Streaming CDF Read and MERGE
+
+!!! note
+    Until I figure out how to run two concurrent Spark applications using the same metastore I'm going to use `spark-sql` and `spark-shell` interchangeably.
+
+Use `spark-sql` to [enable Change Data Feed on a delta table](../change-data-feed/index.md#enabling-cdf-for-a-delta-table).
+
+```sql
+ALTER TABLE merge_demo
+SET TBLPROPERTIES (delta.enableChangeDataFeed = true);
+```
+
+```sql
+SHOW TBLPROPERTIES merge_demo;
+```
+
+Exit `spark-sql` and open `spark-shell`.
+
+Run a streaming CDF scan over the delta table.
+
+```scala
+spark
+  .readStream
+  .format("delta")
+  .option("readChangeFeed", true)
+  .table("merge_demo")
+  .writeStream
+  .format("console")
+  .start
+```
+
+Execute `MERGE` command and observe the output of the streaming query.
+
+```scala
+sql("""
+  MERGE INTO merge_demo to
+  USING merge_demo_source from
+  ON to.id = from.id
+  WHEN NOT MATCHED THEN INSERT *;
+""").show(truncate = false)
+```
+
+```text
+-------------------------------------------
+Batch: 1
+-------------------------------------------
++---+------------+---------------+-----------------+
+| id|_change_type|_commit_version|_commit_timestamp|
++---+------------+---------------+-----------------+
++---+------------+---------------+-----------------+
+```
+
+!!! question "Why is the output empty?"
+    Why is the batch even generated since there is no data?

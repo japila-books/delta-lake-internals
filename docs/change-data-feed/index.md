@@ -15,12 +15,12 @@ Change Data Feed is a new feature in Delta Lake 2.0.0 (that was tracked under [S
 Enable CDF for a table using [delta.enableChangeDataFeed](../DeltaConfigs.md#enableChangeDataFeed) table property.
 
 ```sql
-ALTER TABLE myDeltaTable
+ALTER TABLE delta_demo
 SET TBLPROPERTIES (delta.enableChangeDataFeed = true)
 ```
 
 ```sql
-CREATE TABLE student (id INT, name STRING, age INT)
+CREATE TABLE delta_demo (id INT, name STRING, age INT)
 USING delta
 TBLPROPERTIES (delta.enableChangeDataFeed = true)
 ```
