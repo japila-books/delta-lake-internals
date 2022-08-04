@@ -906,12 +906,12 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://books.japila.pl/delta-lake-internals/constraints/AlterTableAddConstraintStatement/</loc>
+         <loc>https://books.japila.pl/delta-lake-internals/constraints/AlterTableAddConstraint/</loc>
          <lastmod>2022-08-04</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://books.japila.pl/delta-lake-internals/constraints/AlterTableDropConstraintStatement/</loc>
+         <loc>https://books.japila.pl/delta-lake-internals/constraints/AlterTableDropConstraint/</loc>
          <lastmod>2022-08-04</lastmod>
          <changefreq>daily</changefreq>
     </url>
