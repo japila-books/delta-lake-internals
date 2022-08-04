@@ -6,8 +6,8 @@
 
 SQL Statement | Logical Command
 --------------|----------
- <span id="visitAddTableConstraint"> [ALTER TABLE ADD CONSTRAINT](index.md#ALTER-TABLE-ADD-CONSTRAINT) | [AlterTableAddConstraintStatement](../constraints/AlterTableAddConstraintStatement.md)
- <span id="visitDropTableConstraint"> [ALTER TABLE DROP CONSTRAINT](index.md#ALTER-TABLE-DROP-CONSTRAINT) | [AlterTableDropConstraintStatement](../constraints/AlterTableDropConstraintStatement.md)
+ <span id="visitAddTableConstraint"> [ALTER TABLE ADD CONSTRAINT](index.md#ALTER-TABLE-ADD-CONSTRAINT) | [AlterTableAddConstraint](../constraints/AlterTableAddConstraint.md)
+ <span id="visitDropTableConstraint"> [ALTER TABLE DROP CONSTRAINT](index.md#ALTER-TABLE-DROP-CONSTRAINT) | [AlterTableDropConstraint](../constraints/AlterTableDropConstraint.md)
  [CONVERT TO DELTA](index.md#CONVERT-TO-DELTA) | [ConvertToDeltaCommand](../commands/convert/ConvertToDeltaCommand.md)
  <span id="visitDescribeDeltaDetail"> [DESCRIBE DETAIL](index.md#DESCRIBE-DETAIL) | [DescribeDeltaDetailCommand](../commands/describe-detail/DescribeDeltaDetailCommand.md)
  <span id="visitDescribeDeltaHistory"> [DESCRIBE HISTORY](index.md#DESCRIBE-HISTORY) | [DescribeDeltaHistoryCommand](../commands/describe-history/DescribeDeltaHistoryCommand.md)

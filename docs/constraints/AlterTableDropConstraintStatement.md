@@ -1,3 +1,0 @@
-# AlterTableDropConstraintStatement
-
-`AlterTableDropConstraintStatement` is...FIXME

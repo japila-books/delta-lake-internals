@@ -220,8 +220,8 @@ nav:
     - Table Constraints:
       - constraints/index.md
       - AddConstraint: constraints/AddConstraint.md
-      - AlterTableAddConstraintStatement: constraints/AlterTableAddConstraintStatement.md
-      - AlterTableDropConstraintStatement: constraints/AlterTableDropConstraintStatement.md
+      - AlterTableAddConstraint: constraints/AlterTableAddConstraint.md
+      - AlterTableDropConstraint: constraints/AlterTableDropConstraint.md
       - CheckDeltaInvariant: constraints/CheckDeltaInvariant.md
       - Constraint: constraints/Constraint.md
       - Constraints: constraints/Constraints.md
@@ -282,7 +282,7 @@ nav:
       - commands/alter/index.md
       - AlterDeltaTableCommand: commands/alter/AlterDeltaTableCommand.md
       - ADD COLUMNS: commands/alter/AlterTableAddColumnsDeltaCommand.md
-      - AlterTableAddConstraintDeltaCommand: commands/alter/AlterTableAddConstraintDeltaCommand.md
+      - ADD CONSTRAINT: commands/alter/AlterTableAddConstraintDeltaCommand.md
       - CHANGE COLUMN: commands/alter/AlterTableChangeColumnDeltaCommand.md
       - AlterTableDropColumnsDeltaCommand: commands/alter/AlterTableDropColumnsDeltaCommand.md
       - AlterTableDropConstraintDeltaCommand: commands/alter/AlterTableDropConstraintDeltaCommand.md

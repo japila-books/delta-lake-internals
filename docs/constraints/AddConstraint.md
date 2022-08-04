@@ -1,17 +1,17 @@
 # AddConstraint
 
-`AddConstraint` is a `TableChange` ([Spark SQL]({{ book.spark_sql }}/connector/catalog/TableChange)).
+`AddConstraint` is a `TableChange` ([Spark SQL]({{ book.spark_sql }}/connector/catalog/TableChange)) of [AlterTableAddConstraint](AlterTableAddConstraint.md) command.
 
 ## Creating Instance
 
 `AddConstraint` takes the following to be created:
 
 * <span id="constraintName"> Constraint Name
-* <span id="expr"> Expression
+* <span id="expr"> Constraint SQL Expression (text)
 
 `AddConstraint` is created when:
 
-* `DeltaAnalysis` logical resolution rule is [executed](../DeltaAnalysis.md#apply) (on a logical query plan with [AlterTableAddConstraintStatement](AlterTableAddConstraintStatement.md))
+* `AlterTableAddConstraint` command is requested for the [table changes](AlterTableAddConstraint.md#changes)
 
 ## Query Execution
 

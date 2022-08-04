@@ -13,7 +13,7 @@ ALTER TABLE table
 ADD CONSTRAINT name constraint
 ```
 
-Creates a [AlterTableAddConstraintStatement](../constraints/AlterTableAddConstraintStatement.md)
+Creates an [AlterTableAddConstraint](../constraints/AlterTableAddConstraint.md)
 
 ## <span id="ALTER-TABLE-DROP-CONSTRAINT"> ALTER TABLE DROP CONSTRAINT
 
@@ -22,7 +22,7 @@ ALTER TABLE table
 DROP CONSTRAINT (IF EXISTS)? name
 ```
 
-Creates a [AlterTableDropConstraintStatement](../constraints/AlterTableDropConstraintStatement.md)
+Creates a [AlterTableDropConstraint](../constraints/AlterTableDropConstraint.md)
 
 ## <span id="CONVERT-TO-DELTA"> CONVERT TO DELTA
 

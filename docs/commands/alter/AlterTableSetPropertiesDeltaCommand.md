@@ -1,6 +1,6 @@
 # AlterTableSetPropertiesDeltaCommand
 
-`AlterTableSetPropertiesDeltaCommand` is a transactional [AlterDeltaTableCommand](AlterDeltaTableCommand.md) that represents `SetProperty` table changes (when [altering a delta table](../../DeltaCatalog.md#alterTable)).
+`AlterTableSetPropertiesDeltaCommand` is a transactional [AlterDeltaTableCommand](AlterDeltaTableCommand.md) for `SetProperty` table changes (when [altering a delta table](../../DeltaCatalog.md#alterTable)).
 
 ## Creating Instance
 
