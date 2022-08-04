@@ -98,6 +98,8 @@ CHECK constraint '[name]' ([expr]) should be a boolean expression.
 
 ## Demo
 
+### <span id="demo-create-table"> Create Table
+
 ```scala
 sql("""
 DROP TABLE IF EXISTS delta_demo;
@@ -111,12 +113,7 @@ USING delta;
 """)
 ```
 
-```scala
-sql("""
-ALTER TABLE delta_demo
-ADD CONSTRAINT demo_check_constraint_2 CHECK (id > 5);
-""")
-```
+### <span id="demo-logging"> Adding Constraint
 
 Enable [logging](#logging) to see the following INFO message in the logs:
 
@@ -127,6 +124,15 @@ This will require a full table scan.
 
 ```scala
 sql("""
+ALTER TABLE delta_demo
+ADD CONSTRAINT demo_check_constraint CHECK (id > 5);
+""")
+```
+
+### <span id="demo-history"> DESC HISTORY
+
+```scala
+sql("""
 DESC HISTORY delta_demo;
 """)
   .select('version, 'operation, 'operationParameters)
@@ -134,13 +140,15 @@ DESC HISTORY delta_demo;
 ```
 
 ```text
-+-------+-----------------+-----------------------------------------------------------------------------+
-|version|operation        |operationParameters                                                          |
-+-------+-----------------+-----------------------------------------------------------------------------+
-|1      |ADD CONSTRAINT   |{name -> demo_check_constraint, expr -> id > 5}                              |
-|0      |CREATE TABLE     |{isManaged -> true, description -> null, partitionBy -> [], properties -> {}}|
-+-------+-----------------+-----------------------------------------------------------------------------+
++-------+--------------+-----------------------------------------------------------------------------+
+|version|operation     |operationParameters                                                          |
++-------+--------------+-----------------------------------------------------------------------------+
+|1      |ADD CONSTRAINT|{name -> demo_check_constraint, expr -> id > 5}                              |
+|0      |CREATE TABLE  |{isManaged -> true, description -> null, partitionBy -> [], properties -> {}}|
++-------+--------------+-----------------------------------------------------------------------------+
 ```
+
+### <span id="demo-check-constraint-violation"> DeltaInvariantViolationException
 
 ```scala
 sql("""
@@ -153,6 +161,25 @@ DeltaInvariantViolationException: CHECK constraint demo_check_constraint (id > 5
  - id : 3
 ```
 
+### <span id="demo-metadata"> Metadata
+
+[CHECK constraints](../../constraints/Constraint.md#Check) are stored in [Metadata](../../constraints/Constraints.md#getCheckConstraints) of a delta table.
+
+```scala
+sql("""
+SHOW TBLPROPERTIES delta_demo;
+""")
+  .where('key startsWith "delta.constraints.")
+  .show(truncate = false)
+```
+
+```text
++---------------------------------------+------+
+|key                                    |value |
++---------------------------------------+------+
+|delta.constraints.demo_check_constraint|id > 5|
++---------------------------------------+------+
+```
 
 ## Logging
 

@@ -10,7 +10,8 @@ The SQL statements can also refer to tables that are registered in a catalog (_m
 
 ```text
 ALTER TABLE table
-ADD CONSTRAINT name constraint
+ADD CONSTRAINT name
+CHECK (expr+)
 ```
 
 Creates an [AlterTableAddConstraint](../constraints/AlterTableAddConstraint.md)
@@ -28,7 +29,7 @@ Creates a [AlterTableDropConstraint](../constraints/AlterTableDropConstraint.md)
 
 ```text
 CONVERT TO DELTA table
-  (PARTITIONED BY '(' colTypeList ')')?
+  (PARTITIONED BY ( colTypeList ))?
 ```
 
 Executes [ConvertToDeltaCommand](../commands/convert/ConvertToDeltaCommand.md)
