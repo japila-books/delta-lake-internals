@@ -214,25 +214,6 @@ nav:
       - PreparedDeltaFileIndex: data-skipping/PreparedDeltaFileIndex.md
       - PrepareDeltaScan: data-skipping/PrepareDeltaScan.md
       - PrepareDeltaScanBase: data-skipping/PrepareDeltaScanBase.md
-    - Delta Data Source:
-      - DeltaDataSource: DeltaDataSource.md
-      - Options:
-        - Options: options.md
-        - DeltaOptions: DeltaOptions.md
-        - DeltaOptionParser: DeltaOptionParser.md
-        - DeltaReadOptions: DeltaReadOptions.md
-        - DeltaWriteOptions: DeltaWriteOptions.md
-        - DeltaWriteOptionsImpl: DeltaWriteOptionsImpl.md
-      - DeltaSource:
-        - AdmissionLimits: AdmissionLimits.md
-        - DeltaSource: DeltaSource.md
-        - DeltaSourceBase: DeltaSourceBase.md
-        - DeltaSourceOffset: DeltaSourceOffset.md
-        - DeltaSourceSnapshot: DeltaSourceSnapshot.md
-        - DeltaSourceUtils: DeltaSourceUtils.md
-        - SnapshotIterator: SnapshotIterator.md
-      - DeltaSink: DeltaSink.md
-      - WriteIntoDeltaBuilder: WriteIntoDeltaBuilder.md
     - Generated Columns:
       - generated-columns/index.md
       - GeneratedColumn: generated-columns/GeneratedColumn.md
@@ -254,6 +235,25 @@ nav:
     - Time Travel:
       - time-travel/index.md
       - DeltaTimeTravelSpec: time-travel/DeltaTimeTravelSpec.md
+  - Delta Data Source:
+    - DeltaDataSource: DeltaDataSource.md
+    - Options:
+      - Options: options.md
+      - DeltaOptions: DeltaOptions.md
+      - DeltaOptionParser: DeltaOptionParser.md
+      - DeltaReadOptions: DeltaReadOptions.md
+      - DeltaWriteOptions: DeltaWriteOptions.md
+      - DeltaWriteOptionsImpl: DeltaWriteOptionsImpl.md
+    - DeltaSource:
+      - AdmissionLimits: AdmissionLimits.md
+      - DeltaSource: DeltaSource.md
+      - DeltaSourceBase: DeltaSourceBase.md
+      - DeltaSourceOffset: DeltaSourceOffset.md
+      - DeltaSourceSnapshot: DeltaSourceSnapshot.md
+      - DeltaSourceUtils: DeltaSourceUtils.md
+      - SnapshotIterator: SnapshotIterator.md
+    - DeltaSink: DeltaSink.md
+    - WriteIntoDeltaBuilder: WriteIntoDeltaBuilder.md
   - Developer API:
     - DeltaTable: DeltaTable.md
     - DeltaTableBuilder: DeltaTableBuilder.md
@@ -288,7 +288,7 @@ nav:
       - AlterTableDropConstraintDeltaCommand: commands/alter/AlterTableDropConstraintDeltaCommand.md
       - AlterTableReplaceColumnsDeltaCommand: commands/alter/AlterTableReplaceColumnsDeltaCommand.md
       - AlterTableSetLocationDeltaCommand: commands/alter/AlterTableSetLocationDeltaCommand.md
-      - AlterTableSetPropertiesDeltaCommand: commands/alter/AlterTableSetPropertiesDeltaCommand.md
+      - SET TBLPROPERTIES: commands/alter/AlterTableSetPropertiesDeltaCommand.md
       - AlterTableUnsetPropertiesDeltaCommand: commands/alter/AlterTableUnsetPropertiesDeltaCommand.md
     - Convert to Delta:
       - commands/convert/index.md
