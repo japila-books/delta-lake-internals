@@ -34,8 +34,8 @@ _others_ |
 * <span id="target"> Target Data ([LogicalPlan]({{ book.spark_sql }}/logical-operators/LogicalPlan/))
 * <span id="targetFileIndex"> [TahoeFileIndex](../../TahoeFileIndex.md)
 * <span id="condition"> Merge Condition ([Expression]({{ book.spark_sql }}/expressions/Expression/))
-* <span id="matchedClauses"> Matched Clauses (`Seq[DeltaMergeIntoMatchedClause]`)
-* <span id="notMatchedClauses"> Non-Matched Clauses (`Seq[DeltaMergeIntoInsertClause]`)
+* <span id="matchedClauses"> [Matched Clause](DeltaMergeIntoMatchedClause.md)s
+* <span id="notMatchedClauses"> [Non-Matched Insert Clause](DeltaMergeIntoInsertClause.md)s
 * [Migrated Schema](#migratedSchema)
 
 `MergeIntoCommand` is created when:
@@ -513,7 +513,7 @@ writeAllChanges(
 
 `writeAllChanges` is used when:
 
-* `MergeIntoCommand` is [executed](#run) (that is either not [isSingleInsertOnly](#isSingleInsertOnly) or [DeltaSQLConf.MERGE_INSERT_ONLY_ENABLED](../../DeltaSQLConf.md#MERGE_INSERT_ONLY_ENABLED) configuration property is disabled for which [writeInsertsOnlyWhenNoMatchedClauses](#writeInsertsOnlyWhenNoMatchedClauses) is used instead)
+* `MergeIntoCommand` is [executed](#run) (that is neither a [single insert-only merge](#isSingleInsertOnly) nor [spark.databricks.delta.merge.optimizeInsertOnlyMerge.enabled](../../DeltaSQLConf.md#MERGE_INSERT_ONLY_ENABLED) configuration property is enabled for which [writeInsertsOnlyWhenNoMatchedClauses](#writeInsertsOnlyWhenNoMatchedClauses) is used instead)
 
 ### <span id="writeAllChanges-targetOutputCols"> targetOutputCols
 
@@ -598,6 +598,50 @@ In the end, `makeMetricUpdateUDF` defines a non-deterministic UDF to increment t
 `makeMetricUpdateUDF` is used when:
 
 * `MergeIntoCommand` is requested to [findTouchedFiles](#findTouchedFiles), [writeInsertsOnlyWhenNoMatchedClauses](#writeInsertsOnlyWhenNoMatchedClauses), [writeAllChanges](#writeAllChanges)
+
+## <span id="notMatchedClauseOutput"> notMatchedClauseOutput
+
+```scala
+notMatchedClauseOutput(
+  clause: DeltaMergeIntoInsertClause): Seq[Seq[Expression]]
+```
+
+`notMatchedClauseOutput` returns the main data output followed by the CDF data output when [cdcEnabled](../../change-data-feed/CDCReader.md#isCDCEnabledOnTable):
+
+```text
+(mainDataOutput)
+```
+
+or
+
+```text
+(mainDataOutput, insertCdcOutput)
+```
+
+---
+
+`notMatchedClauseOutput` creates the output (resolved expressions) of the main data based on the following:
+
+1. The `Expression`s from the [DeltaMergeActions](DeltaMergeIntoClause.md#resolvedActions) of the given [DeltaMergeIntoInsertClause](DeltaMergeIntoInsertClause.md)
+1. `FalseLiteral`
+1. The UDF to increment the [numTargetRowsInserted](#numTargetRowsInserted) metric
+1. [null](../../change-data-feed/CDCReader.md#CDC_TYPE_NOT_CDC) literal (to indicate the main data not CDF's)
+
+With [cdcEnabled](../../change-data-feed/CDCReader.md#isCDCEnabledOnTable), `notMatchedClauseOutput` creates the output (resolved expressions) of the CDF data based on the following:
+
+1. The `Expression`s from the [DeltaMergeActions](DeltaMergeIntoClause.md#resolvedActions) of the given [DeltaMergeIntoInsertClause](DeltaMergeIntoInsertClause.md)
+1. `FalseLiteral`
+1. `TrueLiteral`
+1. [insert](../../change-data-feed/CDCReader.md#CDC_TYPE_INSERT) literal
+
+!!! note
+    The first two expressions are the same in the main data and CDF data outputs.
+
+---
+
+`notMatchedClauseOutput` is used when:
+
+* `MergeIntoCommand` is requested to [write out merged data](#writeAllChanges) (for [notMatchedOutputs](JoinedRowProcessor.md#notMatchedOutputs) to create a [JoinedRowProcessor](JoinedRowProcessor.md) based on the [non-matched insert clauses](#notMatchedClauses))
 
 ## Demo
 

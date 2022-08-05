@@ -46,21 +46,21 @@ Otherwise, `getVersionForCDC` uses the given `options` map to get the value of t
 
 If neither the given `versionKey` nor the `timestampKey` key is available in the `options` map, `getVersionForCDC` returns `None` (_undefined value_).
 
-## <span id="CDC_COLUMNS_IN_DATA"> CDF Virtual Columns
-
-```scala
-CDC_COLUMNS_IN_DATA: Seq[String]
-```
-
-`CDCReader` defines a `CDC_COLUMNS_IN_DATA` collection with [__is_cdc](#CDC_PARTITION_COL) and [_change_type](#CDC_TYPE_COLUMN_NAME) CDF-specific columns.
-
-### <span id="CDC_LOCATION"><span id="_change_data"> _change_data Directory
+## <span id="CDC_LOCATION"><span id="_change_data"> _change_data Directory
 
 `CDCReader` defines `_change_data` as the name of the directory (under the data directory) where data changes of a delta table are written out (using [DelayedCommitProtocol](../DelayedCommitProtocol.md#newTaskTempFile)). This directory may contain partition directories.
 
 Used when:
 
 * `DelayedCommitProtocol` is requested for the [newTaskTempFile](../DelayedCommitProtocol.md#newTaskTempFile)
+
+## <span id="CDC_COLUMNS_IN_DATA"> CDF Virtual Columns
+
+```scala
+CDC_COLUMNS_IN_DATA: Seq[String]
+```
+
+`CDCReader` defines a `CDC_COLUMNS_IN_DATA` collection with [__is_cdc](#CDC_PARTITION_COL) and [_change_type](#CDC_TYPE_COLUMN_NAME) CDF-specific column names.
 
 ### <span id="CDC_PARTITION_COL"><span id="__is_cdc"> __is_cdc Partition Column
 
@@ -210,3 +210,11 @@ isCDCEnabledOnTable(
 * `WriteIntoDelta` is requested to [write](../commands/WriteIntoDelta.md#write)
 * `CDCReader` is requested to [changesToDF](#changesToDF)
 * `TransactionalWrite` is requested to [performCDCPartition](../TransactionalWrite.md#performCDCPartition)
+
+## <span id="CDC_TYPE_INSERT"><span id="insert"> insert Change Type
+
+`CDCReader` defines `insert` value for the value of the [_change_type](#CDC_TYPE_COLUMN_NAME) column in the following:
+
+* [notMatchedClauseOutput](../commands/merge/MergeIntoCommand.md#notMatchedClauseOutput) with [cdcEnabled](../commands/merge/MergeIntoCommand.md#cdcEnabled) (when [writeAllChanges](../commands/merge/MergeIntoCommand.md#writeAllChanges))
+* `WriteIntoDelta` is requested to [write data out](../commands/WriteIntoDelta.md#write) (with [isCDCEnabledOnTable](#isCDCEnabledOnTable))
+* `CdcAddFileIndex` is requested to [matchingFiles](CdcAddFileIndex.md#matchingFiles)

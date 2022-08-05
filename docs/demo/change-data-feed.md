@@ -19,14 +19,12 @@ This demo shows [Change Data Feed](../change-data-feed/index.md) in action.
 
 ## INSERT INTO
 
-`INSERT INTO`s are not included in Change Data Feed.
-
 ```sql
-insert into cdf_demo VALUES (0, 'insert into');
+INSERT INTO cdf_demo VALUES (0, 'insert into');
 ```
 
 ```sql
-select * from cdf_demo;
+SELECT * FROM cdf_demo;
 ```
 
 ```text
@@ -76,15 +74,15 @@ spark-warehouse/cdf_demo
 2 directories, 6 files
 ```
 
-## CDC-Aware Batch Read
+## CDC-Aware Batch Scan
 
 ```scala
 val changes = spark
   .read
   .format("delta")
-  .option("readChangeFeed", "true")
+  .option("readChangeFeed", true)
   .option("startingVersion", "0")
-  .table("cdf_demo")
+  .table("delta_demo")
 ```
 
 ```scala
@@ -99,6 +97,84 @@ changes.show(truncate = false)
 |0  |update     |update_postimage|2              |2022-07-24 18:23:42.102|
 |0  |insert into|insert          |1              |2022-07-24 18:15:48.892|
 +---+-----------+----------------+---------------+-----------------------+
+```
+
+## CDC-Aware Streaming Query
+
+```scala
+spark
+  .readStream
+  .format("delta")
+  .option("readChangeFeed", true)
+  .table("delta_demo")
+  .writeStream
+  .format("console")
+  .option("truncate", false)
+  .queryName("Change feed from delta_demo")
+  .start
+```
+
+```scala
+spark.table("delta_demo").show
+```
+
+```text
++---+
+| id|
++---+
+|  1|
+|  0|
+|  2|
+|  3|
+|  4|
++---+
+```
+
+### Single Insert-Only Merge
+
+```scala
+sql("""
+  MERGE INTO delta_demo target
+  USING (VALUES 5 source(id))
+  ON target.id = source.id
+  WHEN NOT MATCHED THEN INSERT *;
+""")
+```
+
+### Streaming Micro-Batch
+
+You should see the following output from the streaming query:
+
+```text
+-------------------------------------------
+Batch: 1
+-------------------------------------------
++---+------------+---------------+-----------------------+
+|id |_change_type|_commit_version|_commit_timestamp      |
++---+------------+---------------+-----------------------+
+|5  |insert      |9              |2022-08-05 14:38:49.305|
++---+------------+---------------+-----------------------+
+```
+
+### INSERT INTO and Streaming Query
+
+```scala
+sql("""
+INSERT INTO delta_demo VALUES (6);
+""")
+```
+
+You should see the following output from the streaming query.
+
+```text
+-------------------------------------------
+Batch: 1
+-------------------------------------------
++---+------------+---------------+-----------------------+
+|id |_change_type|_commit_version|_commit_timestamp      |
++---+------------+---------------+-----------------------+
+|6  |insert      |10             |2022-08-05 16:35:08.657|
++---+------------+---------------+-----------------------+
 ```
 
 ## Review and Merge
