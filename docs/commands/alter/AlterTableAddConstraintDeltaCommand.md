@@ -1,6 +1,8 @@
 # AlterTableAddConstraintDeltaCommand
 
-`AlterTableAddConstraintDeltaCommand` is a transactional [AlterDeltaTableCommand](AlterDeltaTableCommand.md) to register a new CHECK constraint (when [altering a delta table](../../DeltaCatalog.md#alterTable) with [AddConstraint](../../constraints/AddConstraint.md) table changes).
+`AlterTableAddConstraintDeltaCommand` is a transactional [AlterDeltaTableCommand](AlterDeltaTableCommand.md) to register a new CHECK constraint (when [altering a delta table](../../DeltaCatalog.md#alterTable) with [AddConstraint](../../check-constraints/AddConstraint.md) table changes).
+
+`AlterTableAddConstraintDeltaCommand` represents the [ALTER TABLE ADD CONSTRAINT](../../sql/index.md#alter-table-add-constraint) SQL command.
 
 ## Creating Instance
 
@@ -12,7 +14,7 @@
 
 `AlterTableAddConstraintDeltaCommand` is created when:
 
-* `DeltaCatalog` is requested to [alter a delta table](../../DeltaCatalog.md#alterTable) (with [AddConstraint](../../constraints/AddConstraint.md) table changes)
+* `DeltaCatalog` is requested to [alter a delta table](../../DeltaCatalog.md#alterTable) (with [AddConstraint](../../check-constraints/AddConstraint.md) table changes)
 
 ## <span id="run"> Executing Command
 

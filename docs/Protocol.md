@@ -122,7 +122,7 @@ Protocol(0, 3)
 
 ### <span id="requiredMinimumProtocol-constraints"> CHECK Constraints
 
-`requiredMinimumProtocol` [checks for constraints](constraints/Constraints.md#getCheckConstraints) (in the given [Metadata](Metadata.md)).
+`requiredMinimumProtocol` [checks for CHECK constraints](constraints/Constraints.md#getCheckConstraints) (in the given [Metadata](Metadata.md)).
 
 If used, `requiredMinimumProtocol` creates a new [Protocol](#creating-instance) with the [minWriterVersion](#minWriterVersion) to be `3`.
 

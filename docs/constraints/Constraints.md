@@ -29,5 +29,5 @@ getCheckConstraints(
 
 `getCheckConstraints` is used when:
 
-* `Protocol` utility is used to [requiredMinimumProtocol](../Protocol.md#requiredMinimumProtocol)
+* `Protocol` utility is used for the [required minimum protocol](../Protocol.md#requiredMinimumProtocol)
 * `Constraints` utility is used to [getAll](#getAll)

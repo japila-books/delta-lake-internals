@@ -203,6 +203,12 @@ nav:
       - DeltaSourceCDCSupport: change-data-feed/DeltaSourceCDCSupport.md
       - IndexedChangeFileSeq: change-data-feed/IndexedChangeFileSeq.md
       - TahoeRemoveFileIndex: change-data-feed/TahoeRemoveFileIndex.md
+    - CHECK Constraints:
+      - check-constraints/index.md
+      - AddConstraint: check-constraints/AddConstraint.md
+      - AlterTableAddConstraint: check-constraints/AlterTableAddConstraint.md
+      - AlterTableDropConstraint: check-constraints/AlterTableDropConstraint.md
+      - DropConstraint: check-constraints/DropConstraint.md
     - Column Mapping:
       - column-mapping/index.md
       - DeltaColumnMappingBase: column-mapping/DeltaColumnMappingBase.md
@@ -219,16 +225,12 @@ nav:
       - GeneratedColumn: generated-columns/GeneratedColumn.md
     - Table Constraints:
       - constraints/index.md
-      - AddConstraint: constraints/AddConstraint.md
-      - AlterTableAddConstraint: constraints/AlterTableAddConstraint.md
-      - AlterTableDropConstraint: constraints/AlterTableDropConstraint.md
       - CheckDeltaInvariant: constraints/CheckDeltaInvariant.md
       - Constraint: constraints/Constraint.md
       - Constraints: constraints/Constraints.md
       - DeltaInvariantChecker: constraints/DeltaInvariantChecker.md
       - DeltaInvariantCheckerExec: constraints/DeltaInvariantCheckerExec.md
       - DeltaInvariantCheckerStrategy: constraints/DeltaInvariantCheckerStrategy.md
-      - DropConstraint: constraints/DropConstraint.md
       - Invariant: constraints/Invariant.md
       - Invariants: constraints/Invariants.md
       - InvariantViolationException: constraints/InvariantViolationException.md
@@ -285,7 +287,7 @@ nav:
       - ADD CONSTRAINT: commands/alter/AlterTableAddConstraintDeltaCommand.md
       - CHANGE COLUMN: commands/alter/AlterTableChangeColumnDeltaCommand.md
       - AlterTableDropColumnsDeltaCommand: commands/alter/AlterTableDropColumnsDeltaCommand.md
-      - AlterTableDropConstraintDeltaCommand: commands/alter/AlterTableDropConstraintDeltaCommand.md
+      - DROP CONSTRAINT: commands/alter/AlterTableDropConstraintDeltaCommand.md
       - AlterTableReplaceColumnsDeltaCommand: commands/alter/AlterTableReplaceColumnsDeltaCommand.md
       - AlterTableSetLocationDeltaCommand: commands/alter/AlterTableSetLocationDeltaCommand.md
       - SET TBLPROPERTIES: commands/alter/AlterTableSetPropertiesDeltaCommand.md

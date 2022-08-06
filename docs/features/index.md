@@ -3,6 +3,7 @@
 The following is a list of the features of Delta Lake that make it so amazing (even _[awesomesauce](https://dictionary.cambridge.org/dictionary/english/awesomesauce)_ 😏):
 
 * [Change Data Feed](../change-data-feed/index.md)
+* [CHECK Constraints](../check-constraints/index.md)
 * [Column Mapping](../column-mapping/index.md)
 * [Commands](../commands/index.md)
 * [Data Skipping](../data-skipping/index.md)

@@ -28,11 +28,11 @@ apply(
 
 ### <span id="AlterTableAddConstraintStatement"> AlterTableAddConstraintStatement
 
-`apply` creates an `AlterTable` ([Spark SQL]({{ book.spark_sql }}/logical-operators/AlterTable)) logical command with an [AddConstraint](constraints/AddConstraint.md) table change.
+`apply` creates an `AlterTable` ([Spark SQL]({{ book.spark_sql }}/logical-operators/AlterTable)) logical command with an [AddConstraint](check-constraints/AddConstraint.md) table change.
 
 ### <span id="AlterTableDropConstraintStatement"> AlterTableDropConstraintStatement
 
-`apply` creates an `AlterTable` ([Spark SQL]({{ book.spark_sql }}/logical-operators/AlterTable)) logical command with an [DropConstraint](constraints/DropConstraint.md) table change.
+`apply` creates an `AlterTable` ([Spark SQL]({{ book.spark_sql }}/logical-operators/AlterTable)) logical command with an [DropConstraint](check-constraints/DropConstraint.md) table change.
 
 ### <span id="AppendDelta"><span id="AppendData"> AppendData
 

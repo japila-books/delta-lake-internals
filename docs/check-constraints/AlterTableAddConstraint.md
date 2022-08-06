@@ -1,6 +1,6 @@
 # AlterTableAddConstraint
 
-`AlterTableAddConstraint` is an `AlterTableCommand` ([Spark SQL]({{ book.spark_sql }}/logical-operators/AlterTableCommand)) that represents [ALTER TABLE ADD CONSTRAINT](../sql/index.md#ALTER-TABLE-ADD-CONSTRAINT) SQL statement.
+`AlterTableAddConstraint` is an `AlterTableCommand` ([Spark SQL]({{ book.spark_sql }}/logical-operators/AlterTableCommand)) that represents [ALTER TABLE ADD CONSTRAINT](../sql/index.md#ALTER-TABLE-ADD-CONSTRAINT) SQL command for [CHECK constraints](../check-constraints/index.md).
 
 ## Creating Instance
 

@@ -1,6 +1,6 @@
 # AlterTableDropConstraint
 
-`AlterTableDropConstraint` is an `AlterTableCommand` ([Spark SQL]({{ book.spark_sql }}/logical-operators/AlterTableCommand)) for [ALTER TABLE DROP CONSTRAINT](../sql/index.md#ALTER-TABLE-DROP-CONSTRAINT) SQL command.
+`AlterTableDropConstraint` is an `AlterTableCommand` ([Spark SQL]({{ book.spark_sql }}/logical-operators/AlterTableCommand)) for [ALTER TABLE DROP CONSTRAINT](../sql/index.md#ALTER-TABLE-DROP-CONSTRAINT) SQL command for [CHECK constraints](../check-constraints/index.md).
 
 ## Creating Instance
 

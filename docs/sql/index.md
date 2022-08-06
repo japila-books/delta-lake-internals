@@ -14,7 +14,7 @@ ADD CONSTRAINT name
 CHECK (expr+)
 ```
 
-Creates an [AlterTableAddConstraint](../constraints/AlterTableAddConstraint.md)
+Creates an [AlterTableAddConstraint](../check-constraints/AlterTableAddConstraint.md)
 
 ## <span id="ALTER-TABLE-DROP-CONSTRAINT"> ALTER TABLE DROP CONSTRAINT
 
@@ -23,7 +23,7 @@ ALTER TABLE table
 DROP CONSTRAINT (IF EXISTS)? name
 ```
 
-Creates a [AlterTableDropConstraint](../constraints/AlterTableDropConstraint.md)
+Creates a [AlterTableDropConstraint](../check-constraints/AlterTableDropConstraint.md)
 
 ## <span id="CONVERT-TO-DELTA"> CONVERT TO DELTA
 
