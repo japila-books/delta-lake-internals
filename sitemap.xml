@@ -551,6 +551,16 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://books.japila.pl/delta-lake-internals/column-invariants/</loc>
+         <lastmod>2022-08-06</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://books.japila.pl/delta-lake-internals/column-invariants/Invariants/</loc>
+         <lastmod>2022-08-06</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://books.japila.pl/delta-lake-internals/column-mapping/</loc>
          <lastmod>2022-08-06</lastmod>
          <changefreq>daily</changefreq>
@@ -962,11 +972,6 @@
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/constraints/InvariantViolationException/</loc>
-         <lastmod>2022-08-06</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://books.japila.pl/delta-lake-internals/constraints/Invariants/</loc>
          <lastmod>2022-08-06</lastmod>
          <changefreq>daily</changefreq>
     </url>
