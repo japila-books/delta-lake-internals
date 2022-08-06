@@ -144,6 +144,16 @@ Used when:
 
 * `SpaceFillingCurveClustering` is requested to [cluster](commands/optimize/SpaceFillingCurveClustering.md#cluster)
 
+## <span id="io.skipping.stringPrefixLength"><span id="DATA_SKIPPING_STRING_PREFIX_LENGTH"> io.skipping.stringPrefixLength
+
+**spark.databricks.io.skipping.stringPrefixLength** (internal) The length of the prefix of string columns to store in the data skipping index
+
+Default: `32`
+
+Used when:
+
+* `StatisticsCollection` is requested for the [statsCollector Column](StatisticsCollection.md#statsCollector)
+
 ## <span id="lastCommitVersionInSession"><span id="DELTA_LAST_COMMIT_VERSION_IN_SESSION"> lastCommitVersionInSession
 
 **spark.databricks.delta.lastCommitVersionInSession** is the version of the last commit made in the `SparkSession` for any delta table (after `OptimisticTransactionImpl` is done with [doCommit](OptimisticTransactionImpl.md#doCommit) or `DeltaCommand` with [commitLarge](commands/DeltaCommand.md#commitLarge))
@@ -278,18 +288,17 @@ Used when:
 
 * `Protocol` utility is used to [create a Protocol](Protocol.md#apply)
 
-## <span id="schema.typeCheck.enabled"><span id="DELTA_SCHEMA_TYPE_CHECK"> schema.typeCheck.enabled
+## <span id="replaceWhere.constraintCheck.enabled"><span id="REPLACEWHERE_CONSTRAINT_CHECK_ENABLED"> replaceWhere.constraintCheck.enabled
 
-**spark.databricks.delta.schema.typeCheck.enabled** (internal) controls whether to check unsupported data types while updating a table schema
+**spark.databricks.delta.replaceWhere.constraintCheck.enabled** controls whether or not [replaceWhere](options.md#replaceWhere) on arbitrary expression and arbitrary columns enforces [constraints](constraints/index.md) to replace the target table only when all the rows in the source dataframe match that constraint.
 
-Disabling this flag may allow users to create unsupported Delta tables and should only be used when trying to read/write legacy tables.
+If disabled, it will skip the constraint check and replace with all the rows from the new dataframe.
 
 Default: `true`
 
 Used when:
 
-* `OptimisticTransactionImpl` is requested for [checkUnsupportedDataType flag](OptimisticTransactionImpl.md#checkUnsupportedDataType)
-* `DeltaErrorsBase` is requested to [unsupportedDataTypes](DeltaErrors.md#unsupportedDataTypes)
+* `WriteIntoDelta` is requested to [extract constraints](commands/WriteIntoDelta.md#extractConstraints)
 
 ## <span id="retentionDurationCheck.enabled"><span id="DELTA_VACUUM_RETENTION_CHECK_ENABLED"> retentionDurationCheck.enabled
 
@@ -317,6 +326,19 @@ Used when:
 * `MetadataMismatchErrorBuilder` is requested to `addSchemaMismatch`
 * `DeltaWriteOptionsImpl` is requested for [canMergeSchema](DeltaWriteOptionsImpl.md#canMergeSchema)
 * `MergeIntoCommand` is requested for [canMergeSchema](commands/merge/MergeIntoCommand.md#canMergeSchema)
+
+## <span id="schema.typeCheck.enabled"><span id="DELTA_SCHEMA_TYPE_CHECK"> schema.typeCheck.enabled
+
+**spark.databricks.delta.schema.typeCheck.enabled** (internal) controls whether to check unsupported data types while updating a table schema
+
+Disabling this flag may allow users to create unsupported Delta tables and should only be used when trying to read/write legacy tables.
+
+Default: `true`
+
+Used when:
+
+* `OptimisticTransactionImpl` is requested for [checkUnsupportedDataType flag](OptimisticTransactionImpl.md#checkUnsupportedDataType)
+* `DeltaErrorsBase` is requested to [unsupportedDataTypes](DeltaErrors.md#unsupportedDataTypes)
 
 ## <span id="snapshotIsolation.enabled"><span id="DELTA_SNAPSHOT_ISOLATION"> snapshotIsolation.enabled
 
@@ -395,13 +417,3 @@ Default: `true`
 Default: `false`
 
 Enabling may result hitting rate limits on some storage backends. When enabled, parallelization is controlled by the default number of shuffle partitions.
-
-## <span id="io.skipping.stringPrefixLength"><span id="DATA_SKIPPING_STRING_PREFIX_LENGTH"> io.skipping.stringPrefixLength
-
-**spark.databricks.io.skipping.stringPrefixLength** (internal) The length of the prefix of string columns to store in the data skipping index
-
-Default: `32`
-
-Used when:
-
-* `StatisticsCollection` is requested for the [statsCollector Column](StatisticsCollection.md#statsCollector)

@@ -1,6 +1,6 @@
 # CHECK Constraints
 
-Delta Lake supports **CHECK Constraints** (at a table-level) to enforce data quality when writing out data.
+**CHECK Constraints** are [named SQL expressions](../constraints/Constraint.md#Check) that are used to enforce data quality at table level (at [write time](../TransactionalWrite.md#writeFiles)).
 
 CHECK constraints are registered (_added_) using the following high-level operator:
 
@@ -18,12 +18,7 @@ CHECK constraints require the [Minimum Writer Version](../Protocol.md#minWriterV
 
 ## delta.constraints
 
-[CHECK constraints](../constraints/Constraint.md#Check) are a pair of:
-
-* [name](#name)
-* [SQL expression](#name)
-
-They are [stored](../constraints/Constraints.md#getCheckConstraints) in the [configuration](../Metadata.md#configuration) of a [table metadata](../Metadata.md) as `delta.constraints.`-keyed entries.
+CHECK constraints are [stored](../constraints/Constraints.md#getCheckConstraints) in the [table configuration](../Metadata.md#configuration) (of a [table metadata](../Metadata.md)) as `delta.constraints.`-keyed entries.
 
 ## AlterTableCommands, DeltaCatalog and Delta Commands
 

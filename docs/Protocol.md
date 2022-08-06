@@ -102,15 +102,17 @@ In the end, `requiredMinimumProtocol` returns the required `Protocol` and the fe
 
 * `Protocol` is requested for a [new Protocol](#apply) and [checkProtocolRequirements](#checkProtocolRequirements)
 
-### <span id="requiredMinimumProtocol-invariants"> Column-Level Invariants
+### <span id="requiredMinimumProtocol-invariants"> Column Invariants
 
-`requiredMinimumProtocol` [checks for column-level invariants](constraints/Invariants.md#getFromSchema) (in the [schema](Metadata.md#schema) of the given [Metadata](Metadata.md)). If used, `requiredMinimumProtocol` sets the [minWriterVersion](#minWriterVersion) to `2`.
+`requiredMinimumProtocol` [checks for column-level invariants](column-invariants/Invariants.md#getFromSchema) (in the [schema](Metadata.md#schema) of the given [Metadata](Metadata.md)).
+
+If used, `requiredMinimumProtocol` sets the [minWriterVersion](#minWriterVersion) to `2`.
 
 ```scala
 Protocol(0, 2)
 ```
 
-### <span id="requiredMinimumProtocol-appendOnly"> Append Only Table
+### <span id="requiredMinimumProtocol-appendOnly"> Append-Only Table
 
 `requiredMinimumProtocol` reads [appendOnly](DeltaConfigs.md#IS_APPEND_ONLY) table property (from the [table configuration](Metadata.md#configuration) of the given [Metadata](Metadata.md)).
 

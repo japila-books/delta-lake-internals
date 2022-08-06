@@ -128,3 +128,17 @@ isOverwriteOperation: Boolean
 `isOverwriteOperation` is used when:
 
 * `WriteIntoDelta` is requested for the [canOverwriteSchema](#canOverwriteSchema) and to [write](#write)
+
+## <span id="extractConstraints"> extractConstraints
+
+```scala
+extractConstraints(
+  sparkSession: SparkSession,
+  expr: Seq[Expression]): Seq[Constraint]
+```
+
+`extractConstraints`...FIXME
+
+`extractConstraints` is used when:
+
+* `WriteIntoDelta` is requested to [write data out](#write) (with `SaveMode.Overwrite` mode with [replaceWhere](../options.md#replaceWhere) option)

@@ -1,6 +1,6 @@
 # Constraints Utility
 
-## <span id="getAll"> Extracting Constraints from Table Metadata
+## <span id="getAll"> Extracting All Constraints
 
 ```scala
 getAll(
@@ -8,7 +8,13 @@ getAll(
   spark: SparkSession): Seq[Constraint]
 ```
 
-`getAll` extracts [Constraint](Constraint.md)s from the given [metadata](#getCheckConstraints) and the associated [schema](Invariants.md#getFromSchema).
+`getAll` [extracts CHECK constraints](#getCheckConstraints) (from the given [table metadata](../Metadata.md)).
+
+`getAll` [extracts invariants](../column-invariants/Invariants.md#getFromSchema) (from the [schema](../Metadata.md#schema) of the given [table metadata](../Metadata.md)).
+
+In the end, `getAll` returns the CHECK constraints and invariants.
+
+---
 
 `getAll` is used when:
 
@@ -29,5 +35,5 @@ getCheckConstraints(
 
 `getCheckConstraints` is used when:
 
-* `Protocol` utility is used for the [required minimum protocol](../Protocol.md#requiredMinimumProtocol)
-* `Constraints` utility is used to [getAll](#getAll)
+* `Constraints` utility is used to [extract all constraints](#getAll)
+* `Protocol` utility is used to [determine the required minimum protocol](../Protocol.md#requiredMinimumProtocol)
