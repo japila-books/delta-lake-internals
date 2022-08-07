@@ -16,7 +16,7 @@ CHECK constraints are de-registered (_dropped_) using the following high-level o
 
 CHECK constraints require the [Minimum Writer Version](../Protocol.md#minWriterVersion) (of a [delta table](../Protocol.md)) to be at least [3](../Protocol.md#requiredMinimumProtocol-constraints).
 
-## delta.constraints
+## <span id="delta.constraints"> delta.constraints
 
 CHECK constraints are [stored](../constraints/Constraints.md#getCheckConstraints) in the [table configuration](../Metadata.md#configuration) (of a [table metadata](../Metadata.md)) as `delta.constraints.`-keyed entries.
 

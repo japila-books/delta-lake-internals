@@ -4,7 +4,7 @@ Table constraints can be one of the following:
 
 * [Column Invariants](../column-invariants/index.md)
 * [CHECK Constraints](../check-constraints/index.md)
-* [Generated Columns Constraints](../generated-columns/GeneratedColumn.md#addGeneratedColumnsOrReturnConstraints)
+* [Generated Columns](../generated-columns/index.md)
 
 ## References
 

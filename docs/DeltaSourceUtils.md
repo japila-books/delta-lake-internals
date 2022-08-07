@@ -4,6 +4,8 @@
 
 `DeltaSourceUtils` defines `delta.generationExpression` metadata key for the generation expression of a [generated column](DeltaColumnBuilder.md#generatedAlwaysAs) of a delta table.
 
+---
+
 Used when:
 
 * `DeltaColumnBuilder` is requested to [build a StructField](DeltaColumnBuilder.md#build)

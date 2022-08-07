@@ -1,18 +1,17 @@
 # Generated Columns
 
-**Generated Columns** is a feature of Delta Lake that allows delta tables to define columns with [generation expressions](#generation-expression) that produce column values at write time (unless provided by a query).
+**Generated Columns** are [generation expressions](#generation-expression) that can produce column values at [write time](../TransactionalWrite.md#writeFiles) (unless provided by a query).
 
-Generated Columns can only be defined using [DeltaColumnBuilder.generatedAlwaysAs](../DeltaColumnBuilder.md#generatedAlwaysAs) operator.
+Generated Columns can be defined using the following high-level operator:
+
+* [DeltaColumnBuilder.generatedAlwaysAs](../DeltaColumnBuilder.md#generatedAlwaysAs)
 
 !!! note "SQL Not Supported"
     SQL support is not available yet and tracked as [#1100](https://github.com/delta-io/delta/issues/1100).
 
 Generated Columns are stored in the [table metadata](../Metadata.md#schema).
 
-A table uses generated columns when all the following hold:
-
-1. [minWriterVersion](#minWriterVersion) is at least `4`
-1. Columns contain [generation expressions](#delta.generationExpression)
+A column is a generated column only if the [Minimum Writer Version](../Protocol.md#minWriterVersion) is at least [4](../Protocol.md#requiredMinimumProtocol-generated-columns) and the column metadata contains [generation expressions](#delta.generationExpression).
 
 Generated Columns is a new feature in Delta Lake 1.0.0.
 
@@ -22,9 +21,9 @@ Generated Columns is a new feature in Delta Lake 1.0.0.
 
 Generation Expression is attached to a column using [delta.generationExpression](#delta.generationExpression) metadata key.
 
-## <span id="MIN_WRITER_VERSION"><span id="minWriterVersion"> minWriterVersion
+## <span id="MIN_WRITER_VERSION"><span id="minWriterVersion"><span id="Protocol"> Protocol
 
-Generated columns require the [minWriterVersion](../Protocol.md#minWriterVersion) (of a [delta table](../Protocol.md)) to be at least `4`.
+Generated columns require the [Minimum Writer Version](../Protocol.md#minWriterVersion) (of a [delta table](../Protocol.md)) to be at least [4](../Protocol.md#requiredMinimumProtocol-generated-columns).
 
 ## <span id="GENERATION_EXPRESSION_METADATA_KEY"><span id="delta.generationExpression"> delta.generationExpression
 

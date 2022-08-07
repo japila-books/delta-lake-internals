@@ -49,8 +49,10 @@ enforcesGeneratedColumns(
 
 `enforcesGeneratedColumns` is `true` when the following all hold:
 
-* [satisfyGeneratedColumnProtocol](#satisfyGeneratedColumnProtocol) with the [Protocol](../Protocol.md)
-* There is at least one [generated column](#isGeneratedColumn) in the [schema](../Metadata.md#schema) of the [Metadata](../Metadata.md)
+* [satisfyGeneratedColumnProtocol](#satisfyGeneratedColumnProtocol) with the given [Protocol](../Protocol.md)
+* There is at least one [generated column](#isGeneratedColumn) in the [table schema](../Metadata.md#schema) (of the given [Metadata](../Metadata.md))
+
+---
 
 `enforcesGeneratedColumns` is used when:
 

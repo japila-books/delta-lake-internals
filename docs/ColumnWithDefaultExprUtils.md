@@ -76,3 +76,19 @@ removeDefaultExpressions(
 * `DeltaTableV2` is requested for the [tableSchema](DeltaTableV2.md#tableSchema)
 * `DeltaDataSource` is requested for the [sourceSchema](DeltaDataSource.md#sourceSchema)
 * `DeltaSourceBase` is requested for the [schema](DeltaSource.md#schema)
+
+## <span id="tableHasDefaultExpr"> tableHasDefaultExpr
+
+```scala
+tableHasDefaultExpr(
+  protocol: Protocol,
+  metadata: Metadata): Boolean
+```
+
+`tableHasDefaultExpr` [enforcesGeneratedColumns](generated-columns/GeneratedColumn.md#enforcesGeneratedColumns).
+
+---
+
+`tableHasDefaultExpr` is used when:
+
+* `TransactionalWrite` is requested to [normalizeData](TransactionalWrite.md#normalizeData)

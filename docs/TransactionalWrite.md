@@ -144,9 +144,9 @@ Internally, `writeFiles` turns the [hasWritten](#hasWritten) flag on (`true`).
 
 ### <span id="writeFiles-constraints"> Constraints
 
-`writeFiles` collects [constraints](constraints/Constraint.md)s:
+`writeFiles` collects [constraint](constraints/Constraint.md)s:
 
-1. From the [table metadata](constraints/Constraints.md#getAll)
+1. From the [table metadata](constraints/Constraints.md#getAll) ([CHECK constraints](check-constraints/index.md) and [Column Invariants](column-invariants/index.md))
 1. Generated columns (after [normalizeData](#normalizeData))
 1. The given `additionalConstraints`
 
@@ -215,7 +215,17 @@ normalizeData(
   data: Dataset[_]): (QueryExecution, Seq[Attribute], Seq[Constraint], Set[String])
 ```
 
+`normalizeData` [normalizes the column names](SchemaUtils.md#normalizeColumnNames) (using the [table schema](Metadata.md#schema) of the [Metadata](OptimisticTransactionImpl.md#metadata) and the given `data`).
+
+`normalizeData` [tableHasDefaultExpr](ColumnWithDefaultExprUtils.md#tableHasDefaultExpr) (using the [Protocol](OptimisticTransactionImpl.md#protocol) and the [Metadata](OptimisticTransactionImpl.md#metadata)).
+
 `normalizeData`...FIXME
+
+---
+
+`normalizeData` is used when:
+
+* `TransactionalWrite` is requested to [write data out](#writeFiles)
 
 ## <span id="makeOutputNullable"> makeOutputNullable
 
