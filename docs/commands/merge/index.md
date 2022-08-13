@@ -7,7 +7,7 @@ Delta Lake supports merging records into a delta table using the following high-
 
 ## Single INSERT-only MERGEs
 
-There is a special handling of [single INSERT-only MERGEs](MergeIntoCommand.md#run-isSingleInsertOnly).
+There is a special handling of [single INSERT-only MERGEs](MergeIntoCommand.md#isSingleInsertOnly).
 
 === "SQL"
 

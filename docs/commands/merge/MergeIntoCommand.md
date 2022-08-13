@@ -386,7 +386,7 @@ isSingleInsertOnly: Boolean
 1. No [MATCHED clauses](#matchedClauses)
 1. There is just a single [notMatchedClauses](#notMatchedClauses)
 
-```sql
+``` sql title="Example: Single Insert-Only Merge"
 MERGE INTO merge_demo to
 USING merge_demo_source from
 ON to.id = from.id
