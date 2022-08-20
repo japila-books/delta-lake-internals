@@ -11,24 +11,52 @@ This demo shows [Generated Columns](../generated-columns/index.md) in action.
 
 This step uses [DeltaColumnBuilder](../DeltaColumnBuilder.md) API to define a generated column using [DeltaColumnBuilder.generatedAlwaysAs](../DeltaColumnBuilder.md#generatedAlwaysAs).
 
-=== "Scala"
+```scala
+import io.delta.tables.DeltaTable
+val tableName = "delta_gencols"
+sql(s"DROP TABLE IF EXISTS $tableName")
+```
 
-    ```scala
-    import io.delta.tables.DeltaTable
-    import org.apache.spark.sql.types.DataTypes
+### Primitive Type
 
-    val tableName = "delta_gencols"
-    sql(s"DROP TABLE IF EXISTS $tableName")
-    DeltaTable.create
-      .addColumn("id", DataTypes.LongType, nullable = false)
-      .addColumn(
-        DeltaTable.columnBuilder("value")
-          .dataType(DataTypes.BooleanType)
-          .generatedAlwaysAs("true")
-          .build)
-      .tableName(tableName)
-      .execute
-    ```
+```scala
+import org.apache.spark.sql.types.DataTypes
+
+DeltaTable.create
+  .addColumn("id", DataTypes.LongType, nullable = false)
+  .addColumn(
+    DeltaTable.columnBuilder("value")
+      .dataType(DataTypes.BooleanType)
+      .generatedAlwaysAs("true")
+      .build)
+  .tableName(tableName)
+  .execute
+```
+
+### Complex Type
+
+With a complex type (e.g., `StructType`), you have to define fields with `nullable` disabled. Otherwise, you run into a very mysterious exception (that you don't want to spend you time on).
+
+```scala
+import org.apache.spark.sql.types._
+
+val dataType = StructType(
+  StructField("long", LongType, nullable = false) ::
+  StructField("str", StringType, nullable = false) :: Nil)
+
+val generationExpr = "struct(id AS long, 'hello' AS str)"
+
+val generatedColumn = DeltaTable.columnBuilder("metadata")
+  .dataType(dataType)
+  .generatedAlwaysAs(generationExpr)
+  .build
+
+DeltaTable.createOrReplace
+  .addColumn("id", LongType, nullable = false)
+  .addColumn(generatedColumn)
+  .tableName(tableName)
+  .execute
+```
 
 ## Review Metadata
 
