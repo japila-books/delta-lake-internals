@@ -26,10 +26,10 @@ Welcome to
       ____              __
      / __/__  ___ _____/ /__
     _\ \/ _ \/ _ `/ __/  '_/
-   /___/ .__/\_,_/_/ /_/\_\   version 3.2.1
+   /___/ .__/\_,_/_/ /_/\_\   version 3.3.0
       /_/
 
-Using Scala version 2.12.15, OpenJDK 64-Bit Server VM, 11.0.15
+Using Scala version 2.12.15, OpenJDK 64-Bit Server VM, 11.0.16
 ```
 
 ```text

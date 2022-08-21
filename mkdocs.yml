@@ -84,8 +84,8 @@ extra:
     structured_streaming: https://books.japila.pl/spark-structured-streaming-internals
     spark_core: https://books.japila.pl/apache-spark-internals
   delta:
-    version: 2.0.0
-    github: https://github.com/delta-io/delta/blob/v2.0.0
+    version: 2.1.0rc1
+    github: https://github.com/delta-io/delta/blob/v2.1.0rc1
     commit: https://github.com/delta-io/delta/commit
     issues: https://github.com/delta-io/delta/issues
   guava:
@@ -112,8 +112,8 @@ extra:
     - icon: fontawesome/brands/linkedin
       link: https://linkedin.com/in/jaceklaskowski
   spark:
-    version: 3.2.0
-    docs: https://spark.apache.org/docs/3.2.0
+    version: 3.3.0
+    docs: https://spark.apache.org/docs/3.3.0
 
 nav:
   - Home: index.md
