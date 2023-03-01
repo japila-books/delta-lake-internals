@@ -1,6 +1,6 @@
 # InvariantViolationException
 
-`InvariantViolationException` is a `RuntimeException` ([Java]({{ java.api }}/java.base/java/lang/RuntimeException.html)) that is reported when data does not match the rules of a table (using [Constraint](Constraint.md)s).
+`InvariantViolationException` is a `RuntimeException` ([Java]({{ java.api }}/java/lang/RuntimeException.html)) that is reported when data does not match the rules of a table (using [Constraint](Constraint.md)s).
 
 ## Creating Instance
 

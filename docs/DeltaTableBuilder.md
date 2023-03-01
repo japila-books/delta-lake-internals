@@ -1,3 +1,8 @@
+---
+tags:
+  - DeveloperApi
+---
+
 # DeltaTableBuilder
 
 `DeltaTableBuilder` is a [builder interface](#operators) to create [DeltaTable](DeltaTable.md)s programmatically.

@@ -1,6 +1,8 @@
 # {{ book.title }}
 
-[Delta Lake](https://delta.io/) is an open-source cloud storage layer for data lakes with [ACID transactions](OptimisticTransaction.md), [time travel](time-travel/index.md) and [many more](features/index.md) (you'd rather not wanna miss in your data-heavy architectures).
+[Delta Lake](https://delta.io/) is an open-source table format (storage layer) for cloud data lakes with [ACID transactions](OptimisticTransaction.md), [time travel](time-travel/index.md) and [many more](features/index.md) (you'd rather not wanna miss in your data-heavy architectures).
+
+Delta Lake allows you to store data on blob stores like HDFS, S3, Azure Data Lake, GCS, query from many processing engines including Apache Spark, Trino, Apache Hive, Apache Flink, and provides APIs for Scala, Java, Python, Rust, and Ruby.
 
 As [it was well said](https://github.com/delta-io/delta/issues/467#issuecomment-696708455): _"Delta is a storage format while Spark is an execution engine...to separate storage from compute."_ Yet, Delta Lake can run with other execution engines like [Trino](https://trino.io/docs/current/connector/delta-lake.html) or [Apache Flink](https://github.com/delta-io/connectors/tree/master/flink).
 
@@ -31,9 +33,9 @@ The following commands and operations can [transactionally write new data files 
 * [WriteIntoDelta](commands/WriteIntoDelta.md)
 * [DeltaSink](DeltaSink.md#addBatch)
 
-## Programmatic APIs
+## Developer APIs
 
-Delta Lake provides the following _programmatic_ APIs:
+Delta Lake provides the following [Developer APIs](developer-api.md) for developers to interact with (and even extend) Delta Lake using a supported programming language:
 
 * [DeltaTable](DeltaTable.md)
 * [DeltaTableBuilder](DeltaTableBuilder.md)
@@ -85,7 +87,9 @@ Blind append transactions are marked in the [commit info](CommitInfo.md#isBlindA
 Blind Append Transactions allow for concurrent updates.
 
 ```scala
-df.format("delta").mode("append").save(...)
+df.format("delta")
+  .mode("append")
+  .save(...)
 ```
 
 ## Generated Columns

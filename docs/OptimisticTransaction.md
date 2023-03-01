@@ -55,7 +55,7 @@ deltaLog.withNewTransaction { txn =>
 active: ThreadLocal[OptimisticTransaction]
 ```
 
-`active` is a Java [ThreadLocal]({{ java.api }}/java.base/java/lang/ThreadLocal.html) with the `OptimisticTransaction` of the current thread.
+`active` is a Java [ThreadLocal]({{ java.api }}/java/lang/ThreadLocal.html) with the `OptimisticTransaction` of the current thread.
 
 !!! quote "ThreadLocal"
     `ThreadLocal` provides thread-local variables. These variables differ from their normal counterparts in that each thread that accesses one (via its get or set method) has its own, independently initialized copy of the variable.

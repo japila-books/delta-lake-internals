@@ -1,6 +1,6 @@
 # DeltaConcurrentModificationException
 
-`DeltaConcurrentModificationException` is an extension of the `ConcurrentModificationException` ([Java]({{ java.api }}/java.base/java/util/ConcurrentModificationException.html)) abstraction for [commit conflict exceptions](#implementations).
+`DeltaConcurrentModificationException` is an extension of the `ConcurrentModificationException` ([Java]({{ java.api }}/java/util/ConcurrentModificationException.html)) abstraction for [commit conflict exceptions](#implementations).
 
 !!! note
     There are two `DeltaConcurrentModificationException` abstractions in two different packages:

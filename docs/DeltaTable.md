@@ -1,3 +1,8 @@
+---
+tags:
+  - DeveloperApi
+---
+
 # DeltaTable
 
 `DeltaTable` is the [management interface](#operators) of delta tables.

@@ -1,3 +1,8 @@
+---
+tags:
+  - DeveloperApi
+---
+
 # DeltaColumnBuilder
 
 `DeltaColumnBuilder` is a [builder interface](#operators) to [create columns](#build) programmatically.

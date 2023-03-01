@@ -18,7 +18,7 @@ getFiles: Iterator[SerializableFileStatus]
 close
 ```
 
-`close` is part of the `Closeable` ([Java]({{ java.api }}/java.base/java/io/Closeable.html)) abstraction.
+`close` is part of the `Closeable` ([Java]({{ java.api }}/java/io/Closeable.html)) abstraction.
 
 `close`...FIXME
 

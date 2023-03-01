@@ -2,7 +2,7 @@
 
 `FileManifest` is an [abstraction](#contract) of [file manifests](#implementations) for [ConvertToDeltaCommand](ConvertToDeltaCommand.md).
 
-`FileManifest` is `Closeable` ([Java]({{ java.api }}/java.base/java/io/Closeable.html)).
+`FileManifest` is `Closeable` ([Java]({{ java.api }}/java/io/Closeable.html)).
 
 ## Contract
 

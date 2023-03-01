@@ -40,4 +40,4 @@ verifyOptions(
 
 ## <span id="Serializable"> Serializable
 
-`DeltaOptions` is a `Serializable` ([Java]({{ java.api }}/java.base/java/io/Serializable.html)) (so it can be used in Spark tasks).
+`DeltaOptions` is a `Serializable` ([Java]({{ java.api }}/java/io/Serializable.html)) (so it can be used in Spark tasks).

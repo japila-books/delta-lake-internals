@@ -50,7 +50,7 @@ deltaLog.snapshot.metadata.id
 
 `Metadata` uses a **Table ID** (aka [reservoirId](DeltaSourceOffset.md#reservoirId)) to uniquely identify a delta table and is never going to change through the history of the table.
 
-Table ID is given `Metadata` is [created](#creating-instance) or defaults to a random UUID ([Java]({{ java.api }}/java.base/java/util/UUID.html#randomUUID)).
+Table ID is given `Metadata` is [created](#creating-instance) or defaults to a random UUID ([Java]({{ java.api }}/java/util/UUID.html#randomUUID)).
 
 !!! note
     When I asked the question [tableId and reservoirId - Why two different names for metadata ID?](https://groups.google.com/forum/#!topic/delta-users/5OKEFvVKiew) on delta-users mailing list, Tathagata Das wrote:
