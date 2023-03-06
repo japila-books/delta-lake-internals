@@ -6,10 +6,14 @@ From [Optimize performance with file management](https://docs.databricks.com/del
 
 As of Delta Lake 2.0.0, the above quote applies to the open source version, too.
 
-`OPTIMIZE` command can be executed using the following:
+`OPTIMIZE` command can be executed as follows:
 
-* [OPTIMIZE](OptimizeTableCommand.md) SQL command
+* [OPTIMIZE](#optimize-sql-command) SQL Command
 * [DeltaTable.optimize](../../DeltaTable.md#optimize) operator
+
+## OPTIMIZE SQL Command
+
+[OPTIMIZE](../../sql/#OPTIMIZE) SQL command
 
 ## bin-packing
 

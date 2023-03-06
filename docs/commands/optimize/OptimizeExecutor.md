@@ -1,6 +1,8 @@
 # OptimizeExecutor
 
-`OptimizeExecutor` is a [DeltaCommand](../DeltaCommand.md) with a [SQLMetricsReporting](../../SQLMetricsReporting.md).
+`OptimizeExecutor` is a [DeltaCommand](../DeltaCommand.md) for [OptimizeTableCommand](OptimizeTableCommand.md) to [optimize a delta table](#optimize).
+
+`OptimizeExecutor` is a [SQLMetricsReporting](../../SQLMetricsReporting.md).
 
 ## Creating Instance
 

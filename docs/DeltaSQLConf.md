@@ -238,7 +238,7 @@ Used when:
 
 **spark.databricks.delta.optimize.minFileSize** (internal) Files which are smaller than this threshold (in bytes) will be grouped together and rewritten as larger files by the [OPTIMIZE](sql/index.md#OPTIMIZE) command.
 
-Default: `1024 * 1024 * 1024`
+Default: `1024 * 1024 * 1024` (1GB)
 
 Used when:
 

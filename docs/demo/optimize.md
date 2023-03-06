@@ -5,35 +5,38 @@ hide:
 
 # Demo: Optimize
 
-This demo shows [OPTIMIZE](../commands/restore/index.md) command in action.
+This demo shows [OPTIMIZE](../commands/optimize/index.md) command in action.
 
 ## Create Delta Table
 
 === "Scala"
 
     ```scala
+    sql("DROP TABLE IF EXISTS nums")
     spark.range(10e4.toLong)
       .repartitionByRange(3, $"id" % 10)
-      .write
-      .format("delta")
-      .save("/tmp/numbers")
+      .writeTo("nums")
+      .using("delta")
+      .create
     ```
 
 Let's review the on-disk table representation.
 
-```text
-tree /tmp/numbers
-```
+=== "Shell"
+
+    ```text
+    tree -s spark-warehouse/nums
+    ```
 
 ```text
-/tmp/numbers
-├── _delta_log
-│   └── 00000000000000000000.json
-├── part-00000-9dfa9cb7-6f0e-4a6f-8aeb-fac8e9813e0b-c000.snappy.parquet
-├── part-00001-30dbfd11-cb84-46a3-b096-ede0a890d210-c000.snappy.parquet
-└── part-00002-b0c85f24-258b-4d4e-b1bd-4766760fa143-c000.snappy.parquet
+[        288]  spark-warehouse/nums
+├── [        128]  _delta_log
+│   └── [       1624]  00000000000000000000.json
+├── [     161036]  part-00000-9d2b6a10-d00e-4cdb-aa24-84ff7346bf08-c000.snappy.parquet
+├── [     121265]  part-00001-cb9456b6-037d-469f-b0d1-c384064beadd-c000.snappy.parquet
+└── [     121037]  part-00002-4aa15e4b-9db4-4a4a-9f97-dd4f4396792b-c000.snappy.parquet
 
-1 directory, 4 files
+2 directories, 4 files
 ```
 
 ## Optimize Table
@@ -41,7 +44,7 @@ tree /tmp/numbers
 === "Scala"
 
     ```scala
-    val optimizeMetrics = sql("OPTIMIZE delta.`/tmp/numbers`")
+    val optimizeMetrics = sql("OPTIMIZE nums")
     ```
 
 ```text
@@ -82,55 +85,73 @@ root
  |    |-- totalConsideredFiles: long (nullable = false)
  |    |-- totalFilesSkipped: long (nullable = false)
  |    |-- preserveInsertionOrder: boolean (nullable = false)
+ |    |-- numFilesSkippedToReduceWriteAmplification: long (nullable = false)
+ |    |-- numBytesSkippedToReduceWriteAmplification: long (nullable = false)
+ |    |-- startTimeMs: long (nullable = false)
+ |    |-- endTimeMs: long (nullable = false)
+ |    |-- totalClusterParallelism: long (nullable = false)
+ |    |-- totalScheduledTasks: long (nullable = false)
+ |    |-- autoCompactParallelismStats: struct (nullable = true)
+ |    |    |-- maxClusterActiveParallelism: long (nullable = true)
+ |    |    |-- minClusterActiveParallelism: long (nullable = true)
+ |    |    |-- maxSessionActiveParallelism: long (nullable = true)
+ |    |    |-- minSessionActiveParallelism: long (nullable = true)
 ```
 
-```scala
-optimizeMetrics.show(truncate = false)
-```
+=== "Scala"
+
+    ```scala
+    optimizeMetrics.show(truncate = false)
+    ```
 
 ```text
-+-----------------+-------------------------------------------------------------------------------------------------------------+
-|path             |metrics                                                                                                      |
-+-----------------+-------------------------------------------------------------------------------------------------------------+
-|file:/tmp/numbers|{1, 3, {402620, 402620, 402620.0, 1, 402620}, {121037, 161036, 134446.0, 3, 403338}, 1, null, 1, 3, 0, false}|
-+-----------------+-------------------------------------------------------------------------------------------------------------+
++-----------------+--------------------------------------------------------------------------------------------------------------------------------------------------+
+|path             |metrics                                                                                                                                           |
++-----------------+--------------------------------------------------------------------------------------------------------------------------------------------------+
+|file:/tmp/numbers|{1, 3, {402620, 402620, 402620.0, 1, 402620}, {121037, 161036, 134446.0, 3, 403338}, 1, null, 1, 3, 0, false, 0, 0, 1678104379055, 0, 16, 0, null}|
++-----------------+--------------------------------------------------------------------------------------------------------------------------------------------------+
 ```
 
 Let's review the on-disk table representation (after `OPTIMIZE`).
 
-```text
-tree /tmp/numbers
-```
+=== "Shell"
+
+    ```text
+    tree -s spark-warehouse/nums
+    ```
 
 ```text
-/tmp/numbers
-├── _delta_log
-│   ├── 00000000000000000000.json
-│   └── 00000000000000000001.json
-├── part-00000-2c801cd8-94c6-4dc3-b9da-be56f5741d0b-c000.snappy.parquet
-├── part-00000-9dfa9cb7-6f0e-4a6f-8aeb-fac8e9813e0b-c000.snappy.parquet
-├── part-00001-30dbfd11-cb84-46a3-b096-ede0a890d210-c000.snappy.parquet
-└── part-00002-b0c85f24-258b-4d4e-b1bd-4766760fa143-c000.snappy.parquet
+[        352]  spark-warehouse/nums
+├── [        192]  _delta_log
+│   ├── [       1624]  00000000000000000000.json
+│   └── [       1431]  00000000000000000001.json
+├── [     402620]  part-00000-86af4440-5374-4c18-ae6f-07b0d3680e27-c000.snappy.parquet
+├── [     161036]  part-00000-9d2b6a10-d00e-4cdb-aa24-84ff7346bf08-c000.snappy.parquet
+├── [     121265]  part-00001-cb9456b6-037d-469f-b0d1-c384064beadd-c000.snappy.parquet
+└── [     121037]  part-00002-4aa15e4b-9db4-4a4a-9f97-dd4f4396792b-c000.snappy.parquet
 
-1 directory, 6 files
+2 directories, 6 files
 ```
 
-Note one extra file (`part-00000-2c801cd8-94c6-4dc3-b9da-be56f5741d0b-c000.snappy.parquet`) in the file listing.
+Note one extra file (`part-00000-86af4440-5374-4c18-ae6f-07b0d3680e27-c000.snappy.parquet`) in the file listing.
 
 ??? note "Use DeltaLog to Review Log Files"
     You can review the transaction log (i.e., the`00000000000000000001.json` commit file in particular) or use [DeltaLog](../DeltaLog.md).
 
-    ```scala
-    import org.apache.spark.sql.delta.DeltaLog
-    val log = DeltaLog.forTable(spark, dataPath = "/tmp/numbers")
-    log.getSnapshotAt(1).allFiles.select('path).show(truncate = false)
-    ```
+    === "Scala"
+        
+        ```scala
+        import org.apache.spark.sql.delta.DeltaLog
+        import org.apache.spark.sql.catalyst.TableIdentifier
+        val log = DeltaLog.forTable(spark, tableName = TableIdentifier("nums"))
+        log.getSnapshotAt(1).allFiles.select('path).show(truncate = false)
+        ```
 
     ```text
     +-------------------------------------------------------------------+
     |path                                                               |
     +-------------------------------------------------------------------+
-    |part-00000-2c801cd8-94c6-4dc3-b9da-be56f5741d0b-c000.snappy.parquet|
+    |part-00000-86af4440-5374-4c18-ae6f-07b0d3680e27-c000.snappy.parquet|
     +-------------------------------------------------------------------+
     ```
 
@@ -138,27 +159,26 @@ Note one extra file (`part-00000-2c801cd8-94c6-4dc3-b9da-be56f5741d0b-c000.snapp
 
 [OPTIMIZE](../commands/optimize/index.md) is transactional and creates a new version.
 
-```scala
-val history = sql("desc history delta.`/tmp/numbers`")
-  .select(
-    "version",
-    "operation",
-    "operationParameters",
-    "readVersion",
-    "isolationLevel",
-    "isBlindAppend",
-    "operationMetrics")
-```
+=== "Scala"
 
-```scala
-history.show(truncate = false)
-```
+    ```scala
+    val history = sql("desc history nums")
+      .select(
+        "version",
+        "operation",
+        "operationParameters",
+        "readVersion",
+        "isolationLevel",
+        "isBlindAppend",
+        "operationMetrics")
+    history.show(truncate = false)
+    ```
 
 ```text
-+-------+---------+------------------------------------------+-----------+-----------------+-------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-|version|operation|operationParameters                       |readVersion|isolationLevel   |isBlindAppend|operationMetrics                                                                                                                                                                                                 |
-+-------+---------+------------------------------------------+-----------+-----------------+-------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-|1      |OPTIMIZE |{predicate -> ["true"]}                   |0          |SnapshotIsolation|false        |{numRemovedFiles -> 3, numRemovedBytes -> 403338, p25FileSize -> 402620, minFileSize -> 402620, numAddedFiles -> 1, maxFileSize -> 402620, p75FileSize -> 402620, p50FileSize -> 402620, numAddedBytes -> 402620}|
-|0      |WRITE    |{mode -> ErrorIfExists, partitionBy -> []}|null       |Serializable     |true         |{numFiles -> 3, numOutputRows -> 100000, numOutputBytes -> 403338}                                                                                                                                               |
-+-------+---------+------------------------------------------+-----------+-----------------+-------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
++-------+----------------------+-----------------------------------------------------------------------------+-----------+-----------------+-------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|version|operation             |operationParameters                                                          |readVersion|isolationLevel   |isBlindAppend|operationMetrics                                                                                                                                                                                                 |
++-------+----------------------+-----------------------------------------------------------------------------+-----------+-----------------+-------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|1      |OPTIMIZE              |{predicate -> [], zOrderBy -> []}                                            |0          |SnapshotIsolation|false        |{numRemovedFiles -> 3, numRemovedBytes -> 403338, p25FileSize -> 402620, minFileSize -> 402620, numAddedFiles -> 1, maxFileSize -> 402620, p75FileSize -> 402620, p50FileSize -> 402620, numAddedBytes -> 402620}|
+|0      |CREATE TABLE AS SELECT|{isManaged -> true, description -> null, partitionBy -> [], properties -> {}}|null       |Serializable     |true         |{numFiles -> 3, numOutputRows -> 100000, numOutputBytes -> 403338}                                                                                                                                               |
++-------+----------------------+-----------------------------------------------------------------------------+-----------+-----------------+-------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 ```

@@ -72,7 +72,9 @@ zorderSpec
     ;
 ```
 
-Executes [OptimizeTableCommand](../commands/optimize/OptimizeTableCommand.md) (on a Delta table identified by a directory path or a table name)
+Executes [OptimizeTableCommand](../commands/optimize/OptimizeTableCommand.md) on a delta table (identified by a directory `path` or a `table` name)
+
+Parsed by [DeltaSqlAstBuilder](DeltaSqlAstBuilder.md#visitOptimizeTable) that creates an [OptimizeTableCommand](../commands/optimize/OptimizeTableCommand.md)
 
 ## <span id="RESTORE"> RESTORE
 
