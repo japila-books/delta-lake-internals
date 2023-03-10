@@ -1,0 +1,3 @@
+# FileSizeHistogram
+
+`FileSizeHistogram` is...FIXME

@@ -161,6 +161,7 @@ nav:
       - data-skipping/index.md
       - DataSkippingReaderBase: data-skipping/DataSkippingReaderBase.md
       - DeltaScan: data-skipping/DeltaScan.md
+      - data-skipping/FileSizeHistogram.md
       - PreparedDeltaFileIndex: data-skipping/PreparedDeltaFileIndex.md
       - PrepareDeltaScan: data-skipping/PrepareDeltaScan.md
       - PrepareDeltaScanBase: data-skipping/PrepareDeltaScanBase.md
@@ -198,6 +199,7 @@ nav:
       - Checkpoints: Checkpoints.md
       - CheckpointV2: CheckpointV2.md
       - SnapshotManagement: SnapshotManagement.md
+      - SnapshotDescriptor.md
       - ReadChecksum: ReadChecksum.md
       - MetadataCleanup: MetadataCleanup.md
       - VerifyChecksum: VerifyChecksum.md
@@ -210,8 +212,10 @@ nav:
       - Post-Commit Hooks:
         - PostCommitHook: PostCommitHook.md
         - GenerateSymlinkManifest: GenerateSymlinkManifest.md
-    - (State) Snapshot:
+    - State Snapshot:
       - Snapshot: Snapshot.md
+      - State.md
+      - InitialSnapshot.md
       - InMemoryLogReplay: InMemoryLogReplay.md
       - PartitionFiltering: PartitionFiltering.md
       - LogSegment: LogSegment.md

@@ -4,15 +4,19 @@
 
 ## <span id="currentSnapshot"><span id="snapshot"> Current Snapshot
 
-`SnapshotManagement` manages `currentSnapshot` registry with the recently-loaded [Snapshot](Snapshot.md) (of a Delta table).
+`SnapshotManagement` defines `currentSnapshot` registry with the recently-loaded [Snapshot](Snapshot.md) of the [delta table](DeltaLog.md).
 
-`currentSnapshot` is initialized as the [latest available Snapshot](#getSnapshotAtInit) right when [DeltaLog](DeltaLog.md) is created and [updated](#update) on demand.
+`currentSnapshot` is the [latest Snapshot](#getSnapshotAtInit) initially and can be [updated](#update) on demand (when [installLogSegmentInternal](#installLogSegmentInternal) and [replaceSnapshot](#replaceSnapshot)).
 
 `currentSnapshot`...FIXME
 
-`currentSnapshot` is used when:
+---
 
-* `SnapshotManagement` is requested to...FIXME
+`currentSnapshot` is used when `SnapshotManagement` is requested for the following:
+
+* [unsafeVolatileSnapshot](#unsafeVolatileSnapshot)
+* [update](#update) ([tryUpdate](#tryUpdate), [updateInternal](#updateInternal), [installLogSegmentInternal](#installLogSegmentInternal), [replaceSnapshot](#replaceSnapshot))
+* [updateAfterCommit](#updateAfterCommit)
 
 ### <span id="getSnapshotAtInit"> Loading Latest Snapshot at Initialization
 
@@ -20,23 +24,20 @@
 getSnapshotAtInit: Snapshot
 ```
 
-`getSnapshotAtInit` [getLogSegmentFrom](#getLogSegmentFrom) for the [last checkpoint](Checkpoints.md#lastCheckpoint).
+`getSnapshotAtInit` [finds the LogSegment](#getLogSegmentFrom) of the delta table (using the [last checkpoint file](Checkpoints.md#readLastCheckpointFile) if available)
 
-`getSnapshotAtInit` prints out the following INFO message to the logs:
+In the end, `getSnapshotAtInit` [createSnapshotAtInitInternal](#createSnapshotAtInitInternal).
 
-```text
-Loading version [version][startCheckpoint]
+### <span id="createSnapshotAtInitInternal"> createSnapshotAtInitInternal
+
+```scala
+createSnapshotAtInitInternal(
+  initSegment: Option[LogSegment],
+  lastCheckpointOpt: Option[CheckpointMetaData],
+  timestamp: Long): CapturedSnapshot
 ```
 
-`getSnapshotAtInit` [creates a Snapshot](#createSnapshot) for the log segment.
-
-`getSnapshotAtInit` records the current time in [lastUpdateTimestamp](#lastUpdateTimestamp) registry.
-
-`getSnapshotAtInit` prints out the following INFO message to the logs:
-
-```text
-Returning initial snapshot [snapshot]
-```
+`createSnapshotAtInitInternal`...FIXME
 
 ### <span id="getLogSegmentFrom"> Fetching Log Files for Version Checkpointed
 
@@ -157,22 +158,32 @@ updateInternal(
 
 1. `isAsync` flag is not used
 
-`updateInternal` requests the [current Snapshot](#currentSnapshot) for the [LogSegment](Snapshot.md#logSegment) that is in turn requested for the [checkpointVersion](LogSegment.md#checkpointVersion). `updateInternal` [gets the LogSegment](#getLogSegmentForVersion) for the `checkpointVersion`.
+`updateInternal` requests the [current Snapshot](#currentSnapshot) for the [LogSegment](Snapshot.md#logSegment) that is in turn requested for the [checkpointVersion](LogSegment.md#checkpointVersion) to [get the LogSegment](#getLogSegmentForVersion) for.
 
-If the `LogSegment`s are equal (and so no new files have been added), `updateInternal` updates the [lastUpdateTimestamp](#lastUpdateTimestamp) registry to the current timestamp and returns the [currentSnapshot](#currentSnapshot).
+`updateInternal` [installLogSegmentInternal](#installLogSegmentInternal).
 
-Otherwise, if the fetched `LogSegment` is different than the [current Snapshot's](Snapshot.md#logSegment), `updateInternal` prints out the following INFO message to the logs:
+#### <span id="installLogSegmentInternal"> installLogSegmentInternal
 
-```text
-Loading version [version][ starting from checkpoint version [v]]
+```scala
+installLogSegmentInternal(
+  previousSnapshot: Snapshot,
+  segmentOpt: Option[LogSegment],
+  updateTimestamp: Long,
+  isAsync: Boolean): Snapshot // (1)!
 ```
 
-`updateInternal` [creates a new Snapshot](#createSnapshot) with the fetched `LogSegment`.
+1. `isAsync` is not used
 
-`updateInternal` [replaces Snapshots](#replaceSnapshot) and prints out the following INFO message to the logs:
+`installLogSegmentInternal` gives the [Snapshot](Snapshot.md) (possibly an [InitialSnapshot](InitialSnapshot.md)) of the delta table at the [logPath](DeltaLog.md#logPath).
+
+---
+
+`installLogSegmentInternal`...FIXME
+
+With no [LogSegment](LogSegment.md) specified, `installLogSegmentInternal` prints out the following INFO message to the logs and [replaceSnapshot](#replaceSnapshot) with a new [InitialSnapshot](InitialSnapshot.md) (for the [logPath](DeltaLog.md#logPath)).
 
 ```text
-Updated snapshot to [newSnapshot]
+No delta log found for the Delta table at [logPath]
 ```
 
 ### <span id="replaceSnapshot"> Replacing Snapshots
@@ -183,6 +194,23 @@ replaceSnapshot(
 ```
 
 `replaceSnapshot` requests the [currentSnapshot](#currentSnapshot) to [uncache](StateCache.md#uncache) (and drop any cached data) and makes the given `newSnapshot` the [current one](#currentSnapshot).
+
+## <span id="updateAfterCommit"> updateAfterCommit
+
+```scala
+updateAfterCommit(
+  committedVersion: Long,
+  newChecksumOpt: Option[VersionChecksum],
+  preCommitLogSegment: LogSegment): Snapshot
+```
+
+`updateAfterCommit`...FIXME
+
+---
+
+`updateAfterCommit` is used when:
+
+* `OptimisticTransactionImpl` is requested to [attempt a commit](OptimisticTransactionImpl.md#doCommit)
 
 ## Demo
 

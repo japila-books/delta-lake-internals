@@ -1,6 +1,6 @@
 # LogSegment
 
-`LogSegment` are the [delta](#deltas) and [checkpoint](#checkpoint) files that all together are a given version of a delta table.
+`LogSegment` are the [delta](#deltas) and [checkpoint](#checkpoint) files that all together are a given version of a delta table (in the [logPath](#logPath)).
 
 ## Creating Instance
 

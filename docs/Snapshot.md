@@ -324,3 +324,15 @@ dataSchema: StructType
 `dataSchema` requests the [Metadata](#metadata) for the [data schema](Metadata.md#dataSchema).
 
 `dataSchema` is part of the [StatisticsCollection](StatisticsCollection.md#dataSchema) abstraction.
+
+## <span id="metadata"> Metadata
+
+```scala
+metadata: Metadata
+```
+
+`metadata` is part of the [SnapshotDescriptor](SnapshotDescriptor.md#metadata) and [DataSkippingReaderBase](data-skipping/DataSkippingReaderBase.md#metadata) abstractions.
+
+---
+
+`metadata` requests the [computedState](#computedState) for the [Metadata](State.md#metadata).

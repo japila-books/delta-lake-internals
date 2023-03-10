@@ -1,0 +1,3 @@
+# SnapshotDescriptor
+
+`SnapshotDescriptor` is...FIXME
