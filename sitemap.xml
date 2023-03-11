@@ -326,11 +326,6 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://books.japila.pl/delta-lake-internals/OptimizeMetadataOnlyDeltaQuery/</loc>
-         <lastmod>2023-03-11</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://books.japila.pl/delta-lake-internals/PartitionFiltering/</loc>
          <lastmod>2023-03-11</lastmod>
          <changefreq>daily</changefreq>
@@ -1006,6 +1001,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://books.japila.pl/delta-lake-internals/data-skipping/CountStarDeltaTable/</loc>
+         <lastmod>2023-03-11</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://books.japila.pl/delta-lake-internals/data-skipping/DataSkippingReaderBase/</loc>
          <lastmod>2023-03-11</lastmod>
          <changefreq>daily</changefreq>
@@ -1022,6 +1022,11 @@
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/data-skipping/FileSizeHistogram/</loc>
+         <lastmod>2023-03-11</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://books.japila.pl/delta-lake-internals/data-skipping/OptimizeMetadataOnlyDeltaQuery/</loc>
          <lastmod>2023-03-11</lastmod>
          <changefreq>daily</changefreq>
     </url>
