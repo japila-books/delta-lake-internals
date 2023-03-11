@@ -176,16 +176,6 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://books.japila.pl/delta-lake-internals/DeltaScanGenerator/</loc>
-         <lastmod>2023-03-11</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://books.japila.pl/delta-lake-internals/DeltaScanGeneratorBase/</loc>
-         <lastmod>2023-03-11</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://books.japila.pl/delta-lake-internals/DeltaSink/</loc>
          <lastmod>2023-03-11</lastmod>
          <changefreq>daily</changefreq>
@@ -332,6 +322,11 @@
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/OptimisticTransactionImpl/</loc>
+         <lastmod>2023-03-11</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://books.japila.pl/delta-lake-internals/OptimizeMetadataOnlyDeltaQuery/</loc>
          <lastmod>2023-03-11</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -1017,6 +1012,11 @@
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/data-skipping/DeltaScan/</loc>
+         <lastmod>2023-03-11</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://books.japila.pl/delta-lake-internals/data-skipping/DeltaScanGenerator/</loc>
          <lastmod>2023-03-11</lastmod>
          <changefreq>daily</changefreq>
     </url>
