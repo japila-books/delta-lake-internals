@@ -721,6 +721,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://books.japila.pl/delta-lake-internals/commands/delete/DeleteCommandMetrics/</loc>
+         <lastmod>2023-03-11</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/delete/DeltaDelete/</loc>
          <lastmod>2023-03-11</lastmod>
          <changefreq>daily</changefreq>
