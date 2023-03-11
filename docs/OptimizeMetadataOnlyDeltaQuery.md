@@ -1,0 +1,3 @@
+# OptimizeMetadataOnlyDeltaQuery
+
+`OptimizeMetadataOnlyDeltaQuery` is...FIXME

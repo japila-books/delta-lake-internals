@@ -161,6 +161,7 @@ nav:
       - data-skipping/index.md
       - DataSkippingReaderBase: data-skipping/DataSkippingReaderBase.md
       - DeltaScan: data-skipping/DeltaScan.md
+      - data-skipping/DeltaScanGenerator.md
       - data-skipping/FileSizeHistogram.md
       - PreparedDeltaFileIndex: data-skipping/PreparedDeltaFileIndex.md
       - PrepareDeltaScan: data-skipping/PrepareDeltaScan.md
@@ -410,11 +411,10 @@ nav:
     - DeltaFileOperations: DeltaFileOperations.md
     - DeltaJobStatisticsTracker: DeltaJobStatisticsTracker.md
     - DeltaRelation: DeltaRelation.md
-    - DeltaScanGenerator: DeltaScanGenerator.md
-    - DeltaScanGeneratorBase: DeltaScanGeneratorBase.md
     - DeltaTableOperations: DeltaTableOperations.md
     - DeltaTableUtils: DeltaTableUtils.md
     - ImplicitMetadataOperation: ImplicitMetadataOperation.md
+    - OptimizeMetadataOnlyDeltaQuery.md
     - SchemaMergingUtils: SchemaMergingUtils.md
     - SchemaUtils: SchemaUtils.md
     - StateCache:

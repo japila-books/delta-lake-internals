@@ -90,7 +90,7 @@ DELTA: Filtering files for query
 * If disabled, `filesForScan` uses the given `filters` expressions unchanged
 * With [generatedColumn.partitionFilterOptimization.enabled](../generated-columns/GeneratedColumn.md#partitionFilterOptimizationEnabled) enabled, `filesForScan` [generates the partition filters](../generated-columns/GeneratedColumn.md#generatePartitionFilters) that are used alongside the given `filters` expressions
 
-`filesForScan` requests the given [DeltaScanGenerator](../DeltaScanGenerator.md) for the [Snapshot to scan](../DeltaScanGenerator.md#snapshotToScan) and a [DeltaScan](../DeltaScanGenerator.md#filesForScan) (that are the return pair).
+`filesForScan` requests the given [DeltaScanGenerator](DeltaScanGenerator.md) for the [Snapshot to scan](DeltaScanGenerator.md#snapshotToScan) and a [DeltaScan](DeltaScanGenerator.md#filesForScan) (that are the return pair).
 
 In the end, `filesForScan` prints out the following INFO message to the logs:
 

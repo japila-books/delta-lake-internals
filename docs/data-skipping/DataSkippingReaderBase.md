@@ -1,6 +1,6 @@
 # DataSkippingReaderBase
 
-`DataSkippingReaderBase` is an [extension](#contract) of the [DeltaScanGenerator](../DeltaScanGenerator.md) abstraction for [DeltaScan generators](#implementations).
+`DataSkippingReaderBase` is an [extension](#contract) of the [DeltaScanGenerator](DeltaScanGenerator.md) abstraction for [DeltaScan generators](#implementations).
 
 ## Contract
 
@@ -153,19 +153,20 @@ withStatsInternal0: DataFrame
 
 ## <span id="filesForScan"> filesForScan
 
-```scala
-filesForScan(
-  projection: Seq[Attribute],
-  filters: Seq[Expression]): DeltaScan // (1)!
-filesForScan(
-  projection: Seq[Attribute],
-  filters: Seq[Expression],
-  keepNumRecords: Boolean): DeltaScan
-```
+??? note "Signature"
 
-1. `keepNumRecords` flag is `false`
+    ```scala
+    filesForScan(
+      limit: Long): DeltaScan
+    filesForScan(
+      limit: Long,
+      partitionFilters: Seq[Expression]): DeltaScan
+    filesForScan(
+      filters: Seq[Expression],
+      keepNumRecords: Boolean): DeltaScan
+    ```
 
-`filesForScan` is part of the [DeltaScanGeneratorBase](../DeltaScanGeneratorBase.md#filesForScan) abstraction.
+    `filesForScan` is part of the [DeltaScanGenerator](DeltaScanGenerator.md#filesForScan) abstraction.
 
 `filesForScan` branches off based on the given `filters` expressions and the [schema](#schema).
 
@@ -252,6 +253,25 @@ verifyStatsForFilter(
 ```
 
 `verifyStatsForFilter`...FIXME
+
+### <span id="pruneFilesByLimit"> pruneFilesByLimit
+
+```scala
+pruneFilesByLimit(
+  df: DataFrame,
+  limit: Long): ScanAfterLimit
+```
+
+`pruneFilesByLimit`...FIXME
+
+### <span id="getFilesAndNumRecords"> getFilesAndNumRecords
+
+```scala
+getFilesAndNumRecords(
+  df: DataFrame): Iterator[(AddFile, NumRecords)]
+```
+
+`getFilesAndNumRecords`...FIXME
 
 ## <span id="columnMappingMode"> Column Mapping Mode
 
