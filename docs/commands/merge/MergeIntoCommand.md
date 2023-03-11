@@ -4,19 +4,30 @@
 
 ## Performance Metrics
 
-Name     | web UI
----------|----------
-`numSourceRows` | number of source rows
-`numSourceRowsInSecondScan` | number of source rows (during repeated scan)
-`numTargetFilesAdded` | number of files added to target
-<span id="numTargetFilesAfterSkipping"> `numTargetFilesAfterSkipping` | number of target files after skipping
-<span id="numTargetFilesBeforeSkipping"> `numTargetFilesBeforeSkipping` | number of target files before skipping
-<span id="numTargetFilesRemoved"> `numTargetFilesRemoved` | number of files removed to target
-[numTargetRowsCopied](#numTargetRowsCopied) | number of target rows rewritten unmodified
-`numTargetRowsInserted` | number of inserted rows
-`numTargetRowsDeleted` | number of deleted rows
-`numTargetRowsUpdated` | number of updated rows
-_others_ |
+Name | web UI
+------------|------------
+ `numSourceRows` | number of source rows
+ `numSourceRowsInSecondScan` | number of source rows (during repeated scan)
+ `numTargetRowsCopied` | number of target rows rewritten unmodified
+ `numTargetRowsInserted` | number of inserted rows
+ `numTargetRowsUpdated` | number of updated rows
+ `numTargetRowsDeleted` | number of deleted rows
+ `numTargetFilesBeforeSkipping` | number of target files before skipping
+ `numTargetFilesAfterSkipping` | number of target files after skipping
+ `numTargetFilesRemoved` | number of files removed to target
+ `numTargetFilesAdded` | number of files added to target
+ `numTargetChangeFilesAdded` | number of change data capture files generated
+ `numTargetChangeFileBytes` | total size of change data capture files generated
+ `numTargetBytesBeforeSkipping` | number of target bytes before skipping
+ `numTargetBytesAfterSkipping` | number of target bytes after skipping
+ `numTargetBytesRemoved` | number of target bytes removed
+ `numTargetBytesAdded` | number of target bytes added
+ `numTargetPartitionsAfterSkipping` | number of target partitions after skipping
+ `numTargetPartitionsRemovedFrom` | number of target partitions from which files were removed
+ `numTargetPartitionsAddedTo` | number of target partitions to which files were added
+ `executionTimeMs` | time taken to execute the entire operation
+ `scanTimeMs` | time taken to scan the files for matches
+ `rewriteTimeMs` | time taken to rewrite the matched files
 
 ### <span id="numTargetRowsCopied"> number of target rows rewritten unmodified
 

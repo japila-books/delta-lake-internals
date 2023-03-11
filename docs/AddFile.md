@@ -70,3 +70,44 @@ removeWithTimestamp(
 * `AddFile` is requested to [create a RemoveFile action with the defaults](#remove)
 * [CreateDeltaTableCommand](commands/CreateDeltaTableCommand.md), [DeleteCommand](commands/delete/DeleteCommand.md) and [UpdateCommand](commands/update/UpdateCommand.md) commands are executed
 * `DeltaCommand` is requested to [removeFilesFromPaths](commands/DeltaCommand.md#removeFilesFromPaths)
+
+## <span id="tag"> tag
+
+```scala
+tag(
+  tag: AddFile.Tags.KeyType): Option[String]
+```
+
+`tag` [gets the value of the given tag](FileAction.md#getTag).
+
+---
+
+`tag` is used when:
+
+* `AddFile` is requested for an [insertionTime](#insertionTime) (that does not seem to be used anywhere)
+
+## <span id="numLogicalRecords"> numLogicalRecords
+
+??? note "Signature"
+
+    ```scala
+    numLogicalRecords: Option[Long]
+    ```
+
+    `numLogicalRecords` is part of the [FileAction](FileAction.md#numLogicalRecords) abstraction.
+
+??? note "Lazy Value"
+    `numLogicalRecords` is a Scala **lazy value** to guarantee that the code to initialize it is executed once only (when accessed for the first time) and the computed value never changes afterwards.
+
+    Learn more in the [Scala Language Specification]({{ scala.spec }}/05-classes-and-objects.html#lazy).
+
+`numLogicalRecords` is [parsedStatsFields](#parsedStatsFields).
+
+---
+
+`numLogicalRecords` is used when:
+
+* `DeleteCommandMetrics` is requested to [getDeletedRowsFromAddFilesAndUpdateMetrics](commands/delete/DeleteCommandMetrics.md#getDeletedRowsFromAddFilesAndUpdateMetrics)
+* `MergeIntoCommand` is requested to [writeInsertsOnlyWhenNoMatchedClauses](commands/merge/MergeIntoCommand.md#writeInsertsOnlyWhenNoMatchedClauses)
+* `TransactionalWrite` is requested to [writeFiles](TransactionalWrite.md#writeFiles)
+* `WriteIntoDelta` is requested to [registerReplaceWhereMetrics](commands/WriteIntoDelta.md#registerReplaceWhereMetrics)

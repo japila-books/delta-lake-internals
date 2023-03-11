@@ -1,14 +1,8 @@
 # FileAction
 
-`FileAction` is an [extension](#contract) of the [Action](Action.md) abstraction for [actions](#implementations) that can add or remove files.
+`FileAction` is an [extension](#contract) of the [Action](Action.md) abstraction for [data file-related actions](#implementations).
 
 ## Contract
-
-### <span id="path"> Path
-
-```scala
-path: String
-```
 
 ### <span id="dataChange"> dataChange
 
@@ -36,11 +30,69 @@ dataChange Value | When
 * `OptimisticTransactionImpl` is requested to [commit](OptimisticTransactionImpl.md#commit) (and determines the isolation level), [prepareCommit](OptimisticTransactionImpl.md#prepareCommit), [attempt a commit](OptimisticTransactionImpl.md#doCommit) (for `bytesNew` statistics)
 * `DeltaSource` is requested to [getChanges](DeltaSource.md#getChanges) (and [verifyStreamHygieneAndFilterAddFiles](DeltaSource.md#verifyStreamHygieneAndFilterAddFiles))
 
+### <span id="numLogicalRecords"> numLogicalRecords
+
+```scala
+numLogicalRecords: Option[Long]
+```
+
+Always `None`:
+
+* [AddCDCFile](AddCDCFile.md#numLogicalRecords)
+* [RemoveFile](RemoveFile.md#numLogicalRecords)
+
+See:
+
+* [AddFile](AddFile.md#numLogicalRecords)
+
+### <span id="partitionValues"> Partition Values
+
+```scala
+partitionValues: Map[String, String]
+```
+
+Partition columns to their values of this logical file
+
+!!! note
+    `partitionValues` is not used.
+
+### Path
+
+```scala
+path: String
+```
+
+### Tags
+
+```scala
+tags: Map[String, String]
+```
+
+Metadata about this logical file
+
+Used to [get the value of a tag](#getTag)
+
 ## Implementations
+
+??? note "Sealed Trait"
+    `FileAction` is a Scala **sealed trait** which means that all of the implementations are in the same compilation unit (a single file).
+
+    Learn more in the [Scala Language Specification]({{ scala.spec }}/05-classes-and-objects.html#sealed).
 
 * [AddCDCFile](AddCDCFile.md)
 * [AddFile](AddFile.md)
 * [RemoveFile](RemoveFile.md)
 
-??? note "Sealed Trait"
-    `FileAction` is a Scala **sealed trait** which means that all of the implementations are in the same compilation unit (a single file).
+## <span id="getTag"> Tag Value
+
+```scala
+getTag(tagName: String): Option[String]
+```
+
+`getTag` gets the value of the given tag (by `tagName`), if available.
+
+---
+
+`getTag` is used when:
+
+* `AddFile` is requested for a [tag value](AddFile.md#tag)

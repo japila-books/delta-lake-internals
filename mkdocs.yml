@@ -186,6 +186,17 @@ nav:
       - DeltaTimeTravelSpec: time-travel/DeltaTimeTravelSpec.md
   - Internals:
     - Overview: overview.md
+    - Actions:
+      - Action: Action.md
+      - AddCDCFile: AddCDCFile.md
+      - AddFile: AddFile.md
+      - CommitInfo: CommitInfo.md
+      - FileAction: FileAction.md
+      - Metadata: Metadata.md
+      - Protocol: Protocol.md
+      - RemoveFile: RemoveFile.md
+      - SetTransaction: SetTransaction.md
+      - SingleAction: SingleAction.md
     - DeltaConfig: DeltaConfig.md
     - DeltaConfigs: DeltaConfigs.md
     - DeltaSQLConf: DeltaSQLConf.md
@@ -229,17 +240,6 @@ nav:
       - HadoopFileSystemLogStore: storage/HadoopFileSystemLogStore.md
       - HDFSLogStore: storage/HDFSLogStore.md
       - S3SingleDriverLogStore: storage/S3SingleDriverLogStore.md
-    - Actions:
-      - Action: Action.md
-      - AddCDCFile: AddCDCFile.md
-      - AddFile: AddFile.md
-      - CommitInfo: CommitInfo.md
-      - FileAction: FileAction.md
-      - Metadata: Metadata.md
-      - Protocol: Protocol.md
-      - RemoveFile: RemoveFile.md
-      - SetTransaction: SetTransaction.md
-      - SingleAction: SingleAction.md
     - FileNames: FileNames.md
     - Spark SQL Extensions:
       - AppendDelta: AppendDelta.md
@@ -327,6 +327,7 @@ nav:
     - Delete:
       - commands/delete/index.md
       - DeleteCommand: commands/delete/DeleteCommand.md
+      - commands/delete/DeleteCommandMetrics.md
       - DeltaDelete: commands/delete/DeltaDelete.md
     - Describe Detail:
       - commands/describe-detail/index.md

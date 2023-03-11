@@ -1,10 +1,10 @@
 # Action
 
-`Action` is an [abstraction](#contract) of [operations](#implementations) that change (the state of) a delta table.
+`Action` is an [abstraction](#contract) of [operations](#implementations) that change the state of a delta table.
 
 ## Contract
 
-### <span id="json"> Serializing to JSON
+### <span id="json"> JSON Representation
 
 ```scala
 json: String
@@ -19,7 +19,7 @@ Used when:
 * `OptimisticTransactionImpl` is requested to [doCommit](OptimisticTransactionImpl.md#doCommit)
 * `DeltaCommand` is requested to [commitLarge](commands/DeltaCommand.md#commitLarge)
 
-### <span id="wrap"> Wrapping Up as SingleAction
+### <span id="wrap"> SingleAction Representation
 
 ```scala
 wrap: SingleAction
@@ -34,14 +34,16 @@ Used when:
 
 ## Implementations
 
+??? note "Sealed Trait"
+    `Action` is a Scala **sealed trait** which means that all of the implementations are in the same compilation unit (a single file).
+
+    Learn more in the [Scala Language Specification]({{ scala.spec }}/05-classes-and-objects.html#sealed).
+
 * [CommitInfo](CommitInfo.md)
 * [FileAction](FileAction.md)
 * [Metadata](Metadata.md)
 * [Protocol](Protocol.md)
 * [SetTransaction](SetTransaction.md)
-
-??? note "Sealed Trait"
-    `Action` is a Scala **sealed trait** which means that all of the implementations are in the same compilation unit (a single file).
 
 ## <span id="logSchema"> Log Schema
 
