@@ -212,7 +212,7 @@ nav:
       - Post-Commit Hooks:
         - PostCommitHook: PostCommitHook.md
         - GenerateSymlinkManifest: GenerateSymlinkManifest.md
-    - State Snapshot:
+    - Delta Table State Snapshot:
       - Snapshot: Snapshot.md
       - State.md
       - InitialSnapshot.md

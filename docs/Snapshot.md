@@ -1,6 +1,10 @@
 # Snapshot
 
-`Snapshot` is an immutable snapshot of the [state](#state) of a [Delta table](#deltaLog) at the [version](#version).
+`Snapshot` is an immutable snapshot of the [state](#state) of a delta table (in the [deltaLog](#deltaLog)) at the given [version](#version).
+
+`Snapshot` uses [aggregation expressions](#aggregationsToComputeState) while [computing state](#computedState) (as [State](State.md)).
+
+`Snapshot` [loads the actions](#loadActions) (per the [DeltaLogFileIndices](#fileIndices)) and builds a `DataFrame`.
 
 ## Creating Instance
 
@@ -62,12 +66,32 @@ computedState: State
 
     Learn more in the [Scala Language Specification]({{ scala.spec }}/05-classes-and-objects.html#lazy).
 
-`computedState` takes the [current cached set of actions](#state) and reads the latest state (executes a `state.select(...).first()` query).
+`computedState` takes the [current cached set of actions](#stateDF) and reads the latest state (executes a `state.select(...).first()` query) with the [aggregations](#aggregationsToComputeState) (that are then mapped to a [State](State.md)).
 
 !!! note
     The `state.select(...).first()` query uses aggregate standard functions (e.g. `last`, `collect_set`, `sum`, `count`) and so uses `groupBy` over the whole dataset indirectly.
 
 ![Details for Query in web UI](images/Snapshot-computedState-webui-query-details.png)
+
+`computedState` asserts that the `State` to be returned has at least the default protocol and metadata (actions) defined.
+
+---
+
+While executing the aggregation query, `computedState` [withStatusCode](DeltaProgressReporter.md#withStatusCode) with the following:
+
+Property | Value
+---------|------
+ statusCode | DELTA
+ defaultMessage | Compute snapshot for version: [version](#version)
+
+!!! tip
+    Use event logs for the INFO messages and web UI to monitor execution of the aggregation query with the following job description:
+
+    ```text
+    Delta: Compute snapshot for version: [version]
+    ```
+
+---
 
 `computedState` assumes that the protocol and metadata (actions) are defined. `computedState` throws an `IllegalStateException` when the actions are not defined and [spark.databricks.delta.stateReconstructionValidation.enabled](DeltaSQLConf.md#DELTA_STATE_RECONSTRUCTION_VALIDATION_ENABLED) configuration property is enabled.
 
@@ -79,7 +103,24 @@ version: [version]. Did you manually delete files in the _delta_log directory?
 !!! note
     The `state.select(...).first()` query uses `last` with `ignoreNulls` flag `true` and so may give no rows for `first()`.
 
-`computedState` makes sure that the `State` to be returned has at least the default protocol and metadata (actions) defined.
+### <span id="aggregationsToComputeState"> aggregationsToComputeState
+
+```scala
+aggregationsToComputeState: Map[String, Column]
+```
+
+Alias | Aggregation Expression
+------|-----------------------
+`sizeInBytes` | `coalesce(sum(col("add.size")), lit(0L))`
+`numOfSetTransactions` | `count(col("txn"))`
+`numOfFiles` | `count(col("add"))`
+`numOfRemoves` | `count(col("remove"))`
+`numOfMetadata` | `count(col("metaData"))`
+`numOfProtocol` | `count(col("protocol"))`
+`setTransactions` | `collect_set(col("txn"))`
+`metadata` | `last(col("metaData"), ignoreNulls = true)`
+`protocol` | `last(col("protocol"), ignoreNulls = true)`
+`fileSizeHistogram` | `lit(null).cast(FileSizeHistogram.schema)`
 
 ## Configuration Properties
 
@@ -237,48 +278,42 @@ getProperties: mutable.HashMap[String, String]
 
 * `DeltaTableV2` is requested for the [table properties](DeltaTableV2.md#properties)
 
-## <span id="fileIndices"> fileIndices
+## <span id="fileIndices"> File Indices
 
 ```scala
 fileIndices: Seq[DeltaLogFileIndex]
 ```
 
-!!! note "Scala lazy value"
-    `fileIndices` is a Scala lazy value and is initialized once at the first access. Once computed it stays unchanged for the `Snapshot` instance.
+??? note "Lazy Value"
+    `fileIndices` is a Scala **lazy value** to guarantee that the code to initialize it is executed once only (when accessed for the first time) and the computed value never changes afterwards.
 
-    ```text
-    lazy val fileIndices: Seq[DeltaLogFileIndex]
-    ```
+    Learn more in the [Scala Language Specification]({{ scala.spec }}/05-classes-and-objects.html#lazy).
 
-`fileIndices` is a collection of the [checkpointFileIndexOpt](#checkpointFileIndexOpt) and the [deltaFileIndexOpt](#deltaFileIndexOpt) (if they are available).
+`fileIndices` is the [checkpointFileIndexOpt](#checkpointFileIndexOpt) and the [deltaFileIndexOpt](#deltaFileIndexOpt) (if available).
 
-## <span id="deltaFileIndexOpt"> Commit File Index
+### <span id="deltaFileIndexOpt"> Commit File Index
 
 ```scala
 deltaFileIndexOpt: Option[DeltaLogFileIndex]
 ```
 
-!!! note "Scala lazy value"
-    `deltaFileIndexOpt` is a Scala lazy value and is initialized once when first accessed. Once computed, it stays unchanged for the `Snapshot` instance.
+??? note "Lazy Value"
+    `deltaFileIndexOpt` is a Scala **lazy value** to guarantee that the code to initialize it is executed once only (when accessed for the first time) and the computed value never changes afterwards.
 
-    ```text
-    lazy val deltaFileIndexOpt: Option[DeltaLogFileIndex]
-    ```
+    Learn more in the [Scala Language Specification]({{ scala.spec }}/05-classes-and-objects.html#lazy).
 
 `deltaFileIndexOpt` is a [DeltaLogFileIndex](DeltaLogFileIndex.md) (in `JsonFileFormat`) for the checkpoint file of the [LogSegment](#logSegment).
 
-## <span id="checkpointFileIndexOpt"> Checkpoint File Index
+### <span id="checkpointFileIndexOpt"> Checkpoint File Index
 
 ```scala
 checkpointFileIndexOpt: Option[DeltaLogFileIndex]
 ```
 
-!!! note "Scala lazy value"
-    `checkpointFileIndexOpt` is a Scala lazy value and is initialized once when first accessed. Once computed, it stays unchanged for the `Snapshot` instance.
+??? note "Lazy Value"
+    `checkpointFileIndexOpt` is a Scala **lazy value** to guarantee that the code to initialize it is executed once only (when accessed for the first time) and the computed value never changes afterwards.
 
-    ```text
-    lazy val checkpointFileIndexOpt: Option[DeltaLogFileIndex]
-    ```
+    Learn more in the [Scala Language Specification]({{ scala.spec }}/05-classes-and-objects.html#lazy).
 
 `checkpointFileIndexOpt` is a [DeltaLogFileIndex](DeltaLogFileIndex.md) (in `ParquetFileFormat`) for the delta files of the [LogSegment](#logSegment).
 
