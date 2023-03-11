@@ -159,10 +159,12 @@ nav:
     - configuration-properties.md
     - Data Skipping:
       - data-skipping/index.md
+      - CountStarDeltaTable: data-skipping/CountStarDeltaTable.md
       - DataSkippingReaderBase: data-skipping/DataSkippingReaderBase.md
       - DeltaScan: data-skipping/DeltaScan.md
       - data-skipping/DeltaScanGenerator.md
       - data-skipping/FileSizeHistogram.md
+      - data-skipping/OptimizeMetadataOnlyDeltaQuery.md
       - PreparedDeltaFileIndex: data-skipping/PreparedDeltaFileIndex.md
       - PrepareDeltaScan: data-skipping/PrepareDeltaScan.md
       - PrepareDeltaScanBase: data-skipping/PrepareDeltaScanBase.md
@@ -414,7 +416,6 @@ nav:
     - DeltaTableOperations: DeltaTableOperations.md
     - DeltaTableUtils: DeltaTableUtils.md
     - ImplicitMetadataOperation: ImplicitMetadataOperation.md
-    - OptimizeMetadataOnlyDeltaQuery.md
     - SchemaMergingUtils: SchemaMergingUtils.md
     - SchemaUtils: SchemaUtils.md
     - StateCache:

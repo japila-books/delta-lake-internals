@@ -32,7 +32,7 @@ filesWithStatsForScan(
 
 Used when:
 
-* `OptimizeMetadataOnlyDeltaQuery` is requested to [optimizeQueryWithMetadata](../OptimizeMetadataOnlyDeltaQuery.md#optimizeQueryWithMetadata)
+* `OptimizeMetadataOnlyDeltaQuery` is requested to [optimizeQueryWithMetadata](OptimizeMetadataOnlyDeltaQuery.md#optimizeQueryWithMetadata)
 
 ### <span id="snapshotToScan"> Snapshot to Scan
 
