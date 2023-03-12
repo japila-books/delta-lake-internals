@@ -1001,7 +1001,17 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://books.japila.pl/delta-lake-internals/data-skipping/ColumnPredicateBuilder/</loc>
+         <lastmod>2023-03-12</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://books.japila.pl/delta-lake-internals/data-skipping/CountStarDeltaTable/</loc>
+         <lastmod>2023-03-12</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://books.japila.pl/delta-lake-internals/data-skipping/DataFiltersBuilder/</loc>
          <lastmod>2023-03-12</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -1042,6 +1052,11 @@
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/data-skipping/PreparedDeltaFileIndex/</loc>
+         <lastmod>2023-03-12</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://books.japila.pl/delta-lake-internals/data-skipping/ReadsMetadataFields/</loc>
          <lastmod>2023-03-12</lastmod>
          <changefreq>daily</changefreq>
     </url>
