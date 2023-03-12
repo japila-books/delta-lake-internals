@@ -1,3 +1,7 @@
+---
+title: CountStarDeltaTable
+---
+
 # CountStarDeltaTable Scala Extractor
 
 `CountStarDeltaTable` is an extractor object ([Scala]({{ scala.docs }}/tour/extractor-objects.html)) to [extractGlobalCount](#extractGlobalCount) for an [Aggregate](#unapply) logical operator.

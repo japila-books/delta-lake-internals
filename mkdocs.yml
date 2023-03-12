@@ -157,23 +157,10 @@ nav:
       - DeltaColumnMappingBase: column-mapping/DeltaColumnMappingBase.md
       - DeltaColumnMappingMode: column-mapping/DeltaColumnMappingMode.md
     - configuration-properties.md
-    - Data Skipping:
-      - data-skipping/index.md
-      - data-skipping/ColumnPredicateBuilder.md
-      - CountStarDeltaTable: data-skipping/CountStarDeltaTable.md
-      - data-skipping/DataFiltersBuilder.md
-      - data-skipping/DeltaDataSkippingType.md
-      - DataSkippingReaderBase: data-skipping/DataSkippingReaderBase.md
-      - DeltaScan: data-skipping/DeltaScan.md
-      - data-skipping/DeltaScanGenerator.md
-      - data-skipping/FileSizeHistogram.md
-      - data-skipping/OptimizeMetadataOnlyDeltaQuery.md
-      - PreparedDeltaFileIndex: data-skipping/PreparedDeltaFileIndex.md
-      - PrepareDeltaScan: data-skipping/PrepareDeltaScan.md
-      - PrepareDeltaScanBase: data-skipping/PrepareDeltaScanBase.md
-      - data-skipping/ReadsMetadataFields.md
-      - data-skipping/StatsProvider.md
-      - data-skipping/UsesMetadataFields.md
+    # "Data Skipping" section uses awesome-pages plugin
+    # https://github.com/lukasgeiter/mkdocs-awesome-pages-plugin
+    # Review data-skipping/.pages for setup
+    - ... | data-skipping/**.md
     - developer-api.md
     - Generated Columns:
       - generated-columns/index.md

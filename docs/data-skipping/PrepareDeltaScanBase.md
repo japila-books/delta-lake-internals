@@ -1,3 +1,7 @@
+---
+title: PrepareDeltaScanBase
+---
+
 # PrepareDeltaScanBase Logical Optimizations
 
 `PrepareDeltaScanBase` is an extension of the `Rule[LogicalPlan]` ([Spark SQL]({{ book.spark_sql }}/catalyst/Rule)) abstraction for [logical optimizations](#implementations) that [prepareDeltaScan](#prepareDeltaScan).
