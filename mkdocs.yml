@@ -162,6 +162,7 @@ nav:
       - data-skipping/ColumnPredicateBuilder.md
       - CountStarDeltaTable: data-skipping/CountStarDeltaTable.md
       - data-skipping/DataFiltersBuilder.md
+      - data-skipping/DeltaDataSkippingType.md
       - DataSkippingReaderBase: data-skipping/DataSkippingReaderBase.md
       - DeltaScan: data-skipping/DeltaScan.md
       - data-skipping/DeltaScanGenerator.md
@@ -171,6 +172,7 @@ nav:
       - PrepareDeltaScan: data-skipping/PrepareDeltaScan.md
       - PrepareDeltaScanBase: data-skipping/PrepareDeltaScanBase.md
       - data-skipping/ReadsMetadataFields.md
+      - data-skipping/StatsProvider.md
       - data-skipping/UsesMetadataFields.md
     - developer-api.md
     - Generated Columns:

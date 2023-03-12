@@ -1,0 +1,3 @@
+# DeltaDataSkippingType
+
+`DeltaDataSkippingType` is...FIXME
