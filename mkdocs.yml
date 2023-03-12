@@ -168,6 +168,7 @@ nav:
       - PreparedDeltaFileIndex: data-skipping/PreparedDeltaFileIndex.md
       - PrepareDeltaScan: data-skipping/PrepareDeltaScan.md
       - PrepareDeltaScanBase: data-skipping/PrepareDeltaScanBase.md
+      - data-skipping/UsesMetadataFields.md
     - developer-api.md
     - Generated Columns:
       - generated-columns/index.md
