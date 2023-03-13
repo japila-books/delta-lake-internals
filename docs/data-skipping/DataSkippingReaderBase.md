@@ -247,7 +247,19 @@ getFilesAndNumRecords(
   df: DataFrame): Iterator[(AddFile, NumRecords)]
 ```
 
-`getFilesAndNumRecords`...FIXME
+`getFilesAndNumRecords` gets [AddFile](../AddFile.md)s and the number of records within each file (based on `numRecords` statistic) for [pruneFilesByLimit](#pruneFilesByLimit).
+
+---
+
+`getFilesAndNumRecords` adds the following columns to the given `DataFrame`:
+
+Name | Expression
+-----|-----------
+ `numPhysicalRecords` | [numRecords](UsesMetadataFields.md#numRecords)
+ `numLogicalRecords` | [numRecords](UsesMetadataFields.md#numRecords)
+ `stats` | `null` string literal
+
+`getFilesAndNumRecords` projects the `DataFrame` (using `DataFrame.select`) to create a `DataFrame` of [AddFile](../AddFile.md)s and `NumRecords`s (out of the `numPhysicalRecords` and `numLogicalRecords` columns).
 
 ## <span id="columnMappingMode"> Column Mapping Mode
 

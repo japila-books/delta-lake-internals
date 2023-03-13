@@ -1,9 +1,5 @@
 # DeltaScan
 
-## <span id="PreparedDeltaFileIndex"> PreparedDeltaFileIndex
-
-`DeltaScan` is used to create a [PreparedDeltaFileIndex](PreparedDeltaFileIndex.md#preparedScan).
-
 ## Creating Instance
 
 `DeltaScan` takes the following to be created:
@@ -25,6 +21,10 @@
 * `PartitionFiltering` is requested for the [files to scan](../PartitionFiltering.md#filesForScan)
 * `DataSkippingReaderBase` is requested for the [files to scan](DataSkippingReaderBase.md#filesForScan)
 
+## <span id="PreparedDeltaFileIndex"> PreparedDeltaFileIndex
+
+`DeltaScan` is used to create a [PreparedDeltaFileIndex](PreparedDeltaFileIndex.md#preparedScan).
+
 ## <span id="allFilters"> All Filters
 
 ```scala
@@ -32,6 +32,8 @@ allFilters: ExpressionSet
 ```
 
 `allFilters` is a collection of the [partitionFilters](#partitionFilters), the [dataFilters](#dataFilters), and the [unusedFilters](#unusedFilters).
+
+---
 
 `allFilters` is used when:
 

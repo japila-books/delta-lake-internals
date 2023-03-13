@@ -166,6 +166,8 @@ nav:
       - generated-columns/index.md
       - GeneratedColumn: generated-columns/GeneratedColumn.md
     - installation.md
+    - LIMIT Pushdown:
+      - limit-pushdown/index.md
     - Table Constraints:
       - constraints/index.md
       - CheckDeltaInvariant: constraints/CheckDeltaInvariant.md

@@ -4,9 +4,9 @@
 
 Data Skipping is enabled using [spark.databricks.delta.stats.skipping](../DeltaSQLConf.md#DELTA_STATS_SKIPPING) configuration property.
 
-## Limitations
+## LIMIT Pushdown
 
-Data Skipping supports _flat filters_ only (i.e., filters with no `SubqueryExpression`s ([Spark SQL]({{ book.spark_sql }}/expressions/SubqueryExpression))).
+[LIMIT Pushdown](../limit-pushdown/index.md)
 
 ## Internals
 
