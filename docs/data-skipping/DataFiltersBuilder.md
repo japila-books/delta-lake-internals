@@ -47,7 +47,7 @@ constructDataFilters(
 
 `constructDataFilters`...FIXME
 
-For `IsNull` with a skipping-eligible column, `constructDataFilters` requests the [statsProvider](#statsProvider) for the [getPredicateWithStatType](StatsProvider.md#getPredicateWithStatType) for [nullCount](UsesMetadataFields.md#nullCount) to build a Catalyst expression to match files with null count larger than zero.
+For `IsNull` with a skipping-eligible column, `constructDataFilters` requests the [StatsProvider](#statsProvider) for the [getPredicateWithStatType](StatsProvider.md#getPredicateWithStatType) for [nullCount](UsesMetadataFields.md#nullCount) to build a Catalyst expression to match files with null count larger than zero.
 
 ```text
 nullCount > Literal(0)
@@ -58,7 +58,7 @@ For `IsNotNull` with a skipping-eligible column, `constructDataFilters` creates 
 * [nullCount](UsesMetadataFields.md#nullCount)
 * [numRecords](UsesMetadataFields.md#numRecords)
 
-`constructDataFilters` requests the [statsProvider](#statsProvider) for the [getPredicateWithStatsColumns](StatsProvider.md#getPredicateWithStatsColumns) for the two `StatsColumn`s to build a Catalyst expression to match files with null count less than the row count.
+`constructDataFilters` requests the [StatsProvider](#statsProvider) for the [getPredicateWithStatsColumns](StatsProvider.md#getPredicateWithStatsColumns) for the two `StatsColumn`s to build a Catalyst expression to match files with null count less than the row count.
 
 ```text
 nullCount < numRecords

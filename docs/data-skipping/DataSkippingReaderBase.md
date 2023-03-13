@@ -280,3 +280,22 @@ columnMappingMode: DeltaColumnMappingMode
 ```
 
 `columnMappingMode` is the value of [columnMapping.mode](../DeltaConfigs.md#COLUMN_MAPPING_MODE) table property (in the [Metadata](#metadata)).
+
+## <span id="getStatsColumnOpt"> getStatsColumnOpt
+
+```scala
+getStatsColumnOpt(
+  stat: StatsColumn): Option[Column]
+getStatsColumnOpt(
+  statType: String,
+  pathToColumn: Seq[String] = Nil): Option[Column]
+```
+
+`getStatsColumnOpt`...FIXME
+
+---
+
+`getStatsColumnOpt` is used when:
+
+* `DataSkippingReaderBase` is requested to [getStatsColumnOrNullLiteral](#getStatsColumnOrNullLiteral) and [getStatsColumnOpt](#getStatsColumnOpt)
+* `DataFiltersBuilder` is [created](DataFiltersBuilder.md#statsProvider)
