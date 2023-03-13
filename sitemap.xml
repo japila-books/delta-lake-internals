@@ -486,11 +486,6 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://books.japila.pl/delta-lake-internals/limit-pushdown/</loc>
-         <lastmod>2023-03-13</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://books.japila.pl/delta-lake-internals/options/</loc>
          <lastmod>2023-03-13</lastmod>
          <changefreq>daily</changefreq>
@@ -1242,6 +1237,11 @@
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/generated-columns/GeneratedColumn/</loc>
+         <lastmod>2023-03-13</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://books.japila.pl/delta-lake-internals/limit-pushdown/</loc>
          <lastmod>2023-03-13</lastmod>
          <changefreq>daily</changefreq>
     </url>
