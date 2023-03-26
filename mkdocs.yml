@@ -145,6 +145,10 @@ nav:
       - DeltaSourceCDCSupport: change-data-feed/DeltaSourceCDCSupport.md
       - IndexedChangeFileSeq: change-data-feed/IndexedChangeFileSeq.md
       - TahoeRemoveFileIndex: change-data-feed/TahoeRemoveFileIndex.md
+    - CDF Table-Valued Functions:
+      - table-valued-functions/index.md
+      - table-valued-functions/DeltaTableValueFunction.md
+      - table-valued-functions/DeltaTableValueFunctions.md
     - CHECK Constraints:
       - check-constraints/index.md
       - AddConstraint: check-constraints/AddConstraint.md
@@ -181,9 +185,6 @@ nav:
       - Invariant: constraints/Invariant.md
       - InvariantViolationException: constraints/InvariantViolationException.md
     - table-properties.md
-    - Table-Valued Functions:
-      - table-valued-functions/index.md
-      - table-valued-functions/DeltaTableValueFunctions.md
     - Time Travel:
       - time-travel/index.md
       - DeltaTimeTravelSpec: time-travel/DeltaTimeTravelSpec.md
