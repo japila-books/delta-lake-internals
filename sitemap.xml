@@ -1306,6 +1306,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://books.japila.pl/delta-lake-internals/table-valued-functions/DeltaTableValueFunction/</loc>
+         <lastmod>2023-03-26</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://books.japila.pl/delta-lake-internals/table-valued-functions/DeltaTableValueFunctions/</loc>
          <lastmod>2023-03-26</lastmod>
          <changefreq>daily</changefreq>
