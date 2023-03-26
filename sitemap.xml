@@ -351,12 +351,12 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://books.japila.pl/delta-lake-internals/PreprocessTableRestore/</loc>
+         <loc>https://books.japila.pl/delta-lake-internals/PreprocessTableUpdate/</loc>
          <lastmod>2023-03-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://books.japila.pl/delta-lake-internals/PreprocessTableUpdate/</loc>
+         <loc>https://books.japila.pl/delta-lake-internals/PreprocessTimeTravel/</loc>
          <lastmod>2023-03-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -1297,6 +1297,16 @@
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/storage/S3SingleDriverLogStore/</loc>
+         <lastmod>2023-03-26</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://books.japila.pl/delta-lake-internals/table-valued-functions/</loc>
+         <lastmod>2023-03-26</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://books.japila.pl/delta-lake-internals/table-valued-functions/DeltaTableValueFunctions/</loc>
          <lastmod>2023-03-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
