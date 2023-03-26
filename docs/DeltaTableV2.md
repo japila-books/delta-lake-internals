@@ -31,7 +31,6 @@ catalogTable: Option[CatalogTable] = None
 `catalogTable` is specified when:
 
 * [DeltaTable.forName](DeltaTable.md#forName) is used (for a [cataloged delta table](DeltaTableUtils.md#isDeltaTable))
-* [PreprocessTableRestore](PreprocessTableRestore.md) logical resolution rule is executed (with a [RestoreTableStatement](commands/restore/RestoreTableStatement.md) over a [cataloged delta table](DeltaTableUtils.md#isDeltaTable))
 * `DeltaCatalog` is requested to [load a table](DeltaCatalog.md#loadTable) (that is a `V1Table` and a [cataloged delta table](DeltaTableUtils.md#isDeltaTable))
 
 `catalogTable` is used when:

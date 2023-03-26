@@ -15,7 +15,6 @@
 
 * `DeltaSqlAstBuilder` is requested to [parse RESTORE command](../../sql/DeltaSqlAstBuilder.md#maybeTimeTravelChild)
 * `DeltaTableOperations` is requested to [executeRestore](../../DeltaTableOperations.md#executeRestore)
-* `PreprocessTableRestore` is requested to [resolve RestoreTableStatement logical operators](../../PreprocessTableRestore.md#executeRestore)
 
 ## <span id="creationSource"> Creation Source ID
 

@@ -181,6 +181,9 @@ nav:
       - Invariant: constraints/Invariant.md
       - InvariantViolationException: constraints/InvariantViolationException.md
     - table-properties.md
+    - Table-Valued Functions:
+      - table-valued-functions/index.md
+      - table-valued-functions/DeltaTableValueFunctions.md
     - Time Travel:
       - time-travel/index.md
       - DeltaTimeTravelSpec: time-travel/DeltaTimeTravelSpec.md
@@ -250,8 +253,8 @@ nav:
       - DeltaUnsupportedOperationsCheck: DeltaUnsupportedOperationsCheck.md
       - PreprocessTableDelete: PreprocessTableDelete.md
       - PreprocessTableMerge: PreprocessTableMerge.md
-      - PreprocessTableRestore: PreprocessTableRestore.md
       - PreprocessTableUpdate: PreprocessTableUpdate.md
+      - PreprocessTimeTravel: PreprocessTimeTravel.md
       - StagedDeltaTableV2: StagedDeltaTableV2.md
     - File Indices:
       - TahoeFileIndex: TahoeFileIndex.md

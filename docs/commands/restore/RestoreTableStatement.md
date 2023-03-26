@@ -16,7 +16,6 @@
 
 * `DeltaSqlAstBuilder` is requested to [parse RESTORE SQL statement](../../sql/DeltaSqlAstBuilder.md#visitRestore)
 * `DeltaTableOperations` is requested to [executeRestore](../../DeltaTableOperations.md#executeRestore)
-* [PreprocessTableRestore](../../PreprocessTableRestore.md) logical resolution rule is executed (to resolve delta tables)
 
 ## Analysis Phase
 
