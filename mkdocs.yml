@@ -20,6 +20,7 @@ theme:
     - content.code.annotate
     # https://squidfunk.github.io/mkdocs-material/upgrade/#contentcodecopy
     - content.code.copy
+    - content.tooltips
     - navigation.indexes
     - navigation.instant
     # https://squidfunk.github.io/mkdocs-material/setup/setting-up-navigation/#navigation-path
@@ -47,6 +48,7 @@ theme:
 
 markdown_extensions:
   - admonition
+  - attr_list
   - footnotes
   - md_in_html
   - toc:
@@ -96,8 +98,8 @@ extra:
     structured_streaming: https://books.japila.pl/spark-structured-streaming-internals
     spark_core: https://books.japila.pl/apache-spark-internals
   delta:
-    version: 2.2.0
-    github: https://github.com/delta-io/delta/blob/v2.2.0
+    version: 2.3.0rc1
+    github: https://github.com/delta-io/delta/blob/v2.3.0rc1
     commit: https://github.com/delta-io/delta/commit
     issues: https://github.com/delta-io/delta/issues
   guava:
@@ -126,8 +128,8 @@ extra:
     - icon: fontawesome/brands/mastodon
       link: https://fosstodon.org/@jaceklaskowski
   spark:
-    version: 3.3.1
-    docs: https://spark.apache.org/docs/3.3.1
+    version: 3.3.2
+    docs: https://spark.apache.org/docs/3.3.2
   # https://squidfunk.github.io/mkdocs-material/setup/setting-up-tags/#tag-icons-and-identifiers
   tags:
     DeveloperApi: developerapi
