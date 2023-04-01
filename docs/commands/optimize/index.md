@@ -17,7 +17,7 @@ As of Delta Lake 2.0.0, the above quote applies to the open source version, too.
 
 ## bin-packing
 
-In `bin-packing` (aka. _file compaction_) mode, `OPTIMIZE` command compacts files together (that are smaller than [spark.databricks.delta.optimize.minFileSize](../../configuration-properties.md#spark.databricks.delta.optimize.minFileSize) to files of [spark.databricks.delta.optimize.maxFileSize](../../configuration-properties.md#spark.databricks.delta.optimize.maxFileSize) size).
+In `bin-packing` (aka. _file compaction_) mode, `OPTIMIZE` command compacts files together (that are smaller than [spark.databricks.delta.optimize.minFileSize](../../configuration-properties/index.md#spark.databricks.delta.optimize.minFileSize) to files of [spark.databricks.delta.optimize.maxFileSize](../../configuration-properties/index.md#spark.databricks.delta.optimize.maxFileSize) size).
 
 ## Z-Ordering
 
@@ -25,7 +25,7 @@ In `bin-packing` (aka. _file compaction_) mode, `OPTIMIZE` command compacts file
 
 ## optimize.maxThreads
 
-`OPTIMIZE` command uses [spark.databricks.delta.optimize.maxThreads](../../configuration-properties.md#spark.databricks.delta.optimize.maxThreads) threads for compaction.
+`OPTIMIZE` command uses [spark.databricks.delta.optimize.maxThreads](../../configuration-properties/index.md#spark.databricks.delta.optimize.maxThreads) threads for compaction.
 
 ## Demo
 

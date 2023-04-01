@@ -28,7 +28,7 @@ The statistics are undefined (`null`) by default.
 
 The statistics can be defined when:
 
-* `TransactionalWrite` is requested to [write data out](TransactionalWrite.md#writeFiles) (and [spark.databricks.delta.stats.collect](DeltaSQLConf.md#DELTA_COLLECT_STATS) configuration property is enabled)
+* `TransactionalWrite` is requested to [write data out](TransactionalWrite.md#writeFiles) (and [spark.databricks.delta.stats.collect](configuration-properties/DeltaSQLConf.md#DELTA_COLLECT_STATS) configuration property is enabled)
 * `StatisticsCollection` utility is used to [recompute statistics for a delta table](StatisticsCollection.md#recompute) (that _seems_ unused though)
 
 ## <span id="wrap"> Converting to SingleAction

@@ -152,7 +152,7 @@ doCommitRetryIteratively(
 
 In the end, `doCommitRetryIteratively` returns a tuple with the following:
 
-1. Commit version (from the given `attemptVersion` inclusive up to [spark.databricks.delta.maxCommitAttempts](DeltaSQLConf.md#DELTA_MAX_RETRY_COMMIT_ATTEMPTS))
+1. Commit version (from the given `attemptVersion` inclusive up to [spark.databricks.delta.maxCommitAttempts](configuration-properties/DeltaSQLConf.md#DELTA_MAX_RETRY_COMMIT_ATTEMPTS))
 1. `CurrentTransactionInfo`
 1. Whether the commit needs checkpoint or not (`needsCheckpoint`)
 
@@ -162,7 +162,7 @@ Firstly, `doCommitRetryIteratively` does the first attempt at [commit](#doCommit
 
 If there is a retry, `doCommitRetryIteratively` [checkForConflicts](#checkForConflicts) followed by another attempt at [commit](#doCommit).
 
-If the number of commit attempts (`attemptNumber`) is above the [spark.databricks.delta.maxCommitAttempts](DeltaSQLConf.md#DELTA_MAX_RETRY_COMMIT_ATTEMPTS) configuration property, `doCommitRetryIteratively` throws a [DeltaIllegalStateException](DeltaErrors.md#maxCommitRetriesExceededException):
+If the number of commit attempts (`attemptNumber`) is above the [spark.databricks.delta.maxCommitAttempts](configuration-properties/DeltaSQLConf.md#DELTA_MAX_RETRY_COMMIT_ATTEMPTS) configuration property, `doCommitRetryIteratively` throws a [DeltaIllegalStateException](DeltaErrors.md#maxCommitRetriesExceededException):
 
 ```text
 This commit has failed as it has been tried <numAttempts> times but did not succeed.
@@ -340,11 +340,11 @@ getOperationMetrics(
   op: Operation): Option[Map[String, String]]
 ```
 
-`getOperationMetrics` gives the [metrics](SQLMetricsReporting.md#getMetricsForOperation) of the given [Operation](Operation.md) when the [spark.databricks.delta.history.metricsEnabled](DeltaSQLConf.md#DELTA_HISTORY_METRICS_ENABLED) configuration property is enabled. Otherwise, `getOperationMetrics` gives `None`.
+`getOperationMetrics` gives the [metrics](SQLMetricsReporting.md#getMetricsForOperation) of the given [Operation](Operation.md) when the [spark.databricks.delta.history.metricsEnabled](configuration-properties/DeltaSQLConf.md#DELTA_HISTORY_METRICS_ENABLED) configuration property is enabled. Otherwise, `getOperationMetrics` gives `None`.
 
 ## <span id="commitInfo"> CommitInfo
 
-`OptimisticTransactionImpl` creates a [CommitInfo](CommitInfo.md) when requested to [commit](#commit) with [spark.databricks.delta.commitInfo.enabled](DeltaSQLConf.md#commitInfo.enabled) configuration enabled.
+`OptimisticTransactionImpl` creates a [CommitInfo](CommitInfo.md) when requested to [commit](#commit) with [spark.databricks.delta.commitInfo.enabled](configuration-properties/DeltaSQLConf.md#commitInfo.enabled) configuration enabled.
 
 `OptimisticTransactionImpl` uses the `CommitInfo` to `recordDeltaEvent` (as a `CommitStats`).
 
@@ -389,7 +389,7 @@ Attempting to commit version [attemptVersion] with [n] actions with [isolationLe
 
 ### <span id="doCommit-lastCommitVersionInSession"> lastCommitVersionInSession
 
-`doCommit` sets the [spark.databricks.delta.lastCommitVersionInSession](DeltaSQLConf.md#DELTA_LAST_COMMIT_VERSION_IN_SESSION) configuration property to the given `attemptVersion`.
+`doCommit` sets the [spark.databricks.delta.lastCommitVersionInSession](configuration-properties/DeltaSQLConf.md#DELTA_LAST_COMMIT_VERSION_IN_SESSION) configuration property to the given `attemptVersion`.
 
 ### <span id="doCommit-postCommitSnapshot"> Post-Commit Snapshot
 
@@ -443,13 +443,13 @@ verifyNewMetadata(
 
 * In [NoMapping](column-mapping/DeltaColumnMappingMode.md#NoMapping) mode, `verifyNewMetadata` [checks](SchemaUtils.md#checkSchemaFieldNames) the [data schema](Metadata.md#dataSchema) and [checks](SchemaUtils.md#checkFieldNames) the [partition columns](Metadata.md#partitionColumns) (of the given [Metadata](Metadata.md)).
 
-    In case of `AnalysisException` and [spark.databricks.delta.partitionColumnValidity.enabled](DeltaSQLConf.md#DELTA_PARTITION_COLUMN_CHECK_ENABLED) configuration property enabled, `verifyNewMetadata` throws a `DeltaAnalysisException`.
+    In case of `AnalysisException` and [spark.databricks.delta.partitionColumnValidity.enabled](configuration-properties/DeltaSQLConf.md#DELTA_PARTITION_COLUMN_CHECK_ENABLED) configuration property enabled, `verifyNewMetadata` throws a `DeltaAnalysisException`.
 
 * For the other [DeltaColumnMappingMode](column-mapping/DeltaColumnMappingMode.md#implementations)s, `verifyNewMetadata` [checkColumnIdAndPhysicalNameAssignments](column-mapping/DeltaColumnMappingBase.md#checkColumnIdAndPhysicalNameAssignments) of the [schema](Metadata.md#schema).
 
 `verifyNewMetadata` [validates generated columns](generated-columns/GeneratedColumn.md#validateGeneratedColumns) if [there are any](generated-columns/GeneratedColumn.md#hasGeneratedColumns) (in the [schema](Metadata.md#schema)).
 
-With [spark.databricks.delta.schema.typeCheck.enabled](DeltaSQLConf.md#DELTA_SCHEMA_TYPE_CHECK) configuration property enabled, `verifyNewMetadata`...FIXME
+With [spark.databricks.delta.schema.typeCheck.enabled](configuration-properties/DeltaSQLConf.md#DELTA_SCHEMA_TYPE_CHECK) configuration property enabled, `verifyNewMetadata`...FIXME
 
 In the end, `verifyNewMetadata` [checks the protocol requirements](Protocol.md#checkProtocolRequirements) and, in case the protocol has been updated, records it in the [newProtocol](#newProtocol) registry.
 
@@ -509,7 +509,7 @@ getUserMetadata(
 
 `getUserMetadata` is used when:
 
-* `OptimisticTransactionImpl` is requested to [commit](#commit) (and [spark.databricks.delta.commitInfo.enabled](DeltaSQLConf.md#DELTA_COMMIT_INFO_ENABLED) configuration property is enabled)
+* `OptimisticTransactionImpl` is requested to [commit](#commit) (and [spark.databricks.delta.commitInfo.enabled](configuration-properties/DeltaSQLConf.md#DELTA_COMMIT_INFO_ENABLED) configuration property is enabled)
 * [ConvertToDeltaCommand](commands/convert/ConvertToDeltaCommand.md) is executed (and in turn requests `DeltaCommand` to [commitLarge](commands/DeltaCommand.md#commitLarge))
 
 ## Internal Registries
@@ -692,12 +692,12 @@ lockCommitIfEnabled[T](
 isCommitLockEnabled: Boolean
 ```
 
-`isCommitLockEnabled` is the value of [spark.databricks.delta.commitLock.enabled](DeltaSQLConf.md#DELTA_COMMIT_LOCK_ENABLED) configuration property (if defined) or [isPartialWriteVisible](storage/LogStore.md#isPartialWriteVisible) (requesting the [LogStore](DeltaLog.md#store) from the [DeltaLog](#deltaLog)).
+`isCommitLockEnabled` is the value of [spark.databricks.delta.commitLock.enabled](configuration-properties/DeltaSQLConf.md#DELTA_COMMIT_LOCK_ENABLED) configuration property (if defined) or [isPartialWriteVisible](storage/LogStore.md#isPartialWriteVisible) (requesting the [LogStore](DeltaLog.md#store) from the [DeltaLog](#deltaLog)).
 
 !!! note
     `isCommitLockEnabled` is `true` by default given the following:
 
-    1. [spark.databricks.delta.commitLock.enabled](DeltaSQLConf.md#DELTA_COMMIT_LOCK_ENABLED) configuration property is undefined by default
+    1. [spark.databricks.delta.commitLock.enabled](configuration-properties/DeltaSQLConf.md#DELTA_COMMIT_LOCK_ENABLED) configuration property is undefined by default
     1. [isPartialWriteVisible](storage/LogStore.md#isPartialWriteVisible) is `true` by default
 
 ## Logging

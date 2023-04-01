@@ -118,7 +118,7 @@ Used when:
 
 ## <span id="useStats"><span id="spark.databricks.delta.stats.skipping"> stats.skipping
 
-`DataSkippingReaderBase` uses [spark.databricks.delta.stats.skipping](../DeltaSQLConf.md#DELTA_STATS_SKIPPING) configuration property for [filesForScan](#filesForScan).
+`DataSkippingReaderBase` uses [spark.databricks.delta.stats.skipping](../configuration-properties/DeltaSQLConf.md#DELTA_STATS_SKIPPING) configuration property for [filesForScan](#filesForScan).
 
 ## <span id="withStats"> withStats DataFrame
 

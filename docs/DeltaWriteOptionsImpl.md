@@ -11,7 +11,7 @@
 canMergeSchema: Boolean
 ```
 
-`canMergeSchema` is the value of [mergeSchema](options.md#MERGE_SCHEMA_OPTION) option (if defined) or [spark.databricks.delta.schema.autoMerge.enabled](DeltaSQLConf.md#DELTA_SCHEMA_AUTO_MIGRATE) configuration property.
+`canMergeSchema` is the value of [mergeSchema](options.md#MERGE_SCHEMA_OPTION) option (if defined) or [spark.databricks.delta.schema.autoMerge.enabled](configuration-properties/DeltaSQLConf.md#DELTA_SCHEMA_AUTO_MIGRATE) configuration property.
 
 `canMergeSchema` is used when:
 

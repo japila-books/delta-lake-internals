@@ -38,7 +38,7 @@ validateZorderByColumns(
 `validateZorderByColumns` makes sure that no `unresolvedZOrderByCols` column violates the following requirements (or throws `DeltaIllegalArgumentException` or `DeltaAnalysisException`):
 
 1. It is part of [data schema](../../Metadata.md#dataSchema)
-1. [Column statistics](../../StatisticsCollection.md#statCollectionSchema) are available for the column (when [spark.databricks.delta.optimize.zorder.checkStatsCollection.enabled](../../DeltaSQLConf.md#DELTA_OPTIMIZE_ZORDER_COL_STAT_CHECK) enabled)
+1. [Column statistics](../../StatisticsCollection.md#statCollectionSchema) are available for the column (when [spark.databricks.delta.optimize.zorder.checkStatsCollection.enabled](../../configuration-properties/DeltaSQLConf.md#DELTA_OPTIMIZE_ZORDER_COL_STAT_CHECK) enabled)
 1. It is not a [partition column](../../Metadata.md#partitionColumns) (as Z-Ordering can only be performed on data columns)
 
 `validateZorderByColumns` is used when:

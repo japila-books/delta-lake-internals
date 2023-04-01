@@ -655,7 +655,7 @@ apply(
 !!! note
     `rawPath` is a Hadoop [Path]({{ hadoop.api }}/org/apache/hadoop/fs/Path.html) to the [_delta_log](#_delta_log) directory at the root of the data of a delta table.
 
-`apply` creates a Hadoop `Configuration` (perhaps with `fs.`-prefixed options when [spark.databricks.delta.loadFileSystemConfigsFromDataFrameOptions](DeltaSQLConf.md#loadFileSystemConfigsFromDataFrameOptions) configuration property is enabled).
+`apply` creates a Hadoop `Configuration` (perhaps with `fs.`-prefixed options when [spark.databricks.delta.loadFileSystemConfigsFromDataFrameOptions](configuration-properties/DeltaSQLConf.md#loadFileSystemConfigsFromDataFrameOptions) configuration property is enabled).
 
 `apply` resolves the raw path to be HDFS-qualified (using the given Hadoop `Path` to get a Hadoop `FileSystem`).
 

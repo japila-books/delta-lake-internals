@@ -23,7 +23,7 @@
 `CommitInfo` is created (using [apply](#apply) and [empty](#empty) utilities) when:
 
 * `DeltaHistoryManager` is requested for [version and commit history](DeltaHistoryManager.md#getHistory) (for [DeltaTable.history](DeltaTable.md#history) operator and [DESCRIBE HISTORY](sql/index.md#DESCRIBE-HISTORY) SQL command)
-* `OptimisticTransactionImpl` is requested to [commit](OptimisticTransactionImpl.md#commit) (with [spark.databricks.delta.commitInfo.enabled](DeltaSQLConf.md#commitInfo.enabled) configuration property enabled)
+* `OptimisticTransactionImpl` is requested to [commit](OptimisticTransactionImpl.md#commit) (with [spark.databricks.delta.commitInfo.enabled](configuration-properties/DeltaSQLConf.md#commitInfo.enabled) configuration property enabled)
 * `DeltaCommand` is requested to [commitLarge](commands/DeltaCommand.md#commitLarge) (for [ConvertToDeltaCommand](commands/convert/ConvertToDeltaCommand.md) command and `FileAlreadyExistsException` was thrown)
 
 `CommitInfo` is used as a part of [OptimisticTransactionImpl](OptimisticTransactionImpl.md#commitInfo) and `CommitStats`.
@@ -63,7 +63,7 @@ Apache-Spark/[SPARK_VERSION] Delta-Lake/[VERSION]
 
 ## <span id="spark.databricks.delta.commitInfo.enabled"> spark.databricks.delta.commitInfo.enabled
 
-`CommitInfo` is added (_logged_) to a delta log only with [spark.databricks.delta.commitInfo.enabled](DeltaSQLConf.md#commitInfo.enabled) configuration property enabled.
+`CommitInfo` is added (_logged_) to a delta log only with [spark.databricks.delta.commitInfo.enabled](configuration-properties/DeltaSQLConf.md#commitInfo.enabled) configuration property enabled.
 
 ## <span id="empty"> Creating Empty CommitInfo
 
@@ -101,5 +101,5 @@ apply(
 
 `apply` is used when:
 
-* `OptimisticTransactionImpl` is requested to [commit](OptimisticTransactionImpl.md#commit) (with [spark.databricks.delta.commitInfo.enabled](DeltaSQLConf.md#commitInfo.enabled) configuration property enabled)
+* `OptimisticTransactionImpl` is requested to [commit](OptimisticTransactionImpl.md#commit) (with [spark.databricks.delta.commitInfo.enabled](configuration-properties/DeltaSQLConf.md#commitInfo.enabled) configuration property enabled)
 * `DeltaCommand` is requested to [commitLarge](commands/DeltaCommand.md#commitLarge)

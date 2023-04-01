@@ -14,7 +14,7 @@ operationSQLMetrics: Map[String, SQLMetric]
 
 `SQLMetricsReporting` uses `operationSQLMetrics` internal registry for `SQLMetric`s ([Spark SQL]({{ book.spark_sql }}/physical-operators/SQLMetric)) by their names.
 
-`SQLMetric`s are [registered](#registerSQLMetrics) only when [spark.databricks.delta.history.metricsEnabled](DeltaSQLConf.md#DELTA_HISTORY_METRICS_ENABLED) configuration property is enabled.
+`SQLMetric`s are [registered](#registerSQLMetrics) only when [spark.databricks.delta.history.metricsEnabled](configuration-properties/DeltaSQLConf.md#DELTA_HISTORY_METRICS_ENABLED) configuration property is enabled.
 
 `operationSQLMetrics` is used when `SQLMetricsReporting` is requested for the following:
 
@@ -29,7 +29,7 @@ registerSQLMetrics(
   metrics: Map[String, SQLMetric]): Unit
 ```
 
-`registerSQLMetrics` adds (_registers_) the given metrics to the [operationSQLMetrics](#operationSQLMetrics) internal registry only when [spark.databricks.delta.history.metricsEnabled](DeltaSQLConf.md#DELTA_HISTORY_METRICS_ENABLED) configuration property is enabled.
+`registerSQLMetrics` adds (_registers_) the given metrics to the [operationSQLMetrics](#operationSQLMetrics) internal registry only when [spark.databricks.delta.history.metricsEnabled](configuration-properties/DeltaSQLConf.md#DELTA_HISTORY_METRICS_ENABLED) configuration property is enabled.
 
 `registerSQLMetrics` is used when:
 

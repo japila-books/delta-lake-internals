@@ -88,7 +88,7 @@ Must be at least `1`
 
 Enables schema migration (and allows automatic schema merging during a write operation for [WriteIntoDelta](commands/WriteIntoDelta.md) and [DeltaSink](DeltaSink.md))
 
-Equivalent SQL Session configuration: [spark.databricks.delta.schema.autoMerge.enabled](DeltaSQLConf.md#DELTA_SCHEMA_AUTO_MIGRATE)
+Equivalent SQL Session configuration: [spark.databricks.delta.schema.autoMerge.enabled](configuration-properties/DeltaSQLConf.md#DELTA_SCHEMA_AUTO_MIGRATE)
 
 ## <span id="OPTIMIZE_WRITE_OPTION"><span id="optimizeWrite"> optimizeWrite
 
@@ -124,7 +124,7 @@ Requires either [startingVersion](#startingVersion) or [startingTimestamp](#star
 
 ## <span id="REPLACE_WHERE_OPTION"><span id="replaceWhere"> replaceWhere
 
-Partition predicates (unless [replaceWhere.dataColumns.enabled](DeltaSQLConf.md#replaceWhere.dataColumns.enabled) is enabled to allow for arbitrary non-partition data predicates)
+Partition predicates (unless [replaceWhere.dataColumns.enabled](configuration-properties/DeltaSQLConf.md#replaceWhere.dataColumns.enabled) is enabled to allow for arbitrary non-partition data predicates)
 
 Available as [DeltaWriteOptions.replaceWhere](DeltaWriteOptions.md#replaceWhere)
 
@@ -145,7 +145,7 @@ Used when:
 
 Defines a [user-defined commit metadata](CommitInfo.md#userMetadata)
 
-Take precedence over [spark.databricks.delta.commitInfo.userMetadata](DeltaSQLConf.md#commitInfo.userMetadata)
+Take precedence over [spark.databricks.delta.commitInfo.userMetadata](configuration-properties/DeltaSQLConf.md#commitInfo.userMetadata)
 
 Available by inspecting [CommitInfo](CommitInfo.md)s using [DESCRIBE HISTORY](sql/index.md#DESCRIBE-HISTORY) or [DeltaTable.history](DeltaTable.md#history).
 

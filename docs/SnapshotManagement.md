@@ -133,12 +133,12 @@ With `stalenessAcceptable` flag turned off (the default value) and the state sna
 isSnapshotStale: Boolean
 ```
 
-`isSnapshotStale` reads [spark.databricks.delta.stalenessLimit](DeltaSQLConf.md#DELTA_ASYNC_UPDATE_STALENESS_TIME_LIMIT) configuration property.
+`isSnapshotStale` reads [spark.databricks.delta.stalenessLimit](configuration-properties/DeltaSQLConf.md#DELTA_ASYNC_UPDATE_STALENESS_TIME_LIMIT) configuration property.
 
 `isSnapshotStale` is enabled (`true`) when any of the following holds:
 
-1. [spark.databricks.delta.stalenessLimit](DeltaSQLConf.md#DELTA_ASYNC_UPDATE_STALENESS_TIME_LIMIT) configuration property is `0` (the default)
-1. Internal [lastUpdateTimestamp](#lastUpdateTimestamp) has never been updated (and is below `0`) or is at least [spark.databricks.delta.stalenessLimit](DeltaSQLConf.md#DELTA_ASYNC_UPDATE_STALENESS_TIME_LIMIT) configuration property old
+1. [spark.databricks.delta.stalenessLimit](configuration-properties/DeltaSQLConf.md#DELTA_ASYNC_UPDATE_STALENESS_TIME_LIMIT) configuration property is `0` (the default)
+1. Internal [lastUpdateTimestamp](#lastUpdateTimestamp) has never been updated (and is below `0`) or is at least [spark.databricks.delta.stalenessLimit](configuration-properties/DeltaSQLConf.md#DELTA_ASYNC_UPDATE_STALENESS_TIME_LIMIT) configuration property old
 
 ### <span id="tryUpdate"> tryUpdate
 

@@ -72,7 +72,7 @@ performConvert(
 `performConvert` caches the `Dataset` of file names.
 
 <span id="performConvert-schemaBatchSize">
-`performConvert` uses [spark.databricks.delta.import.batchSize.schemaInference](../../DeltaSQLConf.md#import.batchSize.schemaInference) configuration property for the number of files per batch for schema inference. `performConvert` [mergeSchemasInParallel](#mergeSchemasInParallel) for every batch of files and then [mergeSchemas](SchemaUtils#mergeSchemas).
+`performConvert` uses [spark.databricks.delta.import.batchSize.schemaInference](../../configuration-properties/DeltaSQLConf.md#import.batchSize.schemaInference) configuration property for the number of files per batch for schema inference. `performConvert` [mergeSchemasInParallel](#mergeSchemasInParallel) for every batch of files and then [mergeSchemas](SchemaUtils#mergeSchemas).
 
 `performConvert` [constructTableSchema](#constructTableSchema) using the inferred table schema and the [partitionSchema](#partitionSchema) (if specified).
 
@@ -81,7 +81,7 @@ performConvert(
 `performConvert` requests the `OptimisticTransaction` to [update the metadata](../../OptimisticTransactionImpl.md#updateMetadata).
 
 <span id="performConvert-statsBatchSize">
-`performConvert` uses [spark.databricks.delta.import.batchSize.statsCollection](../../DeltaSQLConf.md#import.batchSize.statsCollection) configuration property for the number of files per batch for stats collection. `performConvert` [creates an AddFile](#createAddFile) (in the [data path](../../DeltaLog.md#dataPath) of the [DeltaLog](../../OptimisticTransaction.md#deltaLog) of the `OptimisticTransaction`) for every file in a batch.
+`performConvert` uses [spark.databricks.delta.import.batchSize.statsCollection](../../configuration-properties/DeltaSQLConf.md#import.batchSize.statsCollection) configuration property for the number of files per batch for stats collection. `performConvert` [creates an AddFile](#createAddFile) (in the [data path](../../DeltaLog.md#dataPath) of the [DeltaLog](../../OptimisticTransaction.md#deltaLog) of the `OptimisticTransaction`) for every file in a batch.
 
 <span id="performConvert-streamWrite"><span id="performConvert-unpersist">
 In the end, `performConvert` [streamWrite](#streamWrite) (with the `OptimisticTransaction`, the `AddFile`s, and [Convert](../../Operation.md#Convert) operation) and unpersists the `Dataset` of file names.

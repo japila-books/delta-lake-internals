@@ -46,7 +46,7 @@ checkDependentExpressions(
   operationName: String): Unit
 ```
 
-`checkDependentExpressions` skips execution when [spark.databricks.delta.alterTable.changeColumn.checkExpressions](../../DeltaSQLConf.md#DELTA_ALTER_TABLE_CHANGE_COLUMN_CHECK_EXPRESSIONS) configuration property is disabled (`false`).
+`checkDependentExpressions` skips execution when [spark.databricks.delta.alterTable.changeColumn.checkExpressions](../../configuration-properties/DeltaSQLConf.md#DELTA_ALTER_TABLE_CHANGE_COLUMN_CHECK_EXPRESSIONS) configuration property is disabled (`false`).
 
 `checkDependentExpressions` checks if the column to change (`columnParts`) is referenced by [check constraints](#checkDependentExpressions-check-constraints) or [generated columns](#checkDependentExpressions-generated-columns) (and throws an `AnalysisException` if there are any).
 

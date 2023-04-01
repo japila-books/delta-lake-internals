@@ -2,7 +2,7 @@
 
 `LogStore` is an [abstraction](#contract) of [transaction log stores](#implementations) (to read and write physical log files and checkpoints).
 
-`LogStore` is created using [LogStoreProvider](LogStoreProvider.md#createLogStore) based on [spark.delta.logStore.class](../configuration-properties.md#spark.delta.logStore.class) configuration property.
+`LogStore` is created using [LogStoreProvider](LogStoreProvider.md#createLogStore) based on [spark.delta.logStore.class](../configuration-properties/index.md#spark.delta.logStore.class) configuration property.
 
 ## Contract
 

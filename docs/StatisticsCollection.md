@@ -62,7 +62,7 @@ statsSchema: StructType
 statsCollector: Column
 ```
 
-`statsCollector` takes the value of the [spark.databricks.io.skipping.stringPrefixLength](DeltaSQLConf.md#DATA_SKIPPING_STRING_PREFIX_LENGTH) configuration property.
+`statsCollector` takes the value of the [spark.databricks.io.skipping.stringPrefixLength](configuration-properties/DeltaSQLConf.md#DATA_SKIPPING_STRING_PREFIX_LENGTH) configuration property.
 
 `statsCollector` creates a `Column` with `stats` name to be a `struct` of the following:
 

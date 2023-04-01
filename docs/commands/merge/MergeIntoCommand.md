@@ -122,7 +122,7 @@ run(
 
 ### <span id="run-canMergeSchema"> schema.autoMerge.enabled
 
-Only when [spark.databricks.delta.schema.autoMerge.enabled](../../DeltaSQLConf.md#DELTA_SCHEMA_AUTO_MIGRATE) configuration property is enabled, `run` [updates the metadata](../../ImplicitMetadataOperation.md#updateMetadata) (of the transaction) with the following:
+Only when [spark.databricks.delta.schema.autoMerge.enabled](../../configuration-properties/DeltaSQLConf.md#DELTA_SCHEMA_AUTO_MIGRATE) configuration property is enabled, `run` [updates the metadata](../../ImplicitMetadataOperation.md#updateMetadata) (of the transaction) with the following:
 
 * [migratedSchema](#migratedSchema) (if defined) or the schema of the [target](#target)
 * `isOverwriteMode` flag off
@@ -134,7 +134,7 @@ Only when [spark.databricks.delta.schema.autoMerge.enabled](../../DeltaSQLConf.m
 
 #### <span id="run-writeInsertsOnlyWhenNoMatchedClauses"> Single Insert-Only Merge
 
-For a [single insert-only merge](#isSingleInsertOnly) with [spark.databricks.delta.merge.optimizeInsertOnlyMerge.enabled](../../DeltaSQLConf.md#MERGE_INSERT_ONLY_ENABLED) configuration property enabled, `run` [writeInsertsOnlyWhenNoMatchedClauses](#writeInsertsOnlyWhenNoMatchedClauses).
+For a [single insert-only merge](#isSingleInsertOnly) with [spark.databricks.delta.merge.optimizeInsertOnlyMerge.enabled](../../configuration-properties/DeltaSQLConf.md#MERGE_INSERT_ONLY_ENABLED) configuration property enabled, `run` [writeInsertsOnlyWhenNoMatchedClauses](#writeInsertsOnlyWhenNoMatchedClauses).
 
 #### <span id="run-writeAllChanges"> Other Merges
 
@@ -204,7 +204,7 @@ In the end, `writeInsertsOnlyWhenNoMatchedClauses` returns the [FileAction](../.
 
 `writeInsertsOnlyWhenNoMatchedClauses` is used when:
 
-* `MergeIntoCommand` is [executed](#run) (for [single insert-only merge](#isSingleInsertOnly) with [spark.databricks.delta.merge.optimizeInsertOnlyMerge.enabled](../../DeltaSQLConf.md#MERGE_INSERT_ONLY_ENABLED) enabled)
+* `MergeIntoCommand` is [executed](#run) (for [single insert-only merge](#isSingleInsertOnly) with [spark.databricks.delta.merge.optimizeInsertOnlyMerge.enabled](../../configuration-properties/DeltaSQLConf.md#MERGE_INSERT_ONLY_ENABLED) enabled)
 
 ### <span id="writeInsertsOnlyWhenNoMatchedClauses-outputCols"> Target Output Columns
 
@@ -309,7 +309,7 @@ In the end, `writeAllChanges` returns the [FileAction](../../FileAction.md)s (fr
 
 `writeAllChanges` is used when:
 
-* `MergeIntoCommand` is [executed](#run) (that is neither a [single insert-only merge](#isSingleInsertOnly) nor [spark.databricks.delta.merge.optimizeInsertOnlyMerge.enabled](../../DeltaSQLConf.md#MERGE_INSERT_ONLY_ENABLED) configuration property is enabled for which [writeInsertsOnlyWhenNoMatchedClauses](#writeInsertsOnlyWhenNoMatchedClauses) is used instead)
+* `MergeIntoCommand` is [executed](#run) (that is neither a [single insert-only merge](#isSingleInsertOnly) nor [spark.databricks.delta.merge.optimizeInsertOnlyMerge.enabled](../../configuration-properties/DeltaSQLConf.md#MERGE_INSERT_ONLY_ENABLED) configuration property is enabled for which [writeInsertsOnlyWhenNoMatchedClauses](#writeInsertsOnlyWhenNoMatchedClauses) is used instead)
 
 ### <span id="writeAllChanges-targetOutputCols"> targetOutputCols
 
@@ -323,7 +323,7 @@ In the end, `writeAllChanges` returns the [FileAction](../../FileAction.md)s (fr
 
 `writeAllChanges` determines the join type to use:
 
-* `rightOuter` for [matched-only merge](#isMatchedOnly) with [spark.databricks.delta.merge.optimizeMatchedOnlyMerge.enabled](../../DeltaSQLConf.md#MERGE_MATCHED_ONLY_ENABLED) configuration property enabled
+* `rightOuter` for [matched-only merge](#isMatchedOnly) with [spark.databricks.delta.merge.optimizeMatchedOnlyMerge.enabled](../../configuration-properties/DeltaSQLConf.md#MERGE_MATCHED_ONLY_ENABLED) configuration property enabled
 * `fullOuter` otherwise
 
 `writeAllChanges` prints out the following DEBUG message to the logs:
@@ -709,7 +709,7 @@ repartitionIfNeeded(
 `repartitionIfNeeded` repartitions the given `DataFrame` by the `partitionColumns` (using `Dataset.repartition` operation) when all the following hold:
 
 1. There is at least one partition column (among the given `partitionColumns`)
-1. [spark.databricks.delta.merge.repartitionBeforeWrite.enabled](../../DeltaSQLConf.md#MERGE_REPARTITION_BEFORE_WRITE) configuration property is `true`
+1. [spark.databricks.delta.merge.repartitionBeforeWrite.enabled](../../configuration-properties/DeltaSQLConf.md#MERGE_REPARTITION_BEFORE_WRITE) configuration property is `true`
 
 ---
 

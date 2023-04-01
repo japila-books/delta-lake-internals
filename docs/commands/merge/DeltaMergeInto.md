@@ -29,7 +29,7 @@ When created, `DeltaMergeInto` [verifies the actions](DeltaMergeIntoClause.md#ve
 `DeltaMergeInto` is given `migrateSchema` flag when [created](#creating-instance):
 
 * [apply](#apply) uses `false` always
-* [resolveReferences](#resolveReferences) is `true` only with the [spark.databricks.delta.schema.autoMerge.enabled](../../DeltaSQLConf.md#DELTA_SCHEMA_AUTO_MIGRATE) configuration property enabled and `*`s only (in matched and not-matched clauses)
+* [resolveReferences](#resolveReferences) is `true` only with the [spark.databricks.delta.schema.autoMerge.enabled](../../configuration-properties/DeltaSQLConf.md#DELTA_SCHEMA_AUTO_MIGRATE) configuration property enabled and `*`s only (in matched and not-matched clauses)
 
 `migrateSchema` is used when:
 

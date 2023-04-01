@@ -1,10 +1,16 @@
+---
+title: DeltaSQLConf
+---
+
 # DeltaSQLConf &mdash; spark.databricks.delta Configuration Properties
 
 `DeltaSQLConf` contains **spark.databricks.delta**-prefixed configuration properties to configure behaviour of Delta Lake.
 
 ## <span id="alterLocation.bypassSchemaCheck"><span id="DELTA_ALTER_LOCATION_BYPASS_SCHEMA_CHECK"> alterLocation.bypassSchemaCheck
 
-**spark.databricks.delta.alterLocation.bypassSchemaCheck** enables Alter Table Set Location on Delta to go through even if the Delta table in the new location has a different schema from the original Delta table
+**spark.databricks.delta.alterLocation.bypassSchemaCheck**
+
+Enables Alter Table Set Location on Delta to go through even if the Delta table in the new location has a different schema from the original Delta table
 
 Default: `false`
 
@@ -12,7 +18,7 @@ Default: `false`
 
 **spark.databricks.delta.alterTable.changeColumn.checkExpressions** (internal)
 
-Given an [ALTER TABLE CHANGE COLUMN](commands/alter/index.md) command, check whether [Constraints](constraints/index.md) or [Generated Columns](generated-columns/index.md) use expressions that reference this column (that will be affected by this change and should be changed along).
+Given an [ALTER TABLE CHANGE COLUMN](../commands/alter/index.md) command, check whether [Constraints](../constraints/index.md) or [Generated Columns](../generated-columns/index.md) use expressions that reference this column (that will be affected by this change and should be changed along).
 
 Turn this off when there is an issue with expression checking logic that prevents a valid column change from going through.
 
@@ -20,7 +26,7 @@ Default: `true`
 
 Used when:
 
-* `AlterDeltaTableCommand` is requested to [checkDependentExpressions](commands/alter/AlterDeltaTableCommand.md#checkDependentExpressions)
+* `AlterDeltaTableCommand` is requested to [checkDependentExpressions](../commands/alter/AlterDeltaTableCommand.md#checkDependentExpressions)
 
 ## <span id="checkLatestSchemaOnRead"><span id="DELTA_SCHEMA_ON_READ_CHECK_ENABLED"> checkLatestSchemaOnRead
 
@@ -38,25 +44,25 @@ Default: `5000000`
 
 ## <span id="commitInfo.enabled"><span id="DELTA_COMMIT_INFO_ENABLED"> commitInfo.enabled
 
-**spark.databricks.delta.commitInfo.enabled** controls whether to [log commit information into a Delta log](OptimisticTransactionImpl.md#commitInfo).
+**spark.databricks.delta.commitInfo.enabled** controls whether to [log commit information into a Delta log](../OptimisticTransactionImpl.md#commitInfo).
 
 Default: `true`
 
 ## <span id="commitInfo.userMetadata"><span id="DELTA_USER_METADATA"> commitInfo.userMetadata
 
-**spark.databricks.delta.commitInfo.userMetadata** is an arbitrary user-defined metadata to include in [CommitInfo](CommitInfo.md#userMetadata) (requires [spark.databricks.delta.commitInfo.enabled](#commitInfo.enabled)).
+**spark.databricks.delta.commitInfo.userMetadata** is an arbitrary user-defined metadata to include in [CommitInfo](../CommitInfo.md#userMetadata) (requires [spark.databricks.delta.commitInfo.enabled](#commitInfo.enabled)).
 
 Default: (empty)
 
 ## <span id="commitLock.enabled"><span id="DELTA_COMMIT_LOCK_ENABLED"> commitLock.enabled
 
-**spark.databricks.delta.commitLock.enabled** (internal) controls [whether or not to use a lock on a delta table at transaction commit](OptimisticTransactionImpl.md#lockCommitIfEnabled).
+**spark.databricks.delta.commitLock.enabled** (internal) controls [whether or not to use a lock on a delta table at transaction commit](../OptimisticTransactionImpl.md#lockCommitIfEnabled).
 
 Default: (undefined)
 
 Used when:
 
-* `OptimisticTransactionImpl` is requested to [isCommitLockEnabled](OptimisticTransactionImpl.md#isCommitLockEnabled)
+* `OptimisticTransactionImpl` is requested to [isCommitLockEnabled](../OptimisticTransactionImpl.md#isCommitLockEnabled)
 
 ## <span id="commitValidation.enabled"><span id="DELTA_COMMIT_VALIDATION_ENABLED"> commitValidation.enabled
 
@@ -94,7 +100,7 @@ Default: `1000`
 
 ## <span id="history.metricsEnabled"><span id="DELTA_HISTORY_METRICS_ENABLED"> history.metricsEnabled
 
-**spark.databricks.delta.history.metricsEnabled** enables metrics reporting in `DESCRIBE HISTORY` ([CommitInfo](CommitInfo.md) will record the operation metrics when a `OptimisticTransactionImpl` is [committed](OptimisticTransactionImpl.md#commit) and the [spark.databricks.delta.commitInfo.enabled](DeltaSQLConf.md#DELTA_COMMIT_INFO_ENABLED) configuration property is enabled).
+**spark.databricks.delta.history.metricsEnabled** enables metrics reporting in `DESCRIBE HISTORY` ([CommitInfo](../CommitInfo.md) will record the operation metrics when a `OptimisticTransactionImpl` is [committed](../OptimisticTransactionImpl.md#commit) and the [spark.databricks.delta.commitInfo.enabled](DeltaSQLConf.md#DELTA_COMMIT_INFO_ENABLED) configuration property is enabled).
 
 Requires [spark.databricks.delta.commitInfo.enabled](DeltaSQLConf.md#DELTA_COMMIT_INFO_ENABLED) configuration property to be enabled
 
@@ -102,23 +108,23 @@ Default: `true`
 
 Used when:
 
-* `OptimisticTransactionImpl` is requested to [getOperationMetrics](OptimisticTransactionImpl.md#getOperationMetrics)
-* `ConvertToDeltaCommand` is requested to [streamWrite](commands/convert/ConvertToDeltaCommand.md#streamWrite)
-* `SQLMetricsReporting` is requested to [registerSQLMetrics](SQLMetricsReporting.md#registerSQLMetrics)
-* `TransactionalWrite` is requested to [writeFiles](TransactionalWrite.md#writeFiles)
+* `OptimisticTransactionImpl` is requested to [getOperationMetrics](../OptimisticTransactionImpl.md#getOperationMetrics)
+* `ConvertToDeltaCommand` is requested to [streamWrite](../commands/convert/ConvertToDeltaCommand.md#streamWrite)
+* `SQLMetricsReporting` is requested to [registerSQLMetrics](../SQLMetricsReporting.md#registerSQLMetrics)
+* `TransactionalWrite` is requested to [writeFiles](../TransactionalWrite.md#writeFiles)
 
 !!! note "Github Commit"
     The feature was added as part of [[SC-24567][DELTA] Add additional metrics to Describe Delta History](https://github.com/delta-io/delta/commit/54643efc07dfaa9028d228dcad6502d59e4bdb3a) commit.
 
 ## <span id="import.batchSize.schemaInference"><span id="DELTA_IMPORT_BATCH_SIZE_SCHEMA_INFERENCE"> import.batchSize.schemaInference
 
-**spark.databricks.delta.import.batchSize.schemaInference** (internal) is the number of files per batch for schema inference during [import](commands/convert/ConvertToDeltaCommand.md#performConvert-schemaBatchSize).
+**spark.databricks.delta.import.batchSize.schemaInference** (internal) is the number of files per batch for schema inference during [import](../commands/convert/ConvertToDeltaCommand.md#performConvert-schemaBatchSize).
 
 Default: `1000000`
 
 ## <span id="import.batchSize.statsCollection"><span id="DELTA_IMPORT_BATCH_SIZE_STATS_COLLECTION"> import.batchSize.statsCollection
 
-**spark.databricks.delta.import.batchSize.statsCollection** (internal) is the number of files per batch for stats collection during [import](commands/convert/ConvertToDeltaCommand.md#performConvert-schemaBatchSize).
+**spark.databricks.delta.import.batchSize.statsCollection** (internal) is the number of files per batch for stats collection during [import](../commands/convert/ConvertToDeltaCommand.md#performConvert-schemaBatchSize).
 
 Default: `50000`
 
@@ -130,7 +136,7 @@ Default: `true`
 
 Used when:
 
-* `SpaceFillingCurveClustering` is requested to [cluster](commands/optimize/SpaceFillingCurveClustering.md#cluster)
+* `SpaceFillingCurveClustering` is requested to [cluster](../commands/optimize/SpaceFillingCurveClustering.md#cluster)
 
 ## <span id="io.skipping.mdc.rangeId.max"><span id="MDC_NUM_RANGE_IDS"> io.skipping.mdc.rangeId.max
 
@@ -142,7 +148,7 @@ Must be greater than `1`
 
 Used when:
 
-* `SpaceFillingCurveClustering` is requested to [cluster](commands/optimize/SpaceFillingCurveClustering.md#cluster)
+* `SpaceFillingCurveClustering` is requested to [cluster](../commands/optimize/SpaceFillingCurveClustering.md#cluster)
 
 ## <span id="io.skipping.stringPrefixLength"><span id="DATA_SKIPPING_STRING_PREFIX_LENGTH"> io.skipping.stringPrefixLength
 
@@ -152,11 +158,11 @@ Default: `32`
 
 Used when:
 
-* `StatisticsCollection` is requested for the [statsCollector Column](StatisticsCollection.md#statsCollector)
+* `StatisticsCollection` is requested for the [statsCollector Column](../StatisticsCollection.md#statsCollector)
 
 ## <span id="lastCommitVersionInSession"><span id="DELTA_LAST_COMMIT_VERSION_IN_SESSION"> lastCommitVersionInSession
 
-**spark.databricks.delta.lastCommitVersionInSession** is the version of the last commit made in the `SparkSession` for any delta table (after `OptimisticTransactionImpl` is done with [doCommit](OptimisticTransactionImpl.md#doCommit) or `DeltaCommand` with [commitLarge](commands/DeltaCommand.md#commitLarge))
+**spark.databricks.delta.lastCommitVersionInSession** is the version of the last commit made in the `SparkSession` for any delta table (after `OptimisticTransactionImpl` is done with [doCommit](../OptimisticTransactionImpl.md#doCommit) or `DeltaCommand` with [commitLarge](../commands/DeltaCommand.md#commitLarge))
 
 Default: (undefined)
 
@@ -177,7 +183,7 @@ Default: `10000000`
 
 Used when:
 
-* `OptimisticTransactionImpl` is requested to [doCommitRetryIteratively](OptimisticTransactionImpl.md#doCommitRetryIteratively)
+* `OptimisticTransactionImpl` is requested to [doCommitRetryIteratively](../OptimisticTransactionImpl.md#doCommitRetryIteratively)
 
 ## <span id="maxSnapshotLineageLength"><span id="DELTA_MAX_SNAPSHOT_LINEAGE_LENGTH"> maxSnapshotLineageLength
 
@@ -205,54 +211,54 @@ Default: `true`
 
 ## <span id="merge.repartitionBeforeWrite.enabled"><span id="MERGE_REPARTITION_BEFORE_WRITE"> merge.repartitionBeforeWrite.enabled
 
-**spark.databricks.delta.merge.repartitionBeforeWrite.enabled** (internal) controls whether [MERGE](commands/merge/index.md) command repartitions output before writing the files (by the table's partition columns)
+**spark.databricks.delta.merge.repartitionBeforeWrite.enabled** (internal) controls whether [MERGE](../commands/merge/index.md) command repartitions output before writing the files (by the table's partition columns)
 
 Default: `true`
 
 Used when:
 
-* `MergeIntoCommand` is requested to [repartitionIfNeeded](commands/merge/MergeIntoCommand.md#repartitionIfNeeded)
+* `MergeIntoCommand` is requested to [repartitionIfNeeded](../commands/merge/MergeIntoCommand.md#repartitionIfNeeded)
 
 ## <span id="optimize.maxFileSize"><span id="DELTA_OPTIMIZE_MAX_FILE_SIZE"> optimize.maxFileSize
 
-**spark.databricks.delta.optimize.maxFileSize** (internal) Target file size produced by [OPTIMIZE](sql/index.md#OPTIMIZE) command.
+**spark.databricks.delta.optimize.maxFileSize** (internal) Target file size produced by [OPTIMIZE](../sql/index.md#OPTIMIZE) command.
 
 Default: `1024 * 1024 * 1024`
 
 Used when:
 
-* `OptimizeExecutor` is requested to [optimize](commands/optimize/OptimizeExecutor.md#optimize)
+* `OptimizeExecutor` is requested to [optimize](../commands/optimize/OptimizeExecutor.md#optimize)
 
 ## <span id="optimize.maxThreads"><span id="DELTA_OPTIMIZE_MAX_THREADS"> optimize.maxThreads
 
-**spark.databricks.delta.optimize.maxThreads** (internal) Maximum number of parallel jobs allowed in [OPTIMIZE](sql/index.md#OPTIMIZE) command.
+**spark.databricks.delta.optimize.maxThreads** (internal) Maximum number of parallel jobs allowed in [OPTIMIZE](../sql/index.md#OPTIMIZE) command.
 Increasing the maximum parallel jobs allows `OPTIMIZE` command to run faster, but increases the job management on the Spark driver.
 
 Default: `15`
 
 Used when:
 
-* `OptimizeExecutor` is requested to [optimize](commands/optimize/OptimizeExecutor.md#optimize)
+* `OptimizeExecutor` is requested to [optimize](../commands/optimize/OptimizeExecutor.md#optimize)
 
 ## <span id="optimize.minFileSize"><span id="DELTA_OPTIMIZE_MIN_FILE_SIZE"> optimize.minFileSize
 
-**spark.databricks.delta.optimize.minFileSize** (internal) Files which are smaller than this threshold (in bytes) will be grouped together and rewritten as larger files by the [OPTIMIZE](sql/index.md#OPTIMIZE) command.
+**spark.databricks.delta.optimize.minFileSize** (internal) Files which are smaller than this threshold (in bytes) will be grouped together and rewritten as larger files by the [OPTIMIZE](../sql/index.md#OPTIMIZE) command.
 
 Default: `1024 * 1024 * 1024` (1GB)
 
 Used when:
 
-* `OptimizeExecutor` is requested to [optimize](commands/optimize/OptimizeExecutor.md#optimize)
+* `OptimizeExecutor` is requested to [optimize](../commands/optimize/OptimizeExecutor.md#optimize)
 
 ## <span id="optimize.zorder.checkStatsCollection.enabled"><span id="DELTA_OPTIMIZE_ZORDER_COL_STAT_CHECK"> optimize.zorder.checkStatsCollection.enabled
 
-**spark.databricks.delta.optimize.zorder.checkStatsCollection.enabled** (internal) Controls whether there are [column statistics](StatisticsCollection.md#statCollectionSchema) available for the `zOrderBy` columns of [OPTIMIZE](commands/optimize/index.md) command
+**spark.databricks.delta.optimize.zorder.checkStatsCollection.enabled** (internal) Controls whether there are [column statistics](../StatisticsCollection.md#statCollectionSchema) available for the `zOrderBy` columns of [OPTIMIZE](../commands/optimize/index.md) command
 
 Default: `true`
 
 Used when:
 
-* `OptimizeTableCommandBase` is requested to [validate zOrderBy columns](commands/optimize/OptimizeTableCommandBase.md#validateZorderByColumns)
+* `OptimizeTableCommandBase` is requested to [validate zOrderBy columns](../commands/optimize/OptimizeTableCommandBase.md#validateZorderByColumns)
 
 ## <span id="partitionColumnValidity.enabled"><span id="DELTA_PARTITION_COLUMN_CHECK_ENABLED"> partitionColumnValidity.enabled
 
@@ -262,7 +268,7 @@ Default: `true`
 
 Used when:
 
-* `OptimisticTransactionImpl` is requested to [verify a new metadata](OptimisticTransactionImpl.md#verifyNewMetadata) (with [NoMapping](column-mapping/DeltaColumnMappingMode.md#NoMapping) column mapping mode)
+* `OptimisticTransactionImpl` is requested to [verify a new metadata](../OptimisticTransactionImpl.md#verifyNewMetadata) (with [NoMapping](../column-mapping/DeltaColumnMappingMode.md#NoMapping) column mapping mode)
 
 ## <span id="properties.defaults.minReaderVersion"><span id="DELTA_PROTOCOL_DEFAULT_READER_VERSION"> properties.defaults.minReaderVersion
 
@@ -274,7 +280,7 @@ Available values: `1`
 
 Used when:
 
-* `Protocol` utility is used to [create a Protocol](Protocol.md#apply)
+* `Protocol` utility is used to [create a Protocol](../Protocol.md#apply)
 
 ## <span id="properties.defaults.minWriterVersion"><span id="DELTA_PROTOCOL_DEFAULT_WRITER_VERSION"> properties.defaults.minWriterVersion
 
@@ -286,11 +292,11 @@ Available values: `1`, `2`, `3`
 
 Used when:
 
-* `Protocol` utility is used to [create a Protocol](Protocol.md#apply)
+* `Protocol` utility is used to [create a Protocol](../Protocol.md#apply)
 
 ## <span id="replaceWhere.constraintCheck.enabled"><span id="REPLACEWHERE_CONSTRAINT_CHECK_ENABLED"> replaceWhere.constraintCheck.enabled
 
-**spark.databricks.delta.replaceWhere.constraintCheck.enabled** controls whether or not [replaceWhere](options.md#replaceWhere) on arbitrary expression and arbitrary columns enforces [constraints](constraints/index.md) to replace the target table only when all the rows in the source dataframe match that constraint.
+**spark.databricks.delta.replaceWhere.constraintCheck.enabled** controls whether or not [replaceWhere](../options.md#replaceWhere) on arbitrary expression and arbitrary columns enforces [constraints](../constraints/index.md) to replace the target table only when all the rows in the source dataframe match that constraint.
 
 If disabled, it will skip the constraint check and replace with all the rows from the new dataframe.
 
@@ -298,7 +304,7 @@ Default: `true`
 
 Used when:
 
-* `WriteIntoDelta` is requested to [extract constraints](commands/WriteIntoDelta.md#extractConstraints)
+* `WriteIntoDelta` is requested to [extract constraints](../commands/WriteIntoDelta.md#extractConstraints)
 
 ## <span id="retentionDurationCheck.enabled"><span id="DELTA_VACUUM_RETENTION_CHECK_ENABLED"> retentionDurationCheck.enabled
 
@@ -318,14 +324,14 @@ Default: `false`
 
 Default: `false`
 
-Equivalent DataFrame option: [mergeSchema](options.md#mergeSchema)
+Equivalent DataFrame option: [mergeSchema](../options.md#mergeSchema)
 
 Used when:
 
-* `DeltaMergeInto` utility is used to [resolveReferencesAndSchema](commands/merge/DeltaMergeInto.md#resolveReferencesAndSchema)
+* `DeltaMergeInto` utility is used to [resolveReferencesAndSchema](../commands/merge/DeltaMergeInto.md#resolveReferencesAndSchema)
 * `MetadataMismatchErrorBuilder` is requested to `addSchemaMismatch`
-* `DeltaWriteOptionsImpl` is requested for [canMergeSchema](DeltaWriteOptionsImpl.md#canMergeSchema)
-* `MergeIntoCommand` is requested for [canMergeSchema](commands/merge/MergeIntoCommand.md#canMergeSchema)
+* `DeltaWriteOptionsImpl` is requested for [canMergeSchema](../DeltaWriteOptionsImpl.md#canMergeSchema)
+* `MergeIntoCommand` is requested for [canMergeSchema](../commands/merge/MergeIntoCommand.md#canMergeSchema)
 
 ## <span id="schema.typeCheck.enabled"><span id="DELTA_SCHEMA_TYPE_CHECK"> schema.typeCheck.enabled
 
@@ -337,8 +343,8 @@ Default: `true`
 
 Used when:
 
-* `OptimisticTransactionImpl` is requested for [checkUnsupportedDataType flag](OptimisticTransactionImpl.md#checkUnsupportedDataType)
-* `DeltaErrorsBase` is requested to [unsupportedDataTypes](DeltaErrors.md#unsupportedDataTypes)
+* `OptimisticTransactionImpl` is requested for [checkUnsupportedDataType flag](../OptimisticTransactionImpl.md#checkUnsupportedDataType)
+* `DeltaErrorsBase` is requested to [unsupportedDataTypes](../DeltaErrors.md#unsupportedDataTypes)
 
 ## <span id="snapshotIsolation.enabled"><span id="DELTA_SNAPSHOT_ISOLATION"> snapshotIsolation.enabled
 
@@ -348,7 +354,7 @@ Default: `true`
 
 ## <span id="snapshotPartitions"><span id="DELTA_SNAPSHOT_PARTITIONS"> snapshotPartitions
 
-**spark.databricks.delta.snapshotPartitions** (internal) is the number of partitions to use for **state reconstruction** (when [building a snapshot](Snapshot.md#stateReconstruction) of a Delta table).
+**spark.databricks.delta.snapshotPartitions** (internal) is the number of partitions to use for **state reconstruction** (when [building a snapshot](../Snapshot.md#stateReconstruction) of a Delta table).
 
 Default: `50`
 
@@ -379,7 +385,7 @@ Default: `true`
 
 Used when:
 
-* `TransactionalWrite` is requested to [writeFiles](TransactionalWrite.md#writeFiles)
+* `TransactionalWrite` is requested to [writeFiles](../TransactionalWrite.md#writeFiles)
 
 ## <span id="stats.limitPushdown.enabled"><span id="DELTA_LIMIT_PUSHDOWN_ENABLED"> stats.limitPushdown.enabled
 
@@ -395,24 +401,24 @@ Default: `2000`
 
 ## <span id="stats.skipping"><span id="DELTA_STATS_SKIPPING"> stats.skipping
 
-**spark.databricks.delta.stats.skipping** (internal) enables [Data Skipping](data-skipping/index.md)
+**spark.databricks.delta.stats.skipping** (internal) enables [Data Skipping](../data-skipping/index.md)
 
 Default: `true`
 
 Used when:
 
-* `DataSkippingReaderBase` is requested for the [files to scan](data-skipping/DataSkippingReaderBase.md#filesForScan)
-* `PrepareDeltaScanBase` logical optimization is [executed](data-skipping/PrepareDeltaScanBase.md#apply)
+* `DataSkippingReaderBase` is requested for the [files to scan](../data-skipping/DataSkippingReaderBase.md#filesForScan)
+* `PrepareDeltaScanBase` logical optimization is [executed](../data-skipping/PrepareDeltaScanBase.md#apply)
 
 ## <span id="timeTravel.resolveOnIdentifier.enabled"><span id="RESOLVE_TIME_TRAVEL_ON_IDENTIFIER"> timeTravel.resolveOnIdentifier.enabled
 
-**spark.databricks.delta.timeTravel.resolveOnIdentifier.enabled** (internal) controls whether to resolve patterns as `@v123` and `@yyyyMMddHHmmssSSS` in path identifiers as [time travel](time-travel/index.md) nodes.
+**spark.databricks.delta.timeTravel.resolveOnIdentifier.enabled** (internal) controls whether to resolve patterns as `@v123` and `@yyyyMMddHHmmssSSS` in path identifiers as [time travel](../time-travel/index.md) nodes.
 
 Default: `true`
 
 ## <span id="vacuum.parallelDelete.enabled"><span id="DELTA_VACUUM_PARALLEL_DELETE_ENABLED"> vacuum.parallelDelete.enabled
 
-**spark.databricks.delta.vacuum.parallelDelete.enabled** enables parallelizing the deletion of files during [vacuum](commands/vacuum/index.md) command.
+**spark.databricks.delta.vacuum.parallelDelete.enabled** enables parallelizing the deletion of files during [vacuum](../commands/vacuum/index.md) command.
 
 Default: `false`
 

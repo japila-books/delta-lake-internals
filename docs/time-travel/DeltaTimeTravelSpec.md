@@ -82,7 +82,7 @@ isApplicable(
 
 `isApplicable` is `true` when all of the following hold:
 
-* [spark.databricks.delta.timeTravel.resolveOnIdentifier.enabled](../DeltaSQLConf.md#RESOLVE_TIME_TRAVEL_ON_IDENTIFIER) is `true`
+* [spark.databricks.delta.timeTravel.resolveOnIdentifier.enabled](../configuration-properties/DeltaSQLConf.md#RESOLVE_TIME_TRAVEL_ON_IDENTIFIER) is `true`
 * [identifierContainsTimeTravel](#identifierContainsTimeTravel) is `true`
 
 `isApplicable` is used when `DeltaTableUtils` utility is used to [extractIfPathContainsTimeTravel](../DeltaTableUtils.md#extractIfPathContainsTimeTravel).

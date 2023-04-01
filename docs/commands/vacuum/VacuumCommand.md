@@ -92,7 +92,7 @@ In the end, `gc` converts the paths to Hadoop DFS format and creates a `DataFram
 Deleting untracked files and empty directories in [path]
 ```
 
-`gc` [deletes](VacuumCommandImpl.md#delete) the untracked files and empty directories (with parallel delete enabled flag based on [spark.databricks.delta.vacuum.parallelDelete.enabled](../../DeltaSQLConf.md#vacuum.parallelDelete.enabled) configuration property).
+`gc` [deletes](VacuumCommandImpl.md#delete) the untracked files and empty directories (with parallel delete enabled flag based on [spark.databricks.delta.vacuum.parallelDelete.enabled](../../configuration-properties/DeltaSQLConf.md#vacuum.parallelDelete.enabled) configuration property).
 
 `gc` prints out the following message to standard output (with the [dirCounts](#dirCounts)):
 

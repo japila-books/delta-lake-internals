@@ -35,10 +35,10 @@ cluster(
 
 `cluster` adds two column expressions (to the given `DataFrame`):
 
-1. `[randomUUID]-rpKey1` for a [clustering expression](#getClusteringExpression) (with the `colNames` and the [spark.databricks.io.skipping.mdc.rangeId.max](../../DeltaSQLConf.md#MDC_NUM_RANGE_IDS) configuration property)
+1. `[randomUUID]-rpKey1` for a [clustering expression](#getClusteringExpression) (with the `colNames` and the [spark.databricks.io.skipping.mdc.rangeId.max](../../configuration-properties/DeltaSQLConf.md#MDC_NUM_RANGE_IDS) configuration property)
 1. `[randomUUID]-rpKey2` for an extra noise (for an independent and identically distributed samples uniformly distributed in `[0.0, 1.0)` using `rand` standard function)
 
-`cluster` uses `rpKey2` column only with [spark.databricks.io.skipping.mdc.addNoise](../../DeltaSQLConf.md#MDC_ADD_NOISE) enabled.
+`cluster` uses `rpKey2` column only with [spark.databricks.io.skipping.mdc.addNoise](../../configuration-properties/DeltaSQLConf.md#MDC_ADD_NOISE) enabled.
 
 `cluster` repartitions the given `DataFrame` by the `rpKey1` and `rpKey2` partitioning expressions into the `approxNumPartitions` partitions (using [Dataset.repartitionByRange]({{ book.spark_sql }}/Dataset#repartitionByRange) operator).
 

@@ -162,7 +162,7 @@ nav:
       - column-mapping/index.md
       - DeltaColumnMappingBase: column-mapping/DeltaColumnMappingBase.md
       - DeltaColumnMappingMode: column-mapping/DeltaColumnMappingMode.md
-    - configuration-properties.md
+    - ... | configuration-properties/**.md
     # "Data Skipping" section uses awesome-pages plugin
     # https://github.com/lukasgeiter/mkdocs-awesome-pages-plugin
     # Review data-skipping/.pages for setup
@@ -185,9 +185,7 @@ nav:
       - Invariant: constraints/Invariant.md
       - InvariantViolationException: constraints/InvariantViolationException.md
     - table-properties.md
-    - Time Travel:
-      - time-travel/index.md
-      - DeltaTimeTravelSpec: time-travel/DeltaTimeTravelSpec.md
+    - ... | time-travel/**.md
   - Internals:
     - Overview: overview.md
     - Actions:
@@ -203,7 +201,6 @@ nav:
       - SingleAction: SingleAction.md
     - DeltaConfig: DeltaConfig.md
     - DeltaConfigs: DeltaConfigs.md
-    - DeltaSQLConf: DeltaSQLConf.md
     - DeltaTableIdentifier: DeltaTableIdentifier.md
     - FileFormat:
       - DeltaFileFormat: DeltaFileFormat.md

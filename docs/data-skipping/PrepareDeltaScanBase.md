@@ -21,7 +21,7 @@ apply(
   _plan: LogicalPlan): LogicalPlan
 ```
 
-With [spark.databricks.delta.stats.skipping](../DeltaSQLConf.md#DELTA_STATS_SKIPPING) configuration property enabled, `apply` makes sure that the given `LogicalPlan` ([Spark SQL]({{ book.spark_sql }}/logical-operators/LogicalPlan)) is neither a subquery (`Subquery` or `SupportsSubquery`) nor a `V2WriteCommand` ([Spark SQL]({{ book.spark_sql }}/logical-operators/V2WriteCommand)) and [prepareDeltaScan](#prepareDeltaScan).
+With [spark.databricks.delta.stats.skipping](../configuration-properties/DeltaSQLConf.md#DELTA_STATS_SKIPPING) configuration property enabled, `apply` makes sure that the given `LogicalPlan` ([Spark SQL]({{ book.spark_sql }}/logical-operators/LogicalPlan)) is neither a subquery (`Subquery` or `SupportsSubquery`) nor a `V2WriteCommand` ([Spark SQL]({{ book.spark_sql }}/logical-operators/V2WriteCommand)) and [prepareDeltaScan](#prepareDeltaScan).
 
 ---
 

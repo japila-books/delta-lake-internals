@@ -93,7 +93,7 @@ Property | Value
 
 ---
 
-`computedState` assumes that the protocol and metadata (actions) are defined. `computedState` throws an `IllegalStateException` when the actions are not defined and [spark.databricks.delta.stateReconstructionValidation.enabled](DeltaSQLConf.md#DELTA_STATE_RECONSTRUCTION_VALIDATION_ENABLED) configuration property is enabled.
+`computedState` assumes that the protocol and metadata (actions) are defined. `computedState` throws an `IllegalStateException` when the actions are not defined and [spark.databricks.delta.stateReconstructionValidation.enabled](configuration-properties/DeltaSQLConf.md#DELTA_STATE_RECONSTRUCTION_VALIDATION_ENABLED) configuration property is enabled.
 
 ```text
 The [action] of your Delta table couldn't be recovered while Reconstructing
@@ -126,11 +126,11 @@ Alias | Aggregation Expression
 
 ### <span id="getNumPartitions"> spark.databricks.delta.snapshotPartitions
 
-`Snapshot` uses the [spark.databricks.delta.snapshotPartitions](DeltaSQLConf.md#DELTA_SNAPSHOT_PARTITIONS) configuration property for the number of partitions to use for [state reconstruction](#stateReconstruction).
+`Snapshot` uses the [spark.databricks.delta.snapshotPartitions](configuration-properties/DeltaSQLConf.md#DELTA_SNAPSHOT_PARTITIONS) configuration property for the number of partitions to use for [state reconstruction](#stateReconstruction).
 
 ### spark.databricks.delta.stateReconstructionValidation.enabled
 
-`Snapshot` uses the [spark.databricks.delta.stateReconstructionValidation.enabled](DeltaSQLConf.md#DELTA_STATE_RECONSTRUCTION_VALIDATION_ENABLED) configuration property for [reconstructing state](#computedState).
+`Snapshot` uses the [spark.databricks.delta.stateReconstructionValidation.enabled](configuration-properties/DeltaSQLConf.md#DELTA_STATE_RECONSTRUCTION_VALIDATION_ENABLED) configuration property for [reconstructing state](#computedState).
 
 ## <span id="state"> State Dataset (of Actions)
 

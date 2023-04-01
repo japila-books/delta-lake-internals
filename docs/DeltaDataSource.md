@@ -40,7 +40,7 @@ createRelation(
 * [endingVersion](DeltaDataSource.md#CDC_END_VERSION_KEY)
 * [endingTimestamp](DeltaDataSource.md#CDC_END_TIMESTAMP_KEY)
 
-`createRelation` creates a [DeltaTableV2](DeltaTableV2.md) (with the given `parameters` as options when [spark.databricks.delta.loadFileSystemConfigsFromDataFrameOptions](DeltaSQLConf.md#LOAD_FILE_SYSTEM_CONFIGS_FROM_DATAFRAME_OPTIONS) configuration property is enabled).
+`createRelation` creates a [DeltaTableV2](DeltaTableV2.md) (with the given `parameters` as options when [spark.databricks.delta.loadFileSystemConfigsFromDataFrameOptions](configuration-properties/DeltaSQLConf.md#LOAD_FILE_SYSTEM_CONFIGS_FROM_DATAFRAME_OPTIONS) configuration property is enabled).
 
 In the end, `createRelation` requests the `DeltaTableV2` for an [insertable HadoopFsRelation](DeltaTableV2.md#toBaseRelation).
 

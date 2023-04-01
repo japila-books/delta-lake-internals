@@ -2,7 +2,7 @@
 
 `DataFiltersBuilder` builds data filters for [Data Skipping](index.md).
 
-`DataFiltersBuilder` used when `DataSkippingReaderBase` is requested for the [filesForScan](DataSkippingReaderBase.md#filesForScan) with data filters and [spark.databricks.delta.stats.skipping](../DeltaSQLConf.md#stats.skipping) enabled.
+`DataFiltersBuilder` used when `DataSkippingReaderBase` is requested for the [filesForScan](DataSkippingReaderBase.md#filesForScan) with data filters and [spark.databricks.delta.stats.skipping](../configuration-properties/DeltaSQLConf.md#stats.skipping) enabled.
 
 ## Creating Instance
 
@@ -13,7 +13,7 @@
 
 `DataFiltersBuilder` is created when:
 
-* `DataSkippingReaderBase` is requested to [filesForScan](DataSkippingReaderBase.md#filesForScan) (with data filters and [spark.databricks.delta.stats.skipping](../DeltaSQLConf.md#stats.skipping) enabled)
+* `DataSkippingReaderBase` is requested to [filesForScan](DataSkippingReaderBase.md#filesForScan) (with data filters and [spark.databricks.delta.stats.skipping](../configuration-properties/DeltaSQLConf.md#stats.skipping) enabled)
 
 ### <span id="statsProvider"> StatsProvider
 
@@ -32,7 +32,7 @@ apply(
 
 `apply` is used when:
 
-* `DataSkippingReaderBase` is requested to [filesForScan](DataSkippingReaderBase.md#filesForScan) (with data filters and [spark.databricks.delta.stats.skipping](../DeltaSQLConf.md#stats.skipping) enabled)
+* `DataSkippingReaderBase` is requested to [filesForScan](DataSkippingReaderBase.md#filesForScan) (with data filters and [spark.databricks.delta.stats.skipping](../configuration-properties/DeltaSQLConf.md#stats.skipping) enabled)
 
 ### <span id="constructDataFilters"> constructDataFilters
 

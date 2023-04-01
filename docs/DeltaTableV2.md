@@ -61,7 +61,7 @@ cdcOptions: CaseInsensitiveStringMap
 
 `DeltaTableV2` can be given options (as a `Map[String, String]`). Options are empty by default.
 
-The options are defined when `DeltaDataSource` is requested for a [relation](DeltaDataSource.md#RelationProvider-createRelation) with [spark.databricks.delta.loadFileSystemConfigsFromDataFrameOptions](DeltaSQLConf.md#loadFileSystemConfigsFromDataFrameOptions) configuration property enabled.
+The options are defined when `DeltaDataSource` is requested for a [relation](DeltaDataSource.md#RelationProvider-createRelation) with [spark.databricks.delta.loadFileSystemConfigsFromDataFrameOptions](configuration-properties/DeltaSQLConf.md#loadFileSystemConfigsFromDataFrameOptions) configuration property enabled.
 
 The options are used for the following:
 

@@ -2,7 +2,7 @@
 
 `InMemoryLogReplay` is used at the very last phase of [state reconstruction](Snapshot.md#stateReconstruction) (of a [cached delta state](Snapshot.md#cachedState)).
 
-`InMemoryLogReplay` [handles](#append) a single partition of the [state reconstruction](Snapshot.md#stateReconstruction) dataset (based on the [spark.databricks.delta.snapshotPartitions](DeltaSQLConf.md#DELTA_SNAPSHOT_PARTITIONS) configuration property).
+`InMemoryLogReplay` [handles](#append) a single partition of the [state reconstruction](Snapshot.md#stateReconstruction) dataset (based on the [spark.databricks.delta.snapshotPartitions](configuration-properties/DeltaSQLConf.md#DELTA_SNAPSHOT_PARTITIONS) configuration property).
 
 ## Creating Instance
 
@@ -20,7 +20,7 @@ The lifecycle of `InMemoryLogReplay` is as follows:
 
 1. [Created](#creating-instance) (with [Snapshot.minFileRetentionTimestamp](Snapshot.md#minFileRetentionTimestamp))
 
-1. [Append](#append) all [SingleAction](SingleAction.md)s of a partition (based on the [spark.databricks.delta.snapshotPartitions](DeltaSQLConf.md#DELTA_SNAPSHOT_PARTITIONS) configuration property)
+1. [Append](#append) all [SingleAction](SingleAction.md)s of a partition (based on the [spark.databricks.delta.snapshotPartitions](configuration-properties/DeltaSQLConf.md#DELTA_SNAPSHOT_PARTITIONS) configuration property)
 
 1. [Checkpoint](#checkpoint)
 

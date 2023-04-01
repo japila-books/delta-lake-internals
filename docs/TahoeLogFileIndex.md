@@ -19,7 +19,7 @@
 
 ## <span id="checkSchemaOnRead"><span id="checkLatestSchemaOnRead"><span id="spark.databricks.delta.checkLatestSchemaOnRead"> spark.databricks.delta.checkLatestSchemaOnRead
 
-`TahoeLogFileIndex` uses the [spark.databricks.delta.checkLatestSchemaOnRead](DeltaSQLConf.md#spark.databricks.delta.checkLatestSchemaOnRead) configuration property when requested for a [Snapshot](#getSnapshot).
+`TahoeLogFileIndex` uses the [spark.databricks.delta.checkLatestSchemaOnRead](configuration-properties/DeltaSQLConf.md#spark.databricks.delta.checkLatestSchemaOnRead) configuration property when requested for a [Snapshot](#getSnapshot).
 
 ## <span id="isTimeTravelQuery"> isTimeTravelQuery flag
 
