@@ -576,6 +576,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://books.japila.pl/delta-lake-internals/column-statistics/</loc>
+         <lastmod>2023-04-01</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/</loc>
          <lastmod>2023-04-01</lastmod>
          <changefreq>daily</changefreq>
