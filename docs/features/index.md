@@ -6,6 +6,7 @@ The following is a list of the features of Delta Lake that make it so amazing (e
 * [CHECK Constraints](../check-constraints/index.md)
 * [Column Invariants](../column-invariants/index.md)
 * [Column Mapping](../column-mapping/index.md)
+* [Column Statistics](../column-statistics/index.md)
 * [Commands](../commands/index.md)
 * [Data Skipping](../data-skipping/index.md)
 * [Delta SQL](../sql/index.md)

@@ -99,7 +99,7 @@ Default: `false`
 
 ### <span id="dataSkippingNumIndexedCols"><span id="DATA_SKIPPING_NUM_INDEXED_COLS"> dataSkippingNumIndexedCols
 
-The number of columns to collect stats on for data skipping. `-1` means collecting stats for all columns.
+The number of columns to collect stats on for [data skipping](data-skipping/index.md). `-1` means collecting stats for all columns.
 
 Default: `32`
 

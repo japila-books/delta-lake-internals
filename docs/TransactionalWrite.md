@@ -180,6 +180,42 @@ As the last step under the [new execution ID](#writeFiles-deltaTransactionalWrit
 
 In the end, `writeFiles` returns [AddFile](AddFile.md)s and [AddCDCFile](AddCDCFile.md)s (from the [DelayedCommitProtocol](#writeFiles-committer)).
 
+### getOptionalStatsTrackerAndStatsCollection { #getOptionalStatsTrackerAndStatsCollection }
+
+```scala
+getOptionalStatsTrackerAndStatsCollection(
+  output: Seq[Attribute],
+  outputPath: Path,
+  partitionSchema: StructType, data: DataFrame): (Option[DeltaJobStatisticsTracker], Option[StatisticsCollection])
+```
+
+!!! note
+    `getOptionalStatsTrackerAndStatsCollection` returns neither [DeltaJobStatisticsTracker](DeltaJobStatisticsTracker.md) nor [StatisticsCollection](StatisticsCollection.md) with [spark.databricks.delta.stats.collect](configuration-properties/index.md#DELTA_COLLECT_STATS) disabled.
+
+`getOptionalStatsTrackerAndStatsCollection` [getStatsSchema](#getStatsSchema) (for the given `output` and `partitionSchema`).
+
+`getOptionalStatsTrackerAndStatsCollection` reads the value of [delta.dataSkippingNumIndexedCols](DeltaConfigs.md#DATA_SKIPPING_NUM_INDEXED_COLS) table property (from the [Metadata](OptimisticTransactionImpl.md#metadata)).
+
+`getOptionalStatsTrackerAndStatsCollection` creates a [StatisticsCollection](StatisticsCollection.md) (with the [tableDataSchema](StatisticsCollection.md#tableDataSchema) based on [spark.databricks.delta.stats.collect.using.tableSchema](configuration-properties/DeltaSQLConf.md#DELTA_COLLECT_STATS_USING_TABLE_SCHEMA) configuration property).
+
+`getOptionalStatsTrackerAndStatsCollection` [getStatsColExpr](#getStatsColExpr) for the `statsDataSchema` and the `StatisticsCollection`.
+
+In the end, `getOptionalStatsTrackerAndStatsCollection` creates a [DeltaJobStatisticsTracker](DeltaJobStatisticsTracker.md) and the `StatisticsCollection`.
+
+#### getStatsColExpr { #getStatsColExpr }
+
+```scala
+getStatsColExpr(
+  statsDataSchema: Seq[Attribute],
+  statsCollection: StatisticsCollection): Expression
+```
+
+`getStatsColExpr` creates a `Dataset` for a `LocalRelation` ([Spark SQL]({{ book.spark_sql }}/logical-operators/LocalRelation)) logical operator with the given `statsDataSchema`.
+
+`getStatsColExpr` uses `Dataset.select` to execute `to_json` standard function with [statsCollector](StatisticsCollection.md#statsCollector) column.
+
+In the end, `getStatsColExpr` takes the first `Expression` (from the expressions) in the `analyzed` logical query plan.
+
 ## <span id="getCommitter"> Creating FileCommitProtocol Committer
 
 ```scala

@@ -162,10 +162,11 @@ nav:
       - column-mapping/index.md
       - DeltaColumnMappingBase: column-mapping/DeltaColumnMappingBase.md
       - DeltaColumnMappingMode: column-mapping/DeltaColumnMappingMode.md
-    - ... | configuration-properties/**.md
-    # "Data Skipping" section uses awesome-pages plugin
+    # The following sections use awesome-pages plugin
     # https://github.com/lukasgeiter/mkdocs-awesome-pages-plugin
-    # Review data-skipping/.pages for setup
+    # Review .pages for setup
+    - ... | column-statistics/**.md
+    - ... | configuration-properties/**.md
     - ... | data-skipping/**.md
     - developer-api.md
     - Generated Columns:
