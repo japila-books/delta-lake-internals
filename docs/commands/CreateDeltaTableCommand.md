@@ -1,6 +1,6 @@
 # CreateDeltaTableCommand
 
-`CreateDeltaTableCommand` is a leaf `RunnableCommand` ([Spark SQL]({{ book.spark_sql }}/logical-operators/RunnableCommand/)) to [create a delta table](#run) (for [DeltaCatalog](../DeltaCatalog.md#createDeltaTable)).
+`CreateDeltaTableCommand` is a `LeafRunnableCommand` ([Spark SQL]({{ book.spark_sql }}/logical-operators/LeafRunnableCommand/)) to [create a delta table](#run) (for [DeltaCatalog](../DeltaCatalog.md#createDeltaTable)).
 
 ## Creating Instance
 
@@ -12,10 +12,12 @@
 * <span id="query"> Optional Data Query (`LogicalPlan`)
 * [CreationMode](#operation)
 * <span id="tableByPath"> `tableByPath` flag (default: `false`)
-* <span id="output"> Output attributes (default: empty)
+* <span id="output"> Output attributes
+* <span id="protocol"> [Protocol](../Protocol.md)
 
 `CreateDeltaTableCommand` is created when:
 
+* [DeltaAnalysis](../DeltaAnalysis.md) logical resolution rule is executed (for a `CreateTableLikeCommand` with a target table being a delta table or specified explicitly or [resolveCloneCommand](../DeltaAnalysis.md#resolveCloneCommand))
 * `DeltaCatalog` is requested to [create a delta table](../DeltaCatalog.md#createDeltaTable)
 
 ### <span id="operation"> CreationMode
@@ -30,14 +32,14 @@
 
 ## <span id="run"> Executing Command
 
-```scala
-run(
-  sparkSession: SparkSession): Seq[Row]
-```
+??? note "Signature"
 
-`run` is part of the `RunnableCommand` ([Spark SQL]({{ book.spark_sql }}/logical-operators/RunnableCommand/#run)) abstraction.
+    ```scala
+    run(
+      sparkSession: SparkSession): Seq[Row]
+    ```
 
----
+    `run` is part of the `RunnableCommand` ([Spark SQL]({{ book.spark_sql }}/logical-operators/RunnableCommand/#run)) abstraction.
 
 `run`...FIXME
 

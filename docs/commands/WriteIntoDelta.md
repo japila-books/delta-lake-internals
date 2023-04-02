@@ -50,7 +50,7 @@ run(
 
 `run` [writes](#write) and requests the `OptimisticTransaction` to [commit](../OptimisticTransactionImpl.md#commit) (with `DeltaOperations.Write` operation with the [SaveMode](#mode), [partition columns](#partitionColumns), [replaceWhere](../options.md#replaceWhere) and [userMetadata](../options.md#userMetadata)).
 
-## <span id="write"> write
+## write
 
 ```scala
 write(
@@ -74,10 +74,12 @@ write(
 
 `write`...FIXME
 
+---
+
 `write` is used when:
 
-* [CreateDeltaTableCommand](CreateDeltaTableCommand.md) is executed
-* `WriteIntoDelta` is [executed](#run)
+* `CreateDeltaTableCommand` is requested to [run](CreateDeltaTableCommand.md#run)
+* `WriteIntoDelta` is requested to [run](#run)
 
 ## Demo
 

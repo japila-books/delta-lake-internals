@@ -316,7 +316,10 @@ nav:
       - AlterTableSetLocationDeltaCommand: commands/alter/AlterTableSetLocationDeltaCommand.md
       - SET TBLPROPERTIES: commands/alter/AlterTableSetPropertiesDeltaCommand.md
       - AlterTableUnsetPropertiesDeltaCommand: commands/alter/AlterTableUnsetPropertiesDeltaCommand.md
-    - Convert to Delta:
+    - Clone:
+      - commands/clone/index.md
+      - commands/clone/CloneTableStatement.md
+    - Convert:
       - commands/convert/index.md
       - ConvertTargetTable: commands/convert/ConvertTargetTable.md
       - ConvertToDeltaCommand: commands/convert/ConvertToDeltaCommand.md

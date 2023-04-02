@@ -70,14 +70,14 @@ hasWritten: Boolean = false
 
 `hasWritten` is initially `false` and changes to `true` after [having data written out](#writeFiles).
 
-## <span id="writeFiles"> Writing Data Out
+## Writing Data Out { #writeFiles }
 
 ```scala
 writeFiles(
   data: Dataset[_]): Seq[FileAction]  // (1)!
 writeFiles(
   data: Dataset[_],
-  writeOptions: Option[DeltaOptions]): Seq[FileAction]
+  writeOptions: Option[DeltaOptions]): Seq[FileAction]  // (3)!
 writeFiles(
   inputData: Dataset[_],
   writeOptions: Option[DeltaOptions],
@@ -89,6 +89,7 @@ writeFiles(
 
 1. Uses no `additionalConstraints`
 2. Uses no `writeOptions`
+3. Uses no `additionalConstraints`
 
 `writeFiles` writes the given `data` to a [delta table](#deltaLog) and returns [AddFile](AddFile.md)s with [AddCDCFile](AddCDCFile.md)s (from the [DelayedCommitProtocol](#writeFiles-committer)).
 
@@ -103,14 +104,10 @@ writeFiles(
 * `UpdateCommand` is requested to [rewriteFiles](commands/update/UpdateCommand.md#rewriteFiles)
 * `DeltaSink` is requested to [add a streaming micro-batch](DeltaSink.md#addBatch)
 
----
-
 `writeFiles` creates a [DeltaInvariantCheckerExec](constraints/DeltaInvariantCheckerExec.md) and a [DelayedCommitProtocol](DelayedCommitProtocol.md) to write out files to the [data path](DeltaLog.md#dataPath) (of the [DeltaLog](#deltaLog)).
 
 ??? tip "FileFormatWriter"
-    `writeFiles` uses Spark SQL's `FileFormatWriter` utility to write out a result of a streaming query.
-
-    Learn about [FileFormatWriter]({{ book.spark_sql }}/FileFormatWriter) in [The Internals of Spark SQL]({{ book.spark_sql }}) online book.
+    `writeFiles` uses `FileFormatWriter` ([Spark SQL]({{ book.spark_sql }}/FileFormatWriter)) utility to write out a result of a streaming query.
 
 `writeFiles` is executed within `SQLExecution.withNewExecutionId`.
 

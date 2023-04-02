@@ -25,6 +25,29 @@ DROP CONSTRAINT (IF EXISTS)? name
 
 Creates a [AlterTableDropConstraint](../check-constraints/AlterTableDropConstraint.md)
 
+## CLONE { #clone }
+
+```antlr
+cloneTableHeader SHALLOW CLONE source temporalClause?
+  (TBLPROPERTIES tableProps)?
+  (LOCATION location)?
+
+cloneTableHeader
+    : createTableHeader
+    | replaceTableHeader
+    ;
+
+createTableHeader
+    : CREATE TABLE (IF NOT EXISTS)? table
+    ;
+
+replaceTableHeader
+    : (CREATE OR)? REPLACE TABLE table
+    ;
+```
+
+Creates a [CloneTableStatement](../commands/clone/CloneTableStatement.md)
+
 ## <span id="CONVERT-TO-DELTA"> CONVERT TO DELTA
 
 ```text

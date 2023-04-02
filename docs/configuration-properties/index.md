@@ -384,7 +384,7 @@ Default: `true`
 Used when:
 
 * [ConvertToDeltaCommand](../commands/convert/ConvertToDeltaCommand.md) is executed
-* `TransactionalWrite` is requested to [getOptionalStatsTrackerAndStatsCollection](../TransactionalWrite.md#getOptionalStatsTrackerAndStatsCollection)
+* `TransactionalWrite` is requested to [write data out](../TransactionalWrite.md#writeFiles) (and [getOptionalStatsTrackerAndStatsCollection](../TransactionalWrite.md#getOptionalStatsTrackerAndStatsCollection))
 
 ### <span id="stats.collect.using.tableSchema"><span id="DELTA_COLLECT_STATS_USING_TABLE_SCHEMA"> stats.collect.using.tableSchema { #spark.databricks.delta.stats.collect.using.tableSchema }
 

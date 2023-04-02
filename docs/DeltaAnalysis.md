@@ -42,6 +42,19 @@ For `AppendData` ([Spark SQL]({{ book.spark_sql }}/logical-operators/AppendData)
 
 `apply`...FIXME
 
+### CloneTableStatement { #CloneTableStatement }
+
+#### resolveCloneCommand { #resolveCloneCommand }
+
+```scala
+resolveCloneCommand(
+  targetPlan: LogicalPlan,
+  sourceTbl: CloneSource,
+  statement: CloneTableStatement): LogicalPlan
+```
+
+`resolveCloneCommand`...FIXME
+
 ### <span id="DataSourceV2Relation"> DataSourceV2Relation
 
 ### <span id="DeleteFromTable"> DeleteFromTable
