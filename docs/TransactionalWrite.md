@@ -189,7 +189,7 @@ getOptionalStatsTrackerAndStatsCollection(
   partitionSchema: StructType, data: DataFrame): (Option[DeltaJobStatisticsTracker], Option[StatisticsCollection])
 ```
 
-!!! note
+??? note "Noop with spark.databricks.delta.stats.collect disabled"
     `getOptionalStatsTrackerAndStatsCollection` returns neither [DeltaJobStatisticsTracker](DeltaJobStatisticsTracker.md) nor [StatisticsCollection](StatisticsCollection.md) with [spark.databricks.delta.stats.collect](configuration-properties/index.md#DELTA_COLLECT_STATS) disabled.
 
 `getOptionalStatsTrackerAndStatsCollection` [getStatsSchema](#getStatsSchema) (for the given `output` and `partitionSchema`).

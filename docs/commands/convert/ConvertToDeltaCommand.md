@@ -1,32 +1,44 @@
 # ConvertToDeltaCommand (ConvertToDeltaCommandBase)
 
-`ConvertToDeltaCommand` is a [DeltaCommand](../DeltaCommand.md) that [converts a parquet table to delta format](#run) (_imports_ it into Delta).
+`ConvertToDeltaCommand` is a [DeltaCommand](../DeltaCommand.md) that [converts a parquet table to delta format](#run).
 
-`ConvertToDeltaCommand` is a `RunnableCommand` ([Spark SQL]({{ book.spark_sql }}/logical-operators/RunnableCommand/)).
+`ConvertToDeltaCommand` is a `LeafRunnableCommand` ([Spark SQL]({{ book.spark_sql }}/logical-operators/LeafRunnableCommand/)).
 
-`ConvertToDeltaCommand` requires that the [partition schema](#partitionSchema) matches the partitions of the [parquet table](#tableIdentifier) ([or an AnalysisException is thrown](#createAddFile-unexpectedNumPartitionColumnsFromFileNameException))
+`ConvertToDeltaCommand` requires that the [partition schema](#partitionSchema) matches the partitions of the [parquet table](#tableIdentifier) ([or an AnalysisException is thrown](#createAddFile-unexpectedNumPartitionColumnsFromFileNameException)).
+
+`ConvertToDeltaCommand` saves `collectStats` in a [Convert](../../Operation.md#Convert) operation to indicate whether [collectStats](#collectStats) and [spark.databricks.delta.stats.collect](#statsEnabled) flags were both enabled.
 
 ## Creating Instance
 
 `ConvertToDeltaCommand` takes the following to be created:
 
-* <span id="tableIdentifier"> Parquet table (`TableIdentifier`)
-* <span id="partitionSchema"> Partition schema (`Option[StructType]`)
-* <span id="deltaPath"> Delta Path (`Option[String]`)
+* <span id="tableIdentifier"> Table Identifier
+* <span id="partitionSchema"> Partition schema (optional)
+* [collectStats](#collectStats) flag
+* <span id="deltaPath"> Path of the delta table (optional)
 
 `ConvertToDeltaCommand` is created when:
 
-* [CONVERT TO DELTA](../../sql/index.md#CONVERT-TO-DELTA) statement is used (and `DeltaSqlAstBuilder` is requested to [visitConvert](../../sql/DeltaSqlAstBuilder.md#visitConvert))
-* [DeltaTable.convertToDelta](../../DeltaTable.md#convertToDelta) utility is used (and `DeltaConvert` utility is used to [executeConvert](DeltaConvert.md#executeConvert))
+* [CONVERT TO DELTA](../../sql/index.md#CONVERT-TO-DELTA) statement is used (and `DeltaSqlAstBuilder` is requested to [parse CONVERT TO DELTA statement](../../sql/DeltaSqlAstBuilder.md#visitConvert))
+* [DeltaTable.convertToDelta](../../DeltaTable.md#convertToDelta) utility is used (and `DeltaConvert` is requested to [executeConvert](DeltaConvert.md#executeConvert))
+
+### collectStats { #collectStats }
+
+`ConvertToDeltaCommand` is given `collectStats` flag when [created](#creating-instance):
+
+* Always `true` for [DeltaTable.convertToDelta](../../DeltaTable.md#convertToDelta) utility
+* Always `true` for [CONVERT TO DELTA](../../sql/index.md#CONVERT-TO-DELTA) statement unless `NO STATISTICS` clause is used
 
 ## <span id="run"> Executing Command
 
-```scala
-run(
-  spark: SparkSession): Seq[Row]
-```
+??? note "Signature"
 
-`run` is part of the `RunnableCommand` ([Spark SQL]({{ book.spark_sql }}/logical-operators/RunnableCommand/#run)) contract.
+    ```scala
+    run(
+      spark: SparkSession): Seq[Row]
+    ```
+
+    `run` is part of the `RunnableCommand` ([Spark SQL]({{ book.spark_sql }}/logical-operators/RunnableCommand/#run)) contract.
 
 `run` [creates a ConvertProperties](#getConvertProperties) from the [TableIdentifier](#tableIdentifier) (with the given `SparkSession`).
 
@@ -152,21 +164,55 @@ constructTableSchema(
 
 `constructTableSchema`...FIXME
 
+### createDeltaActions { #createDeltaActions }
+
+```scala
+createDeltaActions(
+  spark: SparkSession,
+  manifest: ConvertTargetFileManifest,
+  partitionSchema: StructType,
+  txn: OptimisticTransaction,
+  fs: FileSystem): Iterator[AddFile]
+```
+
+`createDeltaActions`...FIXME
+
+### getOperation { #getOperation }
+
+```scala
+getOperation(
+  numFilesConverted: Long,
+  convertProperties: ConvertTarget,
+  sourceFormat: String): DeltaOperations.Operation
+```
+
+`getOperation` creates a [Convert](../../Operation.md#Convert) operation.
+
+Property | Value
+---------|------
+ `numFiles` | [number of files in the target table](ConvertTargetTable.md#numFiles)
+ `partitionBy` | [partitionSchema](#partitionSchema)
+ `collectStats` | [collectStats](#collectStats) AND [spark.databricks.delta.stats.collect](#statsEnabled)
+ `catalogTable` | `CatalogTable` of the given `ConvertTarget` (if defined)
+ `sourceFormat` | The given `sourceFormat`
+
 ## <span id="ConvertToDeltaCommandBase"> ConvertToDeltaCommandBase
 
 `ConvertToDeltaCommandBase` is the base of `ConvertToDeltaCommand`-like commands with the only known implementation being `ConvertToDeltaCommand` itself.
 
 ## <span id="isCatalogTable"> isCatalogTable
 
-```scala
-isCatalogTable(
-  analyzer: Analyzer,
-  tableIdent: TableIdentifier): Boolean
-```
+??? note "Signature"
+
+    ```scala
+    isCatalogTable(
+      analyzer: Analyzer,
+      tableIdent: TableIdentifier): Boolean
+    ```
+
+    `isCatalogTable` is part of the [DeltaCommand](../DeltaCommand.md#isCatalogTable) abstraction.
 
 `isCatalogTable`...FIXME
-
-`isCatalogTable` is part of the [DeltaCommand](../DeltaCommand.md#isCatalogTable) abstraction.
 
 ## <span id="getTargetTable"> getTargetTable
 
@@ -178,6 +224,27 @@ getTargetTable(
 
 `getTargetTable`...FIXME
 
+---
+
 `getTargetTable` is used when:
 
 * `ConvertToDeltaCommandBase` is [executed](#run)
+
+## <span id="statsEnabled"> spark.databricks.delta.stats.collect { #spark.databricks.delta.stats.collect }
+
+```scala
+statsEnabled: Boolean
+```
+
+`statsEnabled` is the value of [spark.databricks.delta.stats.collect](../../configuration-properties/index.md#DELTA_COLLECT_STATS) configuration property.
+
+??? note "Lazy Value"
+    `statsEnabled` is a Scala **lazy value** to guarantee that the code to initialize it is executed once only (when accessed for the first time) and the computed value never changes afterwards.
+
+    Learn more in the [Scala Language Specification]({{ scala.spec }}/05-classes-and-objects.html#lazy).
+
+---
+
+`statsEnabled` is used when:
+
+* `ConvertToDeltaCommandBase` is requested to [createDeltaActions](#createDeltaActions) and [getOperation](#getOperation)

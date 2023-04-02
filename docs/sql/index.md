@@ -29,10 +29,11 @@ Creates a [AlterTableDropConstraint](../check-constraints/AlterTableDropConstrai
 
 ```text
 CONVERT TO DELTA table
-  (PARTITIONED BY ( colTypeList ))?
+  (NO STATISTICS)?
+  (PARTITIONED BY (colTypeList))?
 ```
 
-Executes [ConvertToDeltaCommand](../commands/convert/ConvertToDeltaCommand.md)
+Creates a [ConvertToDeltaCommand](../commands/convert/ConvertToDeltaCommand.md)
 
 ## <span id="DESCRIBE-DETAIL"> DESCRIBE DETAIL
 

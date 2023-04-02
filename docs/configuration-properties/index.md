@@ -377,13 +377,14 @@ Default: `true`
 
 **spark.databricks.delta.stats.collect**
 
-(internal) Enables statistics to be collected while writing files into a Delta table
+(internal) Enables statistics to be collected while writing files into a delta table
 
 Default: `true`
 
 Used when:
 
-* `TransactionalWrite` is requested to [writeFiles](../TransactionalWrite.md#writeFiles)
+* [ConvertToDeltaCommand](../commands/convert/ConvertToDeltaCommand.md) is executed
+* `TransactionalWrite` is requested to [getOptionalStatsTrackerAndStatsCollection](../TransactionalWrite.md#getOptionalStatsTrackerAndStatsCollection)
 
 ### <span id="stats.collect.using.tableSchema"><span id="DELTA_COLLECT_STATS_USING_TABLE_SCHEMA"> stats.collect.using.tableSchema { #spark.databricks.delta.stats.collect.using.tableSchema }
 
