@@ -4,8 +4,9 @@ CHECK (expr+)
 </code></pre></div> <p>Creates an <a href=../check-constraints/AlterTableAddConstraint/ >AlterTableAddConstraint</a></p> <h2 id=alter-table-drop-constraint><span id=ALTER-TABLE-DROP-CONSTRAINT> ALTER TABLE DROP CONSTRAINT<a class=headerlink href=#alter-table-drop-constraint title="Permanent link">&para;</a></h2> <div class=highlight><pre><span></span><code>ALTER TABLE table
 DROP CONSTRAINT (IF EXISTS)? name
 </code></pre></div> <p>Creates a <a href=../check-constraints/AlterTableDropConstraint/ >AlterTableDropConstraint</a></p> <h2 id=convert-to-delta><span id=CONVERT-TO-DELTA> CONVERT TO DELTA<a class=headerlink href=#convert-to-delta title="Permanent link">&para;</a></h2> <div class=highlight><pre><span></span><code>CONVERT TO DELTA table
-  (PARTITIONED BY ( colTypeList ))?
-</code></pre></div> <p>Executes <a href=../commands/convert/ConvertToDeltaCommand/ >ConvertToDeltaCommand</a></p> <h2 id=describe-detail><span id=DESCRIBE-DETAIL> DESCRIBE DETAIL<a class=headerlink href=#describe-detail title="Permanent link">&para;</a></h2> <div class=highlight><pre><span></span><code>(DESC | DESCRIBE) DETAIL (path | table)
+  (NO STATISTICS)?
+  (PARTITIONED BY (colTypeList))?
+</code></pre></div> <p>Creates a <a href=../commands/convert/ConvertToDeltaCommand/ >ConvertToDeltaCommand</a></p> <h2 id=describe-detail><span id=DESCRIBE-DETAIL> DESCRIBE DETAIL<a class=headerlink href=#describe-detail title="Permanent link">&para;</a></h2> <div class=highlight><pre><span></span><code>(DESC | DESCRIBE) DETAIL (path | table)
 </code></pre></div> <p>Executes <a href=../commands/describe-detail/DescribeDeltaDetailCommand/ >DescribeDeltaDetailCommand</a></p> <h2 id=describe-history><span id=DESCRIBE-HISTORY> DESCRIBE HISTORY<a class=headerlink href=#describe-history title="Permanent link">&para;</a></h2> <div class=highlight><pre><span></span><code>(DESC | DESCRIBE) HISTORY (path | table)
   (LIMIT limit)?
 </code></pre></div> <p>Executes <a href=../commands/describe-history/DescribeDeltaHistoryCommand/ >DescribeDeltaHistoryCommand</a></p> <h2 id=generate><span id=GENERATE> GENERATE<a class=headerlink href=#generate title="Permanent link">&para;</a></h2> <div class=highlight><pre><span></span><code>GENERATE modeName FOR TABLE table
