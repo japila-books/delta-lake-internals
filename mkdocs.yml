@@ -318,11 +318,16 @@ nav:
       - AlterTableUnsetPropertiesDeltaCommand: commands/alter/AlterTableUnsetPropertiesDeltaCommand.md
     - Clone:
       - commands/clone/index.md
+      - commands/clone/CloneDeltaSource.md
+      - commands/clone/CloneParquetSource.md
+      - commands/clone/CloneSource.md
+      - commands/clone/CloneTableBase.md
       - commands/clone/CloneTableStatement.md
     - Convert:
       - commands/convert/index.md
       - ConvertTargetTable: commands/convert/ConvertTargetTable.md
       - ConvertToDeltaCommand: commands/convert/ConvertToDeltaCommand.md
+      - ConvertToDeltaCommandUtils: commands/convert/ConvertToDeltaCommandUtils.md
       - DeltaConvert: commands/convert/DeltaConvert.md
       - FileManifest: commands/convert/FileManifest.md
       - ManualListingFileManifest: commands/convert/ManualListingFileManifest.md

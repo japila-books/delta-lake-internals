@@ -1,0 +1,3 @@
+# ShowCountStarDeltaTable
+
+`ShowCountStarDeltaTable` is...FIXME

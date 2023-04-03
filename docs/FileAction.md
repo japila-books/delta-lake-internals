@@ -39,11 +39,20 @@ numLogicalRecords: Option[Long]
 Always `None`:
 
 * [AddCDCFile](AddCDCFile.md#numLogicalRecords)
-* [RemoveFile](RemoveFile.md#numLogicalRecords)
 
 See:
 
 * [AddFile](AddFile.md#numLogicalRecords)
+* [RemoveFile](RemoveFile.md#numLogicalRecords)
+
+Used when:
+
+* `DeleteCommandMetrics` is requested to [getDeletedRowsFromAddFilesAndUpdateMetrics](commands/delete/DeleteCommandMetrics.md#getDeletedRowsFromAddFilesAndUpdateMetrics)
+* `TouchedFileWithDV` is requested to `isFullyReplaced`
+* `MergeIntoCommand` is requested to [writeInsertsOnlyWhenNoMatchedClauses](commands/merge/MergeIntoCommand.md#writeInsertsOnlyWhenNoMatchedClauses)
+* `WriteIntoDelta` is requested to [registerReplaceWhereMetrics](commands/WriteIntoDelta.md#registerReplaceWhereMetrics)
+* `TransactionalWrite` is requested to [writeFiles](TransactionalWrite.md#writeFiles)
+* `OptimizeMetadataOnlyDeltaQuery` is requested to [extractGlobalCount](data-skipping/OptimizeMetadataOnlyDeltaQuery.md#extractGlobalCount)
 
 ### <span id="partitionValues"> Partition Values
 

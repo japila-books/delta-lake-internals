@@ -13,14 +13,20 @@
 * <span id="dataChange"> `dataChange` flag
 * [File Statistics](#stats)
 * <span id="tags"> Tags (`Map[String, String]`) (default: `null`)
+* <span id="deletionVector"> `DeletionVectorDescriptor`
 
 `AddFile` is created when:
 
-* [ConvertToDeltaCommand](commands/convert/ConvertToDeltaCommand.md) is executed (for [every data file to import](commands/convert/ConvertToDeltaCommand.md#createAddFile))
-
-* `DelayedCommitProtocol` is requested to [commit a task (after successful write)](DelayedCommitProtocol.md#commitTask) (for [optimistic transactional writers](TransactionalWrite.md))
+* `ConvertToDeltaCommandUtils` is requested to [createAddFile](commands/convert/ConvertToDeltaCommandUtils.md#createAddFile)
+* `DelayedCommitProtocol` is requested to [buildActionFromAddedFile](DelayedCommitProtocol.md#buildActionFromAddedFile)
+* `TahoeChangeFileIndex` is requested to `matchingFiles`
+* `TahoeRemoveFileIndex` is requested to [matchingFiles](change-data-feed/TahoeRemoveFileIndex.md#matchingFiles)
 
 ### <span id="stats"> File Statistics
+
+```scala
+stats: String
+```
 
 `AddFile` can be given a JSON-encoded file statistics when [created](#creating-instance).
 
@@ -28,8 +34,43 @@ The statistics are undefined (`null`) by default.
 
 The statistics can be defined when:
 
+* `ConvertToDeltaCommandUtils` is requested to [computeStats](commands/convert/ConvertToDeltaCommandUtils.md#computeStats)
 * `TransactionalWrite` is requested to [write data out](TransactionalWrite.md#writeFiles) (and [spark.databricks.delta.stats.collect](configuration-properties/DeltaSQLConf.md#DELTA_COLLECT_STATS) configuration property is enabled)
-* `StatisticsCollection` utility is used to [recompute statistics for a delta table](StatisticsCollection.md#recompute) (that _seems_ unused though)
+* `StatisticsCollection` is requested to [recompute statistics for a delta table](StatisticsCollection.md#recompute) (_seems_ to be used for testing only)
+
+`stats` is used when:
+
+* `AddFile` is requested for [parsedStatsFields](#parsedStatsFields)
+
+## numLogicalRecords { #numLogicalRecords }
+
+??? note "Signature"
+
+    ```scala
+    numLogicalRecords: Option[Long]
+    ```
+
+    `numLogicalRecords` is part of the [FileAction](FileAction.md#numLogicalRecords) abstraction.
+
+`numLogicalRecords` is `numLogicalRecords` from the [parsedStatsFields](#parsedStatsFields), if available.
+
+??? note "Lazy Value"
+    `numLogicalRecords` is a Scala **lazy value** to guarantee that the code to initialize it is executed once only (when accessed for the first time) and the computed value never changes afterwards.
+
+    Learn more in the [Scala Language Specification]({{ scala.spec }}/05-classes-and-objects.html#lazy).
+
+### parsedStatsFields { #parsedStatsFields }
+
+```scala
+parsedStatsFields: Option[ParsedStatsFields]
+```
+
+`parsedStatsFields` takes the value of `numRecords` in the [stats](#stats), if available, minus the [numDeletedRecords](#numDeletedRecords).
+
+??? note "Lazy Value"
+    `parsedStatsFields` is a Scala **lazy value** to guarantee that the code to initialize it is executed once only (when accessed for the first time) and the computed value never changes afterwards.
+
+    Learn more in the [Scala Language Specification]({{ scala.spec }}/05-classes-and-objects.html#lazy).
 
 ## <span id="wrap"> Converting to SingleAction
 

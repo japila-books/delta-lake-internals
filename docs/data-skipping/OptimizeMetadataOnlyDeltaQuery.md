@@ -43,3 +43,19 @@ optimizeQueryWithMetadata(
 `optimizeQueryWithMetadata` is used when:
 
 * `PrepareDeltaScanBase` logical optimization is requested to [execute](PrepareDeltaScanBase.md#apply)
+
+## extractGlobalCount { #extractGlobalCount }
+
+```scala
+extractGlobalCount(
+  tahoeLogFileIndex: TahoeLogFileIndex): Option[Long]
+```
+
+`extractGlobalCount`...FIXME
+
+---
+
+`extractGlobalCount` is used when:
+
+* `CountStarDeltaTable` is requested to [destruct Aggregate logical operator](CountStarDeltaTable.md#unapply)
+* `ShowCountStarDeltaTable` is requested to [destruct Aggregate logical operator](ShowCountStarDeltaTable.md#unapply)

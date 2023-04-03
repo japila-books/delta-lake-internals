@@ -1,0 +1,3 @@
+# CloneTableBase
+
+`CloneTableBase` is...FIXME
