@@ -476,17 +476,12 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://books.japila.pl/delta-lake-internals/options/</loc>
+         <loc>https://books.japila.pl/delta-lake-internals/logging/</loc>
          <lastmod>2023-04-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/overview/</loc>
-         <lastmod>2023-04-03</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://books.japila.pl/delta-lake-internals/spark-logging/</loc>
          <lastmod>2023-04-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -1287,6 +1282,11 @@
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/limit-pushdown/</loc>
+         <lastmod>2023-04-03</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://books.japila.pl/delta-lake-internals/options/</loc>
          <lastmod>2023-04-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
