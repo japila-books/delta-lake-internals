@@ -25,6 +25,9 @@
 
 `DelayedCommitProtocol` is given a job ID that is always `delta`.
 
+??? note "Unused"
+    The Job ID does not seem to be used.
+
 ### <span id="path"> Data Path
 
 `DelayedCommitProtocol` is given a `path` when [created](#creating-instance).
@@ -93,67 +96,47 @@ changeFiles: ArrayBuffer[AddCDCFile]
 * `DelayedCommitProtocol` is requested to [commit a job](#commitJob) (on a driver)
 * `TransactionalWrite` is requested to [write out a structured query](TransactionalWrite.md#writeFiles)
 
-## <span id="setupJob"> Setting Up Job
+## Committing Job { #commitJob }
 
-```scala
-setupJob(
-  jobContext: JobContext): Unit
-```
+??? note "Signature"
 
-`setupJob` is part of the `FileCommitProtocol` ([Apache Spark]({{ book.spark_core }}/FileCommitProtocol#setupJob)) abstraction.
+    ```scala
+    commitJob(
+      jobContext: JobContext,
+      taskCommits: Seq[TaskCommitMessage]): Unit
+    ```
 
-`setupJob` is a noop.
-
-## <span id="commitJob"> Committing Job
-
-```scala
-commitJob(
-  jobContext: JobContext,
-  taskCommits: Seq[TaskCommitMessage]): Unit
-```
-
-`commitJob` is part of the `FileCommitProtocol` ([Apache Spark]({{ book.spark_core }}/FileCommitProtocol#commitJob)) abstraction.
-
----
+    `commitJob` is part of the `FileCommitProtocol` ([Apache Spark]({{ book.spark_core }}/FileCommitProtocol#commitJob)) abstraction.
 
 `commitJob` partitions the given `TaskCommitMessage`s into a collection of [AddFile](AddFile.md)s and [AddCDCFile](AddCDCFile.md)s.
 
 In the end, `commitJob` adds the `AddFile`s to [addedStatuses](#addedStatuses) registry while the `AddCDCFile`s to the [changeFiles](#changeFiles).
 
-## <span id="abortJob"> Aborting Job
+## Setting Up Task { #setupTask }
 
-```scala
-abortJob(
-  jobContext: JobContext): Unit
-```
+??? note "FileCommitProtocol"
 
-`abortJob` is part of the `FileCommitProtocol` ([Apache Spark]({{ book.spark_core }}/FileCommitProtocol#abortJob)) abstraction.
+    ```scala
+    setupTask(
+      taskContext: TaskAttemptContext): Unit
+    ```
 
-`abortJob` is a noop.
-
-## <span id="setupTask"> Setting Up Task
-
-```scala
-setupTask(
-  taskContext: TaskAttemptContext): Unit
-```
-
-`setupTask` is part of the `FileCommitProtocol` ([Apache Spark]({{ book.spark_core }}/FileCommitProtocol#setupTask)) abstraction.
+    `setupTask` is part of the `FileCommitProtocol` ([Apache Spark]({{ book.spark_core }}/FileCommitProtocol#setupTask)) abstraction.
 
 `setupTask` initializes the [addedFiles](#addedFiles) internal registry to be empty.
 
 ## <span id="newTaskTempFile"> New Temp File
 
-```scala
-newTaskTempFile(
-  taskContext: TaskAttemptContext,
-  dir: Option[String],
-  ext: String): String
-```
+??? note "FileCommitProtocol"
 
-`newTaskTempFile` is part of the `FileCommitProtocol` ([Apache Spark]({{ book.spark_core }}/FileCommitProtocol#newTaskTempFile)) abstraction.
+    ```scala
+    newTaskTempFile(
+      taskContext: TaskAttemptContext,
+      dir: Option[String],
+      ext: String): String
+    ```
 
----
+    `newTaskTempFile` is part of the `FileCommitProtocol` ([Apache Spark]({{ book.spark_core }}/FileCommitProtocol#newTaskTempFile)) abstraction.
 
 !!! note
     The given `dir` defines a partition directory if a query is written out to a partitioned table.
@@ -214,33 +197,16 @@ The file name is created as follows:
 1. The `split` part is the task ID from the given `TaskAttemptContext` ([Apache Hadoop]({{ hadoop.api }}/org/apache/hadoop/mapreduce/TaskAttemptContext.html))
 1. The `uuid` part is a random UUID
 
-## <span id="newTaskTempFileAbsPath"> New Temp File (Absolute Path)
-
-```scala
-newTaskTempFileAbsPath(
-  taskContext: TaskAttemptContext,
-  absoluteDir: String,
-  ext: String): String
-```
-
-`newTaskTempFileAbsPath` is part of the `FileCommitProtocol` ([Apache Spark]({{ book.spark_core }}/FileCommitProtocol#newTaskTempFileAbsPath)) abstraction.
-
-`newTaskTempFileAbsPath` throws an `UnsupportedOperationException`:
-
-```text
-[this] does not support adding files with an absolute path
-```
-
 ## <span id="commitTask"> Committing Task
 
-```scala
-commitTask(
-  taskContext: TaskAttemptContext): TaskCommitMessage
-```
+??? note "FileCommitProtocol"
 
-`commitTask` is part of the `FileCommitProtocol` ([Apache Spark]({{ book.spark_core }}/FileCommitProtocol#commitTask)) abstraction.
+    ```scala
+    commitTask(
+      taskContext: TaskAttemptContext): TaskCommitMessage
+    ```
 
----
+    `commitTask` is part of the `FileCommitProtocol` ([Apache Spark]({{ book.spark_core }}/FileCommitProtocol#commitTask)) abstraction.
 
 `commitTask` creates a `TaskCommitMessage` with a [FileAction](#buildActionFromAddedFile) (a [AddCDCFile](AddCDCFile.md) or a [AddFile](AddFile.md)) for every [file added](#addedFiles) (if [there were any added successfully](#newTaskTempFile)). Otherwise, `commitTask` creates an empty `TaskCommitMessage`.
 
@@ -261,16 +227,63 @@ buildActionFromAddedFile(
 * [AddCDCFile](AddCDCFile.md)s for [__is_cdc=true](change-data-feed/CDCReader.md#CDC_PARTITION_COL) partition files
 * [AddFile](AddFile.md)s otherwise
 
-## <span id="abortTask"> Aborting Task
+## Aborting Job { #abortJob }
 
-```scala
-abortTask(
-  taskContext: TaskAttemptContext): Unit
+??? note "FileCommitProtocol"
+
+    ```scala
+    abortJob(
+      jobContext: JobContext): Unit
+    ```
+
+    `abortJob` is part of the `FileCommitProtocol` ([Apache Spark]({{ book.spark_core }}/FileCommitProtocol#abortJob)) abstraction.
+
+`abortJob` does nothing (is a noop).
+
+## Aborting Task { #abortTask }
+
+??? note "FileCommitProtocol"
+
+    ```scala
+    abortTask(
+      taskContext: TaskAttemptContext): Unit
+    ```
+
+    `abortTask` is part of the `FileCommitProtocol` ([Apache Spark]({{ book.spark_core }}/FileCommitProtocol#abortTask)) abstraction.
+
+`abortTask` does nothing (is a noop).
+
+## Setting Up Job { #setupJob }
+
+??? note "FileCommitProtocol"
+
+    ```scala
+    setupJob(
+      jobContext: JobContext): Unit
+    ```
+
+    `setupJob` is part of the `FileCommitProtocol` ([Apache Spark]({{ book.spark_core }}/FileCommitProtocol#setupJob)) abstraction.
+
+`setupJob` does nothing (is a noop).
+
+## <span id="newTaskTempFileAbsPath"> New Temp File (Absolute Path)
+
+??? note "FileCommitProtocol"
+
+    ```scala
+    newTaskTempFileAbsPath(
+      taskContext: TaskAttemptContext,
+      absoluteDir: String,
+      ext: String): String
+    ```
+
+    `newTaskTempFileAbsPath` is part of the `FileCommitProtocol` ([Apache Spark]({{ book.spark_core }}/FileCommitProtocol#newTaskTempFileAbsPath)) abstraction.
+
+`newTaskTempFileAbsPath` throws an `UnsupportedOperationException`:
+
+```text
+[this] does not support adding files with an absolute path
 ```
-
-`abortTask` is part of the `FileCommitProtocol` ([Apache Spark]({{ book.spark_core }}/FileCommitProtocol#abortTask)) abstraction.
-
-`abortTask` is a noop.
 
 ## Logging
 
@@ -282,4 +295,4 @@ Add the following line to `conf/log4j.properties`:
 log4j.logger.org.apache.spark.sql.delta.files.DelayedCommitProtocol=ALL
 ```
 
-Refer to [Logging](spark-logging.md).
+Refer to [Logging](logging.md).

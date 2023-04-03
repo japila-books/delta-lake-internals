@@ -23,7 +23,7 @@ In the end, `getCDCFileChangesAndCreateDataFrame` returns the `DataFrame` with t
 
 `getCDCFileChangesAndCreateDataFrame` is used when:
 
-* `DeltaSourceBase` is requested to [createDataFrameBetweenOffsets](../DeltaSourceBase.md#createDataFrameBetweenOffsets) (and to [getFileChangesAndCreateDataFrame](../DeltaSourceBase.md#getFileChangesAndCreateDataFrame)) for `DeltaSource` for a [streaming DataFrame (with data between the start and end offsets)](../DeltaSource.md#getBatch) with the [readChangeFeed](../options.md#readChangeFeed) option enabled
+* `DeltaSourceBase` is requested to [createDataFrameBetweenOffsets](../DeltaSourceBase.md#createDataFrameBetweenOffsets) (and to [getFileChangesAndCreateDataFrame](../DeltaSourceBase.md#getFileChangesAndCreateDataFrame)) for `DeltaSource` for a [streaming DataFrame (with data between the start and end offsets)](../DeltaSource.md#getBatch) with the [readChangeFeed](../options/index.md#readChangeFeed) option enabled
 
 ## <span id="getFileChangesForCDC"> getFileChangesForCDC
 
@@ -75,7 +75,7 @@ filterAndIndexDeltaLogs(
 
 `filterAndIndexDeltaLogs` requests the [DeltaLog](../DeltaSource.md#deltaLog) to [get the changes](../DeltaLog.md#getChanges) at the given `startVersion` version and on (`Iterator[(Long, Seq[Action])]`).
 
-`filterAndIndexDeltaLogs` uses [failOnDataLoss](../options.md#failOnDataLoss) option to get the changes.
+`filterAndIndexDeltaLogs` uses [failOnDataLoss](../options/index.md#failOnDataLoss) option to get the changes.
 
 `filterAndIndexDeltaLogs` [filterCDCActions](#filterCDCActions) (across the actions across all the versions) and converts the [AddFile](../AddFile.md)s, [AddCDCFile](../AddCDCFile.md)s and [RemoveFile](../RemoveFile.md)s to `IndexedFile`s.
 

@@ -193,4 +193,4 @@ Add the following line to `conf/log4j.properties`:
 log4j.logger.org.apache.spark.sql.delta.commands.AlterTableAddConstraintDeltaCommand=ALL
 ```
 
-Refer to [Logging](../../spark-logging.md).
+Refer to [Logging](../../logging.md).

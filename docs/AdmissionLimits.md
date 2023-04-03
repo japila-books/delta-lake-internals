@@ -6,8 +6,8 @@
 
 `AdmissionLimits` takes the following to be created:
 
-* <span id="maxFiles"> Maximum Number of Files (based on [maxFilesPerTrigger](options.md#maxFilesPerTrigger) option)
-* <span id="bytesToTake"> Maximum Bytes (based on [maxBytesPerTrigger](options.md#maxBytesPerTrigger) option)
+* <span id="maxFiles"> Maximum Number of Files (based on [maxFilesPerTrigger](options/index.md#maxFilesPerTrigger) option)
+* <span id="bytesToTake"> Maximum Bytes (based on [maxBytesPerTrigger](options/index.md#maxBytesPerTrigger) option)
 
 `AdmissionLimits` is created when:
 

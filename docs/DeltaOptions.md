@@ -41,3 +41,7 @@ verifyOptions(
 ## <span id="Serializable"> Serializable
 
 `DeltaOptions` is a `Serializable` ([Java]({{ java.api }}/java/io/Serializable.html)) (so it can be used in Spark tasks).
+
+## <span id="MAX_RECORDS_PER_FILE"> maxRecordsPerFile { #maxRecordsPerFile }
+
+[maxRecordsPerFile](options/index.md#maxRecordsPerFile)

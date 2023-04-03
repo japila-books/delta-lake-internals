@@ -175,6 +175,7 @@ nav:
     - installation.md
     - LIMIT Pushdown:
       - limit-pushdown/index.md
+    - Logging: logging.md
     - Table Constraints:
       - constraints/index.md
       - CheckDeltaInvariant: constraints/CheckDeltaInvariant.md
@@ -200,6 +201,7 @@ nav:
       - RemoveFile: RemoveFile.md
       - SetTransaction: SetTransaction.md
       - SingleAction: SingleAction.md
+    - DelayedCommitProtocol.md
     - DeltaConfig: DeltaConfig.md
     - DeltaConfigs: DeltaConfigs.md
     - DeltaTableIdentifier: DeltaTableIdentifier.md
@@ -220,7 +222,6 @@ nav:
       - OptimisticTransaction: OptimisticTransaction.md
       - OptimisticTransactionImpl: OptimisticTransactionImpl.md
       - TransactionalWrite: TransactionalWrite.md
-      - DelayedCommitProtocol: DelayedCommitProtocol.md
       - IsolationLevel: IsolationLevel.md
       - Post-Commit Hooks:
         - PostCommitHook: PostCommitHook.md
@@ -264,7 +265,7 @@ nav:
   - Delta Data Source:
     - DeltaDataSource: DeltaDataSource.md
     - Options:
-      - Options: options.md
+      - options/index.md
       - DeltaOptions: DeltaOptions.md
       - DeltaOptionParser: DeltaOptionParser.md
       - DeltaReadOptions: DeltaReadOptions.md
@@ -432,7 +433,6 @@ nav:
   - Monitoring:
     - DeltaProgressReporter: DeltaProgressReporter.md
     - DeltaLogging: DeltaLogging.md
-    - Logging: spark-logging.md
     - SQLMetricsReporting: SQLMetricsReporting.md
   - Contenders:
     - Contenders: contenders/index.md

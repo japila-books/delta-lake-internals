@@ -23,7 +23,7 @@ dataChange Value | When
 -----------------|---------
  `false` | `InMemoryLogReplay` is requested to [replay a version](InMemoryLogReplay.md#append)
  `true` | [ConvertToDeltaCommand](commands/convert/ConvertToDeltaCommand.md) is executed (and requested to [create an AddFile](commands/convert/ConvertToDeltaCommand.md#createAddFile) with the flag turned on)
- Opposite of [dataChange](options.md#dataChange) option | `WriteIntoDelta` is requested to [write](commands/WriteIntoDelta.md#write) (with [dataChange](options.md#dataChange) option turned off for rearrange-only writes)
+ Opposite of [dataChange](options/index.md#dataChange) option | `WriteIntoDelta` is requested to [write](commands/WriteIntoDelta.md#write) (with [dataChange](options/index.md#dataChange) option turned off for rearrange-only writes)
 
 `dataChange` is used when:
 

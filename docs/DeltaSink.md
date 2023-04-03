@@ -7,7 +7,7 @@
 `DeltaSink` takes the following to be created:
 
 * <span id="sqlContext"> `SQLContext`
-* <span id="path"> Hadoop [Path]({{ hadoop.api }}/org/apache/hadoop/fs/Path.html) of the delta table (to [write data to](#addBatch) as configured by the [path](options.md#path) option)
+* <span id="path"> Hadoop [Path]({{ hadoop.api }}/org/apache/hadoop/fs/Path.html) of the delta table (to [write data to](#addBatch) as configured by the [path](options/index.md#path) option)
 * <span id="partitionColumns"> Partition columns
 * <span id="outputMode"> `OutputMode` ([Spark Structured Streaming]({{ book.structured_streaming }}/OutputMode))
 * <span id="options"> [DeltaOptions](DeltaOptions.md)

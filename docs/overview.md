@@ -45,7 +45,7 @@ Delta Lake provides the following [Developer APIs](developer-api.md) for develop
 
 Delta Lake supports batch and streaming queries (Spark SQL and Structured Streaming, respectively) using [delta](DeltaDataSource.md#DataSourceRegister) format.
 
-In order to fine tune queries over data in Delta Lake use [options](options.md).
+In order to fine tune queries over data in Delta Lake use [options](options/index.md).
 
 Structured queries can write (transactionally) to a delta table using the following interfaces:
 

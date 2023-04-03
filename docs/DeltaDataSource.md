@@ -267,8 +267,8 @@ getTimeTravelVersion(
 
 `getTimeTravelVersion` reads the following options (from the given `parameters`):
 
-* [timestampAsOf](options.md#TIME_TRAVEL_TIMESTAMP_KEY)
-* [versionAsOf](options.md#TIME_TRAVEL_VERSION_KEY)
+* [timestampAsOf](options/index.md#TIME_TRAVEL_TIMESTAMP_KEY)
+* [versionAsOf](options/index.md#TIME_TRAVEL_VERSION_KEY)
 * `__time_travel_source__`
 
 `getTimeTravelVersion` creates a [DeltaTimeTravelSpec](time-travel/DeltaTimeTravelSpec.md) if either `timestampAsOf` or `versionAsOf` is defined. The `DeltaTimeTravelSpec` is created with the [creationSource](#creationSource) based on `__time_travel_source__` (if specified) or defaults to `dfReader`.

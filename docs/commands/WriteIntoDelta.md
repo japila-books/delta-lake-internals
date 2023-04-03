@@ -48,7 +48,7 @@ run(
 
 `run` requests the [DeltaLog](#deltaLog) to [start a new transaction](../DeltaLog.md#withNewTransaction).
 
-`run` [writes](#write) and requests the `OptimisticTransaction` to [commit](../OptimisticTransactionImpl.md#commit) (with `DeltaOperations.Write` operation with the [SaveMode](#mode), [partition columns](#partitionColumns), [replaceWhere](../options.md#replaceWhere) and [userMetadata](../options.md#userMetadata)).
+`run` [writes](#write) and requests the `OptimisticTransaction` to [commit](../OptimisticTransactionImpl.md#commit) (with `DeltaOperations.Write` operation with the [SaveMode](#mode), [partition columns](#partitionColumns), [replaceWhere](../options/index.md#replaceWhere) and [userMetadata](../options/index.md#userMetadata)).
 
 ## write
 
@@ -143,4 +143,4 @@ extractConstraints(
 
 `extractConstraints` is used when:
 
-* `WriteIntoDelta` is requested to [write data out](#write) (with `SaveMode.Overwrite` mode with [replaceWhere](../options.md#replaceWhere) option)
+* `WriteIntoDelta` is requested to [write data out](#write) (with `SaveMode.Overwrite` mode with [replaceWhere](../options/index.md#replaceWhere) option)
