@@ -21,11 +21,6 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://books.japila.pl/delta-lake-internals/AdmissionLimits/</loc>
-         <lastmod>2023-04-03</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://books.japila.pl/delta-lake-internals/AppendDelta/</loc>
          <lastmod>2023-04-03</lastmod>
          <changefreq>daily</changefreq>
@@ -91,11 +86,6 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://books.japila.pl/delta-lake-internals/DeltaDataSource/</loc>
-         <lastmod>2023-04-03</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://books.japila.pl/delta-lake-internals/DeltaErrors/</loc>
          <lastmod>2023-04-03</lastmod>
          <changefreq>daily</changefreq>
@@ -141,16 +131,6 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://books.japila.pl/delta-lake-internals/DeltaOptionParser/</loc>
-         <lastmod>2023-04-03</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://books.japila.pl/delta-lake-internals/DeltaOptions/</loc>
-         <lastmod>2023-04-03</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://books.japila.pl/delta-lake-internals/DeltaParquetFileFormat/</loc>
          <lastmod>2023-04-03</lastmod>
          <changefreq>daily</changefreq>
@@ -161,42 +141,7 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://books.japila.pl/delta-lake-internals/DeltaReadOptions/</loc>
-         <lastmod>2023-04-03</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://books.japila.pl/delta-lake-internals/DeltaRelation/</loc>
-         <lastmod>2023-04-03</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://books.japila.pl/delta-lake-internals/DeltaSink/</loc>
-         <lastmod>2023-04-03</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://books.japila.pl/delta-lake-internals/DeltaSource/</loc>
-         <lastmod>2023-04-03</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://books.japila.pl/delta-lake-internals/DeltaSourceBase/</loc>
-         <lastmod>2023-04-03</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://books.japila.pl/delta-lake-internals/DeltaSourceOffset/</loc>
-         <lastmod>2023-04-03</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://books.japila.pl/delta-lake-internals/DeltaSourceSnapshot/</loc>
-         <lastmod>2023-04-03</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://books.japila.pl/delta-lake-internals/DeltaSourceUtils/</loc>
          <lastmod>2023-04-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -237,16 +182,6 @@
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/DeltaUnsupportedOperationsCheck/</loc>
-         <lastmod>2023-04-03</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://books.japila.pl/delta-lake-internals/DeltaWriteOptions/</loc>
-         <lastmod>2023-04-03</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://books.japila.pl/delta-lake-internals/DeltaWriteOptionsImpl/</loc>
          <lastmod>2023-04-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -402,11 +337,6 @@
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/SnapshotDescriptor/</loc>
-         <lastmod>2023-04-03</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://books.japila.pl/delta-lake-internals/SnapshotIterator/</loc>
          <lastmod>2023-04-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -1121,6 +1051,86 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://books.japila.pl/delta-lake-internals/delta/</loc>
+         <lastmod>2023-04-03</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://books.japila.pl/delta-lake-internals/delta/AdmissionLimits/</loc>
+         <lastmod>2023-04-03</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://books.japila.pl/delta-lake-internals/delta/DeltaDataSource/</loc>
+         <lastmod>2023-04-03</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://books.japila.pl/delta-lake-internals/delta/DeltaOptionParser/</loc>
+         <lastmod>2023-04-03</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://books.japila.pl/delta-lake-internals/delta/DeltaOptions/</loc>
+         <lastmod>2023-04-03</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://books.japila.pl/delta-lake-internals/delta/DeltaReadOptions/</loc>
+         <lastmod>2023-04-03</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://books.japila.pl/delta-lake-internals/delta/DeltaSink/</loc>
+         <lastmod>2023-04-03</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://books.japila.pl/delta-lake-internals/delta/DeltaSource/</loc>
+         <lastmod>2023-04-03</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://books.japila.pl/delta-lake-internals/delta/DeltaSourceBase/</loc>
+         <lastmod>2023-04-03</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://books.japila.pl/delta-lake-internals/delta/DeltaSourceOffset/</loc>
+         <lastmod>2023-04-03</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://books.japila.pl/delta-lake-internals/delta/DeltaSourceSnapshot/</loc>
+         <lastmod>2023-04-03</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://books.japila.pl/delta-lake-internals/delta/DeltaSourceUtils/</loc>
+         <lastmod>2023-04-03</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://books.japila.pl/delta-lake-internals/delta/DeltaWriteOptions/</loc>
+         <lastmod>2023-04-03</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://books.japila.pl/delta-lake-internals/delta/DeltaWriteOptionsImpl/</loc>
+         <lastmod>2023-04-03</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://books.japila.pl/delta-lake-internals/delta/SnapshotIterator/</loc>
+         <lastmod>2023-04-03</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://books.japila.pl/delta-lake-internals/delta/options/</loc>
+         <lastmod>2023-04-03</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://books.japila.pl/delta-lake-internals/demo/</loc>
          <lastmod>2023-04-03</lastmod>
          <changefreq>daily</changefreq>
@@ -1282,11 +1292,6 @@
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/limit-pushdown/</loc>
-         <lastmod>2023-04-03</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://books.japila.pl/delta-lake-internals/options/</loc>
          <lastmod>2023-04-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
