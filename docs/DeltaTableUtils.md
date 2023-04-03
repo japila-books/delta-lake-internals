@@ -14,7 +14,7 @@ extractIfPathContainsTimeTravel(
 
 `extractIfPathContainsTimeTravel` is used when:
 
-* `DeltaDataSource` is requested to [sourceSchema](DeltaDataSource.md#sourceSchema) and [parsePathIdentifier](DeltaDataSource.md#parsePathIdentifier)
+* `DeltaDataSource` is requested to [sourceSchema](delta/DeltaDataSource.md#sourceSchema) and [parsePathIdentifier](delta/DeltaDataSource.md#parsePathIdentifier)
 
 ## <span id="findDeltaTableRoot"> findDeltaTableRoot
 
@@ -34,7 +34,7 @@ For `_delta_log` or `_samples` directories, `findDeltaTableRoot` returns the par
 * [DeltaTable.isDeltaTable](DeltaTable.md#isDeltaTable) utility is used
 * [VacuumTableCommand](commands/vacuum/VacuumTableCommand.md) is executed
 * `DeltaTableUtils` utility is used to [isDeltaTable](#isDeltaTable)
-* `DeltaDataSource` utility is used to [parsePathIdentifier](DeltaDataSource.md#parsePathIdentifier)
+* `DeltaDataSource` utility is used to [parsePathIdentifier](delta/DeltaDataSource.md#parsePathIdentifier)
 
 ## <span id="isPredicatePartitionColumnsOnly"> isPredicatePartitionColumnsOnly
 
@@ -51,7 +51,7 @@ isPredicatePartitionColumnsOnly(
 
 * `DeltaTableUtils` is used to [isPredicateMetadataOnly](#isPredicateMetadataOnly)
 * `OptimisticTransactionImpl` is requested for the [filterFiles](OptimisticTransactionImpl.md#filterFiles)
-* `DeltaSourceSnapshot` is requested for the [partition](DeltaSourceSnapshot.md#partitionFilters) and [data](DeltaSourceSnapshot.md#dataFilters) filters
+* `DeltaSourceSnapshot` is requested for the [partition](delta/DeltaSourceSnapshot.md#partitionFilters) and [data](delta/DeltaSourceSnapshot.md#dataFilters) filters
 
 ## <span id="isDeltaTable"> isDeltaTable
 

@@ -94,7 +94,7 @@ remove: RemoveFile
 
 * [MergeIntoCommand](commands/merge/MergeIntoCommand.md) is executed
 * `WriteIntoDelta` is requested to [write](commands/WriteIntoDelta.md#write) (with `Overwrite` mode)
-* `DeltaSink` is requested to [add a streaming micro-batch](DeltaSink.md#addBatch) (with `Complete` output mode)
+* `DeltaSink` is requested to [add a streaming micro-batch](delta/DeltaSink.md#addBatch) (with `Complete` output mode)
 
 ## <span id="removeWithTimestamp"> Converting to RemoveFile
 

@@ -2,7 +2,7 @@
 
 `DeltaOptions` is a type-safe abstraction of the supported [write](DeltaWriteOptions.md) and [read](DeltaReadOptions.md) options.
 
-`DeltaOptions` is used to create [WriteIntoDelta](commands/WriteIntoDelta.md) command, [DeltaSink](DeltaSink.md), and [DeltaSource](DeltaSource.md).
+`DeltaOptions` is used to create [WriteIntoDelta](../commands/WriteIntoDelta.md) command, [DeltaSink](DeltaSink.md), and [DeltaSource](DeltaSource.md).
 
 ## Creating Instance
 
@@ -15,10 +15,10 @@ When created, `DeltaOptions` [verifies](#verifyOptions) the [options](#options).
 
 `DeltaOptions` is created when:
 
-* `DeltaLog` is requested for a [relation](DeltaLog.md#createRelation) (for [DeltaDataSource](DeltaDataSource.md) as a [CreatableRelationProvider](DeltaDataSource.md#CreatableRelationProvider) and a [RelationProvider](DeltaDataSource.md#RelationProvider))
-* `DeltaCatalog` is requested to [createDeltaTable](DeltaCatalog.md#createDeltaTable)
-* `WriteIntoDeltaBuilder` is requested to [buildForV1Write](WriteIntoDeltaBuilder.md#buildForV1Write)
-* [CreateDeltaTableCommand](commands/CreateDeltaTableCommand.md) is executed
+* `DeltaLog` is requested for a [relation](../DeltaLog.md#createRelation) (for [DeltaDataSource](DeltaDataSource.md) as a [CreatableRelationProvider](DeltaDataSource.md#CreatableRelationProvider) and a [RelationProvider](DeltaDataSource.md#RelationProvider))
+* `DeltaCatalog` is requested to [createDeltaTable](../DeltaCatalog.md#createDeltaTable)
+* `WriteIntoDeltaBuilder` is requested to [buildForV1Write](../WriteIntoDeltaBuilder.md#buildForV1Write)
+* [CreateDeltaTableCommand](../commands/CreateDeltaTableCommand.md) is executed
 * `DeltaDataSource` is requested for a [streaming source](DeltaDataSource.md#createSource) (to create a [DeltaSource](DeltaSource.md) for Structured Streaming), a [streaming sink](DeltaDataSource.md#createSink) (to create a [DeltaSink](DeltaSink.md) for Structured Streaming), and for an [insertable HadoopFsRelation](DeltaDataSource.md#CreatableRelationProvider-createRelation)
 
 ## <span id="verifyOptions"> Verifying Options
@@ -44,4 +44,4 @@ verifyOptions(
 
 ## <span id="MAX_RECORDS_PER_FILE"> maxRecordsPerFile { #maxRecordsPerFile }
 
-[maxRecordsPerFile](options/index.md#maxRecordsPerFile)
+[maxRecordsPerFile](options.md#maxRecordsPerFile)

@@ -76,4 +76,4 @@ generationExpr: Option[String] = None
 
 `DeltaColumnBuilder` uses `generationExpr` internal registry for the [generatedAlwaysAs](#generatedAlwaysAs) expression.
 
-When requested to [build a StructField](#build), `DeltaColumnBuilder` registers `generationExpr` under [delta.generationExpression](DeltaSourceUtils.md#GENERATION_EXPRESSION_METADATA_KEY) key in the metadata (of this field).
+When requested to [build a StructField](#build), `DeltaColumnBuilder` registers `generationExpr` under [delta.generationExpression](delta/DeltaSourceUtils.md#GENERATION_EXPRESSION_METADATA_KEY) key in the metadata (of this field).

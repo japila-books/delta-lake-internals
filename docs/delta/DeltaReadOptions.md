@@ -8,7 +8,7 @@
 excludeRegex: Option[Regex]
 ```
 
-`excludeRegex` uses the [options](DeltaOptionParser.md#options) for the value of [excludeRegex](options/index.md#EXCLUDE_REGEX_OPTION) option and converts it to a [scala.util.matching.Regex]({{ scala.api }}/scala/util/matching/Regex.html).
+`excludeRegex` uses the [options](DeltaOptionParser.md#options) for the value of [excludeRegex](options.md#EXCLUDE_REGEX_OPTION) option and converts it to a [scala.util.matching.Regex]({{ scala.api }}/scala/util/matching/Regex.html).
 
 `excludeRegex` is used when:
 
@@ -20,14 +20,14 @@ excludeRegex: Option[Regex]
 failOnDataLoss: Boolean
 ```
 
-`failOnDataLoss` uses the [options](DeltaOptionParser.md#options) for the value of [failOnDataLoss](options/index.md#FAIL_ON_DATA_LOSS_OPTION) option.
+`failOnDataLoss` uses the [options](DeltaOptionParser.md#options) for the value of [failOnDataLoss](options.md#FAIL_ON_DATA_LOSS_OPTION) option.
 
 `failOnDataLoss` is `true` by default.
 
 `failOnDataLoss` is used when:
 
 * `DeltaSource` is requested to [getFileChanges](DeltaSource.md#getFileChanges)
-* `DeltaSourceCDCSupport` is requested to [getFileChangesForCDC](change-data-feed/DeltaSourceCDCSupport.md#getFileChangesForCDC)
+* `DeltaSourceCDCSupport` is requested to [getFileChangesForCDC](../change-data-feed/DeltaSourceCDCSupport.md#getFileChangesForCDC)
 
 ## <span id="ignoreChanges"> ignoreChanges
 
@@ -95,7 +95,7 @@ maxFilesPerTrigger: Option[Int]
 readChangeFeed: Boolean
 ```
 
-`readChangeFeed` uses the [options](DeltaOptionParser.md#options) for the value of [readChangeFeed](options/index.md#CDC_READ_OPTION) option (if available or falls back to the legacy [readChangeData](options/index.md#readChangeData)).
+`readChangeFeed` uses the [options](DeltaOptionParser.md#options) for the value of [readChangeFeed](options.md#CDC_READ_OPTION) option (if available or falls back to the legacy [readChangeData](options.md#readChangeData)).
 
 `readChangeFeed` is used when:
 

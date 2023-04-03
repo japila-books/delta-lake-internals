@@ -73,5 +73,5 @@ schema: StructType
 * `DeltaTableV2` is requested for the [table schema](DeltaTableV2.md#tableSchema)
 * `ShowTableColumnsCommand` is executed
 * `TahoeLogFileIndex` is requested to [getSnapshot](TahoeLogFileIndex.md#getSnapshot)
-* `DeltaDataSource` is requested for the [source schema](DeltaDataSource.md#sourceSchema) and [createSource](DeltaDataSource.md#createSource)
-* `DeltaSourceBase` is requested for the [table schema](DeltaSourceBase.md#schema), [checkColumnMappingSchemaChangesOnStreamStartOnce](DeltaSourceBase.md#checkColumnMappingSchemaChangesOnStreamStartOnce) (for reporting purposes)
+* `DeltaDataSource` is requested for the [source schema](delta/DeltaDataSource.md#sourceSchema) and [createSource](delta/DeltaDataSource.md#createSource)
+* `DeltaSourceBase` is requested for the [table schema](delta/DeltaSourceBase.md#schema), [checkColumnMappingSchemaChangesOnStreamStartOnce](delta/DeltaSourceBase.md#checkColumnMappingSchemaChangesOnStreamStartOnce) (for reporting purposes)

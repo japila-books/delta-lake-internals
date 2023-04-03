@@ -200,11 +200,11 @@ scala> files.show(truncate = false)
 
 * `PartitionFiltering` is requested for the [files to scan (matching projection attributes and predicates)](PartitionFiltering.md#filesForScan)
 
-* `DeltaSourceSnapshot` is requested for the [initial files](DeltaSourceSnapshot.md#initialFiles) (indexed [AddFiles](AddFile.md))
+* `DeltaSourceSnapshot` is requested for the [initial files](delta/DeltaSourceSnapshot.md#initialFiles) (indexed [AddFiles](AddFile.md))
 
 * `GenerateSymlinkManifestImpl` is requested to [generateIncrementalManifest](GenerateSymlinkManifest.md#generateIncrementalManifest) and [generateFullManifest](GenerateSymlinkManifest.md#generateFullManifest)
 
-* `DeltaDataSource` is requested for an [Insertable HadoopFsRelation](DeltaDataSource.md#RelationProvider-createRelation)
+* `DeltaDataSource` is requested for an [Insertable HadoopFsRelation](delta/DeltaDataSource.md#RelationProvider-createRelation)
 
 ## <span id="stateReconstruction"> stateReconstruction Dataset of Actions
 

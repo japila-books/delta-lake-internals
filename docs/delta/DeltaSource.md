@@ -1,17 +1,17 @@
 # DeltaSource
 
-`DeltaSource` is a [DeltaSourceBase](DeltaSourceBase.md) of the [delta](DeltaDataSource.md) data source for streaming queries.
+`DeltaSource` is a [DeltaSourceBase](DeltaSourceBase.md) of the [Delta Connector](index.md) for streaming queries.
 
 ## <span id="DeltaSourceCDCSupport"> DeltaSourceCDCSupport
 
-`DeltaSource` is a [DeltaSourceCDCSupport](change-data-feed/DeltaSourceCDCSupport.md).
+`DeltaSource` is a [DeltaSourceCDCSupport](../change-data-feed/DeltaSourceCDCSupport.md).
 
 ## Creating Instance
 
 `DeltaSource` takes the following to be created:
 
 * <span id="spark"> `SparkSession` ([Spark SQL]({{ book.spark_sql }}/SparkSession))
-* <span id="deltaLog"> [DeltaLog](DeltaLog.md)
+* <span id="deltaLog"> [DeltaLog](../DeltaLog.md)
 * <span id="options"> [DeltaOptions](DeltaOptions.md)
 * <span id="filters"> Filter `Expression`s (default: empty)
 
@@ -25,7 +25,7 @@
 val q = spark
   .readStream               // Creating a streaming query
   .format("delta")          // Using delta data source
-  .load("/tmp/delta/users") // Over data in a delta table
+  .load("/tmp/users") // Over data in a delta table
   .writeStream
   .format("memory")
   .option("queryName", "demo")
@@ -42,7 +42,7 @@ import org.apache.spark.sql.delta.sources.DeltaSource
 assert(relation.source.asInstanceOf[DeltaSource])
 
 scala> println(relation.source)
-DeltaSource[file:/tmp/delta/users]
+DeltaSource[file:/tmp/users]
 ```
 
 ## <span id="getBatch"> Streaming Micro-Batch DataFrame
@@ -101,18 +101,18 @@ For no [previousOffset](#previousOffset), `getOffset` [retrieves the starting of
 
 ### <span id="latestOffset-previousOffset-defined"> previousOffset Available
 
-When the [previousOffset](#previousOffset) is defined (which is when the `DeltaSource` is requested for another micro-batch), `latestOffset` [gets the changes](#getChangesWithRateLimit) as an indexed [AddFile](AddFile.md)s (with the [previousOffset](#previousOffset) and a new [AdmissionLimits](AdmissionLimits.md) for the given `ReadLimit`).
+When the [previousOffset](#previousOffset) is defined (which is when the `DeltaSource` is requested for another micro-batch), `latestOffset` [gets the changes](#getChangesWithRateLimit) as an indexed [AddFile](../AddFile.md)s (with the [previousOffset](#previousOffset) and a new [AdmissionLimits](AdmissionLimits.md) for the given `ReadLimit`).
 
 `latestOffset` takes the [last AddFile](#iteratorLast) if available.
 
 With no `AddFile`, `latestOffset` returns the [previousOffset](#previousOffset).
 
-With the [previousOffset](#previousOffset) and the [last indexed AddFile](#iteratorLast) both available, `latestOffset` creates a new [DeltaSourceOffset](DeltaSourceOffset.md) for the version, index, and `isLast` flag from the last indexed [AddFile](AddFile.md).
+With the [previousOffset](#previousOffset) and the [last indexed AddFile](#iteratorLast) both available, `latestOffset` creates a new [DeltaSourceOffset](DeltaSourceOffset.md) for the version, index, and `isLast` flag from the last indexed [AddFile](../AddFile.md).
 
 !!! note
     `isStartingVersion` local value is enabled (`true`) when the following holds:
 
-    * Version of the last indexed [AddFile](AddFile.md) is equal to the [reservoirVersion](DeltaSourceOffset.md#reservoirVersion) of the [previous ending offset](#previousOffset)
+    * Version of the last indexed [AddFile](../AddFile.md) is equal to the [reservoirVersion](DeltaSourceOffset.md#reservoirVersion) of the [previous ending offset](#previousOffset)
 
     * [isStartingVersion](DeltaSourceOffset.md#isStartingVersion) flag of the [previous ending offset](#previousOffset) is enabled (`true`)
 
@@ -125,7 +125,7 @@ getStartingOffset(
 
 `getStartingOffset`...FIXME (review me)
 
-`getStartingOffset` requests the [DeltaLog](#deltaLog) for the version of the delta table (by requesting for the [current state (snapshot)](DeltaLog.md#snapshot) and then for the [version](Snapshot.md#version)).
+`getStartingOffset` requests the [DeltaLog](#deltaLog) for the version of the delta table (by requesting for the [current state (snapshot)](../DeltaLog.md#snapshot) and then for the [version](../Snapshot.md#version)).
 
 `getStartingOffset` [takes the last file](#iteratorLast) from the [files added (with rate limit)](#getChangesWithRateLimit) for the version of the delta table, `-1L` as the `fromIndex`, and the `isStartingVersion` flag enabled (`true`).
 
@@ -152,7 +152,7 @@ getChangesWithRateLimit(
   isStartingVersion: Boolean): Iterator[IndexedFile]
 ```
 
-`getChangesWithRateLimit` [gets the changes](#getChanges) (as indexed [AddFile](AddFile.md)s) for the given `fromVersion`, `fromIndex`, and `isStartingVersion` flag.
+`getChangesWithRateLimit` [gets the changes](#getChanges) (as indexed [AddFile](../AddFile.md)s) for the given `fromVersion`, `fromIndex`, and `isStartingVersion` flag.
 
 ### <span id="getOffset"> getOffset
 
@@ -170,7 +170,7 @@ latestOffset(Offset, ReadLimit) should be called instead of this method
 
 ## Snapshot Management
 
-`DeltaSource` uses internal registries for the [DeltaSourceSnapshot](#initialState) and the [version](#initialStateVersion) to avoid requesting the [DeltaLog](#deltaLog) for [getSnapshotAt](DeltaLog.md#getSnapshotAt).
+`DeltaSource` uses internal registries for the [DeltaSourceSnapshot](#initialState) and the [version](#initialStateVersion) to avoid requesting the [DeltaLog](#deltaLog) for [getSnapshotAt](../DeltaLog.md#getSnapshotAt).
 
 ### <span id="initialState"> Snapshot
 
@@ -219,13 +219,13 @@ getSnapshotAt(
   version: Long): Iterator[IndexedFile]
 ```
 
-`getSnapshotAt` requests the [DeltaSourceSnapshot](#initialState) for the [data files](SnapshotIterator.md#iterator) (as indexed [AddFile](AddFile.md)s).
+`getSnapshotAt` requests the [DeltaSourceSnapshot](#initialState) for the [data files](SnapshotIterator.md#iterator) (as indexed [AddFile](../AddFile.md)s).
 
 In case the [DeltaSourceSnapshot](#initialState) hasn't been initialized yet (`null`) or the requested version is different from the [initialStateVersion](#initialStateVersion), `getSnapshotAt` does the following:
 
 1. [cleanUpSnapshotResources](#cleanUpSnapshotResources)
 
-1. Requests the [DeltaLog](#deltaLog) for the [state (snapshot) of the delta table](DeltaLog.md#getSnapshotAt) at the version
+1. Requests the [DeltaLog](#deltaLog) for the [state (snapshot) of the delta table](../DeltaLog.md#getSnapshotAt) at the version
 
 1. Creates a new [DeltaSourceSnapshot](DeltaSourceSnapshot.md) for the state (snapshot) as the current [DeltaSourceSnapshot](#initialState)
 
@@ -259,7 +259,7 @@ getChanges(
 
     * [Latest available offset](#getOffset) with no [end offset of the latest micro-batch](#previousOffset) or the [end offset of the latest micro-batch](#previousOffset) for the [starting version](DeltaSourceOffset.md#isStartingVersion)
 
-In the end, `getChanges` filters out (_excludes_) indexed [AddFile](AddFile.md)s that are not with the version later than the given `fromVersion` or the index greater than the given `fromIndex`.
+In the end, `getChanges` filters out (_excludes_) indexed [AddFile](../AddFile.md)s that are not with the version later than the given `fromVersion` or the index greater than the given `fromIndex`.
 
 `getChanges` is used when:
 
@@ -292,7 +292,7 @@ cleanUpSnapshotResources(): Unit
 
 `cleanUpSnapshotResources` does the following when the [initial DeltaSourceSnapshot](#initialState) internal registry is not empty:
 
-* Requests the [DeltaSourceSnapshot](#initialState) to [close](DeltaSourceSnapshot.md#close) (with the `unpersistSnapshot` flag based on whether the [initialStateVersion](#initialStateVersion) is earlier than the [snapshot version](Snapshot.md#version))
+* Requests the [DeltaSourceSnapshot](#initialState) to [close](DeltaSourceSnapshot.md#close) (with the `unpersistSnapshot` flag based on whether the [initialStateVersion](#initialStateVersion) is earlier than the [snapshot version](../Snapshot.md#version))
 * Dereferences (_nullifies_) the [DeltaSourceSnapshot](#initialState)
 
 Otherwise, `cleanUpSnapshotResources` does nothing.
@@ -340,7 +340,7 @@ excludeRegex: Option[Regex]
 `excludeRegex` is used when:
 
 * `DeltaSourceBase` is requested to [getFileChangesAndCreateDataFrame](DeltaSourceBase.md#getFileChangesAndCreateDataFrame)
-* `IndexedChangeFileSeq` (of [DeltaSourceCDCSupport](change-data-feed/DeltaSourceCDCSupport.md)) is requested to [isValidIndexedFile](change-data-feed/IndexedChangeFileSeq.md#isValidIndexedFile)
+* `IndexedChangeFileSeq` (of [DeltaSourceCDCSupport](../change-data-feed/DeltaSourceCDCSupport.md)) is requested to [isValidIndexedFile](../change-data-feed/IndexedChangeFileSeq.md#isValidIndexedFile)
 
 ## Logging
 
@@ -352,4 +352,4 @@ Add the following line to `conf/log4j.properties`:
 log4j.logger.org.apache.spark.sql.delta.sources.DeltaSource=ALL
 ```
 
-Refer to [Logging](logging.md).
+Refer to [Logging](../logging.md).

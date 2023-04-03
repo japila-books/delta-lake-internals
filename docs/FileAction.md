@@ -23,12 +23,12 @@ dataChange Value | When
 -----------------|---------
  `false` | `InMemoryLogReplay` is requested to [replay a version](InMemoryLogReplay.md#append)
  `true` | [ConvertToDeltaCommand](commands/convert/ConvertToDeltaCommand.md) is executed (and requested to [create an AddFile](commands/convert/ConvertToDeltaCommand.md#createAddFile) with the flag turned on)
- Opposite of [dataChange](options/index.md#dataChange) option | `WriteIntoDelta` is requested to [write](commands/WriteIntoDelta.md#write) (with [dataChange](options/index.md#dataChange) option turned off for rearrange-only writes)
+ Opposite of [dataChange](delta/options.md#dataChange) option | `WriteIntoDelta` is requested to [write](commands/WriteIntoDelta.md#write) (with [dataChange](delta/options.md#dataChange) option turned off for rearrange-only writes)
 
 `dataChange` is used when:
 
 * `OptimisticTransactionImpl` is requested to [commit](OptimisticTransactionImpl.md#commit) (and determines the isolation level), [prepareCommit](OptimisticTransactionImpl.md#prepareCommit), [attempt a commit](OptimisticTransactionImpl.md#doCommit) (for `bytesNew` statistics)
-* `DeltaSource` is requested to [getChanges](DeltaSource.md#getChanges) (and [verifyStreamHygieneAndFilterAddFiles](DeltaSource.md#verifyStreamHygieneAndFilterAddFiles))
+* `DeltaSource` is requested to [getChanges](delta/DeltaSource.md#getChanges) (and [verifyStreamHygieneAndFilterAddFiles](delta/DeltaSource.md#verifyStreamHygieneAndFilterAddFiles))
 
 ### <span id="numLogicalRecords"> numLogicalRecords
 

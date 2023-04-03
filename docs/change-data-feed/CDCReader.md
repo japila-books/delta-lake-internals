@@ -17,7 +17,7 @@ getCDCRelation(
 !!! note
     `partitionFilters` argument is not used.
 
-`getCDCRelation` [getVersionForCDC](#getVersionForCDC) (with the [startingVersion](../DeltaDataSource.md#CDC_START_VERSION_KEY) and [startingTimestamp](../DeltaDataSource.md#CDC_START_TIMESTAMP_KEY) for the version and timestamp keys, respectively).
+`getCDCRelation` [getVersionForCDC](#getVersionForCDC) (with the [startingVersion](../delta/DeltaDataSource.md#CDC_START_VERSION_KEY) and [startingTimestamp](../delta/DeltaDataSource.md#CDC_START_TIMESTAMP_KEY) for the version and timestamp keys, respectively).
 
 `getCDCRelation`...FIXME
 
@@ -117,8 +117,8 @@ isCDCRead(
 
 `isCDCRead` is `true` when one of the following options is specified (in the given `options`):
 
-1. [readChangeFeed](../DeltaDataSource.md#CDC_ENABLED_KEY) with `true` value
-1. (legacy) [readChangeData](../DeltaDataSource.md#CDC_ENABLED_KEY_LEGACY) with `true` value
+1. [readChangeFeed](../delta/DeltaDataSource.md#CDC_ENABLED_KEY) with `true` value
+1. (legacy) [readChangeData](../delta/DeltaDataSource.md#CDC_ENABLED_KEY_LEGACY) with `true` value
 
 Otherwise, `isCDCRead` is `false`.
 
@@ -126,7 +126,7 @@ Otherwise, `isCDCRead` is `false`.
 
 * `DeltaRelation` utility is used to [fromV2Relation](../DeltaRelation.md#fromV2Relation)
 * `DeltaTableV2` is requested to [withOptions](../DeltaTableV2.md#withOptions)
-* `DeltaDataSource` is requested for the [streaming source schema](../DeltaDataSource.md#sourceSchema) and to [create a BaseRelation](../DeltaDataSource.md#RelationProvider-createRelation)
+* `DeltaDataSource` is requested for the [streaming source schema](../delta/DeltaDataSource.md#sourceSchema) and to [create a BaseRelation](../delta/DeltaDataSource.md#RelationProvider-createRelation)
 
 ## <span id="cdcReadSchema"> CDF-Aware Read Schema (Adding CDF Columns)
 
@@ -150,8 +150,8 @@ cdcReadSchema(
 * `OptimisticTransactionImpl` is requested to [performCdcMetadataCheck](../OptimisticTransactionImpl.md#performCdcMetadataCheck)
 * `CdcAddFileIndex` is requested for the [partitionSchema](CdcAddFileIndex.md#partitionSchema)
 * `TahoeRemoveFileIndex` is requested for the [partitionSchema](TahoeRemoveFileIndex.md#partitionSchema)
-* `DeltaDataSource` is requested for the [sourceSchema](../DeltaDataSource.md#sourceSchema)
-* `DeltaSourceBase` is requested for the [schema](../DeltaSourceBase.md#schema)
+* `DeltaDataSource` is requested for the [sourceSchema](../delta/DeltaDataSource.md#sourceSchema)
+* `DeltaSourceBase` is requested for the [schema](../delta/DeltaSourceBase.md#schema)
 * `DeltaSourceCDCSupport` is requested to [filterCDCActions](DeltaSourceCDCSupport.md#filterCDCActions)
 
 ## <span id="changesToDF"> changesToDF

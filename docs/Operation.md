@@ -123,7 +123,7 @@ Used when:
 
 Used when:
 
-* `DeltaSink` is requested to [addBatch](DeltaSink.md#addBatch)
+* `DeltaSink` is requested to [addBatch](delta/DeltaSink.md#addBatch)
 
 ### Truncate
 

@@ -35,7 +35,7 @@ parsePredicates(
 `parsePredicates` is used when:
 
 * [OptimizeTableCommand](optimize/OptimizeTableCommand.md) is executed (to convert the [partitionPredicate](optimize/OptimizeTableCommand.md#partitionPredicate))
-* `WriteIntoDelta` command is requested to [write](WriteIntoDelta.md#write) (to convert the [replaceWhere](../DeltaWriteOptions.md#replaceWhere) option with predicates)
+* `WriteIntoDelta` command is requested to [write](WriteIntoDelta.md#write) (to convert the [replaceWhere](../delta/DeltaWriteOptions.md#replaceWhere) option with predicates)
 
 ## <span id="verifyPartitionPredicates"> Verifying Partition Predicates
 
@@ -54,7 +54,7 @@ verifyPartitionPredicates(
 `verifyPartitionPredicates` is used when:
 
 * [OptimizeTableCommand](optimize/OptimizeTableCommand.md) is executed (to verify the [partitionPredicate](optimize/OptimizeTableCommand.md#partitionPredicate) if defined)
-* `WriteIntoDelta` command is requested to [write](WriteIntoDelta.md#write) (to verify the [replaceWhere](../DeltaWriteOptions.md#replaceWhere) option for [SaveMode.Overwrite](WriteIntoDelta.md#mode) mode)
+* `WriteIntoDelta` command is requested to [write](WriteIntoDelta.md#write) (to verify the [replaceWhere](../delta/DeltaWriteOptions.md#replaceWhere) option for [SaveMode.Overwrite](WriteIntoDelta.md#mode) mode)
 * `StatisticsCollection` utility is used to [recompute statistics of a delta table](../StatisticsCollection.md#recompute)
 
 ## <span id="generateCandidateFileMap"> generateCandidateFileMap

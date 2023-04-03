@@ -42,7 +42,7 @@ resolveChangesTableValueFunctions(
 
 Option | Value
 -------|------
- [readChangeFeed](../DeltaDataSource.md#CDC_ENABLED_KEY) | `true`
+ [readChangeFeed](../delta/DeltaDataSource.md#CDC_ENABLED_KEY) | `true`
 
 For [table_changes](#CDC_NAME_BASED), `resolveChangesTableValueFunctions` requests the `SessionCatalog` ([Spark SQL]({{ book.spark_sql }}/SessionCatalog)) for the table metadata.
 

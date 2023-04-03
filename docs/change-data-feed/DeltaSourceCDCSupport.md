@@ -1,6 +1,6 @@
 # DeltaSourceCDCSupport
 
-`DeltaSourceCDCSupport` is an abstraction to bring [CDC support](index.md) to [DeltaSource](../DeltaSource.md).
+`DeltaSourceCDCSupport` is an abstraction to bring [CDC support](index.md) to [DeltaSource](../delta/DeltaSource.md).
 
 ## <span id="getCDCFileChangesAndCreateDataFrame"> getCDCFileChangesAndCreateDataFrame
 
@@ -23,7 +23,7 @@ In the end, `getCDCFileChangesAndCreateDataFrame` returns the `DataFrame` with t
 
 `getCDCFileChangesAndCreateDataFrame` is used when:
 
-* `DeltaSourceBase` is requested to [createDataFrameBetweenOffsets](../DeltaSourceBase.md#createDataFrameBetweenOffsets) (and to [getFileChangesAndCreateDataFrame](../DeltaSourceBase.md#getFileChangesAndCreateDataFrame)) for `DeltaSource` for a [streaming DataFrame (with data between the start and end offsets)](../DeltaSource.md#getBatch) with the [readChangeFeed](../options/index.md#readChangeFeed) option enabled
+* `DeltaSourceBase` is requested to [createDataFrameBetweenOffsets](../delta/DeltaSourceBase.md#createDataFrameBetweenOffsets) (and to [getFileChangesAndCreateDataFrame](../delta/DeltaSourceBase.md#getFileChangesAndCreateDataFrame)) for `DeltaSource` for a [streaming DataFrame (with data between the start and end offsets)](../delta/DeltaSource.md#getBatch) with the [readChangeFeed](../delta/options.md#readChangeFeed) option enabled
 
 ## <span id="getFileChangesForCDC"> getFileChangesForCDC
 
@@ -36,7 +36,7 @@ getFileChangesForCDC(
   endOffset: Option[DeltaSourceOffset]): Iterator[(Long, Iterator[IndexedFile])]
 ```
 
-With [isStartingVersion](#getFileChangesForCDC-isStartingVersion) on (`true`), `getFileChangesForCDC` [gets the snapshot](../DeltaSource.md#getSnapshotAt) at the `fromVersion` version and turns`dataChange` on for all [AddFile](../AddFile.md)s. `getFileChangesForCDC` creates a [IndexedChangeFileSeq](IndexedChangeFileSeq.md) (with the snapshot and `isInitialSnapshot` flag enabled). `getFileChangesForCDC`...FIXME
+With [isStartingVersion](#getFileChangesForCDC-isStartingVersion) on (`true`), `getFileChangesForCDC` [gets the snapshot](../delta/DeltaSource.md#getSnapshotAt) at the `fromVersion` version and turns`dataChange` on for all [AddFile](../AddFile.md)s. `getFileChangesForCDC` creates a [IndexedChangeFileSeq](IndexedChangeFileSeq.md) (with the snapshot and `isInitialSnapshot` flag enabled). `getFileChangesForCDC`...FIXME
 
 With [isStartingVersion](#getFileChangesForCDC-isStartingVersion) off (`false`), `getFileChangesForCDC` [filterAndIndexDeltaLogs](#filterAndIndexDeltaLogs) for the `fromVersion` version.
 
@@ -48,7 +48,7 @@ In the end, `getFileChangesForCDC` requests all the `IndexedChangeFileSeq`s to [
 
 `getFileChangesForCDC` is used when:
 
-* `DeltaSourceBase` is requested to [getFileChangesWithRateLimit](../DeltaSourceBase.md#getFileChangesWithRateLimit)
+* `DeltaSourceBase` is requested to [getFileChangesWithRateLimit](../delta/DeltaSourceBase.md#getFileChangesWithRateLimit)
 * `DeltaSourceCDCSupport` is requested to [getCDCFileChangesAndCreateDataFrame](#getCDCFileChangesAndCreateDataFrame)
 
 ### <span id="getFileChangesForCDC-isStartingVersion"> isStartingVersion
@@ -56,15 +56,15 @@ In the end, `getFileChangesForCDC` requests all the `IndexedChangeFileSeq`s to [
 `getFileChangesForCDC` is given `isStartingVersion` flag when executed:
 
 * `true` for the following:
-    * `DeltaSource` when [getStartingVersion](../DeltaSource.md#getStartingVersion) is undefined (returns `None`)
-    * `DeltaSource` when [getBatch](../DeltaSource.md#getBatch) with `startOffsetOption` and [getStartingVersion](../DeltaSource.md#getStartingVersion) both undefined (`None`s)
+    * `DeltaSource` when [getStartingVersion](../delta/DeltaSource.md#getStartingVersion) is undefined (returns `None`)
+    * `DeltaSource` when [getBatch](../delta/DeltaSource.md#getBatch) with `startOffsetOption` and [getStartingVersion](../delta/DeltaSource.md#getStartingVersion) both undefined (`None`s)
 
 * `false` for the following:
-    * `DeltaSource` when [getBatch](../DeltaSource.md#getBatch) with `startOffsetOption` undefined but [getStartingVersion](../DeltaSource.md#getStartingVersion) specified
+    * `DeltaSource` when [getBatch](../delta/DeltaSource.md#getBatch) with `startOffsetOption` undefined but [getStartingVersion](../delta/DeltaSource.md#getStartingVersion) specified
 
 * `true` or `false` for the following:
-    * `DeltaSourceBase` when [getNextOffsetFromPreviousOffset](../DeltaSourceBase.md#getNextOffsetFromPreviousOffset) based on [isStartingVersion](../DeltaSourceOffset.md#isStartingVersion) (of the [previous offset](../DeltaSourceOffset.md))
-    * `DeltaSource` when [getBatch](../DeltaSource.md#getBatch) with `startOffsetOption` specified and based on the [isStartingVersion](../DeltaSourceOffset.md#isStartingVersion) (of the [start offset](../DeltaSourceOffset.md))
+    * `DeltaSourceBase` when [getNextOffsetFromPreviousOffset](../delta/DeltaSourceBase.md#getNextOffsetFromPreviousOffset) based on [isStartingVersion](../delta/DeltaSourceOffset.md#isStartingVersion) (of the [previous offset](../delta/DeltaSourceOffset.md))
+    * `DeltaSource` when [getBatch](../delta/DeltaSource.md#getBatch) with `startOffsetOption` specified and based on the [isStartingVersion](../delta/DeltaSourceOffset.md#isStartingVersion) (of the [start offset](../delta/DeltaSourceOffset.md))
 
 ### <span id="filterAndIndexDeltaLogs"> filterAndIndexDeltaLogs
 
@@ -73,9 +73,9 @@ filterAndIndexDeltaLogs(
   startVersion: Long): Iterator[(Long, IndexedChangeFileSeq)]
 ```
 
-`filterAndIndexDeltaLogs` requests the [DeltaLog](../DeltaSource.md#deltaLog) to [get the changes](../DeltaLog.md#getChanges) at the given `startVersion` version and on (`Iterator[(Long, Seq[Action])]`).
+`filterAndIndexDeltaLogs` requests the [DeltaLog](../delta/DeltaSource.md#deltaLog) to [get the changes](../DeltaLog.md#getChanges) at the given `startVersion` version and on (`Iterator[(Long, Seq[Action])]`).
 
-`filterAndIndexDeltaLogs` uses [failOnDataLoss](../options/index.md#failOnDataLoss) option to get the changes.
+`filterAndIndexDeltaLogs` uses [failOnDataLoss](../delta/options.md#failOnDataLoss) option to get the changes.
 
 `filterAndIndexDeltaLogs` [filterCDCActions](#filterCDCActions) (across the actions across all the versions) and converts the [AddFile](../AddFile.md)s, [AddCDCFile](../AddCDCFile.md)s and [RemoveFile](../RemoveFile.md)s to `IndexedFile`s.
 

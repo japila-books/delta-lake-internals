@@ -12,6 +12,6 @@ The following is a list of the features of Delta Lake that make it so amazing (e
 * [Delta SQL](../sql/index.md)
 * [Developer API](../DeltaTable.md)
 * [Generated Columns](../generated-columns/index.md)
-* [Spark SQL integration with support for batch and streaming queries](../DeltaDataSource.md)
+* [Spark SQL integration with support for batch and streaming queries](../delta/DeltaDataSource.md)
 * [Table Constraints](../constraints/index.md)
 * [Time Travel](../time-travel/index.md)

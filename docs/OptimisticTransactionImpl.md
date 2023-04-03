@@ -79,7 +79,7 @@ commit(
 * [CreateDeltaTableCommand](commands/CreateDeltaTableCommand.md) is executed
 * [DeleteCommand](commands/delete/DeleteCommand.md) is executed
 * `DeltaLog` is requested to [upgrade the protocol](DeltaLog.md#upgradeProtocol)
-* `DeltaSink` is requested to [add a streaming micro-batch](DeltaSink.md#addBatch)
+* `DeltaSink` is requested to [add a streaming micro-batch](delta/DeltaSink.md#addBatch)
 * [MergeIntoCommand](commands/merge/MergeIntoCommand.md) is executed
 * [OptimizeTableCommand](commands/optimize/OptimizeTableCommand.md) is executed (and requests `OptimizeExecutor` to [commitAndRetry](commands/optimize/OptimizeExecutor.md#commitAndRetry))
 * `StatisticsCollection` is requested to [recompute](StatisticsCollection.md#recompute)
@@ -496,7 +496,7 @@ In the end, `txnVersion` requests the [Snapshot](#snapshot) for the [transaction
 
 `txnVersion` is used when:
 
-* `DeltaSink` is requested to [add a streaming micro-batch](DeltaSink.md#addBatch)
+* `DeltaSink` is requested to [add a streaming micro-batch](delta/DeltaSink.md#addBatch)
 
 ## <span id="getUserMetadata"> User-Defined Metadata
 
@@ -592,7 +592,7 @@ readWholeTable(): Unit
 
 `readWholeTable` is used when:
 
-* `DeltaSink` is requested to [add a streaming micro-batch](DeltaSink.md#addBatch) (and the batch reads the same Delta table as this sink is going to write to)
+* `DeltaSink` is requested to [add a streaming micro-batch](delta/DeltaSink.md#addBatch) (and the batch reads the same Delta table as this sink is going to write to)
 
 ## <span id="updateMetadataForNewTable"> updateMetadataForNewTable
 
@@ -669,7 +669,7 @@ Internally, `filterFiles` requests the [Snapshot](#snapshot) for the [filesForSc
 
 `filterFiles` is used when:
 
-* `DeltaSink` is requested to [add a streaming micro-batch](DeltaSink.md#addBatch) (with `Complete` output mode)
+* `DeltaSink` is requested to [add a streaming micro-batch](delta/DeltaSink.md#addBatch) (with `Complete` output mode)
 * [DeleteCommand](commands/delete/DeleteCommand.md), [MergeIntoCommand](commands/merge/MergeIntoCommand.md) and [UpdateCommand](commands/update/UpdateCommand.md), [WriteIntoDelta](commands/WriteIntoDelta.md) are executed
 * [CreateDeltaTableCommand](commands/CreateDeltaTableCommand.md) is executed
 

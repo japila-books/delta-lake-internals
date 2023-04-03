@@ -32,7 +32,7 @@ createRelation(
 
 `createRelation` [extracts time travel specification](#getTimeTravelVersion) (from the given `parameters`).
 
-`createRelation` collects CDF-specific options with [change data feed enabled](change-data-feed/CDCReader.md#isCDCRead):
+`createRelation` collects CDF-specific options with [change data feed enabled](../change-data-feed/CDCReader.md#isCDCRead):
 
 * [readChangeFeed](DeltaDataSource.md#CDC_ENABLED_KEY) (with `true` value)
 * [startingVersion](DeltaDataSource.md#CDC_START_VERSION_KEY)
@@ -40,9 +40,9 @@ createRelation(
 * [endingVersion](DeltaDataSource.md#CDC_END_VERSION_KEY)
 * [endingTimestamp](DeltaDataSource.md#CDC_END_TIMESTAMP_KEY)
 
-`createRelation` creates a [DeltaTableV2](DeltaTableV2.md) (with the given `parameters` as options when [spark.databricks.delta.loadFileSystemConfigsFromDataFrameOptions](configuration-properties/DeltaSQLConf.md#LOAD_FILE_SYSTEM_CONFIGS_FROM_DATAFRAME_OPTIONS) configuration property is enabled).
+`createRelation` creates a [DeltaTableV2](../DeltaTableV2.md) (with the given `parameters` as options when [spark.databricks.delta.loadFileSystemConfigsFromDataFrameOptions](../configuration-properties/DeltaSQLConf.md#LOAD_FILE_SYSTEM_CONFIGS_FROM_DATAFRAME_OPTIONS) configuration property is enabled).
 
-In the end, `createRelation` requests the `DeltaTableV2` for an [insertable HadoopFsRelation](DeltaTableV2.md#toBaseRelation).
+In the end, `createRelation` requests the `DeltaTableV2` for an [insertable HadoopFsRelation](../DeltaTableV2.md#toBaseRelation).
 
 ??? note "`path` Parameter is Required"
     `createRelation` makes sure that there is `path` parameter defined (in the given `parameters`) or throws an `IllegalArgumentException`:
@@ -69,15 +69,15 @@ createRelation(
 
 ---
 
-`createRelation` [creates a DeltaLog](DeltaLog.md#forTable) for the required `path` parameter (from the given `parameters`) and the given `parameters` itself.
+`createRelation` [creates a DeltaLog](../DeltaLog.md#forTable) for the required `path` parameter (from the given `parameters`) and the given `parameters` itself.
 
 `createSource` creates a [DeltaOptions](DeltaOptions.md) (with the given `parameters` and the current `SQLConf`).
 
-`createSource` [validateConfigurations](DeltaConfigs.md#validateConfigurations) (with `delta.`-prefixed keys in the given`parameters`).
+`createSource` [validateConfigurations](../DeltaConfigs.md#validateConfigurations) (with `delta.`-prefixed keys in the given`parameters`).
 
-`createRelation` [creates and executes a WriteIntoDelta command](commands/WriteIntoDelta.md) with the given `data`.
+`createRelation` [creates and executes a WriteIntoDelta command](../commands/WriteIntoDelta.md) with the given `data`.
 
-In the end, `createRelation` requests the `DeltaLog` for a [BaseRelation](DeltaLog.md#createRelation).
+In the end, `createRelation` requests the `DeltaLog` for a [BaseRelation](../DeltaLog.md#createRelation).
 
 ??? note "`path` Parameter is Required"
     `createRelation` makes sure that there is `path` parameter defined (in the given `parameters`) or throws an `IllegalArgumentException`:
@@ -101,7 +101,7 @@ createSource(
   parameters: Map[String, String]): Source
 ```
 
-`createSource` [creates a DeltaLog](DeltaLog.md#forTable) for the required `path` parameter (from the given `parameters`).
+`createSource` [creates a DeltaLog](../DeltaLog.md#forTable) for the required `path` parameter (from the given `parameters`).
 
 `createSource` creates a [DeltaOptions](DeltaOptions.md) (with the given `parameters` and the current `SQLConf`).
 
@@ -125,7 +125,7 @@ Delta does not support specifying the schema at read time.
 
 ---
 
-`createSource` makes sure that there is [schema](Snapshot.md#schema) available (in the [Snapshot](SnapshotManagement.md#snapshot)) of the `DeltaLog` or throws an `AnalysisException`:
+`createSource` makes sure that there is [schema](../Snapshot.md#schema) available (in the [Snapshot](../SnapshotManagement.md#snapshot)) of the `DeltaLog` or throws an `AnalysisException`:
 
 ```text
 Table schema is not set.  Write data into it or use CREATE TABLE to set the schema.
@@ -145,9 +145,9 @@ sourceSchema(
   parameters: Map[String, String]): (String, StructType)
 ```
 
-`sourceSchema` [creates a DeltaLog](DeltaLog.md#forTable) for the required `path` parameter (from the given `parameters`).
+`sourceSchema` [creates a DeltaLog](../DeltaLog.md#forTable) for the required `path` parameter (from the given `parameters`).
 
-`sourceSchema` takes the [schema](Snapshot.md#schema) (of the [Snapshot](SnapshotManagement.md#snapshot)) of the `DeltaLog` and [removes default expressions](ColumnWithDefaultExprUtils.md#removeDefaultExpressions).
+`sourceSchema` takes the [schema](../Snapshot.md#schema) (of the [Snapshot](../SnapshotManagement.md#snapshot)) of the `DeltaLog` and [removes default expressions](../ColumnWithDefaultExprUtils.md#removeDefaultExpressions).
 
 In the end, `sourceSchema` returns the [delta](#shortName) name with the table schema.
 
@@ -171,7 +171,7 @@ Delta does not support specifying the schema at read time.
 
 `createSource` makes sure that there is no time travel specified using the following:
 
-* [path](DeltaTableUtils.md#extractIfPathContainsTimeTravel) parameter
+* [path](../DeltaTableUtils.md#extractIfPathContainsTimeTravel) parameter
 * [options](DeltaDataSource.md#getTimeTravelVersion) (in the given `parameters`)
 
 If either is set, `createSource` throws an `AnalysisException`:
@@ -191,7 +191,7 @@ Cannot time travel views, subqueries or streams.
 `DeltaDataSource` supports `Append` and `Complete` output modes only.
 
 !!! tip
-    Consult the demo [Using Delta Lake (as Streaming Sink) in Streaming Queries](demo/Using-Delta-Lake-as-Streaming-Sink-in-Structured-Streaming.md).
+    Consult the demo [Using Delta Lake (as Streaming Sink) in Streaming Queries](../demo/Using-Delta-Lake-as-Streaming-Sink-in-Structured-Streaming.md).
 
 ### <span id="createSink"> Creating Streaming Sink
 
@@ -233,7 +233,7 @@ Data source [dataSource] does not support [outputMode] output mode
 
 `DeltaDataSource` allows registering Delta tables in a `HiveMetaStore`. Delta creates a transaction log at the table root directory, and the Hive MetaStore contains no information but the table format and the location of the table. All table properties, schema and partitioning information live in the transaction log to avoid a split brain situation.
 
-The feature was added in [SC-34233](https://github.com/delta-io/delta/commit/5cc383496b35905d3b7911a1f3418777156464c9).
+The feature was added in [SC-34233](https://github.com/delta-io/commit/5cc383496b35905d3b7911a1f3418777156464c9).
 
 ### <span id="getTable"> Loading Delta Table
 
@@ -248,7 +248,7 @@ getTable(
 
 ---
 
-`getTable` creates a [DeltaTableV2](DeltaTableV2.md) (with the [path](DeltaTableV2.md#path) from the given `properties`).
+`getTable` creates a [DeltaTableV2](../DeltaTableV2.md) (with the [path](../DeltaTableV2.md#path) from the given `properties`).
 
 ---
 
@@ -267,14 +267,14 @@ getTimeTravelVersion(
 
 `getTimeTravelVersion` reads the following options (from the given `parameters`):
 
-* [timestampAsOf](options/index.md#TIME_TRAVEL_TIMESTAMP_KEY)
-* [versionAsOf](options/index.md#TIME_TRAVEL_VERSION_KEY)
+* [timestampAsOf](options.md#TIME_TRAVEL_TIMESTAMP_KEY)
+* [versionAsOf](options.md#TIME_TRAVEL_VERSION_KEY)
 * `__time_travel_source__`
 
-`getTimeTravelVersion` creates a [DeltaTimeTravelSpec](time-travel/DeltaTimeTravelSpec.md) if either `timestampAsOf` or `versionAsOf` is defined. The `DeltaTimeTravelSpec` is created with the [creationSource](#creationSource) based on `__time_travel_source__` (if specified) or defaults to `dfReader`.
+`getTimeTravelVersion` creates a [DeltaTimeTravelSpec](../time-travel/DeltaTimeTravelSpec.md) if either `timestampAsOf` or `versionAsOf` is defined. The `DeltaTimeTravelSpec` is created with the [creationSource](#creationSource) based on `__time_travel_source__` (if specified) or defaults to `dfReader`.
 
 !!! note "Undocumented Feature"
-    `__time_travel_source__` looks like an undocumented feature to use for the [creationSource](time-travel/DeltaTimeTravelSpec.md#creationSource).
+    `__time_travel_source__` looks like an undocumented feature to use for the [creationSource](../time-travel/DeltaTimeTravelSpec.md#creationSource).
 
 ---
 
@@ -294,11 +294,11 @@ parsePathIdentifier(
 
 `parsePathIdentifier` is used when:
 
-* `DeltaTableV2` is requested for [metadata](DeltaTableV2.md#rootPath) (for a non-catalog table)
+* `DeltaTableV2` is requested for [metadata](../DeltaTableV2.md#rootPath) (for a non-catalog table)
 
 ## <span id="CDC_ENABLED_KEY"><span id="readChangeFeed"> readChangeFeed
 
-`DeltaDataSource` utility defines `readChangeFeed` value to indicate [CDC-aware table scan](change-data-feed/CDCReader.md#isCDCRead) (when it is used as an read option and `true`).
+`DeltaDataSource` utility defines `readChangeFeed` value to indicate [CDC-aware table scan](../change-data-feed/CDCReader.md#isCDCRead) (when it is used as an read option and `true`).
 
 `readChangeFeed` is used alongside the following CDC options:
 

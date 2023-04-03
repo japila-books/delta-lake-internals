@@ -28,7 +28,7 @@ Used when:
 
 ## Implementations
 
-* [DeltaSink](DeltaSink.md)
+* [DeltaSink](delta/DeltaSink.md)
 * [MergeIntoCommand](commands/merge/MergeIntoCommand.md)
 * [WriteIntoDelta](commands/WriteIntoDelta.md)
 
@@ -85,15 +85,15 @@ updateMetadata(
 
 * Only `false` for [MergeIntoCommand](commands/merge/MergeIntoCommand.md) with [canMergeSchema](commands/merge/MergeIntoCommand.md#canMergeSchema) enabled
 * `true` for [WriteIntoDelta](commands/WriteIntoDelta.md#write) in [Overwrite](commands/WriteIntoDelta.md#isOverwriteOperation) save mode; `false` otherwise
-* `true` for [DeltaSink](DeltaSink.md#addBatch) in [Complete](DeltaSink.md#outputMode) output mode; `false` otherwise
+* `true` for [DeltaSink](delta/DeltaSink.md#addBatch) in [Complete](delta/DeltaSink.md#outputMode) output mode; `false` otherwise
 
 ### <span id="updateMetadata-rearrangeOnly"> rearrangeOnly
 
 `updateMetadata` is given `rearrangeOnly` flag as follows:
 
 * Only `false` for [MergeIntoCommand](commands/merge/MergeIntoCommand.md) with [canMergeSchema](commands/merge/MergeIntoCommand.md#canMergeSchema) enabled
-* [rearrangeOnly](DeltaWriteOptionsImpl.md#rearrangeOnly) option for [WriteIntoDelta](commands/WriteIntoDelta.md#write)
-* `false` for [DeltaSink](DeltaSink.md#addBatch)
+* [rearrangeOnly]((delta/DeltaWriteOptionsImpl.md#rearrangeOnly) option for [WriteIntoDelta](commands/WriteIntoDelta.md#write)
+* `false` for [DeltaSink](delta/DeltaSink.md#addBatch)
 
 ### <span id="updateMetadata-configuration"> configuration
 
@@ -101,7 +101,7 @@ updateMetadata(
 
 * The existing [configuration](Metadata.md#configuration) (of the [metadata](OptimisticTransactionImpl.md#metadata) of the transaction) for [MergeIntoCommand](commands/merge/MergeIntoCommand.md) with [canMergeSchema](commands/merge/MergeIntoCommand.md#canMergeSchema) enabled
 * [configuration](commands/WriteIntoDelta.md#configuration) of the `WriteIntoDelta` command (while [writing out](commands/WriteIntoDelta.md#write))
-* Always empty for [DeltaSink](DeltaSink.md#addBatch)
+* Always empty for [DeltaSink](delta/DeltaSink.md#addBatch)
 
 ### <span id="updateMetadata-usage"> Usage
 
@@ -109,7 +109,7 @@ updateMetadata(
 
 * [MergeIntoCommand](commands/merge/MergeIntoCommand.md) command is executed (with [canMergeSchema](commands/merge/MergeIntoCommand.md#canMergeSchema) is enabled)
 * `WriteIntoDelta` command is requested to [write](commands/WriteIntoDelta.md#write)
-* `DeltaSink` is requested to [add a streaming micro-batch](DeltaSink.md#addBatch)
+* `DeltaSink` is requested to [add a streaming micro-batch](delta/DeltaSink.md#addBatch)
 
 ### <span id="normalizePartitionColumns"> Normalizing Partition Columns
 

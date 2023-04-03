@@ -7,7 +7,7 @@
 `DeltaSink` takes the following to be created:
 
 * <span id="sqlContext"> `SQLContext`
-* <span id="path"> Hadoop [Path]({{ hadoop.api }}/org/apache/hadoop/fs/Path.html) of the delta table (to [write data to](#addBatch) as configured by the [path](options/index.md#path) option)
+* <span id="path"> Hadoop [Path]({{ hadoop.api }}/org/apache/hadoop/fs/Path.html) of the delta table (to [write data to](#addBatch) as configured by the [path](options.md#path) option)
 * <span id="partitionColumns"> Partition columns
 * <span id="outputMode"> `OutputMode` ([Spark Structured Streaming]({{ book.structured_streaming }}/OutputMode))
 * <span id="options"> [DeltaOptions](DeltaOptions.md)
@@ -22,7 +22,7 @@
 deltaLog: DeltaLog
 ```
 
-`deltaLog` is a [DeltaLog](DeltaLog.md) that is [created](DeltaLog.md#forTable) for the [delta table](#path) when `DeltaSink` is [created](#creating-instance).
+`deltaLog` is a [DeltaLog](../DeltaLog.md) that is [created](../DeltaLog.md#forTable) for the [delta table](#path) when `DeltaSink` is [created](#creating-instance).
 
 `deltaLog` is used when:
 
@@ -40,7 +40,7 @@ addBatch(
 
 ---
 
-`addBatch` requests the [DeltaLog](#deltaLog) to [start a new transaction](DeltaLog.md#withNewTransaction).
+`addBatch` requests the [DeltaLog](#deltaLog) to [start a new transaction](../DeltaLog.md#withNewTransaction).
 
 `addBatch` registers the following performance metrics.
 
@@ -51,17 +51,17 @@ Name              | web UI
 
 `addBatch` makes sure that `sql.streaming.queryId` local property is defined (attached to the query's current thread).
 
-If the batch reads the same delta table as this sink is going to write to, `addBatch` requests the `OptimisticTransaction` to [readWholeTable](OptimisticTransactionImpl.md#readWholeTable).
+If the batch reads the same delta table as this sink is going to write to, `addBatch` requests the `OptimisticTransaction` to [readWholeTable](../OptimisticTransactionImpl.md#readWholeTable).
 
-`addBatch` [updates the metadata](ImplicitMetadataOperation.md#updateMetadata).
+`addBatch` [updates the metadata](../ImplicitMetadataOperation.md#updateMetadata).
 
 `addBatch` determines the deleted files based on the [OutputMode](#outputMode). For `Complete` output mode, `addBatch`...FIXME
 
-`addBatch` requests the `OptimisticTransaction` to [write data out](TransactionalWrite.md#writeFiles).
+`addBatch` requests the `OptimisticTransaction` to [write data out](../TransactionalWrite.md#writeFiles).
 
-`addBatch` updates the `numRemovedFiles` and `numAddedFiles` performance metrics, and requests the `OptimisticTransaction` to [register the SQLMetrics](SQLMetricsReporting.md#registerSQLMetrics).
+`addBatch` updates the `numRemovedFiles` and `numAddedFiles` performance metrics, and requests the `OptimisticTransaction` to [register the SQLMetrics](../SQLMetricsReporting.md#registerSQLMetrics).
 
-In the end, `addBatch` requests the `OptimisticTransaction` to [commit](OptimisticTransactionImpl.md#commit) (with a new [SetTransaction](SetTransaction.md), [AddFile](AddFile.md)s and [RemoveFile](RemoveFile.md)s, and [StreamingUpdate](Operation.md#StreamingUpdate) operation).
+In the end, `addBatch` requests the `OptimisticTransaction` to [commit](../OptimisticTransactionImpl.md#commit) (with a new [SetTransaction](../SetTransaction.md), [AddFile](../AddFile.md)s and [RemoveFile](../RemoveFile.md)s, and [StreamingUpdate](../Operation.md#StreamingUpdate) operation).
 
 ## <span id="toString"> Text Representation
 
@@ -77,7 +77,7 @@ DeltaSink[path]
 
 ## <span id="ImplicitMetadataOperation"> ImplicitMetadataOperation
 
-`DeltaSink` is an [ImplicitMetadataOperation](ImplicitMetadataOperation.md).
+`DeltaSink` is an [ImplicitMetadataOperation](../ImplicitMetadataOperation.md).
 
 ### <span id="canMergeSchema"> canMergeSchema
 
@@ -85,7 +85,7 @@ DeltaSink[path]
 canMergeSchema: Boolean
 ```
 
-`canMergeSchema` is part of the [ImplicitMetadataOperation](ImplicitMetadataOperation.md#canMergeSchema) abstraction.
+`canMergeSchema` is part of the [ImplicitMetadataOperation](../ImplicitMetadataOperation.md#canMergeSchema) abstraction.
 
 ---
 
@@ -97,7 +97,7 @@ canMergeSchema: Boolean
 canOverwriteSchema: Boolean
 ```
 
-`canOverwriteSchema` is part of the [ImplicitMetadataOperation](ImplicitMetadataOperation.md#canOverwriteSchema) abstraction.
+`canOverwriteSchema` is part of the [ImplicitMetadataOperation](../ImplicitMetadataOperation.md#canOverwriteSchema) abstraction.
 
 ---
 

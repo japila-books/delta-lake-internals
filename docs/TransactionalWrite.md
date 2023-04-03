@@ -21,7 +21,7 @@ Used when:
 * `TransactionalWrite` is requested to [write a structured query out to a delta table](#writeFiles)
 * [GenerateSymlinkManifest](GenerateSymlinkManifest.md) post-commit hook is executed
 * `ImplicitMetadataOperation` is requested to [updateMetadata](ImplicitMetadataOperation.md#updateMetadata)
-* `DeltaSink` is requested to [addBatch](DeltaSink.md#addBatch)
+* `DeltaSink` is requested to [addBatch](delta/DeltaSink.md#addBatch)
 
 ### <span id="metadata"> Metadata
 
@@ -102,7 +102,7 @@ writeFiles(
 * `MergeIntoCommand` is requested to [writeInsertsOnlyWhenNoMatchedClauses](commands/merge/MergeIntoCommand.md#writeInsertsOnlyWhenNoMatchedClauses) and [writeAllChanges](commands/merge/MergeIntoCommand.md#writeAllChanges)
 * `OptimizeExecutor` is requested to [runOptimizeBinJob](commands/optimize/OptimizeExecutor.md#runOptimizeBinJob)
 * `UpdateCommand` is requested to [rewriteFiles](commands/update/UpdateCommand.md#rewriteFiles)
-* `DeltaSink` is requested to [add a streaming micro-batch](DeltaSink.md#addBatch)
+* `DeltaSink` is requested to [add a streaming micro-batch](delta/DeltaSink.md#addBatch)
 
 `writeFiles` creates a [DeltaInvariantCheckerExec](constraints/DeltaInvariantCheckerExec.md) and a [DelayedCommitProtocol](DelayedCommitProtocol.md) to write out files to the [data path](DeltaLog.md#dataPath) (of the [DeltaLog](#deltaLog)).
 
@@ -161,10 +161,10 @@ Internally, `writeFiles` turns the [hasWritten](#hasWritten) flag on (`true`).
 
 ### <span id="writeFiles-options"> Write Options
 
-`writeFiles` filters out all the [write options](DeltaOptions.md) (from the given `writeOptions`) except the following:
+`writeFiles` filters out all the [write options](delta/DeltaOptions.md) (from the given `writeOptions`) except the following:
 
-1. [maxRecordsPerFile](DeltaOptions.md#MAX_RECORDS_PER_FILE)
-1. [compression](DeltaOptions.md#COMPRESSION)
+1. [maxRecordsPerFile](delta/DeltaOptions.md#MAX_RECORDS_PER_FILE)
+1. [compression](delta/DeltaOptions.md#COMPRESSION)
 
 ### <span id="writeFiles-FileFormatWriter"> FileFormatWriter
 

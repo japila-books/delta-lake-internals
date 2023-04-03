@@ -57,4 +57,4 @@ getActiveCommitAtTime(
 `getActiveCommitAtTime` is used when:
 
 * `DeltaTableUtils` utility is used to [resolveTimeTravelVersion](DeltaTableUtils.md#resolveTimeTravelVersion)
-* `DeltaSource` is requested for [getStartingVersion](DeltaSource.md#getStartingVersion)
+* `DeltaSource` is requested for [getStartingVersion](delta/DeltaSource.md#getStartingVersion)

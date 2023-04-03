@@ -292,7 +292,7 @@ Used when:
 
 ### <span id="replaceWhere.constraintCheck.enabled"><span id="REPLACEWHERE_CONSTRAINT_CHECK_ENABLED"> replaceWhere.constraintCheck.enabled
 
-**spark.databricks.delta.replaceWhere.constraintCheck.enabled** controls whether or not [replaceWhere](../options/index.md#replaceWhere) on arbitrary expression and arbitrary columns enforces [constraints](../constraints/index.md) to replace the target table only when all the rows in the source dataframe match that constraint.
+**spark.databricks.delta.replaceWhere.constraintCheck.enabled** controls whether or not [replaceWhere](../delta/options.md#replaceWhere) on arbitrary expression and arbitrary columns enforces [constraints](../constraints/index.md) to replace the target table only when all the rows in the source dataframe match that constraint.
 
 If disabled, it will skip the constraint check and replace with all the rows from the new dataframe.
 
@@ -320,13 +320,13 @@ Default: `false`
 
 Default: `false`
 
-Equivalent DataFrame option: [mergeSchema](../options/index.md#mergeSchema)
+Equivalent DataFrame option: [mergeSchema](../delta/options.md#mergeSchema)
 
 Used when:
 
 * `DeltaMergeInto` utility is used to [resolveReferencesAndSchema](../commands/merge/DeltaMergeInto.md#resolveReferencesAndSchema)
 * `MetadataMismatchErrorBuilder` is requested to `addSchemaMismatch`
-* `DeltaWriteOptionsImpl` is requested for [canMergeSchema](../DeltaWriteOptionsImpl.md#canMergeSchema)
+* `DeltaWriteOptionsImpl` is requested for [canMergeSchema](../delta/DeltaWriteOptionsImpl.md#canMergeSchema)
 * `MergeIntoCommand` is requested for [canMergeSchema](../commands/merge/MergeIntoCommand.md#canMergeSchema)
 
 ### <span id="schema.typeCheck.enabled"><span id="DELTA_SCHEMA_TYPE_CHECK"> schema.typeCheck.enabled

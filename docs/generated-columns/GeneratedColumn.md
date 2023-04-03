@@ -19,7 +19,7 @@ isGeneratedColumn(
 `isGeneratedColumn` returns `true` when the following all hold:
 
 1. [satisfyGeneratedColumnProtocol](#satisfyGeneratedColumnProtocol)
-1. The metadata of the given `StructField` ([Spark SQL]({{ book.spark_sql }}/types/StructField)) contains (a binding for) the [delta.generationExpression](../DeltaSourceUtils.md#GENERATION_EXPRESSION_METADATA_KEY) key.
+1. The metadata of the given `StructField` ([Spark SQL]({{ book.spark_sql }}/types/StructField)) contains (a binding for) the [delta.generationExpression](../delta/DeltaSourceUtils.md#GENERATION_EXPRESSION_METADATA_KEY) key.
 
 `isGeneratedColumn` is used when:
 

@@ -46,5 +46,5 @@ getDS: Dataset[A]
 `getDS` is used when:
 
 * `Snapshot` is requested for the [stateDS Dataset](Snapshot.md#stateDS)
-* `DeltaSourceSnapshot` is requested for the [initialFiles Dataset](DeltaSourceSnapshot.md#initialFiles)
+* `DeltaSourceSnapshot` is requested for the [initialFiles Dataset](delta/DeltaSourceSnapshot.md#initialFiles)
 * `DataSkippingReaderBase` is requested for the [withStatsInternal Dataset](data-skipping/DataSkippingReaderBase.md#withStatsInternal)

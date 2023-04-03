@@ -132,7 +132,7 @@ forPath(
 
 `forPath` [checks whether the given table name is of a Delta table](DeltaTableUtils.md#isDeltaTable) and, if so, creates a [DeltaTable](#creating-instance) with the following:
 
-* `Dataset` that represents loading data from the specified `path` using [delta](DeltaDataSource.md#delta-format) data source
+* `Dataset` that represents loading data from the specified `path` using [delta](delta/DeltaDataSource.md#delta-format) data source
 * [DeltaTableV2](DeltaTableV2.md)
 
 `forPath` throws an `AnalysisException` when the given `path` does not belong to a delta table:

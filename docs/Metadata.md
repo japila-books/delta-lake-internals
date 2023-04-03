@@ -48,7 +48,7 @@ deltaLog.snapshot.metadata.id
 
 ## <span id="id"> Table ID
 
-`Metadata` uses a **Table ID** (aka [reservoirId](DeltaSourceOffset.md#reservoirId)) to uniquely identify a delta table and is never going to change through the history of the table.
+`Metadata` uses a **Table ID** (aka [reservoirId](delta/DeltaSourceOffset.md#reservoirId)) to uniquely identify a delta table and is never going to change through the history of the table.
 
 `Metadata` can be given a table ID when [created](#creating-instance) or defaults to a random UUID ([Java]({{ java.api }}/java/util/UUID.html#randomUUID)).
 

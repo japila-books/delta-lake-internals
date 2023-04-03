@@ -12,9 +12,9 @@ schema: StructType
 
 ---
 
-`schema` [removes the default expressions](ColumnWithDefaultExprUtils.md#removeDefaultExpressions) from the table schema (from the [Metadata](Snapshot.md#metadata) of the [Snapshot](SnapshotManagement.md#snapshot) of the [DeltaLog](DeltaSource.md#deltaLog)).
+`schema` [removes the default expressions](../ColumnWithDefaultExprUtils.md#removeDefaultExpressions) from the table schema (from the [Metadata](../Snapshot.md#metadata) of the [Snapshot](../SnapshotManagement.md#snapshot) of the [DeltaLog](DeltaSource.md#deltaLog)).
 
-In the end, `schema` [adds the CDF columns](change-data-feed/CDCReader.md#cdcReadSchema) to the schema when [readChangeFeed](DeltaReadOptions.md#readChangeFeed) option is enabled. Otherwise, `schema` returns the schema with no CDF columns and default expressions.
+In the end, `schema` [adds the CDF columns](../change-data-feed/CDCReader.md#cdcReadSchema) to the schema when [readChangeFeed](DeltaReadOptions.md#readChangeFeed) option is enabled. Otherwise, `schema` returns the schema with no CDF columns and default expressions.
 
 ## <span id="createDataFrameBetweenOffsets"> createDataFrameBetweenOffsets
 
@@ -47,9 +47,9 @@ getFileChangesAndCreateDataFrame(
   endOffset: DeltaSourceOffset): DataFrame
 ```
 
-With [readChangeFeed](DeltaReadOptions.md#readChangeFeed) option enabled, `getFileChangesAndCreateDataFrame` [getCDCFileChangesAndCreateDataFrame](change-data-feed/DeltaSourceCDCSupport.md#getCDCFileChangesAndCreateDataFrame).
+With [readChangeFeed](DeltaReadOptions.md#readChangeFeed) option enabled, `getFileChangesAndCreateDataFrame` [getCDCFileChangesAndCreateDataFrame](../change-data-feed/DeltaSourceCDCSupport.md#getCDCFileChangesAndCreateDataFrame).
 
-Otherwise, `getFileChangesAndCreateDataFrame` [gets the file changes](#getFileChanges) (as `IndexedFile`s with [AddFile](AddFile.md)s, [RemoveFile](RemoveFile.md)s or [AddCDCFile](AddCDCFile.md)s) and take as much file changes so their version and index (these actions belong to) are up to and including [DeltaSourceOffset](DeltaSourceOffset.md) (based on the [reservoirVersion](DeltaSourceOffset.md#reservoirVersion) and [index](DeltaSourceOffset.md#index)). `getFileChangesAndCreateDataFrame` filters out the file changes with the [path](FileAction.md#path) that matches the [excludeRegex](DeltaSource.md#excludeRegex) option. In the end, `getFileChangesAndCreateDataFrame` [createDataFrame](#createDataFrame) (from the filtered file changes).
+Otherwise, `getFileChangesAndCreateDataFrame` [gets the file changes](#getFileChanges) (as `IndexedFile`s with [AddFile](../AddFile.md)s, [RemoveFile](../RemoveFile.md)s or [AddCDCFile](../AddCDCFile.md)s) and take as much file changes so their version and index (these actions belong to) are up to and including [DeltaSourceOffset](DeltaSourceOffset.md) (based on the [reservoirVersion](DeltaSourceOffset.md#reservoirVersion) and [index](DeltaSourceOffset.md#index)). `getFileChangesAndCreateDataFrame` filters out the file changes with the [path](../FileAction.md#path) that matches the [excludeRegex](DeltaSource.md#excludeRegex) option. In the end, `getFileChangesAndCreateDataFrame` [createDataFrame](#createDataFrame) (from the filtered file changes).
 
 ### <span id="createDataFrame"> createDataFrame
 
@@ -58,9 +58,9 @@ createDataFrame(
   indexedFiles: Iterator[IndexedFile]): DataFrame
 ```
 
-`createDataFrame` collects [AddFile](AddFile.md)s from the given `indexedFiles` collection.
+`createDataFrame` collects [AddFile](../AddFile.md)s from the given `indexedFiles` collection.
 
-In the end, `createDataFrame` requests the [DeltaLog](DeltaSource.md#deltaLog) to [createDataFrame](DeltaLog.md#createDataFrame) (for the `AddFile`s and with `isStreaming` flag enabled).
+In the end, `createDataFrame` requests the [DeltaLog](DeltaSource.md#deltaLog) to [createDataFrame](../DeltaLog.md#createDataFrame) (for the `AddFile`s and with `isStreaming` flag enabled).
 
 ## <span id="getStartingOffsetFromSpecificDeltaVersion"> getStartingOffsetFromSpecificDeltaVersion
 

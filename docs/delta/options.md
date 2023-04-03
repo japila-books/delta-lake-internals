@@ -1,3 +1,7 @@
+---
+title: Options
+---
+
 # Options
 
 Delta Lake comes with options to fine-tune its uses. They can be defined using `option` method of the following:
@@ -8,7 +12,7 @@ Delta Lake comes with options to fine-tune its uses. They can be defined using `
 
 ## <span id="DeltaOptions"> Accessing Options
 
-The options are available at runtime as [DeltaOptions](../DeltaOptions.md).
+The options are available at runtime as [DeltaOptions](DeltaOptions.md).
 
 ```scala
 import org.apache.spark.sql.delta.DeltaOptions
@@ -42,7 +46,7 @@ Whether to write new data to the table or just rearrange data that is already pa
 
 Used when:
 
-* `DeltaWriteOptionsImpl` is requested for [rearrangeOnly](../DeltaWriteOptionsImpl.md#rearrangeOnly)
+* `DeltaWriteOptionsImpl` is requested for [rearrangeOnly](DeltaWriteOptionsImpl.md#rearrangeOnly)
 
 ??? demo
     Learn more in [Demo: dataChange](../demo/dataChange.md).
@@ -53,11 +57,11 @@ Used when:
 
 Default: (undefined)
 
-Use [DeltaOptions.excludeRegex](../DeltaReadOptions.md#excludeRegex) to access the value
+Use [DeltaOptions.excludeRegex](DeltaReadOptions.md#excludeRegex) to access the value
 
 Used when:
 
-* `DeltaSourceBase` is requested for the [data](../DeltaSourceBase.md#getFileChangesAndCreateDataFrame) (for a given [DeltaSourceOffset](../DeltaSourceOffset.md))
+* `DeltaSourceBase` is requested for the [data](DeltaSourceBase.md#getFileChangesAndCreateDataFrame) (for a given [DeltaSourceOffset](DeltaSourceOffset.md))
 * `DeltaSourceCDCSupport` is requested for the [data](../change-data-feed/DeltaSourceCDCSupport.md#getFileChangesForCDC)
 
 ## <span id="FAIL_ON_DATA_LOSS_OPTION"><span id="failOnDataLoss"> failOnDataLoss
@@ -66,7 +70,7 @@ Controls whether or not to [fail](../DeltaErrors.md#failOnDataLossException) loa
 
 Default: `true`
 
-Use [DeltaOptions.failOnDataLoss](../DeltaReadOptions.md#failOnDataLoss) to access the value
+Use [DeltaOptions.failOnDataLoss](DeltaReadOptions.md#failOnDataLoss) to access the value
 
 ## <span id="IGNORE_CHANGES_OPTION"><span id="ignoreChanges"> ignoreChanges
 
@@ -78,7 +82,7 @@ Use [DeltaOptions.failOnDataLoss](../DeltaReadOptions.md#failOnDataLoss) to acce
 
 ## <span id="MAX_FILES_PER_TRIGGER_OPTION"><span id="maxFilesPerTrigger"><span id="MAX_FILES_PER_TRIGGER_OPTION_DEFAULT"> maxFilesPerTrigger
 
-Maximum number of files ([AddFiles](../AddFile.md)) that [DeltaSource](../DeltaSource.md) is supposed to [scan](../DeltaSource.md#getChangesWithRateLimit) (_read_) in a streaming micro-batch (_trigger_)
+Maximum number of files ([AddFiles](../AddFile.md)) that [DeltaSource](DeltaSource.md) is supposed to [scan](DeltaSource.md#getChangesWithRateLimit) (_read_) in a streaming micro-batch (_trigger_)
 
 Default: `1000`
 
@@ -97,7 +101,7 @@ Used when:
 
 ## <span id="MERGE_SCHEMA_OPTION"><span id="mergeSchema"><span id="canMergeSchema"> mergeSchema
 
-Enables schema migration (and allows automatic schema merging during a write operation for [WriteIntoDelta](../commands/WriteIntoDelta.md) and [DeltaSink](../DeltaSink.md))
+Enables schema migration (and allows automatic schema merging during a write operation for [WriteIntoDelta](../commands/WriteIntoDelta.md) and [DeltaSink](DeltaSink.md))
 
 Equivalent SQL Session configuration: [spark.databricks.delta.schema.autoMerge.enabled](../configuration-properties/DeltaSQLConf.md#DELTA_SCHEMA_AUTO_MIGRATE)
 
@@ -109,7 +113,7 @@ Enables...FIXME
 
 Enables overwriting schema or change partitioning of a delta table during an overwrite write operation
 
-Use [DeltaOptions.canOverwriteSchema](../DeltaWriteOptionsImpl.md#canOverwriteSchema) to access the value
+Use [DeltaOptions.canOverwriteSchema](DeltaWriteOptionsImpl.md#canOverwriteSchema) to access the value
 
 !!! note
     The schema cannot be overwritten when using [replaceWhere](#REPLACE_WHERE_OPTION) option.
@@ -129,7 +133,7 @@ Default: (undefined)
 
 Enables [Change Data Feed](../change-data-feed/index.md) while reading a delta table (_CDC read_)
 
-Use [DeltaOptions.readChangeFeed](../DeltaReadOptions.md#readChangeFeed) to access the value
+Use [DeltaOptions.readChangeFeed](DeltaReadOptions.md#readChangeFeed) to access the value
 
 Requires either [startingVersion](#startingVersion) or [startingTimestamp](#startingTimestamp) option
 
@@ -137,7 +141,7 @@ Requires either [startingVersion](#startingVersion) or [startingTimestamp](#star
 
 Partition predicates (unless [replaceWhere.dataColumns.enabled](../configuration-properties/DeltaSQLConf.md#replaceWhere.dataColumns.enabled) is enabled to allow for arbitrary non-partition data predicates)
 
-Available as [DeltaWriteOptions.replaceWhere](../DeltaWriteOptions.md#replaceWhere)
+Available as [DeltaWriteOptions.replaceWhere](DeltaWriteOptions.md#replaceWhere)
 
 !!! example "Demo"
     Learn more in [Demo: replaceWhere](../demo/replaceWhere.md).
@@ -150,7 +154,7 @@ Mutually exclusive with [versionAsOf](#versionAsOf) option and the time travel i
 
 Used when:
 
-* `DeltaDataSource` utility is used to [get a DeltaTimeTravelSpec](../DeltaDataSource.md#getTimeTravelVersion)
+* `DeltaDataSource` utility is used to [get a DeltaTimeTravelSpec](DeltaDataSource.md#getTimeTravelVersion)
 
 ## <span id="USER_METADATA_OPTION"><span id="userMetadata"> userMetadata
 
@@ -173,4 +177,4 @@ Mutually exclusive with [timestampAsOf](#timestampAsOf) option and the time trav
 
 Used when:
 
-* `DeltaDataSource` utility is used to [get a DeltaTimeTravelSpec](../DeltaDataSource.md#getTimeTravelVersion)
+* `DeltaDataSource` utility is used to [get a DeltaTimeTravelSpec](DeltaDataSource.md#getTimeTravelVersion)

@@ -31,7 +31,7 @@ The following commands and operations can [transactionally write new data files 
 * [OptimizeTableCommand](./commands/optimize/OptimizeTableCommand.md)
 * [UpdateCommand](commands/update/UpdateCommand.md)
 * [WriteIntoDelta](commands/WriteIntoDelta.md)
-* [DeltaSink](DeltaSink.md#addBatch)
+* [DeltaSink](delta/DeltaSink.md#addBatch)
 
 ## Developer APIs
 
@@ -43,30 +43,30 @@ Delta Lake provides the following [Developer APIs](developer-api.md) for develop
 
 ## Structured Queries
 
-Delta Lake supports batch and streaming queries (Spark SQL and Structured Streaming, respectively) using [delta](DeltaDataSource.md#DataSourceRegister) format.
+Delta Lake supports batch and streaming queries (Spark SQL and Structured Streaming, respectively) using [delta](delta/DeltaDataSource.md#DataSourceRegister) format.
 
-In order to fine tune queries over data in Delta Lake use [options](options/index.md).
+In order to fine tune queries over data in Delta Lake use [options](delta/options.md).
 
 Structured queries can write (transactionally) to a delta table using the following interfaces:
 
 * [WriteIntoDelta](commands/WriteIntoDelta.md) command for batch queries (Spark SQL)
-* [DeltaSink](DeltaSink.md) for streaming queries (Spark Structured Streaming)
+* [DeltaSink](delta/DeltaSink.md) for streaming queries (Spark Structured Streaming)
 
 ### Batch Queries
 
 Delta Lake supports reading and writing in batch queries:
 
-* [Batch reads](DeltaDataSource.md#RelationProvider) (as a `RelationProvider`)
+* [Batch reads](delta/DeltaDataSource.md#RelationProvider) (as a `RelationProvider`)
 
-* [Batch writes](DeltaDataSource.md#CreatableRelationProvider) (as a `CreatableRelationProvider`)
+* [Batch writes](delta/DeltaDataSource.md#CreatableRelationProvider) (as a `CreatableRelationProvider`)
 
 ### Streaming Queries
 
 Delta Lake supports reading and writing in streaming queries:
 
-* [Stream reads](DeltaDataSource.md#StreamSourceProvider) (as a `Source`)
+* [Stream reads](delta/DeltaDataSource.md#StreamSourceProvider) (as a `Source`)
 
-* [Stream writes](DeltaDataSource.md#StreamSinkProvider) (as a `Sink`)
+* [Stream writes](delta/DeltaDataSource.md#StreamSinkProvider) (as a `Sink`)
 
 ## LogStore
 
