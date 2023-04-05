@@ -212,7 +212,6 @@ nav:
     - Transaction Log (DeltaLog):
       - DeltaLog: DeltaLog.md
       - Operation: Operation.md
-      - CheckpointV2: CheckpointV2.md
       - SnapshotManagement: SnapshotManagement.md
       - SnapshotDescriptor.md
       - ReadChecksum: ReadChecksum.md

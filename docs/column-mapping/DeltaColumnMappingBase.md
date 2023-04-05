@@ -108,7 +108,7 @@ getPhysicalName(
 
 `getPhysicalName` is used when:
 
-* `CheckpointV2` utility is used to [extractPartitionValues](../CheckpointV2.md#extractPartitionValues)
+* `CheckpointV2` utility is used to [extractPartitionValues](../checkpoints/CheckpointV2.md#extractPartitionValues)
 * `ConflictChecker` is requested to [getPrettyPartitionMessage](../ConflictChecker.md#getPrettyPartitionMessage)
 * `DeltaColumnMappingBase` is requested to [renameColumns](#renameColumns), [assignPhysicalNames](#assignPhysicalNames) and [createPhysicalSchema](#createPhysicalSchema)
 * `DeltaLog` utility is used to [rewritePartitionFilters](../DeltaLog.md#rewritePartitionFilters)
