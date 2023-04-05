@@ -31,11 +31,6 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://books.japila.pl/delta-lake-internals/CheckpointV2/</loc>
-         <lastmod>2023-04-05</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://books.japila.pl/delta-lake-internals/ColumnWithDefaultExprUtils/</loc>
          <lastmod>2023-04-05</lastmod>
          <changefreq>daily</changefreq>
@@ -472,6 +467,16 @@
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/checkpoints/</loc>
+         <lastmod>2023-04-05</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://books.japila.pl/delta-lake-internals/checkpoints/CheckpointHook/</loc>
+         <lastmod>2023-04-05</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://books.japila.pl/delta-lake-internals/checkpoints/CheckpointV2/</loc>
          <lastmod>2023-04-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
