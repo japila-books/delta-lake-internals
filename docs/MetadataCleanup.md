@@ -25,7 +25,7 @@
 doLogCleanup(): Unit
 ```
 
-`doLogCleanup` is part of the [Checkpoints](Checkpoints.md#doLogCleanup) abstraction.
+`doLogCleanup` is part of the [Checkpoints](checkpoints/Checkpoints.md#doLogCleanup) abstraction.
 
 ---
 
@@ -60,7 +60,7 @@ listExpiredDeltaLogs(
   fileCutOffTime: Long): Iterator[FileStatus]
 ```
 
-`listExpiredDeltaLogs` [loads the most recent checkpoint](Checkpoints.md#lastCheckpoint) if available.
+`listExpiredDeltaLogs` [loads the most recent checkpoint](checkpoints/Checkpoints.md#lastCheckpoint) if available.
 
 If the last checkpoint is not available, `listExpiredDeltaLogs` returns an empty iterator.
 

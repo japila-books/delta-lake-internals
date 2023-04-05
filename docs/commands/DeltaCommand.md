@@ -186,7 +186,7 @@ updateAndCheckpoint(
 Committed delta #[attemptVersion] to [logPath]. Wrote [commitSize] actions.
 ```
 
-In the end, `updateAndCheckpoint` requests the given [DeltaLog](../DeltaLog.md) to [checkpoint](../Checkpoints.md#checkpoint) the current snapshot.
+In the end, `updateAndCheckpoint` requests the given [DeltaLog](../DeltaLog.md) to [checkpoint](../checkpoints/Checkpoints.md#checkpoint) the current snapshot.
 
 #### <span id="updateAndCheckpoint-IllegalStateException"> IllegalStateException
 

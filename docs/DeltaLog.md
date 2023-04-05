@@ -114,7 +114,7 @@ When created, `DeltaLog` does the following:
 
 1. Initializes the [current snapshot](#currentSnapshot)
 
-1. [Updates state of the delta table](#update) when there is no [metadata checkpoint](Checkpoints.md#lastCheckpoint) (e.g. the version of the [state](#currentSnapshot) is `-1`)
+1. [Updates state of the delta table](#update) when there is no [metadata checkpoint](checkpoints/Checkpoints.md#lastCheckpoint) (e.g. the version of the [state](#currentSnapshot) is `-1`)
 
 In other words, the version of (the `DeltaLog` of) a delta table is at version `0` at the very minimum.
 
@@ -217,7 +217,7 @@ This table is configured to only allow appends. If you would like to permit upda
 metadata: Metadata
 ```
 
-`metadata` is part of the [Checkpoints](Checkpoints.md#metadata) abstraction.
+`metadata` is part of the [Checkpoints](checkpoints/Checkpoints.md#metadata) abstraction.
 
 `metadata` requests the [current Snapshot](#snapshot) for the [metadata](Snapshot.md#metadata) or creates a new [one](Metadata.md) (if the [current Snapshot](snapshot) is not initialized).
 
@@ -238,7 +238,7 @@ For all other cases, `update`...FIXME
 
 * `DeltaHistoryManager` is requested to [getHistory](DeltaHistoryManager.md#getHistory), [getActiveCommitAtTime](DeltaHistoryManager.md#getActiveCommitAtTime), and [checkVersionExists](DeltaHistoryManager.md#checkVersionExists)
 
-* `DeltaLog` is [created](#creating-instance) (with no [checkpoint](Checkpoints.md#lastCheckpoint) created), and requested to [startTransaction](#startTransaction) and [withNewTransaction](#withNewTransaction)
+* `DeltaLog` is [created](#creating-instance) (with no [checkpoint](checkpoints/Checkpoints.md#lastCheckpoint) created), and requested to [startTransaction](#startTransaction) and [withNewTransaction](#withNewTransaction)
 
 * `OptimisticTransactionImpl` is requested to [doCommit](OptimisticTransactionImpl.md#doCommit) and [checkAndRetry](OptimisticTransactionImpl.md#checkAndRetry)
 
@@ -271,7 +271,7 @@ snapshot: Snapshot
 
 * [OptimisticTransaction](OptimisticTransaction.md) is created
 
-* `Checkpoints` is requested to [checkpoint](Checkpoints.md#checkpoint)
+* `Checkpoints` is requested to [checkpoint](checkpoints/Checkpoints.md#checkpoint)
 
 * `DeltaLog` is requested for the [metadata](#metadata), to [upgradeProtocol](#upgradeProtocol), [getSnapshotAt](#getSnapshotAt), [createRelation](#createRelation)
 
@@ -297,7 +297,7 @@ snapshot: Snapshot
 currentSnapshot: Snapshot
 ```
 
-`currentSnapshot` is a [Snapshot](Snapshot.md) based on the [metadata checkpoint](Checkpoints.md#lastCheckpoint) if available or a new `Snapshot` instance (with version being `-1`).
+`currentSnapshot` is a [Snapshot](Snapshot.md) based on the [metadata checkpoint](checkpoints/Checkpoints.md#lastCheckpoint) if available or a new `Snapshot` instance (with version being `-1`).
 
 !!! NOTE
     For a new `Snapshot` instance (with version being `-1`) `DeltaLog` immediately [updates the state](#update).

@@ -42,7 +42,7 @@ Default: `false`
 
 ### <span id="checkpointInterval"><span id="CHECKPOINT_INTERVAL"> checkpointInterval
 
-How often to [checkpoint](Checkpoints.md#checkpoint) the state of a delta table (at the end of [transaction commit](OptimisticTransactionImpl.md#postCommit))
+How often to [checkpoint](checkpoints/Checkpoints.md#checkpoint) the state of a delta table (at the end of [transaction commit](OptimisticTransactionImpl.md#postCommit))
 
 Default: `10`
 

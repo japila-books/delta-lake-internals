@@ -233,7 +233,7 @@ postCommit(
 
 `postCommit` turns the [committed](#committed) flag on.
 
-With the given `needsCheckpoint` enabled (that comes indirectly from [doCommit](#doCommit)), `postCommit` requests the [DeltaLog](#deltaLog) for the [Snapshot](SnapshotManagement.md#getSnapshotAt) at the given `commitVersion` followed by [checkpointing](Checkpoints.md#checkpoint).
+With the given `needsCheckpoint` enabled (that comes indirectly from [doCommit](#doCommit)), `postCommit` requests the [DeltaLog](#deltaLog) for the [Snapshot](SnapshotManagement.md#getSnapshotAt) at the given `commitVersion` followed by [checkpointing](checkpoints/Checkpoints.md#checkpoint).
 
 ## <span id="prepareCommit"> prepareCommit
 

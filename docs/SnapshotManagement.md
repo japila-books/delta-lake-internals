@@ -24,7 +24,7 @@
 getSnapshotAtInit: Snapshot
 ```
 
-`getSnapshotAtInit` [finds the LogSegment](#getLogSegmentFrom) of the delta table (using the [last checkpoint file](Checkpoints.md#readLastCheckpointFile) if available)
+`getSnapshotAtInit` [finds the LogSegment](#getLogSegmentFrom) of the delta table (using the [last checkpoint file](checkpoints/Checkpoints.md#readLastCheckpointFile) if available)
 
 In the end, `getSnapshotAtInit` [createSnapshotAtInitInternal](#createSnapshotAtInitInternal).
 

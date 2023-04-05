@@ -32,11 +32,19 @@ Default: `true`
 
 Delta always tries to give users the latest version of table data without having to call `REFRESH TABLE` or redefine their DataFrames when used in the context of streaming. There is a possibility that the schema of the latest version of the table may be incompatible with the schema at the time of DataFrame creation.
 
-### <span id="checkpoint.partSize"><span id="DELTA_CHECKPOINT_PART_SIZE"> checkpoint.partSize
+### <span id="spark.databricks.delta.checkpoint.partSize"><span id="DELTA_CHECKPOINT_PART_SIZE"> checkpoint.partSize { #checkpoint.partSize }
 
-**spark.databricks.delta.checkpoint.partSize** (internal) is the limit at which we will start parallelizing the checkpoint. We will attempt to write maximum of this many actions per checkpoint.
+**spark.databricks.delta.checkpoint.partSize**
 
-Default: `5000000`
+**(internal)** The limit checkpoint parallelization starts at. It attempts to write maximum of this many actions per checkpoint.
+
+Default: (undefined) (and assumed `1`)
+
+Must be a positive `long` number
+
+Used when:
+
+* `Checkpoints` is requested to [write out a state checkpoint](../checkpoints/Checkpoints.md#writeCheckpoint)
 
 ### <span id="commitInfo.enabled"><span id="DELTA_COMMIT_INFO_ENABLED"> commitInfo.enabled
 

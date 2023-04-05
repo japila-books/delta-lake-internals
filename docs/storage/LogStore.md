@@ -34,7 +34,7 @@ Default: `true`
 
 Used when:
 
-* `Checkpoints` is requested to [writeCheckpoint](../Checkpoints.md#writeCheckpoint)
+* `Checkpoints` is requested to [writeCheckpoint](../checkpoints/Checkpoints.md#writeCheckpoint)
 * `OptimisticTransactionImpl` is requested to [isCommitLockEnabled](../OptimisticTransactionImpl.md#isCommitLockEnabled)
 * `DelegatingLogStore` is requested to [isPartialWriteVisible](DelegatingLogStore.md#isPartialWriteVisible)
 
@@ -49,7 +49,7 @@ listFrom(
 
 Used when:
 
-* `Checkpoints` is requested to [findLastCompleteCheckpoint](../Checkpoints.md#findLastCompleteCheckpoint)
+* `Checkpoints` is requested to [findLastCompleteCheckpoint](../checkpoints/Checkpoints.md#findLastCompleteCheckpoint)
 * `DeltaHistoryManager` is requested to [getEarliestDeltaFile](../DeltaHistoryManager.md#getEarliestDeltaFile), [getEarliestReproducibleCommit](../DeltaHistoryManager.md#getEarliestReproducibleCommit) and [getCommits](../DeltaHistoryManager.md#getCommits)
 * `DeltaLog` is requested to [getChanges](../DeltaLog.md#getChanges)
 * `MetadataCleanup` is requested to [listExpiredDeltaLogs](../MetadataCleanup.md#listExpiredDeltaLogs)
@@ -68,7 +68,7 @@ read(
 
 Used when:
 
-* `Checkpoints` is requested to [loadMetadataFromFile](../Checkpoints.md#loadMetadataFromFile)
+* `Checkpoints` is requested to [loadMetadataFromFile](../checkpoints/Checkpoints.md#loadMetadataFromFile)
 * `ReadChecksum` is requested to [readChecksum](../ReadChecksum.md#readChecksum)
 * `DeltaLog` is requested to [getChanges](../DeltaLog.md#getChanges)
 * `OptimisticTransactionImpl` is requested to [checkForConflicts](../OptimisticTransactionImpl.md#checkForConflicts)
@@ -89,7 +89,7 @@ write(
 
 Used when:
 
-* `Checkpoints` is requested to [checkpoint](../Checkpoints.md#checkpoint)
+* `Checkpoints` is requested to [checkpoint](../checkpoints/Checkpoints.md#checkpoint)
 * `OptimisticTransactionImpl` is requested to [doCommit](../OptimisticTransactionImpl.md#doCommit)
 * `DeltaCommand` is requested to [commitLarge](../commands/DeltaCommand.md#commitLarge)
 * `GenerateSymlinkManifestImpl` is requested to [writeManifestFiles](../GenerateSymlinkManifest.md#writeManifestFiles)

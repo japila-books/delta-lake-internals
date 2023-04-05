@@ -142,7 +142,7 @@ state: Dataset[SingleAction]
 
 `state` is used when:
 
-* `Checkpoints` utility is used to [writeCheckpoint](Checkpoints.md#writeCheckpoint)
+* `Checkpoints` utility is used to [writeCheckpoint](checkpoints/Checkpoints.md#writeCheckpoint)
 * `Snapshot` is requested for [computedState](#computedState), [all files](#allFiles) and [files removed (tombstones)](#tombstones)
 * `VacuumCommand` utility is requested for [garbage collection](commands/vacuum/VacuumCommand.md#gc)
 
