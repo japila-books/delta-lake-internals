@@ -117,7 +117,7 @@ With all [action](FileAction.md)s with [dataChange](FileAction.md#dataChange) fl
 
 ### <span id="commit-registerPostCommitHook"> Registering Post-Commit Hook
 
-`commit` [registers](#registerPostCommitHook) the [GenerateSymlinkManifest](GenerateSymlinkManifest.md) post-commit hook when there is a [FileAction](FileAction.md) among the actions and the [compatibility.symlinkFormatManifest.enabled](DeltaConfigs.md#SYMLINK_FORMAT_MANIFEST_ENABLED) table property is enabled.
+`commit` [registers](#registerPostCommitHook) the [GenerateSymlinkManifest](post-commit-hooks/GenerateSymlinkManifest.md) post-commit hook when there is a [FileAction](FileAction.md) among the actions and the [compatibility.symlinkFormatManifest.enabled](DeltaConfigs.md#SYMLINK_FORMAT_MANIFEST_ENABLED) table property is enabled.
 
 ### <span id="commit-doCommitRetryIteratively"><span id="commit-commitVersion"><span id="commit-needsCheckpoint"> doCommitRetryIteratively
 
@@ -279,16 +279,7 @@ performCdcColumnMappingCheck(
 
 `performCdcColumnMappingCheck`...FIXME
 
-### <span id="registerPostCommitHook"> Registering Post-Commit Hook
-
-```scala
-registerPostCommitHook(
-  hook: PostCommitHook): Unit
-```
-
-`registerPostCommitHook` registers (_adds_) the given [PostCommitHook](PostCommitHook.md) to the [postCommitHooks](#postCommitHooks) internal registry.
-
-### <span id="runPostCommitHooks"> runPostCommitHooks
+### runPostCommitHooks { #runPostCommitHooks }
 
 ```scala
 runPostCommitHooks(
@@ -296,7 +287,7 @@ runPostCommitHooks(
   committedActions: Seq[Action]): Unit
 ```
 
-`runPostCommitHooks` simply [runs](PostCommitHook.md#run) every [post-commit hook](PostCommitHook.md) registered (in the [postCommitHooks](#postCommitHooks) internal registry).
+`runPostCommitHooks` simply [runs](post-commit-hooks/PostCommitHook.md#run) every [post-commit hook](post-commit-hooks/PostCommitHook.md) registered (in the [postCommitHooks](#postCommitHooks) internal registry).
 
 `runPostCommitHooks` [clears the active transaction](OptimisticTransaction.md#clearActive) (making all follow-up operations non-transactional).
 
@@ -305,7 +296,7 @@ runPostCommitHooks(
 
 #### <span id="runPostCommitHooks-non-fatal-exceptions"> Handling Non-Fatal Exceptions
 
-For non-fatal exceptions, `runPostCommitHooks` prints out the following ERROR message to the logs, records the delta event, and requests the post-commit hook to [handle the error](PostCommitHook.md#handleError).
+For non-fatal exceptions, `runPostCommitHooks` prints out the following ERROR message to the logs, records the delta event, and requests the post-commit hook to [handle the error](post-commit-hooks/PostCommitHook.md#handleError).
 
 ```text
 Error when executing post-commit hook [name] for commit [version]
@@ -512,17 +503,17 @@ getUserMetadata(
 * `OptimisticTransactionImpl` is requested to [commit](#commit) (and [spark.databricks.delta.commitInfo.enabled](configuration-properties/DeltaSQLConf.md#DELTA_COMMIT_INFO_ENABLED) configuration property is enabled)
 * [ConvertToDeltaCommand](commands/convert/ConvertToDeltaCommand.md) is executed (and in turn requests `DeltaCommand` to [commitLarge](commands/DeltaCommand.md#commitLarge))
 
-## Internal Registries
-
-### <span id="postCommitHooks"> Post-Commit Hooks
+## Post-Commit Hooks { #postCommitHooks }
 
 ```scala
 postCommitHooks: ArrayBuffer[PostCommitHook]
 ```
 
-`OptimisticTransactionImpl` manages [PostCommitHook](PostCommitHook.md)s that will be [executed](#runPostCommitHooks) right after a [commit](#commit) is successful.
+`OptimisticTransactionImpl` uses `postCommitHooks` internal registry to manage [PostCommitHook](post-commit-hooks/PostCommitHook.md)s to be [executed](#runPostCommitHooks) right after a successful [commit](#commit).
 
-Post-commit hooks can be [registered](#registerPostCommitHook), but only the [GenerateSymlinkManifest](GenerateSymlinkManifest.md) post-commit hook is supported.
+[PostCommitHook](post-commit-hooks/PostCommitHook.md)s can be registered using [registerPostCommitHook](#registerPostCommitHook).
+
+## Internal Registries
 
 ### <span id="newMetadata"> newMetadata
 
@@ -699,6 +690,19 @@ isCommitLockEnabled: Boolean
 
     1. [spark.databricks.delta.commitLock.enabled](configuration-properties/DeltaSQLConf.md#DELTA_COMMIT_LOCK_ENABLED) configuration property is undefined by default
     1. [isPartialWriteVisible](storage/LogStore.md#isPartialWriteVisible) is `true` by default
+
+### Registering Post-Commit Hook { #registerPostCommitHook }
+
+```scala
+registerPostCommitHook(
+  hook: PostCommitHook): Unit
+```
+
+`registerPostCommitHook` registers (_adds_) the given [PostCommitHook](post-commit-hooks/PostCommitHook.md) to the [postCommitHooks](#postCommitHooks) internal registry.
+
+`registerPostCommitHook` is used when:
+
+* `OptimisticTransactionImpl` is created (and registers [CheckpointHook](checkpoints/CheckpointHook.md)) and [commitImpl](#commitImpl) (to register [GenerateSymlinkManifest](post-commit-hooks/GenerateSymlinkManifest.md))
 
 ## Logging
 

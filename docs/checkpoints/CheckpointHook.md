@@ -1,6 +1,6 @@
 # CheckpointHook
 
-`CheckpointHook` is a [PostCommitHook](../PostCommitHook.md) to [checkpoint](Checkpoints.md#checkpoint).
+`CheckpointHook` is a [post-commit hook](../post-commit-hooks/PostCommitHook.md) to run a [checkpoint](Checkpoints.md#checkpoint).
 
 ## Name
 
@@ -10,7 +10,7 @@
     name: String
     ```
 
-    `name` is part of the [PostCommitHook](../PostCommitHook.md#name) abstraction.
+    `name` is part of the [PostCommitHook](../post-commit-hooks/PostCommitHook.md#name) abstraction.
 
 `name` is the following:
 
@@ -31,7 +31,7 @@ Post commit checkpoint trigger
       committedActions: Seq[Action]): Unit
     ```
 
-    `run` is part of the [PostCommitHook](../PostCommitHook.md#run) abstraction.
+    `run` is part of the [PostCommitHook](../post-commit-hooks/PostCommitHook.md#run) abstraction.
 
 ??? note "Noop when `needsCheckpoint` flag disabled"
     `run` does nothing when [needsCheckpoint](../OptimisticTransactionImpl.md#needsCheckpoint) flag of the given [OptimisticTransactionImpl](../OptimisticTransactionImpl.md) is disabled.

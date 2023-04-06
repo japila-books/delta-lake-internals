@@ -177,6 +177,7 @@ nav:
     - LIMIT Pushdown:
       - limit-pushdown/index.md
     - Logging: logging.md
+    - ... | post-commit-hooks/**.md
     - Table Constraints:
       - constraints/index.md
       - CheckDeltaInvariant: constraints/CheckDeltaInvariant.md
@@ -222,9 +223,6 @@ nav:
       - OptimisticTransactionImpl: OptimisticTransactionImpl.md
       - TransactionalWrite: TransactionalWrite.md
       - IsolationLevel: IsolationLevel.md
-      - Post-Commit Hooks:
-        - PostCommitHook: PostCommitHook.md
-        - GenerateSymlinkManifest: GenerateSymlinkManifest.md
     - State Snapshot:
       - Snapshot: Snapshot.md
       - State.md

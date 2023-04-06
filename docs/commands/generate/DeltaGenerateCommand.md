@@ -38,7 +38,7 @@ sql(q).collect
 
 Mode Name | Generation Function
 --------- |----------
- `symlink_format_manifest` | [generateFullManifest](../../GenerateSymlinkManifest.md#generateFullManifest)
+ `symlink_format_manifest` | [generateFullManifest](../../post-commit-hooks/GenerateSymlinkManifest.md#generateFullManifest)
 
 ## <span id="run"> Executing Command
 

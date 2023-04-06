@@ -279,7 +279,7 @@ snapshot: Snapshot
 
 * [DeleteCommand](commands/delete/DeleteCommand.md), [DeltaGenerateCommand](commands/generate/DeltaGenerateCommand.md), [DescribeDeltaDetailCommand](commands/describe-detail/DescribeDeltaDetailCommand.md), [UpdateCommand](commands/update/UpdateCommand.md) commands are executed
 
-* [GenerateSymlinkManifest](GenerateSymlinkManifest.md) is executed
+* [GenerateSymlinkManifest](post-commit-hooks/GenerateSymlinkManifest.md) is executed
 
 * `DeltaCommand` is requested to [buildBaseRelation](commands/DeltaCommand.md#buildBaseRelation)
 

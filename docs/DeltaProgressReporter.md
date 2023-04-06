@@ -34,7 +34,7 @@ withStatusCode[T](
 * `PartitionFiltering` is requested for the [files to scan](PartitionFiltering.md#filesForScan)
 * `Snapshot` is requested for the [state](Snapshot.md#computedState)
 * [DeleteCommand](commands/delete/DeleteCommand.md), [MergeIntoCommand](commands/merge/MergeIntoCommand.md), [UpdateCommand](commands/update/UpdateCommand.md) are executed
-* `GenerateSymlinkManifest` is requested to [recordManifestGeneration](GenerateSymlinkManifest.md#recordManifestGeneration)
+* `GenerateSymlinkManifest` is requested to [recordManifestGeneration](post-commit-hooks/GenerateSymlinkManifest.md#recordManifestGeneration)
 
 ### <span id="withJobDescription"> withJobDescription
 

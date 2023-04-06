@@ -202,7 +202,7 @@ scala> files.show(truncate = false)
 
 * `DeltaSourceSnapshot` is requested for the [initial files](delta/DeltaSourceSnapshot.md#initialFiles) (indexed [AddFiles](AddFile.md))
 
-* `GenerateSymlinkManifestImpl` is requested to [generateIncrementalManifest](GenerateSymlinkManifest.md#generateIncrementalManifest) and [generateFullManifest](GenerateSymlinkManifest.md#generateFullManifest)
+* `GenerateSymlinkManifestImpl` is requested to [generateIncrementalManifest](post-commit-hooks/GenerateSymlinkManifest.md#generateIncrementalManifest) and [generateFullManifest](post-commit-hooks/GenerateSymlinkManifest.md#generateFullManifest)
 
 * `DeltaDataSource` is requested for an [Insertable HadoopFsRelation](delta/DeltaDataSource.md#RelationProvider-createRelation)
 
