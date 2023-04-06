@@ -1,8 +1,8 @@
 # WriteIntoDelta Command
 
-`WriteIntoDelta` is a [Delta command](DeltaCommand.md) that can write [data(frame)](#data) transactionally into a [delta table](#deltaLog).
+`WriteIntoDelta` is a [delta command](DeltaCommand.md) that can write [data(frame)](#data) transactionally into a [delta table](#deltaLog).
 
-`WriteIntoDelta` is a `RunnableCommand` ([Spark SQL]({{ book.spark_sql }}/logical-operators/RunnableCommand)) logical operator.
+`WriteIntoDelta` is a `LeafRunnableCommand` ([Spark SQL]({{ book.spark_sql }}/logical-operators/LeafRunnableCommand)) logical operator.
 
 ## Creating Instance
 
@@ -14,16 +14,18 @@
 * <span id="partitionColumns"> Names of the partition columns
 * [Configuration](#configuration)
 * <span id="data"> Data (`DataFrame`)
+* [schemaInCatalog](#schemaInCatalog)
 
 `WriteIntoDelta` is created when:
 
+* `DeltaDynamicPartitionOverwriteCommand` is executed
 * `DeltaLog` is requested to [create an insertable HadoopFsRelation](../DeltaLog.md#createRelation) (when `DeltaDataSource` is requested to create a relation as a [CreatableRelationProvider](../delta/DeltaDataSource.md#CreatableRelationProvider) or a [RelationProvider](../delta/DeltaDataSource.md#RelationProvider))
-* `DeltaCatalog` is requested to [createDeltaTable](../DeltaCatalog.md#createDeltaTable)
-* `WriteIntoDeltaBuilder` is requested to [buildForV1Write](../WriteIntoDeltaBuilder.md#buildForV1Write)
-* `CreateDeltaTableCommand` command is [executed](CreateDeltaTableCommand.md#run)
+* `DeltaCatalog` is requested to [create a delta table](../DeltaCatalog.md#createDeltaTable)
+* `WriteIntoDeltaBuilder` is requested to [build a V1Write](../WriteIntoDeltaBuilder.md#build)
+* [CreateDeltaTableCommand](CreateDeltaTableCommand.md) is executed
 * `DeltaDataSource` is requested to [create a relation (for writing)](../delta/DeltaDataSource.md#CreatableRelationProvider-createRelation) (as a [CreatableRelationProvider](../delta/DeltaDataSource.md#CreatableRelationProvider))
 
-### <span id="configuration"> Configuration
+### Configuration { #configuration }
 
 `WriteIntoDelta` is given a `configuration` when [created](#creating-instance) as follows:
 
@@ -33,18 +35,30 @@
 * Existing [configuration](../Metadata.md#configuration) (of the [Metadata](../Snapshot.md#metadata) of the [Snapshot](../DeltaLog.md#snapshot) of the [DeltaLog](../WriteIntoDeltaBuilder.md#log)) for [WriteIntoDeltaBuilder](../WriteIntoDeltaBuilder.md#build)
 * Existing properties of a delta table for [CreateDeltaTableCommand](CreateDeltaTableCommand.md) (with the `comment` key based on the value in the catalog)
 
+### schemaInCatalog { #schemaInCatalog }
+
+```scala
+schemaInCatalog: Option[StructType] = None
+```
+
+`WriteIntoDelta` can be given a `StructType` ([Spark SQL]({{ book.spark_sql }}/types/StructType)) when [created](#creating-instance). Unless given, it is assumed undefined.
+
+`schemaInCatalog` is only defined when `DeltaCatalog` is requested to [create a delta table](../DeltaCatalog.md#createDeltaTable) (yet it does not seem to be used at all).
+
 ## ImplicitMetadataOperation
 
 `WriteIntoDelta` is an [operation that can update metadata (schema and partitioning)](../ImplicitMetadataOperation.md) of the [delta table](#deltaLog).
 
-## <span id="run"> Executing Command
+## Executing Command { #run }
 
-```scala
-run(
-  sparkSession: SparkSession): Seq[Row]
-```
+??? note "RunnableCommand"
 
-`run` is part of the `RunnableCommand` ([Spark SQL]({{ book.spark_sql }}/logical-operators/RunnableCommand#run)) abstraction.
+    ```scala
+    run(
+      sparkSession: SparkSession): Seq[Row]
+    ```
+
+    `run` is part of the `RunnableCommand` ([Spark SQL]({{ book.spark_sql }}/logical-operators/RunnableCommand#run)) abstraction.
 
 `run` requests the [DeltaLog](#deltaLog) to [start a new transaction](../DeltaLog.md#withNewTransaction).
 
@@ -105,13 +119,13 @@ writeCmd.run(spark)
 
 ## <span id="canOverwriteSchema"> canOverwriteSchema
 
-```scala
-canOverwriteSchema: Boolean
-```
+??? note "ImplicitMetadataOperation"
 
-`canOverwriteSchema` is part of the [ImplicitMetadataOperation](../ImplicitMetadataOperation.md#canOverwriteSchema) abstraction.
+    ```scala
+    canOverwriteSchema: Boolean
+    ```
 
----
+    `canOverwriteSchema` is part of the [ImplicitMetadataOperation](../ImplicitMetadataOperation.md#canOverwriteSchema) abstraction.
 
 `canOverwriteSchema` is `true` when all the following hold:
 
@@ -140,6 +154,8 @@ extractConstraints(
 ```
 
 `extractConstraints`...FIXME
+
+---
 
 `extractConstraints` is used when:
 

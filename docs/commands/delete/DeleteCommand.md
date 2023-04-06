@@ -16,7 +16,7 @@
 
 * [PreprocessTableDelete](../../PreprocessTableDelete.md) logical resolution rule is executed (and resolves a [DeltaDelete](DeltaDelete.md) logical command)
 
-## Performance Metrics
+## Performance Metrics { #metrics }
 
 ??? note "Signature"
 
@@ -30,12 +30,14 @@
 
 ## <span id="run"> Executing Command
 
-```scala
-run(
-  sparkSession: SparkSession): Seq[Row]
-```
+??? note "RunnableCommand"
 
-`run` is part of the `RunnableCommand` ([Spark SQL]({{ book.spark_sql }}/logical-operators/RunnableCommand/)) abstraction.
+    ```scala
+    run(
+      sparkSession: SparkSession): Seq[Row]
+    ```
+
+    `run` is part of the `RunnableCommand` ([Spark SQL]({{ book.spark_sql }}/logical-operators/RunnableCommand/)) abstraction.
 
 `run` requests the [TahoeFileIndex](#tahoeFileIndex) for the [DeltaLog](../../TahoeFileIndex.md#deltaLog) (and [asserts that the table is removable](../../DeltaLog.md#assertRemovable)).
 

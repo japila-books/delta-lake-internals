@@ -157,7 +157,7 @@ These `FileFormat`s are used to create [DeltaLogFileIndex](DeltaLogFileIndex.md)
 
 `DeltaLog` uses a [LogStore](storage/LogStore.md) for...FIXME
 
-## <span id="withNewTransaction"> Executing Single-Threaded Operation in New Transaction
+## Executing Single-Threaded Operation in New Transaction { #withNewTransaction }
 
 ```scala
 withNewTransaction[T](
@@ -168,10 +168,11 @@ withNewTransaction[T](
 
 In the end, `withNewTransaction` makes the transaction [no longer active](OptimisticTransaction.md#clearActive).
 
+---
+
 `withNewTransaction` is used when:
 
-* [DeleteCommand](commands/delete/DeleteCommand.md), [MergeIntoCommand](commands/merge/MergeIntoCommand.md), [UpdateCommand](commands/update/UpdateCommand.md), and [WriteIntoDelta](commands/WriteIntoDelta.md) commands are executed
-
+* [DeleteCommand](commands/delete/DeleteCommand.md), [MergeIntoCommand](commands/merge/MergeIntoCommand.md), [RestoreTableCommand](commands/restore/RestoreTableCommand.md), [UpdateCommand](commands/update/UpdateCommand.md), and [WriteIntoDelta](commands/WriteIntoDelta.md) commands are executed
 * `DeltaSink` is requested to [add a streaming micro-batch](delta/DeltaSink.md#addBatch)
 
 ## <span id="startTransaction"> Starting New Transaction

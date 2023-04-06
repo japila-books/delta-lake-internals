@@ -2,11 +2,17 @@
 
 `DeleteCommandMetrics` is a marker extension of the `LeafRunnableCommand` ([Spark SQL]({{ book.spark_sql }}/logical-operators/LeafRunnableCommand)) abstraction for [delete commands](#implementations) with [performance metrics](#createMetrics).
 
-## <span id="createMetrics"> Performance Metrics
+## Performance Metrics { #createMetrics }
 
 ```scala
 createMetrics: Map[String, SQLMetric]
 ```
+
+---
+
+`createMetrics` is used when:
+
+* `DeleteCommand` is requested for the [performance metrics](DeleteCommand.md#metrics)
 
 Name | web UI
 -----|-------
@@ -29,10 +35,6 @@ Name | web UI
  `numAddedChangeFiles` | number of change data capture files generated
  `changeFileBytes` | total size of change data capture files generated
  `numTouchedRows` | number of rows touched
-
-`createMetrics` is used when:
-
-* `DeleteCommand` is requested for the [performance metrics](DeleteCommand.md#metrics)
 
 ## <span id="getDeletedRowsFromAddFilesAndUpdateMetrics"> getDeletedRowsFromAddFilesAndUpdateMetrics
 
