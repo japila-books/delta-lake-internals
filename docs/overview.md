@@ -107,13 +107,3 @@ Delta Lake introduces [exceptions](exceptions/index.md) due to conflicts between
 ## Simplified Storage Configuration
 
 [Storage](storage/index.md)
-
-## Delta Lake 1.2.0
-
-### Compacting Small Files (Optimize)
-
-Delta Lake 1.2.0 introduces a new [OPTIMIZE](./commands/optimize/index.md) SQL command for compacting small files into larger ones.
-
-### Data Skipping
-
-Delta Lake 1.2.0 introduces support for [Data Skipping](data-skipping/index.md).

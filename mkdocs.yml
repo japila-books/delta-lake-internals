@@ -168,6 +168,8 @@ nav:
     # Review .pages for setup
     - ... | column-statistics/**.md
     - ... | configuration-properties/**.md
+    - CREATE TABLE LIKE:
+      - create-table-like/index.md
     - ... | data-skipping/**.md
     - developer-api.md
     - Generated Columns:
