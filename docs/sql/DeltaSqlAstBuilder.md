@@ -29,3 +29,12 @@ maybeTimeTravelChild(
 `maybeTimeTravelChild` is used when:
 
 * `DeltaSqlAstBuilder` is requested to [parse RESTORE command](#visitRestore)
+
+## visitClone { #visitClone }
+
+```scala
+visitClone(
+  ctx: CloneContext): LogicalPlan
+```
+
+`visitClone` creates a [CloneTableStatement](../commands/clone/CloneTableStatement.md) logical operator.

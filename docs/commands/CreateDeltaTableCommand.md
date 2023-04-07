@@ -2,6 +2,8 @@
 
 `CreateDeltaTableCommand` is a `LeafRunnableCommand` ([Spark SQL]({{ book.spark_sql }}/logical-operators/LeafRunnableCommand/)) to [create a delta table](#run) (for [DeltaCatalog](../DeltaCatalog.md#createDeltaTable)).
 
+`CreateDeltaTableCommand` is a [DeltaCommand](DeltaCommand.md).
+
 ## Creating Instance
 
 `CreateDeltaTableCommand` takes the following to be created:

@@ -2,7 +2,7 @@
 
 `CloneTableStatement` is a `BinaryNode` ([Spark SQL]({{ book.spark_sql }}/logical-operators/LogicalPlan/#BinaryNode)) that represents [SHALLOW CLONE](../../sql/DeltaSqlAstBuilder.md#visitClone) clause in a logical query plan.
 
-`CloneTableStatement` is resolved using [DeltaAnalysis](../../DeltaAnalysis.md#resolveCloneCommand) logical resolution rule.
+`CloneTableStatement` is resolved to [CreateDeltaTableCommand](../CreateDeltaTableCommand.md) (using [DeltaAnalysis](../../DeltaAnalysis.md#resolveCloneCommand) logical resolution rule).
 
 ## Creating Instance
 

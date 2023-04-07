@@ -53,7 +53,13 @@ resolveCloneCommand(
   statement: CloneTableStatement): LogicalPlan
 ```
 
-`resolveCloneCommand`...FIXME
+`resolveCloneCommand` determines the `SaveMode` (in the following order):
+
+* `Overwrite` for [isReplaceCommand](commands/clone/CloneTableStatement.md#isReplaceCommand)
+* `Ignore` for [ifNotExists](commands/clone/CloneTableStatement.md#ifNotExists)
+* `ErrorIfExists` for all other cases
+
+In the end, `resolveCloneCommand` creates a [CreateDeltaTableCommand](commands/CreateDeltaTableCommand.md) logical operator.
 
 ### <span id="DataSourceV2Relation"> DataSourceV2Relation
 
