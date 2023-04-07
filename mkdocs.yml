@@ -98,8 +98,8 @@ extra:
     structured_streaming: https://books.japila.pl/spark-structured-streaming-internals
     spark_core: https://books.japila.pl/apache-spark-internals
   delta:
-    version: 2.3.0rc1
-    github: https://github.com/delta-io/delta/blob/v2.3.0rc1
+    version: 2.3.0
+    github: https://github.com/delta-io/delta/blob/v2.3.0
     commit: https://github.com/delta-io/delta/commit
     issues: https://github.com/delta-io/delta/issues
   guava:
