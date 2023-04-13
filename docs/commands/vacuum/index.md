@@ -2,33 +2,11 @@
 
 **Vacuum** command allows for [garbage collection of a delta table](VacuumCommand.md#gc).
 
-Vacuum command can be executed as [VACUUM](../../sql/index.md#VACUUM) SQL command or [DeltaTable.vacuum](../../DeltaTable.md#vacuum) operator.
+Vacuum command is available using the following high-level operators:
+
+* [VACUUM](../../sql/index.md#VACUUM) SQL command
+* [DeltaTable.vacuum](../../DeltaTable.md#vacuum)
 
 ## Demo
 
-### VACUUM SQL Command
-
-```scala
-val q = sql("VACUUM delta.`/tmp/delta/t1`")
-```
-
-```text
-scala> q.show
-Deleted 0 files and directories in a total of 2 directories.
-+------------------+
-|              path|
-+------------------+
-|file:/tmp/delta/t1|
-+------------------+
-```
-
-### DeltaTable.vacuum
-
-```scala
-import io.delta.tables.DeltaTable
-DeltaTable.forPath("/tmp/delta/t1").vacuum
-```
-
-### Dry Run
-
-Visit [Demo: Vacuum](../../demo/vacuum.md).
+[Demo: Vacuum](../../demo/vacuum.md)
