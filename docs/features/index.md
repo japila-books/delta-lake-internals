@@ -15,3 +15,7 @@ The following is a list of the features of Delta Lake that make it so amazing (e
 * [Spark SQL integration with support for batch and streaming queries](../delta/DeltaDataSource.md)
 * [Table Constraints](../constraints/index.md)
 * [Time Travel](../time-travel/index.md)
+
+## Learn More
+
+1. [What's New in Delta Lake 2.3.0](https://www.linkedin.com/posts/willgirten_delta-lake-230-was-released-last-week-and-ugcPost-7051596576711925760-wvff/) by Will Girten

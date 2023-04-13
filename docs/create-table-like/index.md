@@ -1,3 +1,7 @@
+---
+status: new
+---
+
 # CREATE TABLE LIKE Statement
 
 Delta Lake supports creating an empty new delta table using `CREATE TABLE LIKE` DDL statement based on the definition and metadata of an existing table or view.
