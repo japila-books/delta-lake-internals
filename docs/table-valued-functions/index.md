@@ -1,7 +1,3 @@
----
-status: new
----
-
 # CDF Table-Valued Functions
 
 Delta Lake 2.3.0 comes with the following table-valued functions for [Change Data Feed](../change-data-feed/index.md):
