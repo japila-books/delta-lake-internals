@@ -1,5 +1,28 @@
 # MergeIntoCommandBase
 
+`MergeIntoCommandBase` is an [extension](#contract) of the `LeafRunnableCommand` ([Spark SQL]({{ book.spark_sql }}/logical-operators/LeafRunnableCommand)) abstraction for [merge delta commands](#implementations).
+
+## Contract (Subset)
+
+### runMerge { #runMerge }
+
+```scala
+runMerge(
+  spark: SparkSession): Seq[Row]
+```
+
+See:
+
+* [MergeIntoCommand](MergeIntoCommand.md#runMerge)
+
+Used when:
+
+* `MergeIntoCommandBase` is requested to [run](#run)
+
+## Implementations
+
+* [MergeIntoCommand](MergeIntoCommand.md)
+
 ## buildTargetPlanWithFiles { #buildTargetPlanWithFiles }
 
 ```scala

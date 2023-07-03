@@ -1,5 +1,7 @@
 # MergeIntoCommand
 
+`MergeIntoCommand` is a [MergeIntoCommandBase](MergeIntoCommandBase.md).
+
 `MergeIntoCommand` is a transactional [DeltaCommand](../DeltaCommand.md) that represents a [DeltaMergeInto](DeltaMergeInto.md) logical command at execution.
 
 ## Performance Metrics
@@ -720,6 +722,21 @@ repartitionIfNeeded(
 ## <span id="LeafRunnableCommand"> LeafRunnableCommand
 
 `MergeIntoCommand` is a `LeafRunnableCommand` ([Spark SQL]({{ book.spark_sql }}/logical-operators/LeafRunnableCommand/)) logical operator.
+
+## runMerge { #runMerge }
+
+??? note "MergeIntoCommandBase"
+
+    ```scala
+    runMerge(
+      spark: SparkSession): Seq[Row]
+    ```
+
+    `runMerge` is part of the [MergeIntoCommandBase](MergeIntoCommandBase.md#runMerge) abstraction.
+
+`runMerge` records the start time.
+
+`runMerge`...FIXME
 
 ## Demo
 
