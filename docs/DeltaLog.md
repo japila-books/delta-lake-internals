@@ -311,7 +311,7 @@ Internally, `currentSnapshot`...FIXME
 
 * `DeltaLog` is requested to [updateInternal](#updateInternal), [update](#update) and [tryUpdate](#tryUpdate)
 
-## <span id="createRelation"> Creating Insertable HadoopFsRelation For Batch Queries
+## Creating Insertable HadoopFsRelation For Batch Queries { #createRelation }
 
 ```scala
 createRelation(
@@ -333,6 +333,8 @@ With non-empty `cdcOptions`, `createRelation` [creates a CDC-aware relation](cha
 `createRelation`...FIXME
 
 In the end, `createRelation` creates a `HadoopFsRelation` for the `TahoeLogFileIndex` and...FIXME. The `HadoopFsRelation` is also an [InsertableRelation](#createRelation-InsertableRelation).
+
+---
 
 `createRelation` is used when:
 
@@ -406,11 +408,11 @@ Internally, `getChanges` requests the [LogStore](#store) for [files](storage/Log
 
 For every delta file, `getChanges` requests the [LogStore](#store) to [read the JSON content](storage/LogStore.md#read) (every line is an [action](Action.md)), and then [deserializes it to an action](Action.md#fromJson).
 
-## <span id="createDataFrame"> Creating DataFrame (From AddFiles)
+## Creating DataFrame (From AddFiles) { #createDataFrame }
 
 ```scala
 createDataFrame(
-  snapshot: Snapshot,
+  snapshot: SnapshotDescriptor,
   addFiles: Seq[AddFile],
   isStreaming: Boolean = false,
   actionTypeOpt: Option[String] = None): DataFrame
@@ -661,6 +663,23 @@ apply(
 `apply` resolves the raw path to be HDFS-qualified (using the given Hadoop `Path` to get a Hadoop `FileSystem`).
 
 In the end, `apply` looks up a `DeltaLog` for the HDFS-qualified path (with the file system options) in the [deltaLogCache](#deltaLogCache) or creates (and caches) a new [DeltaLog](#creating-instance).
+
+## buildHadoopFsRelationWithFileIndex { #buildHadoopFsRelationWithFileIndex }
+
+```scala
+buildHadoopFsRelationWithFileIndex(
+  snapshot: SnapshotDescriptor,
+  fileIndex: TahoeFileIndex,
+  bucketSpec: Option[BucketSpec]): HadoopFsRelation
+```
+
+`buildHadoopFsRelationWithFileIndex`...FIXME
+
+---
+
+`buildHadoopFsRelationWithFileIndex` is used when:
+
+* `DeltaLog` is requested to [create a DataFrame](#createDataFrame) and [create a BaseRelation](#createRelation)
 
 ## Logging
 

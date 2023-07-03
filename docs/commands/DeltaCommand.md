@@ -85,7 +85,7 @@ removeFilesFromPaths(
 
 * [DeleteCommand](delete/DeleteCommand.md) and [UpdateCommand](update/UpdateCommand.md) commands are executed
 
-## <span id="buildBaseRelation"> Creating HadoopFsRelation (with TahoeBatchFileIndex)
+## Creating HadoopFsRelation (with TahoeBatchFileIndex) { #buildBaseRelation }
 
 ```scala
 buildBaseRelation(
@@ -102,6 +102,8 @@ buildBaseRelation(
 `buildBaseRelation` creates a [TahoeBatchFileIndex](../TahoeBatchFileIndex.md) for the `AddFile`s (with the input `actionType` and `rootPath`).
 
 In the end, `buildBaseRelation` creates a `HadoopFsRelation` ([Spark SQL]({{ book.spark_sql }}/HadoopFsRelation/)) with the `TahoeBatchFileIndex` (and the other properties based on the [metadata](../OptimisticTransactionImpl.md#metadata) of the given [OptimisticTransaction](../OptimisticTransaction.md)).
+
+---
 
 `buildBaseRelation` is used when:
 

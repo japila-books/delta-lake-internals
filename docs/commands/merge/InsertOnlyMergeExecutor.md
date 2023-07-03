@@ -1,0 +1,3 @@
+# InsertOnlyMergeExecutor
+
+`InsertOnlyMergeExecutor` is...FIXME

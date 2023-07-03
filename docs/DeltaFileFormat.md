@@ -4,36 +4,7 @@
 
 ## Contract
 
-### <span id="fileFormat"> FileFormat
-
-```scala
-fileFormat: FileFormat
-```
-
-`FileFormat` ([Spark SQL]({{ book.spark_sql }}/datasources/FileFormat)) of this delta table
-
-Default: [DeltaParquetFileFormat](DeltaParquetFileFormat.md) (with the [columnMappingMode](Metadata.md#columnMappingMode) and the [schema](Metadata.md#schema) of the given [Metadata](Metadata.md))
-
-Used when:
-
-* `DeltaLog` is requested for a [relation](DeltaLog.md#createRelation) (in batch queries) and a [DataFrame](DeltaLog.md#createDataFrame)
-* `DeltaCommand` is requested for a [relation](commands/DeltaCommand.md#buildBaseRelation)
-* `MergeIntoCommand` is requested to [buildTargetPlanWithFiles](commands/merge/MergeIntoCommand.md#buildTargetPlanWithFiles)
-* `TransactionalWrite` is requested to [write data out](TransactionalWrite.md#writeFiles)
-
-### <span id="metadata"> Metadata
-
-```scala
-metadata: Metadata
-```
-
-Current [Metadata](Metadata.md)
-
-Used when:
-
-* `DeltaFileFormat` is requested for the [FileFormat](#fileFormat)
-
-### <span id="spark"> SparkSession
+### SparkSession { #spark }
 
 ```scala
 spark: SparkSession
@@ -41,6 +12,29 @@ spark: SparkSession
 
 Current `SparkSession` ([Spark SQL]({{ book.spark_sql }}/SparkSession))
 
+See:
+
+* [DeltaLog](DeltaLog.md#spark)
+
 ## Implementations
 
 * [DeltaLog](DeltaLog.md)
+
+## FileFormat { #fileFormat }
+
+```scala
+fileFormat(
+  protocol: Protocol,
+  metadata: Metadata): FileFormat
+```
+
+`fileFormat` creates a [DeltaParquetFileFormat](DeltaParquetFileFormat.md) for the given [Protocol](Protocol.md) and [Metadata](Metadata.md).
+
+---
+
+Used when:
+
+* `DeltaLog` is requested to [build a HadoopFsRelation](DeltaLog.md#buildHadoopFsRelationWithFileIndex)
+* `DeltaCommand` is requested to [build a HadoopFsRelation](commands/DeltaCommand.md#buildBaseRelation)
+* `MergeIntoCommandBase` is requested to [buildTargetPlanWithIndex](commands/merge/MergeIntoCommandBase.md#buildTargetPlanWithIndex)
+* `TransactionalWrite` is requested to [write data out](TransactionalWrite.md#writeFiles)

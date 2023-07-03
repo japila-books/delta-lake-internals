@@ -336,6 +336,7 @@ nav:
       - DeltaGenerateCommand: commands/generate/DeltaGenerateCommand.md
     - Merge:
       - commands/merge/index.md
+      - ClassicMergeExecutor: commands/merge/ClassicMergeExecutor.md
       - DeltaMergeAction: commands/merge/DeltaMergeAction.md
       - DeltaMergeBuilder: commands/merge/DeltaMergeBuilder.md
       - DeltaMergeInto: commands/merge/DeltaMergeInto.md
@@ -346,8 +347,10 @@ nav:
       - DeltaMergeIntoUpdateClause: commands/merge/DeltaMergeIntoUpdateClause.md
       - DeltaMergeMatchedActionBuilder: commands/merge/DeltaMergeMatchedActionBuilder.md
       - DeltaMergeNotMatchedActionBuilder: commands/merge/DeltaMergeNotMatchedActionBuilder.md
+      - InsertOnlyMergeExecutor: commands/merge/InsertOnlyMergeExecutor.md
       - JoinedRowProcessor: commands/merge/JoinedRowProcessor.md
       - MergeIntoCommand: commands/merge/MergeIntoCommand.md
+      - MergeIntoCommandBase: commands/merge/MergeIntoCommandBase.md
     - Optimize:
       - commands/optimize/index.md
       - InterleaveBits: commands/optimize/InterleaveBits.md
