@@ -786,6 +786,16 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://books.japila.pl/delta-lake-internals/commands/merge/MergeIntoMaterializeSource/</loc>
+         <lastmod>2023-07-03</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://books.japila.pl/delta-lake-internals/commands/merge/MergeOutputGeneration/</loc>
+         <lastmod>2023-07-03</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/optimize/</loc>
          <lastmod>2023-07-03</lastmod>
          <changefreq>daily</changefreq>
