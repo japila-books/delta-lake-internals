@@ -195,15 +195,35 @@ Used when:
 
 Default: `50`
 
+### <span id="MERGE_MATERIALIZE_SOURCE"> merge.materializeSource { #merge.materializeSource }
+
+**spark.databricks.delta.merge.materializeSource**
+
+**(internal)** When to materialize the source plan during [MERGE](../commands/merge/index.md) execution
+
+Value | Meaning
+------|--------
+ `all` | source always materialized
+ `auto` | sources not materialized unless non-deterministic
+ `none` | source never materialized
+
+Default: `auto`
+
+Used when:
+
+* `MergeIntoMaterializeSource` is requested to [shouldMaterializeSource](../commands/merge/MergeIntoMaterializeSource.md#shouldMaterializeSource)
+
 ### <span id="merge.maxInsertCount"><span id="MERGE_MAX_INSERT_COUNT"> merge.maxInsertCount
 
 **spark.databricks.delta.merge.maxInsertCount** (internal) is the maximum row count of inserts in each MERGE execution
 
 Default: `10000L`
 
-### <span id="merge.optimizeInsertOnlyMerge.enabled"><span id="MERGE_INSERT_ONLY_ENABLED"> merge.optimizeInsertOnlyMerge.enabled
+### <span id="MERGE_INSERT_ONLY_ENABLED"> merge.optimizeInsertOnlyMerge.enabled { #merge.optimizeInsertOnlyMerge.enabled }
 
-**spark.databricks.delta.merge.optimizeInsertOnlyMerge.enabled** (internal) controls merge without any matched clause (i.e., insert-only merge) will be optimized by avoiding rewriting old files and just inserting new files
+**spark.databricks.delta.merge.optimizeInsertOnlyMerge.enabled**
+
+**(internal)** Controls merge without any matched clause (i.e., insert-only merge) will be optimized by avoiding rewriting old files and just inserting new files
 
 Default: `true`
 

@@ -85,3 +85,22 @@ buildTargetPlanWithIndex(
     `run` is part of the `RunnableCommand` ([Spark SQL]({{ book.spark_sql }}/logical-operators/RunnableCommand#run)) abstraction.
 
 `run`...FIXME
+
+## isInsertOnly { #isInsertOnly }
+
+```scala
+isInsertOnly: Boolean
+```
+
+`isInsertOnly` is enabled (`true`) when all the following hold:
+
+1. No [matchedClauses](#matchedClauses) 
+1. No [notMatchedBySourceClauses](#notMatchedBySourceClauses) 
+1. There are [notMatchedClauses](#notMatchedClauses)
+
+---
+
+`isInsertOnly` is used when:
+
+* `MergeIntoCommand` is requested to [runMerge](MergeIntoCommand.md#runMerge) (and [prepareSourceDFAndReturnMaterializeReason](MergeIntoMaterializeSource.md#prepareSourceDFAndReturnMaterializeReason))
+* `MergeIntoCommandBase` is requested to [run](#run) (to [shouldMaterializeSource](MergeIntoMaterializeSource.md#shouldMaterializeSource))
