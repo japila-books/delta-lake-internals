@@ -56,8 +56,15 @@ buildTargetPlanWithIndex(
 
 ## Special Columns
 
-## _row_dropped_ { #ROW_DROPPED_COL }
+### \_row_dropped_ { #ROW_DROPPED_COL }
 
-`_row_dropped_` is used when:
+`_row_dropped_` column name is used when:
 
-* FIXME
+* `ClassicMergeExecutor` is requested to [writeAllChanges](ClassicMergeExecutor.md#writeAllChanges)
+* `InsertOnlyMergeExecutor` is requested to [generateInsertsOnlyOutputDF](InsertOnlyMergeExecutor.md#generateInsertsOnlyOutputDF) and [generateInsertsOnlyOutputCols](InsertOnlyMergeExecutor.md#generateInsertsOnlyOutputCols)
+* `MergeOutputGeneration` is requested to [generateCdcAndOutputRows](MergeOutputGeneration.md#generateCdcAndOutputRows)
+
+!!! note
+    It appears that `ClassicMergeExecutor` and `InsertOnlyMergeExecutor` use `_row_dropped_` column to filter out rows when it is `false` followed by dropping the column immediately.
+
+    An "exception" to the behaviour is [MergeOutputGeneration](MergeOutputGeneration.md#generateCdcAndOutputRows) for CDC-aware output generation.
