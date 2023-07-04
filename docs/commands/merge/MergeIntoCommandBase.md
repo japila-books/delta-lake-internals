@@ -2,6 +2,10 @@
 
 `MergeIntoCommandBase` is an [extension](#contract) of the `LeafRunnableCommand` ([Spark SQL]({{ book.spark_sql }}/logical-operators/LeafRunnableCommand)) abstraction for [merge delta commands](#implementations).
 
+`MergeIntoCommandBase` is a [DeltaCommand](../DeltaCommand.md)
+
+`MergeIntoCommandBase` is a [MergeIntoMaterializeSource](MergeIntoMaterializeSource.md)
+
 ## Contract (Subset)
 
 ### runMerge { #runMerge }
@@ -68,3 +72,16 @@ buildTargetPlanWithIndex(
     It appears that `ClassicMergeExecutor` and `InsertOnlyMergeExecutor` use `_row_dropped_` column to filter out rows when it is `false` followed by dropping the column immediately.
 
     An "exception" to the behaviour is [MergeOutputGeneration](MergeOutputGeneration.md#generateCdcAndOutputRows) for CDC-aware output generation.
+
+## Executing Command { #run }
+
+??? note "RunnableCommand"
+
+    ```scala
+    run(
+      spark: SparkSession): Seq[Row]
+    ```
+
+    `run` is part of the `RunnableCommand` ([Spark SQL]({{ book.spark_sql }}/logical-operators/RunnableCommand#run)) abstraction.
+
+`run`...FIXME

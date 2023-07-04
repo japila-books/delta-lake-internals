@@ -23,3 +23,7 @@ There is a special handling of [single INSERT-only MERGEs](MergeIntoCommand.md#i
 ## Demo
 
 * [Demo: Merge Operation](../../demo/merge-operation.md)
+
+## Logging
+
+Logging is configured using the logger of the [MergeIntoCommand](MergeIntoCommand.md#logging).
