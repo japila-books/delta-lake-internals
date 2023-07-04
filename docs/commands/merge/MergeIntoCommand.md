@@ -1,8 +1,8 @@
 # MergeIntoCommand
 
-`MergeIntoCommand` is a [MergeIntoCommandBase](MergeIntoCommandBase.md).
-
 `MergeIntoCommand` is a transactional [DeltaCommand](../DeltaCommand.md) that represents a [DeltaMergeInto](DeltaMergeInto.md) logical command at execution.
+
+`MergeIntoCommand` is a [MergeIntoCommandBase](MergeIntoCommandBase.md) with [ClassicMergeExecutor](ClassicMergeExecutor.md) and [InsertOnlyMergeExecutor](InsertOnlyMergeExecutor.md) for [optimized output generation](MergeOutputGeneration.md).
 
 ## Performance Metrics
 
@@ -746,10 +746,11 @@ repartitionIfNeeded(
 
 Enable `ALL` logging level for `org.apache.spark.sql.delta.commands.MergeIntoCommand` logger to see what happens inside.
 
-Add the following line to `conf/log4j.properties`:
+Add the following line to `conf/log4j2.properties`:
 
 ```text
-log4j.logger.org.apache.spark.sql.delta.commands.MergeIntoCommand=ALL
+logger.MergeIntoCommand.name = org.apache.spark.sql.delta.commands.MergeIntoCommand
+logger.MergeIntoCommand.level = all
 ```
 
 Refer to [Logging](../../logging.md).

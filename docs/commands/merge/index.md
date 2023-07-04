@@ -5,6 +5,8 @@ Delta Lake supports merging records into a delta table using the following high-
 * [MERGE INTO](../../DeltaAnalysis.md#MergeIntoTable) SQL command ([Spark SQL]({{ book.spark_sql }}/logical-operators/MergeIntoTable))
 * [DeltaTable.merge](../../DeltaTable.md#merge)
 
+Merge command is executed as transactional [MergeIntoCommand](MergeIntoCommand.md).
+
 ## Single INSERT-only MERGEs
 
 There is a special handling of [single INSERT-only MERGEs](MergeIntoCommand.md#isSingleInsertOnly).

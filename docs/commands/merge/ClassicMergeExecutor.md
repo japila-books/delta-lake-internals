@@ -1,10 +1,10 @@
 # ClassicMergeExecutor
 
-`ClassicMergeExecutor` is an [extension](#contract) of the [MergeIntoCommandBase](MergeIntoCommandBase.md) abstraction for [merge commands](#implementations).
+`ClassicMergeExecutor` is an extension of the [MergeOutputGeneration](MergeOutputGeneration.md) abstraction for optimized execution of [merge command](index.md).
 
 `ClassicMergeExecutor` is a [MergeIntoMaterializeSource](MergeIntoMaterializeSource.md)
 
-`ClassicMergeExecutor` is a [MergeOutputGeneration](MergeOutputGeneration.md)
+`ClassicMergeExecutor` is also a [MergeIntoCommandBase](MergeIntoCommandBase.md).
 
 ## findTouchedFiles { #findTouchedFiles }
 

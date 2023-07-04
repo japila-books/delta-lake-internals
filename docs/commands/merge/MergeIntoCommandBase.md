@@ -53,3 +53,11 @@ buildTargetPlanWithIndex(
 ```
 
 `buildTargetPlanWithIndex`...FIXME
+
+## Special Columns
+
+## _row_dropped_ { #ROW_DROPPED_COL }
+
+`_row_dropped_` is used when:
+
+* FIXME
