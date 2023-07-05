@@ -10,6 +10,18 @@
 
 [spark.databricks.delta.merge.materializeSource](index.md#merge.materializeSource)
 
+## merge.materializeSource.rddStorageLevel { #MERGE_MATERIALIZE_SOURCE_RDD_STORAGE_LEVEL }
+
+[spark.databricks.delta.merge.materializeSource.rddStorageLevel](index.md#merge.materializeSource.rddStorageLevel)
+
+## merge.materializeSource.rddStorageLevelRetry { #MERGE_MATERIALIZE_SOURCE_RDD_STORAGE_LEVEL_RETRY }
+
+[spark.databricks.delta.merge.materializeSource.rddStorageLevelRetry](index.md#merge.materializeSource.rddStorageLevelRetry)
+
+## merge.materializeSource.rddStorageLevelRetry { #MERGE_MATERIALIZE_SOURCE_RDD_STORAGE_LEVEL_RETRY }
+
+[spark.databricks.delta.merge.materializeSource.rddStorageLevelRetry](index.md#merge.materializeSource.rddStorageLevelRetry)
+
 ## stats.collect { #DELTA_COLLECT_STATS }
 
 [spark.databricks.delta.stats.collect](index.md#stats.collect)

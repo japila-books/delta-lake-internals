@@ -213,6 +213,30 @@ Used when:
 
 * `MergeIntoMaterializeSource` is requested to [shouldMaterializeSource](../commands/merge/MergeIntoMaterializeSource.md#shouldMaterializeSource)
 
+### <span id="MERGE_MATERIALIZE_SOURCE_RDD_STORAGE_LEVEL"> merge.materializeSource.rddStorageLevel { #merge.materializeSource.rddStorageLevel }
+
+**spark.databricks.delta.merge.materializeSource.rddStorageLevel**
+
+**(internal)** What `StorageLevel` to use to persist the source RDD
+
+Default: `DISK_ONLY`
+
+Used when:
+
+* `MergeIntoMaterializeSource` is requested to [prepare the source table](../commands/merge/MergeIntoMaterializeSource.md#prepareSourceDFAndReturnMaterializeReason)
+
+### <span id="MERGE_MATERIALIZE_SOURCE_RDD_STORAGE_LEVEL_RETRY"> merge.materializeSource.rddStorageLevelRetry { #merge.materializeSource.rddStorageLevelRetry }
+
+**spark.databricks.delta.merge.materializeSource.rddStorageLevelRetry**
+
+**(internal)** What `StorageLevel` to use to persist the source RDD when MERGE is retried
+
+Default: `DISK_ONLY_2`
+
+Used when:
+
+* `MergeIntoMaterializeSource` is requested to [prepare the source table](../commands/merge/MergeIntoMaterializeSource.md#prepareSourceDFAndReturnMaterializeReason)
+
 ### <span id="merge.maxInsertCount"><span id="MERGE_MAX_INSERT_COUNT"> merge.maxInsertCount
 
 **spark.databricks.delta.merge.maxInsertCount** (internal) is the maximum row count of inserts in each MERGE execution

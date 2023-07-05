@@ -60,7 +60,12 @@ shouldMaterializeSource(
   isInsertOnly: Boolean): (Boolean, MergeIntoMaterializeSourceReason)
 ```
 
-`shouldMaterializeSource` uses [spark.databricks.delta.merge.materializeSource](../../configuration-properties/index.md#merge.materializeSource) configuration property to determine the output pair (`(Boolean, MergeIntoMaterializeSourceReason)`).
+`shouldMaterializeSource` returns a pair of the following:
+
+1. Whether the given `source` plan can be materialized (checkpointed) or not (`Boolean`)
+1. The reason for the decision (`MergeIntoMaterializeSourceReason`)
+
+`shouldMaterializeSource` is controlled by [spark.databricks.delta.merge.materializeSource](../../configuration-properties/index.md#merge.materializeSource).
 
 merge.materializeSource | Boolean | MergeIntoMaterializeSourceReason
 ------------------------|---------|---------------------------------
@@ -86,7 +91,62 @@ For `auto`, `shouldMaterializeSource` is as follows (in the order):
 `shouldMaterializeSource` is used when:
 
 * `MergeIntoCommandBase` is requested to [run](MergeIntoCommandBase.md#run)
-* `MergeIntoMaterializeSource` is requested to [prepareSourceDFAndReturnMaterializeReason](#prepareSourceDFAndReturnMaterializeReason)
+* `MergeIntoMaterializeSource` is requested to [prepare the source table](#prepareSourceDFAndReturnMaterializeReason)
+
+## Preparing Source Table { #prepareSourceDFAndReturnMaterializeReason }
+
+```scala
+prepareSourceDFAndReturnMaterializeReason(
+  spark: SparkSession,
+  source: LogicalPlan,
+  condition: Expression,
+  matchedClauses: Seq[DeltaMergeIntoMatchedClause],
+  notMatchedClauses: Seq[DeltaMergeIntoNotMatchedClause],
+  isInsertOnly: Boolean): MergeIntoMaterializeSourceReason.MergeIntoMaterializeSourceReason
+```
+
+`prepareSourceDFAndReturnMaterializeReason` [shouldMaterializeSource](#shouldMaterializeSource).
+
+??? note "shouldMaterializeSource"
+    `shouldMaterializeSource` gives whether the source table has been materialized or not (`materialize`) and the reason of the decision (`materializeReason`).
+
+When decided not to [materialize](#shouldMaterializeSource), `prepareSourceDFAndReturnMaterializeReason` creates a `DataFrame` for the given `source` logical plan that is available as the [sourceDF](#sourceDF) from now on. `prepareSourceDFAndReturnMaterializeReason` stops (and returns the reason for this rejection).
+
+`prepareSourceDFAndReturnMaterializeReason` [finds the columns used in this MERGE command](#getReferencedSourceColumns) and creates a `Project` logical operator with the columns and the given `source` logical plan.
+
+??? note "Column Pruning"
+    With the `Project` logical operator and the columns used for this MERGE command, `prepareSourceDFAndReturnMaterializeReason` hopes for **Column Pruning** optimization.
+
+`prepareSourceDFAndReturnMaterializeReason` creates a `DataFrame` (with the `Project` operator over the `source` logical plan) that is then checkpointed (using `Dataset.localCheckpoint` operator).
+
+??? note "Local Checkpointing Lazily"
+    `prepareSourceDFAndReturnMaterializeReason` uses `Dataset.localCheckpoint` operator with `eager` flag disabled so materialization (checkpointing) happens at first access.
+    This is for more precise performance metrics.
+
+`prepareSourceDFAndReturnMaterializeReason` stores the checkpointed `DataFrame` to be available later as the [materializedSourceRDD](#materializedSourceRDD). The name of the RDD is **mergeMaterializedSource**.
+
+`prepareSourceDFAndReturnMaterializeReason` [add hints to the plan](#addHintsToPlan) (with the `source` and the analyzed logical plan of the checkpointed and column-pruned source `Dataset`) and creates a `DataFrame` that is available as the [sourceDF](#sourceDF) from now on.
+
+`prepareSourceDFAndReturnMaterializeReason` caches (using `Dataset.persist` operator) the RDD with the storage level based on the following configuration properties:
+
+* [spark.databricks.delta.merge.materializeSource.rddStorageLevel](../../configuration-properties/index.md#MERGE_MATERIALIZE_SOURCE_RDD_STORAGE_LEVEL) initially (based on the [attempt](#attempt))
+* [spark.databricks.delta.merge.materializeSource.rddStorageLevelRetry](../../configuration-properties/index.md#MERGE_MATERIALIZE_SOURCE_RDD_STORAGE_LEVEL_RETRY) when retried (based on the [attempt](#attempt))
+
+`prepareSourceDFAndReturnMaterializeReason` prints out the following DEBUG messages:
+
+```text
+Materializing MERGE with pruned columns [referencedSourceColumns].
+Materialized MERGE source plan:
+[getSourceDF]
+```
+
+In the end, `prepareSourceDFAndReturnMaterializeReason` returns the reason to materialize (`materializeReason` from [shouldMaterializeSource](#shouldMaterializeSource)).
+
+---
+
+`prepareSourceDFAndReturnMaterializeReason` is used when:
+
+* `MergeIntoCommand`  is requested to [run merge](MergeIntoCommand.md#runMerge)
 
 ## Logging
 
