@@ -198,6 +198,27 @@ In the end, `updateAndCheckpoint` requests the given [DeltaLog](../DeltaLog.md) 
 The committed version is [attemptVersion] but the current version is [currentSnapshot].
 ```
 
+## Posting Metric Updates { #sendDriverMetrics }
+
+```scala
+sendDriverMetrics(
+  spark: SparkSession,
+  metrics: Map[String, SQLMetric]): Unit
+```
+
+??? warning "Procedure"
+    `sendDriverMetrics` is a procedure (returns `Unit`) so _what happens inside stays inside_ (paraphrasing the [former advertising slogan of Las Vegas, Nevada](https://idioms.thefreedictionary.com/what+happens+in+Vegas+stays+in+Vegas)).
+
+`sendDriverMetrics` announces the updates to the given `SQLMetric`s ([Spark SQL]({{ book.spark_sql }}/SQLMetric/#postDriverMetricUpdates)).
+
+---
+
+`sendDriverMetrics` is used when:
+
+* `DeleteCommand` is requested to [run](delete/DeleteCommand.md#run) and [performDelete](delete/DeleteCommand.md#performDelete)
+* `MergeIntoCommand` is requested to [run merge](merge/MergeIntoCommand.md#runMerge)
+* `UpdateCommand` is requested to [run](update/UpdateCommand.md#run) (and [performUpdate](update/UpdateCommand.md#performUpdate))
+
 ## Logging
 
 `DeltaCommand` is an abstract class and logging is configured using the logger of the [implementations](#implementations).

@@ -4,41 +4,6 @@
 
 `MergeIntoCommand` is a [MergeIntoCommandBase](MergeIntoCommandBase.md) with [ClassicMergeExecutor](ClassicMergeExecutor.md) and [InsertOnlyMergeExecutor](InsertOnlyMergeExecutor.md) for [optimized output generation](MergeOutputGeneration.md).
 
-## Performance Metrics
-
-Name | web UI
-------------|------------
- `numSourceRows` | number of source rows
- `numSourceRowsInSecondScan` | number of source rows (during repeated scan)
- `numTargetRowsCopied` | number of target rows rewritten unmodified
- `numTargetRowsInserted` | number of inserted rows
- `numTargetRowsUpdated` | number of updated rows
- `numTargetRowsDeleted` | number of deleted rows
- `numTargetFilesBeforeSkipping` | number of target files before skipping
- `numTargetFilesAfterSkipping` | number of target files after skipping
- `numTargetFilesRemoved` | number of files removed to target
- `numTargetFilesAdded` | number of files added to target
- `numTargetChangeFilesAdded` | number of change data capture files generated
- `numTargetChangeFileBytes` | total size of change data capture files generated
- `numTargetBytesBeforeSkipping` | number of target bytes before skipping
- `numTargetBytesAfterSkipping` | number of target bytes after skipping
- `numTargetBytesRemoved` | number of target bytes removed
- `numTargetBytesAdded` | number of target bytes added
- `numTargetPartitionsAfterSkipping` | number of target partitions after skipping
- `numTargetPartitionsRemovedFrom` | number of target partitions from which files were removed
- `numTargetPartitionsAddedTo` | number of target partitions to which files were added
- `executionTimeMs` | time taken to execute the entire operation
- `scanTimeMs` | time taken to scan the files for matches
- `rewriteTimeMs` | time taken to rewrite the matched files
-
-### <span id="numTargetRowsCopied"> number of target rows rewritten unmodified
-
-`numTargetRowsCopied` performance metric (like the other [metrics](#performance-metrics)) is turned into a non-deterministic user-defined function (UDF).
-
-`numTargetRowsCopied` becomes `incrNoopCountExpr` UDF.
-
-`incrNoopCountExpr` UDF is resolved on a joined plan and used to create a [JoinedRowProcessor](JoinedRowProcessor.md#noopCopyOutput) for [processing partitions](#processPartition) of the joined plan `Dataset`.
-
 ## Creating Instance
 
 `MergeIntoCommand` takes the following to be created:
@@ -723,7 +688,7 @@ repartitionIfNeeded(
 
 `MergeIntoCommand` is a `LeafRunnableCommand` ([Spark SQL]({{ book.spark_sql }}/logical-operators/LeafRunnableCommand/)) logical operator.
 
-## runMerge { #runMerge }
+## Running Merge { #runMerge }
 
 ??? note "MergeIntoCommandBase"
 
@@ -736,11 +701,24 @@ repartitionIfNeeded(
 
 `runMerge` records the start time.
 
-`runMerge`...FIXME
+`runMerge` requests the [targetDeltaLog](MergeIntoCommandBase.md#targetDeltaLog) to [start a new transaction](../../DeltaLog.md#withNewTransaction).
+
+`runMerge` requests the `CacheManager` ([Spark SQL]({{ book.spark_sql }}/CacheManager)) to re-cache all the cached logical plans that refer to the [target](#target) logical plan (since it has just changed).
+
+`runMerge` [announces updates](../DeltaCommand.md#sendDriverMetrics) to the [metrics](MergeIntoCommandBase.md#metrics).
+
+In the end, `runMerge` returns the following performance metrics (as a single `Row`):
+
+Column Name | Metric
+------------|-------
+ `num_affected_rows` | Total of the values of the metrics: <ul><li>[number of updated rows](MergeIntoCommandBase.md#numTargetRowsUpdated)<li>[number of deleted rows](MergeIntoCommandBase.md#numTargetRowsDeleted)<li>[number of inserted rows](MergeIntoCommandBase.md#numTargetRowsInserted)</ul>
+ `num_updated_rows` | [number of updated rows](MergeIntoCommandBase.md#numTargetRowsUpdated)
+ `num_deleted_rows` | [number of deleted rows](MergeIntoCommandBase.md#numTargetRowsDeleted)
+ `num_inserted_rows` | [number of inserted rows](MergeIntoCommandBase.md#numTargetRowsInserted)
 
 ## Demo
 
-[Demo: Merge Operation](../../demo/merge-operation.md).
+[Demo: Merge Operation](../../demo/merge-operation.md)
 
 ## Logging
 

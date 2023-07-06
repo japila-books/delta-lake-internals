@@ -27,6 +27,47 @@ Used when:
 
 * [MergeIntoCommand](MergeIntoCommand.md)
 
+## Performance Metrics { #metrics }
+
+Name | web UI
+------------|------------
+ `numSourceRows` | number of source rows
+ `numSourceRowsInSecondScan` | number of source rows (during repeated scan)
+ `numTargetRowsCopied` | number of target rows rewritten unmodified
+ [numTargetRowsInserted](#numTargetRowsInserted) | number of inserted rows
+ [numTargetRowsUpdated](#numTargetRowsUpdated) | number of updated rows
+ [numTargetRowsDeleted](#numTargetRowsDeleted) | number of deleted rows
+ `numTargetFilesBeforeSkipping` | number of target files before skipping
+ `numTargetFilesAfterSkipping` | number of target files after skipping
+ `numTargetFilesRemoved` | number of files removed to target
+ `numTargetFilesAdded` | number of files added to target
+ `numTargetChangeFilesAdded` | number of change data capture files generated
+ `numTargetChangeFileBytes` | total size of change data capture files generated
+ `numTargetBytesBeforeSkipping` | number of target bytes before skipping
+ `numTargetBytesAfterSkipping` | number of target bytes after skipping
+ `numTargetBytesRemoved` | number of target bytes removed
+ `numTargetBytesAdded` | number of target bytes added
+ `numTargetPartitionsAfterSkipping` | number of target partitions after skipping
+ `numTargetPartitionsRemovedFrom` | number of target partitions from which files were removed
+ `numTargetPartitionsAddedTo` | number of target partitions to which files were added
+ `executionTimeMs` | time taken to execute the entire operation
+ `scanTimeMs` | time taken to scan the files for matches
+ `rewriteTimeMs` | time taken to rewrite the matched files
+
+### number of deleted rows { #numTargetRowsDeleted }
+
+### number of inserted rows { #numTargetRowsInserted }
+
+### number of target rows rewritten unmodified { #numTargetRowsCopied }
+
+`numTargetRowsCopied` performance metric (like the other [metrics](#performance-metrics)) is turned into a non-deterministic user-defined function (UDF).
+
+`numTargetRowsCopied` becomes `incrNoopCountExpr` UDF.
+
+`incrNoopCountExpr` UDF is resolved on a joined plan and used to create a [JoinedRowProcessor](JoinedRowProcessor.md#noopCopyOutput) for [processing partitions](#processPartition) of the joined plan `Dataset`.
+
+### number of updated rows { #numTargetRowsUpdated }
+
 ## buildTargetPlanWithFiles { #buildTargetPlanWithFiles }
 
 ```scala

@@ -1,8 +1,9 @@
 # InsertOnlyMergeExecutor
 
-`InsertOnlyMergeExecutor` is an extension of the [MergeOutputGeneration](MergeOutputGeneration.md) abstraction for optimized execution of [merge command](index.md) that only inserts new data.
+`InsertOnlyMergeExecutor` is an extension of the [MergeOutputGeneration](MergeOutputGeneration.md) abstraction for optimized execution of [MERGE command](index.md) (when requested to [run merge](MergeIntoCommand.md#runMerge)) that [only inserts new data](MergeIntoCommandBase.md#isInsertOnly) (with [spark.databricks.delta.merge.optimizeInsertOnlyMerge.enabled](../../configuration-properties/index.md#merge.optimizeInsertOnlyMerge.enabled) enabled).
 
-`InsertOnlyMergeExecutor` is also a [MergeIntoCommandBase](MergeIntoCommandBase.md).
+??? note "ClassicMergeExecutor"
+    When a MERGE query is neither [insert only](MergeIntoCommandBase.md#isInsertOnly) nor [spark.databricks.delta.merge.optimizeInsertOnlyMerge.enabled](../../configuration-properties/index.md#merge.optimizeInsertOnlyMerge.enabled) is enabled, [ClassicMergeExecutor](ClassicMergeExecutor.md) is used to [run merge](MergeIntoCommand.md#runMerge).
 
 ## writeOnlyInserts { #writeOnlyInserts }
 
@@ -20,7 +21,7 @@ writeOnlyInserts(
 
 `writeOnlyInserts` is used when:
 
-* `MergeIntoCommand` is requested to [runMerge](MergeIntoCommand.md#runMerge)
+* `MergeIntoCommand` is requested to [run merge](MergeIntoCommand.md#runMerge)
 
 ### generateInsertsOnlyOutputDF { #generateInsertsOnlyOutputDF }
 
