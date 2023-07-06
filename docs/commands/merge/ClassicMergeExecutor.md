@@ -1,6 +1,9 @@
 # ClassicMergeExecutor
 
-`ClassicMergeExecutor` is an extension of the [MergeOutputGeneration](MergeOutputGeneration.md) abstraction for optimized execution of [merge command](index.md).
+`ClassicMergeExecutor` is an extension of the [MergeOutputGeneration](MergeOutputGeneration.md) abstraction for optimized execution of [MERGE command](index.md) (when requested to [run merge](MergeIntoCommand.md#runMerge)) when one of the following holds:
+
+* MERGE is not [insert only](MergeIntoCommandBase.md#isInsertOnly) (contains `WHEN NOT MATCHED` clauses)
+* [spark.databricks.delta.merge.optimizeInsertOnlyMerge.enabled](../../configuration-properties/index.md#merge.optimizeInsertOnlyMerge.enabled) is disabled
 
 ## findTouchedFiles { #findTouchedFiles }
 
@@ -28,7 +31,7 @@ When [isMatchedOnly](#isMatchedOnly), `findTouchedFiles` converts the [matchedCl
 
 `findTouchedFiles` is used when:
 
-* `MergeIntoCommand` is requested to [runMerge](MergeIntoCommand.md#runMerge)
+* `MergeIntoCommand` is requested to [run merge](MergeIntoCommand.md#runMerge)
 
 ## writeAllChanges { #writeAllChanges }
 
@@ -40,10 +43,62 @@ writeAllChanges(
   deduplicateCDFDeletes: DeduplicateCDFDeletes): Seq[FileAction]
 ```
 
+`writeAllChanges` [recordMergeOperation](MergeIntoCommandBase.md#recordMergeOperation) with the following:
+
+Property | Value
+---------|------
+extraOpType | <ul><li>`writeAllUpdatesAndDeletes` when [shouldOptimizeMatchedOnlyMerge](MergeIntoCommandBase.md#shouldOptimizeMatchedOnlyMerge)<li>`writeAllChanges` otherwise</ul>
+status | `MERGE operation - Rewriting [filesToRewrite] files`
+sqlMetricName | `rewriteTimeMs`
+
+??? note "CDF Generation"
+    `writeAllChanges` asserts that one of the following holds:
+
+    1. CDF generation is disabled (based on the given `DeduplicateCDFDeletes`)
+    1. [isCdcEnabled](MergeIntoCommandBase.md#isCdcEnabled) is enabled
+
+    Otherwise, `writeAllChanges` reports an `IllegalArgumentException`:
+
+    ```text
+    CDF delete duplication is enabled but overall the CDF generation is disabled
+    ```
+
+`writeAllChanges` creates a `DataFrame` with the [target plan](#buildTargetPlanWithFiles) for the given [AddFile](../../AddFile.md)s to rewrite (and no `columnsToDrop`).
+
+`writeAllChanges` determines the join type based on [shouldOptimizeMatchedOnlyMerge](MergeIntoCommandBase.md#shouldOptimizeMatchedOnlyMerge):
+
+* `rightOuter` when enabled
+* `fullOuter` otherwise
+
+`writeAllChanges` prints out the following DEBUG message to the logs:
+
+```text
+writeAllChanges using [joinType] join:
+  source.output: [source]
+  target.output: [target]
+  condition: [condition]
+  newTarget.output: [baseTargetDF]
+```
+
+`writeAllChanges` [creates Catalyst expressions to increment SQL metrics](MergeIntoCommandBase.md#incrementMetricAndReturnBool):
+
+* `numSourceRowsInSecondScan`
+* `numTargetRowsCopied`
+
+`writeAllChanges` creates a `DataFrame`.
+
+!!! note "FIXME joinedDF"
+
+`writeAllChanges` [generatePrecomputedConditionsAndDF](#generatePrecomputedConditionsAndDF) with the joined `DataFrame` and the given MERGE clauses (`matchedClauses`, `notMatchedClauses`, `notMatchedBySourceClauses`).
+
 `writeAllChanges`...FIXME
 
 ---
 
 `writeAllChanges` is used when:
 
-* `MergeIntoCommand` is requested to [runMerge](MergeIntoCommand.md#runMerge)
+* `MergeIntoCommand` is requested to [run merge](MergeIntoCommand.md#runMerge)
+
+## Logging
+
+`ClassicMergeExecutor` is an abstract class and logging is configured using the logger of the [MergeIntoCommand](MergeIntoCommand.md#logging).

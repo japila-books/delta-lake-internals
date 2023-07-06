@@ -94,8 +94,8 @@ isInsertOnly: Boolean
 
 `isInsertOnly` is enabled (`true`) when all the following hold:
 
-1. No [matchedClauses](#matchedClauses) 
-1. No [notMatchedBySourceClauses](#notMatchedBySourceClauses) 
+1. No [matchedClauses](#matchedClauses)
+1. No [notMatchedBySourceClauses](#notMatchedBySourceClauses)
 1. There are [notMatchedClauses](#notMatchedClauses)
 
 ---
@@ -104,3 +104,21 @@ isInsertOnly: Boolean
 
 * `MergeIntoCommand` is requested to [runMerge](MergeIntoCommand.md#runMerge) (and [prepareSourceDFAndReturnMaterializeReason](MergeIntoMaterializeSource.md#prepareSourceDFAndReturnMaterializeReason))
 * `MergeIntoCommandBase` is requested to [run](#run) (to [shouldMaterializeSource](MergeIntoMaterializeSource.md#shouldMaterializeSource))
+
+## shouldOptimizeMatchedOnlyMerge { #shouldOptimizeMatchedOnlyMerge }
+
+```scala
+shouldOptimizeMatchedOnlyMerge(
+  spark: SparkSession): Boolean
+```
+
+`shouldOptimizeMatchedOnlyMerge` is enabled (`true`) when all the following hold:
+
+1. [isMatchedOnly](#isMatchedOnly)
+1. [DeltaSQLConf.MERGE_MATCHED_ONLY_ENABLED](../../configuration-properties/DeltaSQLConf.md#MERGE_MATCHED_ONLY_ENABLED) is enabled
+
+---
+
+`shouldOptimizeMatchedOnlyMerge` is used when:
+
+* `ClassicMergeExecutor` is requested to [writeAllChanges](ClassicMergeExecutor.md#writeAllChanges)
