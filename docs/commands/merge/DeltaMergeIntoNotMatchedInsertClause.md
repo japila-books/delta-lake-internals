@@ -1,0 +1,3 @@
+# DeltaMergeIntoNotMatchedInsertClause
+
+`DeltaMergeIntoNotMatchedInsertClause` is...FIXME

@@ -4,22 +4,68 @@
 
 ## Contract
 
-### <span id="actions"> Actions
+### Actions { #actions }
 
 ```scala
 actions: Seq[Expression]
 ```
 
-### <span id="condition"> Condition
+`actions` [can only be the following expressions](#verifyActions):
+
+* `UnresolvedStar`
+* [DeltaMergeAction](DeltaMergeAction.md)
+
+`actions` is either empty or given when [DeltaMergeIntoClause](#implementations)s are created.
+
+`actions` is empty for the following [DeltaMergeIntoClause](#implementations)s:
+
+* [DeltaMergeIntoMatchedDeleteClause](DeltaMergeIntoMatchedDeleteClause.md)
+* [DeltaMergeIntoNotMatchedBySourceDeleteClause](DeltaMergeIntoNotMatchedBySourceDeleteClause.md)
+
+`actions` is given when the following [DeltaMergeIntoClause](#implementations)s are created:
+
+* [DeltaMergeIntoMatchedUpdateClause](DeltaMergeIntoMatchedUpdateClause.md)
+* [DeltaMergeIntoNotMatchedInsertClause](DeltaMergeIntoNotMatchedInsertClause.md)
+* [DeltaMergeIntoNotMatchedBySourceUpdateClause](DeltaMergeIntoNotMatchedBySourceUpdateClause.md)
+
+### Clause Type { #clauseType }
+
+```scala
+clauseType: String
+```
+
+String representation of the clause type
+
+DeltaMergeIntoClause | clauseType
+---------------------|-----------
+[DeltaMergeIntoMatchedUpdateClause](DeltaMergeIntoMatchedUpdateClause.md) | `Update`
+[DeltaMergeIntoMatchedDeleteClause](DeltaMergeIntoMatchedDeleteClause.md) | `Delete`
+[DeltaMergeIntoNotMatchedInsertClause](DeltaMergeIntoNotMatchedInsertClause.md) | `Insert`
+[DeltaMergeIntoNotMatchedBySourceUpdateClause](DeltaMergeIntoNotMatchedBySourceUpdateClause.md) | `Update`
+[DeltaMergeIntoNotMatchedBySourceDeleteClause](DeltaMergeIntoNotMatchedBySourceDeleteClause.md) | `Delete`
+
+Used when:
+
+* `DeltaMergeIntoClause` is requested for the [string representation](#toString)
+* `MergePredicate` is created
+* [PreprocessTableMerge](../../PreprocessTableMerge.md) is executed
+* `MergeOutputGeneration` is requested to [generatePrecomputedConditionsAndDF](MergeOutputGeneration.md#generatePrecomputedConditionsAndDF)
+* `MergeClauseStats` is created
+
+### Condition { #condition }
 
 ```scala
 condition: Option[Expression]
 ```
 
+!!! note
+    `condition` is always given when [DeltaMergeIntoClause](#implementations)s are created.
+
 ## Implementations
 
-* [DeltaMergeIntoInsertClause](DeltaMergeIntoInsertClause.md)
 * [DeltaMergeIntoMatchedClause](DeltaMergeIntoMatchedClause.md)
+* [DeltaMergeIntoNotMatchedBySourceClause](DeltaMergeIntoNotMatchedBySourceClause.md)
+* [DeltaMergeIntoNotMatchedClause](DeltaMergeIntoNotMatchedClause.md)
 
 ??? note "Sealed Trait"
     `DeltaMergeIntoClause` is a Scala **sealed trait** which means that all of the implementations are in the same compilation unit (a single file).

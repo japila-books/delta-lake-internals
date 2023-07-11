@@ -1,34 +1,37 @@
 # MergeIntoCommand
 
-`MergeIntoCommand` is a transactional [DeltaCommand](../DeltaCommand.md) that represents a [DeltaMergeInto](DeltaMergeInto.md) logical command at execution.
+`MergeIntoCommand` is a [DeltaCommand](../DeltaCommand.md) (indirectly as a [MergeIntoCommandBase](MergeIntoCommandBase.md)) that represents a [DeltaMergeInto](DeltaMergeInto.md) logical command at execution.
 
-`MergeIntoCommand` is a [MergeIntoCommandBase](MergeIntoCommandBase.md) with [ClassicMergeExecutor](ClassicMergeExecutor.md) and [InsertOnlyMergeExecutor](InsertOnlyMergeExecutor.md) for [optimized output generation](MergeOutputGeneration.md).
+`MergeIntoCommand` is transactional (and starts a new transaction when [executed](#runMerge)).
+
+`MergeIntoCommand` can use [ClassicMergeExecutor](ClassicMergeExecutor.md) or [InsertOnlyMergeExecutor](InsertOnlyMergeExecutor.md) for [optimized output generation](MergeOutputGeneration.md).
 
 ## Creating Instance
 
 `MergeIntoCommand` takes the following to be created:
 
 * [Source Data](#source)
-* <span id="target"> Target Data ([LogicalPlan]({{ book.spark_sql }}/logical-operators/LogicalPlan/))
+* <span id="target"> Target table ([LogicalPlan]({{ book.spark_sql }}/logical-operators/LogicalPlan/))
 * <span id="targetFileIndex"> [TahoeFileIndex](../../TahoeFileIndex.md)
 * <span id="condition"> Merge Condition ([Expression]({{ book.spark_sql }}/expressions/Expression/))
 * <span id="matchedClauses"> [Matched Clause](DeltaMergeIntoMatchedClause.md)s
 * <span id="notMatchedClauses"> [Non-Matched Insert Clause](DeltaMergeIntoInsertClause.md)s
+* <span id="notMatchedBySourceClauses"> [Non-Matched-by-Source Clause](DeltaMergeIntoNotMatchedBySourceClause.md)s
 * [Migrated Schema](#migratedSchema)
 
 `MergeIntoCommand` is created when:
 
 * [PreprocessTableMerge](../../PreprocessTableMerge.md) logical resolution rule is executed (to resolve a [DeltaMergeInto](DeltaMergeInto.md) logical command)
 
-### <span id="source"> Source Data
+### Source Data { #source }
 
 ```scala
 source: LogicalPlan
 ```
 
-When [created](#creating-instance), `MergeIntoCommand` is given a `LogicalPlan` ([Spark SQL]({{ book.spark_sql }}/logical-operators/LogicalPlan)) for the source data to merge from (internally referred to as _source_).
+When [created](#creating-instance), `MergeIntoCommand` is given a `LogicalPlan` ([Spark SQL]({{ book.spark_sql }}/logical-operators/LogicalPlan)) of the source data to merge from (internally referred to as _source_).
 
-The source is used twice:
+The `source` is used twice:
 
 * Firstly, in one of the following:
     * An inner join (in [findTouchedFiles](#findTouchedFiles)) that is `count` in web UI
@@ -38,7 +41,7 @@ The source is used twice:
 !!! tip
     Enable `DEBUG` logging level for [org.apache.spark.sql.delta.commands.MergeIntoCommand](#logging) logger to see the inner-workings of [writeAllChanges](#writeAllChanges).
 
-### <span id="migratedSchema"> Migrated Schema
+### Migrated Schema { #migratedSchema }
 
 ```scala
 migratedSchema: Option[StructType]
@@ -46,7 +49,54 @@ migratedSchema: Option[StructType]
 
 `MergeIntoCommand` can be given a `migratedSchema` ([Spark SQL]({{ book.spark_sql }}/types/StructType)).
 
-## <span id="targetDeltaLog"> Target Delta Table
+## Running Merge { #runMerge }
+
+??? note "MergeIntoCommandBase"
+
+    ```scala
+    runMerge(
+      spark: SparkSession): Seq[Row]
+    ```
+
+    `runMerge` is part of the [MergeIntoCommandBase](MergeIntoCommandBase.md#runMerge) abstraction.
+
+`runMerge` records the start time.
+
+`runMerge` [starts a new transaction](../../DeltaLog.md#withNewTransaction) (on the [targetDeltaLog](MergeIntoCommandBase.md#targetDeltaLog)).
+
+If [hasBeenExecuted](#hasBeenExecuted), `runMerge` [announces the updates](../DeltaCommand.md#sendDriverMetrics) of the [metrics](MergeIntoCommandBase.md#metrics) and quits early (returns no `Row`s).
+
+!!! warning "FIXME When would `hasBeenExecuted` happen?"
+
+??? note "DeltaAnalysisException"
+    In case the schema of the [target](#target) table changed (compared to the time the [transaction started](MergeIntoCommandBase.md#targetDeltaLog)), `runMerge` throws a `DeltaAnalysisException`.
+
+    ---
+
+    The [schema](../../Metadata.md#schema) of a delta table is in the [Metadata](../../Metadata.md#schema) of the [OptimisticTransactionImpl](../../OptimisticTransactionImpl.md).
+
+When [canMergeSchema](MergeIntoCommandBase.md#canMergeSchema), `runMerge` [updateMetadata](../../ImplicitMetadataOperation.md#updateMetadata).
+
+`runMerge` [prepareSourceDFAndReturnMaterializeReason](#prepareSourceDFAndReturnMaterializeReason).
+
+`runMerge` determines the changes to the delta table (the [FileAction](../../FileAction.md)s). `runMerge`...FIXME
+
+`runMerge` [collects the merge statistics](MergeIntoCommandBase.md#collectMergeStats).
+
+`runMerge` requests the `CacheManager` ([Spark SQL]({{ book.spark_sql }}/CacheManager)) to re-cache all the cached logical plans that refer to the [target](#target) logical plan (since it has just changed).
+
+`runMerge` [announces the updates](../DeltaCommand.md#sendDriverMetrics) of the [metrics](MergeIntoCommandBase.md#metrics).
+
+In the end, `runMerge` returns the following performance metrics (as a single `Row`):
+
+Column Name | Metric
+------------|-------
+ `num_affected_rows` | Total of the values of the metrics: <ul><li>[number of updated rows](MergeIntoCommandBase.md#numTargetRowsUpdated)<li>[number of deleted rows](MergeIntoCommandBase.md#numTargetRowsDeleted)<li>[number of inserted rows](MergeIntoCommandBase.md#numTargetRowsInserted)</ul>
+ `num_updated_rows` | [number of updated rows](MergeIntoCommandBase.md#numTargetRowsUpdated)
+ `num_deleted_rows` | [number of deleted rows](MergeIntoCommandBase.md#numTargetRowsDeleted)
+ `num_inserted_rows` | [number of inserted rows](MergeIntoCommandBase.md#numTargetRowsInserted)
+
+## Target Delta Table { #targetDeltaLog }
 
 ```scala
 targetDeltaLog: DeltaLog
@@ -687,34 +737,6 @@ repartitionIfNeeded(
 ## <span id="LeafRunnableCommand"> LeafRunnableCommand
 
 `MergeIntoCommand` is a `LeafRunnableCommand` ([Spark SQL]({{ book.spark_sql }}/logical-operators/LeafRunnableCommand/)) logical operator.
-
-## Running Merge { #runMerge }
-
-??? note "MergeIntoCommandBase"
-
-    ```scala
-    runMerge(
-      spark: SparkSession): Seq[Row]
-    ```
-
-    `runMerge` is part of the [MergeIntoCommandBase](MergeIntoCommandBase.md#runMerge) abstraction.
-
-`runMerge` records the start time.
-
-`runMerge` requests the [targetDeltaLog](MergeIntoCommandBase.md#targetDeltaLog) to [start a new transaction](../../DeltaLog.md#withNewTransaction).
-
-`runMerge` requests the `CacheManager` ([Spark SQL]({{ book.spark_sql }}/CacheManager)) to re-cache all the cached logical plans that refer to the [target](#target) logical plan (since it has just changed).
-
-`runMerge` [announces updates](../DeltaCommand.md#sendDriverMetrics) to the [metrics](MergeIntoCommandBase.md#metrics).
-
-In the end, `runMerge` returns the following performance metrics (as a single `Row`):
-
-Column Name | Metric
-------------|-------
- `num_affected_rows` | Total of the values of the metrics: <ul><li>[number of updated rows](MergeIntoCommandBase.md#numTargetRowsUpdated)<li>[number of deleted rows](MergeIntoCommandBase.md#numTargetRowsDeleted)<li>[number of inserted rows](MergeIntoCommandBase.md#numTargetRowsInserted)</ul>
- `num_updated_rows` | [number of updated rows](MergeIntoCommandBase.md#numTargetRowsUpdated)
- `num_deleted_rows` | [number of deleted rows](MergeIntoCommandBase.md#numTargetRowsDeleted)
- `num_inserted_rows` | [number of inserted rows](MergeIntoCommandBase.md#numTargetRowsInserted)
 
 ## Demo
 

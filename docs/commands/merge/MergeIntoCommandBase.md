@@ -1,10 +1,8 @@
 # MergeIntoCommandBase
 
-`MergeIntoCommandBase` is an [extension](#contract) of the `LeafRunnableCommand` ([Spark SQL]({{ book.spark_sql }}/logical-operators/LeafRunnableCommand)) abstraction for [merge delta commands](#implementations).
+`MergeIntoCommandBase` is a [DeltaCommand](../DeltaCommand.md) and an [extension](#contract) of the `LeafRunnableCommand` ([Spark SQL]({{ book.spark_sql }}/logical-operators/LeafRunnableCommand)) abstraction for [merge delta commands](#implementations).
 
-`MergeIntoCommandBase` is a [DeltaCommand](../DeltaCommand.md)
-
-`MergeIntoCommandBase` is a [MergeIntoMaterializeSource](MergeIntoMaterializeSource.md)
+`MergeIntoCommandBase` is a [MergeIntoMaterializeSource](MergeIntoMaterializeSource.md).
 
 ## Contract (Subset)
 
