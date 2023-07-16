@@ -4,8 +4,8 @@
 
 ## Implementations
 
-* [DeltaMergeIntoDeleteClause](DeltaMergeIntoDeleteClause.md)
-* [DeltaMergeIntoUpdateClause](DeltaMergeIntoUpdateClause.md)
+* [DeltaMergeIntoMatchedDeleteClause](DeltaMergeIntoMatchedDeleteClause.md)
+* [DeltaMergeIntoMatchedUpdateClause](DeltaMergeIntoMatchedUpdateClause.md)
 
 ??? note "Sealed Trait"
     `DeltaMergeIntoMatchedClause` is a Scala **sealed trait** which means that all of the implementations are in the same compilation unit (a single file).

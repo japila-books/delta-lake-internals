@@ -6,7 +6,24 @@
 
 ## Contract (Subset)
 
-### runMerge { #runMerge }
+### Matched Clauses { #matchedClauses }
+
+```scala
+matchedClauses: Seq[DeltaMergeIntoMatchedClause]
+```
+
+[DeltaMergeIntoMatchedClause](DeltaMergeIntoMatchedClause.md)s
+
+See:
+
+* [MergeIntoCommand](MergeIntoCommand.md#matchedClauses)
+
+Used when:
+
+* `MergeIntoCommandBase` is requested to [isMatchedOnly](#isMatchedOnly), [isInsertOnly](#isInsertOnly), [collectMergeStats](#collectMergeStats), [isOnlyOneUnconditionalDelete](#isOnlyOneUnconditionalDelete), [getTargetOnlyPredicates](#getTargetOnlyPredicates)
+* `ClassicMergeExecutor` is requested to [findTouchedFiles](ClassicMergeExecutor.md#findTouchedFiles), [writeAllChanges](ClassicMergeExecutor.md#writeAllChanges)
+
+### Running Merge { #runMerge }
 
 ```scala
 runMerge(
@@ -141,7 +158,7 @@ isInsertOnly: Boolean
 
 `isInsertOnly` is used when:
 
-* `MergeIntoCommand` is requested to [runMerge](MergeIntoCommand.md#runMerge) (and [prepareSourceDFAndReturnMaterializeReason](MergeIntoMaterializeSource.md#prepareSourceDFAndReturnMaterializeReason))
+* `MergeIntoCommand` is requested to [run a merge](MergeIntoCommand.md#runMerge) (and [prepareSourceDFAndReturnMaterializeReason](MergeIntoMaterializeSource.md#prepareSourceDFAndReturnMaterializeReason))
 * `MergeIntoCommandBase` is requested to [run](#run) (to [shouldMaterializeSource](MergeIntoMaterializeSource.md#shouldMaterializeSource))
 
 ## shouldOptimizeMatchedOnlyMerge { #shouldOptimizeMatchedOnlyMerge }

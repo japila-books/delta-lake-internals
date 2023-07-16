@@ -14,6 +14,10 @@ Merge command is executed as a transactional [MergeIntoCommand](MergeIntoCommand
 
     Merge command lets you transactionally execute multiple `INSERT`, `UPDATE`, and `DELETE` DML statements.
 
+## Insert-Only Merges
+
+[Insert-only merges](MergeIntoCommandBase.md#isInsertOnly) have got special support but only with [spark.databricks.delta.merge.optimizeInsertOnlyMerge.enabled](../../configuration-properties/index.md#MERGE_INSERT_ONLY_ENABLED) enabled.
+
 ## Single INSERT-only MERGEs
 
 There is a special handling of [single INSERT-only MERGEs](MergeIntoCommand.md#isSingleInsertOnly).

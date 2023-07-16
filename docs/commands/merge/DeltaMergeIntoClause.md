@@ -106,11 +106,13 @@ toActions(
 1. `UnresolvedStar` for no `colNames` and `isEmptySeqEqualToStar` flag enabled
 1. [DeltaMergeAction](DeltaMergeAction.md)s (for every pair of column name and expression based on `colNames` and `exprs`, respectively)
 
+---
+
 `toActions` is used when:
 
 * `DeltaAnalysis` logical resolution rule is [executed](../../DeltaAnalysis.md#apply)
 * `DeltaMergeMatchedActionBuilder` is requested to [updateAll](DeltaMergeMatchedActionBuilder.md#updateAll), [addUpdateClause](DeltaMergeMatchedActionBuilder.md#addUpdateClause), [insertAll](DeltaMergeMatchedActionBuilder.md#insertAll) and [addInsertClause](DeltaMergeMatchedActionBuilder.md#addInsertClause)
-* `DeltaMergeIntoUpdateClause` is [created](DeltaMergeIntoUpdateClause.md#creating-instance)
+* `DeltaMergeIntoMatchedUpdateClause` is [created](DeltaMergeIntoMatchedUpdateClause.md#creating-instance)
 
 ## <span id="resolvedActions"> resolvedActions
 

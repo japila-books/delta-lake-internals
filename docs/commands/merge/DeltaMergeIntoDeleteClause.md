@@ -1,3 +1,0 @@
-# DeltaMergeIntoDeleteClause
-
-`DeltaMergeIntoDeleteClause` is...FIXME

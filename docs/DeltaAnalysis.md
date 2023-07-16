@@ -67,7 +67,7 @@ In the end, `resolveCloneCommand` creates a [CreateDeltaTableCommand](commands/C
 
 ### <span id="DeltaTable"> DeltaTable
 
-### <span id="MergeIntoTable"> MergeIntoTable
+### MergeIntoTable { #MergeIntoTable }
 
 ```scala
 MergeIntoTable(target, source, condition, matched, notMatched)
@@ -77,8 +77,8 @@ MergeIntoTable(target, source, condition, matched, notMatched)
 
 `apply` creates the following for the `matched` actions:
 
-* [DeltaMergeIntoDeleteClause](commands/merge/DeltaMergeIntoDeleteClause.md)s for `DeleteAction`s
-* [DeltaMergeIntoUpdateClause](commands/merge/DeltaMergeIntoUpdateClause.md)s for `UpdateAction`s
+* [DeltaMergeIntoMatchedDeleteClause](commands/merge/DeltaMergeIntoMatchedDeleteClause.md)s for `DeleteAction`s
+* [DeltaMergeIntoMatchedUpdateClause](commands/merge/DeltaMergeIntoMatchedUpdateClause.md)s for `UpdateAction`s
 
 `apply` throws an `AnalysisException` for `InsertAction`s:
 
