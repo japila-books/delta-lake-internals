@@ -1,6 +1,11 @@
-# DeltaMergeIntoMatchedDeleteClause
+---
+title: DeltaMergeIntoMatchedDeleteClause
+subtitle: WHEN MATCHED DELETE Clause
+---
 
-`DeltaMergeIntoMatchedDeleteClause` is a [DeltaMergeIntoMatchedClause](DeltaMergeIntoMatchedClause.md) for the following:
+# DeltaMergeIntoMatchedDeleteClause &mdash; WHEN MATCHED DELETE Clause
+
+`DeltaMergeIntoMatchedDeleteClause` is a [DeltaMergeIntoMatchedClause](DeltaMergeIntoMatchedClause.md) that represents `WHEN MATCHED DELETE` clauses in the following:
 
 * `DeleteAction` matched actions in `MergeIntoTable` ([Spark SQL]({{ book.spark_sql }}/logical-operators/MergeIntoTable)) logical command
 * [DeltaMergeMatchedActionBuilder.delete](DeltaMergeMatchedActionBuilder.md#delete) operator

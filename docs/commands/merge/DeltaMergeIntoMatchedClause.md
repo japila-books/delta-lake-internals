@@ -1,4 +1,9 @@
-# DeltaMergeIntoMatchedClause
+---
+title: DeltaMergeIntoMatchedClause
+subtitle: WHEN MATCHED Clause
+---
+
+# DeltaMergeIntoMatchedClause &mdash; WHEN MATCHED Clause
 
 `DeltaMergeIntoMatchedClause` is an extension of the [DeltaMergeIntoClause](DeltaMergeIntoClause.md) abstraction for [WHEN MATCHED clauses](#implementations).
 

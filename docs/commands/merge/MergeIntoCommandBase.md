@@ -6,7 +6,7 @@
 
 ## Contract (Subset)
 
-### Matched Clauses { #matchedClauses }
+### WHEN MATCHED Clauses { #matchedClauses }
 
 ```scala
 matchedClauses: Seq[DeltaMergeIntoMatchedClause]
@@ -178,3 +178,36 @@ shouldOptimizeMatchedOnlyMerge(
 `shouldOptimizeMatchedOnlyMerge` is used when:
 
 * `ClassicMergeExecutor` is requested to [writeAllChanges](ClassicMergeExecutor.md#writeAllChanges)
+
+## throwErrorOnMultipleMatches { #throwErrorOnMultipleMatches }
+
+```scala
+throwErrorOnMultipleMatches(
+  hasMultipleMatches: Boolean,
+  spark: SparkSession): Unit
+```
+
+??? warning "Procedure"
+    `throwErrorOnMultipleMatches` is a procedure (returns `Unit`) so _what happens inside stays inside_ (paraphrasing the [former advertising slogan of Las Vegas, Nevada](https://idioms.thefreedictionary.com/what+happens+in+Vegas+stays+in+Vegas)).
+
+`throwErrorOnMultipleMatches` throws a `DeltaUnsupportedOperationException` when the given `hasMultipleMatches` is enabled (`true`) and [isOnlyOneUnconditionalDelete](#isOnlyOneUnconditionalDelete) is disabled (`false`).
+
+---
+
+`throwErrorOnMultipleMatches` is used when:
+
+* `ClassicMergeExecutor` is requested to [findTouchedFiles](ClassicMergeExecutor.md#findTouchedFiles)
+
+### isOnlyOneUnconditionalDelete { #isOnlyOneUnconditionalDelete }
+
+```scala
+isOnlyOneUnconditionalDelete: Boolean
+```
+
+`isOnlyOneUnconditionalDelete` is positive (`true`) when there is only one [when matched clause](#matchedClauses) that is a `DELETE` with no condition.
+
+---
+
+In other words, `isOnlyOneUnconditionalDelete` is `true` for the following:
+
+* [matchedClauses](#matchedClauses) is exactly a [DeltaMergeIntoMatchedDeleteClause](DeltaMergeIntoMatchedDeleteClause.md) with no [condition](DeltaMergeIntoMatchedDeleteClause.md#condition) (hence the name _unconditional delete_)
