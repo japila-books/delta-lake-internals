@@ -16,9 +16,11 @@ Merge command is executed as a transactional [MergeIntoCommand](MergeIntoCommand
 
 ## Insert-Only Merges
 
-[Insert-only merges](MergeIntoCommandBase.md#isInsertOnly) have got special support but only with [spark.databricks.delta.merge.optimizeInsertOnlyMerge.enabled](../../configuration-properties/index.md#MERGE_INSERT_ONLY_ENABLED) enabled.
+**Insert-Only Merges** are MERGE queries with [only WHEN NOT MATCHED clauses](MergeIntoCommandBase.md#isInsertOnly).
 
-## Single INSERT-only MERGEs
+Delta Lake applies extra optimizations to insert-only merges only with [spark.databricks.delta.merge.optimizeInsertOnlyMerge.enabled](../../configuration-properties/index.md#MERGE_INSERT_ONLY_ENABLED) enabled.
+
+### Single Insert-Only Merges
 
 There is a special handling of [single INSERT-only MERGEs](MergeIntoCommand.md#isSingleInsertOnly).
 

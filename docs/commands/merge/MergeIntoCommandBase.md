@@ -23,6 +23,42 @@ Used when:
 * `MergeIntoCommandBase` is requested to [isMatchedOnly](#isMatchedOnly), [isInsertOnly](#isInsertOnly), [collectMergeStats](#collectMergeStats), [isOnlyOneUnconditionalDelete](#isOnlyOneUnconditionalDelete), [getTargetOnlyPredicates](#getTargetOnlyPredicates)
 * `ClassicMergeExecutor` is requested to [findTouchedFiles](ClassicMergeExecutor.md#findTouchedFiles), [writeAllChanges](ClassicMergeExecutor.md#writeAllChanges)
 
+### WHEN NOT MATCHED Clauses { #notMatchedClauses }
+
+```scala
+notMatchedClauses: Seq[DeltaMergeIntoNotMatchedClause]
+```
+
+[DeltaMergeIntoNotMatchedClause](DeltaMergeIntoNotMatchedClause.md)s
+
+See:
+
+* [MergeIntoCommand](MergeIntoCommand.md#notMatchedClauses)
+
+Used when:
+
+* `InsertOnlyMergeExecutor` is requested to [writeOnlyInserts](InsertOnlyMergeExecutor.md#writeOnlyInserts)
+* `MergeIntoCommandBase` is requested to [isMatchedOnly](#isMatchedOnly), [isInsertOnly](#isInsertOnly), [includesInserts](#includesInserts), [collectMergeStats](#collectMergeStats)
+* `ClassicMergeExecutor` is requested to [writeAllChanges](ClassicMergeExecutor.md#writeAllChanges)
+* `InsertOnlyMergeExecutor` is requested to [writeOnlyInserts](InsertOnlyMergeExecutor.md#writeOnlyInserts), [generateInsertsOnlyOutputDF](InsertOnlyMergeExecutor.md#generateInsertsOnlyOutputDF), [generateOneInsertOutputCols](InsertOnlyMergeExecutor.md#generateOneInsertOutputCols)
+
+### WHEN NOT MATCHED BY SOURCE Clauses { #notMatchedBySourceClauses }
+
+```scala
+notMatchedBySourceClauses: Seq[DeltaMergeIntoNotMatchedBySourceClause]
+```
+
+[DeltaMergeIntoNotMatchedBySourceClause](DeltaMergeIntoNotMatchedBySourceClause.md)s
+
+See:
+
+* [MergeIntoCommand](MergeIntoCommand.md#notMatchedBySourceClauses)
+
+Used when:
+
+* `MergeIntoCommandBase` is requested to [isMatchedOnly](#isMatchedOnly), [isInsertOnly](#isInsertOnly), [collectMergeStats](#collectMergeStats)
+* `ClassicMergeExecutor` is requested to [findTouchedFiles](ClassicMergeExecutor.md#findTouchedFiles), [writeAllChanges](ClassicMergeExecutor.md#writeAllChanges)
+
 ### Running Merge { #runMerge }
 
 ```scala
@@ -148,11 +184,14 @@ buildTargetPlanWithIndex(
 isInsertOnly: Boolean
 ```
 
-`isInsertOnly` is enabled (`true`) when all the following hold:
+`isInsertOnly` is positive when there are [WHEN NOT MATCHED clauses](#notMatchedClauses) only in this MERGE command.
 
-1. No [matchedClauses](#matchedClauses)
-1. No [notMatchedBySourceClauses](#notMatchedBySourceClauses)
-1. There are [notMatchedClauses](#notMatchedClauses)
+---
+
+In other words, `isInsertOnly` is enabled (`true`) when all the following hold:
+
+1. There are neither [WHEN MATCHED](#matchedClauses) nor [WHEN NOT MATCHED BY SOURCE](#notMatchedBySourceClauses) clauses
+1. There are [WHEN NOT MATCHED clauses](#notMatchedClauses)
 
 ---
 

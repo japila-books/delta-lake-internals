@@ -14,9 +14,9 @@
 * <span id="target"> Target table ([LogicalPlan]({{ book.spark_sql }}/logical-operators/LogicalPlan/))
 * <span id="targetFileIndex"> [TahoeFileIndex](../../TahoeFileIndex.md)
 * <span id="condition"> Merge Condition ([Expression]({{ book.spark_sql }}/expressions/Expression/))
-* <span id="matchedClauses"> [Matched Clause](DeltaMergeIntoMatchedClause.md)s
+* <span id="matchedClauses"> [WHEN MATCHED Clause](DeltaMergeIntoMatchedClause.md)s
 * <span id="notMatchedClauses"> [Non-Matched Insert Clause](DeltaMergeIntoInsertClause.md)s
-* <span id="notMatchedBySourceClauses"> [Non-Matched-by-Source Clause](DeltaMergeIntoNotMatchedBySourceClause.md)s
+* <span id="notMatchedBySourceClauses"> [WHEN NOT MATCHED BY SOURCE Clause](DeltaMergeIntoNotMatchedBySourceClause.md)s
 * [Migrated Schema](#migratedSchema)
 
 `MergeIntoCommand` is created when:

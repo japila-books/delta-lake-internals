@@ -1,3 +1,8 @@
+---
+tags:
+  - DeveloperApi
+---
+
 # DeltaMergeNotMatchedActionBuilder
 
 `DeltaMergeNotMatchedActionBuilder` is a [builder interface](#operators) for [DeltaMergeBuilder.whenNotMatched](DeltaMergeBuilder.md#whenNotMatched) operator.

@@ -1,4 +1,9 @@
-# DeltaMergeIntoNotMatchedBySourceClause
+---
+title: DeltaMergeIntoNotMatchedBySourceClause
+subtitle: WHEN NOT MATCHED BY SOURCE Clause
+---
+
+# DeltaMergeIntoNotMatchedBySourceClause &mdash; WHEN NOT MATCHED BY SOURCE Clause
 
 `DeltaMergeIntoNotMatchedBySourceClause` is an extension of the [DeltaMergeIntoClause](DeltaMergeIntoClause.md) abstraction for [WHEN NOT MATCHED BY SOURCE clauses](#implementations).
 

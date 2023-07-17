@@ -1,8 +1,15 @@
+---
+tags:
+  - DeveloperApi
+---
+
 # DeltaMergeBuilder
 
-`DeltaMergeBuilder` is a [builder interface](#operators) to describe how to merge data from a [source DataFrame](#source) into the [target](#targetTable) delta table (using [whenMatched](#whenMatched) and [whenNotMatched](#whenNotMatched) conditions).
+`DeltaMergeBuilder` is a [builder interface](#operators) to describe how to merge data from a [source DataFrame](#source) into the [target](#targetTable) delta table (using [whenMatched](#whenMatched), [whenNotMatched](#whenNotMatched), and [whenNotMatchedBySource](#whenNotMatchedBySource) conditions).
 
-In the end, `DeltaMergeBuilder` is supposed to be [executed](#execute) to take action. `DeltaMergeBuilder` creates a [DeltaMergeInto](DeltaMergeInto.md) logical command that is resolved to a [MergeIntoCommand](MergeIntoCommand.md) runnable logical command (using [PreprocessTableMerge](../../PreprocessTableMerge.md) logical resolution rule).
+In the end, `DeltaMergeBuilder` is supposed to be [executed](#execute) to take action. 
+
+`DeltaMergeBuilder` creates a [DeltaMergeInto](DeltaMergeInto.md) logical command that is resolved to a [MergeIntoCommand](MergeIntoCommand.md) runnable logical command (using [PreprocessTableMerge](../../PreprocessTableMerge.md) logical resolution rule).
 
 ## Creating Instance
 
@@ -17,7 +24,7 @@ In the end, `DeltaMergeBuilder` is supposed to be [executed](#execute) to take a
 
 ## Operators
 
-### <span id="whenMatched"> whenMatched
+### whenMatched { #whenMatched }
 
 ```scala
 whenMatched(): DeltaMergeMatchedActionBuilder
@@ -27,9 +34,9 @@ whenMatched(
   condition: String): DeltaMergeMatchedActionBuilder
 ```
 
-Creates a [DeltaMergeMatchedActionBuilder](DeltaMergeMatchedActionBuilder.md) (for the `DeltaMergeBuilder` and a condition)
+Creates a [DeltaMergeMatchedActionBuilder](DeltaMergeMatchedActionBuilder.md) (for this `DeltaMergeBuilder` and a condition)
 
-### <span id="whenNotMatched"> whenNotMatched
+### whenNotMatched { #whenNotMatched }
 
 ```scala
 whenNotMatched(): DeltaMergeNotMatchedActionBuilder
@@ -39,9 +46,21 @@ whenNotMatched(
   condition: String): DeltaMergeNotMatchedActionBuilder
 ```
 
-Creates a [DeltaMergeNotMatchedActionBuilder](DeltaMergeNotMatchedActionBuilder.md) (for the `DeltaMergeBuilder` and a condition)
+Creates a [DeltaMergeNotMatchedActionBuilder](DeltaMergeNotMatchedActionBuilder.md) (for this `DeltaMergeBuilder` and a condition)
 
-## <span id="execute"> Executing Merge
+### whenNotMatchedBySource { #whenNotMatchedBySource }
+
+```scala
+whenNotMatchedBySource(): DeltaMergeNotMatchedBySourceActionBuilder
+whenNotMatchedBySource(
+  condition: Column): DeltaMergeNotMatchedBySourceActionBuilder
+whenNotMatchedBySource(
+  condition: String): DeltaMergeNotMatchedBySourceActionBuilder
+```
+
+Creates a [DeltaMergeNotMatchedBySourceActionBuilder](DeltaMergeNotMatchedBySourceActionBuilder.md) (for this `DeltaMergeBuilder` and a condition)
+
+## Executing Merge { #execute }
 
 ```scala
 execute(): Unit

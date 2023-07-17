@@ -1,4 +1,9 @@
-# DeltaMergeIntoClause
+---
+title: DeltaMergeIntoClause
+subtitle: WHEN Clause
+---
+
+# DeltaMergeIntoClause &mdash; WHEN Clause
 
 `DeltaMergeIntoClause` is an [extension](#contract) of the `Expression` ([Spark SQL]({{ book.spark_sql }}/expressions/Expression)) abstraction for [WHEN clauses](#implementations).
 
@@ -9,6 +14,8 @@
 ```scala
 actions: Seq[Expression]
 ```
+
+Action `Expression`s ([Spark SQL]({{ book.spark_sql }}/expressions/Expression))
 
 `actions` [can only be the following expressions](#verifyActions):
 

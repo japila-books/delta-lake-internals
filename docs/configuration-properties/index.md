@@ -247,7 +247,7 @@ Default: `10000L`
 
 **spark.databricks.delta.merge.optimizeInsertOnlyMerge.enabled**
 
-**(internal)** Controls merge without any matched clause (i.e., insert-only merge) will be optimized by avoiding rewriting old files and just inserting new files
+**(internal)** Enables extra optimization for [insert-only merges](../commands/merge/index.md#insert-only-merges) by avoiding rewriting old files and just inserting new files
 
 Default: `true`
 
