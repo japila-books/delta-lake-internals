@@ -17,13 +17,15 @@ findTouchedFiles(
 
 `findTouchedFiles` creates a non-deterministic UDF that records the names of touched files (adds them to the accumulator).
 
-With no [notMatchedBySourceClauses](#notMatchedBySourceClauses), `findTouchedFiles` requests the given [OptimisticTransaction](../../OptimisticTransaction.md) to [filterFiles](../../OptimisticTransactionImpl.md#filterFiles) with [getTargetOnlyPredicates](MergeIntoCommandBase.md#getTargetOnlyPredicates). Otherwise, `findTouchedFiles` requests it to [filterFiles](../../OptimisticTransactionImpl.md#filterFiles) with an accept-all predicate.
+With no [WHEN NOT MATCHED BY SOURCE clauses](MergeIntoCommandBase.md#notMatchedBySourceClauses), `findTouchedFiles` requests the given [OptimisticTransaction](../../OptimisticTransaction.md) to [filterFiles](../../OptimisticTransactionImpl.md#filterFiles) with [getTargetOnlyPredicates](MergeIntoCommandBase.md#getTargetOnlyPredicates). Otherwise, `findTouchedFiles` requests it to [filterFiles](../../OptimisticTransactionImpl.md#filterFiles) with an accept-all predicate.
 
-With no [notMatchedBySourceClauses](#notMatchedBySourceClauses), `findTouchedFiles` uses `inner` join type. Otherwise, it is `right_outer` join.
+`findTouchedFiles` determines the join type (`joinType`).
+With no [WHEN NOT MATCHED BY SOURCE clauses](MergeIntoCommandBase.md#notMatchedBySourceClauses), `findTouchedFiles` uses `INNER` join type. Otherwise, it is `RIGHT_OUTER` join.
 
 !!! note "FIXME Show the diagrams of the different joins"
 
-When [isMatchedOnly](#isMatchedOnly), `findTouchedFiles` converts the [matchedClauses](#matchedClauses) to their [condition](DeltaMergeIntoClause.md#condition)s, if defined, or falls back to accept-all predicate and then reduces to `Or` expressions. Otherwise, `findTouchedFiles` uses accept-all predicate for the matched predicate.
+`findTouchedFiles` determines the matched predicate (`matchedPredicate`).
+When [isMatchedOnly](MergeIntoCommandBase.md#isMatchedOnly), `findTouchedFiles` converts the [WHEN MATCHED clauses](MergeIntoCommandBase.md#matchedClauses) to their [condition](DeltaMergeIntoClause.md#condition)s, if defined, or falls back to accept-all predicate and then reduces to `Or` expressions. Otherwise, `findTouchedFiles` uses accept-all predicate for the matched predicate.
 
 `findTouchedFiles`...FIXME (finished at `sourceDF`)
 
@@ -31,7 +33,7 @@ When [isMatchedOnly](#isMatchedOnly), `findTouchedFiles` converts the [matchedCl
 
 `findTouchedFiles` is used when:
 
-* `MergeIntoCommand` is requested to [run merge](MergeIntoCommand.md#runMerge)
+* `MergeIntoCommand` is requested to [run a merge](MergeIntoCommand.md#runMerge)
 
 ## writeAllChanges { #writeAllChanges }
 

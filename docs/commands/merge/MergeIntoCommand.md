@@ -79,7 +79,8 @@ When [canMergeSchema](MergeIntoCommandBase.md#canMergeSchema), `runMerge` [updat
 
 `runMerge` [prepareSourceDFAndReturnMaterializeReason](#prepareSourceDFAndReturnMaterializeReason).
 
-`runMerge` determines the changes to the delta table (the [FileAction](../../FileAction.md)s). `runMerge`...FIXME
+`runMerge` determines the changes to the delta table (the [FileAction](../../FileAction.md)s).
+`runMerge`...FIXME
 
 `runMerge` [collects the merge statistics](MergeIntoCommandBase.md#collectMergeStats).
 
@@ -112,16 +113,16 @@ targetDeltaLog: DeltaLog
 ??? note "Lazy Value"
     `targetDeltaLog` is a Scala **lazy value** to guarantee that the code to initialize it is executed once only (when accessed for the first time) and cached afterwards.
 
-## <span id="run"> Executing Command
+## Executing Command { #run }
 
-```scala
-run(
-  spark: SparkSession): Seq[Row]
-```
+??? note "RunnableCommand"
 
-`run` is part of the `RunnableCommand` ([Spark SQL]({{ book.spark_sql }}/logical-operators/RunnableCommand/)) abstraction.
+    ```scala
+    run(
+      spark: SparkSession): Seq[Row]
+    ```
 
----
+    `run` is part of the `RunnableCommand` ([Spark SQL]({{ book.spark_sql }}/logical-operators/RunnableCommand/)) abstraction.
 
 `run` is a transactional operation that is made up of the following steps:
 
@@ -734,7 +735,7 @@ repartitionIfNeeded(
 
 * `MergeIntoCommand` is [executed](#run) (and [writes data out](../../TransactionalWrite.md#writeFiles) for [Single Insert-Only Merge](#writeInsertsOnlyWhenNoMatchedClauses) and [other merges](#writeAllChanges))
 
-## <span id="LeafRunnableCommand"> LeafRunnableCommand
+## LeafRunnableCommand { #LeafRunnableCommand }
 
 `MergeIntoCommand` is a `LeafRunnableCommand` ([Spark SQL]({{ book.spark_sql }}/logical-operators/LeafRunnableCommand/)) logical operator.
 

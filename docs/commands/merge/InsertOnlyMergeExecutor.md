@@ -15,13 +15,42 @@ writeOnlyInserts(
   numSourceRowsMetric: String): Seq[FileAction]
 ```
 
+??? note "`filterMatchedRows` Argument"
+    `writeOnlyInserts` is given `filterMatchedRows` flag when [running a merge](MergeIntoCommand.md#runMerge) for the following conditions:
+
+    `filterMatchedRows` Flag | Condition
+    -------------------------|----------
+    `true` | An [insert-only merge](MergeIntoCommandBase.md#isInsertOnly) and [merge.optimizeInsertOnlyMerge.enabled](../../configuration-properties/index.md#merge.optimizeInsertOnlyMerge.enabled) enabled
+    `false` | No files to rewrite ([AddFile](../../AddFile.md)s) from [findTouchedFiles](ClassicMergeExecutor.md#findTouchedFiles)
+
+`writeOnlyInserts` [recordMergeOperation](MergeIntoCommandBase.md#recordMergeOperation) with the following:
+
+Property | Value
+---------|------
+ `extraOpType` | <ul><li>`writeInsertsOnlyWhenNoMatchedClauses` with the given `filterMatchedRows` enabled<li>`writeInsertsOnlyWhenNoMatches` otherwise</ul>
+ `status` | MERGE operation - writing new files for only inserts
+ `sqlMetricName` | The name of [rewriteTimeMs](MergeIntoCommandBase.md#rewriteTimeMs) metric
+
 `writeOnlyInserts`...FIXME
+
+`writeOnlyInserts` [generateInsertsOnlyOutputDF](#generateInsertsOnlyOutputDF) with the `preparedSourceDF` (that gives a `outputDF`).
+
+`writeOnlyInserts` prints out the following DEBUG message to the logs:
+
+```text
+[extraOpType]: output plan:
+[outputDF]
+```
+
+`writeOnlyInserts` [writeFiles](MergeIntoCommandBase.md#writeFiles) with the `outputDF` (that gives [FileAction](../../FileAction.md)s).
+
+In the end, `writeOnlyInserts` updates the [metrics](MergeIntoCommandBase.md#metrics).
 
 ---
 
 `writeOnlyInserts` is used when:
 
-* `MergeIntoCommand` is requested to [run merge](MergeIntoCommand.md#runMerge)
+* `MergeIntoCommand` is requested to [run a merge](MergeIntoCommand.md#runMerge)
 
 ### generateInsertsOnlyOutputDF { #generateInsertsOnlyOutputDF }
 

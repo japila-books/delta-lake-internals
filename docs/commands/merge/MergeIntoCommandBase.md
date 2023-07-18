@@ -103,7 +103,7 @@ Name | web UI
  `numTargetPartitionsAddedTo` | number of target partitions to which files were added
  `executionTimeMs` | time taken to execute the entire operation
  `scanTimeMs` | time taken to scan the files for matches
- `rewriteTimeMs` | time taken to rewrite the matched files
+ [rewriteTimeMs](#rewriteTimeMs) | time taken to rewrite the matched files
 
 ### number of deleted rows { #numTargetRowsDeleted }
 
@@ -118,6 +118,8 @@ Name | web UI
 `incrNoopCountExpr` UDF is resolved on a joined plan and used to create a [JoinedRowProcessor](JoinedRowProcessor.md#noopCopyOutput) for [processing partitions](#processPartition) of the joined plan `Dataset`.
 
 ### number of updated rows { #numTargetRowsUpdated }
+
+### time taken to rewrite the matched files { #rewriteTimeMs }
 
 ## buildTargetPlanWithFiles { #buildTargetPlanWithFiles }
 
@@ -184,7 +186,7 @@ buildTargetPlanWithIndex(
 isInsertOnly: Boolean
 ```
 
-`isInsertOnly` is positive when there are [WHEN NOT MATCHED clauses](#notMatchedClauses) only in this MERGE command.
+`isInsertOnly` is positive for an [insert-only merge](index.md#insert-only-merges) (i.e. when there are [WHEN NOT MATCHED clauses](#notMatchedClauses) only in this MERGE command).
 
 ---
 
