@@ -22,7 +22,7 @@ subtitle: WHEN MATCHED DELETE Clause
 * [DeltaAnalysis](../../DeltaAnalysis.md) logical resolution rule is executed (and resolves `MergeIntoTable` logical command with `DeleteAction` matched actions)
 * `MergeIntoCommandBase` is requested to [isOnlyOneUnconditionalDelete](MergeIntoCommandBase.md#isOnlyOneUnconditionalDelete)
 
-## actions
+## Actions
 
 ??? note "DeltaMergeIntoClause"
 
@@ -34,7 +34,7 @@ subtitle: WHEN MATCHED DELETE Clause
 
 `actions` is always an empty collection.
 
-## clauseType { #clauseType }
+## Clause Type { #clauseType }
 
 ??? note "DeltaMergeIntoClause"
 

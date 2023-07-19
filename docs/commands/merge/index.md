@@ -46,6 +46,10 @@ There is a special handling of [single INSERT-only MERGEs](MergeIntoCommand.md#i
     WHEN NOT MATCHED THEN INSERT *;
     ```
 
+## Schema Evolution
+
+Schema evolution is allowed for [non-star UPDATEs and INSERTs](DeltaMergeInto.md#canAutoMigrate) (when a column is not in the target delta table) when [schema.autoMerge.enabled](../../configuration-properties/index.md#schema.autoMerge.enabled) is enabled.
+
 ## Demo
 
 [Demo: Merge Operation](../../demo/merge-operation.md)

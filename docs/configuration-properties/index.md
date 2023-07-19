@@ -371,9 +371,11 @@ Default: `true`
 
 Default: `false`
 
-### <span id="schema.autoMerge.enabled"><span id="DELTA_SCHEMA_AUTO_MIGRATE"> schema.autoMerge.enabled
+### <span id="DELTA_SCHEMA_AUTO_MIGRATE"> schema.autoMerge.enabled { #schema.autoMerge.enabled }
 
-**spark.databricks.delta.schema.autoMerge.enabled** enables schema merging on appends and overwrites.
+**spark.databricks.delta.schema.autoMerge.enabled**
+
+Enables schema merging on appends (UPDATEs) and overwrites (INSERTs).
 
 Default: `false`
 
