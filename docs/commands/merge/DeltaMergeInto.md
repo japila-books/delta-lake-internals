@@ -14,8 +14,10 @@ title: DeltaMergeInto
 * <span id="source"> Source Table or Subquery ([Spark SQL]({{ book.spark_sql }}/logical-operators/LogicalPlan/))
 * <span id="condition"> Condition Expression
 * <span id="matchedClauses"> [DeltaMergeIntoMatchedClause](DeltaMergeIntoMatchedClause.md)s
-* <span id="notMatchedClause"> Non-Matched [DeltaMergeIntoInsertClause](DeltaMergeIntoInsertClause.md)s
+* <span id="notMatchedClauses"> [DeltaMergeIntoNotMatchedClause](DeltaMergeIntoNotMatchedClause.md)s
+* <span id="notMatchedBySourceClauses"> [DeltaMergeIntoNotMatchedBySourceClause](DeltaMergeIntoNotMatchedBySourceClause.md)s
 * [migrateSchema](#migrateSchema) flag
+* <span id="finalSchema"> Final schema (`StructType`)
 
 When created, `DeltaMergeInto` [verifies the actions](DeltaMergeIntoClause.md#verifyActions) in the [matchedClauses](#matchedClauses) and [notMatchedClauses](#notMatchedClauses) clauses.
 
@@ -28,7 +30,7 @@ When created, `DeltaMergeInto` [verifies the actions](DeltaMergeIntoClause.md#ve
 
 `DeltaMergeInto` is resolved to [MergeIntoCommand](MergeIntoCommand.md) by [PreprocessTableMerge](../../PreprocessTableMerge.md) logical resolution rule.
 
-## <span id="migrateSchema"> migrateSchema Flag
+## migrateSchema Flag { #migrateSchema }
 
 `DeltaMergeInto` is given `migrateSchema` flag when [created](#creating-instance):
 
