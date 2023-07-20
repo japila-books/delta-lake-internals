@@ -55,6 +55,14 @@ With [schema evolution](../../configuration-properties/index.md#schema.autoMerge
 ??? note "NOT MATCHED BY SOURCE Excluded"
     [NOT MATCHED BY SOURCE](DeltaMergeIntoNotMatchedBySourceClause.md)s are excluded since they can't reference source columns by definition and thus can't introduce new columns in the target schema.
 
+## Matched-Only Merges
+
+[shouldOptimizeMatchedOnlyMerge](MergeIntoCommandBase.md#shouldoptimizematchedonlymerge)
+
+## Change Data Capture
+
+[isCdcEnabled](MergeIntoCommandBase.md#isCdcEnabled)
+
 ## Demo
 
 [Demo: Merge Operation](../../demo/merge-operation.md)

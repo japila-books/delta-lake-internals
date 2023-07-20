@@ -83,7 +83,7 @@ Used when:
 Name | web UI
 ------------|------------
  `numSourceRows` | number of source rows
- `numSourceRowsInSecondScan` | number of source rows (during repeated scan)
+ [numSourceRowsInSecondScan](#numSourceRowsInSecondScan) | number of source rows (during repeated scan)
  `numTargetRowsCopied` | number of target rows rewritten unmodified
  [numTargetRowsInserted](#numTargetRowsInserted) | number of inserted rows
  [numTargetRowsUpdated](#numTargetRowsUpdated) | number of updated rows
@@ -108,6 +108,8 @@ Name | web UI
 ### number of deleted rows { #numTargetRowsDeleted }
 
 ### number of inserted rows { #numTargetRowsInserted }
+
+### number of source rows (during repeated scan) { #numSourceRowsInSecondScan }
 
 ### number of target rows rewritten unmodified { #numTargetRowsCopied }
 
