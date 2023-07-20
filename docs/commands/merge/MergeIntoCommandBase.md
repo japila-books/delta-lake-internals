@@ -121,7 +121,7 @@ Name | web UI
 
 ### time taken to rewrite the matched files { #rewriteTimeMs }
 
-## buildTargetPlanWithFiles { #buildTargetPlanWithFiles }
+## Building Target (Logical) Plan Spanned Over Fewer Files { #buildTargetPlanWithFiles }
 
 ```scala
 buildTargetPlanWithFiles(
@@ -131,7 +131,15 @@ buildTargetPlanWithFiles(
   columnsToDrop: Seq[String]): LogicalPlan
 ```
 
-`buildTargetPlanWithFiles`...FIXME
+??? note "`columnsToDrop` Argument"
+    `columnsToDrop` is always empty (`Nil`) but for `ClassicMergeExecutor` to [findTouchedFiles](ClassicMergeExecutor.md#findTouchedFiles).
+
+`buildTargetPlanWithFiles` creates a [TahoeBatchFileIndex](../../TahoeBatchFileIndex.md) for the given [AddFile](../../AddFile.md)s (`files`) only.
+
+!!! note
+    `buildTargetPlanWithFiles` creates a `LogicalPlan` of a delta table that is possibly smaller parquet data files (spanning over a smaller number of files) than the "source".
+
+In the end, `buildTargetPlanWithFiles` [buildTargetPlanWithIndex](#buildTargetPlanWithIndex) for the `TahoeBatchFileIndex` and the given `columnsToDrop` column names.
 
 ---
 
@@ -150,7 +158,9 @@ buildTargetPlanWithIndex(
   columnsToDrop: Seq[String]): LogicalPlan
 ```
 
-`buildTargetPlanWithIndex`...FIXME
+`buildTargetPlanWithIndex` gets the references to columns in the target dataframe  (`AttributeReference`s) and `null`s for new columns that are added to the target table (as part of this [OptimisticTransaction](../../OptimisticTransaction.md)).
+
+In the end, `buildTargetPlanWithIndex` creates a `Project` logical operator with new columns (with `null`s) after the existing ones.
 
 ## Special Columns
 
