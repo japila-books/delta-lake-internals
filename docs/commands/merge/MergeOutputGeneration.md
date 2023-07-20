@@ -7,7 +7,7 @@
 * [ClassicMergeExecutor](ClassicMergeExecutor.md)
 * [InsertOnlyMergeExecutor](InsertOnlyMergeExecutor.md)
 
-## generatePrecomputedConditionsAndDF { #generatePrecomputedConditionsAndDF }
+## Appending Precomputed Clause Conditions to Source DataFrame { #generatePrecomputedConditionsAndDF }
 
 ```scala
 generatePrecomputedConditionsAndDF(
@@ -15,14 +15,39 @@ generatePrecomputedConditionsAndDF(
   clauses: Seq[DeltaMergeIntoClause]): (DataFrame, Seq[DeltaMergeIntoClause])
 ```
 
-`generatePrecomputedConditionsAndDF`...FIXME
+`generatePrecomputedConditionsAndDF` [rewrites conditional clauses](#rewriteCondition) of all the given [DeltaMergeIntoClause](DeltaMergeIntoClause.md)s
+
+??? note "rewriteCondition"
+    [rewriteCondition](#rewriteCondition) populates an internal `preComputedClauseConditions` registry of pairs of a generated column name and a rewritten condition for every conditional clause (i.e., [DeltaMergeIntoClause](DeltaMergeIntoClause.md) with a [condition](DeltaMergeIntoClause.md#condition)).
+
+`generatePrecomputedConditionsAndDF` adds the generated columns (of the conditional clauses) to the given `sourceDF` (to precompute clause conditions).
+
+In the end, `generatePrecomputedConditionsAndDF` returns a pair of the following:
+
+1. The given `sourceDF` with the generated columns
+1. The given `clauses` with rewritten conditions
 
 ---
 
 `generatePrecomputedConditionsAndDF` is used when:
 
 * `ClassicMergeExecutor` is requested to [writeAllChanges](ClassicMergeExecutor.md#writeAllChanges)
-* `InsertOnlyMergeExecutor` is requested to [generateInsertsOnlyOutputDF](InsertOnlyMergeExecutor.md#generateInsertsOnlyOutputDF)
+* `InsertOnlyMergeExecutor` is requested to [writeOnlyInserts](InsertOnlyMergeExecutor.md#writeOnlyInserts) (to [generateInsertsOnlyOutputDF](InsertOnlyMergeExecutor.md#generateInsertsOnlyOutputDF))
+
+### Rewriting Conditional Clause { #rewriteCondition }
+
+```scala
+rewriteCondition[T <: DeltaMergeIntoClause](
+  clause: T): T
+```
+
+`rewriteCondition` rewrites the [condition](DeltaMergeIntoClause.md#condition) of the given [DeltaMergeIntoClause](DeltaMergeIntoClause.md) to use a column name of the following pattern (with the [clauseType](DeltaMergeIntoClause.md#clauseType)):
+
+```text
+_[clauseType]_condition_[index]_
+```
+
+`rewriteCondition` adds a pair of the new name and the condition in a local `preComputedClauseConditions` registry (of the owning [generatePrecomputedConditionsAndDF](#generatePrecomputedConditionsAndDF)).
 
 ## generateWriteAllChangesOutputCols { #generateWriteAllChangesOutputCols }
 
