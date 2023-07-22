@@ -716,6 +716,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://books.japila.pl/delta-lake-internals/commands/merge/DeduplicateCDFDeletes/</loc>
+         <lastmod>2023-07-22</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/merge/DeltaMergeAction/</loc>
          <lastmod>2023-07-22</lastmod>
          <changefreq>daily</changefreq>
