@@ -4,7 +4,7 @@
 
 `MergeIntoCommand` is transactional (and starts a new transaction when [executed](#runMerge)).
 
-`MergeIntoCommand` can use [ClassicMergeExecutor](ClassicMergeExecutor.md) or [InsertOnlyMergeExecutor](InsertOnlyMergeExecutor.md) for [optimized output generation](MergeOutputGeneration.md).
+`MergeIntoCommand` can [optimize output generation](MergeOutputGeneration.md) ([ClassicMergeExecutor](ClassicMergeExecutor.md) or [InsertOnlyMergeExecutor](InsertOnlyMergeExecutor.md)) when xxx.
 
 ## Creating Instance
 
@@ -79,8 +79,14 @@ When [canMergeSchema](MergeIntoCommandBase.md#canMergeSchema), `runMerge` [updat
 
 `runMerge` [prepareSourceDFAndReturnMaterializeReason](#prepareSourceDFAndReturnMaterializeReason).
 
-`runMerge` determines the changes to the delta table (the [FileAction](../../FileAction.md)s).
-`runMerge`...FIXME
+At this stage, `runMerge` is finally ready to apply all the necessary changes to the delta table ( _execute this merge_) that result in a collection of [FileAction](../../FileAction.md)s (`deltaActions`).
+`runMerge` writes out [inserts only](InsertOnlyMergeExecutor.md#writeOnlyInserts) or [more](ClassicMergeExecutor.md#writeAllChanges) based on the following:
+
+* For [insert-only merges](MergeIntoCommandBase.md#isInsertOnly) with [merge.optimizeInsertOnlyMerge.enabled](../../configuration-properties/index.md#MERGE_INSERT_ONLY_ENABLED) enabled
+* Whether there are any [files to rewrite](ClassicMergeExecutor.md#findTouchedFiles)
+
+!!! note "`runMerge` and `MergeOutputGeneration`s"
+    `runMerge` uses [InsertOnlyMergeExecutor](InsertOnlyMergeExecutor.md) or [ClassicMergeExecutor](ClassicMergeExecutor.md) output generators.
 
 `runMerge` [collects the merge statistics](MergeIntoCommandBase.md#collectMergeStats).
 

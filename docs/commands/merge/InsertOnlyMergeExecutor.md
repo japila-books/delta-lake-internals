@@ -5,7 +5,7 @@
 ??? note "ClassicMergeExecutor"
     When a MERGE query is neither [insert only](MergeIntoCommandBase.md#isInsertOnly) nor [spark.databricks.delta.merge.optimizeInsertOnlyMerge.enabled](../../configuration-properties/index.md#merge.optimizeInsertOnlyMerge.enabled) is enabled, [ClassicMergeExecutor](ClassicMergeExecutor.md) is used to [run merge](MergeIntoCommand.md#runMerge).
 
-## writeOnlyInserts { #writeOnlyInserts }
+## Writing Out Inserts { #writeOnlyInserts }
 
 ```scala
 writeOnlyInserts(
@@ -15,7 +15,7 @@ writeOnlyInserts(
   numSourceRowsMetric: String): Seq[FileAction]
 ```
 
-??? note "`filterMatchedRows` Argument"
+!!! note "`filterMatchedRows` Argument"
     `writeOnlyInserts` is given `filterMatchedRows` flag when [running a merge](MergeIntoCommand.md#runMerge) for the following conditions:
 
     `filterMatchedRows` Flag | Condition
@@ -27,13 +27,31 @@ writeOnlyInserts(
 
 Property | Value
 ---------|------
- `extraOpType` | <ul><li>**writeInsertsOnlyWhenNoMatchedClauses** with the given `filterMatchedRows` enabled<li>**writeInsertsOnlyWhenNoMatches** otherwise</ul>
+ `extraOpType` | <ul><li>**writeInsertsOnlyWhenNoMatchedClauses** with the given `filterMatchedRows` enabled (see the above note 👆)<li>**writeInsertsOnlyWhenNoMatches** otherwise</ul>
  `status` | **MERGE operation - writing new files for only inserts**
  `sqlMetricName` | [rewriteTimeMs](MergeIntoCommandBase.md#rewriteTimeMs)
 
-`writeOnlyInserts`...FIXME
+??? note "Early Stop Possible"
+    With no [WHEN NOT MATCHED THEN INSERT clauses used](MergeIntoCommandBase.md#includesInserts) and the given `filterMatchedRows` flag disabled (see the above note 👆), `writeOnlyInserts` has nothing to do (nothing to insert and so no new files to write).
+    
+    The [numSourceRowsInSecondScan](MergeIntoCommandBase.md#numSourceRowsInSecondScan) metric is set to `-1`.
 
-`writeOnlyInserts` [generateInsertsOnlyOutputDF](#generateInsertsOnlyOutputDF) with the `preparedSourceDF` (that gives a `outputDF`).
+    `writeOnlyInserts` returns no [FileAction](../../FileAction.md)s.
+
+`writeOnlyInserts` [creates an Expression to increment the metric](MergeIntoCommandBase.md#incrementMetricAndReturnBool) (by the given `numSourceRowsMetric` name and to return `true` literal) that is used to count the number of rows in the [source dataframe](MergeIntoMaterializeSource.md#getSourceDF).
+
+??? note "What a trick!"
+    `writeOnlyInserts` creates a custom Catalyst Expression that is a predicate (returns `true` value) that can and is used in `Dataset.filter` operator.
+
+    At execution time, the `filter` operator requests the custom expression to _do its work_ (i.e., update the metric and return `true`) so, in the end, accepts all the rows and (as a side effect) counts the number of rows. _What a clever trick!_
+
+For a merge with just a single [WHEN NOT MATCHED THEN INSERT clause](MergeIntoCommandBase.md#notMatchedClauses) with a [condition](DeltaMergeIntoClause.md#condition) (_conditional insert_), `writeOnlyInserts` adds `Dataset.filter` with the condition to the source dataframe.
+
+!!! warning "FIXME Optimization"
+
+With the given `filterMatchedRows` flag enabled, `writeOnlyInserts`...FIXME (`preparedSourceDF`)
+
+`writeOnlyInserts` [generateInsertsOnlyOutputDF](#generateInsertsOnlyOutputDF) with the `preparedSourceDF` (that creates an `outputDF` dataframe).
 
 `writeOnlyInserts` prints out the following DEBUG message to the logs:
 
@@ -44,13 +62,13 @@ Property | Value
 
 `writeOnlyInserts` [writeFiles](MergeIntoCommandBase.md#writeFiles) with the `outputDF` (that gives [FileAction](../../FileAction.md)s).
 
-In the end, `writeOnlyInserts` updates the [metrics](MergeIntoCommandBase.md#metrics).
+In the end, `writeOnlyInserts` updates the [performance metrics](MergeIntoCommandBase.md#metrics).
 
 ---
 
 `writeOnlyInserts` is used when:
 
-* `MergeIntoCommand` is requested to [run a merge](MergeIntoCommand.md#runMerge)
+* `MergeIntoCommand` is requested to [run a merge](MergeIntoCommand.md#runMerge) (for an [insert-only merge](MergeIntoCommandBase.md#isInsertOnly) with [merge.optimizeInsertOnlyMerge.enabled](../../configuration-properties/index.md#MERGE_INSERT_ONLY_ENABLED) or when there are no [files to rewrite](ClassicMergeExecutor.md#findTouchedFiles))
 
 ### generateInsertsOnlyOutputDF { #generateInsertsOnlyOutputDF }
 

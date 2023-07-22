@@ -306,3 +306,18 @@ MergeOutputGeneration | extraOpType | status | sqlMetricName
 
 * `ClassicMergeExecutor` is requested to [findTouchedFiles](ClassicMergeExecutor.md#findTouchedFiles), [writeAllChanges](ClassicMergeExecutor.md#writeAllChanges)
 * `InsertOnlyMergeExecutor` is requested to [writeOnlyInserts](InsertOnlyMergeExecutor.md#writeOnlyInserts)
+
+## Is WHEN NOT MATCHED THEN INSERT Clause Used { #includesInserts }
+
+```scala
+includesInserts: Boolean
+```
+
+`includesInserts` is positive (`true`) when there are [WHEN NOT MATCHED clauses](#notMatchedClauses) in this merge (with [WHEN NOT MATCHED THEN INSERT](DeltaMergeIntoNotMatchedInsertClause.md)s possible and hence the name of this method).
+
+---
+
+`includesInserts` is used when:
+
+* `ClassicMergeExecutor` is requested to [findTouchedFiles](ClassicMergeExecutor.md#findTouchedFiles) (to create a [DeduplicateCDFDeletes](DeduplicateCDFDeletes.md))
+* `InsertOnlyMergeExecutor` is requested to [writeOnlyInserts](InsertOnlyMergeExecutor.md#writeOnlyInserts) (and stop early)
