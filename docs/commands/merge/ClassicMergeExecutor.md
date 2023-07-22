@@ -13,6 +13,14 @@ findTouchedFiles(
   deltaTxn: OptimisticTransaction): (Seq[AddFile], DeduplicateCDFDeletes)
 ```
 
+`findTouchedFiles` [records this merge operation](MergeIntoCommandBase.md#recordMergeOperation) with the following:
+
+Property | Value
+---------|------
+ `extraOpType` | **findTouchedFiles**
+ `status` | **MERGE operation - scanning files for matches**
+ `sqlMetricName` | [scanTimeMs](MergeIntoCommandBase.md#scanTimeMs)
+
 `findTouchedFiles` registers an internal `SetAccumulator` with `internal.metrics.MergeIntoDelta.touchedFiles` name.
 
 `findTouchedFiles` creates a non-deterministic UDF that records the names of touched files (adds them to the accumulator).
@@ -49,9 +57,9 @@ writeAllChanges(
 
 Property | Value
 ---------|------
-extraOpType | <ul><li>**writeAllUpdatesAndDeletes** for [shouldOptimizeMatchedOnlyMerge](MergeIntoCommandBase.md#shouldOptimizeMatchedOnlyMerge)<li>**writeAllChanges** otherwise</ul>
-status | **MERGE operation - Rewriting [filesToRewrite] files**
-sqlMetricName | `rewriteTimeMs`
+ `extraOpType` | <ul><li>**writeAllUpdatesAndDeletes** for [shouldOptimizeMatchedOnlyMerge](MergeIntoCommandBase.md#shouldOptimizeMatchedOnlyMerge)<li>**writeAllChanges** otherwise</ul>
+ `status` | **MERGE operation - Rewriting [filesToRewrite] files**
+ `sqlMetricName` | [rewriteTimeMs](MergeIntoCommandBase.md#rewriteTimeMs)
 
 ??? note "CDF Generation"
     `writeAllChanges` asserts that one of the following holds:

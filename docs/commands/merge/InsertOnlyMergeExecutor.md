@@ -23,13 +23,13 @@ writeOnlyInserts(
     `true` | An [insert-only merge](MergeIntoCommandBase.md#isInsertOnly) and [merge.optimizeInsertOnlyMerge.enabled](../../configuration-properties/index.md#merge.optimizeInsertOnlyMerge.enabled) enabled
     `false` | No files to rewrite ([AddFile](../../AddFile.md)s) from [findTouchedFiles](ClassicMergeExecutor.md#findTouchedFiles)
 
-`writeOnlyInserts` [recordMergeOperation](MergeIntoCommandBase.md#recordMergeOperation) with the following:
+`writeOnlyInserts` [records this merge operation](MergeIntoCommandBase.md#recordMergeOperation) with the following:
 
 Property | Value
 ---------|------
- `extraOpType` | <ul><li>`writeInsertsOnlyWhenNoMatchedClauses` with the given `filterMatchedRows` enabled<li>`writeInsertsOnlyWhenNoMatches` otherwise</ul>
- `status` | MERGE operation - writing new files for only inserts
- `sqlMetricName` | The name of [rewriteTimeMs](MergeIntoCommandBase.md#rewriteTimeMs) metric
+ `extraOpType` | <ul><li>**writeInsertsOnlyWhenNoMatchedClauses** with the given `filterMatchedRows` enabled<li>**writeInsertsOnlyWhenNoMatches** otherwise</ul>
+ `status` | **MERGE operation - writing new files for only inserts**
+ `sqlMetricName` | [rewriteTimeMs](MergeIntoCommandBase.md#rewriteTimeMs)
 
 `writeOnlyInserts`...FIXME
 

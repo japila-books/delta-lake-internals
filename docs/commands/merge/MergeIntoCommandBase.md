@@ -102,7 +102,7 @@ Name | web UI
  `numTargetPartitionsRemovedFrom` | number of target partitions from which files were removed
  `numTargetPartitionsAddedTo` | number of target partitions to which files were added
  `executionTimeMs` | time taken to execute the entire operation
- `scanTimeMs` | time taken to scan the files for matches
+ [scanTimeMs](#scanTimeMs) | time taken to scan the files for matches
  [rewriteTimeMs](#rewriteTimeMs) | time taken to rewrite the matched files
 
 ### number of deleted rows { #numTargetRowsDeleted }
@@ -122,6 +122,8 @@ Name | web UI
 ### number of updated rows { #numTargetRowsUpdated }
 
 ### time taken to rewrite the matched files { #rewriteTimeMs }
+
+### time taken to scan the files for matches { #scanTimeMs }
 
 ## Building Target (Logical) Plan Spanned Over Fewer Files { #buildTargetPlanWithFiles }
 
@@ -264,3 +266,43 @@ isOnlyOneUnconditionalDelete: Boolean
 In other words, `isOnlyOneUnconditionalDelete` is `true` for the following:
 
 * [matchedClauses](#matchedClauses) is exactly a [DeltaMergeIntoMatchedDeleteClause](DeltaMergeIntoMatchedDeleteClause.md) with no [condition](DeltaMergeIntoMatchedDeleteClause.md#condition) (hence the name _unconditional delete_)
+
+## Recording Merge Operation { #recordMergeOperation }
+
+```scala
+recordMergeOperation[A](
+  extraOpType: String = "",
+  status: String = null,
+  sqlMetricName: String = null)(
+  thunk: => A): A
+```
+
+`recordMergeOperation` creates a operation type (`changedOpType`) based on the given `extraOpType` identifier as follows:
+
+```text
+delta.dml.merge.[extraOpType]
+```
+
+`recordMergeOperation` appends the given `status` to the existing Spark job description (as `spark.job.description` local property), if any.
+
+In the end, `recordMergeOperation` executes the given `thunk` code block:
+
+1. Records the start time
+1. Sets a human readable description of the current job ([Spark Core]({{ book.spark_core }}/SparkContext#setJobDescription)) as the prefixed `status`
+1. Adds the time taken to the given `sqlMetricName`
+1. Restores the job description to the previous one, if any
+
+---
+
+MergeOutputGeneration | extraOpType | status | sqlMetricName
+----------------------|-------------|--------|--------------
+ [ClassicMergeExecutor](ClassicMergeExecutor.md#findTouchedFiles) | findTouchedFiles | MERGE operation - scanning files for matches | [scanTimeMs](#scanTimeMs)
+ [ClassicMergeExecutor](ClassicMergeExecutor.md#writeAllChanges) | writeAllUpdatesAndDeletes or writeAllChanges | MERGE operation - Rewriting n files | [rewriteTimeMs](#rewriteTimeMs)
+ [InsertOnlyMergeExecutor](InsertOnlyMergeExecutor.md#writeOnlyInserts) | writeInsertsOnlyWhenNoMatchedClauses or writeInsertsOnlyWhenNoMatches | MERGE operation - writing new files for only inserts | [rewriteTimeMs](#rewriteTimeMs)
+
+---
+
+`recordMergeOperation` is used when:
+
+* `ClassicMergeExecutor` is requested to [findTouchedFiles](ClassicMergeExecutor.md#findTouchedFiles), [writeAllChanges](ClassicMergeExecutor.md#writeAllChanges)
+* `InsertOnlyMergeExecutor` is requested to [writeOnlyInserts](InsertOnlyMergeExecutor.md#writeOnlyInserts)
