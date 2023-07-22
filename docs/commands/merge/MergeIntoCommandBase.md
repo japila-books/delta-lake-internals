@@ -207,7 +207,7 @@ isInsertOnly: Boolean
 In other words, `isInsertOnly` is enabled (`true`) when all the following hold:
 
 1. There are neither [WHEN MATCHED](#matchedClauses) nor [WHEN NOT MATCHED BY SOURCE](#notMatchedBySourceClauses) clauses
-1. There are [WHEN NOT MATCHED clauses](#notMatchedClauses)
+1. There are [WHEN NOT MATCHED](#notMatchedClauses) clauses
 
 ---
 

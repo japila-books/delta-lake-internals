@@ -6,10 +6,10 @@
 
 * [MergeIntoCommandBase](MergeIntoCommandBase.md)
 
-## sourceDF { #sourceDF }
+## Source DataFrame { #sourceDF }
 
 ```scala
-sourceDF: Option[Dataset[Row]] = None
+sourceDF: Option[DataFrame] = None
 ```
 
 ??? note "Mutable Variable"
@@ -19,7 +19,10 @@ sourceDF: Option[Dataset[Row]] = None
 
 `sourceDF` is undefined (`None`) when `MergeIntoMaterializeSource` is created and after [runWithMaterializedSourceLostRetries](#runWithMaterializedSourceLostRetries).
 
-`sourceDF` is assigned a `DataFrame` in [prepareSourceDFAndReturnMaterializeReason](#prepareSourceDFAndReturnMaterializeReason) (with no materialization or checkpointed).
+`sourceDF` is assigned a `DataFrame` in [prepareSourceDFAndReturnMaterializeReason](#prepareSourceDFAndReturnMaterializeReason):
+
+1. When [configured not to materialize](#shouldMaterializeSource) (that simply creates a `DataFrame` from the [source plan](MergeIntoCommand.md#source) directly)
+1. After local checkpointing
 
 When materialized, `sourceDF`'s execution plan is printed out in a DEBUG message:
 
@@ -30,15 +33,13 @@ Materialized MERGE source plan:
 
 When defined, `sourceDF` is available using [getSourceDF](#getSourceDF).
 
-## getSourceDF { #getSourceDF }
+### getSourceDF { #getSourceDF }
 
 ```scala
 getSourceDF: DataFrame
 ```
 
-`getSourceDF` returns the [sourceDF](#sourceDF) if defined.
-
-Otherwise, `getSourceDF` throws an `IllegalStateException` with the following message:
+`getSourceDF` returns the [source dataframe](#sourceDF), if defined, or reports an `IllegalStateException` with the following message:
 
 ```text
 sourceDF was not initialized! Call prepareSourceDFAndReturnMaterializeReason before.
@@ -48,8 +49,29 @@ sourceDF was not initialized! Call prepareSourceDFAndReturnMaterializeReason bef
 
 `getSourceDF` is used when:
 
-* `ClassicMergeExecutor` is requested to [findTouchedFiles](ClassicMergeExecutor.md#findTouchedFiles) and [writeAllChanges](ClassicMergeExecutor.md#writeAllChanges)
-* `InsertOnlyMergeExecutor` is requested to [writeOnlyInserts](InsertOnlyMergeExecutor.md#writeOnlyInserts)
+* `ClassicMergeExecutor` is requested to [findTouchedFiles](ClassicMergeExecutor.md#findTouchedFiles) and [write out all merge changes](ClassicMergeExecutor.md#writeAllChanges)
+* `InsertOnlyMergeExecutor` is requested to [write out inserts](InsertOnlyMergeExecutor.md#writeOnlyInserts)
+
+## mergeMaterializedSource RDD { #materializedSourceRDD }
+
+```scala
+materializedSourceRDD: Option[RDD[InternalRow]] = None
+```
+
+??? note "Mutable Variable"
+    `materializedSourceRDD` is a Scala `var`.
+
+    Learn more in the [Scala Language Specification]({{ scala.spec }}/04-basic-declarations-and-definitions.html#variable-declarations-and-definitions).
+
+`MergeIntoMaterializeSource` defines an internal `materializedSourceRDD` registry for an RDD that is from a checkpointed [source](MergeIntoCommand.md#source) dataframe (using `Dataset.localCheckpoint` operator).
+
+The name of `materializedSourceRDD` is **mergeMaterializedSource**.
+
+`materializedSourceRDD` is undefined (`None`) when `MergeIntoMaterializeSource` is created and when [runWithMaterializedSourceLostRetries](#runWithMaterializedSourceLostRetries) (and an attempt failed).
+
+`materializedSourceRDD` is assigned an `RDD` in [prepareSourceDFAndReturnMaterializeReason](#prepareSourceDFAndReturnMaterializeReason).
+
+`materializedSourceRDD` is unpersist (using `RDD.unpersist` operator) when [runWithMaterializedSourceLostRetries](#runWithMaterializedSourceLostRetries) (and an attempt failed).
 
 ## shouldMaterializeSource { #shouldMaterializeSource }
 
@@ -148,6 +170,24 @@ In the end, `prepareSourceDFAndReturnMaterializeReason` returns the reason to ma
 
 * `MergeIntoCommand`  is requested to [run merge](MergeIntoCommand.md#runMerge)
 
+## runWithMaterializedSourceLostRetries { #runWithMaterializedSourceLostRetries }
+
+```scala
+runWithMaterializedSourceLostRetries(
+  spark: SparkSession,
+  deltaLog: DeltaLog,
+  metrics: Map[String, SQLMetric],
+  runMergeFunc: SparkSession => Seq[Row]): Seq[Row]
+```
+
+`runWithMaterializedSourceLostRetries`...FIXME
+
+---
+
+`runWithMaterializedSourceLostRetries` is used when:
+
+* `MergeIntoCommandBase` is requested to [run](MergeIntoCommandBase.md#run)
+
 ## Logging
 
-`MergeIntoMaterializeSource` is an abstract class and logging is configured using the logger of the [MergeIntoCommand](MergeIntoCommand.md#logging).
+`MergeIntoMaterializeSource` is an abstract class and logging is configured using the logger of [MergeIntoCommand](MergeIntoCommand.md#logging).
