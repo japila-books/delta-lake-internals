@@ -321,3 +321,18 @@ includesInserts: Boolean
 
 * `ClassicMergeExecutor` is requested to [findTouchedFiles](ClassicMergeExecutor.md#findTouchedFiles) (to create a [DeduplicateCDFDeletes](DeduplicateCDFDeletes.md))
 * `InsertOnlyMergeExecutor` is requested to [writeOnlyInserts](InsertOnlyMergeExecutor.md#writeOnlyInserts) (and stop early)
+
+## canMergeSchema { #canMergeSchema }
+
+??? note "ImplicitMetadataOperation"
+
+    ```scala
+    canMergeSchema: Boolean
+    ```
+
+    `canMergeSchema` is part of the [ImplicitMetadataOperation](../../ImplicitMetadataOperation.md#canMergeSchema) abstraction.
+
+`canMergeSchema` creates a new [DeltaOptions](../../delta/DeltaOptions.md) to request for the [canMergeSchema](../../delta/DeltaWriteOptionsImpl.md#canMergeSchema) (based on the [SQLConf](#conf) only).
+
+??? note "Options always empty"
+    Delta options cannot be passed to MERGE INTO, so they will always be empty and `canMergeSchema` relies on the [SQLConf](#conf) only.

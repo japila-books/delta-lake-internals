@@ -6,17 +6,25 @@
 
 ## Contract
 
-### <span id="canMergeSchema"> canMergeSchema
+### canMergeSchema { #canMergeSchema }
 
 ```scala
 canMergeSchema: Boolean
 ```
 
+Controls schema merging (_evolution_)
+
+See:
+
+* [MergeIntoCommandBase](commands/merge/MergeIntoCommandBase.md#canMergeSchema)
+* [WriteIntoDelta](commands/WriteIntoDelta.md#canMergeSchema)
+* [DeltaSink](delta/DeltaSink.md#canMergeSchema)
+
 Used when:
 
 * `ImplicitMetadataOperation` is requested to [update the metadata](#updateMetadata)
 
-### <span id="canOverwriteSchema"> canOverwriteSchema
+### canOverwriteSchema { #canOverwriteSchema }
 
 ```scala
 canOverwriteSchema: Boolean
@@ -32,7 +40,7 @@ Used when:
 * [MergeIntoCommand](commands/merge/MergeIntoCommand.md)
 * [WriteIntoDelta](commands/WriteIntoDelta.md)
 
-## <span id="updateMetadata"> Updating Metadata
+## Updating Metadata { #updateMetadata }
 
 ```scala
 updateMetadata(
@@ -44,6 +52,19 @@ updateMetadata(
   isOverwriteMode: Boolean,
   rearrangeOnly: Boolean): Unit
 ```
+
+??? note "Final Method"
+    `updateMetadata` is a Scala **final method** and may not be overridden in [subclasses](#implementations).
+
+    Learn more in the [Scala Language Specification]({{ scala.spec }}/05-classes-and-objects.html#final).
+
+`updateMetadata` is used when:
+
+* `MergeIntoCommand` is [executed](commands/merge/MergeIntoCommand.md#runMerge) (with [canMergeSchema](commands/merge/MergeIntoCommand.md#canMergeSchema) enabled)
+* `WriteIntoDelta` command is requested to [write](commands/WriteIntoDelta.md#write)
+* `DeltaSink` is requested to [add a streaming micro-batch](delta/DeltaSink.md#addBatch)
+
+---
 
 `updateMetadata` [dropColumnMappingMetadata](column-mapping/DeltaColumnMappingBase.md#dropColumnMappingMetadata) from the given `schema` (that produces `dataSchema`).
 
@@ -103,14 +124,6 @@ updateMetadata(
 * [configuration](commands/WriteIntoDelta.md#configuration) of the `WriteIntoDelta` command (while [writing out](commands/WriteIntoDelta.md#write))
 * Always empty for [DeltaSink](delta/DeltaSink.md#addBatch)
 
-### <span id="updateMetadata-usage"> Usage
-
-`updateMetadata` is used when:
-
-* [MergeIntoCommand](commands/merge/MergeIntoCommand.md) command is executed (with [canMergeSchema](commands/merge/MergeIntoCommand.md#canMergeSchema) is enabled)
-* `WriteIntoDelta` command is requested to [write](commands/WriteIntoDelta.md#write)
-* `DeltaSink` is requested to [add a streaming micro-batch](delta/DeltaSink.md#addBatch)
-
 ### <span id="normalizePartitionColumns"> Normalizing Partition Columns
 
 ```scala
@@ -133,3 +146,7 @@ mergeSchema(
 ```
 
 `mergeSchema`...FIXME
+
+## Logging
+
+`ImplicitMetadataOperation` is an abstract class and logging is configured using the logger of the [implementations](#implementations).

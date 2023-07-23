@@ -5,13 +5,13 @@
 !!! note "Fun Fact"
     Despite the suffix (`Impl`), `DeltaWriteOptionsImpl` is not an implementation (_class_) but a trait.
 
-## <span id="canMergeSchema"> canMergeSchema
+## canMergeSchema { #canMergeSchema }
 
 ```scala
 canMergeSchema: Boolean
 ```
 
-`canMergeSchema` is the value of [mergeSchema](options.md#MERGE_SCHEMA_OPTION) option (if defined) or [spark.databricks.delta.schema.autoMerge.enabled](../configuration-properties/DeltaSQLConf.md#DELTA_SCHEMA_AUTO_MIGRATE) configuration property.
+`canMergeSchema` is the value of [mergeSchema](options.md#MERGE_SCHEMA_OPTION) option (if defined) or [schema.autoMerge.enabled](../configuration-properties/index.md#DELTA_SCHEMA_AUTO_MIGRATE) configuration property.
 
 `canMergeSchema` is used when:
 
