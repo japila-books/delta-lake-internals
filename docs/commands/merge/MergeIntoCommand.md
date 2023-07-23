@@ -75,7 +75,7 @@ If [hasBeenExecuted](#hasBeenExecuted), `runMerge` [announces the updates](../De
 
     The [schema](../../Metadata.md#schema) of a delta table is in the [Metadata](../../Metadata.md#schema) of the [OptimisticTransactionImpl](../../OptimisticTransactionImpl.md).
 
-When [canMergeSchema](MergeIntoCommandBase.md#canMergeSchema), `runMerge` [updateMetadata](../../ImplicitMetadataOperation.md#updateMetadata).
+With [Auto Schema Merging](MergeIntoCommandBase.md#canMergeSchema) enabled (that boils down to [schema.autoMerge.enabled](../../configuration-properties/index.md#schema.autoMerge.enabled)), `runMerge` [updates the metadata](../../ImplicitMetadataOperation.md#updateMetadata).
 
 `runMerge` [prepareSourceDFAndReturnMaterializeReason](#prepareSourceDFAndReturnMaterializeReason).
 

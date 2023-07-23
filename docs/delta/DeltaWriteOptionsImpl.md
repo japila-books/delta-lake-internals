@@ -5,16 +5,19 @@
 !!! note "Fun Fact"
     Despite the suffix (`Impl`), `DeltaWriteOptionsImpl` is not an implementation (_class_) but a trait.
 
-## canMergeSchema { #canMergeSchema }
+## Auto Schema Merging { #canMergeSchema }
 
 ```scala
 canMergeSchema: Boolean
 ```
 
-`canMergeSchema` is the value of [mergeSchema](options.md#MERGE_SCHEMA_OPTION) option (if defined) or [schema.autoMerge.enabled](../configuration-properties/index.md#DELTA_SCHEMA_AUTO_MIGRATE) configuration property.
+`canMergeSchema` flag controls **Auto Schema Merging** based on [mergeSchema](options.md#MERGE_SCHEMA_OPTION) option, if defined, or [schema.autoMerge.enabled](../configuration-properties/index.md#DELTA_SCHEMA_AUTO_MIGRATE) configuration property.
+
+---
 
 `canMergeSchema` is used when:
 
+* `MergeIntoCommandBase` is requested for [canMergeSchema](../commands/merge/MergeIntoCommandBase.md#canMergeSchema) (while [running a merge](../commands/merge/MergeIntoCommand.md#runMerge))
 * `WriteIntoDelta` is [created](../commands/WriteIntoDelta.md#canMergeSchema)
 * `DeltaSink` is [created](DeltaSink.md#canMergeSchema)
 

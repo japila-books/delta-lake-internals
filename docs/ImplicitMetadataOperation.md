@@ -6,13 +6,13 @@
 
 ## Contract
 
-### canMergeSchema { #canMergeSchema }
+### Auto Schema Merging { #canMergeSchema }
 
 ```scala
 canMergeSchema: Boolean
 ```
 
-Controls schema merging (_evolution_)
+Controls **Auto Schema Merging** (_evolution_)
 
 See:
 
