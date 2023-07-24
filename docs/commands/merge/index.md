@@ -50,9 +50,15 @@ There is a special handling of [single INSERT-only MERGEs](MergeIntoCommand.md#i
 
 ## Schema Evolution (Auto Schema Merging) { #schema-evolution }
 
-Merge command supports schema evolution for [non-star UPDATEs and INSERTs](DeltaMergeInto.md#resolveReferencesAndSchema) (when a column is not in the target delta table) when [schema.autoMerge.enabled](../../configuration-properties/index.md#schema.autoMerge.enabled) is enabled.
+Merge command supports schema evolution for star and non-star [UPDATEs and INSERTs](DeltaMergeInto.md#resolveReferencesAndSchema) (with columns not in a target delta table) when [schema.autoMerge.enabled](../../configuration-properties/index.md#schema.autoMerge.enabled) is enabled.
 
-With [Auto Schema Merging](../../configuration-properties/index.md#schema.autoMerge.enabled) enabled, Delta Lake adds new columns and nested fields to a target table (assigned to in [merge actions](DeltaMergeIntoClause.md#actions) of the [WHEN MATCHED](DeltaMergeInto.md#matchedClauses) and the [WHEN NOT MATCHED](DeltaMergeInto.md#notMatchedClauses) clauses that are not already part of the target schema).
+!!! note "Explore Star UPDATEs with Nested Columns"
+    Star [WHEN MATCHED UPDATE](DeltaMergeIntoMatchedUpdateClause.md)s with nested columns look very interesting.
+
+??? note "Learn More"
+    Until this note is here, learn more in [resolveClause](DeltaMergeInto.md#resolveClause).
+
+With [Auto Schema Merging](../../configuration-properties/index.md#schema.autoMerge.enabled) enabled, Delta Lake adds the new columns and nested fields to the target table (assigned to in [merge actions](DeltaMergeIntoClause.md#actions) of the [WHEN MATCHED](DeltaMergeInto.md#matchedClauses) and the [WHEN NOT MATCHED](DeltaMergeInto.md#notMatchedClauses) clauses that are not already part of the target schema).
 
 ??? note "NOT MATCHED BY SOURCE Excluded"
     [NOT MATCHED BY SOURCE](DeltaMergeIntoNotMatchedBySourceClause.md)s are excluded since they can't reference source columns by definition and thus can't introduce new columns in the target schema.
