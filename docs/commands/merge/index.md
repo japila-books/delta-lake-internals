@@ -7,6 +7,8 @@ Delta Lake supports merging records into a delta table using the following high-
 
 Merge command is executed as a transactional [MergeIntoCommand](MergeIntoCommand.md).
 
+While [running a merge](MergeIntoCommand.md#runMerge), `MergeIntoCommand` can choose between the available [MergeOutputGeneration](MergeOutputGeneration.md)s ([ClassicMergeExecutor](ClassicMergeExecutor.md) or [InsertOnlyMergeExecutor](InsertOnlyMergeExecutor.md)) for an optimized output of the merge command to write out.
+
 !!! note "SQL MERGE (DML Statement)"
     Quoting [Wikipedia](https://en.wikipedia.org/wiki/Merge_(SQL)):
 

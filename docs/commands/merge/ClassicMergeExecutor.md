@@ -8,7 +8,9 @@
 ??? note "InsertOnlyMergeExecutor"
     When one of the above requirements is not met, [InsertOnlyMergeExecutor](InsertOnlyMergeExecutor.md) is used instead.
 
-## Finding Touched AddFiles { #findTouchedFiles }
+With `ClassicMergeExecutor` chosen, [MergeIntoCommand](MergeIntoCommand.md) tries to [find touched files](#findTouchedFiles) first and, only when there are any `AddFile`s found, requests [writing out all merge changes to target delta table](#writeAllChanges).
+
+## Finding Touched (Add)Files { #findTouchedFiles }
 
 ```scala
 findTouchedFiles(
