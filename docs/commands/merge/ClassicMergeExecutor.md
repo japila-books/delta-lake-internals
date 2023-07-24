@@ -1,11 +1,14 @@
 # ClassicMergeExecutor
 
-`ClassicMergeExecutor` is an extension of the [MergeOutputGeneration](MergeOutputGeneration.md) abstraction for optimized execution of [MERGE command](index.md) (when requested to [run merge](MergeIntoCommand.md#runMerge)) when one of the following holds:
+`ClassicMergeExecutor` is an extension of the [MergeOutputGeneration](MergeOutputGeneration.md) abstraction for "classic" execution of [MERGE command](index.md) (when requested to [run a merge](MergeIntoCommand.md#runMerge)) when one of the following holds:
 
-* MERGE is not [insert only](MergeIntoCommandBase.md#isInsertOnly) (contains `WHEN NOT MATCHED` clauses)
+* MERGE is not [insert only](index.md#insert-only-merges) (so there are [WHEN MATCHED](MergeIntoCommandBase.md#matchedClauses) or [WHEN NOT MATCHED BY SOURCE](MergeIntoCommandBase.md#notMatchedBySourceClauses) clauses)
 * [spark.databricks.delta.merge.optimizeInsertOnlyMerge.enabled](../../configuration-properties/index.md#merge.optimizeInsertOnlyMerge.enabled) is disabled (that would lead to use [InsertOnlyMergeExecutor](InsertOnlyMergeExecutor.md) instead)
 
-## findTouchedFiles { #findTouchedFiles }
+??? note "InsertOnlyMergeExecutor"
+    When one of the above requirements is not met, [InsertOnlyMergeExecutor](InsertOnlyMergeExecutor.md) is used instead.
+
+## Finding Touched AddFiles { #findTouchedFiles }
 
 ```scala
 findTouchedFiles(
@@ -25,17 +28,49 @@ Property | Value
 
 `findTouchedFiles` creates a non-deterministic UDF that records the names of touched files (adds them to the accumulator).
 
-With no [WHEN NOT MATCHED BY SOURCE clauses](MergeIntoCommandBase.md#notMatchedBySourceClauses), `findTouchedFiles` requests the given [OptimisticTransaction](../../OptimisticTransaction.md) to [filterFiles](../../OptimisticTransactionImpl.md#filterFiles) with [getTargetOnlyPredicates](MergeIntoCommandBase.md#getTargetOnlyPredicates). Otherwise, `findTouchedFiles` requests it to [filterFiles](../../OptimisticTransactionImpl.md#filterFiles) with an accept-all predicate.
+`findTouchedFiles` determines the [AddFiles](../../OptimisticTransactionImpl.md#filterFiles) and prune non-matching files (`dataSkippedFiles`).
+With no [WHEN NOT MATCHED BY SOURCE clauses](MergeIntoCommandBase.md#notMatchedBySourceClauses), `findTouchedFiles` requests the given [OptimisticTransaction](../../OptimisticTransaction.md) for the [AddFiles](../../OptimisticTransactionImpl.md#filterFiles) matching [getTargetOnlyPredicates](MergeIntoCommandBase.md#getTargetOnlyPredicates). Otherwise, `findTouchedFiles` requests for all the [AddFiles](../../OptimisticTransactionImpl.md#filterFiles) (an _accept-all_ predicate).
 
 `findTouchedFiles` determines the join type (`joinType`).
 With no [WHEN NOT MATCHED BY SOURCE clauses](MergeIntoCommandBase.md#notMatchedBySourceClauses), `findTouchedFiles` uses `INNER` join type. Otherwise, it is `RIGHT_OUTER` join.
 
-!!! note "FIXME Show the diagrams of the different joins"
+??? note "Inner vs Right Outer Joins"
+    Learn more on [Wikipedia](https://en.wikipedia.org/wiki/Join_(SQL)):
+
+    * [Inner Join](https://en.wikipedia.org/wiki/Join_(SQL)#Inner_join)
+    * [Right Outer Join](https://en.wikipedia.org/wiki/Join_(SQL)#Right_outer_join)
 
 `findTouchedFiles` determines the matched predicate (`matchedPredicate`).
 When [isMatchedOnly](MergeIntoCommandBase.md#isMatchedOnly), `findTouchedFiles` converts the [WHEN MATCHED clauses](MergeIntoCommandBase.md#matchedClauses) to their [condition](DeltaMergeIntoClause.md#condition)s, if defined, or falls back to accept-all predicate and then reduces to `Or` expressions. Otherwise, `findTouchedFiles` uses accept-all predicate for the matched predicate.
 
-`findTouchedFiles`...FIXME (finished at `sourceDF`)
+`findTouchedFiles` creates a Catalyst expression (`incrSourceRowCountExpr`) that [increments](MergeIntoCommandBase.md#incrementMetricAndReturnBool) the [numSourceRows](MergeIntoCommandBase.md#numSourceRows) metric (and returns `true` value).
+
+`findTouchedFiles` [gets the source DataFrame](MergeIntoMaterializeSource.md#getSourceDF) and adds an extra column `_source_row_present_` for the `incrSourceRowCountExpr` expression that is used to `DataFrame.filter` by (and, more importanly and as a side effect, counts the number of source rows).
+
+`findTouchedFiles` [builds a target plan](MergeIntoCommandBase.md#buildTargetPlanWithFiles) with the `dataSkippedFiles` files (and any `columnsToDrop` to be dropped).
+
+`findTouchedFiles` creates a target DataFrame from the target plan (`targetDF`) with two extra columns:
+
+Column Name | Expression
+------------|-----------
+ `_row_id_` | `monotonically_increasing_id`
+ `_file_name_` | `input_file_name`
+
+`findTouchedFiles` creates a joined DataFrame (`joinToFindTouchedFiles`) with the `sourceDF` and `targetDF` dataframes, the [condition](MergeIntoCommandBase.md#condition) as the join condition, and the join type (INNER or RIGHT OUTER).
+
+`findTouchedFiles` creates `recordTouchedFileName` UDF to record the names of the touched files (based on the `_file_name_` column) and add them to the accumulator (based on the `matchedPredicate` that is in turn based on the conditional [WHEN MATCHED clauses](MergeIntoCommandBase.md#matchedClauses)).
+
+`findTouchedFiles` uses the two columns above (`_row_id_` and `_file_name_`) to select from the `joinToFindTouchedFiles` dataframe (`collectTouchedFiles`).
+
+`findTouchedFiles` calculates the frequency of matches per source row.
+
+!!! danger "FIXME Describe how this calculation happens"
+
+`findTouchedFiles` computes `multipleMatchCount` and `multipleMatchSum`.
+
+!!! danger "FIXME Describe how these calculations happen"
+
+`findTouchedFiles`...FIXME (finished at `hasMultipleMatches`)
 
 ---
 
