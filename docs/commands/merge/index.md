@@ -63,8 +63,10 @@ With [Auto Schema Merging](../../configuration-properties/index.md#schema.autoMe
 
 ## Change Data Feed
 
-* [isCdcEnabled](MergeIntoCommandBase.md#isCdcEnabled)
+With [Change Data Feed](../../change-data-feed/index.md) enabled on a delta table that is the target table of a merge command, `MergeIntoCommand`...FIXME
+
 * [DeduplicateCDFDeletes](DeduplicateCDFDeletes.md)
+* [WHEN NOT MATCHED THEN INSERT Sensitivity](MergeOutputGeneration.md#deduplicateCDFDeletes)
 
 ## Demo
 

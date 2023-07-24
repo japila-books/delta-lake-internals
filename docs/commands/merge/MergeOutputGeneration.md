@@ -135,4 +135,18 @@ deduplicateCDFDeletes(
   outputColNames: Seq[String]): DataFrame
 ```
 
-`deduplicateCDFDeletes`...FIXME
+!!! note "WHEN NOT MATCHED THEN INSERT Sensitivity"
+    `deduplicateCDFDeletes` is sensitive (_behaves differently_) to merges with [WHEN NOT MATCHED THEN INSERT clauses](DeduplicateCDFDeletes.md#includesInserts) (based on the given [DeduplicateCDFDeletes](DeduplicateCDFDeletes.md)).
+
+`deduplicateCDFDeletes` finds out the deduplication columns (`dedupColumns`) that include the following:
+
+* `_target_row_index_`
+* `_source_row_index` only when this merge [includes WHEN NOT MATCHED THEN INSERT clauses](DeduplicateCDFDeletes.md#includesInserts) (based on the given [DeduplicateCDFDeletes](DeduplicateCDFDeletes.md))
+
+`deduplicateCDFDeletes` [packAndExplodeCDCOutput](#packAndExplodeCDCOutput) (that gives a new `cdcDf` dataframe).
+
+With [WHEN NOT MATCHED THEN INSERT clauses](DeduplicateCDFDeletes.md#includesInserts), `deduplicateCDFDeletes` overwrites `_target_row_index_` column (in the `cdcDf` dataframe) to be the value of `_source_row_index` column for rows with `null`s.
+
+`deduplicateCDFDeletes` deduplicates rows based on `_target_row_index_` and `_change_type` columns.
+
+In the end, `deduplicateCDFDeletes` drops `_target_row_index_` and `_source_row_index` columns.
