@@ -8,15 +8,18 @@
 ??? note "InsertOnlyMergeExecutor"
     When one of the above requirements is not met, [InsertOnlyMergeExecutor](InsertOnlyMergeExecutor.md) is used instead.
 
-With `ClassicMergeExecutor` chosen, [MergeIntoCommand](MergeIntoCommand.md) tries to [find touched files](#findTouchedFiles) first and, only when there are any `AddFile`s found, requests [writing out all merge changes to target delta table](#writeAllChanges).
+With `ClassicMergeExecutor` chosen, [MergeIntoCommand](MergeIntoCommand.md) starts by [finding data files to rewrite](#findTouchedFiles) and, only when there are any `AddFile`s found, requests `ClassicMergeExecutor` to [write out all merge changes to a target delta table](#writeAllChanges).
 
-## Finding Touched (Add)Files { #findTouchedFiles }
+## Finding (Add)Files to Rewrite { #findTouchedFiles }
 
 ```scala
 findTouchedFiles(
   spark: SparkSession,
   deltaTxn: OptimisticTransaction): (Seq[AddFile], DeduplicateCDFDeletes)
 ```
+
+!!! note "Fun Fact: Synomyms"
+    The phrases "touched files" and "files to rewrite" are synonyms.
 
 `findTouchedFiles` [records this merge operation](MergeIntoCommandBase.md#recordMergeOperation) with the following:
 

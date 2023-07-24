@@ -61,9 +61,10 @@ With [Auto Schema Merging](../../configuration-properties/index.md#schema.autoMe
 
 [shouldOptimizeMatchedOnlyMerge](MergeIntoCommandBase.md#shouldoptimizematchedonlymerge)
 
-## Change Data Capture
+## Change Data Feed
 
-[isCdcEnabled](MergeIntoCommandBase.md#isCdcEnabled)
+* [isCdcEnabled](MergeIntoCommandBase.md#isCdcEnabled)
+* [DeduplicateCDFDeletes](DeduplicateCDFDeletes.md)
 
 ## Demo
 
