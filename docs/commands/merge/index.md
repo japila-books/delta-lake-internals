@@ -55,6 +55,11 @@ Merge command supports schema evolution for star and non-star [UPDATEs and INSER
 !!! note "Explore Star UPDATEs with Nested Columns"
     Star [WHEN MATCHED UPDATE](DeltaMergeIntoMatchedUpdateClause.md)s with nested columns look very interesting.
 
+!!! note "Explore Schema Evolution and Types"
+    Schema merging allows for implicit conversions so the type of the source may be different in the target (cf. the note at the end of [resolveReferencesAndSchema](DeltaMergeInto.md#resolveReferencesAndSchema)).
+    
+    Can this lead to any troubles? 🤔
+
 ??? note "Learn More"
     Until this note is here, learn more in [resolveClause](DeltaMergeInto.md#resolveClause).
 

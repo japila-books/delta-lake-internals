@@ -84,7 +84,7 @@ When there are more than one NOT MATCHED clauses in a MERGE statement,
 only the last NOT MATCHED clause can omit the condition.
 ```
 
-## resolveReferencesAndSchema { #resolveReferencesAndSchema }
+## Resolving Merge (incl. Schema Evolution) { #resolveReferencesAndSchema }
 
 ```scala
 resolveReferencesAndSchema(
@@ -93,13 +93,40 @@ resolveReferencesAndSchema(
   resolveExpr: (Expression, LogicalPlan) => Expression): DeltaMergeInto
 ```
 
-`resolveReferencesAndSchema` destructures the given [DeltaMergeInto](DeltaMergeInto.md) (skipping the [migrateSchema](DeltaMergeInto.md#migrateSchema) and [finalSchema](DeltaMergeInto.md#finalSchema) parts).
+`resolveReferencesAndSchema` creates a new `DeltaMergeInto` with the following changes (compared to the given `DeltaMergeInto`):
 
-`resolveReferencesAndSchema` creates two artificial (_dummy_) logical plans for the [target](DeltaMergeInto.md#target) and [source](DeltaMergeInto.md#source) plans of the [DeltaMergeInto](DeltaMergeInto.md) (for expression resolution of merge clauses).
+1. The [condition](#condition), [matched](#matchedClauses), [notMatched](#notMatchedClauses) and [notMatchedBySource](#notMatchedBySourceClauses) clauses resolved
+* The [migrateSchema](#migrateSchema) flag reflects [schema.autoMerge.enabled](../../configuration-properties/index.md#DELTA_SCHEMA_AUTO_MIGRATE)
+* The [final schema](#finalSchema) assigned
 
-`resolveReferencesAndSchema` checks whether [Schema Merging](../../configuration-properties/index.md#schema.autoMerge.enabled) is enabled (to add new columns or nested fields that are assigned to in merge actions and not already part of the target schema).
+---
 
-`resolveReferencesAndSchema`...FIXME
+`resolveReferencesAndSchema` destructures the given [DeltaMergeInto]() (skipping the [migrateSchema](#migrateSchema) and [finalSchema](#finalSchema) parts).
+
+`resolveReferencesAndSchema` creates two artificial (_dummy_) logical plans for the [target](#target) and [source](#source) plans of the [DeltaMergeInto]() (for expression resolution of merge clauses).
+
+`resolveReferencesAndSchema` [resolves all merge expressions](#resolveClause):
+
+1. [condition](#condition)
+1. [matchedClauses](#matchedClauses)
+1. [notMatchedClauses](#notMatchedClauses) (against the `fakeSourcePlan`)
+1. [notMatchedBySourceClauses](#notMatchedBySourceClauses) (against the `fakeTargetPlan`)
+
+`resolveReferencesAndSchema` builds the [final schema](#finalSchema) (taking [schema.autoMerge.enabled](../../configuration-properties/index.md#DELTA_SCHEMA_AUTO_MIGRATE) into account).
+
+With [schema.autoMerge.enabled](../../configuration-properties/index.md#DELTA_SCHEMA_AUTO_MIGRATE) disabled, `resolveReferencesAndSchema` uses the schema of the [target](#target) table as the [final schema](#finalSchema).
+
+With [schema.autoMerge.enabled](../../configuration-properties/index.md#DELTA_SCHEMA_AUTO_MIGRATE) enabled, `resolveReferencesAndSchema` does the following:
+
+1. Collects `assignments` to be the [targetColNameParts](DeltaMergeAction.md#targetColNameParts) of the [DeltaMergeAction](DeltaMergeAction.md)s (among the [actions](DeltaMergeIntoClause.md#actions)) of the [matchedClauses](#matchedClauses) and [notMatchedClauses](#notMatchedClauses)
+1. Checks if there are any `UnresolvedStar`s among the [actions](DeltaMergeIntoClause.md#actions) (they are not `DeltaMergeAction`s so skipped in the step earlier) (`containsStarAction`)
+1. Builds a `migrationSchema` with the [fields](#filterSchema) of the [source](#source) table that are referenced by merge clauses
+1. Merges the schema of the [target](#target) table with the `migrationSchema` (allowing conversions from the types of the source type to the target's)
+
+!!! note "Schema Evolution and Types"
+    Implicit conversions are allowed, so `resolveReferencesAndSchema` can change the type of source columns to match the target's.
+
+In the end, `resolveReferencesAndSchema` creates a new [DeltaMergeInto]().
 
 ---
 
@@ -125,3 +152,28 @@ resolveClause[T <: DeltaMergeIntoClause](
 * For [DeltaMergeAction](DeltaMergeAction.md)s, `resolveClause` resolves the [targetColNameParts](DeltaMergeAction.md#targetColNameParts) against the _fake_ target plan and, if failed yet [Schema Merging](../../configuration-properties/index.md#schema.autoMerge.enabled) is enabled, uses the _fake_ source plan
 
 In the end, `resolveClause` resolves the [condition](DeltaMergeIntoClause.md#condition) of the [DeltaMergeIntoClause](DeltaMergeIntoClause.md).
+
+### Filtering Schema { #filterSchema }
+
+```scala
+filterSchema(
+  sourceSchema: StructType,
+  basePath: Seq[String]): StructType
+```
+
+`filterSchema` filters the source schema to retain only fields that are referenced by a merge clause.
+
+!!! note "Recursive Method"
+    `filterSchema` is recursive so it can handle `StructType` fields.
+    
+    There are the following two base cases (that terminate recursion):
+
+    1. There is an exact match (and the field is included in the final schema)
+    1. A field and its children are not assigned to in any `*` or non-`*` action (and the field is skipped in the final schema)
+
+For every field in the given `StructType`, `filterSchema` checks if the field is amongst (_referenced by_) the clause assignments and does one of the following:
+
+1. If there is an exact match, `filterSchema` keeps the field
+1. If the type of the field is a `StructType` and one of the children is assigned to in a merge clause or there is a `*` action, recursively [filterSchema](#filterSchema) with the struct and the field path
+1. For non-`StructType` fields and there is a `*` action, `filterSchema` keeps the field
+1. Otherwise, `filterSchema` drops (_filters out_) the field
