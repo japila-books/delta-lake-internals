@@ -47,9 +47,16 @@ Property | Value
 
 For a merge with just a single [WHEN NOT MATCHED THEN INSERT clause](MergeIntoCommandBase.md#notMatchedClauses) with a [condition](DeltaMergeIntoClause.md#condition) (_conditional insert_), `writeOnlyInserts` adds `Dataset.filter` with the condition to the source dataframe.
 
-!!! warning "FIXME Optimization"
+`filterMatchedRows` builds a `preparedSourceDF` DataFrame.
 
-With the given `filterMatchedRows` flag enabled, `writeOnlyInserts`...FIXME (`preparedSourceDF`)
+For an [insert-only merge](MergeIntoCommandBase.md#isInsertOnly) (and [merge.optimizeInsertOnlyMerge.enabled](../../configuration-properties/index.md#merge.optimizeInsertOnlyMerge.enabled) enabled) (when the given `filterMatchedRows` flag is enabled), `writeOnlyInserts` uses LEFT ANTI join on the [source](#getSourceDF) to find the rows to insert:
+
+1. `filterMatchedRows` splits conjunctive predicates in the [condition](MergeIntoCommandBase.md#condition) to find target-only ones (that reference the target columns only)
+1. `filterMatchedRows` requests the given [OptimisticTransaction](../../OptimisticTransaction.md) for the [files](../../OptimisticTransactionImpl.md#filterFiles) matching the target-only predicates
+1. `filterMatchedRows` creates a `targetDF` dataframe for the [target plan with the files](MergeIntoCommandBase.md#buildTargetPlanWithFiles)
+1. In the end, `filterMatchedRows` performs a LEFT ANTI join on the `sourceDF` and `targetDF` dataframes with the [condition](MergeIntoCommandBase.md#condition) as the join condition
+
+With `filterMatchedRows` disabled, `writeOnlyInserts` leaves the `sourceDF` unchanged.
 
 `writeOnlyInserts` [generateInsertsOnlyOutputDF](#generateInsertsOnlyOutputDF) with the `preparedSourceDF` (that creates an `outputDF` dataframe).
 

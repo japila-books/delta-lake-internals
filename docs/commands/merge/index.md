@@ -35,6 +35,8 @@ Delta Lake applies extra optimizations to insert-only merges only with [spark.da
 
 For insert-only merges, [merge](MergeIntoCommand.md#runMerge) becomes a [writeOnlyInserts](InsertOnlyMergeExecutor.md#writeOnlyInserts) (using [InsertOnlyMergeExecutor](InsertOnlyMergeExecutor.md)) (instead of [writeAllChanges](ClassicMergeExecutor.md#writeAllChanges) using [ClassicMergeExecutor](ClassicMergeExecutor.md)).
 
+[InsertOnlyMergeExecutor](InsertOnlyMergeExecutor.md#writeOnlyInserts) uses LEFT ANTI join to find the rows to insert (relying on [Data Skipping](../../data-skipping/index.md) along the way).
+
 ### Single Insert-Only Merges
 
 There is a special handling of [single INSERT-only MERGEs](MergeIntoCommand.md#isSingleInsertOnly).
