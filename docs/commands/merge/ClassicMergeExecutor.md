@@ -93,6 +93,9 @@ writeAllChanges(
   deduplicateCDFDeletes: DeduplicateCDFDeletes): Seq[FileAction]
 ```
 
+!!! note "Change Data Feed"
+    `writeAllChanges` acts differently with or no [Change Data Feed](../../change-data-feed/index.md) enabled.
+
 `writeAllChanges` [records this merge operation](MergeIntoCommandBase.md#recordMergeOperation) with the following:
 
 Property | Value
@@ -167,10 +170,14 @@ Metric Name | valueToReturn
 1. `writeAllChanges` adds the expression to increment the [incrNoopCountExpr](#incrNoopCountExpr) metric possibly with another sentinel `null` expression if [isCdcEnabled](MergeIntoCommandBase.md#isCdcEnabled) to the target output columns (`noopCopyExprs`)
 1. In the end, `writeAllChanges` [generateWriteAllChangesOutputCols](MergeOutputGeneration.md#generateWriteAllChangesOutputCols)
 
-`writeAllChanges` creates an output DataFrame (`outputDF`) based on [isCdcEnabled](MergeIntoCommandBase.md#isCdcEnabled):
+`writeAllChanges` creates an output DataFrame (`outputDF`) based on [Change Data Feed](../../change-data-feed/index.md):
 
-1. With CDC enabled, `writeAllChanges`...FIXME
-1. Otherwise, `writeAllChanges`...FIXME
+* With [Change Data Feed](../../change-data-feed/index.md) enabled, `writeAllChanges` [generateCdcAndOutputRows](MergeOutputGeneration.md#generateCdcAndOutputRows) (with `joinedAndPrecomputedConditionsDF` as the source dataframe)
+* Otherwise, `writeAllChanges` selects the `outputCols` columns from the `joinedAndPrecomputedConditionsDF` dataframe (`Dataset.select` operator)
+
+`writeAllChanges` makes sure that the output dataframe includes only rows that are not dropped (with `_row_dropped_` column being `false` using `Dataset.filter` operator).
+
+`writeAllChanges` drops the `_row_dropped_` column from the output dataframe so it does not leak to the output.
 
 `writeAllChanges` prints out the following DEBUG message to the logs:
 

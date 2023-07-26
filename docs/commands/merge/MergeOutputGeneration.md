@@ -103,13 +103,45 @@ generateCdcAndOutputRows(
   deduplicateDeletes: DeduplicateCDFDeletes): DataFrame
 ```
 
+??? note "Very Position-Sensitive"
+    `generateCdcAndOutputRows` makes hard assumptions on which columns are on given positions (and so there are a lot of _magic numbers_ floating around).
+
+    ## noopCopyExprs
+
+    `noopCopyExprs` is a collection of the following expressions:
+
+    * [Target output expressions](MergeIntoCommandBase.md#getTargetOutputCols) (i.e., the [target](MergeIntoCommandBase.md#target) output expressions followed by any new expressions due to schema evolution)
+    * An expression to increment [numTargetRowsCopied](MergeIntoCommandBase.md#numTargetRowsCopied) metric
+    * `CDC_TYPE_NOT_CDC` literal (with `null` value)
+
+    Hence, `noopCopyExprs.dropRight(2)` gives the [target output expressions](MergeIntoCommandBase.md#getTargetOutputCols) (i.e., the [target](MergeIntoCommandBase.md#target) output expressions followed by any new expressions due to schema evolution)
+
+    ## outputCols
+
+    `outputCols` is [generateWriteAllChangesOutputCols](#generateWriteAllChangesOutputCols).
+
+    * `outputCols.dropRight(1)`
+    * `outputCols(outputCols.length - 2)`
+
+    ## outputColNames
+
+    * `outputColNames.dropRight(1)`
+
+`generateCdcAndOutputRows` drops the last column from the given `outputCols` and adds `_change_type` column with a special sentinel value (`null`).
+
+!!! danger "FIXME What's at the last position?"
+
+!!! danger "FIXME What's at the second last position?"
+
 `generateCdcAndOutputRows`...FIXME
+
+In the end, `generateCdcAndOutputRows` [deduplicateCDFDeletes](#deduplicateCDFDeletes) if [deduplicateDeletes is enabled](DeduplicateCDFDeletes.md#enabled). Otherwise, `generateCdcAndOutputRows` [packAndExplodeCDCOutput](#packAndExplodeCDCOutput).
 
 ---
 
 `generateCdcAndOutputRows` is used when:
 
-* `ClassicMergeExecutor` is requested to [writeAllChanges](ClassicMergeExecutor.md#writeAllChanges)
+* `ClassicMergeExecutor` is requested to [write out all merge changes](ClassicMergeExecutor.md#writeAllChanges) (with [Change Data Feed](../../change-data-feed/index.md) enabled)
 
 ### packAndExplodeCDCOutput { #packAndExplodeCDCOutput }
 
@@ -141,9 +173,9 @@ deduplicateCDFDeletes(
 `deduplicateCDFDeletes` finds out the deduplication columns (`dedupColumns`) that include the following:
 
 * `_target_row_index_`
-* `_source_row_index` only when this merge [includes WHEN NOT MATCHED THEN INSERT clauses](DeduplicateCDFDeletes.md#includesInserts) (based on the given [DeduplicateCDFDeletes](DeduplicateCDFDeletes.md))
+* `_source_row_index` only when this merge [includes WHEN NOT MATCHED THEN INSERT clauses](DeduplicateCDFDeletes.md#includesInserts)
 
-`deduplicateCDFDeletes` [packAndExplodeCDCOutput](#packAndExplodeCDCOutput) (that gives a new `cdcDf` dataframe).
+`deduplicateCDFDeletes` [packAndExplodeCDCOutput](#packAndExplodeCDCOutput) (and creates a new `cdcDf` dataframe).
 
 With [WHEN NOT MATCHED THEN INSERT clauses](DeduplicateCDFDeletes.md#includesInserts), `deduplicateCDFDeletes` overwrites `_target_row_index_` column (in the `cdcDf` dataframe) to be the value of `_source_row_index` column for rows with `null`s.
 
