@@ -67,7 +67,7 @@ generateWriteAllChangesOutputCols(
 
 `generateWriteAllChangesOutputCols` is used when:
 
-* `ClassicMergeExecutor` is requested to [writeAllChanges](ClassicMergeExecutor.md#writeAllChanges)
+* `ClassicMergeExecutor` is requested to [write out all merge changes](ClassicMergeExecutor.md#writeAllChanges)
 
 ### generateAllActionExprs { #generateAllActionExprs }
 

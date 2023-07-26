@@ -93,18 +93,42 @@ Used when:
 * `TransactionalWrite` is requested to [performCDCPartition](../TransactionalWrite.md#performCDCPartition)
 * `SchemaUtils` utility is used to [normalizeColumnNames](../SchemaUtils.md#normalizeColumnNames)
 
-## <span id="CDC_TYPE_NOT_CDC"> CDC_TYPE_NOT_CDC
+## CDC_TYPE_NOT_CDC Literal { #CDC_TYPE_NOT_CDC }
 
 ```scala
-CDC_TYPE_NOT_CDC: String
+CDC_TYPE_NOT_CDC: Literal
 ```
 
-`CDCReader` defines a `CDC_TYPE_NOT_CDC` value that is always `null`.
+`CDCReader` creates `CDC_TYPE_NOT_CDC` value to be a `Literal` expression with `null` value (of `StringType` type).
 
-`CDC_TYPE_NOT_CDC` is used when:
+`CDC_TYPE_NOT_CDC` is used as a special sentinel value for rows that are part of the main table rather than change data.
+
+`CDC_TYPE_NOT_CDC` is used by DML commands when executed with [Change Data Feed](index.md) enabled:
+
+* [Delete](../commands/delete/index.md)
+* [Merge](../commands/merge/index.md)
+* [Update](../commands/update/index.md)
+* [WriteIntoDelta](../commands/WriteIntoDelta.md)
+
+All but `DeleteCommand` commands use `CDC_TYPE_NOT_CDC` with [_change_type](#CDC_TYPE_COLUMN_NAME) as follows:
+
+```scala
+Column(CDC_TYPE_NOT_CDC).as("_change_type")
+```
+
+`DeleteCommand` uses `CDC_TYPE_NOT_CDC` as follows:
+
+```scala
+.withColumn(
+  "_change_type",
+  Column(If(filterCondition, CDC_TYPE_NOT_CDC, Literal("delete")))
+)
+```
+
+`CDC_TYPE_NOT_CDC` is used when (with [Change Data Feed](index.md) enabled):
 
 * `DeleteCommand` is requested to [rewriteFiles](../commands/delete/DeleteCommand.md#rewriteFiles)
-* `MergeIntoCommand` is requested to [writeAllChanges](../commands/merge/MergeIntoCommand.md#writeAllChanges) (to [matchedClauseOutput](../commands/merge/MergeIntoCommand.md#matchedClauseOutput) and [notMatchedClauseOutput](../commands/merge/MergeIntoCommand.md#notMatchedClauseOutput))
+* `MergeIntoCommand` is requested to [run a merge](../commands/merge/MergeIntoCommand.md#runMerge) (for a non-[insert-only merge](../commands/merge/index.md#insert-only-merges) or with [merge.optimizeInsertOnlyMerge.enabled](../configuration-properties/index.md#merge.optimizeInsertOnlyMerge.enabled) disabled that uses `ClassicMergeExecutor` to [write out all merge changes](../commands/merge/ClassicMergeExecutor.md#writeAllChanges) with [generateWriteAllChangesOutputCols](../commands/merge/MergeOutputGeneration.md#generateWriteAllChangesOutputCols) and [generateCdcAndOutputRows](../commands/merge/MergeOutputGeneration.md#generateCdcAndOutputRows))
 * `UpdateCommand` is requested to [withUpdatedColumns](../commands/update/UpdateCommand.md#withUpdatedColumns)
 * `WriteIntoDelta` is requested to [write](../commands/WriteIntoDelta.md#write)
 
