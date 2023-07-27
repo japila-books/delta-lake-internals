@@ -72,7 +72,11 @@ With [Auto Schema Merging](../../configuration-properties/index.md#schema.autoMe
 
 ## Matched-Only Merges
 
-[shouldOptimizeMatchedOnlyMerge](MergeIntoCommandBase.md#shouldoptimizematchedonlymerge)
+A [matched-only merge](MergeIntoCommandBase.md#isMatchedOnly) contains one or more [WHEN MATCHED clauses](MergeIntoCommandBase.md#matchedClauses) only (with neither [WHEN NOT MATCHED](MergeIntoCommandBase.md#notMatchedClauses) nor [WHEN NOT MATCHED BY SOURCE](MergeIntoCommandBase.md#notMatchedBySourceClauses) clauses).
+
+In other words, a matched-only merge is a merge with [UPDATE](DeltaMergeIntoMatchedUpdateClause.md)s and [DELETE](DeltaMergeIntoMatchedDeleteClause.md)s only, and no `WHEN NOT MATCHED` clauses.
+
+With [merge.optimizeMatchedOnlyMerge.enabled](../../configuration-properties/index.md#MERGE_MATCHED_ONLY_ENABLED) enabled, Delta Lake optimizes matched-only merges to use a RIGHT OUTER join (instead of a FULL OUTER join) while [writing out all merge changes](ClassicMergeExecutor.md#writeAllChanges).
 
 ## Change Data Feed
 

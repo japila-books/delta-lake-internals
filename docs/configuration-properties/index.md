@@ -256,9 +256,11 @@ Used when:
 * `MergeIntoCommand` is requested to [run a merge](../commands/merge/MergeIntoCommand.md#runMerge) (for [insert-only merge write](../commands/merge/MergeIntoCommand.md#writeOnlyInserts))
 * `MergeIntoMaterializeSource` is requested to [shouldMaterializeSource](../commands/merge/MergeIntoMaterializeSource.md#shouldMaterializeSource) (for an insert-only merge)
 
-### <span id="merge.optimizeMatchedOnlyMerge.enabled"><span id="MERGE_MATCHED_ONLY_ENABLED"> merge.optimizeMatchedOnlyMerge.enabled
+### <span id="MERGE_MATCHED_ONLY_ENABLED"> merge.optimizeMatchedOnlyMerge.enabled { #merge.optimizeMatchedOnlyMerge.enabled }
 
-**spark.databricks.delta.merge.optimizeMatchedOnlyMerge.enabled** (internal) controls merge without 'when not matched' clause will be optimized to use a right outer join instead of a full outer join
+**spark.databricks.delta.merge.optimizeMatchedOnlyMerge.enabled**
+
+**(internal)** Enables optimization of [matched-only merges](../commands/merge/index.md#matched-only-merges) to use a RIGHT OUTER join (instead of a FULL OUTER join) while [writing out all merge changes](../commands/merge/ClassicMergeExecutor.md#writeAllChanges)
 
 Default: `true`
 

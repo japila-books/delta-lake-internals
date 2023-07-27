@@ -22,6 +22,10 @@
 
 [spark.databricks.delta.merge.materializeSource.rddStorageLevelRetry](index.md#merge.materializeSource.rddStorageLevelRetry)
 
+## merge.optimizeMatchedOnlyMerge.enabled { #MERGE_MATCHED_ONLY_ENABLED }
+
+[spark.databricks.delta.merge.optimizeMatchedOnlyMerge.enabled](index.md#merge.optimizeMatchedOnlyMerge.enabled)
+
 ## stats.collect { #DELTA_COLLECT_STATS }
 
 [spark.databricks.delta.stats.collect](index.md#stats.collect)

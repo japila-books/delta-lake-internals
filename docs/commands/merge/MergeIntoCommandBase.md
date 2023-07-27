@@ -216,6 +216,24 @@ In other words, `isInsertOnly` is enabled (`true`) when all the following hold:
 * `MergeIntoCommand` is requested to [run a merge](MergeIntoCommand.md#runMerge) (and [prepareSourceDFAndReturnMaterializeReason](MergeIntoMaterializeSource.md#prepareSourceDFAndReturnMaterializeReason))
 * `MergeIntoCommandBase` is requested to [run](#run) (to [shouldMaterializeSource](MergeIntoMaterializeSource.md#shouldMaterializeSource))
 
+## Is This Merge Matched Only { #isMatchedOnly }
+
+```scala
+isMatchedOnly: Boolean
+```
+
+`isMatchedOnly` is enabled (`true`) when the following can be said about this merge:
+
+* There is at least one [WHEN MATCHED clause](#matchedClauses)
+* There are no other clause types (neither [WHEN NOT MATCHED](#notMatchedClauses) nor [WHEN NOT MATCHED BY SOURCE](#notMatchedBySourceClauses))
+
+---
+
+`isMatchedOnly` is used when:
+
+* `MergeIntoCommandBase` is requested to [shouldOptimizeMatchedOnlyMerge](#shouldOptimizeMatchedOnlyMerge) and [getTargetOnlyPredicates](#getTargetOnlyPredicates)
+* `ClassicMergeExecutor` is requested to [find files to rewrite](ClassicMergeExecutor.md#findTouchedFiles)
+
 ## shouldOptimizeMatchedOnlyMerge { #shouldOptimizeMatchedOnlyMerge }
 
 ```scala
@@ -223,16 +241,31 @@ shouldOptimizeMatchedOnlyMerge(
   spark: SparkSession): Boolean
 ```
 
-`shouldOptimizeMatchedOnlyMerge` is enabled (`true`) when all the following hold:
+`shouldOptimizeMatchedOnlyMerge` is enabled (`true`) when the following all hold:
 
-1. [isMatchedOnly](#isMatchedOnly)
-1. [DeltaSQLConf.MERGE_MATCHED_ONLY_ENABLED](../../configuration-properties/DeltaSQLConf.md#MERGE_MATCHED_ONLY_ENABLED) is enabled
+* This merge is [matched-only](#isMatchedOnly)
+* [merge.optimizeMatchedOnlyMerge.enabled](../../configuration-properties/index.md#MERGE_MATCHED_ONLY_ENABLED) is enabled
 
 ---
 
 `shouldOptimizeMatchedOnlyMerge` is used when:
 
-* `ClassicMergeExecutor` is requested to [writeAllChanges](ClassicMergeExecutor.md#writeAllChanges)
+* `ClassicMergeExecutor` is requested to [write out all merge changes](ClassicMergeExecutor.md#writeAllChanges)
+
+## getTargetOnlyPredicates { #getTargetOnlyPredicates }
+
+```scala
+getTargetOnlyPredicates(
+  spark: SparkSession): Seq[Expression]
+```
+
+`getTargetOnlyPredicates`...FIXME
+
+---
+
+`getTargetOnlyPredicates` is used when:
+
+* `ClassicMergeExecutor` is requested to [find files to rewrite](ClassicMergeExecutor.md#findTouchedFiles)
 
 ## throwErrorOnMultipleMatches { #throwErrorOnMultipleMatches }
 
