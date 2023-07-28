@@ -1,6 +1,8 @@
 # InsertOnlyMergeExecutor
 
-`InsertOnlyMergeExecutor` is an extension of the [MergeOutputGeneration](MergeOutputGeneration.md) abstraction for optimized execution of [MERGE command](index.md) (when requested to [run merge](MergeIntoCommand.md#runMerge)) that [only inserts new data](MergeIntoCommandBase.md#isInsertOnly) (with [spark.databricks.delta.merge.optimizeInsertOnlyMerge.enabled](../../configuration-properties/index.md#merge.optimizeInsertOnlyMerge.enabled) enabled).
+`InsertOnlyMergeExecutor` is an extension of the [MergeOutputGeneration](MergeOutputGeneration.md) abstraction for optimized execution of [MERGE command](index.md) (when requested to [run a merge](MergeIntoCommand.md#runMerge)) that [only inserts new data](MergeIntoCommandBase.md#isInsertOnly).
+
+`InsertOnlyMergeExecutor` is used only when [merge.optimizeInsertOnlyMerge.enabled](../../configuration-properties/index.md#merge.optimizeInsertOnlyMerge.enabled) is enabled.
 
 ??? note "ClassicMergeExecutor"
     When a MERGE query is neither [insert only](MergeIntoCommandBase.md#isInsertOnly) nor [spark.databricks.delta.merge.optimizeInsertOnlyMerge.enabled](../../configuration-properties/index.md#merge.optimizeInsertOnlyMerge.enabled) is enabled, [ClassicMergeExecutor](ClassicMergeExecutor.md) is used to [run merge](MergeIntoCommand.md#runMerge).
@@ -77,7 +79,7 @@ In the end, `writeOnlyInserts` updates the [performance metrics](MergeIntoComman
 
 * `MergeIntoCommand` is requested to [run a merge](MergeIntoCommand.md#runMerge) (for an [insert-only merge](MergeIntoCommandBase.md#isInsertOnly) with [merge.optimizeInsertOnlyMerge.enabled](../../configuration-properties/index.md#MERGE_INSERT_ONLY_ENABLED) or when there are no [files to rewrite](ClassicMergeExecutor.md#findTouchedFiles))
 
-### generateInsertsOnlyOutputDF { #generateInsertsOnlyOutputDF }
+### Generating Output DataFrame for Insert-Only Merge { #generateInsertsOnlyOutputDF }
 
 ```scala
 generateInsertsOnlyOutputDF(
@@ -85,7 +87,31 @@ generateInsertsOnlyOutputDF(
   deltaTxn: OptimisticTransaction): DataFrame
 ```
 
-`generateInsertsOnlyOutputDF`...FIXME
+`generateInsertsOnlyOutputDF` generates the final output dataframe to be [written out](MergeIntoCommandBase.md#writeFiles) to a target delta table.
+
+`generateInsertsOnlyOutputDF` (as part of [InsertOnlyMergeExecutor](InsertOnlyMergeExecutor.md)) is used for [insert-only merges](index.md#insert-only-merges) and makes distinction between single vs many [WHEN NOT MATCHED THEN INSERT](MergeIntoCommandBase.md#notMatchedClauses) merges.
+
+---
+
+`generateInsertsOnlyOutputDF` get the columns names (`targetOutputColNames`) of the [target table](#getTargetOutputCols) (from the [metadata](../../OptimisticTransactionImpl.md#metadata) of the given [OptimisticTransaction](../../OptimisticTransaction.md)).
+
+!!! note "Optimization: Single WHEN NOT MATCHED THEN INSERT Merges"
+
+For just a single [WHEN NOT MATCHED THEN INSERT](MergeIntoCommandBase.md#notMatchedClauses) merge, `generateInsertsOnlyOutputDF` [generateOneInsertOutputCols](#generateOneInsertOutputCols) (from the target output columns) to project the given `preparedSourceDF` on (using `Dataset.select` operator) and returns it. `generateInsertsOnlyOutputDF` finishes early.
+
+`generateInsertsOnlyOutputDF` [appends precomputed clause conditions](MergeOutputGeneration.md#generatePrecomputedConditionsAndDF) to the given `preparedSourceDF` dataframe (with the [WHEN NOT MATCHED clauses](MergeIntoCommandBase.md#notMatchedClauses)).
+
+!!! note
+    At this point, we know there are more than one [WHEN NOT MATCHED clauses](MergeIntoCommandBase.md#notMatchedClauses) in this merge.
+
+`generateInsertsOnlyOutputDF` [generates the output columns for this insert-only merge](#generateInsertsOnlyOutputCols) (based on the target output columns and the precomputed [DeltaMergeIntoNotMatchedInsertClause](DeltaMergeIntoNotMatchedInsertClause.md)s).
+
+In the end, `generateInsertsOnlyOutputDF` does "column and filter pruning" of the `sourceWithPrecompConditions` dataframe:
+
+* Leaves the `outputCols` columns only (using `Dataset.select` operator)
+* Leaves rows with [\_row_dropped_](MergeIntoCommandBase.md#ROW_DROPPED_COL) column with `false` value only (using `Dataset.filter` operator)
+
+`generateInsertsOnlyOutputDF` drops the [\_row_dropped_](MergeIntoCommandBase.md#ROW_DROPPED_COL) column.
 
 ### generateInsertsOnlyOutputCols { #generateInsertsOnlyOutputCols }
 

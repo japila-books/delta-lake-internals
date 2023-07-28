@@ -194,10 +194,10 @@ In the end, `buildTargetPlanWithIndex` creates a `Project` logical operator with
 * `InsertOnlyMergeExecutor` is requested to [generateInsertsOnlyOutputDF](InsertOnlyMergeExecutor.md#generateInsertsOnlyOutputDF) and [generateInsertsOnlyOutputCols](InsertOnlyMergeExecutor.md#generateInsertsOnlyOutputCols)
 * `MergeOutputGeneration` is requested to [generateCdcAndOutputRows](MergeOutputGeneration.md#generateCdcAndOutputRows)
 
-!!! note
-    It appears that `ClassicMergeExecutor` and `InsertOnlyMergeExecutor` use `_row_dropped_` column to filter out rows when it is `false` followed by dropping the column immediately.
+!!! note "CDF-Aware Output Generation"
+    It appears that `ClassicMergeExecutor` and `InsertOnlyMergeExecutor` use `_row_dropped_` column to include the rows with `false` value in output dataframes followed by dropping the column immediately.
 
-    An "exception" to the behaviour is [MergeOutputGeneration](MergeOutputGeneration.md#generateCdcAndOutputRows) for CDC-aware output generation.
+    An "exception" to the behaviour is [MergeOutputGeneration](MergeOutputGeneration.md#generateCdcAndOutputRows) for CDF-aware output generation.
 
 ## Executing Command { #run }
 

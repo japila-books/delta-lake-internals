@@ -85,6 +85,10 @@ With [Change Data Feed](../../change-data-feed/index.md) enabled on a delta tabl
 * [DeduplicateCDFDeletes](DeduplicateCDFDeletes.md)
 * [WHEN NOT MATCHED THEN INSERT Sensitivity](MergeOutputGeneration.md#deduplicateCDFDeletes)
 
+## Merge and Joins
+
+Merge command uses different joins when executed.
+
 ## Demo
 
 [Demo: Merge Operation](../../demo/merge-operation.md)
