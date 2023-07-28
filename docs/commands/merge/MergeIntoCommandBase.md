@@ -6,6 +6,24 @@
 
 ## Contract (Subset)
 
+### Merge Condition { #condition }
+
+```scala
+condition: Expression
+```
+
+The "join" condition of this merge
+
+See:
+
+* [MergeIntoCommand](MergeIntoCommand.md#condition)
+
+Used when:
+
+* `MergeIntoCommandBase` is requested to [collectMergeStats](#collectMergeStats) and [getTargetOnlyPredicates](#getTargetOnlyPredicates)
+* `ClassicMergeExecutor` is requested to [findTouchedFiles](ClassicMergeExecutor.md#findTouchedFiles) and [writeAllChanges](ClassicMergeExecutor.md#writeAllChanges)
+* `InsertOnlyMergeExecutor` is requested to [writeOnlyInserts](InsertOnlyMergeExecutor.md#writeOnlyInserts) (with `filterMatchedRows` enabled to trim the [source table](MergeIntoMaterializeSource.md#getSourceDF))
+
 ### WHEN MATCHED Clauses { #matchedClauses }
 
 ```scala
@@ -222,7 +240,7 @@ In other words, `isInsertOnly` is enabled (`true`) when all the following hold:
 isMatchedOnly: Boolean
 ```
 
-`isMatchedOnly` is enabled (`true`) when the following can be said about this merge:
+`isMatchedOnly` is enabled (`true`) for a [matched-only merge](index.md#matched-only-merges):
 
 * There is at least one [WHEN MATCHED clause](#matchedClauses)
 * There are no other clause types (neither [WHEN NOT MATCHED](#notMatchedClauses) nor [WHEN NOT MATCHED BY SOURCE](#notMatchedBySourceClauses))
@@ -252,14 +270,22 @@ shouldOptimizeMatchedOnlyMerge(
 
 * `ClassicMergeExecutor` is requested to [write out all merge changes](ClassicMergeExecutor.md#writeAllChanges)
 
-## getTargetOnlyPredicates { #getTargetOnlyPredicates }
+## Finding Target-Only Predicates (Among Merge and Clause Conditions) { #getTargetOnlyPredicates }
 
 ```scala
 getTargetOnlyPredicates(
   spark: SparkSession): Seq[Expression]
 ```
 
-`getTargetOnlyPredicates`...FIXME
+`getTargetOnlyPredicates` determines the target-only predicates in the [merge condition](#condition) first (`targetOnlyPredicatesOnCondition`).
+`getTargetOnlyPredicates` splits conjunctive predicates (`And`s) in the merge condition and leaves only the ones with the column references to the columns in the [target](#target) table.
+
+`getTargetOnlyPredicates` branches off based on whether this merge is [matched-only](#isMatchedOnly) or not.
+
+For non-[matched-only](#isMatchedOnly) merges, `getTargetOnlyPredicates` returns the target-only condition predicates.
+
+Otherwise, `getTargetOnlyPredicates` does the same (what it did for the [merge condition](#condition)) with the conditional [matchedClauses](#matchedClauses) (with a [condition](DeltaMergeIntoClause.md#condition)). `getTargetOnlyPredicates` splits conjunctive predicates (`And`s) in the conditions of the `matchedClauses` and leaves only the ones with the column references to the [target](#target).
+In the end, `getTargetOnlyPredicates` returns the target-only condition predicates (from the [merge condition](#condition) and all the [condition](DeltaMergeIntoClause.md#condition)s from the [matchedClauses](#matchedClauses)).
 
 ---
 
