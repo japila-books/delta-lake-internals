@@ -1,6 +1,6 @@
 # SHALLOW CLONE
 
-Delta Lake supports [SHALLOW CLONE](../../sql/DeltaSqlAstBuilder/#visitClone) clause in `CREATE TABLE` and `REPLACE TABLE` statements.
+Delta Lake supports [SHALLOW CLONE](../../sql/DeltaSqlAstBuilder.md#visitClone) clause in `CREATE TABLE` and `REPLACE TABLE` statements.
 
 ```antlr
 cloneTableHeader SHALLOW CLONE source temporalClause?

@@ -84,7 +84,7 @@ performConvert(
 `performConvert` caches the `Dataset` of file names.
 
 <span id="performConvert-schemaBatchSize">
-`performConvert` uses [spark.databricks.delta.import.batchSize.schemaInference](../../configuration-properties/DeltaSQLConf.md#import.batchSize.schemaInference) configuration property for the number of files per batch for schema inference. `performConvert` [mergeSchemasInParallel](#mergeSchemasInParallel) for every batch of files and then [mergeSchemas](SchemaUtils#mergeSchemas).
+`performConvert` uses [spark.databricks.delta.import.batchSize.schemaInference](../../configuration-properties/DeltaSQLConf.md#import.batchSize.schemaInference) configuration property for the number of files per batch for schema inference. `performConvert` [mergeSchemasInParallel](#mergeSchemasInParallel) for every batch of files and then [mergeSchemas](../../SchemaUtils.md#mergeSchemas).
 
 `performConvert` [constructTableSchema](#constructTableSchema) using the inferred table schema and the [partitionSchema](#partitionSchema) (if specified).
 

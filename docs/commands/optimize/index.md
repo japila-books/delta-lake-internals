@@ -13,7 +13,7 @@ As of Delta Lake 2.0.0, the above quote applies to the open source version, too.
 
 ## OPTIMIZE SQL Command
 
-[OPTIMIZE](../../sql/#OPTIMIZE) SQL command
+[OPTIMIZE](../../sql/index.md#OPTIMIZE) SQL command
 
 ## bin-packing
 
@@ -33,7 +33,7 @@ In `bin-packing` (aka. _file compaction_) mode, `OPTIMIZE` command compacts file
 
 ## Learning More
 
-There seems so many articles and academic papers about [space filling curve based clustering algorithms](google.com/search?q=space+filling+curve+based+clustering+algorithms). I'm hoping that one day I'll have read enough to develop my own intuition about z-order multi-dimensional optimization. If you know good articles about this space (_pun intended_), let me know. I'll collect them here for future reference (for others to learn along).
+There seems so many articles and academic papers about [space filling curve based clustering algorithms](https://google.com/search?q=space+filling+curve+based+clustering+algorithms). I'm hoping that one day I'll have read enough to develop my own intuition about z-order multi-dimensional optimization. If you know good articles about this space (_pun intended_), let me know. I'll collect them here for future reference (for others to learn along).
 
 Thank you! 🙏
 

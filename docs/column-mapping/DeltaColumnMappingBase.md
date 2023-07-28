@@ -174,7 +174,7 @@ allowMappingModeChange(
 `allowMappingModeChange` is `true` when either of the following holds true:
 
 1. There is no mode change (and the old and new modes are the same)
-1. There is a mode change from [NoMapping](DeltaColumnMappingMode#NoMapping) old mode to [NameMapping](DeltaColumnMappingMode#NameMapping)
+1. There is a mode change from [NoMapping](DeltaColumnMappingMode.md#NoMapping) old mode to [NameMapping](DeltaColumnMappingMode.md#NameMapping)
 
 Otherwise, `allowMappingModeChange` is `false`.
 

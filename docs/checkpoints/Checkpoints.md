@@ -67,7 +67,7 @@ store: LogStore
 
 * [DeltaLog](../DeltaLog.md)
 
-## <span id="LAST_CHECKPOINT"><span id="_last_checkpoint"> _last_checkpoint Metadata File
+## <span id="_last_checkpoint"> _last_checkpoint Metadata File { #LAST_CHECKPOINT }
 
 `Checkpoints` uses **_last_checkpoint** metadata file (under the [log path](#logPath)) for the following:
 
