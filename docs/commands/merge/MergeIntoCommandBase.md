@@ -428,3 +428,30 @@ Usage | Metric Name | valueToReturn
  `MergeOutputGeneration` to [generateAllActionExprs](MergeOutputGeneration.md#generateAllActionExprs) | [numTargetRowsUpdated](#numTargetRowsUpdated) | `false`
  | [numTargetRowsDeleted](#numTargetRowsDeleted) | `true`
  | [numTargetRowsInserted](#numTargetRowsInserted) | `false`
+
+## Writing Data(Frame) Out to Delta Table { #writeFiles }
+
+```scala
+writeFiles(
+  spark: SparkSession,
+  txn: OptimisticTransaction,
+  outputDF: DataFrame): Seq[FileAction]
+```
+
+!!! note "Fun Fact: The Name"
+    The `writeFiles` name stems from the (fun?) fact that writing out to a delta table is actually creating new files.
+
+    You can also look at the given `DataFrame` that is usually another delta table that is nothing but a collection of [AddFile](../../AddFile.md)s.
+
+    I found it a little funny, _et toi?_ 😉
+
+If the target table is [partitioned](../../Metadata.md#partitionColumns) and [merge.repartitionBeforeWrite.enabled](../../configuration-properties/index.md#merge.repartitionBeforeWrite.enabled) is enabled, `writeFiles` repartitions the given `outputDF` dataframe (using `Dataset.repartition` operator) before writing it out.
+
+In the end, `writeFiles` requests the given [OptimisticTransaction](../../OptimisticTransaction.md) to [write the data(frame) out](../../TransactionalWrite.md#writeFiles).
+
+---
+
+`writeFiles` is used when `MergeIntoCommand` is requested to [run a merge](MergeIntoCommand.md#runMerge) and does one of the following:
+
+* `ClassicMergeExecutor` is requested to [write out all merge changes](ClassicMergeExecutor.md#writeAllChanges)
+* `InsertOnlyMergeExecutor` is requested to [write out inserts](InsertOnlyMergeExecutor.md#writeOnlyInserts)

@@ -80,9 +80,10 @@ With [Auto Schema Merging](MergeIntoCommandBase.md#canMergeSchema) enabled (that
 `runMerge` [prepareSourceDFAndReturnMaterializeReason](#prepareSourceDFAndReturnMaterializeReason).
 
 At this stage, `runMerge` is finally ready to apply all the necessary changes to the delta table ( _execute this merge_) that result in a collection of [FileAction](../../FileAction.md)s (`deltaActions`).
-`runMerge` writes out [inserts only](InsertOnlyMergeExecutor.md#writeOnlyInserts) or [more](ClassicMergeExecutor.md#writeAllChanges) based on the following:
 
-* For [insert-only merges](MergeIntoCommandBase.md#isInsertOnly) with [merge.optimizeInsertOnlyMerge.enabled](../../configuration-properties/index.md#MERGE_INSERT_ONLY_ENABLED) enabled
+`runMerge` writes out [inserts](InsertOnlyMergeExecutor.md#writeOnlyInserts) or [all changes](ClassicMergeExecutor.md#writeAllChanges) based on the following:
+
+* Whether this merge is [insert-only](index.md#insert-only-merges) and [merge.optimizeInsertOnlyMerge.enabled](../../configuration-properties/index.md#MERGE_INSERT_ONLY_ENABLED) is enabled
 * Whether there are any [files to rewrite](ClassicMergeExecutor.md#findTouchedFiles)
 
 !!! note "`runMerge` and `MergeOutputGeneration`s"

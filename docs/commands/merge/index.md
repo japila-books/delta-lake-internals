@@ -89,6 +89,10 @@ With [Change Data Feed](../../change-data-feed/index.md) enabled on a delta tabl
 
 Merge command uses different joins when executed.
 
+## Repartition Before Write
+
+[writeFiles](MergeIntoCommandBase.md#writeFiles) can repartition the output dataframe based on [merge.repartitionBeforeWrite.enabled](../../configuration-properties/index.md#merge.repartitionBeforeWrite.enabled).
+
 ## Demo
 
 [Demo: Merge Operation](../../demo/merge-operation.md)
