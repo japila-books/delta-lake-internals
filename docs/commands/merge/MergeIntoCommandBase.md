@@ -278,14 +278,16 @@ getTargetOnlyPredicates(
 ```
 
 `getTargetOnlyPredicates` determines the target-only predicates in the [merge condition](#condition) first (`targetOnlyPredicatesOnCondition`).
-`getTargetOnlyPredicates` splits conjunctive predicates (`And`s) in the merge condition and leaves only the ones with the column references to the columns in the [target](#target) table.
+`getTargetOnlyPredicates` splits conjunctive predicates (`And`s) in the merge condition and leaves only the ones with the column references to the columns in the [target](#target) table only.
 
 `getTargetOnlyPredicates` branches off based on whether this merge is [matched-only](#isMatchedOnly) or not.
 
-For non-[matched-only](#isMatchedOnly) merges, `getTargetOnlyPredicates` returns the target-only condition predicates.
+For a non-[matched-only](#isMatchedOnly) merge, `getTargetOnlyPredicates` returns the target-only condition predicates.
 
-Otherwise, `getTargetOnlyPredicates` does the same (what it did for the [merge condition](#condition)) with the conditional [matchedClauses](#matchedClauses) (with a [condition](DeltaMergeIntoClause.md#condition)). `getTargetOnlyPredicates` splits conjunctive predicates (`And`s) in the conditions of the `matchedClauses` and leaves only the ones with the column references to the [target](#target).
-In the end, `getTargetOnlyPredicates` returns the target-only condition predicates (from the [merge condition](#condition) and all the [condition](DeltaMergeIntoClause.md#condition)s from the [matchedClauses](#matchedClauses)).
+Otherwise, `getTargetOnlyPredicates` does the same (what it has just done with the [merge condition](#condition)) with conditional [WHEN MATCHED clauses](#matchedClauses) (the ones with a [condition](DeltaMergeIntoClause.md#condition) specified).
+`getTargetOnlyPredicates` splits conjunctive predicates (`And`s) in the conditions of the `matchedClauses` and leaves only the ones with the column references to the [target](#target).
+
+In the end, `getTargetOnlyPredicates` returns the target-only condition predicates (from the [merge condition](#condition) and all the [condition](DeltaMergeIntoClause.md#condition)s from the conditional [WHEN MATCHED clauses](#matchedClauses)).
 
 ---
 
@@ -395,3 +397,34 @@ includesInserts: Boolean
 
 ??? note "Options always empty"
     Delta options cannot be passed to MERGE INTO, so they will always be empty and `canMergeSchema` relies on the [SQLConf](#conf) only.
+
+## Create IncrementMetric Expression { #incrementMetricAndReturnBool }
+
+```scala
+incrementMetricAndReturnBool(
+  name: String,
+  valueToReturn: Boolean): Expression
+```
+
+`incrementMetricAndReturnBool` creates a `IncrementMetric` unary expression with the following:
+
+IncrementMetric | Value
+----------------|------
+Child `Expression` | A `Literal` with the given `valueToReturn` (when executed)
+`SQLMetric` | The [metric](#metrics) by the given `name`
+
+!!! note "IncrementMetric"
+    The `IncrementMetric` presents itself under `increment_metric` name in query plans.
+
+    When executed, `IncrementMetric` increments the [metric](#metrics) (by the given `name`) and returns the given `valueToReturn`.
+
+Usage | Metric Name | valueToReturn
+------|-------------|--------------
+ `ClassicMergeExecutor` to [find files to rewrite](ClassicMergeExecutor.md#findTouchedFiles) | [numSourceRows](#numSourceRows) | `true`
+ `ClassicMergeExecutor` to [write out all merge changes](ClassicMergeExecutor.md#writeAllChanges) | [numSourceRowsInSecondScan](#numSourceRowsInSecondScan) | `true`
+ | [numTargetRowsCopied](#numTargetRowsCopied) | `false`
+ `InsertOnlyMergeExecutor` to [write out inserts](InsertOnlyMergeExecutor.md#writeOnlyInserts) | [numSourceRows](#numSourceRows) or [numSourceRowsInSecondScan](#numSourceRowsInSecondScan) | `true`
+ `InsertOnlyMergeExecutor` to [generateInsertsOnlyOutputCols](InsertOnlyMergeExecutor.md#generateInsertsOnlyOutputCols) | [numTargetRowsInserted](#numTargetRowsInserted) | `false`
+ `MergeOutputGeneration` to [generateAllActionExprs](MergeOutputGeneration.md#generateAllActionExprs) | [numTargetRowsUpdated](#numTargetRowsUpdated) | `false`
+ | [numTargetRowsDeleted](#numTargetRowsDeleted) | `true`
+ | [numTargetRowsInserted](#numTargetRowsInserted) | `false`
