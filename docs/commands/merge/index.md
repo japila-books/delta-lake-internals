@@ -97,6 +97,41 @@ Merge command uses different joins when executed.
 
 [Demo: Merge Operation](../../demo/merge-operation.md)
 
+## Examples
+
+### Conditional Update with Delete
+
+!!! tip
+    Use [this notebook](https://github.com/jaceklaskowski/learn-databricks/blob/main/Delta%20Lake/Merge.sql).
+
+=== "SQL"
+
+    ```sql
+    CREATE TABLE source
+    USING delta
+    AS VALUES
+      (0, 0),
+      (1, 10),
+      (2, 20) AS data(key, value);
+    ```
+
+    ```sql
+    CREATE TABLE target
+    USING delta
+    AS VALUES
+      (1, 1),
+      (2, 2),
+      (3, 3) AS data(key, value);
+    ```
+
+    ```sql
+    MERGE INTO target t
+    USING source s
+    ON s.key = t.key
+    WHEN MATCHED AND s.key <> 1 THEN UPDATE SET key = s.key, value = s.value
+    WHEN MATCHED THEN DELETE
+    ```
+
 ## Logging
 
 Logging is configured using the logger of the [MergeIntoCommand](MergeIntoCommand.md#logging).
