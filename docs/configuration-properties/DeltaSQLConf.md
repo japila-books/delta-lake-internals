@@ -26,7 +26,7 @@
 
 [spark.databricks.delta.merge.optimizeMatchedOnlyMerge.enabled](index.md#merge.optimizeMatchedOnlyMerge.enabled)
 
-## stats.collect { #DELTA_COLLECT_STATS }
+## <span id="DELTA_COLLECT_STATS"> stats.collect { #stats.collect }
 
 [spark.databricks.delta.stats.collect](index.md#stats.collect)
 

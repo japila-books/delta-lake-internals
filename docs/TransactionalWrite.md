@@ -87,11 +87,11 @@ writeFiles(
   additionalConstraints: Seq[Constraint]): Seq[FileAction]  // (2)!
 ```
 
-1. Uses no `additionalConstraints`
-2. Uses no `writeOptions`
-3. Uses no `additionalConstraints`
+1. Uses no [Constraint](constraints/Constraint.md)s
+2. Uses no write-related [DeltaOptions](delta/DeltaOptions.md)
+3. Uses no [Constraint](constraints/Constraint.md)s
 
-`writeFiles` writes the given `data` to a [delta table](#deltaLog) and returns [AddFile](AddFile.md)s with [AddCDCFile](AddCDCFile.md)s (from the [DelayedCommitProtocol](#writeFiles-committer)).
+`writeFiles` writes the given `data` (as a `Dataset`) to a [delta table](#deltaLog) and returns [AddFile](AddFile.md)s with [AddCDCFile](AddCDCFile.md)s (from the [DelayedCommitProtocol](#writeFiles-committer)).
 
 ---
 
@@ -103,6 +103,8 @@ writeFiles(
 * `OptimizeExecutor` is requested to [runOptimizeBinJob](commands/optimize/OptimizeExecutor.md#runOptimizeBinJob)
 * `UpdateCommand` is requested to [rewriteFiles](commands/update/UpdateCommand.md#rewriteFiles)
 * `DeltaSink` is requested to [add a streaming micro-batch](delta/DeltaSink.md#addBatch)
+
+---
 
 `writeFiles` creates a [DeltaInvariantCheckerExec](constraints/DeltaInvariantCheckerExec.md) and a [DelayedCommitProtocol](DelayedCommitProtocol.md) to write out files to the [data path](DeltaLog.md#dataPath) (of the [DeltaLog](#deltaLog)).
 
@@ -118,62 +120,91 @@ writeFiles(
 
 In the end, `writeFiles` returns the [addedStatuses](DelayedCommitProtocol.md#addedStatuses) of the [DelayedCommitProtocol](#writeFiles-committer) committer.
 
----
+### Step 1. Mark Write Executed { #writeFiles-hasWritten }
 
-Internally, `writeFiles` turns the [hasWritten](#hasWritten) flag on (`true`).
+Even though it is so early, `writeFiles` turns the [hasWritten](#hasWritten) flag on (`true`).
 
 !!! note
     After `writeFiles`, no [metadata updates](OptimisticTransactionImpl.md#updateMetadata-AssertionError-hasWritten) in the transaction are permitted.
 
-`writeFiles` [performCDCPartition](#performCDCPartition) (into a possibly-augmented CDF-aware `DataFrame` and a corresponding schema with an additional [CDF-aware __is_cdc column](change-data-feed/CDCReader.md#CDC_PARTITION_COL)).
+`writeFiles` [performs CDC augmentation](#performCDCPartition) (for the delta table with [Change Data Feed enabled](change-data-feed/CDCReader.md#isCDCEnabledOnTable)).
 
-`writeFiles` [normalize](#normalizeData) the (possibly-augmented CDF-aware) `DataFrame`.
+`writeFiles` [normalizes](#normalizeData) the output dataset (based on the given [DeltaOptions](delta/DeltaOptions.md)).
 
-`writeFiles` [gets the partitioning columns](#getPartitioningColumns) based on the (possibly-augmented CDF-aware) partition schema.
+### Step 2. Partitioning Columns { #writeFiles-partitioningColumns }
 
-### <span id="writeFiles-committer"> DelayedCommitProtocol Committer
+`writeFiles` [determines the partitioning columns](#getPartitioningColumns) of the data(set) to be written out.
 
-`writeFiles` [creates a DelayedCommitProtocol committer](#getCommitter) for the [data path](DeltaLog.md#dataPath) (of the [DeltaLog](#deltaLog)).
+### Step 3. DelayedCommitProtocol Committer { #writeFiles-committer }
 
-### <span id="writeFiles-optionalStatsTracker"> DeltaJobStatisticsTracker
+`writeFiles` [creates a DelayedCommitProtocol committer](#getCommitter) for the [data path](DeltaLog.md#dataPath) of the [delta table](#deltaLog).
 
-`writeFiles` creates a [DeltaJobStatisticsTracker](DeltaJobStatisticsTracker.md) if [spark.databricks.delta.stats.collect](configuration-properties/DeltaSQLConf.md#DELTA_COLLECT_STATS) configuration property is enabled.
+### Step 4. DeltaJobStatisticsTracker { #writeFiles-optionalStatsTracker }
 
-### <span id="writeFiles-constraints"> Constraints
+`writeFiles` may or may not [create a DeltaJobStatisticsTracker](#getOptionalStatsTrackerAndStatsCollection) based on [stats.collect](configuration-properties/index.md#stats.collect) configuration property.
 
-`writeFiles` collects [constraint](constraints/Constraint.md)s:
+### Step 5. Constraints { #writeFiles-constraints }
+
+`writeFiles` collects [Constraint](constraints/Constraint.md)s:
 
 1. From the [table metadata](constraints/Constraints.md#getAll) ([CHECK constraints](check-constraints/index.md) and [Column Invariants](column-invariants/index.md))
-1. Generated columns (after [normalizeData](#normalizeData))
-1. The given `additionalConstraints`
+1. [Generated Columns](generated-columns/index.md) (from [normalization](#normalizeData))
+1. The given additional [Constraint](constraints/Constraint.md)s
 
-### <span id="writeFiles-deltaTransactionalWrite"> deltaTransactionalWrite Execution ID
+### Step 6. New deltaTransactionalWrite Execution ID { #writeFiles-deltaTransactionalWrite }
 
-`writeFiles` requests a new Execution ID (that is used to track all Spark jobs of `FileFormatWriter.write` in Spark SQL) with the physical query plan after [normalizeData](#normalizeData) and `deltaTransactionalWrite` name.
+`writeFiles` requests a new execution ID ([Spark SQL]({{ book.spark_sql }}/SQLExecution/#withNewExecutionId)) with `deltaTransactionalWrite` name to execute a Spark write job.
 
-### <span id="writeFiles-DeltaInvariantCheckerExec"><span id="writeFiles-FileFormatWriter"> DeltaInvariantCheckerExec
+!!! note "FileFormatWriter"
+    Delta Lake uses [Spark SQL]({{ book.spark_sql }}/connectors/FileFormatWriter/#write) infrastructure to write data out.
 
-`writeFiles` creates a [DeltaInvariantCheckerExec](constraints/DeltaInvariantCheckerExec.md) unary physical operator (with the executed plan of the normalized query execution as the child operator).
+### Step 6.1 No Custom Partitioning { #writeFiles-outputSpec }
 
-### <span id="writeFiles-BasicWriteJobStatsTracker"> BasicWriteJobStatsTracker
+`writeFiles` uses a `FileFormatWriter.OutputSpec` with no custom partition locations.
 
-`writeFiles` creates a `BasicWriteJobStatsTracker` ([Spark SQL]({{ book.spark_sql }}/datasources/BasicWriteJobStatsTracker)) if [spark.databricks.delta.history.metricsEnabled](configuration-properties/DeltaSQLConf.md#DELTA_HISTORY_METRICS_ENABLED) configuration property is enabled.
+### Step 6.2 DeltaInvariantCheckerExec { #writeFiles-physicalPlan }
 
-### <span id="writeFiles-options"> Write Options
+`writeFiles` creates a [DeltaInvariantCheckerExec](constraints/DeltaInvariantCheckerExec.md) unary physical operator (with the executed plan of the normalized query execution as the child operator and the [constraints](#writeFiles-constraints)).
 
-`writeFiles` filters out all the [write options](delta/DeltaOptions.md) (from the given `writeOptions`) except the following:
+!!! note
+    The `DeltaInvariantCheckerExec` physical operator is later used as the physical plan to for the [data to be written out](#writeFiles-FileFormatWriter).
 
-1. [maxRecordsPerFile](delta/DeltaOptions.md#MAX_RECORDS_PER_FILE)
-1. [compression](delta/DeltaOptions.md#COMPRESSION)
+### Step 6.3 BasicWriteJobStatsTracker { #writeFiles-statsTrackers }
 
-### <span id="writeFiles-FileFormatWriter"> FileFormatWriter
+`writeFiles` may or may not create a `BasicWriteJobStatsTracker` ([Spark SQL]({{ book.spark_sql }}/connectors/BasicWriteJobStatsTracker/)) based on [history.metricsEnabled](configuration-properties/index.md#history.metricsEnabled) configuration property.
 
-As the last step under the [new execution ID](#writeFiles-deltaTransactionalWrite) `writeFiles` writes out the data (using [FileFormatWriter]({{ book.spark_sql }}/datasources/FileFormatWriter#write)).
+With [history.metricsEnabled](configuration-properties/index.md#history.metricsEnabled) enabled (and `BasicWriteJobStatsTracker` created), `writeFiles` [registers](SQLMetricsReporting.md#registerSQLMetrics) the following metrics to be collected (_tracked_):
 
-!!! tip
-    Enable `ALL` logging level for [org.apache.spark.sql.execution.datasources.FileFormatWriter]({{ book.spark_sql }}/datasources/FileFormatWriter#logging) logger to see what happens inside.
+Metric Name | UI Description
+------------|---------------
+ `numFiles` | number of written files
+ `numOutputBytes` | written output
+ `numOutputRows` | number of output rows
+ `numParts` | number of dynamic part
+ `jobCommitTime` | job commit time
 
-### <span id="writeFiles-FileActions"> AddFiles and AddCDCFiles
+### Step 6.4 Write Options { #writeFiles-options }
+
+`writeFiles` makes sure (_filters out_) that there are only the following [write options](delta/DeltaOptions.md) used (from the given `writeOptions`), if specified:
+
+* [compression](delta/DeltaOptions.md#COMPRESSION)
+* [maxRecordsPerFile](delta/DeltaOptions.md#MAX_RECORDS_PER_FILE)
+
+### Step 6.5 FileFormatWriter { #writeFiles-FileFormatWriter }
+
+As the very last step within the scope of the [new execution ID](#writeFiles-deltaTransactionalWrite), `writeFiles` writes out the data (using [Spark SQL]({{ book.spark_sql }}/connectors/FileFormatWriter/#write) infrastructure).
+
+??? tip "Logging"
+    Enable `ALL` logging level for [org.apache.spark.sql.execution.datasources.FileFormatWriter]({{ book.spark_sql }}/connectors/FileFormatWriter#logging) logger to see what happens inside.
+
+`writeFiles` uses the following (among the others):
+
+* [DeltaInvariantCheckerExec](#writeFiles-physicalPlan) as the physical plan
+* The [partitioning columns](#writeFiles-partitioningColumns)
+* No bucketing
+* [DeltaJobStatisticsTracker](#writeFiles-optionalStatsTracker) and [BasicWriteJobStatsTracker](#writeFiles-statsTrackers)
+
+### Step 7. AddFiles and AddCDCFiles { #writeFiles-FileActions }
 
 In the end, `writeFiles` returns [AddFile](AddFile.md)s and [AddCDCFile](AddCDCFile.md)s (from the [DelayedCommitProtocol](#writeFiles-committer)).
 
