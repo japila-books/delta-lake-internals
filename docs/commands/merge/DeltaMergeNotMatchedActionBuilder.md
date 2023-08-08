@@ -29,13 +29,13 @@ insert(
 
 `insert` [adds an insert clause](#addInsertClause) (with the `values`).
 
-### <span id="insertAll"> insertAll
+### insertAll { #insertAll }
 
 ```scala
 insertAll(): DeltaMergeBuilder
 ```
 
-`insertAll` requests the [DeltaMergeBuilder](#mergeBuilder) to register a new [DeltaMergeIntoInsertClause](DeltaMergeIntoInsertClause.md).
+`insertAll` requests the [DeltaMergeBuilder](#mergeBuilder) to register a new FIXME.
 
 ### <span id="insertExpr"> insertExpr
 
@@ -46,14 +46,16 @@ insertExpr(
 
 `insertExpr` [adds an insert clause](#addInsertClause) (with the `values`).
 
-## <span id="addInsertClause"> Registering New DeltaMergeIntoInsertClause
+## Registering New FIXME { #addInsertClause }
 
 ```scala
 addInsertClause(
   setValues: Map[String, Column]): DeltaMergeBuilder
 ```
 
-`addInsertClause` requests the [DeltaMergeBuilder](#mergeBuilder) to register a new [DeltaMergeIntoInsertClause](DeltaMergeIntoInsertClause.md) (similarly to [insertAll](#insertAll) but with the given `setValues`).
+`addInsertClause` requests the [DeltaMergeBuilder](#mergeBuilder) to register a new FIXME (similarly to [insertAll](#insertAll) but with the given `setValues`).
+
+---
 
 `addInsertClause` is used when:
 

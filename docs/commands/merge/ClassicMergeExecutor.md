@@ -18,6 +18,90 @@ findTouchedFiles(
   deltaTxn: OptimisticTransaction): (Seq[AddFile], DeduplicateCDFDeletes)
 ```
 
+!!! important
+    `findTouchedFiles` is such a fine piece of art (_a Delta gem_). It uses a custom accumulator, a UDF (to use this accumulator to record touched file names) and `input_file_name()` standard function for the names of the files read.
+
+    It is always worth keeping in mind that Delta Lake uses files for data storage and that is why `input_file_name()` standard function works. It would not work for non-file-based data sources.
+
+??? note "Example 1: Understanding the Internals of `findTouchedFiles`"
+
+    The following query writes out a 10-element dataset using the default parquet data source to `/tmp/parquet` directory:
+
+    ```scala
+    val target = "/tmp/parquet"
+    spark.range(10).write.save(target)
+    ```
+
+    The number of parquet part files varies based on the number of partitions (CPU cores).
+
+    The following query loads the parquet dataset back alongside `input_file_name()` standard function to mimic `findTouchedFiles`'s behaviour.
+
+    ```scala
+    val FILE_NAME_COL = "_file_name_"
+    val dataFiles = spark.read.parquet(target).withColumn(FILE_NAME_COL, input_file_name())
+    ```
+
+    ```text
+    scala> dataFiles.show(truncate = false)
+    +---+---------------------------------------------------------------------------------------+
+    |id |_file_name_                                                                            |
+    +---+---------------------------------------------------------------------------------------+
+    |4  |file:///tmp/parquet/part-00007-76df546f-91f8-4cbb-8fcc-f51478e0db31-c000.snappy.parquet|
+    |0  |file:///tmp/parquet/part-00001-76df546f-91f8-4cbb-8fcc-f51478e0db31-c000.snappy.parquet|
+    |3  |file:///tmp/parquet/part-00006-76df546f-91f8-4cbb-8fcc-f51478e0db31-c000.snappy.parquet|
+    |6  |file:///tmp/parquet/part-00011-76df546f-91f8-4cbb-8fcc-f51478e0db31-c000.snappy.parquet|
+    |1  |file:///tmp/parquet/part-00003-76df546f-91f8-4cbb-8fcc-f51478e0db31-c000.snappy.parquet|
+    |8  |file:///tmp/parquet/part-00014-76df546f-91f8-4cbb-8fcc-f51478e0db31-c000.snappy.parquet|
+    |2  |file:///tmp/parquet/part-00004-76df546f-91f8-4cbb-8fcc-f51478e0db31-c000.snappy.parquet|
+    |7  |file:///tmp/parquet/part-00012-76df546f-91f8-4cbb-8fcc-f51478e0db31-c000.snappy.parquet|
+    |5  |file:///tmp/parquet/part-00009-76df546f-91f8-4cbb-8fcc-f51478e0db31-c000.snappy.parquet|
+    |9  |file:///tmp/parquet/part-00015-76df546f-91f8-4cbb-8fcc-f51478e0db31-c000.snappy.parquet|
+    +---+---------------------------------------------------------------------------------------+
+    ```
+
+    As you may have thought, not all part files have got data and so they are not included in the dataset. That is when `findTouchedFiles` uses `groupBy` operator and `count` action to calculate match frequency.
+
+    ```text
+    val counts = dataFiles.groupBy(FILE_NAME_COL).count()
+    scala> counts.show(truncate = false)
+    +---------------------------------------------------------------------------------------+-----+
+    |_file_name_                                                                            |count|
+    +---------------------------------------------------------------------------------------+-----+
+    |file:///tmp/parquet/part-00015-76df546f-91f8-4cbb-8fcc-f51478e0db31-c000.snappy.parquet|1    |
+    |file:///tmp/parquet/part-00007-76df546f-91f8-4cbb-8fcc-f51478e0db31-c000.snappy.parquet|1    |
+    |file:///tmp/parquet/part-00003-76df546f-91f8-4cbb-8fcc-f51478e0db31-c000.snappy.parquet|1    |
+    |file:///tmp/parquet/part-00011-76df546f-91f8-4cbb-8fcc-f51478e0db31-c000.snappy.parquet|1    |
+    |file:///tmp/parquet/part-00012-76df546f-91f8-4cbb-8fcc-f51478e0db31-c000.snappy.parquet|1    |
+    |file:///tmp/parquet/part-00006-76df546f-91f8-4cbb-8fcc-f51478e0db31-c000.snappy.parquet|1    |
+    |file:///tmp/parquet/part-00001-76df546f-91f8-4cbb-8fcc-f51478e0db31-c000.snappy.parquet|1    |
+    |file:///tmp/parquet/part-00004-76df546f-91f8-4cbb-8fcc-f51478e0db31-c000.snappy.parquet|1    |
+    |file:///tmp/parquet/part-00009-76df546f-91f8-4cbb-8fcc-f51478e0db31-c000.snappy.parquet|1    |
+    |file:///tmp/parquet/part-00014-76df546f-91f8-4cbb-8fcc-f51478e0db31-c000.snappy.parquet|1    |
+    +---------------------------------------------------------------------------------------+-----+
+    ```
+
+    Let's load all the part files in the `/tmp/parquet` directory and find which file(s) have no data.
+
+    ```scala
+    import scala.sys.process._
+    val cmd = (s"ls $target" #| "grep .parquet").lineStream
+    val allFiles = cmd.toArray.toSeq.toDF(FILE_NAME_COL)
+      .select(concat(lit(s"file://$target/"), col(FILE_NAME_COL)) as FILE_NAME_COL)
+    val joinType = "left_anti" // MergeIntoCommand uses inner as it wants data file
+    val noDataFiles = allFiles.join(dataFiles, Seq(FILE_NAME_COL), joinType)
+    ```
+
+    Mind that the data vs non-data datasets could be different, but that should not "interfere" with the main reasoning flow.
+
+    ```text
+    scala> noDataFiles.show(truncate = false)
+    +---------------------------------------------------------------------------------------+
+    |_file_name_                                                                            |
+    +---------------------------------------------------------------------------------------+
+    |file:///tmp/parquet/part-00000-76df546f-91f8-4cbb-8fcc-f51478e0db31-c000.snappy.parquet|
+    +---------------------------------------------------------------------------------------+
+    ```
+
 !!! note "Fun Fact: Synomyms"
     The phrases "touched files" and "files to rewrite" are synonyms.
 
@@ -76,6 +160,8 @@ Column Name | Expression
 !!! danger "FIXME Describe how these calculations happen"
 
 `findTouchedFiles`...FIXME (finished at `hasMultipleMatches`)
+
+!!! note "Move the content from MergeIntoCommand"
 
 ---
 

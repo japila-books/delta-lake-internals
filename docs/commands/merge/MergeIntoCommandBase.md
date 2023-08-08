@@ -92,6 +92,22 @@ Used when:
 
 * `MergeIntoCommandBase` is requested to [run](#run)
 
+### Source Data { #source }
+
+```scala
+source: LogicalPlan
+```
+
+A `LogicalPlan` ([Spark SQL]({{ book.spark_sql }}/logical-operators/LogicalPlan)) of the source data to merge from (internally referred to as _source_)
+
+See:
+
+* [MergeIntoCommand](MergeIntoCommand.md#source)
+
+Used when:
+
+* `MergeIntoCommandBase` is requested to [run](#run)
+
 ## Implementations
 
 * [MergeIntoCommand](MergeIntoCommand.md)
@@ -208,9 +224,95 @@ In the end, `buildTargetPlanWithIndex` creates a `Project` logical operator with
       spark: SparkSession): Seq[Row]
     ```
 
-    `run` is part of the `RunnableCommand` ([Spark SQL]({{ book.spark_sql }}/logical-operators/RunnableCommand#run)) abstraction.
+    `run` is part of the `RunnableCommand` ([Spark SQL]({{ book.spark_sql }}/logical-operators/RunnableCommand/)) abstraction.
 
-`run`...FIXME
+`run` is a transactional operation that is made up of the following steps:
+
+1. [Begin Transaction](#run-withNewTransaction)
+    1. [schema.autoMerge.enabled](#run-canMergeSchema)
+    1. [FileActions](#run-deltaActions)
+    1. [Register Metrics](#run-registerSQLMetrics)
+1. [Commit Transaction](#run-commit)
+1. [Re-Cache Target Delta Table](#run-recacheByPlan)
+1. [Post Metric Updates](#run-postDriverMetricUpdates)
+
+!!! note "FIXME Review the sections"
+
+### Begin Transaction { #run-withNewTransaction }
+
+`run` [starts a new transaction](../../DeltaLog.md#withNewTransaction) (on the [target delta table](#targetDeltaLog)).
+
+### schema.autoMerge.enabled { #run-canMergeSchema }
+
+Only when [spark.databricks.delta.schema.autoMerge.enabled](../../configuration-properties/DeltaSQLConf.md#DELTA_SCHEMA_AUTO_MIGRATE) configuration property is enabled, `run` [updates the metadata](../../ImplicitMetadataOperation.md#updateMetadata) (of the transaction) with the following:
+
+* [migratedSchema](#migratedSchema) (if defined) or the schema of the [target](#target)
+* `isOverwriteMode` flag off
+* `rearrangeOnly` flag off
+
+### FileActions { #run-deltaActions }
+
+`run` determines [FileAction](../../FileAction.md)s.
+
+#### Single Insert-Only Merge { #run-writeInsertsOnlyWhenNoMatchedClauses }
+
+For a [single insert-only merge](#isSingleInsertOnly) with [spark.databricks.delta.merge.optimizeInsertOnlyMerge.enabled](../../configuration-properties/DeltaSQLConf.md#MERGE_INSERT_ONLY_ENABLED) configuration property enabled, `run` [writeInsertsOnlyWhenNoMatchedClauses](#writeInsertsOnlyWhenNoMatchedClauses).
+
+#### Other Merges { #run-writeAllChanges }
+
+Otherwise, `run` [finds the files to rewrite](#findTouchedFiles) (i.e., [AddFile](../../AddFile.md)s with the rows that satisfy the merge condition) and uses them to [write out merge changes](#writeAllChanges).
+
+The `AddFile`s are converted into [RemoveFile](../../AddFile.md#remove)s.
+
+`run` gives the `RemoveFile`s and the written-out [FileAction](../../FileAction.md)s.
+
+### Register Metrics { #run-registerSQLMetrics }
+
+`run` [registers](../../SQLMetricsReporting.md#registerSQLMetrics) the [SQL metrics](#metrics) (with the [current transaction](../../OptimisticTransaction.md)).
+
+### Commit Transaction { #run-commit }
+
+`run` [commits](../../OptimisticTransactionImpl.md#commit) the [current transaction](../../OptimisticTransaction.md) (with the [FileActions](#run-deltaActions) and `MERGE` operation).
+
+### Re-Cache Target Delta Table { #run-recacheByPlan }
+
+`run` requests the `CacheManager` to re-cache the [target](#target) plan.
+
+### Post Metric Updates { #run-postDriverMetricUpdates }
+
+In the end, `run` posts the SQL metric updates (as a `SparkListenerDriverAccumUpdates` ([Apache Spark]({{ book.spark_core }}/SparkListenerEvent#SparkListenerDriverAccumUpdates)) Spark event) to `SparkListener`s (incl. Spark UI).
+
+!!! note
+    Use `SparkListener` ([Apache Spark]({{ book.spark_core }}/SparkListener)) to intercept `SparkListenerDriverAccumUpdates` events.
+
+### Building Target Logical Query Plan for AddFiles { #buildTargetPlanWithFiles }
+
+```scala
+buildTargetPlanWithFiles(
+  deltaTxn: OptimisticTransaction,
+  files: Seq[AddFile]): LogicalPlan
+```
+
+`buildTargetPlanWithFiles` creates a DataFrame to represent the given [AddFile](../../AddFile.md)s to access the analyzed logical query plan. `buildTargetPlanWithFiles` requests the given [OptimisticTransaction](../../OptimisticTransaction.md) for the [DeltaLog](../../OptimisticTransaction.md#deltaLog) to [create a DataFrame](../../DeltaLog.md#createDataFrame) (for the [Snapshot](../../OptimisticTransaction.md#snapshot) and the given [AddFile](../../AddFile.md)s).
+
+In the end, `buildTargetPlanWithFiles` creates a `Project` logical operator with `Alias` expressions so the output columns of the analyzed logical query plan (of the `DataFrame` of the `AddFiles`) reference the target's output columns (by name).
+
+!!! note
+    The output columns of the target delta table are associated with a [OptimisticTransaction](../../OptimisticTransaction.md) as the [Metadata](../../OptimisticTransactionImpl.md#metadata).
+
+    ```scala
+    deltaTxn.metadata.schema
+    ```
+
+### Exceptions { #run-exceptions }
+
+`run` throws an `AnalysisException` when the target schema is different than the delta table's (has changed after analysis phase):
+
+```text
+The schema of your Delta table has changed in an incompatible way since your DataFrame or DeltaTable object was created. Please redefine your DataFrame or DeltaTable object. Changes:
+[schemaDiff]
+This check can be turned off by setting the session configuration key spark.databricks.delta.checkLatestSchemaOnRead to false.
+```
 
 ## isInsertOnly { #isInsertOnly }
 
@@ -234,13 +336,13 @@ In other words, `isInsertOnly` is enabled (`true`) when all the following hold:
 * `MergeIntoCommand` is requested to [run a merge](MergeIntoCommand.md#runMerge) (and [prepareSourceDFAndReturnMaterializeReason](MergeIntoMaterializeSource.md#prepareSourceDFAndReturnMaterializeReason))
 * `MergeIntoCommandBase` is requested to [run](#run) (to [shouldMaterializeSource](MergeIntoMaterializeSource.md#shouldMaterializeSource))
 
-## Is This Merge Matched Only { #isMatchedOnly }
+## Matched-Only Merge { #isMatchedOnly }
 
 ```scala
 isMatchedOnly: Boolean
 ```
 
-`isMatchedOnly` is enabled (`true`) for a [matched-only merge](index.md#matched-only-merges):
+`isMatchedOnly` is enabled (`true`) when this merge is [WHEN MATCHED-only](index.md#matched-only-merges):
 
 * There is at least one [WHEN MATCHED clause](#matchedClauses)
 * There are no other clause types (neither [WHEN NOT MATCHED](#notMatchedClauses) nor [WHEN NOT MATCHED BY SOURCE](#notMatchedBySourceClauses))

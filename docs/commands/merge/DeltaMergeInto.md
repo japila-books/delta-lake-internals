@@ -45,7 +45,7 @@ When created, `DeltaMergeInto` [verifies the actions](DeltaMergeIntoClause.md#ve
 
 `DeltaMergeInto` is a `SupportsSubquery` ([Spark SQL]({{ book.spark_sql }}/logical-operators/SupportsSubquery/))
 
-## <span id="apply"> Creating DeltaMergeInto
+## Creating DeltaMergeInto { #apply }
 
 ```scala
 apply(
@@ -55,7 +55,9 @@ apply(
   whenClauses: Seq[DeltaMergeIntoClause]): DeltaMergeInto
 ```
 
-`apply` collects [DeltaMergeIntoInsertClause](DeltaMergeIntoInsertClause.md)s and [DeltaMergeIntoMatchedClause](DeltaMergeIntoMatchedClause.md)s from the given `whenClauses` and creates a `DeltaMergeInto` command (with [migrateSchema](#migrateSchema) flag off).
+`apply`...FIXME
+
+---
 
 `apply` is used when:
 

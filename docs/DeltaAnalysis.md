@@ -88,7 +88,7 @@ Insert clauses cannot be part of the WHEN MATCHED clause in MERGE INTO.
 
 `apply` creates the following for the `notMatched` actions:
 
-* [DeltaMergeIntoInsertClause](commands/merge/DeltaMergeIntoInsertClause.md)s for `InsertAction`s
+* FIXME for `InsertAction`s
 
 `apply` throws an `AnalysisException` for the other actions:
 
