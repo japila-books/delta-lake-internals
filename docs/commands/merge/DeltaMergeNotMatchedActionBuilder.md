@@ -20,7 +20,7 @@ tags:
 
 ## Operators
 
-### <span id="insert"> insert
+### insert { #insert }
 
 ```scala
 insert(
@@ -35,9 +35,9 @@ insert(
 insertAll(): DeltaMergeBuilder
 ```
 
-`insertAll` requests the [DeltaMergeBuilder](#mergeBuilder) to register a new FIXME.
+`insertAll` requests the [DeltaMergeBuilder](#mergeBuilder) to [add](DeltaMergeBuilder.md#withClause) a new [DeltaMergeIntoNotMatchedInsertClause](DeltaMergeIntoNotMatchedInsertClause.md) (with the [notMatchCondition](#notMatchCondition), if specified).
 
-### <span id="insertExpr"> insertExpr
+### insertExpr { #insertExpr }
 
 ```scala
 insertExpr(
@@ -46,14 +46,14 @@ insertExpr(
 
 `insertExpr` [adds an insert clause](#addInsertClause) (with the `values`).
 
-## Registering New FIXME { #addInsertClause }
+## Registering New DeltaMergeIntoNotMatchedInsertClause { #addInsertClause }
 
 ```scala
 addInsertClause(
   setValues: Map[String, Column]): DeltaMergeBuilder
 ```
 
-`addInsertClause` requests the [DeltaMergeBuilder](#mergeBuilder) to register a new FIXME (similarly to [insertAll](#insertAll) but with the given `setValues`).
+`addInsertClause` requests the [DeltaMergeBuilder](#mergeBuilder) to [register](DeltaMergeBuilder.md#withClause) a new [DeltaMergeIntoNotMatchedInsertClause](DeltaMergeIntoNotMatchedInsertClause.md) (similarly to [insertAll](#insertAll) but with the given `setValues`).
 
 ---
 
