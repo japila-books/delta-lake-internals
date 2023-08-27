@@ -49,7 +49,7 @@ sourceDF was not initialized! Call prepareSourceDFAndReturnMaterializeReason bef
 
 `getSourceDF` is used when:
 
-* `ClassicMergeExecutor` is requested to [findTouchedFiles](ClassicMergeExecutor.md#findTouchedFiles) and [write out all merge changes](ClassicMergeExecutor.md#writeAllChanges)
+* `ClassicMergeExecutor` is requested to [findTouchedFiles](ClassicMergeExecutor.md#findTouchedFiles) and [write out merge changes](ClassicMergeExecutor.md#writeAllChanges)
 * `InsertOnlyMergeExecutor` is requested to [write out inserts](InsertOnlyMergeExecutor.md#writeOnlyInserts)
 
 ## mergeMaterializedSource RDD { #materializedSourceRDD }

@@ -1,6 +1,6 @@
 # DeduplicateCDFDeletes
 
-`DeduplicateCDFDeletes` supports execution of [ClassicMergeExecutor](ClassicMergeExecutor.md) to [write out all merge changes to a target delta table](ClassicMergeExecutor.md#writeAllChanges) (when [there are files to rewrite](ClassicMergeExecutor.md#findTouchedFiles)) with [Change Data Feed](../../change-data-feed/index.md) enabled.
+`DeduplicateCDFDeletes` supports execution of [ClassicMergeExecutor](ClassicMergeExecutor.md) to [write out merge changes to a target delta table](ClassicMergeExecutor.md#writeAllChanges) (when [there are files to rewrite](ClassicMergeExecutor.md#findTouchedFiles)) with [Change Data Feed](../../change-data-feed/index.md) enabled.
 
 More precisely, `DeduplicateCDFDeletes` is an input argument of [MergeOutputGeneration](MergeOutputGeneration.md)s when requested for the following:
 

@@ -128,7 +128,7 @@ Column(CDC_TYPE_NOT_CDC).as("_change_type")
 `CDC_TYPE_NOT_CDC` is used when (with [Change Data Feed](index.md) enabled):
 
 * `DeleteCommand` is requested to [rewriteFiles](../commands/delete/DeleteCommand.md#rewriteFiles)
-* `MergeIntoCommand` is requested to [run a merge](../commands/merge/MergeIntoCommand.md#runMerge) (for a non-[insert-only merge](../commands/merge/index.md#insert-only-merges) or with [merge.optimizeInsertOnlyMerge.enabled](../configuration-properties/index.md#merge.optimizeInsertOnlyMerge.enabled) disabled that uses `ClassicMergeExecutor` to [write out all merge changes](../commands/merge/ClassicMergeExecutor.md#writeAllChanges) with [generateWriteAllChangesOutputCols](../commands/merge/MergeOutputGeneration.md#generateWriteAllChangesOutputCols) and [generateCdcAndOutputRows](../commands/merge/MergeOutputGeneration.md#generateCdcAndOutputRows))
+* `MergeIntoCommand` is requested to [run a merge](../commands/merge/MergeIntoCommand.md#runMerge) (for a non-[insert-only merge](../commands/merge/index.md#insert-only-merges) or with [merge.optimizeInsertOnlyMerge.enabled](../configuration-properties/index.md#merge.optimizeInsertOnlyMerge.enabled) disabled that uses `ClassicMergeExecutor` to [write out merge changes](../commands/merge/ClassicMergeExecutor.md#writeAllChanges) with [generateWriteAllChangesOutputCols](../commands/merge/MergeOutputGeneration.md#generateWriteAllChangesOutputCols) and [generateCdcAndOutputRows](../commands/merge/MergeOutputGeneration.md#generateCdcAndOutputRows))
 * `UpdateCommand` is requested to [withUpdatedColumns](../commands/update/UpdateCommand.md#withUpdatedColumns)
 * `WriteIntoDelta` is requested to [write](../commands/WriteIntoDelta.md#write)
 

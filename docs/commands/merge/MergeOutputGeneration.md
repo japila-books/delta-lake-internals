@@ -61,13 +61,49 @@ generateWriteAllChangesOutputCols(
   shouldCountDeletedRows: Boolean = true): IndexedSeq[Column]
 ```
 
-`generateWriteAllChangesOutputCols`...FIXME
+`generateWriteAllChangesOutputCols` generates `CaseWhen` expressions for every column in the given `outputColNames`.
+
+`generateWriteAllChangesOutputCols` generates expressions to use in `CaseWhen`s using [generateAllActionExprs](#generateAllActionExprs) followed by [generateClauseOutputExprs](#generateClauseOutputExprs).
+
+`generateWriteAllChangesOutputCols` [generateAllActionExprs](#generateAllActionExprs) for the following [DeltaMergeIntoClause](DeltaMergeIntoClause.md)s separately (among the given `clausesWithPrecompConditions`):
+
+* [DeltaMergeIntoMatchedClause](DeltaMergeIntoMatchedClause.md)s
+* [DeltaMergeIntoNotMatchedClause](DeltaMergeIntoNotMatchedClause.md)s
+* [DeltaMergeIntoNotMatchedBySourceClause](DeltaMergeIntoNotMatchedBySourceClause.md)s
+
+---
+
+`generateWriteAllChangesOutputCols` [generateAllActionExprs](#generateAllActionExprs) for [DeltaMergeIntoMatchedClause](DeltaMergeIntoMatchedClause.md)s only (among the given `clausesWithPrecompConditions`) followed by [generateClauseOutputExprs](#generateClauseOutputExprs) (`matchedExprs`).
+
+`generateWriteAllChangesOutputCols` [generateAllActionExprs](#generateAllActionExprs) for [DeltaMergeIntoNotMatchedClause](DeltaMergeIntoNotMatchedClause.md)s only (among the given `clausesWithPrecompConditions`) followed by [generateClauseOutputExprs](#generateClauseOutputExprs) (`notMatchedExprs`).
+
+`generateWriteAllChangesOutputCols` [generateAllActionExprs](#generateAllActionExprs) for [DeltaMergeIntoNotMatchedBySourceClause](DeltaMergeIntoNotMatchedBySourceClause.md)s only (among the given `clausesWithPrecompConditions`) followed by [generateClauseOutputExprs](#generateClauseOutputExprs) (`notMatchedBySourceExprs`).
+
+`generateWriteAllChangesOutputCols` creates the following two expressions:
+
+1. `ifSourceRowNull` that is `true` when [\_source_row_present_](MergeIntoCommandBase.md#SOURCE_ROW_PRESENT_COL) is `null`
+1. `ifTargetRowNull` that is `true` when [\_target_row_present_](MergeIntoCommandBase.md#TARGET_ROW_PRESENT_COL) is `null`
+
+`generateWriteAllChangesOutputCols` creates a `CaseWhen` expression for every column in the given `outputColNames` as follows:
+
+* `ifSourceRowNull` expression is `true`, use `notMatchedBySourceExprs`
+* `ifTargetRowNull` expression is `true`, use `notMatchedExprs`
+* Otherwise, use `matchedExprs`
+
+In the end, `generateWriteAllChangesOutputCols` prints out the following DEBUG message to the logs:
+
+```text
+writeAllChanges: join output expressions
+  [outputCols1]
+  [outputCols2]
+  ...
+```
 
 ---
 
 `generateWriteAllChangesOutputCols` is used when:
 
-* `ClassicMergeExecutor` is requested to [write out all merge changes](ClassicMergeExecutor.md#writeAllChanges)
+* `ClassicMergeExecutor` is requested to [write out merge changes](ClassicMergeExecutor.md#writeAllChanges)
 
 ### generateAllActionExprs { #generateAllActionExprs }
 
@@ -103,6 +139,12 @@ generateCdcAndOutputRows(
   deduplicateDeletes: DeduplicateCDFDeletes): DataFrame
 ```
 
+`generateCdcAndOutputRows` is used by `ClassicMergeExecutor` to generate `preOutputDF` dataframe that is written out when requested to [write out merge changes](ClassicMergeExecutor.md#writeAllChanges) with [Change Data Feed](../../change-data-feed/index.md) enabled.
+The dataframe to write out is as follows:
+
+* Only [\_row_dropped_](MergeIntoCommandBase.md#ROW_DROPPED_COL) rows with `false` value
+* No [\_row_dropped_](MergeIntoCommandBase.md#ROW_DROPPED_COL) column (it is dropped from the output)
+
 ??? note "Very Position-Sensitive"
     `generateCdcAndOutputRows` makes hard assumptions on which columns are on given positions (and so there are a lot of _magic numbers_ floating around).
 
@@ -118,7 +160,8 @@ generateCdcAndOutputRows(
 
     ## outputCols
 
-    `outputCols` is [generateWriteAllChangesOutputCols](#generateWriteAllChangesOutputCols).
+    `outputCols` is an indexed collection that is generated using [generateWriteAllChangesOutputCols](#generateWriteAllChangesOutputCols).
+    The names of `outputCols` can be displayed in the [logs](#logging) at DEBUG level. 
 
     * `outputCols.dropRight(1)`
     * `outputCols(outputCols.length - 2)`
@@ -163,7 +206,7 @@ Otherwise, `generateCdcAndOutputRows` [packAndExplodeCDCOutput](#packAndExplodeC
 
 `generateCdcAndOutputRows` is used when:
 
-* `ClassicMergeExecutor` is requested to [write out all merge changes](ClassicMergeExecutor.md#writeAllChanges) (with [Change Data Feed](../../change-data-feed/index.md) enabled)
+* `ClassicMergeExecutor` is requested to [write out merge changes](ClassicMergeExecutor.md#writeAllChanges) (with [Change Data Feed](../../change-data-feed/index.md) enabled)
 
 ### packAndExplodeCDCOutput { #packAndExplodeCDCOutput }
 
@@ -204,3 +247,7 @@ With [WHEN NOT MATCHED THEN INSERT clauses](DeduplicateCDFDeletes.md#includesIns
 `deduplicateCDFDeletes` deduplicates rows based on `_target_row_index_` and `_change_type` columns.
 
 In the end, `deduplicateCDFDeletes` drops `_target_row_index_` and `_source_row_index` columns.
+
+## Logging
+
+`MergeOutputGeneration` is an abstract class and logging is configured using the logger of the [implementations](#implementations) (that boils down to [MergeIntoCommand](MergeIntoCommand.md#logging)).

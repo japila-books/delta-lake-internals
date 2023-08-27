@@ -8,7 +8,7 @@
 ??? note "InsertOnlyMergeExecutor"
     When one of the above requirements is not met, [InsertOnlyMergeExecutor](InsertOnlyMergeExecutor.md) is used instead.
 
-With `ClassicMergeExecutor` chosen, [MergeIntoCommand](MergeIntoCommand.md) starts by [finding data files to rewrite](#findTouchedFiles) and, only when there are any `AddFile`s found, requests `ClassicMergeExecutor` to [write out all merge changes to a target delta table](#writeAllChanges).
+With `ClassicMergeExecutor` chosen, [MergeIntoCommand](MergeIntoCommand.md) starts by [finding data files to rewrite](#findTouchedFiles) and, only when there are any `AddFile`s found, requests `ClassicMergeExecutor` to [write out merge changes to a target delta table](#writeAllChanges).
 
 ## Finding (Add)Files to Rewrite { #findTouchedFiles }
 

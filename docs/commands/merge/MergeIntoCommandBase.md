@@ -370,7 +370,7 @@ shouldOptimizeMatchedOnlyMerge(
 
 `shouldOptimizeMatchedOnlyMerge` is used when:
 
-* `ClassicMergeExecutor` is requested to [write out all merge changes](ClassicMergeExecutor.md#writeAllChanges)
+* `ClassicMergeExecutor` is requested to [write out merge changes](ClassicMergeExecutor.md#writeAllChanges)
 
 ## Finding Target-Only Predicates (Among Merge and Clause Conditions) { #getTargetOnlyPredicates }
 
@@ -523,7 +523,7 @@ Child `Expression` | A `Literal` with the given `valueToReturn` (when executed)
 Usage | Metric Name | valueToReturn
 ------|-------------|--------------
  `ClassicMergeExecutor` to [find files to rewrite](ClassicMergeExecutor.md#findTouchedFiles) | [numSourceRows](#numSourceRows) | `true`
- `ClassicMergeExecutor` to [write out all merge changes](ClassicMergeExecutor.md#writeAllChanges) | [numSourceRowsInSecondScan](#numSourceRowsInSecondScan) | `true`
+ `ClassicMergeExecutor` to [write out merge changes](ClassicMergeExecutor.md#writeAllChanges) | [numSourceRowsInSecondScan](#numSourceRowsInSecondScan) | `true`
  | [numTargetRowsCopied](#numTargetRowsCopied) | `false`
  `InsertOnlyMergeExecutor` to [write out inserts](InsertOnlyMergeExecutor.md#writeOnlyInserts) | [numSourceRows](#numSourceRows) or [numSourceRowsInSecondScan](#numSourceRowsInSecondScan) | `true`
  `InsertOnlyMergeExecutor` to [generateInsertsOnlyOutputCols](InsertOnlyMergeExecutor.md#generateInsertsOnlyOutputCols) | [numTargetRowsInserted](#numTargetRowsInserted) | `false`
@@ -555,5 +555,5 @@ In the end, `writeFiles` requests the given [OptimisticTransaction](../../Optimi
 
 `writeFiles` is used when `MergeIntoCommand` is requested to [run a merge](MergeIntoCommand.md#runMerge) and does one of the following:
 
-* `ClassicMergeExecutor` is requested to [write out all merge changes](ClassicMergeExecutor.md#writeAllChanges)
+* `ClassicMergeExecutor` is requested to [write out merge changes](ClassicMergeExecutor.md#writeAllChanges)
 * `InsertOnlyMergeExecutor` is requested to [write out inserts](InsertOnlyMergeExecutor.md#writeOnlyInserts)
