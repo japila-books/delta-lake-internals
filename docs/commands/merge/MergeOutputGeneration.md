@@ -127,15 +127,37 @@ generateCdcAndOutputRows(
 
     * `outputColNames.dropRight(1)`
 
-`generateCdcAndOutputRows` drops the last column from the given `outputCols` and adds `_change_type` column with a special sentinel value (`null`).
+`generateCdcAndOutputRows` drops the last column from the given `outputCols` and adds `_change_type` column with a [special sentinel value](../../change-data-feed/CDCReader.md#CDC_TYPE_NOT_CDC) (`null`).
 
 !!! danger "FIXME What's at the last position?"
 
 !!! danger "FIXME What's at the second last position?"
 
-`generateCdcAndOutputRows`...FIXME
+`generateCdcAndOutputRows` creates a new `_row_dropped_` column that negates the values in the column that is just before `_change_type` column (the second from the end of the given `outputCols`) and becomes the _new second from the end_ (replaces the _former second from the end_).
 
-In the end, `generateCdcAndOutputRows` [deduplicateCDFDeletes](#deduplicateCDFDeletes) if [deduplicateDeletes is enabled](DeduplicateCDFDeletes.md#enabled). Otherwise, `generateCdcAndOutputRows` [packAndExplodeCDCOutput](#packAndExplodeCDCOutput).
+`generateCdcAndOutputRows` drops two last columns in the given `noopCopyExprs` with the following new columns (in that order):
+
+1. A `false` literal
+1. A literal with [update_preimage](../../change-data-feed/CDCReader.md#CDC_TYPE_UPDATE_PREIMAGE) value
+
+`generateCdcAndOutputRows` makes the column names to be aliases from the given `outputColNames` (`updatePreimageCdcOutput`).
+
+`generateCdcAndOutputRows` creates a new column (`cdcArray`) with a `CaseWhen` expression based on the last column of the given `outputCols` (`cdcTypeCol`). Every `CaseWhen` case creates an `array` for the value of the last column (in the given `outputCols`):
+
+* [insert](../../change-data-feed/CDCReader.md#CDC_TYPE_INSERT)
+* [update_postimage](../../change-data-feed/CDCReader.md#CDC_TYPE_UPDATE_POSTIMAGE)
+* [delete](../../change-data-feed/CDCReader.md#CDC_TYPE_DELETE)
+
+`generateCdcAndOutputRows` creates a new column (`cdcToMainDataArray`) with an `If` expression based on the value of `packedCdc._change_type` column.
+If the value is one of the following literals, the `If` expression gives an array with `packedCdc` column and _something extra_:
+
+* [insert](../../change-data-feed/CDCReader.md#CDC_TYPE_INSERT)
+* [update_postimage](../../change-data-feed/CDCReader.md#CDC_TYPE_UPDATE_POSTIMAGE)
+
+Otherwise, the `If` expression gives an array with `packedCdc` column alone.
+
+In the end, `generateCdcAndOutputRows` [deduplicateCDFDeletes](#deduplicateCDFDeletes) if [deduplicateDeletes is enabled](DeduplicateCDFDeletes.md#enabled).
+Otherwise, `generateCdcAndOutputRows` [packAndExplodeCDCOutput](#packAndExplodeCDCOutput).
 
 ---
 
