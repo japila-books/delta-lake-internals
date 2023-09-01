@@ -82,12 +82,11 @@ plugins:
   # https://squidfunk.github.io/mkdocs-material/reference/#built-in-meta-plugin
   - meta
   # https://squidfunk.github.io/mkdocs-material/setup/setting-up-tags/
-  # FIXME Seems broken in 9.2.5-insiders-4.40.1
-  # - tags:
-  #     enabled: !ENV [CI, false]
-  #     tags_extra_files:
-  #       developer-api.md:
-  #         - developerapi
+  - tags:
+      enabled: !ENV [CI, false]
+      tags_extra_files:
+        developer-api.md:
+          - developerapi
 
 extra:
   analytics:
