@@ -215,6 +215,18 @@ Used when:
 
 * `MergeIntoMaterializeSource` is requested to [shouldMaterializeSource](../commands/merge/MergeIntoMaterializeSource.md#shouldMaterializeSource)
 
+### <span id="MERGE_MATERIALIZE_SOURCE_MAX_ATTEMPTS"> merge.materializeSource.maxAttempts { #merge.materializeSource.maxAttempts }
+
+**spark.databricks.delta.merge.materializeSource.maxAttempts**
+
+How many times retry execution of [MERGE command](../commands/merge/index.md) in case the data (an RDD block) of the materialized source RDD is lost
+
+Default: `4`
+
+Used when:
+
+* `MergeIntoMaterializeSource` is requested to [runWithMaterializedSourceLostRetries](../commands/merge/MergeIntoMaterializeSource.md#runWithMaterializedSourceLostRetries)
+
 ### <span id="MERGE_MATERIALIZE_SOURCE_RDD_STORAGE_LEVEL"> merge.materializeSource.rddStorageLevel { #merge.materializeSource.rddStorageLevel }
 
 **spark.databricks.delta.merge.materializeSource.rddStorageLevel**

@@ -10,6 +10,10 @@
 
 [spark.databricks.delta.merge.materializeSource](index.md#merge.materializeSource)
 
+## merge.materializeSource.maxAttempts { #MERGE_MATERIALIZE_SOURCE_MAX_ATTEMPTS }
+
+[spark.databricks.delta.merge.materializeSource.maxAttempts](index.md#merge.materializeSource.maxAttempts)
+
 ## merge.materializeSource.rddStorageLevel { #MERGE_MATERIALIZE_SOURCE_RDD_STORAGE_LEVEL }
 
 [spark.databricks.delta.merge.materializeSource.rddStorageLevel](index.md#merge.materializeSource.rddStorageLevel)

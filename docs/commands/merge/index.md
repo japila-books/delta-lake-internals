@@ -93,6 +93,10 @@ Merge command uses different joins when executed.
 
 [writeFiles](MergeIntoCommandBase.md#writeFiles) can repartition the output dataframe based on [merge.repartitionBeforeWrite.enabled](../../configuration-properties/index.md#merge.repartitionBeforeWrite.enabled).
 
+## Materialized Source
+
+The source of `MERGE` command can be [materialized](MergeIntoMaterializeSource.md#shouldMaterializeSource) based on [spark.databricks.delta.merge.materializeSource](../../configuration-properties/index.md#merge.materializeSource) configuration property.
+
 ## Demo
 
 [Demo: Merge Operation](../../demo/merge-operation.md)

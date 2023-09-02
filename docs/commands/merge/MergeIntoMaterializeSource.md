@@ -180,13 +180,18 @@ runWithMaterializedSourceLostRetries(
   runMergeFunc: SparkSession => Seq[Row]): Seq[Row]
 ```
 
-`runWithMaterializedSourceLostRetries`...FIXME
+`runWithMaterializedSourceLostRetries` executes the `runMergeFunc` function until it succeeds or runs out of configured allowed attempts (based on [spark.databricks.delta.merge.materializeSource.maxAttempts](../../configuration-properties/index.md#merge.materializeSource.maxAttempts)).
+
+In the end, `runWithMaterializedSourceLostRetries` does the following:
+
+* Unpersists the [materializedSourceRDD](#materializedSourceRDD) (if available)
+* Removes (`None`) the [materializedSourceRDD](#materializedSourceRDD) and the [sourceDF](#sourceDF)
 
 ---
 
 `runWithMaterializedSourceLostRetries` is used when:
 
-* `MergeIntoCommandBase` is requested to [run](MergeIntoCommandBase.md#run)
+* `MergeIntoCommand` is requested to [run](MergeIntoCommandBase.md#run)
 
 ## Logging
 
