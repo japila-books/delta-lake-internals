@@ -2,7 +2,7 @@
 
 `ClassicMergeExecutor` is an extension of the [MergeOutputGeneration](MergeOutputGeneration.md) abstraction for "classic" execution of [MERGE command](index.md) (when requested to [run a merge](MergeIntoCommand.md#runMerge)) when one of the following holds:
 
-* MERGE is not [insert only](index.md#insert-only-merges) (so there are [WHEN MATCHED](MergeIntoCommandBase.md#matchedClauses) or [WHEN NOT MATCHED BY SOURCE](MergeIntoCommandBase.md#notMatchedBySourceClauses) clauses)
+* `MERGE` is not [insert-only](index.md#insert-only-merges) (so there are [WHEN MATCHED](MergeIntoCommandBase.md#matchedClauses) or [WHEN NOT MATCHED BY SOURCE](MergeIntoCommandBase.md#notMatchedBySourceClauses) clauses)
 * [spark.databricks.delta.merge.optimizeInsertOnlyMerge.enabled](../../configuration-properties/index.md#merge.optimizeInsertOnlyMerge.enabled) is disabled (that would lead to use [InsertOnlyMergeExecutor](InsertOnlyMergeExecutor.md) instead)
 
 ??? note "InsertOnlyMergeExecutor"
@@ -147,27 +147,61 @@ Column Name | Expression
 
 `findTouchedFiles` creates a joined DataFrame (`joinToFindTouchedFiles`) with the `sourceDF` and `targetDF` dataframes, the [condition](MergeIntoCommandBase.md#condition) as the join condition, and the join type (INNER or RIGHT OUTER).
 
-`findTouchedFiles` creates `recordTouchedFileName` UDF to record the names of the touched files (based on the `_file_name_` column) and add them to the accumulator (based on the `matchedPredicate` that is in turn based on the conditional [WHEN MATCHED clauses](MergeIntoCommandBase.md#matchedClauses)).
+`findTouchedFiles` creates `recordTouchedFileName` UDF.
+`recordTouchedFileName` UDF does two things:
+
+1. Records the names of the touched files (the `_file_name_` column) in the `touchedFilesAccum` accumulator
+1. Returns `1`
 
 `findTouchedFiles` uses the two columns above (`_row_id_` and `_file_name_`) to select from the `joinToFindTouchedFiles` dataframe (`collectTouchedFiles`).
+`findTouchedFiles` uses the `recordTouchedFileName` UDF with the `_file_name_` column and the `matchedPredicate` (based on the conditional [WHEN MATCHED clauses](MergeIntoCommandBase.md#matchedClauses)).
+The result is recorded in `one` column.
+In other words, the `collectTouchedFiles` dataframe is made up of two columns:
+
+* `_row_id_` (the values of `monotonically_increasing_id` standard function)
+* `one` (with the result of the `recordTouchedFileName` UDF)
 
 `findTouchedFiles` calculates the frequency of matches per source row.
+`findTouchedFiles` calculates the total of `1`s per `_row_id_` column. The result is recorded in `count` column.
+In other words, the `matchedRowCounts` dataframe is made up of two columns:
 
-!!! danger "FIXME Describe how this calculation happens"
+* `_row_id_` (the values of `monotonically_increasing_id` standard function)
+* `count` (the total of the `1`s in `one` column)
 
-`findTouchedFiles` computes `multipleMatchCount` and `multipleMatchSum`.
+`findTouchedFiles` counts the number of rows in the `matchedRowCounts` dataset with `count` above `1` (`multipleMatchCount`) and the total of `count` (`multipleMatchSum`).
+If there are no such rows, the values are both `0`.
 
-!!! danger "FIXME Describe how these calculations happen"
+`findTouchedFiles` [makes a sanity check](MergeIntoCommandBase.md#throwErrorOnMultipleMatches) (based on `multipleMatchCount`).
 
-`findTouchedFiles`...FIXME (finished at `hasMultipleMatches`)
+With multiple matches (occurred and allowed), `findTouchedFiles` stores the difference of `multipleMatchSum` and `multipleMatchCount` in the [multipleMatchDeleteOnlyOvercount](MergeIntoCommandBase.md#multipleMatchDeleteOnlyOvercount).
+This is only allowed for delete-only queries.
 
-!!! note "Move the content from MergeIntoCommand"
+`findTouchedFiles` prints out the following TRACE message to the logs (with the value from the `touchedFilesAccum` accumulator):
+
+```text
+findTouchedFiles: matched files:
+  [touchedFileNames]
+```
+
+!!! note "Finding Matched Files as Distributed Computation"
+    There are a couple of very fundamental Spark "things" in play here:
+
+    1. The `touchedFilesAccum` accumulator
+    1. The `recordTouchedFileName` UDF that uses the accumulator
+    1. The `collectTouchedFiles` dataframe with `input_file_name` standard function (as  `_file_name_` column)
+    1. Calculating `multipleMatchCount` and `multipleMatchSum` values in a Spark job
+
+    All together, it allowed `findTouchedFiles` to run a distributed computation (a Spark job) to collect (_accumulate_) matched files.
+
+`findTouchedFiles`...FIXME (finished at `nameToAddFileMap` and `generateCandidateFileMap`)
+
+!!! danger "FIXME Move the content from MergeIntoCommand"
 
 ---
 
 `findTouchedFiles` is used when:
 
-* `MergeIntoCommand` is requested to [run a merge](MergeIntoCommand.md#runMerge)
+* `MergeIntoCommand` is requested to [run a merge](MergeIntoCommand.md#runMerge) (with a non-[insert-only](MergeIntoCommandBase.md#isInsertOnly) merge or [merge.optimizeInsertOnlyMerge.enabled](../../configuration-properties/index.md#MERGE_INSERT_ONLY_ENABLED) disabled)
 
 ## Writing Out All Merge Changes (to Delta Table) { #writeAllChanges }
 
@@ -243,7 +277,7 @@ Metric Name | valueToReturn
 1. `writeAllChanges` adds an extra column `_source_row_present_` (with the expression to increment the [numSourceRowsInSecondScan](MergeIntoCommandBase.md#numSourceRowsInSecondScan) metric) to `sourceDF` (`left`)
 1. `writeAllChanges` adds an extra column `_target_row_present_` (with `true` value) to `baseTargetDF` (`targetDF`)
 1. With `DeduplicateCDFDeletes` enabled, `writeAllChanges` adds an extra column `_target_row_index_` (with `monotonically_increasing_id` expression) to `targetDF` (`right`)
-1. In the end, the left and right DataFrames are joined (using `DataFrame.join` operator) with [condition](MergeIntoCommandBase.md#condition) as the join condition and the determined join type (`rightOuter` or `fullOuter`)
+1. In the end, the left and right DataFrames are joined (using `DataFrame.join` operator) with the [condition](MergeIntoCommandBase.md#condition) as the join condition and the determined join type (`rightOuter` or `fullOuter`)
 
 !!! note "FIXME Explain why all the above columns are needed"
 
@@ -280,7 +314,7 @@ In the end, `writeAllChanges` updates the [metrics](MergeIntoCommandBase.md#metr
 
 `writeAllChanges` is used when:
 
-* `MergeIntoCommand` is requested to [run a merge](MergeIntoCommand.md#runMerge) (for non [isInsertOnly](MergeIntoCommandBase.md#isInsertOnly) or [merge.optimizeInsertOnlyMerge.enabled](../../configuration-properties/index.md#merge.optimizeInsertOnlyMerge.enabled) disabled)
+* `MergeIntoCommand` is requested to [run a merge](MergeIntoCommand.md#runMerge) (with a non-[insert-only](MergeIntoCommandBase.md#isInsertOnly) merge or [merge.optimizeInsertOnlyMerge.enabled](../../configuration-properties/index.md#MERGE_INSERT_ONLY_ENABLED) disabled)
 
 ## Logging
 
