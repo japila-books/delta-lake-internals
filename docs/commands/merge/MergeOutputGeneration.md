@@ -219,7 +219,16 @@ packAndExplodeCDCOutput(
   dedupColumns: Seq[Column]): DataFrame
 ```
 
-`packAndExplodeCDCOutput`...FIXME
+In essence, `packAndExplodeCDCOutput` explodes `projectedCDC` and `cdcToMainDataArray` columns, and extracts the given `outputColNames` columns from the `packedData` struct.
+
+---
+
+`packAndExplodeCDCOutput` does the following with the given `sourceDf` dataframe (in the order):
+
+1. Selects the given `cdcArray` column under `projectedCDC` alias and all the given `dedupColumns` columns
+1. Explodes the `projectedCDC` column (which is the given `cdcArray` column) under `packedCdc` alias alongside all the given `dedupColumns` columns
+1. Explodes the given `cdcToMainDataArray` column under `packedData` alias alongside all the given `dedupColumns` columns
+1. Selects the given `outputColNames` columns from the `packedData` struct (_flattens_ them using `packedData.[name]` selector) alongside all the given `dedupColumns` columns
 
 ### deduplicateCDFDeletes { #deduplicateCDFDeletes }
 
