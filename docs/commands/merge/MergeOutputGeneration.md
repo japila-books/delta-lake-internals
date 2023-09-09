@@ -126,7 +126,36 @@ generateClauseOutputExprs(
   noopExprs: Seq[Expression]): Seq[Expression]
 ```
 
-`generateClauseOutputExprs`...FIXME
+`generateClauseOutputExprs` considers the following cases based on the given `clauses`:
+
+ProcessedClauses | Expressions Returned
+-----------------|---------------------
+ No `clauses` | The given `noopExprs`
+ An unconditional clause being the first | The `actions` of the unconditional clause
+ One clause | `If` expressions for every action of this clause
+ Many clauses | `CaseWhen` expressions
+
+In essence, `generateClauseOutputExprs` translates the given `clauses` into Catalyst `Expression`s ([Spark SQL]({{ book.spark_sql }}/expressions/Expression/)).
+
+---
+
+When there is nothing to update or delete (there are empty `clauses` given), `generateClauseOutputExprs` does nothing and returns the given `noopExprs` expressions.
+
+Otherwise, `generateClauseOutputExprs` checks how many `clauses` are there (and _some other conditions_) to generate the following expressions:
+
+* The `actions` expressions of the only single clause (in `clauses`) when with no `condition`
+* For a single clause (in `clauses`), as many `If` expressions as there are `actions`
+* Many `CaseWhen` expressions
+
+!!! note
+    It is assumed that when the first clause (in `clauses`) is unconditional (no `condition`), it is the only clause.
+
+In the end, `generateClauseOutputExprs` prints out the following DEBUG message to the logs:
+
+```text
+writeAllChanges: expressions
+  [clauseExprs]
+```
 
 ## generateCdcAndOutputRows { #generateCdcAndOutputRows }
 
