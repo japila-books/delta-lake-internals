@@ -1,11 +1,11 @@
 ---
 title: DeltaMergeIntoMatchedUpdateClause
-subtitle: WHEN MATCHED UPDATE Clause
+subtitle: WHEN MATCHED THEN UPDATE Clause
 ---
 
-# DeltaMergeIntoMatchedUpdateClause &mdash; WHEN MATCHED UPDATE Clause
+# DeltaMergeIntoMatchedUpdateClause &mdash; WHEN MATCHED THEN UPDATE Clause
 
-`DeltaMergeIntoMatchedUpdateClause` is a [DeltaMergeIntoMatchedClause](DeltaMergeIntoMatchedClause.md) that represents `WHEN MATCHED UPDATE` clauses in the following:
+`DeltaMergeIntoMatchedUpdateClause` is a [DeltaMergeIntoMatchedClause](DeltaMergeIntoMatchedClause.md) that represents `WHEN MATCHED THEN UPDATE` clauses in the following:
 
 * `UpdateAction` and `UpdateStarAction` matched actions in `MergeIntoTable` ([Spark SQL]({{ book.spark_sql }}/logical-operators/MergeIntoTable)) logical command
 * [DeltaMergeMatchedActionBuilder.updateAll](DeltaMergeMatchedActionBuilder.md#updateAll), [DeltaMergeMatchedActionBuilder.update](DeltaMergeMatchedActionBuilder.md#update) and [DeltaMergeMatchedActionBuilder.updateExpr](DeltaMergeMatchedActionBuilder.md#updateExpr) operators

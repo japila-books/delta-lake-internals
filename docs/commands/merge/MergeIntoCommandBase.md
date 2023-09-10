@@ -135,6 +135,10 @@ Name | web UI
  `numTargetPartitionsAfterSkipping` | number of target partitions after skipping
  `numTargetPartitionsRemovedFrom` | number of target partitions from which files were removed
  `numTargetPartitionsAddedTo` | number of target partitions to which files were added
+ [numTargetRowsMatchedDeleted](#numTargetRowsMatchedDeleted) | number of rows deleted by a matched clause
+ [numTargetRowsNotMatchedBySourceDeleted](#numTargetRowsNotMatchedBySourceDeleted) | number of rows deleted by a not matched by source clause
+ [numTargetRowsMatchedUpdated](#numTargetRowsMatchedUpdated) | number of rows updated by a matched clause
+ [numTargetRowsNotMatchedBySourceUpdated](#numTargetRowsNotMatchedBySourceUpdated) | number of rows updated by a not matched by source clause
  `executionTimeMs` | time taken to execute the entire operation
  [scanTimeMs](#scanTimeMs) | time taken to scan the files for matches
  [rewriteTimeMs](#rewriteTimeMs) | time taken to rewrite the matched files
@@ -142,6 +146,14 @@ Name | web UI
 ### number of deleted rows { #numTargetRowsDeleted }
 
 ### number of inserted rows { #numTargetRowsInserted }
+
+### number of rows deleted by a matched clause { #numTargetRowsMatchedDeleted }
+
+### number of rows deleted by a not matched by source clause { #numTargetRowsNotMatchedBySourceDeleted }
+
+### number of rows updated by a matched clause { #numTargetRowsMatchedUpdated }
+
+### number of rows updated by a not matched by source clause { #numTargetRowsNotMatchedBySourceUpdated }
 
 ### number of source rows (during repeated scan) { #numSourceRowsInSecondScan }
 
