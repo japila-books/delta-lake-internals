@@ -115,13 +115,29 @@ generateAllActionExprs(
   shouldCountDeletedRows: Boolean): Seq[ProcessedClause]
 ```
 
-`generateAllActionExprs`...FIXME
+??? note "`cdcEnabled` is `enableChangeDataFeed` Table Property"
+    The given `cdcEnabled` flag is controled by [enableChangeDataFeed](MergeIntoCommandBase.md#isCdcEnabled) table property.
+
+??? note "`shouldCountDeletedRows` is Always Enabled (`true`)"
+    The given `shouldCountDeletedRows` flag is always `true` (comes from the `shouldCountDeletedRows` flag of [generateWriteAllChangesOutputCols](#generateWriteAllChangesOutputCols) and defaults to `true`).
+
+`generateAllActionExprs` converts (_translates_) the given [DeltaMergeIntoClause](DeltaMergeIntoClause.md)s (`clausesWithPrecompConditions`) into `ProcessedClause`s.
+
+`ProcessedClause` is a pair of the [condition](DeltaMergeIntoClause.md#condition) expression and actions (based on the type of `DeltaMergeIntoClause`) as follows:
+
+DeltaMergeIntoClause | Actions
+---------------------|--------
+[WHEN MATCHED UPDATE](DeltaMergeIntoMatchedUpdateClause.md) | <ol><li>All [DeltaMergeAction](DeltaMergeIntoClause.md#actions)s<li>Expression to increment metrics:<ul><li> `numTargetRowsUpdated`<li>`numTargetRowsMatchedUpdated`</ul>Returns `false` literal<li> [update_postimage](../../change-data-feed/CDCReader.md#CDC_TYPE_UPDATE_POSTIMAGE) literal (when the given `cdcEnabled` flag enabled) or none</ol>
+[DeltaMergeIntoNotMatchedBySourceUpdateClause](DeltaMergeIntoNotMatchedBySourceUpdateClause.md) | <ol><li>All [DeltaMergeAction](DeltaMergeIntoClause.md#actions)s<li>Expression to increment metrics:<ul><li> `numTargetRowsUpdated`<li>`numTargetRowsNotMatchedBySourceUpdated`</ul>Returns `false` literal<li>[update_postimage](../../change-data-feed/CDCReader.md#CDC_TYPE_UPDATE_POSTIMAGE) literal (when the given `cdcEnabled` flag enabled) or none</ol>
+[WHEN MATCHED DELETE](DeltaMergeIntoMatchedDeleteClause.md) | <ol><li>All [DeltaMergeAction](DeltaMergeIntoClause.md#actions)s<li>Expression to increment metrics (when `shouldCountDeletedRows` enabled) or `true` literal:<ul><li> `numTargetRowsDeleted`<li>`numTargetRowsMatchedDeleted`</ul>Returns `true` literal<li>[delete](../../change-data-feed/CDCReader.md#CDC_TYPE_DELETE) literal (when the given `cdcEnabled` flag enabled) or none</ol>
+[DeltaMergeIntoNotMatchedBySourceDeleteClause](DeltaMergeIntoNotMatchedBySourceDeleteClause.md) | <ol><li>All [DeltaMergeAction](DeltaMergeIntoClause.md#actions)s<li>Expression to increment metrics (when `shouldCountDeletedRows` enabled) or `true` literal:<ul><li> `numTargetRowsDeleted`<li>`numTargetRowsNotMatchedBySourceDeleted`</ul>Returns `true` literal<li>[delete](../../change-data-feed/CDCReader.md#CDC_TYPE_DELETE) literal (when the given `cdcEnabled` flag enabled) or none</ol>
+[WHEN NOT MATCHED THEN INSERT](DeltaMergeIntoNotMatchedInsertClause.md) | <ol><li>All [DeltaMergeAction](DeltaMergeIntoClause.md#actions)s<li>Expression to increment metrics:<ul><li>`numTargetRowsInserted`</ul>Returns `false` literal<li>[insert](../../change-data-feed/CDCReader.md#CDC_TYPE_INSERT) literal (when the given `cdcEnabled` flag enabled) or none</ol>
 
 ### generateClauseOutputExprs { #generateClauseOutputExprs }
 
 ```scala
 generateClauseOutputExprs(
-  numOutputCols: Integer,
+  numOutputCols: Int,
   clauses: Seq[ProcessedClause],
   noopExprs: Seq[Expression]): Seq[Expression]
 ```
@@ -135,7 +151,7 @@ ProcessedClauses | Expressions Returned
  One clause | `If` expressions for every action of this clause
  Many clauses | `CaseWhen` expressions
 
-In essence, `generateClauseOutputExprs` translates the given `clauses` into Catalyst `Expression`s ([Spark SQL]({{ book.spark_sql }}/expressions/Expression/)).
+In essence, `generateClauseOutputExprs` converts (_translates_) the given `clauses` into Catalyst `Expression`s ([Spark SQL]({{ book.spark_sql }}/expressions/Expression/)).
 
 ---
 

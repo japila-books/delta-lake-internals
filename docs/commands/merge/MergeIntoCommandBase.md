@@ -557,3 +557,18 @@ In the end, `writeFiles` requests the given [OptimisticTransaction](../../Optimi
 
 * `ClassicMergeExecutor` is requested to [write out merge changes](ClassicMergeExecutor.md#writeAllChanges)
 * `InsertOnlyMergeExecutor` is requested to [write out inserts](InsertOnlyMergeExecutor.md#writeOnlyInserts)
+
+## isCdcEnabled { #isCdcEnabled }
+
+```scala
+isCdcEnabled(
+  deltaTxn: OptimisticTransaction): Boolean
+```
+
+`isCdcEnabled` is the value of the [enableChangeDataFeed](../../DeltaConfigs.md#CHANGE_DATA_FEED) table property ([from](../../DeltaConfig.md#fromMetaData) the metadata of a delta table).
+
+---
+
+`isCdcEnabled` is used when:
+
+* `ClassicMergeExecutor` is requested to [findTouchedFiles](ClassicMergeExecutor.md#findTouchedFiles), [writeAllChanges](ClassicMergeExecutor.md#writeAllChanges)
