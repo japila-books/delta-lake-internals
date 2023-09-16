@@ -18,6 +18,10 @@ findTouchedFiles(
   deltaTxn: OptimisticTransaction): (Seq[AddFile], DeduplicateCDFDeletes)
 ```
 
+`findTouchedFiles` is used when:
+
+* `MergeIntoCommand` is requested to [run a merge](MergeIntoCommand.md#runMerge) (with a non-[insert-only](MergeIntoCommandBase.md#isInsertOnly) merge or [merge.optimizeInsertOnlyMerge.enabled](../../configuration-properties/index.md#MERGE_INSERT_ONLY_ENABLED) disabled)
+
 !!! important
     `findTouchedFiles` is such a fine piece of art (_a Delta gem_). It uses a custom accumulator, a UDF (to use this accumulator to record touched file names) and `input_file_name()` standard function for the names of the files read.
 
@@ -32,7 +36,7 @@ findTouchedFiles(
     spark.range(10).write.save(target)
     ```
 
-    The number of parquet part files varies based on the number of partitions (CPU cores).
+    The number of parquet part files varies based on the number of partitions (which depends on the number of CPU cores).
 
     The following query loads the parquet dataset back alongside `input_file_name()` standard function to mimic `findTouchedFiles`'s behaviour.
 
@@ -115,7 +119,57 @@ Property | Value
 
 `findTouchedFiles` registers an internal `SetAccumulator` with `internal.metrics.MergeIntoDelta.touchedFiles` name.
 
+!!! note
+    The name of the accumulator starts with `internal.metrics` prefix so it won't be displayed in the web UI ([Spark Core]({{ book.spark_core }}/accumulators/InternalAccumulator/#internal.metrics)).
+
 `findTouchedFiles` creates a non-deterministic UDF that records the names of touched files (adds them to the accumulator).
+
+??? note "Example 2: Understanding the Internals of `findTouchedFiles`"
+
+    ```scala
+    val TOUCHED_FILES_ACCUM_NAME = "MergeIntoDelta.touchedFiles"
+    val touchedFilesAccum = spark.sparkContext.collectionAccumulator[String](TOUCHED_FILES_ACCUM_NAME)
+    val recordTouchedFileName = udf { (fileName: String) => {
+      touchedFilesAccum.add(fileName)
+      1
+    }}.asNondeterministic()
+    ```
+
+    ```scala
+    val target = "/tmp/parquet"
+    spark.range(10).write.save(target)
+    ```
+
+    ```scala
+    val FILE_NAME_COL = "_file_name_"
+    val dataFiles = spark.read.parquet(target).withColumn(FILE_NAME_COL, input_file_name())
+    val collectTouchedFiles = dataFiles.select(col(FILE_NAME_COL), recordTouchedFileName(col(FILE_NAME_COL)).as("one"))
+    ```
+
+    ```text
+    scala> collectTouchedFiles.show(truncate = false)
+    +---------------------------------------------------------------------------------------+---+
+    |_file_name_                                                                            |one|
+    +---------------------------------------------------------------------------------------+---+
+    |file:///tmp/parquet/part-00007-76df546f-91f8-4cbb-8fcc-f51478e0db31-c000.snappy.parquet|1  |
+    |file:///tmp/parquet/part-00001-76df546f-91f8-4cbb-8fcc-f51478e0db31-c000.snappy.parquet|1  |
+    |file:///tmp/parquet/part-00006-76df546f-91f8-4cbb-8fcc-f51478e0db31-c000.snappy.parquet|1  |
+    |file:///tmp/parquet/part-00011-76df546f-91f8-4cbb-8fcc-f51478e0db31-c000.snappy.parquet|1  |
+    |file:///tmp/parquet/part-00003-76df546f-91f8-4cbb-8fcc-f51478e0db31-c000.snappy.parquet|1  |
+    |file:///tmp/parquet/part-00014-76df546f-91f8-4cbb-8fcc-f51478e0db31-c000.snappy.parquet|1  |
+    |file:///tmp/parquet/part-00004-76df546f-91f8-4cbb-8fcc-f51478e0db31-c000.snappy.parquet|1  |
+    |file:///tmp/parquet/part-00012-76df546f-91f8-4cbb-8fcc-f51478e0db31-c000.snappy.parquet|1  |
+    |file:///tmp/parquet/part-00009-76df546f-91f8-4cbb-8fcc-f51478e0db31-c000.snappy.parquet|1  |
+    |file:///tmp/parquet/part-00015-76df546f-91f8-4cbb-8fcc-f51478e0db31-c000.snappy.parquet|1  |
+    +---------------------------------------------------------------------------------------+---+
+    ```
+
+    ```scala
+    import scala.collection.JavaConverters._
+    val touchedFileNames = touchedFilesAccum.value.asScala.toSeq
+    ```
+
+    Use the Stages tab in web UI to review the accumulator values.
 
 `findTouchedFiles` determines the [AddFiles](../../OptimisticTransactionImpl.md#filterFiles) and prune non-matching files (`dataSkippedFiles`).
 With no [WHEN NOT MATCHED BY SOURCE clauses](MergeIntoCommandBase.md#notMatchedBySourceClauses), `findTouchedFiles` requests the given [OptimisticTransaction](../../OptimisticTransaction.md) for the [AddFiles](../../OptimisticTransactionImpl.md#filterFiles) matching [getTargetOnlyPredicates](MergeIntoCommandBase.md#getTargetOnlyPredicates). Otherwise, `findTouchedFiles` requests for all the [AddFiles](../../OptimisticTransactionImpl.md#filterFiles) (an _accept-all_ predicate).
@@ -136,14 +190,14 @@ When [isMatchedOnly](MergeIntoCommandBase.md#isMatchedOnly), `findTouchedFiles` 
 
 `findTouchedFiles` [gets the source DataFrame](MergeIntoMaterializeSource.md#getSourceDF) and adds an extra column `_source_row_present_` for the `incrSourceRowCountExpr` expression that is used to `DataFrame.filter` by (and, more importanly and as a side effect, counts the number of source rows).
 
-`findTouchedFiles` [builds a target plan](MergeIntoCommandBase.md#buildTargetPlanWithFiles) with the `dataSkippedFiles` files (and any `columnsToDrop` to be dropped).
+`findTouchedFiles` [builds a logical plan](MergeIntoCommandBase.md#buildTargetPlanWithFiles) (`targetPlan`) with the `dataSkippedFiles` files (and `columnsToDrop` to be dropped).
 
-`findTouchedFiles` creates a target DataFrame from the target plan (`targetDF`) with two extra columns:
+`findTouchedFiles` creates a target DataFrame (`targetDF`) from the target plan with two extra columns:
 
 Column Name | Expression
 ------------|-----------
- `_row_id_` | `monotonically_increasing_id`
- `_file_name_` | `input_file_name`
+ `_row_id_` | `monotonically_increasing_id()` standard function
+ `_file_name_` | `input_file_name()` standard function
 
 `findTouchedFiles` creates a joined DataFrame (`joinToFindTouchedFiles`) with the `sourceDF` and `targetDF` dataframes, the [condition](MergeIntoCommandBase.md#condition) as the join condition, and the join type (INNER or RIGHT OUTER).
 
@@ -153,9 +207,11 @@ Column Name | Expression
 1. Records the names of the touched files (the `_file_name_` column) in the `touchedFilesAccum` accumulator
 1. Returns `1`
 
-`findTouchedFiles` uses the two columns above (`_row_id_` and `_file_name_`) to select from the `joinToFindTouchedFiles` dataframe (`collectTouchedFiles`).
-`findTouchedFiles` uses the `recordTouchedFileName` UDF with the `_file_name_` column and the `matchedPredicate` (based on the conditional [WHEN MATCHED clauses](MergeIntoCommandBase.md#matchedClauses)).
-The result is recorded in `one` column.
+`findTouchedFiles` takes the `joinToFindTouchedFiles` dataframe to select the columns:
+
+* `_row_id_`
+* `one` that is `recordTouchedFileName` UDF executed on the `_file_name_` column and the `matchedPredicate` (based on the conditional [WHEN MATCHED clauses](MergeIntoCommandBase.md#matchedClauses))
+
 In other words, the `collectTouchedFiles` dataframe is made up of two columns:
 
 * `_row_id_` (the values of `monotonically_increasing_id` standard function)
@@ -168,15 +224,23 @@ In other words, the `matchedRowCounts` dataframe is made up of two columns:
 * `_row_id_` (the values of `monotonically_increasing_id` standard function)
 * `count` (the total of the `1`s in `one` column)
 
+!!! note
+    No Spark job has been submitted yet. `findTouchedFiles` is still in "query preparation" mode.
+
 `findTouchedFiles` counts the number of rows in the `matchedRowCounts` dataset with `count` above `1` (`multipleMatchCount`) and the total of `count` (`multipleMatchSum`).
 If there are no such rows, the values are both `0`.
+
+!!! note
+    Since `findTouchedFiles` triggers `collect` action, there should be a Spark SQL query reported (and possibly Spark jobs) in web UI.
 
 `findTouchedFiles` [makes a sanity check](MergeIntoCommandBase.md#throwErrorOnMultipleMatches) (based on `multipleMatchCount`).
 
 With multiple matches (occurred and allowed), `findTouchedFiles` stores the difference of `multipleMatchSum` and `multipleMatchCount` in the [multipleMatchDeleteOnlyOvercount](MergeIntoCommandBase.md#multipleMatchDeleteOnlyOvercount).
 This is only allowed for delete-only queries.
 
-`findTouchedFiles` prints out the following TRACE message to the logs (with the value from the `touchedFilesAccum` accumulator):
+`findTouchedFiles` requests the `touchedFilesAccum` accumulator for the touched file names (`touchedFileNames`).
+
+`findTouchedFiles` prints out the following TRACE message to the logs (with `touchedFileNames` from the `touchedFilesAccum` accumulator):
 
 ```text
 findTouchedFiles: matched files:
@@ -193,15 +257,34 @@ findTouchedFiles: matched files:
 
     All together, it allowed `findTouchedFiles` to run a distributed computation (a Spark job) to collect (_accumulate_) matched files.
 
-`findTouchedFiles`...FIXME (finished at `nameToAddFileMap` and `generateCandidateFileMap`)
+`findTouchedFiles` [generateCandidateFileMap](#generateCandidateFileMap) for the files that match the target-only predicates (`dataSkippedFiles`).
+`findTouchedFiles` uses the candidate file map to convert the matched files (`touchedFileNames`) to [getTouchedFile](#getTouchedFile).
 
-!!! danger "FIXME Move the content from MergeIntoCommand"
+`findTouchedFiles` updates the following performance metrics:
 
----
+* [numTargetFilesBeforeSkipping](MergeIntoCommandBase.md#numTargetFilesBeforeSkipping)
+* [numTargetBytesBeforeSkipping](MergeIntoCommandBase.md#numTargetBytesBeforeSkipping)
+* [numTargetFilesAfterSkipping](MergeIntoCommandBase.md#numTargetFilesAfterSkipping)
+* [numTargetBytesAfterSkipping](MergeIntoCommandBase.md#numTargetBytesAfterSkipping)
+* [numTargetPartitionsAfterSkipping](MergeIntoCommandBase.md#numTargetPartitionsAfterSkipping)
+* [numTargetFilesRemoved](MergeIntoCommandBase.md#numTargetFilesRemoved)
+* [numTargetBytesRemoved](MergeIntoCommandBase.md#numTargetBytesRemoved)
+* [numTargetPartitionsRemovedFrom](MergeIntoCommandBase.md#numTargetPartitionsRemovedFrom)
 
-`findTouchedFiles` is used when:
+In the end, `findTouchedFiles` returns the following:
 
-* `MergeIntoCommand` is requested to [run a merge](MergeIntoCommand.md#runMerge) (with a non-[insert-only](MergeIntoCommandBase.md#isInsertOnly) merge or [merge.optimizeInsertOnlyMerge.enabled](../../configuration-properties/index.md#MERGE_INSERT_ONLY_ENABLED) disabled)
+1. touched files (as [AddFile](../../AddFile.md)s)
+1. [DeduplicateCDFDeletes](DeduplicateCDFDeletes.md)
+
+### <span id="findTouchedFiles-dataSkippedFiles"> Data-Skipped Files
+
+For no [notMatchedBySourceClauses](MergeIntoCommandBase.md#notMatchedBySourceClauses), `findTouchedFiles` [splits conjunctive predicates](MergeIntoCommandBase.md#getTargetOnlyPredicates) (`And` expressions) in the [merge condition](MergeIntoCommandBase.md#condition) and determines a so-called _target-only predicates_ (predicates with the [target](#target) columns only).
+
+`findTouchedFiles` requests the given [OptimisticTransaction](../../OptimisticTransaction.md) for the [data files](../../OptimisticTransactionImpl.md#filterFiles) based on [notMatchedBySourceClauses](MergeIntoCommandBase.md#notMatchedBySourceClauses).
+For no [notMatchedBySourceClauses](MergeIntoCommandBase.md#notMatchedBySourceClauses), `findTouchedFiles` requests only the ones matching the target-only predicates. Otherwise, `findTouchedFiles` requests all the data files.
+
+!!! note "Merge Condition and Data Skipping"
+    This is the moment when the [merge condition](MergeIntoCommandBase.md#condition) of this [MergeIntoCommand](MergeIntoCommand.md) participates in [Data Skipping](../../data-skipping/index.md).
 
 ## Writing Out All Merge Changes (to Delta Table) { #writeAllChanges }
 
