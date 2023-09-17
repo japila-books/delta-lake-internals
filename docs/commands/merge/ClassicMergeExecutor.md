@@ -354,15 +354,23 @@ Metric Name | valueToReturn
  [numSourceRowsInSecondScan](MergeIntoCommandBase.md#numSourceRowsInSecondScan) | `true`
  [numTargetRowsCopied](MergeIntoCommandBase.md#numTargetRowsCopied) | `false`
 
-`writeAllChanges` creates a DataFrame (`joinedDF`):
+`writeAllChanges` creates `joinedDF` DataFrame based on the [source dataframe](MergeIntoMaterializeSource.md#getSourceDF) and the [buildTargetPlanWithFiles](MergeIntoCommandBase.md#buildTargetPlanWithFiles), for the left- and right side of the join, respectively.
 
-1. `writeAllChanges` adds an extra column `_source_row_index` (with `monotonically_increasing_id` expression) to the [source dataframe](MergeIntoMaterializeSource.md#getSourceDF) (possibly materialized) when the given `DeduplicateCDFDeletes` is enabled and `includesInserts`. The goal is to identify inserted rows during the cdf deleted rows deduplication.
-1. `writeAllChanges` adds an extra column `_source_row_present_` (with the expression to increment the [numSourceRowsInSecondScan](MergeIntoCommandBase.md#numSourceRowsInSecondScan) metric) to `sourceDF` (`left`)
-1. `writeAllChanges` adds an extra column `_target_row_present_` (with `true` value) to `baseTargetDF` (`targetDF`)
-1. With `DeduplicateCDFDeletes` enabled, `writeAllChanges` adds an extra column `_target_row_index_` (with `monotonically_increasing_id` expression) to `targetDF` (`right`)
-1. In the end, the left and right DataFrames are joined (using `DataFrame.join` operator) with the [condition](MergeIntoCommandBase.md#condition) as the join condition and the determined join type (`rightOuter` or `fullOuter`)
+For the [source](MergeIntoMaterializeSource.md#getSourceDF)/left side of the join, `writeAllChanges` adds the following columns:
 
-!!! note "FIXME Explain why all the above columns are needed"
+Column Name | Expression
+------------|-----------
+ `_source_row_present_` | Increment the [numSourceRowsInSecondScan](MergeIntoCommandBase.md#numSourceRowsInSecondScan) metric and return `true` literal
+ `_source_row_index`<br>(only when the given `DeduplicateCDFDeletes` is [enabled](DeduplicateCDFDeletes.md#enabled) and has [includesInserts](DeduplicateCDFDeletes.md#includesInserts) enabled) | `monotonically_increasing_id()` standard function
+
+For the target/right side of the join, `writeAllChanges` adds the following columns:
+
+Column Name | Expression
+------------|-----------
+ `_target_row_present_` | `true` literal
+ `_target_row_index_`<br>(only when the given `DeduplicateCDFDeletes` is [enabled](DeduplicateCDFDeletes.md#enabled)) | `monotonically_increasing_id()` standard function
+
+In the end, `writeAllChanges` joins the DataFrames (using `DataFrame.join` operator) with the [merge condition](MergeIntoCommandBase.md#condition) as the join condition and the determined join type (`rightOuter` or `fullOuter`).
 
 `writeAllChanges` [generatePrecomputedConditionsAndDF](#generatePrecomputedConditionsAndDF) with the joined DataFrame and the given merge clauses ([matchedClauses](MergeIntoCommandBase.md#matchedClauses), [notMatchedClauses](MergeIntoCommandBase.md#notMatchedClauses), [notMatchedBySourceClauses](MergeIntoCommandBase.md#notMatchedBySourceClauses)).
 
@@ -378,7 +386,7 @@ Metric Name | valueToReturn
 * With [Change Data Feed](../../change-data-feed/index.md) enabled, `writeAllChanges` [generateCdcAndOutputRows](MergeOutputGeneration.md#generateCdcAndOutputRows) (with `joinedAndPrecomputedConditionsDF` as the source dataframe)
 * Otherwise, `writeAllChanges` selects the `outputCols` columns from the `joinedAndPrecomputedConditionsDF` dataframe (`Dataset.select` operator)
 
-`writeAllChanges` makes sure that the output dataframe includes only rows that are not dropped (with `_row_dropped_` column being `false` using `Dataset.filter` operator).
+`writeAllChanges` makes sure that the output dataframe includes only rows that are not dropped (with `_row_dropped_` column being `false` using `Dataset.where` operator).
 
 `writeAllChanges` drops the `_row_dropped_` column from the output dataframe so it does not leak to the output.
 
