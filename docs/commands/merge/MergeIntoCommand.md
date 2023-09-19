@@ -105,35 +105,6 @@ Column Name | Metric
  `num_deleted_rows` | [number of deleted rows](MergeIntoCommandBase.md#numTargetRowsDeleted)
  `num_inserted_rows` | [number of inserted rows](MergeIntoCommandBase.md#numTargetRowsInserted)
 
-## <span id="writeOnlyInserts"> Writing Out Single Insert-Only Merge
-
-```scala
-writeInsertsOnlyWhenNoMatchedClauses(
-  spark: SparkSession,
-  deltaTxn: OptimisticTransaction): Seq[FileAction]
-```
-
-In the end, `writeInsertsOnlyWhenNoMatchedClauses` returns the [FileAction](../../FileAction.md)s (from [writing out data](../../TransactionalWrite.md#writeFiles)).
-
-`writeInsertsOnlyWhenNoMatchedClauses` is used when:
-
-* `MergeIntoCommand` is [executed](#run) (for [single insert-only merge](#isSingleInsertOnly) with [spark.databricks.delta.merge.optimizeInsertOnlyMerge.enabled](../../configuration-properties/DeltaSQLConf.md#MERGE_INSERT_ONLY_ENABLED) enabled)
-
-### Target Output Columns { #writeInsertsOnlyWhenNoMatchedClauses-outputCols }
-
-`writeInsertsOnlyWhenNoMatchedClauses` gets the names of the output (_target_) columns.
-
-`writeInsertsOnlyWhenNoMatchedClauses` creates a collection of output columns with the target names and the [resolved DeltaMergeActions](DeltaMergeIntoClause.md#resolvedActions) of a single FIXME (as `Alias` expressions).
-
-### <span id="writeInsertsOnlyWhenNoMatchedClauses-sourceDF"> Source DataFrame
-
-`writeInsertsOnlyWhenNoMatchedClauses` [creates a UDF](#makeMetricUpdateUDF) to update [numSourceRows](#numSourceRows) metric.
-
-`writeInsertsOnlyWhenNoMatchedClauses` creates a source `DataFrame` for the [source](#source) data with `Dataset.filter`s with the UDF and the FIXME of the FIXME (if defined) or `Literal.TrueLiteral`.
-
-!!! note "Use condition for filter pushdown optimization"
-    The `condition` of this single FIXME is pushed down to the [source](#source) when Spark SQL optimizes the query.
-
 ## Logging
 
 Enable `ALL` logging level for `org.apache.spark.sql.delta.commands.MergeIntoCommand` logger to see what happens inside.
