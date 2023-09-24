@@ -1451,6 +1451,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://books.japila.pl/delta-lake-internals/table-features/WriterFeature/</loc>
+         <lastmod>2023-09-24</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://books.japila.pl/delta-lake-internals/table-valued-functions/</loc>
          <lastmod>2023-09-24</lastmod>
          <changefreq>daily</changefreq>
