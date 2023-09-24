@@ -41,3 +41,50 @@ Used when:
 
 ??? note "Sealed Abstract Class"
     `TableFeature` is a Scala **sealed abstract class** which means that all of the implementations are in the same compilation unit (a single file).
+
+## allSupportedFeaturesMap { #allSupportedFeaturesMap }
+
+```scala
+allSupportedFeaturesMap: Map[String, TableFeature]
+```
+
+`allSupportedFeaturesMap` is a collection of [TableFeature](TableFeature.md)s by their lower-case [name](#name):
+
+* `AppendOnlyTableFeature`
+* `ChangeDataFeedTableFeature`
+* `CheckConstraintsTableFeature`
+* `DomainMetadataTableFeature`
+* `GeneratedColumnsTableFeature`
+* `InvariantsTableFeature`
+* `ColumnMappingTableFeature`
+* `TimestampNTZTableFeature`
+* `IcebergCompatV1TableFeature`
+* [DeletionVectorsTableFeature](DeletionVectorsTableFeature.md)
+
+---
+
+`allSupportedFeaturesMap` is used when:
+
+* `TableFeature` is requested to [look up the table feature](#featureNameToFeature)
+* `Action` is requested to [supportedProtocolVersion](../Action.md#supportedProtocolVersion)
+* `Protocol` is requested to [extractAutomaticallyEnabledFeatures](../Protocol.md#extractAutomaticallyEnabledFeatures)
+* `TableFeatureSupport` is requested for the [implicitlySupportedFeatures](TableFeatureSupport.md#implicitlySupportedFeatures)
+
+## Looking Up Table Feature { #featureNameToFeature }
+
+```scala
+featureNameToFeature(
+  featureName: String): Option[TableFeature]
+```
+
+`featureNameToFeature` tries to find the [TableFeature](TableFeature.md) by the given `featureName` in the [allSupportedFeaturesMap](#allSupportedFeaturesMap).
+
+---
+
+`featureNameToFeature` is used when:
+
+* `DeltaLog` is requested to [assertTableFeaturesMatchMetadata](../DeltaLog.md#assertTableFeaturesMatchMetadata)
+* `OptimisticTransactionImpl` is requested to [updateMetadataInternal](../OptimisticTransactionImpl.md#updateMetadataInternal)
+* `Protocol` is requested to [extractAutomaticallyEnabledFeatures](../Protocol.md#extractAutomaticallyEnabledFeatures)
+* `TableFeatureSupport` is requested for the [implicitlyAndExplicitlySupportedFeatures](TableFeatureSupport.md#implicitlyAndExplicitlySupportedFeatures)
+* `TableFeatureProtocolUtils` is requested to [getSupportedFeaturesFromTableConfigs](TableFeatureProtocolUtils.md#getSupportedFeaturesFromTableConfigs)

@@ -1,0 +1,3 @@
+# FeatureAutomaticallyEnabledByMetadata
+
+`FeatureAutomaticallyEnabledByMetadata` is...FIXME

@@ -21,6 +21,21 @@ TBLPROPERTIES (
 )
 ```
 
+## Supported Table Features
+
+[TableFeature](TableFeature.md#allSupportedFeaturesMap) tracks all the supported table features:
+
+* `AppendOnlyTableFeature`
+* `ChangeDataFeedTableFeature`
+* `CheckConstraintsTableFeature`
+* `DomainMetadataTableFeature`
+* `GeneratedColumnsTableFeature`
+* `InvariantsTableFeature`
+* `ColumnMappingTableFeature`
+* `TimestampNTZTableFeature`
+* `IcebergCompatV1TableFeature`
+* [DeletionVectorsTableFeature](DeletionVectorsTableFeature.md)
+
 ## Learn More
 
 * [Introducing Delta Lake Table Features](https://delta.io/blog/2023-07-27-delta-lake-table-features/)

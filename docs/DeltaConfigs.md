@@ -132,6 +132,18 @@ Used when:
 * `UpdateCommand` is requested to [shouldOutputCdc](commands/update/UpdateCommand.md#shouldOutputCdc)
 * `CDCReader` is requested to [isCDCEnabledOnTable](change-data-feed/CDCReader.md#isCDCEnabledOnTable)
 
+### <span id="enableDeletionVectors"><span id="ENABLE_DELETION_VECTORS_CREATION"> enableDeletionVectors
+
+Enables [Deletion Vectors](deletion-vectors/index.md)
+
+Default: `false`
+
+Used when:
+
+* `DeletionVectorsTableFeature` is requested to [metadataRequiresFeatureToBeEnabled](table-features/DeletionVectorsTableFeature.md#metadataRequiresFeatureToBeEnabled)
+* `Protocol` is requested to [assertTablePropertyConstraintsSatisfied](Protocol.md#assertTablePropertyConstraintsSatisfied)
+* `DeletionVectorUtils` is requested to [deletionVectorsWritable](deletion-vectors/DeletionVectorUtils.md#deletionVectorsWritable)
+
 ### <span id="enableExpiredLogCleanup"><span id="ENABLE_EXPIRED_LOG_CLEANUP"> enableExpiredLogCleanup
 
 Whether to clean up expired log files and checkpoints
