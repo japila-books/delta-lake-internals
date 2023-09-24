@@ -1,6 +1,6 @@
-# DescribeDeltaDetailCommand (DescribeDeltaDetailCommandBase)
+# DescribeDeltaDetailCommand
 
-`DescribeDeltaDetailCommand` is a `RunnableCommand` ([Spark SQL]({{ book.spark_sql }}/logical-operators/RunnableCommand)) for [DESCRIBE DETAIL](../../sql/DeltaSqlAstBuilder.md#visitDescribeDeltaDetail) SQL command.
+`DescribeDeltaDetailCommand` is a leaf `RunnableCommand` ([Spark SQL]({{ book.spark_sql }}/logical-operators/RunnableCommand)) that represents [DESCRIBE DETAIL](../../sql/DeltaSqlAstBuilder.md#visitDescribeDeltaDetail) SQL command at execution.
 
 ```text
 (DESC | DESCRIBE) DETAIL (path | table)
@@ -15,24 +15,40 @@
 
 `DescribeDeltaDetailCommand` is created when:
 
-* `DeltaSqlAstBuilder` is requested to [parse DESCRIBE DETAIL SQL command](../../sql/DeltaSqlAstBuilder.md#visitDescribeDeltaDetail))
+* `DeltaSqlAstBuilder` is requested to [parse DESCRIBE DETAIL SQL command](../../sql/DeltaSqlAstBuilder.md#visitDescribeDeltaDetail)
 
-## <span id="run"> run
+## Output (Schema) Attributes { #output }
 
-```scala
-run(
-  sparkSession: SparkSession): Seq[Row]
-```
+??? note "QueryPlan"
 
-`run` is part of the `RunnableCommand` ([Spark SQL]({{ book.spark_sql }}/logical-operators/RunnableCommand#run)) abstraction.
+    ```scala
+    output: Seq[Attribute]
+    ```
+
+    `output` is part of the `QueryPlan` ([Spark SQL]({{ book.spark_sql }}/catalyst/QueryPlan#output)) abstraction.
+
+`output` is the fields of [TableDetail](TableDetail.md).
+
+## Executing Command { #run }
+
+??? note "RunnableCommand"
+
+    ```scala
+    run(
+      sparkSession: SparkSession): Seq[Row]
+    ```
+
+    `run` is part of the `RunnableCommand` ([Spark SQL]({{ book.spark_sql }}/logical-operators/RunnableCommand#run)) abstraction.
 
 `run`...FIXME
 
 ## Demo
 
-```scala
-val q = sql("DESCRIBE DETAIL '/tmp/delta/users'")
-```
+=== "SQL"
+
+    ```scala
+    DESCRIBE DETAIL '/tmp/delta/users'
+    ```
 
 ```text
 scala> q.show

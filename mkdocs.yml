@@ -193,6 +193,7 @@ nav:
       - DeltaInvariantCheckerStrategy: constraints/DeltaInvariantCheckerStrategy.md
       - Invariant: constraints/Invariant.md
       - InvariantViolationException: constraints/InvariantViolationException.md
+    - ... | table-features/**.md
     - table-properties.md
     - ... | time-travel/**.md
   - Internals:
