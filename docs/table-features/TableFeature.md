@@ -37,7 +37,7 @@ Used when:
 ## Implementations
 
 * `LegacyWriterFeature`
-* `WriterFeature`
+* [WriterFeature](WriterFeature.md)
 
 ??? note "Sealed Abstract Class"
     `TableFeature` is a Scala **sealed abstract class** which means that all of the implementations are in the same compilation unit (a single file).
