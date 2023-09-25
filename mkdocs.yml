@@ -327,9 +327,8 @@ nav:
       - DeleteCommand: commands/delete/DeleteCommand.md
       - commands/delete/DeleteCommandMetrics.md
       - DeltaDelete: commands/delete/DeltaDelete.md
-    - Describe Detail:
-      - commands/describe-detail/index.md
-      - DescribeDeltaDetailCommand: commands/describe-detail/DescribeDeltaDetailCommand.md
+    - DESCRIBE DETAIL:
+      - ... | flat | commands/describe-detail/**.md
     - Describe History:
       - commands/describe-history/index.md
       - DescribeDeltaHistoryCommand: commands/describe-history/DescribeDeltaHistoryCommand.md
