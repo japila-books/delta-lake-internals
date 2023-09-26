@@ -188,7 +188,11 @@ extractAutomaticallyEnabledFeatures(
   protocol: Option[Protocol] = None): Set[TableFeature]
 ```
 
-`extractAutomaticallyEnabledFeatures`...FIXME
+`extractAutomaticallyEnabledFeatures` requests the given [Protocol](Protocol.md) for the [writerFeatureNames](table-features/TableFeatureSupport.md#writerFeatureNames) (_protocol-enabled table features_).
+
+`extractAutomaticallyEnabledFeatures` finds [FeatureAutomaticallyEnabledByMetadata](table-features/FeatureAutomaticallyEnabledByMetadata.md)s features (among the [allSupportedFeaturesMap](table-features/TableFeature.md#allSupportedFeaturesMap)) that [metadataRequiresFeatureToBeEnabled](table-features/FeatureAutomaticallyEnabledByMetadata.md#metadataRequiresFeatureToBeEnabled) for the given [Metadata](Metadata.md) (_metadata-enabled table features_)
+
+In the end, `extractAutomaticallyEnabledFeatures` [finds the smallest set of table features](#getDependencyClosure) for the protocol- and metadata-enabled table features (incl. [their dependencies](table-features/TableFeature.md#requiredFeatures), if there are any).
 
 ---
 

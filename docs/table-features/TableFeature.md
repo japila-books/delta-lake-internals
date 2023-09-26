@@ -34,6 +34,25 @@ Used when:
 * `TableFeatureSupport` is requested to [withFeature](TableFeatureSupport.md#withFeature), [canUpgradeTo](TableFeatureSupport.md#canUpgradeTo), [isFeatureSupported](TableFeatureSupport.md#isFeatureSupported), [propertyKey](TableFeatureSupport.md#propertyKey), [defaultPropertyKey](TableFeatureSupport.md#defaultPropertyKey)
 * `DescribeDeltaDetailCommand` is executed (and requested to [describeDeltaTable](../commands/describe-detail/DescribeDeltaDetailCommand.md#describeDeltaTable))
 
+### Required Features { #requiredFeatures }
+
+```scala
+requiredFeatures: Set[TableFeature]
+```
+
+The required [TableFeature](TableFeature.md)s that this `TableFeature` depends on
+
+Default: (empty)
+
+See:
+
+* [RowTrackingFeature](RowTrackingFeature.md#requiredFeatures)
+
+Used when:
+
+* `Protocol` is requested to [getDependencyClosure](../Protocol.md#getDependencyClosure)
+* `TableFeatureSupport` is requested to [withFeature](TableFeatureSupport.md#withFeature)
+
 ## Implementations
 
 * `LegacyWriterFeature`

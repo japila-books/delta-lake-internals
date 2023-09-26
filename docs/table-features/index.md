@@ -9,6 +9,10 @@ hide:
 
 A table feature can be a writer, a reader or both feature.
 
+There are [protocol- and metadata-enabled table features](../Protocol.md#extractAutomaticallyEnabledFeatures).
+
+A table feature can have dependencies ([required features](TableFeature.md#requiredFeatures)) that have to be enabled in order for the feature to be enabled.
+
 Table features can be examined using [DESCRIBE DETAIL](../commands/describe-detail/index.md).
 
 Table features can be enabled on a delta table using `TBLPROPERTIES`.
