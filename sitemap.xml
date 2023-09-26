@@ -1471,6 +1471,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://books.japila.pl/delta-lake-internals/table-features/RowTrackingFeature/</loc>
+         <lastmod>2023-09-26</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://books.japila.pl/delta-lake-internals/table-features/TableFeature/</loc>
          <lastmod>2023-09-26</lastmod>
          <changefreq>daily</changefreq>
