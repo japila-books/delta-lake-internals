@@ -179,6 +179,68 @@ If used, `requiredMinimumProtocol` creates a new [Protocol](column-mapping/Delta
 Protocol(2, 5)
 ```
 
+## extractAutomaticallyEnabledFeatures { #extractAutomaticallyEnabledFeatures }
+
+```scala
+extractAutomaticallyEnabledFeatures(
+  spark: SparkSession,
+  metadata: Metadata,
+  protocol: Option[Protocol] = None): Set[TableFeature]
+```
+
+`extractAutomaticallyEnabledFeatures`...FIXME
+
+---
+
+`extractAutomaticallyEnabledFeatures` is used when:
+
+* `DeltaLog` is requested to [assertTableFeaturesMatchMetadata](DeltaLog.md#assertTableFeaturesMatchMetadata)
+* `Protocol` is requested to [minProtocolComponentsFromMetadata](#minProtocolComponentsFromMetadata) and [minProtocolComponentsFromAutomaticallyEnabledFeatures](#minProtocolComponentsFromAutomaticallyEnabledFeatures)
+* `CloneConvertedSource` is requested for the [Protocol](commands/clone/CloneConvertedSource.md#protocol)
+
+## minProtocolComponentsFromMetadata { #minProtocolComponentsFromMetadata }
+
+```scala
+minProtocolComponentsFromMetadata(
+  spark: SparkSession,
+  metadata: Metadata): (Int, Int, Set[TableFeature])
+```
+
+`minProtocolComponentsFromMetadata`...FIXME
+
+---
+
+`minProtocolComponentsFromMetadata` is used when:
+
+* `Protocol` is requested to [forNewTable](#forNewTable)
+* `CloneTableBase` is requested to [runInternal](commands/clone/CloneTableBase.md#runInternal)
+
+## upgradeProtocolFromMetadataForExistingTable { #upgradeProtocolFromMetadataForExistingTable }
+
+```scala
+upgradeProtocolFromMetadataForExistingTable(
+  spark: SparkSession,
+  metadata: Metadata): (Int, Int, Set[TableFeature])
+```
+
+`upgradeProtocolFromMetadataForExistingTable`...FIXME
+
+---
+
+`upgradeProtocolFromMetadataForExistingTable` is used when:
+
+* `OptimisticTransactionImpl` is requested to [setNewProtocolWithFeaturesEnabledByMetadata](OptimisticTransactionImpl.md#setNewProtocolWithFeaturesEnabledByMetadata)
+
+### minProtocolComponentsFromAutomaticallyEnabledFeatures { #minProtocolComponentsFromAutomaticallyEnabledFeatures }
+
+```scala
+minProtocolComponentsFromAutomaticallyEnabledFeatures(
+  spark: SparkSession,
+  metadata: Metadata): (Int, Int, Set[TableFeature])
+```
+
+`minProtocolComponentsFromAutomaticallyEnabledFeatures`...FIXME
+
 ## <span id="demo"> Demo
 
 ```scala

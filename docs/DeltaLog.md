@@ -681,6 +681,22 @@ buildHadoopFsRelationWithFileIndex(
 
 * `DeltaLog` is requested to [create a DataFrame](#createDataFrame) and [create a BaseRelation](#createRelation)
 
+## assertTableFeaturesMatchMetadata { #assertTableFeaturesMatchMetadata }
+
+```scala
+assertTableFeaturesMatchMetadata(
+  targetProtocol: Protocol,
+  targetMetadata: Metadata): Unit
+```
+
+`assertTableFeaturesMatchMetadata`...FIXME
+
+---
+
+`assertTableFeaturesMatchMetadata` is used when:
+
+* `Snapshot` is requested to [init](Snapshot.md#init)
+
 ## Logging
 
 Enable `ALL` logging level for `org.apache.spark.sql.delta.DeltaLog` logger to see what happens inside.

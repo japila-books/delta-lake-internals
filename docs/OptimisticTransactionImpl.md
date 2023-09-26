@@ -704,6 +704,21 @@ registerPostCommitHook(
 
 * `OptimisticTransactionImpl` is created (and registers [CheckpointHook](checkpoints/CheckpointHook.md)) and [commitImpl](#commitImpl) (to register [GenerateSymlinkManifest](post-commit-hooks/GenerateSymlinkManifest.md))
 
+## setNewProtocolWithFeaturesEnabledByMetadata { #setNewProtocolWithFeaturesEnabledByMetadata }
+
+```scala
+setNewProtocolWithFeaturesEnabledByMetadata(
+  metadata: Metadata): Unit
+```
+
+`setNewProtocolWithFeaturesEnabledByMetadata`...FIXME
+
+---
+
+`setNewProtocolWithFeaturesEnabledByMetadata` is used when:
+
+* `OptimisticTransactionImpl` is requested to [updateMetadataInternal](#updateMetadataInternal) and [prepareCommit](#prepareCommit)
+
 ## Logging
 
 `OptimisticTransactionImpl` is a Scala trait and logging is configured using the logger of the [implementations](#implementations).
