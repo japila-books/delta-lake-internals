@@ -15,10 +15,10 @@ TableFeature | Value
 
 ## Implementations
 
-* `DomainMetadataTableFeature`
+* [DomainMetadataTableFeature](DomainMetadataTableFeature.md)
 * `IcebergCompatV1TableFeature`
-* `ReaderWriterFeature`
-* `RowTrackingFeature`
+* [ReaderWriterFeature](ReaderWriterFeature.md)
+* [RowTrackingFeature](RowTrackingFeature.md)
 
 ??? note "Sealed Abstract Class"
     `WriterFeature` is a Scala **sealed abstract class** which means that all of the implementations are in the same compilation unit (a single file).

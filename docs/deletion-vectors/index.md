@@ -5,4 +5,4 @@ hide:
 
 # Deletion Vectors
 
-**Deletion Vectors** is...FIXME
+**Deletion Vectors** is enabled using [delta.enableDeletionVectors](../DeltaConfigs.md#enableDeletionVectors) table property.

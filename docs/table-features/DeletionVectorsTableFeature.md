@@ -1,18 +1,10 @@
 # DeletionVectorsTableFeature
 
-`DeletionVectorsTableFeature` is a [ReaderWriterFeature](ReaderWriterFeature.md) with [FeatureAutomaticallyEnabledByMetadata](FeatureAutomaticallyEnabledByMetadata.md).
+`DeletionVectorsTableFeature` is a [ReaderWriterFeature](ReaderWriterFeature.md) known by the name of [deletionVectors](TableFeature.md#name).
 
-## Name { #name }
+With [delta.enableDeletionVectors](../DeltaConfigs.md#enableDeletionVectors) table property enabled, `DeletionVectorsTableFeature` enables [Deletion Vectors](../deletion-vectors/index.md).
 
-??? note "ReaderWriterFeature"
-
-    ```scala
-    name: String
-    ```
-
-    `name` is part of the [ReaderWriterFeature](ReaderWriterFeature.md#name) abstraction.
-
-`name` is `deletionVectors`.
+`DeletionVectorsTableFeature` is a [FeatureAutomaticallyEnabledByMetadata](FeatureAutomaticallyEnabledByMetadata.md).
 
 ## automaticallyUpdateProtocolOfExistingTables { #automaticallyUpdateProtocolOfExistingTables }
 
@@ -38,4 +30,4 @@
 
     `metadataRequiresFeatureToBeEnabled` is part of the [FeatureAutomaticallyEnabledByMetadata](FeatureAutomaticallyEnabledByMetadata.md#metadataRequiresFeatureToBeEnabled) abstraction.
 
-`metadataRequiresFeatureToBeEnabled` is the value of [delta.enableDeletionVectors](../DeltaConfigs.md#enableDeletionVectors) table property.
+`metadataRequiresFeatureToBeEnabled` is the value of [delta.enableDeletionVectors](../DeltaConfigs.md#enableDeletionVectors) table property (from the [Metadata](../DeltaConfig.md#fromMetaData)).

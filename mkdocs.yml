@@ -184,6 +184,7 @@ nav:
       - limit-pushdown/index.md
     - Logging: logging.md
     - ... | post-commit-hooks/**.md
+    - ... | row-tracking/**.md
     - Table Constraints:
       - constraints/index.md
       - CheckDeltaInvariant: constraints/CheckDeltaInvariant.md

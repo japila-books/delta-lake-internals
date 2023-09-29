@@ -12,11 +12,15 @@ metadataRequiresFeatureToBeEnabled(
   spark: SparkSession): Boolean
 ```
 
-`metadataRequiresFeatureToBeEnabled` is enabled (`true`) for automatically enabled features (based on metadata requirements).
+`metadataRequiresFeatureToBeEnabled` is enabled (`true`) for automatically enabled features (based on [metadata](../Metadata.md) configuration)
+
+See:
+
+* [RowTrackingFeature](RowTrackingFeature.md#metadataRequiresFeatureToBeEnabled)
 
 Used when:
 
-* `Protocol` is requested to [extract automatically enabled table features](../Protocol.md#extractAutomaticallyEnabledFeatures)
+* `Protocol` is requested for the [automatically enabled table features](../Protocol.md#extractAutomaticallyEnabledFeatures)
 
 ## Implementations
 
@@ -28,7 +32,7 @@ Used when:
 * `GeneratedColumnsTableFeature`
 * `IcebergCompatV1TableFeature`
 * `InvariantsTableFeature`
-* `RowTrackingFeature`
+* [RowTrackingFeature](RowTrackingFeature.md)
 * `TimestampNTZTableFeature`
 
 ??? note "Sealed Trait"
@@ -50,6 +54,7 @@ automaticallyUpdateProtocolOfExistingTables: Boolean
 See:
 
 * [DeletionVectorsTableFeature](DeletionVectorsTableFeature.md#automaticallyUpdateProtocolOfExistingTables)
+* [RowTrackingFeature](RowTrackingFeature.md#automaticallyUpdateProtocolOfExistingTables)
 
 ---
 

@@ -1,6 +1,8 @@
 # RowTrackingFeature
 
-`RowTrackingFeature` is a [WriterFeature](WriterFeature.md) known by the name of [rowTracking](WriterFeature.md#name).
+`RowTrackingFeature` is a [WriterFeature](WriterFeature.md) known by the name of [rowTracking](TableFeature.md#name).
+
+With [delta.enableRowTracking](../DeltaConfigs.md#ROW_TRACKING_ENABLED) table property enabled, `RowTrackingFeature` enables [Row Tracking](../row-tracking/index.md).
 
 `RowTrackingFeature` is a [FeatureAutomaticallyEnabledByMetadata](FeatureAutomaticallyEnabledByMetadata.md).
 
@@ -28,7 +30,7 @@
 
     `metadataRequiresFeatureToBeEnabled` is part of the [FeatureAutomaticallyEnabledByMetadata](FeatureAutomaticallyEnabledByMetadata.md#metadataRequiresFeatureToBeEnabled) abstraction.
 
-`metadataRequiresFeatureToBeEnabled` is the value of [delta.enableRowTracking](../DeltaConfigs.md#ROW_TRACKING_ENABLED) in the [Metadata](../DeltaConfig.md#fromMetaData).
+`metadataRequiresFeatureToBeEnabled` is the value of [delta.enableRowTracking](../DeltaConfigs.md#ROW_TRACKING_ENABLED) table property (from the [Metadata](../DeltaConfig.md#fromMetaData)).
 
 ## Required Features { #requiredFeatures }
 
