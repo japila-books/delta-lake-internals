@@ -1396,6 +1396,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://books.japila.pl/delta-lake-internals/row-tracking/</loc>
+         <lastmod>2023-09-29</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://books.japila.pl/delta-lake-internals/sql/</loc>
          <lastmod>2023-09-29</lastmod>
          <changefreq>daily</changefreq>
