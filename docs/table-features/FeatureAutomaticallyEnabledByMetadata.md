@@ -16,7 +16,7 @@ metadataRequiresFeatureToBeEnabled(
 
 See:
 
-* [RowTrackingFeature](RowTrackingFeature.md#metadataRequiresFeatureToBeEnabled)
+* [RowTrackingFeature](../row-tracking/RowTrackingFeature.md#metadataRequiresFeatureToBeEnabled)
 
 Used when:
 
@@ -32,7 +32,7 @@ Used when:
 * `GeneratedColumnsTableFeature`
 * `IcebergCompatV1TableFeature`
 * `InvariantsTableFeature`
-* [RowTrackingFeature](RowTrackingFeature.md)
+* [RowTrackingFeature](../row-tracking/RowTrackingFeature.md)
 * `TimestampNTZTableFeature`
 
 ??? note "Sealed Trait"
@@ -54,7 +54,7 @@ automaticallyUpdateProtocolOfExistingTables: Boolean
 See:
 
 * [DeletionVectorsTableFeature](DeletionVectorsTableFeature.md#automaticallyUpdateProtocolOfExistingTables)
-* [RowTrackingFeature](RowTrackingFeature.md#automaticallyUpdateProtocolOfExistingTables)
+* [RowTrackingFeature](../row-tracking/RowTrackingFeature.md#automaticallyUpdateProtocolOfExistingTables)
 
 ---
 

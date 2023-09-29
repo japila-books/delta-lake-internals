@@ -46,7 +46,7 @@ Default: (empty)
 
 See:
 
-* [RowTrackingFeature](RowTrackingFeature.md#requiredFeatures)
+* [RowTrackingFeature](../row-tracking/RowTrackingFeature.md#requiredFeatures)
 
 Used when:
 

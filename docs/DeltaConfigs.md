@@ -165,7 +165,7 @@ Used when:
 * `DeltaErrorsBase` is requested to `convertToDeltaRowTrackingEnabledWithoutStatsCollection`
 * `RowId` is requested to `isEnabled`
 * `RowTracking` is requested to `isEnabled`
-* `RowTrackingFeature` is requested to [metadataRequiresFeatureToBeEnabled](table-features/RowTrackingFeature.md#metadataRequiresFeatureToBeEnabled)
+* `RowTrackingFeature` is requested to [metadataRequiresFeatureToBeEnabled](row-tracking/RowTrackingFeature.md#metadataRequiresFeatureToBeEnabled)
 
 ### <span id="logRetentionDuration"><span id="LOG_RETENTION"> logRetentionDuration
 
@@ -245,7 +245,7 @@ New entries are added in [buildConfig](#buildConfig).
 * [mergeGlobalConfigs](#mergeGlobalConfigs)
 * [normalizeConfigKey](#normalizeConfigKey) and [normalizeConfigKeys](#normalizeConfigKeys)
 
-## <span id="mergeGlobalConfigs"> mergeGlobalConfigs Utility
+## mergeGlobalConfigs { #mergeGlobalConfigs }
 
 ```scala
 mergeGlobalConfigs(
@@ -256,12 +256,14 @@ mergeGlobalConfigs(
 
 `mergeGlobalConfigs` finds all [spark.databricks.delta.properties.defaults](#sqlConfPrefix)-prefixed configuration properties among the [entries](#entries).
 
+---
+
 `mergeGlobalConfigs` is used when:
 
 * `OptimisticTransactionImpl` is requested to [withGlobalConfigDefaults](OptimisticTransactionImpl.md#withGlobalConfigDefaults)
 * `InitialSnapshot` is created
 
-## <span id="validateConfigurations"> validateConfigurations Utility
+## validateConfigurations { #validateConfigurations }
 
 ```scala
 validateConfigurations(
@@ -270,11 +272,15 @@ validateConfigurations(
 
 `validateConfigurations`...FIXME
 
+---
+
 `validateConfigurations` is used when:
 
-* `DeltaCatalog` is requested to [verifyTableAndSolidify](DeltaCatalog.md#verifyTableAndSolidify) and [alterTable](DeltaCatalog.md#alterTable)
+* `DeltaCatalog` is requested to [verifyTableAndSolidify](DeltaCatalog.md#verifyTableAndSolidify), [alterTable](DeltaCatalog.md#alterTable)
+* `CloneTableBase` is requested to [runInternal](commands/clone/CloneTableBase.md#runInternal)
+* `DeltaDataSource` is requested to [create a BaseRelation](delta/DeltaDataSource.md#createRelation)
 
-## <span id="normalizeConfigKeys"> normalizeConfigKeys Utility
+## normalizeConfigKeys { #normalizeConfigKeys }
 
 ```scala
 normalizeConfigKeys(
@@ -282,6 +288,8 @@ normalizeConfigKeys(
 ```
 
 `normalizeConfigKeys`...FIXME
+
+---
 
 `normalizeConfigKeys` is used when:
 
