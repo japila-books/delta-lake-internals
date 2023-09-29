@@ -1401,6 +1401,26 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://books.japila.pl/delta-lake-internals/row-tracking/DefaultRowCommitVersion/</loc>
+         <lastmod>2023-09-29</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://books.japila.pl/delta-lake-internals/row-tracking/RowId/</loc>
+         <lastmod>2023-09-29</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://books.japila.pl/delta-lake-internals/row-tracking/RowTracking/</loc>
+         <lastmod>2023-09-29</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://books.japila.pl/delta-lake-internals/row-tracking/RowTrackingFeature/</loc>
+         <lastmod>2023-09-29</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://books.japila.pl/delta-lake-internals/sql/</loc>
          <lastmod>2023-09-29</lastmod>
          <changefreq>daily</changefreq>
@@ -1477,11 +1497,6 @@
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/table-features/ReaderWriterFeature/</loc>
-         <lastmod>2023-09-29</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://books.japila.pl/delta-lake-internals/table-features/RowTrackingFeature/</loc>
          <lastmod>2023-09-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
