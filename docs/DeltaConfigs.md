@@ -156,6 +156,17 @@ Controls whether or not a delta table can be rolled back to any point within [lo
 
 Default: `true`
 
+### <span id="enableRowTracking"><span id="ROW_TRACKING_ENABLED"> enableRowTracking
+
+Default: `false`
+
+Used when:
+
+* `DeltaErrorsBase` is requested to `convertToDeltaRowTrackingEnabledWithoutStatsCollection`
+* `RowId` is requested to `isEnabled`
+* `RowTracking` is requested to `isEnabled`
+* `RowTrackingFeature` is requested to [metadataRequiresFeatureToBeEnabled](table-features/RowTrackingFeature.md#metadataRequiresFeatureToBeEnabled)
+
 ### <span id="logRetentionDuration"><span id="LOG_RETENTION"> logRetentionDuration
 
 How long to keep obsolete logs around before deleting them. Delta can keep logs beyond the duration until the next calendar day to avoid constantly creating checkpoints.

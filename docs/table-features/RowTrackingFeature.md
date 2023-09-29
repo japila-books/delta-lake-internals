@@ -1,3 +1,45 @@
 # RowTrackingFeature
 
-`RowTrackingFeature` is...FIXME
+`RowTrackingFeature` is a [WriterFeature](WriterFeature.md) known by the name of [rowTracking](WriterFeature.md#name).
+
+`RowTrackingFeature` is a [FeatureAutomaticallyEnabledByMetadata](FeatureAutomaticallyEnabledByMetadata.md).
+
+## Auto-Update Capable Table Feature { #automaticallyUpdateProtocolOfExistingTables }
+
+??? note "FeatureAutomaticallyEnabledByMetadata"
+
+    ```scala
+    automaticallyUpdateProtocolOfExistingTables: Boolean
+    ```
+
+    `automaticallyUpdateProtocolOfExistingTables` is part of the [FeatureAutomaticallyEnabledByMetadata](FeatureAutomaticallyEnabledByMetadata.md#automaticallyUpdateProtocolOfExistingTables) abstraction.
+
+`automaticallyUpdateProtocolOfExistingTables` is always enabled (`true`).
+
+## metadataRequiresFeatureToBeEnabled { #metadataRequiresFeatureToBeEnabled }
+
+??? note "FeatureAutomaticallyEnabledByMetadata"
+
+    ```scala
+    metadataRequiresFeatureToBeEnabled(
+      metadata: Metadata,
+      spark: SparkSession): Boolean
+    ```
+
+    `metadataRequiresFeatureToBeEnabled` is part of the [FeatureAutomaticallyEnabledByMetadata](FeatureAutomaticallyEnabledByMetadata.md#metadataRequiresFeatureToBeEnabled) abstraction.
+
+`metadataRequiresFeatureToBeEnabled` is the value of [delta.enableRowTracking](../DeltaConfigs.md#ROW_TRACKING_ENABLED) in the [Metadata](../DeltaConfig.md#fromMetaData).
+
+## Required Features { #requiredFeatures }
+
+??? note "TableFeature"
+
+    ```scala
+    requiredFeatures: Set[TableFeature]
+    ```
+
+    `requiredFeatures` is part of the [TableFeature](TableFeature.md#requiredFeatures) abstraction.
+
+`requiredFeatures` is a single-element collection:
+
+* [DomainMetadataTableFeature](DomainMetadataTableFeature.md)

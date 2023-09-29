@@ -1,0 +1,3 @@
+# DomainMetadataTableFeature
+
+`DomainMetadataTableFeature` is...FIXME
