@@ -156,15 +156,17 @@ Controls whether or not a delta table can be rolled back to any point within [lo
 
 Default: `true`
 
-### <span id="enableRowTracking"><span id="ROW_TRACKING_ENABLED"> enableRowTracking
+### <span id="ROW_TRACKING_ENABLED"><span id="delta.enableRowTracking"> enableRowTracking { #enableRowTracking }
+
+**delta.enableRowTracking**
 
 Default: `false`
 
 Used when:
 
 * `DeltaErrorsBase` is requested to `convertToDeltaRowTrackingEnabledWithoutStatsCollection`
-* `RowId` is requested to `isEnabled`
-* `RowTracking` is requested to `isEnabled`
+* `RowId` is requested to [isEnabled](row-tracking/RowId.md#isEnabled)
+* `RowTracking` is requested to [isEnabled](row-tracking/RowTracking.md#isEnabled)
 * `RowTrackingFeature` is requested to [metadataRequiresFeatureToBeEnabled](row-tracking/RowTrackingFeature.md#metadataRequiresFeatureToBeEnabled)
 
 ### <span id="logRetentionDuration"><span id="LOG_RETENTION"> logRetentionDuration
