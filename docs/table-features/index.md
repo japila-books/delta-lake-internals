@@ -7,7 +7,7 @@ hide:
 
 **Table Features** is based on [TableFeature](TableFeature.md) abstraction.
 
-A table feature can be a writer, a reader or both feature.
+A table feature can be a [writer](WriterFeature.md), a reader or a [reader-writer](ReaderWriterFeature.md) feature.
 
 There are [protocol- and metadata-enabled table features](../Protocol.md#extractAutomaticallyEnabledFeatures).
 
@@ -33,12 +33,12 @@ TBLPROPERTIES (
 * `ChangeDataFeedTableFeature`
 * `CheckConstraintsTableFeature`
 * `ColumnMappingTableFeature`
-* [DeletionVectorsTableFeature](DeletionVectorsTableFeature.md)
+* [DeletionVectorsTableFeature](../deletion-vectors/DeletionVectorsTableFeature.md)
 * `DomainMetadataTableFeature`
 * `GeneratedColumnsTableFeature`
 * `IcebergCompatV1TableFeature`
 * `InvariantsTableFeature`
-* `RowTrackingFeature`
+* [RowTrackingFeature](../row-tracking/RowTrackingFeature.md)
 * `TimestampNTZTableFeature`
 
 ## Legacy Table Features

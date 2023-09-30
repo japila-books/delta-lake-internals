@@ -78,7 +78,7 @@ allSupportedFeaturesMap: Map[String, TableFeature]
 * `ColumnMappingTableFeature`
 * `TimestampNTZTableFeature`
 * `IcebergCompatV1TableFeature`
-* [DeletionVectorsTableFeature](DeletionVectorsTableFeature.md)
+* [DeletionVectorsTableFeature](../deletion-vectors/DeletionVectorsTableFeature.md)
 
 ---
 

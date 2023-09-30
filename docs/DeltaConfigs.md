@@ -140,7 +140,7 @@ Default: `false`
 
 Used when:
 
-* `DeletionVectorsTableFeature` is requested to [metadataRequiresFeatureToBeEnabled](table-features/DeletionVectorsTableFeature.md#metadataRequiresFeatureToBeEnabled)
+* `DeletionVectorsTableFeature` is requested to [metadataRequiresFeatureToBeEnabled](deletion-vectors/DeletionVectorsTableFeature.md#metadataRequiresFeatureToBeEnabled)
 * `Protocol` is requested to [assertTablePropertyConstraintsSatisfied](Protocol.md#assertTablePropertyConstraintsSatisfied)
 * `DeletionVectorUtils` is requested to [deletionVectorsWritable](deletion-vectors/DeletionVectorUtils.md#deletionVectorsWritable)
 

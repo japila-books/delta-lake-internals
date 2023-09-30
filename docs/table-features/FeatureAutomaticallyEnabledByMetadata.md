@@ -28,7 +28,7 @@ Used when:
 * `ChangeDataFeedTableFeature`
 * `CheckConstraintsTableFeature`
 * `ColumnMappingTableFeature`
-* [DeletionVectorsTableFeature](DeletionVectorsTableFeature.md)
+* [DeletionVectorsTableFeature](../deletion-vectors/DeletionVectorsTableFeature.md)
 * `GeneratedColumnsTableFeature`
 * `IcebergCompatV1TableFeature`
 * `InvariantsTableFeature`
@@ -53,7 +53,7 @@ automaticallyUpdateProtocolOfExistingTables: Boolean
 
 See:
 
-* [DeletionVectorsTableFeature](DeletionVectorsTableFeature.md#automaticallyUpdateProtocolOfExistingTables)
+* [DeletionVectorsTableFeature](../deletion-vectors/DeletionVectorsTableFeature.md#automaticallyUpdateProtocolOfExistingTables)
 * [RowTrackingFeature](../row-tracking/RowTrackingFeature.md#automaticallyUpdateProtocolOfExistingTables)
 
 ---
