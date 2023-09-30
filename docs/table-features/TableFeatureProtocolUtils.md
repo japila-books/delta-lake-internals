@@ -8,12 +8,25 @@
 delta.feature.
 ```
 
-`delta.feature` is used when:
+The prefix is used when:
 
 * `DeltaConfigsBase` is requested to [validateConfigurations](../DeltaConfigs.md#validateConfigurations), [mergeGlobalConfigs](../DeltaConfigs.md#mergeGlobalConfigs), [normalizeConfigKeys](../DeltaConfigs.md#normalizeConfigKeys), [normalizeConfigKey](../DeltaConfigs.md#normalizeConfigKey)
 * `Snapshot` is requested to [getProperties](../Snapshot.md#getProperties)
 * `Protocol` is requested to [assertMetadataContainsNoProtocolProps](../Protocol.md#assertMetadataContainsNoProtocolProps)
 * `TableFeatureProtocolUtils` is requested to [propertyKey](#propertyKey), [getSupportedFeaturesFromTableConfigs](#getSupportedFeaturesFromTableConfigs), [isTableProtocolProperty](#isTableProtocolProperty)
+
+## <span id="DEFAULT_FEATURE_PROP_PREFIX"> spark.databricks.delta.properties.defaults.feature Property Prefix { #spark.databricks.delta.properties.defaults.feature }
+
+`TableFeatureProtocolUtils` defines the following prefix for the Spark session properties of table features:
+
+```text
+spark.databricks.delta.properties.defaults.feature.
+```
+
+The prefix is used when:
+
+* `DeltaConfigsBase` is requested to [mergeGlobalConfigs](../DeltaConfigs.md#mergeGlobalConfigs)
+* `TableFeatureProtocolUtils` is requested for the [default session property key of a table feature](#defaultPropertyKey)
 
 ## isTableProtocolProperty { #isTableProtocolProperty }
 
@@ -94,3 +107,24 @@ If there is a table feature not `supported` or [there's no table feature by a na
 
 * `OptimisticTransactionImpl` is requested to [updateMetadataInternal](../OptimisticTransactionImpl.md#updateMetadataInternal)
 * `Protocol` is requested to [minProtocolComponentsFromMetadata](../Protocol.md#minProtocolComponentsFromMetadata)
+
+## Default Session Property Key of Table Property { #defaultPropertyKey }
+
+```scala
+defaultPropertyKey(
+  feature: TableFeature): String
+defaultPropertyKey(
+  featureName: String): String
+```
+
+`defaultPropertyKey` is the following text:
+
+```text
+spark.databricks.delta.properties.defaults.feature.[featureName]
+```
+
+---
+
+`defaultPropertyKey` is used when:
+
+* `DeltaErrorsBase` is requested to [convertToDeltaRowTrackingEnabledWithoutStatsCollection](../DeltaErrorsBase.md#convertToDeltaRowTrackingEnabledWithoutStatsCollection)

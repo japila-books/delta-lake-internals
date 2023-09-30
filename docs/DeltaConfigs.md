@@ -164,7 +164,7 @@ Default: `false`
 
 Used when:
 
-* `DeltaErrorsBase` is requested to `convertToDeltaRowTrackingEnabledWithoutStatsCollection`
+* `DeltaErrorsBase` is requested to [convertToDeltaRowTrackingEnabledWithoutStatsCollection](DeltaErrorsBase.md#convertToDeltaRowTrackingEnabledWithoutStatsCollection)
 * `RowId` is requested to [isEnabled](row-tracking/RowId.md#isEnabled)
 * `RowTracking` is requested to [isEnabled](row-tracking/RowTracking.md#isEnabled)
 * `RowTrackingFeature` is requested to [metadataRequiresFeatureToBeEnabled](row-tracking/RowTrackingFeature.md#metadataRequiresFeatureToBeEnabled)
