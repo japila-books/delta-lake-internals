@@ -1146,6 +1146,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://books.japila.pl/delta-lake-internals/deletion-vectors/DeletionVectorsTableFeature/</loc>
+         <lastmod>2023-09-30</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://books.japila.pl/delta-lake-internals/delta/</loc>
          <lastmod>2023-09-30</lastmod>
          <changefreq>daily</changefreq>
@@ -1487,11 +1492,6 @@
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/table-features/</loc>
-         <lastmod>2023-09-30</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://books.japila.pl/delta-lake-internals/table-features/DeletionVectorsTableFeature/</loc>
          <lastmod>2023-09-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
