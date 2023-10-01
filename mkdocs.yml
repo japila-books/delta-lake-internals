@@ -215,6 +215,7 @@ nav:
     - DelayedCommitProtocol.md
     - DeltaConfig: DeltaConfig.md
     - DeltaConfigs: DeltaConfigs.md
+    - DeltaErrorsBase.md
     - DeltaTableIdentifier: DeltaTableIdentifier.md
     - FileFormat:
       - DeltaFileFormat: DeltaFileFormat.md

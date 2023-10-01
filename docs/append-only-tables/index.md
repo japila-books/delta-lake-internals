@@ -5,7 +5,13 @@ hide:
 
 # Append-Only Tables
 
-**Append-Only Tables** is enabled on a delta table using [delta.appendOnly](../DeltaConfigs.md#IS_APPEND_ONLY) table property (indirectly, through [AppendOnlyTableFeature](AppendOnlyTableFeature.md) that is a [FeatureAutomaticallyEnabledByMetadata](../table-features/FeatureAutomaticallyEnabledByMetadata.md) and uses this table property).
+**Append-Only Tables** is a [table feature](AppendOnlyTableFeature.md) that [forbids deleting data files](../DeltaLog.md#assertRemovable) that could be a result of the following:
+
+* [Delete](../commands/delete/index.md), [Update](../commands/update/index.md), [WriteIntoDelta](../commands/WriteIntoDelta.md) (in `Overwrite` save mode) commands
+* `DeltaSink` to [addBatch](../delta/DeltaSink.md#addBatch) in `Complete` output mode
+* [RemoveFile](../RemoveFile.md)s with [dataChange](../RemoveFile.md#dataChange) (at [prepareCommit](../OptimisticTransactionImpl.md#prepareCommit))
+
+Append-Only Tables is enabled on a delta table using [delta.appendOnly](../DeltaConfigs.md#IS_APPEND_ONLY) table property (indirectly, through [AppendOnlyTableFeature](AppendOnlyTableFeature.md) that is a [FeatureAutomaticallyEnabledByMetadata](../table-features/FeatureAutomaticallyEnabledByMetadata.md) and uses this table property).
 
 ## Demo
 

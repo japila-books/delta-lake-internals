@@ -194,24 +194,6 @@ startTransaction(): OptimisticTransaction
 
 * [ConvertToDeltaCommand](commands/convert/ConvertToDeltaCommand.md) and [CreateDeltaTableCommand](commands/CreateDeltaTableCommand.md) are executed
 
-## <span id="assertRemovable"> Throwing UnsupportedOperationException for Append-Only Tables
-
-```scala
-assertRemovable(): Unit
-```
-
-`assertRemovable` throws an `UnsupportedOperationException` for the [appendOnly](DeltaConfigs.md#IS_APPEND_ONLY) table property ([in](DeltaConfigs.md#fromMetaData) the [Metadata](#metadata)) enabled (`true`):
-
-```text
-This table is configured to only allow appends. If you would like to permit updates or deletes, use 'ALTER TABLE <table_name> SET TBLPROPERTIES (appendOnly=false)'.
-```
-
-`assertRemovable` is used when:
-
-* `OptimisticTransactionImpl` is requested to [prepareCommit](OptimisticTransactionImpl.md#prepareCommit)
-* [DeleteCommand](commands/delete/DeleteCommand.md), [UpdateCommand](commands/update/UpdateCommand.md), [WriteIntoDelta](commands/WriteIntoDelta.md) (with `Overwrite` mode) are executed
-* `DeltaSink` is requested to [addBatch](delta/DeltaSink.md#addBatch) (with `Complete` output mode)
-
 ## <span id="metadata"> metadata
 
 ```scala
@@ -696,6 +678,25 @@ assertTableFeaturesMatchMetadata(
 `assertTableFeaturesMatchMetadata` is used when:
 
 * `Snapshot` is requested to [init](Snapshot.md#init)
+
+## Assert Table is Append-Only { #assertRemovable }
+
+```scala
+assertRemovable(): Unit
+```
+
+??? warning "Procedure"
+    `assertRemovable` is a procedure (returns `Unit`) so _what happens inside stays inside_ (paraphrasing the [former advertising slogan of Las Vegas, Nevada](https://idioms.thefreedictionary.com/what+happens+in+Vegas+stays+in+Vegas)).
+
+With [delta.appendOnly](DeltaConfigs.md#IS_APPEND_ONLY) table property enabled, `assertRemovable` throws a [DeltaUnsupportedOperationException](DeltaErrors.md#modifyAppendOnlyTableException).
+
+---
+
+`assertRemovable` is used when:
+
+* `OptimisticTransactionImpl` is requested to [prepareCommit](OptimisticTransactionImpl.md#prepareCommit)
+* [Delete](commands/delete/index.md), [Update](commands/update/index.md), [WriteIntoDelta](commands/WriteIntoDelta.md) (in `Overwrite` save mode) commands are executed
+* `DeltaSink` is requested to [addBatch](delta/DeltaSink.md#addBatch) in `Complete` output mode
 
 ## Logging
 

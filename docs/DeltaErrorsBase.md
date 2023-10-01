@@ -19,3 +19,23 @@ convertToDeltaRowTrackingEnabledWithoutStatsCollection: Throwable
 `convertToDeltaRowTrackingEnabledWithoutStatsCollection` is used when:
 
 * `RowId` is requested to [checkStatsCollectedIfRowTrackingSupported](row-tracking/RowId.md#checkStatsCollectedIfRowTrackingSupported)
+
+## modifyAppendOnlyTableException { #modifyAppendOnlyTableException }
+
+```scala
+modifyAppendOnlyTableException(
+  tableName: String): Throwable
+```
+
+`modifyAppendOnlyTableException` creates a `DeltaUnsupportedOperationException` with the following:
+
+* `errorClass`: `DELTA_CANNOT_MODIFY_APPEND_ONLY`
+* `messageParameters`:
+    * The given `tableName`
+    * [delta.appendOnly](DeltaConfigs.md#IS_APPEND_ONLY)
+
+---
+
+`modifyAppendOnlyTableException` is used when:
+
+* `DeltaLog` is requested to [assertRemovable](DeltaLog.md#assertRemovable)
