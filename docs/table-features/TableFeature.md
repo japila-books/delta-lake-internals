@@ -69,7 +69,7 @@ allSupportedFeaturesMap: Map[String, TableFeature]
 
 `allSupportedFeaturesMap` is a collection of [TableFeature](TableFeature.md)s by their lower-case [name](#name):
 
-* `AppendOnlyTableFeature`
+* [AppendOnlyTableFeature](../append-only-tables/AppendOnlyTableFeature.md)
 * `ChangeDataFeedTableFeature`
 * `CheckConstraintsTableFeature`
 * `DomainMetadataTableFeature`

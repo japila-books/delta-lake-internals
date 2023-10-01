@@ -23,16 +23,20 @@ DeltaConfigs.CHANGE_DATA_FEED.fromMetaData(metadata)
 
 All table properties start with `delta.` prefix.
 
-### <span id="appendOnly"><span id="IS_APPEND_ONLY"> appendOnly
+### <span id="IS_APPEND_ONLY"> appendOnly { #appendOnly }
 
-Whether a delta table is append-only (`true`) or not (`false`). When enabled, a table allows appends only and no updates or deletes.
+**delta.appendOnly**
+
+Turns a table into [append-only](append-only-tables/index.md)
+
+When enabled, a table allows appends only and no updates or deletes.
 
 Default: `false`
 
 Used when:
 
 * `DeltaLog` is requested to [assertRemovable](DeltaLog.md#assertRemovable) (that in turn uses `DeltaErrors` utility to [modifyAppendOnlyTableException](DeltaErrors.md#modifyAppendOnlyTableException))
-* `Protocol` utility is used to [requiredMinimumProtocol](Protocol.md#requiredMinimumProtocol)
+* `AppendOnlyTableFeature` is requested to [metadataRequiresFeatureToBeEnabled](append-only-tables/AppendOnlyTableFeature.md#metadataRequiresFeatureToBeEnabled)
 
 ### <span id="autoOptimize"><span id="AUTO_OPTIMIZE"> autoOptimize
 

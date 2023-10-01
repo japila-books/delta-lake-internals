@@ -16,6 +16,7 @@ metadataRequiresFeatureToBeEnabled(
 
 See:
 
+* [AppendOnlyTableFeature](../append-only-tables/AppendOnlyTableFeature.md#metadataRequiresFeatureToBeEnabled)
 * [RowTrackingFeature](../row-tracking/RowTrackingFeature.md#metadataRequiresFeatureToBeEnabled)
 
 Used when:
@@ -24,7 +25,7 @@ Used when:
 
 ## Implementations
 
-* `AppendOnlyTableFeature`
+* [AppendOnlyTableFeature](../append-only-tables/AppendOnlyTableFeature.md)
 * `ChangeDataFeedTableFeature`
 * `CheckConstraintsTableFeature`
 * `ColumnMappingTableFeature`

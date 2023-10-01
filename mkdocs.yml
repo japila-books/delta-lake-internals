@@ -141,6 +141,7 @@ nav:
   - Home: index.md
   - Features:
     - features/index.md
+    - ... | append-only-tables/**.md
     - Change Data Feed:
       - change-data-feed/index.md
       - CdcAddFileIndex: change-data-feed/CdcAddFileIndex.md

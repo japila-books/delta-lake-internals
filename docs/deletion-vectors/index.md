@@ -5,7 +5,7 @@ hide:
 
 # Deletion Vectors
 
-**Deletion Vectors** is enabled using [delta.enableDeletionVectors](../DeltaConfigs.md#enableDeletionVectors) table property.
+**Deletion Vectors** is enabled on a delta table using [delta.enableDeletionVectors](../DeltaConfigs.md#enableDeletionVectors) table property.
 
 ## Demo
 
