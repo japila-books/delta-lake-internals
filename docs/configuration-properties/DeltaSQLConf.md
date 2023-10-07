@@ -6,6 +6,10 @@
 
 [spark.databricks.delta.checkpoint.partSize](index.md#checkpoint.partSize)
 
+## delete.deletionVectors.persistent { #DELETE_USE_PERSISTENT_DELETION_VECTORS }
+
+[spark.databricks.delta.delete.deletionVectors.persistent](index.md#delete.deletionVectors.persistent)
+
 ## merge.materializeSource { #DELTA_COLLECT_STATS_USING_TABLE_SCHEMA }
 
 [spark.databricks.delta.merge.materializeSource](index.md#merge.materializeSource)

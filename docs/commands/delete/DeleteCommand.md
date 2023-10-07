@@ -105,6 +105,19 @@ rewriteFiles(
 
 In the end, `rewriteFiles` requests the given [OptimisticTransaction](../../OptimisticTransaction.md) to [write the DataFrame](../../TransactionalWrite.md#writeFiles).
 
+### shouldWritePersistentDeletionVectors { #shouldWritePersistentDeletionVectors }
+
+```scala
+shouldWritePersistentDeletionVectors(
+  spark: SparkSession,
+  txn: OptimisticTransaction): Boolean
+```
+
+`shouldWritePersistentDeletionVectors` is enabled (`true`) when the following all hold:
+
+1. [spark.databricks.delta.delete.deletionVectors.persistent](../../configuration-properties/DeltaSQLConf.md#DELETE_USE_PERSISTENT_DELETION_VECTORS) configuration property is enabled (`true`)
+1. [Protocol and table configuration support deletion vector feature](../../deletion-vectors/DeletionVectorUtils.md#deletionVectorsWritable)
+
 ## <span id="apply"> Creating DeleteCommand
 
 ```scala

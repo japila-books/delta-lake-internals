@@ -136,7 +136,9 @@ Used when:
 * `UpdateCommand` is requested to [shouldOutputCdc](commands/update/UpdateCommand.md#shouldOutputCdc)
 * `CDCReader` is requested to [isCDCEnabledOnTable](change-data-feed/CDCReader.md#isCDCEnabledOnTable)
 
-### <span id="enableDeletionVectors"><span id="ENABLE_DELETION_VECTORS_CREATION"> enableDeletionVectors
+### <span id="ENABLE_DELETION_VECTORS_CREATION"> enableDeletionVectors { #enableDeletionVectors }
+
+**delta.enableDeletionVectors**
 
 Enables [Deletion Vectors](deletion-vectors/index.md)
 

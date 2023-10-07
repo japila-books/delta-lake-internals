@@ -82,6 +82,14 @@ If disabled, merge the two configurations with the same semantics as update and 
 
 Default: `true`
 
+### <span id="delete.deletionVectors.persistent"><span id="DELETE_USE_PERSISTENT_DELETION_VECTORS"> delete.deletionVectors.persistent
+
+**spark.databricks.delta.delete.deletionVectors.persistent**
+
+Enables [persistent Deletion Vectors](../deletion-vectors/index.md) in [DELETE](../commands/delete/index.md) command
+
+Default: `true`
+
 ### <span id="dummyFileManager.numOfFiles"><span id="DUMMY_FILE_MANAGER_NUM_OF_FILES"> dummyFileManager.numOfFiles
 
 **spark.databricks.delta.dummyFileManager.numOfFiles** (internal) controls how many dummy files to write in DummyFileManager
