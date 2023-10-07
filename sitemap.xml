@@ -431,6 +431,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://books.japila.pl/delta-lake-internals/change-data-feed/CDCReaderImpl/</loc>
+         <lastmod>2023-10-07</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://books.japila.pl/delta-lake-internals/change-data-feed/CdcAddFileIndex/</loc>
          <lastmod>2023-10-07</lastmod>
          <changefreq>daily</changefreq>
@@ -1156,12 +1161,42 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://books.japila.pl/delta-lake-internals/deletion-vectors/DeletionVectorBitmapGenerator/</loc>
+         <lastmod>2023-10-07</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://books.japila.pl/delta-lake-internals/deletion-vectors/DeletionVectorDescriptor/</loc>
+         <lastmod>2023-10-07</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://books.japila.pl/delta-lake-internals/deletion-vectors/DeletionVectorSet/</loc>
+         <lastmod>2023-10-07</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://books.japila.pl/delta-lake-internals/deletion-vectors/DeletionVectorUtils/</loc>
          <lastmod>2023-10-07</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://books.japila.pl/delta-lake-internals/deletion-vectors/DeletionVectorWriter/</loc>
+         <lastmod>2023-10-07</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://books.japila.pl/delta-lake-internals/deletion-vectors/DeletionVectorsTableFeature/</loc>
+         <lastmod>2023-10-07</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://books.japila.pl/delta-lake-internals/deletion-vectors/ScanWithDeletionVectors/</loc>
+         <lastmod>2023-10-07</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://books.japila.pl/delta-lake-internals/deletion-vectors/StoredBitmap/</loc>
          <lastmod>2023-10-07</lastmod>
          <changefreq>daily</changefreq>
     </url>
