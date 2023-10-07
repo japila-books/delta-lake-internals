@@ -96,7 +96,7 @@ remove: RemoveFile
 * `WriteIntoDelta` is requested to [write](commands/WriteIntoDelta.md#write) (with `Overwrite` mode)
 * `DeltaSink` is requested to [add a streaming micro-batch](delta/DeltaSink.md#addBatch) (with `Complete` output mode)
 
-## <span id="removeWithTimestamp"> Converting to RemoveFile
+## Converting to RemoveFile { #removeWithTimestamp }
 
 ```scala
 removeWithTimestamp(
@@ -106,13 +106,41 @@ removeWithTimestamp(
 
 `remove` creates a new [RemoveFile](RemoveFile.md) action for the [path](#path) with the given `timestamp` and `dataChange` flag.
 
+??? note "`dataChange` Flag is Disabled for OptimizeTableCommand"
+    `dataChange` is `true` (enabled) by default.
+
+    `dataChange` can only be changed (to `false`) when:
+
+    * `AddFile` is requested to [removeRows](#removeRows) (that does not change `dataChange` flag though)
+    * `OptimizeExecutor` is requested to [runOptimizeBinJob](commands/optimize/OptimizeExecutor.md#runOptimizeBinJob)
+
+    It is only [OptimizeTableCommand](commands/optimize/OptimizeTableCommand.md) that explicitly turns `dataChange` off (`false`).
+
 `removeWithTimestamp` is used when:
 
-* `AddFile` is requested to [create a RemoveFile action with the defaults](#remove)
-* [CreateDeltaTableCommand](commands/CreateDeltaTableCommand.md), [DeleteCommand](commands/delete/DeleteCommand.md) and [UpdateCommand](commands/update/UpdateCommand.md) commands are executed
+* `AddFile` is requested to [create a RemoveFile action with the defaults](#remove), [removeRows](#removeRows)
+* [CreateDeltaTableCommand](commands/CreateDeltaTableCommand.md), [DeleteCommand](commands/delete/DeleteCommand.md), [OptimizeTableCommand](commands/optimize/OptimizeTableCommand.md), [RestoreTableCommand](commands/restore/RestoreTableCommand.md) and [UpdateCommand](commands/update/UpdateCommand.md) commands are executed
+* `DeleteWithDeletionVectorsHelper` is requested to `processUnmodifiedData`
 * `DeltaCommand` is requested to [removeFilesFromPaths](commands/DeltaCommand.md#removeFilesFromPaths)
 
-## <span id="tag"> tag
+## removeRows { #removeRows }
+
+```scala
+removeRows(
+  deletionVector: DeletionVectorDescriptor,
+  updateStats: Boolean,
+  dataChange: Boolean = true): (AddFile, RemoveFile)
+```
+
+`removeRows`...FIXME
+
+---
+
+`removeRows` is used when:
+
+* `DeleteWithDeletionVectorsHelper` is requested to `processUnmodifiedData`
+
+## tag { #tag }
 
 ```scala
 tag(
