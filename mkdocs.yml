@@ -137,18 +137,15 @@ extra:
   tags:
     DeveloperApi: developerapi
 
+# The sections with ... use awesome-pages plugin
+# https://github.com/lukasgeiter/mkdocs-awesome-pages-plugin
+# Review .pages for setup
 nav:
   - Home: index.md
   - Features:
     - features/index.md
     - ... | append-only-tables/**.md
-    - Change Data Feed:
-      - change-data-feed/index.md
-      - CdcAddFileIndex: change-data-feed/CdcAddFileIndex.md
-      - CDCReader: change-data-feed/CDCReader.md
-      - DeltaSourceCDCSupport: change-data-feed/DeltaSourceCDCSupport.md
-      - IndexedChangeFileSeq: change-data-feed/IndexedChangeFileSeq.md
-      - TahoeRemoveFileIndex: change-data-feed/TahoeRemoveFileIndex.md
+    - ... | change-data-feed/**.md
     - CDF Table-Valued Functions:
       - table-valued-functions/index.md
       - table-valued-functions/DeltaTableValueFunction.md
@@ -167,9 +164,6 @@ nav:
       - column-mapping/index.md
       - DeltaColumnMappingBase: column-mapping/DeltaColumnMappingBase.md
       - DeltaColumnMappingMode: column-mapping/DeltaColumnMappingMode.md
-    # The following sections use awesome-pages plugin
-    # https://github.com/lukasgeiter/mkdocs-awesome-pages-plugin
-    # Review .pages for setup
     - ... | column-statistics/**.md
     - ... | configuration-properties/**.md
     - CREATE TABLE LIKE:
