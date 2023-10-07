@@ -1,0 +1,3 @@
+# StoredBitmap
+
+`StoredBitmap` is...FIXME

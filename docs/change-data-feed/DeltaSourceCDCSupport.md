@@ -2,7 +2,7 @@
 
 `DeltaSourceCDCSupport` is an abstraction to bring [CDC support](index.md) to [DeltaSource](../delta/DeltaSource.md).
 
-## <span id="getCDCFileChangesAndCreateDataFrame"> getCDCFileChangesAndCreateDataFrame
+## getCDCFileChangesAndCreateDataFrame { #getCDCFileChangesAndCreateDataFrame }
 
 ```scala
 getCDCFileChangesAndCreateDataFrame(
@@ -25,7 +25,7 @@ In the end, `getCDCFileChangesAndCreateDataFrame` returns the `DataFrame` with t
 
 * `DeltaSourceBase` is requested to [createDataFrameBetweenOffsets](../delta/DeltaSourceBase.md#createDataFrameBetweenOffsets) (and to [getFileChangesAndCreateDataFrame](../delta/DeltaSourceBase.md#getFileChangesAndCreateDataFrame)) for `DeltaSource` for a [streaming DataFrame (with data between the start and end offsets)](../delta/DeltaSource.md#getBatch) with the [readChangeFeed](../delta/options.md#readChangeFeed) option enabled
 
-## <span id="getFileChangesForCDC"> getFileChangesForCDC
+## getFileChangesForCDC { #getFileChangesForCDC }
 
 ```scala
 getFileChangesForCDC(
