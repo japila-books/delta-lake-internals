@@ -39,3 +39,14 @@ findTouchedFiles(
 `findTouchedFiles` is used when:
 
 * `DeleteCommand` is requested to [performDelete](../commands/delete/DeleteCommand.md#performDelete)
+
+### findFilesWithMatchingRows { #findFilesWithMatchingRows }
+
+```scala
+findFilesWithMatchingRows(
+  txn: OptimisticTransaction,
+  nameToAddFileMap: Map[String, AddFile],
+  matchedFileRowIndexSets: Seq[DeletionVectorResult]): Seq[TouchedFileWithDV]
+```
+
+`findFilesWithMatchingRows`...FIXME

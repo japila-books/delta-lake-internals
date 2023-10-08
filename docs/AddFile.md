@@ -1,28 +1,57 @@
 # AddFile
 
-`AddFile` is a [FileAction](FileAction.md) that represents an action of adding a [file](#path) to a delta table.
+`AddFile` is a [FileAction](FileAction.md) that represents an action of adding a new [file](#path) to a delta table.
 
 ## Creating Instance
 
 `AddFile` takes the following to be created:
 
-* <span id="path"> Path
+* <span id="path"> File Path
 * <span id="partitionValues"> Partition values (`Map[String, String]`)
 * <span id="size"> Size (in bytes)
 * <span id="modificationTime"> Modification time
-* <span id="dataChange"> `dataChange` flag
-* [File Statistics](#stats)
-* <span id="tags"> Tags (`Map[String, String]`) (default: `null`)
-* <span id="deletionVector"> `DeletionVectorDescriptor`
+* [dataChange flag](#dataChange)
+* [JSON-encoded File Statistics](#stats)
+* <span id="tags"> Tags
+* <span id="deletionVector"> [DeletionVectorDescriptor](deletion-vectors/DeletionVectorDescriptor.md)
+* <span id="baseRowId"> Base Row ID
+* <span id="defaultRowCommitVersion"> Default Row Commit Version
 
 `AddFile` is created when:
 
-* `ConvertToDeltaCommandUtils` is requested to [createAddFile](commands/convert/ConvertToDeltaCommandUtils.md#createAddFile)
+* `ConvertUtilsBase` is requested to `createAddFile`
 * `DelayedCommitProtocol` is requested to [buildActionFromAddedFile](DelayedCommitProtocol.md#buildActionFromAddedFile)
 * `TahoeChangeFileIndex` is requested to `matchingFiles`
 * `TahoeRemoveFileIndex` is requested to [matchingFiles](change-data-feed/TahoeRemoveFileIndex.md#matchingFiles)
+* `DeltaSource` is requested to [filterAndGetIndexedFiles](delta/DeltaSource.md#filterAndGetIndexedFiles) (for a sentinel)
 
-### <span id="stats"> File Statistics
+### dataChange { #dataChange }
+
+??? note "FileAction"
+
+    ```scala
+    dataChange: Boolean
+    ```
+
+    `dataChange` is part of the [FileAction](FileAction.md#dataChange) abstraction.
+
+`AddFile` is given `dataChange` flag when [created](#creating-instance).
+
+`dataChange` is enabled (`true`) when:
+
+* `ConvertUtilsBase` is requested to `createAddFile`
+* `DelayedCommitProtocol` is requested to [buildActionFromAddedFile](DelayedCommitProtocol.md#buildActionFromAddedFile)
+
+`dataChange` is disabled (`false`) when:
+
+* `TahoeChangeFileIndex` is requested to [matchingFiles](change-data-feed/TahoeChangeFileIndex.md#matchingFiles)
+* `DeltaSource` is requested to [filterAndGetIndexedFiles](delta/DeltaSource.md#filterAndGetIndexedFiles) (for a sentinel)
+
+`dataChange` can also be specified when:
+
+* `TahoeRemoveFileIndex` is requested to [matchingFiles](change-data-feed/TahoeRemoveFileIndex.md#matchingFiles)
+
+### File Statistics { #stats }
 
 ```scala
 stats: String

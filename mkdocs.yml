@@ -261,8 +261,8 @@ nav:
       - StagedDeltaTableV2: StagedDeltaTableV2.md
     - File Indices:
       - TahoeFileIndex: TahoeFileIndex.md
-      - PinnedTahoeFileIndex: PinnedTahoeFileIndex.md
       - TahoeBatchFileIndex: TahoeBatchFileIndex.md
+      - TahoeFileIndexWithSnapshotDescriptor: TahoeFileIndexWithSnapshotDescriptor.md
       - TahoeLogFileIndex: TahoeLogFileIndex.md
       - DeltaLogFileIndex: DeltaLogFileIndex.md
     - WriteIntoDeltaBuilder: WriteIntoDeltaBuilder.md

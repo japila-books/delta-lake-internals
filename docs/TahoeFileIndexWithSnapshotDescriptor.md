@@ -1,0 +1,3 @@
+# TahoeFileIndexWithSnapshotDescriptor
+
+`TahoeFileIndexWithSnapshotDescriptor` is...FIXME

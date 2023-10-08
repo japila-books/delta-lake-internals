@@ -34,7 +34,7 @@
 !!! note "dataChange and OPTIMIZE command"
     `dataChange` flag is only `false` (disabled) for [OPTIMIZE](commands/optimize/index.md) command.
 
-`dataChange` is given `dataChange` flag when [created](#creating-instance).
+`RemoveFile` is given `dataChange` flag when [created](#creating-instance).
 
 `dataChange` is enabled (`true`) by default.
 

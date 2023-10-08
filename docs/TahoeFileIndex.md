@@ -20,9 +20,7 @@ Used for [listing data files](#listFiles)
 
 ## Implementations
 
-* [PinnedTahoeFileIndex](PinnedTahoeFileIndex.md)
-* [PreparedDeltaFileIndex](data-skipping/PreparedDeltaFileIndex.md)
-* [TahoeBatchFileIndex](TahoeBatchFileIndex.md)
+* [TahoeFileIndexWithSnapshotDescriptor](TahoeFileIndexWithSnapshotDescriptor.md)
 * [TahoeLogFileIndex](TahoeLogFileIndex.md)
 
 ## Creating Instance
