@@ -23,7 +23,7 @@ In the end, `getCDCFileChangesAndCreateDataFrame` returns the `DataFrame` with t
 
 `getCDCFileChangesAndCreateDataFrame` is used when:
 
-* `DeltaSourceBase` is requested to [createDataFrameBetweenOffsets](../delta/DeltaSourceBase.md#createDataFrameBetweenOffsets) (and to [getFileChangesAndCreateDataFrame](../delta/DeltaSourceBase.md#getFileChangesAndCreateDataFrame)) for `DeltaSource` for a [streaming DataFrame (with data between the start and end offsets)](../delta/DeltaSource.md#getBatch) with the [readChangeFeed](../delta/options.md#readChangeFeed) option enabled
+* `DeltaSourceBase` is requested to [createDataFrameBetweenOffsets](../delta/DeltaSourceBase.md#createDataFrameBetweenOffsets) (and to [getFileChangesAndCreateDataFrame](../delta/DeltaSourceBase.md#getFileChangesAndCreateDataFrame)) for `DeltaSource` for a [streaming DataFrame (with data between the start and end offsets)](../delta/DeltaSource.md#getBatch) with [readChangeFeed](../delta/options.md#readChangeFeed) option enabled
 
 ## getFileChangesForCDC { #getFileChangesForCDC }
 

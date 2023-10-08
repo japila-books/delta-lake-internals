@@ -1,5 +1,25 @@
 # CDCReaderImpl
 
+## changesToBatchDF { #changesToBatchDF }
+
+```scala
+changesToBatchDF(
+  deltaLog: DeltaLog,
+  start: Long,
+  end: Long,
+  spark: SparkSession,
+  readSchemaSnapshot: Option[Snapshot] = None,
+  useCoarseGrainedCDC: Boolean = false): DataFrame
+```
+
+`changesToBatchDF`...FIXME
+
+---
+
+`changesToBatchDF` is used when:
+
+* `DeltaCDFRelation` is requested to [buildScan](DeltaCDFRelation.md#buildScan)
+
 ## changesToDF { #changesToDF }
 
 ```scala
@@ -13,7 +33,21 @@ changesToDF(
   useCoarseGrainedCDC: Boolean = false): CDCVersionDiffInfo
 ```
 
+`changesToDF` [getTimestampsByVersion](#getTimestampsByVersion).
+
+`changesToDF` requests the [DeltaLog](../SnapshotDescriptor.md#deltaLog) (of the given [SnapshotDescriptor](../SnapshotDescriptor.md)) for the [Snapshot](../SnapshotManagement.md#getSnapshotAt) at the given `start`.
+
+`changesToDF` asserts that one of the following is enabled (or throws a `DeltaAnalysisException`):
+
+* The given `useCoarseGrainedCDC` flag
+* [isCDCEnabledOnTable](#isCDCEnabledOnTable)
+
+!!! danger "`useCoarseGrainedCDC` flag is disabled by default"
+    It is a fairly dangerous assertion given `useCoarseGrainedCDC` flag is disabled by default.
+
 `changesToDF`...FIXME
+
+In the end, `changesToDF` creates a new `CDCVersionDiffInfo`.
 
 ---
 

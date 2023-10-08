@@ -8,7 +8,13 @@ As they put it (in [this comment](https://github.com/delta-io/delta/commit/d90f9
 
 Non-CDC data is written out to the base directory of a delta table, while CDC data is written out to the [_change_data](CDCReader.md#CDC_LOCATION) special folder.
 
-Change Data Feed is a new feature in Delta Lake 2.0.0 (that was tracked under [Support for Change Data Feed in Delta Lake #1105]({{ delta.issues }}/1105)).
+The heart of Change Data Feed table feature is [CDCReaderImpl](CDCReaderImpl.md#changesToDF) with the following entry points based on query type:
+
+* [Batch queries](DeltaCDFRelation.md#buildScan)
+* [Streaming queries](../delta/DeltaSourceBase.md#createDataFrameBetweenOffsets)
+
+!!! note "New in Delta Lake 2.0.0"
+    Change Data Feed is a new feature in Delta Lake 2.0.0 (that was tracked under [Support for Change Data Feed in Delta Lake]({{ delta.issues }}/1105)).
 
 ## Enabling CDF for a Delta table
 
