@@ -1,5 +1,24 @@
 # CDCReaderImpl
 
+## getCDCRelation { #getCDCRelation }
+
+```scala
+getCDCRelation(
+  spark: SparkSession,
+  snapshotToUse: Snapshot,
+  isTimeTravelQuery: Boolean,
+  conf: SQLConf,
+  options: CaseInsensitiveStringMap): BaseRelation
+```
+
+`getCDCRelation`...FIXME
+
+---
+
+`getCDCRelation` is used when:
+
+* `DeltaLog` is requested to [create a BaseRelation](../DeltaLog.md#createRelation)
+
 ## changesToBatchDF { #changesToBatchDF }
 
 ```scala

@@ -314,7 +314,10 @@ With non-empty `cdcOptions`, `createRelation` [creates a CDC-aware relation](cha
 
 `createRelation`...FIXME
 
-In the end, `createRelation` creates a `HadoopFsRelation` for the `TahoeLogFileIndex` and...FIXME. The `HadoopFsRelation` is also an [InsertableRelation](#createRelation-InsertableRelation).
+In the end, `createRelation` creates a `HadoopFsRelation` for the `TahoeLogFileIndex` and...FIXME.
+
+!!! note
+    The returned `HadoopFsRelation` is also an [InsertableRelation](#createRelation-InsertableRelation).
 
 ---
 
@@ -322,6 +325,7 @@ In the end, `createRelation` creates a `HadoopFsRelation` for the `TahoeLogFileI
 
 * `DeltaTableV2` is requested to [toBaseRelation](DeltaTableV2.md#toBaseRelation)
 * `WriteIntoDeltaBuilder` is requested to [buildForV1Write](WriteIntoDeltaBuilder.md#buildForV1Write)
+* `WriteIntoDelta` is requested to [removeFiles](commands/WriteIntoDelta.md#removeFiles)
 * `DeltaDataSource` is requested for a [writable relation](delta/DeltaDataSource.md#CreatableRelationProvider-createRelation)
 
 ## <span id="createRelation-InsertableRelation"><span id="createRelation-InsertableRelation-insert"> insert
