@@ -1,6 +1,6 @@
 # TahoeBatchFileIndex
 
-`TahoeBatchFileIndex` is a [file index](TahoeFileIndex.md) of a [delta table](#deltaLog) at a given [version](#snapshot).
+`TahoeBatchFileIndex` is a [TahoeFileIndexWithSnapshotDescriptor](TahoeFileIndexWithSnapshotDescriptor.md) of a [delta table](#deltaLog) at a given [version](#snapshot).
 
 ## Creating Instance
 

@@ -166,15 +166,15 @@ lastCheckpoint: Option[CheckpointMetaData]
 * `SnapshotManagement` is requested to [load the latest snapshot](../SnapshotManagement.md#getSnapshotAtInit)
 * `MetadataCleanup` is requested to [listExpiredDeltaLogs](../MetadataCleanup.md#listExpiredDeltaLogs)
 
-### <span id="loadMetadataFromFile"> loadMetadataFromFile
+### loadMetadataFromFile { #loadMetadataFromFile }
 
 ```scala
 loadMetadataFromFile(
   tries: Int): Option[CheckpointMetaData]
 ```
 
-`loadMetadataFromFile` loads the [_last_checkpoint](LAST_CHECKPOINT) file (in JSON format) and converts it to `CheckpointMetaData` (with a version, size and parts).
+`loadMetadataFromFile` loads the JSON-encoded [_last_checkpoint](#LAST_CHECKPOINT) file and converts it to `CheckpointMetaData` (with a version, size and parts).
 
-`loadMetadataFromFile` uses the [LogStore](../DeltaLog.md#store) to [read](#read) the [_last_checkpoint](LAST_CHECKPOINT) file.
+`loadMetadataFromFile` uses the [LogStore](../DeltaLog.md#store) to [read](#read) the []`_last_checkpoint` file.
 
-In case the [_last_checkpoint](LAST_CHECKPOINT) file is corrupted, `loadMetadataFromFile`...FIXME
+In case the `_last_checkpoint` file is corrupted, `loadMetadataFromFile`...FIXME

@@ -1,6 +1,6 @@
 # PreparedDeltaFileIndex
 
-`PreparedDeltaFileIndex` is a [TahoeFileIndex](../TahoeFileIndex.md) that uses [DeltaScan](#preparedScan) for all the work.
+`PreparedDeltaFileIndex` is a [TahoeFileIndexWithSnapshotDescriptor](../TahoeFileIndexWithSnapshotDescriptor.md) that uses [DeltaScan](#preparedScan) for all the work.
 
 ## Creating Instance
 

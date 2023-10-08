@@ -202,7 +202,7 @@ metadata: Metadata
 
 `metadata` is part of the [Checkpoints](checkpoints/Checkpoints.md#metadata) abstraction.
 
-`metadata` requests the [current Snapshot](#snapshot) for the [metadata](Snapshot.md#metadata) or creates a new [one](Metadata.md) (if the [current Snapshot](snapshot) is not initialized).
+`metadata` requests the [current Snapshot](#snapshot) for the [metadata](Snapshot.md#metadata) or creates a new [one](Metadata.md) (if the [current Snapshot](#snapshot) is not initialized).
 
 ## <span id="update"> update
 
@@ -242,7 +242,7 @@ tryUpdate(
 
 `tryUpdate`...FIXME
 
-## <span id="snapshot"> Snapshot
+## Snapshot { #snapshot }
 
 ```scala
 snapshot: Snapshot

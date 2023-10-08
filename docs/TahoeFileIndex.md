@@ -66,7 +66,7 @@ partitionSchema: StructType
 
 `partitionSchema` is part of the `FileIndex` ([Spark SQL]({{ book.spark_sql }}/datasources/FileIndex/#partitionSchema)) abstraction.
 
-## <span id="tableVersion"> Version of Delta Table
+## Version of Delta Table { #tableVersion }
 
 ```scala
 tableVersion: Long
@@ -82,7 +82,7 @@ tableVersion: Long
 toString: String
 ```
 
-`toString` returns the following text (using the [version](tableVersion) and the [path](#path) of the Delta table):
+`toString` returns the following text (using the [version](#tableVersion) and the [path](#path) of the Delta table):
 
 ```text
 Delta[version=[tableVersion], [truncatedPath]]
