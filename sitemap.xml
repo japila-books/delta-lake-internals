@@ -446,6 +446,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://books.japila.pl/delta-lake-internals/change-data-feed/DeltaCDFRelation/</loc>
+         <lastmod>2023-10-08</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://books.japila.pl/delta-lake-internals/change-data-feed/DeltaSourceCDCSupport/</loc>
          <lastmod>2023-10-08</lastmod>
          <changefreq>daily</changefreq>
