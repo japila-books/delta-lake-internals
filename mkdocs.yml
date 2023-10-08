@@ -1,5 +1,5 @@
 site_name: The Internals of Delta Lake
-site_url: https://books.japila.pl/delta-lake-internals/
+site_url: https://books.japila.pl/delta-lake-internals
 site_author: Jacek Laskowski
 site_description: Demystifying inner-workings of Delta Lake
 
@@ -87,6 +87,8 @@ plugins:
       tags_extra_files:
         developer-api.md:
           - developerapi
+  # https://squidfunk.github.io/mkdocs-material/reference/#built-in-typeset-plugin
+  - typeset
 
 extra:
   analytics:
@@ -141,7 +143,7 @@ extra:
 # https://github.com/lukasgeiter/mkdocs-awesome-pages-plugin
 # Review .pages for setup
 nav:
-  - Home: index.md
+  - index.md
   - Features:
     - features/index.md
     - ... | append-only-tables/**.md

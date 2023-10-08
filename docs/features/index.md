@@ -1,3 +1,8 @@
+---
+hide:
+  - toc
+---
+
 # Features
 
 The following is a list of the features of Delta Lake that make it so amazing (even _[awesomesauce](https://dictionary.cambridge.org/dictionary/english/awesomesauce)_ 😏):
@@ -15,6 +20,7 @@ The following is a list of the features of Delta Lake that make it so amazing (e
 * [Spark SQL integration with support for batch and streaming queries](../delta/DeltaDataSource.md)
 * [Table Constraints](../constraints/index.md)
 * [Time Travel](../time-travel/index.md)
+* _others_ (listed in the menu on the left)
 
 ## Learn More
 

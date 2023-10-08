@@ -1,18 +1,20 @@
 ---
+title: Delta Lake
+icon: material/home
 hide:
   - toc
   - navigation
 ---
 
-# The Internals of {{ book.title }} {{ delta.version }}
+# The Internals of {{ book.title }} {{ delta.version }} (Apache Spark {{ spark.version }})
 
 Welcome to **The Internals of {{ book.title }}** online book! 🤙
 
-I'm [Jacek Laskowski](https://pl.linkedin.com/in/jaceklaskowski), an IT freelancer specializing in
+I'm [Jacek Laskowski](https://pl.linkedin.com/in/jaceklaskowski), a Freelance Data Engineer specializing in
 [Apache Spark](https://books.japila.pl/apache-spark-internals/) (incl. [Spark SQL](https://books.japila.pl/spark-sql-internals/) and [Spark Structured Streaming](https://books.japila.pl/spark-structured-streaming-internals/)),
 [Delta Lake](https://books.japila.pl/delta-lake-internals/),
 [Databricks](https://www.databricks.com/product/data-lakehouse),
-and [Apache Kafka](https://books.japila.pl/kafka-internals/) (incl. [Kafka Streams](https://books.japila.pl/kafka-streams-internals/) and [ksqlDB](https://books.japila.pl/ksqldb-internals/)) with brief forays into a wider data engineering space (e.g., [Trino](https://trino.io/), [Dask](https://www.dask.org/) and [dbt](https://www.getdbt.com/), mostly during [Warsaw Data Engineering](https://www.meetup.com/Warsaw-Data-Engineering/) meetups).
+and [Apache Kafka](https://books.japila.pl/kafka-internals/) (incl. [Kafka Streams](https://books.japila.pl/kafka-streams-internals/)) with brief forays into a wider data engineering space (e.g., [Trino](https://trino.io/), [Dask](https://www.dask.org/) and [dbt](https://www.getdbt.com/), mostly during [Warsaw Data Engineering](https://www.meetup.com/Warsaw-Data-Engineering/) meetups).
 
 I'm very excited to have you here and hope you will enjoy exploring the internals of {{ book.title }} as much as I have.
 
