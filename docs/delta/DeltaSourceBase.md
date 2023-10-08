@@ -2,21 +2,23 @@
 
 `DeltaSourceBase` is an extension of the `Source` ([Spark Structured Streaming]({{ book.structured_streaming }}/Source)) abstraction for [DeltaSource](DeltaSource.md).
 
-## <span id="schema"> Read Schema
+## Schema { #schema }
 
-```scala
-schema: StructType
-```
+??? note "Source"
 
-`schema` is part of the `Source` ([Spark Structured Streaming]({{ book.structured_streaming }}/Source#schema)) abstraction.
+    ```scala
+    schema: StructType
+    ```
 
----
+    `schema` is part of the `Source` ([Spark Structured Streaming]({{ book.structured_streaming }}/Source#schema)) abstraction.
 
-`schema` [removes the default expressions](../ColumnWithDefaultExprUtils.md#removeDefaultExpressions) from the table schema (from the [Metadata](../Snapshot.md#metadata) of the [Snapshot](../SnapshotManagement.md#snapshot) of the [DeltaLog](DeltaSource.md#deltaLog)).
+`schema` [removes the internal table metadata](../DeltaTableUtils.md#removeInternalMetadata) (with the [readSchemaAtSourceInit](#readSchemaAtSourceInit)).
 
-In the end, `schema` [adds the CDF columns](../change-data-feed/CDCReader.md#cdcReadSchema) to the schema when [readChangeFeed](DeltaReadOptions.md#readChangeFeed) option is enabled. Otherwise, `schema` returns the schema with no CDF columns and default expressions.
+With [readChangeFeed](DeltaReadOptions.md#readChangeFeed) option enabled, `schema` [adds the CDF columns](../change-data-feed/CDCReader.md#cdcReadSchema) to the schema.
 
-## <span id="createDataFrameBetweenOffsets"> createDataFrameBetweenOffsets
+In the end, `schema` returns the schema of a delta table with or without CDF columns (based on [readChangeFeed](DeltaReadOptions.md#readChangeFeed) option).
+
+## createDataFrameBetweenOffsets { #createDataFrameBetweenOffsets }
 
 ```scala
 createDataFrameBetweenOffsets(
@@ -37,7 +39,7 @@ createDataFrameBetweenOffsets(
 
 * `DeltaSource` is requested for the [streaming micro-batch DataFrame](DeltaSource.md#getBatch)
 
-### <span id="getFileChangesAndCreateDataFrame"> getFileChangesAndCreateDataFrame
+### getFileChangesAndCreateDataFrame { #getFileChangesAndCreateDataFrame }
 
 ```scala
 getFileChangesAndCreateDataFrame(

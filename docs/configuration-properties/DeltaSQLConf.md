@@ -34,6 +34,10 @@
 
 [spark.databricks.delta.merge.optimizeMatchedOnlyMerge.enabled](index.md#merge.optimizeMatchedOnlyMerge.enabled)
 
+## schema.removeSparkInternalMetadata { #DELTA_SCHEMA_REMOVE_SPARK_INTERNAL_METADATA }
+
+[spark.databricks.delta.schema.removeSparkInternalMetadata](index.md#schema.removeSparkInternalMetadata)
+
 ## <span id="DELTA_COLLECT_STATS"> stats.collect { #stats.collect }
 
 [spark.databricks.delta.stats.collect](index.md#stats.collect)

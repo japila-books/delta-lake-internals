@@ -414,6 +414,21 @@ Used when:
 * `DeltaWriteOptionsImpl` is requested for [canMergeSchema](../delta/DeltaWriteOptionsImpl.md#canMergeSchema)
 * `MergeIntoCommand` is requested for [canMergeSchema](../commands/merge/MergeIntoCommand.md#canMergeSchema)
 
+### <span id="DELTA_SCHEMA_REMOVE_SPARK_INTERNAL_METADATA"> schema.removeSparkInternalMetadata { #schema.removeSparkInternalMetadata }
+
+(internal) **spark.databricks.delta.schema.removeSparkInternalMetadata**
+
+Whether to remove leaked Spark's internal metadata from the table schema before returning
+to Spark.
+These internal metadata might be stored unintentionally in tables created by
+old Spark versions.
+
+Default: `true`
+
+Used when:
+
+* `DeltaTableUtils` utility is used to [removeInternalMetadata](../DeltaTableUtils.md#removeInternalMetadata)
+
 ### <span id="schema.typeCheck.enabled"><span id="DELTA_SCHEMA_TYPE_CHECK"> schema.typeCheck.enabled
 
 **spark.databricks.delta.schema.typeCheck.enabled** (internal) controls whether to check unsupported data types while updating a table schema
