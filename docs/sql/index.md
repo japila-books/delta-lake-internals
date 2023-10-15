@@ -44,6 +44,11 @@ createTableHeader
 replaceTableHeader
     : (CREATE OR)? REPLACE TABLE table
     ;
+
+temporalClause
+    : FOR? (SYSTEM_VERSION | VERSION) AS OF version=(INTEGER_VALUE | STRING)
+    | FOR? (SYSTEM_TIME | TIMESTAMP) AS OF timestamp=STRING
+    ;
 ```
 
 Creates a [CloneTableStatement](../commands/clone/CloneTableStatement.md)

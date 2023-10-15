@@ -373,9 +373,11 @@ Used when:
 
 * `Protocol` utility is used to [create a Protocol](../Protocol.md#apply)
 
-### <span id="replaceWhere.constraintCheck.enabled"><span id="REPLACEWHERE_CONSTRAINT_CHECK_ENABLED"> replaceWhere.constraintCheck.enabled
+### <span id="REPLACEWHERE_CONSTRAINT_CHECK_ENABLED"> replaceWhere.constraintCheck.enabled { #replaceWhere.constraintCheck.enabled }
 
-**spark.databricks.delta.replaceWhere.constraintCheck.enabled** controls whether or not [replaceWhere](../delta/options.md#replaceWhere) on arbitrary expression and arbitrary columns enforces [constraints](../constraints/index.md) to replace the target table only when all the rows in the source dataframe match that constraint.
+**spark.databricks.delta.replaceWhere.constraintCheck.enabled**
+
+Controls whether or not [replaceWhere](../delta/options.md#replaceWhere) on arbitrary expression and arbitrary columns enforces [constraints](../constraints/index.md) to replace the target table only when all the rows in the source dataframe match that constraint.
 
 If disabled, it will skip the constraint check and replace with all the rows from the new dataframe.
 

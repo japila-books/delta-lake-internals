@@ -1,6 +1,34 @@
 # DeleteWithDeletionVectorsHelper
 
-`DeleteWithDeletionVectorsHelper` is a [DeltaCommand](../commands/DeltaCommand.md).
+`DeleteWithDeletionVectorsHelper` is a [DeltaCommand](../commands/DeltaCommand.md) for `DeleteCommand` to [performDelete](../commands/delete/DeleteCommand.md#performDelete).
+
+## createTargetDfForScanningForMatches { #createTargetDfForScanningForMatches }
+
+```scala
+createTargetDfForScanningForMatches(
+  spark: SparkSession,
+  target: LogicalPlan,
+  fileIndex: TahoeFileIndex): DataFrame
+```
+
+`createTargetDfForScanningForMatches`...FIXME
+
+---
+
+`createTargetDfForScanningForMatches` is used when:
+
+* `DeleteCommand` is requested to [performDelete](../commands/delete/DeleteCommand.md#performDelete)
+
+### replaceFileIndex { #replaceFileIndex }
+
+```scala
+replaceFileIndex(
+  txn: OptimisticTransaction,
+  nameToAddFileMap: Map[String, AddFile],
+  matchedFileRowIndexSets: Seq[DeletionVectorResult]): Seq[TouchedFileWithDV]
+```
+
+`replaceFileIndex`...FIXME
 
 ## processUnmodifiedData { #processUnmodifiedData }
 
@@ -18,6 +46,17 @@ processUnmodifiedData(
 `processUnmodifiedData` is used when:
 
 * `DeleteCommand` is requested to [performDelete](../commands/delete/DeleteCommand.md#performDelete)
+
+### getActionsWithStats { #getActionsWithStats }
+
+```scala
+getActionsWithStats(
+  spark: SparkSession,
+  addFilesWithNewDvs: Seq[AddFile],
+  snapshot: Snapshot): Seq[AddFile]
+```
+
+`getActionsWithStats`...FIXME
 
 ## findTouchedFiles { #findTouchedFiles }
 

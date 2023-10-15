@@ -34,6 +34,10 @@
 
 [spark.databricks.delta.merge.optimizeMatchedOnlyMerge.enabled](index.md#merge.optimizeMatchedOnlyMerge.enabled)
 
+## replaceWhere.constraintCheck.enabled { #REPLACEWHERE_CONSTRAINT_CHECK_ENABLED }
+
+[spark.databricks.delta.replaceWhere.constraintCheck.enabled](index.md#replaceWhere.constraintCheck.enabled)
+
 ## schema.removeSparkInternalMetadata { #DELTA_SCHEMA_REMOVE_SPARK_INTERNAL_METADATA }
 
 [spark.databricks.delta.schema.removeSparkInternalMetadata](index.md#schema.removeSparkInternalMetadata)

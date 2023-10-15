@@ -152,12 +152,7 @@ nav:
       - table-valued-functions/index.md
       - table-valued-functions/DeltaTableValueFunction.md
       - table-valued-functions/DeltaTableValueFunctions.md
-    - CHECK Constraints:
-      - check-constraints/index.md
-      - AddConstraint: check-constraints/AddConstraint.md
-      - AlterTableAddConstraint: check-constraints/AlterTableAddConstraint.md
-      - AlterTableDropConstraint: check-constraints/AlterTableDropConstraint.md
-      - DropConstraint: check-constraints/DropConstraint.md
+    - ... | check-constraints/**.md
     - ... | checkpoints/**.md
     - Column Invariants:
       - column-invariants/index.md
@@ -168,8 +163,6 @@ nav:
       - DeltaColumnMappingMode: column-mapping/DeltaColumnMappingMode.md
     - ... | column-statistics/**.md
     - ... | configuration-properties/**.md
-    - CREATE TABLE LIKE:
-      - create-table-like/index.md
     - ... | data-skipping/**.md
     - ... | deletion-vectors/**.md
     - developer-api.md
@@ -182,16 +175,7 @@ nav:
     - Logging: logging.md
     - ... | post-commit-hooks/**.md
     - ... | row-tracking/**.md
-    - Table Constraints:
-      - constraints/index.md
-      - CheckDeltaInvariant: constraints/CheckDeltaInvariant.md
-      - Constraint: constraints/Constraint.md
-      - Constraints: constraints/Constraints.md
-      - DeltaInvariantChecker: constraints/DeltaInvariantChecker.md
-      - DeltaInvariantCheckerExec: constraints/DeltaInvariantCheckerExec.md
-      - DeltaInvariantCheckerStrategy: constraints/DeltaInvariantCheckerStrategy.md
-      - Invariant: constraints/Invariant.md
-      - InvariantViolationException: constraints/InvariantViolationException.md
+    - ... | constraints/**.md
     - ... | table-features/**.md
     - table-properties.md
     - ... | time-travel/**.md
@@ -315,6 +299,8 @@ nav:
       - ManualListingFileManifest: commands/convert/ManualListingFileManifest.md
       - MetadataLogFileManifest: commands/convert/MetadataLogFileManifest.md
       - ParquetTable: commands/convert/ParquetTable.md
+    - CREATE TABLE LIKE:
+      - create-table-like/index.md
     - CreateDeltaTableCommand: commands/CreateDeltaTableCommand.md
     - Delete:
       - commands/delete/index.md

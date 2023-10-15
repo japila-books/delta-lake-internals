@@ -1,6 +1,6 @@
 # CHECK Constraints
 
-**CHECK Constraints** are [named SQL expressions](../constraints/Constraint.md#Check) that are used to enforce data quality at table level (at [write time](../TransactionalWrite.md#writeFiles)).
+**CHECK Constraints** are [named SQL expressions](../constraints/Constraint.md#Check) that are used to enforce data quality at [table](../constraints/index.md) level (at [write time](../TransactionalWrite.md#writeFiles)).
 
 CHECK constraints are registered (_added_) using the following high-level operator:
 
@@ -16,7 +16,7 @@ CHECK constraints are de-registered (_dropped_) using the following high-level o
 
 CHECK constraints require the [Minimum Writer Version](../Protocol.md#minWriterVersion) (of a [delta table](../Protocol.md)) to be at least [3](../Protocol.md#requiredMinimumProtocol-constraints).
 
-## <span id="delta.constraints"> delta.constraints
+## delta.constraints { #delta.constraints }
 
 CHECK constraints are [stored](../constraints/Constraints.md#getCheckConstraints) in the [table configuration](../Metadata.md#configuration) (of a [table metadata](../Metadata.md)) as `delta.constraints.`-keyed entries.
 

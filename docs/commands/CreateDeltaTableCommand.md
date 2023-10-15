@@ -15,14 +15,16 @@
 * [CreationMode](#operation)
 * <span id="tableByPath"> `tableByPath` flag (default: `false`)
 * <span id="output"> Output attributes
-* <span id="protocol"> [Protocol](../Protocol.md)
+* <span id="protocol"> Optional [Protocol](../Protocol.md)
 
 `CreateDeltaTableCommand` is created when:
 
-* [DeltaAnalysis](../DeltaAnalysis.md) logical resolution rule is executed (for a `CreateTableLikeCommand` with a target table being a delta table or specified explicitly or [resolveCloneCommand](../DeltaAnalysis.md#resolveCloneCommand))
+* [DeltaAnalysis](../DeltaAnalysis.md) logical resolution rule is executed for the following:
+    * `CreateTableLikeCommand` (with the delta table as the source or the provider being `delta`)
+    * [CloneTableStatement](../DeltaAnalysis.md#resolveCloneCommand)
 * `DeltaCatalog` is requested to [create a delta table](../DeltaCatalog.md#createDeltaTable)
 
-### <span id="operation"> CreationMode
+### CreationMode { #operation }
 
 `CreateDeltaTableCommand` can be given a `CreationMode` when [created](#creating-instance):
 

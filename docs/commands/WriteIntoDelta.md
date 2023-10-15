@@ -64,7 +64,7 @@ schemaInCatalog: Option[StructType] = None
 
 `run` [writes](#write) and requests the `OptimisticTransaction` to [commit](../OptimisticTransactionImpl.md#commit) (with `DeltaOperations.Write` operation with the [SaveMode](#mode), [partition columns](#partitionColumns), [replaceWhere](../delta/options.md#replaceWhere) and [userMetadata](../delta/options.md#userMetadata)).
 
-## write
+## Writing Out Data { #write }
 
 ```scala
 write(
@@ -90,10 +90,39 @@ write(
 
 ---
 
-`write` is used when:
+`write` is used the following commands are executed:
 
-* `CreateDeltaTableCommand` is requested to [run](CreateDeltaTableCommand.md#run)
-* `WriteIntoDelta` is requested to [run](#run)
+* [CreateDeltaTableCommand](CreateDeltaTableCommand.md)
+* [WriteIntoDelta](#run)
+
+### extractConstraints { #extractConstraints }
+
+```scala
+extractConstraints(
+  sparkSession: SparkSession,
+  expr: Seq[Expression]): Seq[Constraint]
+```
+
+For every `Expression` (in the given `expr`), `extractConstraints` checks out whether there is an `UnresolvedAttribute`. If there is one, `extractConstraints` creates a [Check](../constraints/Check.md) constraint with the following:
+
+Property | Value
+---------|------
+ `name` | `EXPRESSION(expression)`
+ `expression` | The `Expression` being handled
+
+??? note "Noop with spark.databricks.delta.replaceWhere.constraintCheck.enabled disabled"
+    `extractConstraints` returns no [Constraint](../constraints/Constraint.md)s for [spark.databricks.delta.replaceWhere.constraintCheck.enabled](../configuration-properties/index.md#replaceWhere.constraintCheck.enabled) disabled.
+
+### removeFiles { #removeFiles }
+
+```scala
+removeFiles(
+  spark: SparkSession,
+  txn: OptimisticTransaction,
+  condition: Seq[Expression]): Seq[Action]
+```
+
+`removeFiles`...FIXME
 
 ## Demo
 
@@ -144,19 +173,3 @@ isOverwriteOperation: Boolean
 `isOverwriteOperation` is used when:
 
 * `WriteIntoDelta` is requested for the [canOverwriteSchema](#canOverwriteSchema) and to [write](#write)
-
-## <span id="extractConstraints"> extractConstraints
-
-```scala
-extractConstraints(
-  sparkSession: SparkSession,
-  expr: Seq[Expression]): Seq[Constraint]
-```
-
-`extractConstraints`...FIXME
-
----
-
-`extractConstraints` is used when:
-
-* `WriteIntoDelta` is requested to [write data out](#write) (with `SaveMode.Overwrite` mode with [replaceWhere](../delta/options.md#replaceWhere) option)

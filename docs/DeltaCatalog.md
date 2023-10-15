@@ -131,7 +131,7 @@ loadTable(
 
 If found and the table is a delta table (Spark SQL's [V1Table]({{ book.spark_sql }}/connector/V1Table/) with `delta` provider), `loadTable` creates a [DeltaTableV2](DeltaTableV2.md).
 
-## <span id="createDeltaTable"> Creating Delta Table
+## Creating Delta Table { #createDeltaTable }
 
 ```scala
 createDeltaTable(
@@ -145,6 +145,8 @@ createDeltaTable(
 ```
 
 `createDeltaTable`...FIXME
+
+---
 
 `createDeltaTable` is used when:
 
