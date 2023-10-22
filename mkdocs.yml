@@ -100,8 +100,8 @@ extra:
     structured_streaming: https://books.japila.pl/spark-structured-streaming-internals
     spark_core: https://books.japila.pl/apache-spark-internals
   delta:
-    version: 3.0.0rc1
-    github: https://github.com/delta-io/delta/blob/v3.0.0rc1
+    version: 3.0.0
+    github: https://github.com/delta-io/delta/blob/v3.0.0
     commit: https://github.com/delta-io/delta/commit
     issues: https://github.com/delta-io/delta/issues
   guava:
@@ -117,7 +117,7 @@ extra:
   java:
     api: https://docs.oracle.com/en/java/javase/17/docs/api/java.base
   scala:
-    api: https://www.scala-lang.org/api/2.13.5
+    api: https://www.scala-lang.org/api/2.13.8
     docs: https://docs.scala-lang.org/
     spec: https://www.scala-lang.org/files/archive/spec/2.13
   social:
@@ -130,11 +130,11 @@ extra:
     - icon: fontawesome/brands/mastodon
       link: https://fosstodon.org/@jaceklaskowski
   spark:
-    version: 3.4.0
-    docs: https://spark.apache.org/docs/3.4.0
+    version: 3.5.0
+    docs: https://spark.apache.org/docs/3.5.0
   # https://squidfunk.github.io/mkdocs-material/reference/#setting-the-page-status
   status:
-    new: New in 3.0
+    new: New in 3.0.0
   # https://squidfunk.github.io/mkdocs-material/setup/setting-up-tags/#tag-icons-and-identifiers
   tags:
     DeveloperApi: developerapi
