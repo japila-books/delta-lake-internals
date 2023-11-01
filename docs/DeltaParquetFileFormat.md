@@ -21,11 +21,12 @@
 
 ### isSplittable Flag { #isSplittable }
 
-`DeltaParquetFileFormat` can be given `isSplittable` flag (when [created](#creating-instance)).
+`DeltaParquetFileFormat` can be given `isSplittable` flag when [created](#creating-instance).
 
-`isSplittable` is part of the `FileFormat` ([Spark SQL]({{ book.spark_sql }}/connectors/FileFormat/#isSplittable)) abstraction to indicate whether this delta table is splittable or not.
+!!! note "FileFormat"
+    `isSplittable` is part of the `FileFormat` ([Spark SQL]({{ book.spark_sql }}/connectors/FileFormat/#isSplittable)) abstraction to indicate whether this delta table is splittable or not.
 
-Unless specified, `isSplittable` flag is enabled by default (just like the parent `ParquetFileFormat` ([Spark SQL]({{ book.spark_sql }}/parquet/ParquetFileFormat/#isSplittable))).
+Unless given, `isSplittable` flag is enabled by default (to match the base `ParquetFileFormat` ([Spark SQL]({{ book.spark_sql }}/parquet/ParquetFileFormat/#isSplittable))).
 
 `isSplittable` is disabled (`false`) when:
 
@@ -41,9 +42,17 @@ Unless specified, `isSplittable` flag is enabled by default (just like the paren
 
 `DeltaParquetFileFormat` can be given `disablePushDowns` flag when [created](#creating-instance).
 
-`disablePushDowns` flag indicates whether this delta table supports predicate pushdown optimization or not.
+`disablePushDowns` flag indicates whether this delta table supports predicate pushdown optimization or not for [buildReaderWithPartitionValues](#buildReaderWithPartitionValues) to pass the filters down to the parquet data reader or not.
 
-Unless specified, `disablePushDowns` flag is disabled (`false`) by default.
+Unless given, `disablePushDowns` flag is disabled (`false`) by default.
+
+`disablePushDowns` is enabled (`true`) when:
+
+* `DeltaParquetFileFormat` is requested to [copyWithDVInfo](#copyWithDVInfo) and created with [deletion vectors](#hasDeletionVectorMap) enabled
+* `DMLWithDeletionVectorsHelper` is requested to [replace a FileIndex](deletion-vectors/DMLWithDeletionVectorsHelper.md#replaceFileIndex)
+
+!!! note
+    `DeltaParquetFileFormat` supports either the predicate pushdown optimization (`disablePushDowns` is disabled) or [deletion vectors](#hasDeletionVectorMap).
 
 ## \_\_delta_internal_row_index Internal Metadata Column { #ROW_INDEX_COLUMN_NAME }
 
@@ -52,6 +61,12 @@ Unless specified, `disablePushDowns` flag is disabled (`false`) by default.
 `__delta_internal_row_index` is an [internal column](column-mapping/DeltaColumnMappingBase.md#DELTA_INTERNAL_COLUMNS).
 
 When defined in the schema (of a delta table), [DeltaParquetFileFormat](#buildReaderWithPartitionValues) creates an [iteratorWithAdditionalMetadataColumns](#iteratorWithAdditionalMetadataColumns).
+
+!!! warning
+    `__delta_internal_row_index` column is only supported for delta tables with the following features disabled:
+
+    * [File Splitting](#isSplittable)
+    * [Predicate Pushdown](#disablePushDowns)
 
 `__delta_internal_row_index` is used when:
 
