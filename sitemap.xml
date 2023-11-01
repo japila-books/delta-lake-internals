@@ -1181,11 +1181,6 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://books.japila.pl/delta-lake-internals/deletion-vectors/DeleteWithDeletionVectorsHelper/</loc>
-         <lastmod>2023-11-01</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://books.japila.pl/delta-lake-internals/deletion-vectors/DeletionVectorBitmapGenerator/</loc>
          <lastmod>2023-11-01</lastmod>
          <changefreq>daily</changefreq>
