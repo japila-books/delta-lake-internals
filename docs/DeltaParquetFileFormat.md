@@ -8,8 +8,8 @@
 
 * <span id="protocol"> [Protocol](Protocol.md)
 * <span id="metadata"> [Metadata](Metadata.md)
-* <span id="isSplittable"> `isSplittable` flag (default: `true`)
-* <span id="disablePushDowns"> `disablePushDowns` flag (default: `false`)
+* [isSplittable Flag](#isSplittable)
+* [disablePushDowns Flag](#disablePushDowns)
 * <span id="tablePath"> Optional Table Path (default: `None` (unspecified))
 * <span id="broadcastDvMap"> Optional Broadcast variable with `DeletionVectorDescriptorWithFilterType`s per `URI` (default: `None` (unspecified))
 * <span id="broadcastHadoopConf"> Optional Broadcast variable with Hadoop Configuration (default: `None` (unspecified))
@@ -18,6 +18,32 @@
 
 * `DeltaFileFormat` is requested for the [fileFormat](DeltaFileFormat.md#fileFormat)
 * `CDCReaderImpl` is requested for the [scanIndex](change-data-feed/CDCReaderImpl.md#scanIndex)
+
+### isSplittable Flag { #isSplittable }
+
+`DeltaParquetFileFormat` can be given `isSplittable` flag (when [created](#creating-instance)).
+
+`isSplittable` is part of the `FileFormat` ([Spark SQL]({{ book.spark_sql }}/connectors/FileFormat/#isSplittable)) abstraction to indicate whether this delta table is splittable or not.
+
+Unless specified, `isSplittable` flag is enabled by default (just like the parent `ParquetFileFormat` ([Spark SQL]({{ book.spark_sql }}/parquet/ParquetFileFormat/#isSplittable))).
+
+`isSplittable` is disabled (`false`) when:
+
+* `DeltaParquetFileFormat` is requested to [copyWithDVInfo](#copyWithDVInfo) and created with [deletion vectors](#hasDeletionVectorMap) enabled
+* `DMLWithDeletionVectorsHelper` is requested to [replace a FileIndex](deletion-vectors/DMLWithDeletionVectorsHelper.md#replaceFileIndex)
+
+!!! note
+    `DeltaParquetFileFormat` is either splittable or supports [deletion vectors](#hasDeletionVectorMap).
+
+`isSplittable` is also used to [buildReaderWithPartitionValues](#buildReaderWithPartitionValues) (to assert the configuration of this delta table).
+
+### disablePushDowns { #disablePushDowns }
+
+`DeltaParquetFileFormat` can be given `disablePushDowns` flag when [created](#creating-instance).
+
+`disablePushDowns` flag indicates whether this delta table supports predicate pushdown optimization or not.
+
+Unless specified, `disablePushDowns` flag is disabled (`false`) by default.
 
 ## \_\_delta_internal_row_index Internal Metadata Column { #ROW_INDEX_COLUMN_NAME }
 
