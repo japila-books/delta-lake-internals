@@ -26,4 +26,17 @@ replaceFileIndex(
   fileIndex: TahoeFileIndex): LogicalPlan
 ```
 
-`replaceFileIndex`...FIXME
+`replaceFileIndex` transforms (_recognizes_) the following logical operators in given `target` logical plan:
+
+1. `LogicalRelation`s with `HadoopFsRelation`s ([Spark SQL]({{ book.spark_sql }}/connectors/HadoopFsRelation/)) with [DeltaParquetFileFormat](../DeltaParquetFileFormat.md)
+1. `Project`s
+
+`replaceFileIndex` adds the following metadata columns to the output schema (of the logical operators):
+
+1. Delta-specific [__delta_internal_row_index](../DeltaParquetFileFormat.md#ROW_INDEX_COLUMN_NAME)
+1. `FileFormat`-specific `_metadata` ([Spark SQL]({{ book.spark_sql }}/connectors/FileFormat/#createFileMetadataCol))
+
+In addition, for `LogicalRelation`s, `replaceFileIndex` changes the `HadoopFsRelation` to use the following:
+
+* The given [TahoeFileIndex](../TahoeFileIndex.md) as the `FileIndex` ([Spark SQL]({{ book.spark_sql }}/connectors/HadoopFsRelation/#location))
+* The `DeltaParquetFileFormat` with [splitting](../DeltaParquetFileFormat.md#isSplittable) and [pushdowns](../DeltaParquetFileFormat.md#disablePushDowns) disabled
