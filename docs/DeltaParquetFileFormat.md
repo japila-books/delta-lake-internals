@@ -1,32 +1,38 @@
 # DeltaParquetFileFormat
 
-`DeltaParquetFileFormat` is a `ParquetFileFormat` ([Spark SQL]({{ book.spark_sql }}/datasources/parquet/ParquetFileFormat)) to support [no restrictions on columns names](#prepareSchema).
+`DeltaParquetFileFormat` is a `ParquetFileFormat` ([Spark SQL]({{ book.spark_sql }}/parquet/ParquetFileFormat)) to support [no restrictions on columns names](#prepareSchema).
 
 ## Creating Instance
 
 `DeltaParquetFileFormat` takes the following to be created:
 
-* <span id="columnMappingMode"> [DeltaColumnMappingMode](column-mapping/DeltaColumnMappingMode.md)
-* <span id="referenceSchema"> Reference schema ([StructType]({{ book.spark_sql }}/types/StructType))
+* <span id="protocol"> [Protocol](Protocol.md)
+* <span id="metadata"> [Metadata](Metadata.md)
+* <span id="isSplittable"> `isSplittable` flag (default: `true`)
+* <span id="disablePushDowns"> `disablePushDowns` flag (default: `false`)
+* <span id="tablePath"> Optional Table Path (default: `None` (unspecified))
+* <span id="broadcastDvMap"> Optional Broadcast variable with `DeletionVectorDescriptorWithFilterType`s per `URI` (default: `None` (unspecified))
+* <span id="broadcastHadoopConf"> Optional Broadcast variable with Hadoop Configuration (default: `None` (unspecified))
 
 `DeltaParquetFileFormat` is created when:
 
 * `DeltaFileFormat` is requested for the [fileFormat](DeltaFileFormat.md#fileFormat)
+* `CDCReaderImpl` is requested for the [scanIndex](change-data-feed/CDCReaderImpl.md#scanIndex)
 
-## \_\_delta_internal_row_index { #ROW_INDEX_COLUMN_NAME }
+## \_\_delta_internal_row_index Internal Metadata Column { #ROW_INDEX_COLUMN_NAME }
 
 `DeltaParquetFileFormat` defines `__delta_internal_row_index` name for the metadata column name with the index of a row within a file.
 
 `__delta_internal_row_index` is an [internal column](column-mapping/DeltaColumnMappingBase.md#DELTA_INTERNAL_COLUMNS).
 
-When `__delta_internal_row_index` column is found in the schema of a delta table, [DeltaParquetFileFormat](#buildReaderWithPartitionValues) creates an [iteratorWithAdditionalMetadataColumns](#iteratorWithAdditionalMetadataColumns).
+When defined in the schema (of a delta table), [DeltaParquetFileFormat](#buildReaderWithPartitionValues) creates an [iteratorWithAdditionalMetadataColumns](#iteratorWithAdditionalMetadataColumns).
 
 `__delta_internal_row_index` is used when:
 
-* `DMLWithDeletionVectorsHelper` is requested to `replaceFileIndex`
+* `DMLWithDeletionVectorsHelper` is requested to [replace a FileIndex](deletion-vectors/DMLWithDeletionVectorsHelper.md#replaceFileIndex) (in all the delta tables in a logical plan)
 * `DeletionVectorBitmapGenerator` is requested to [buildRowIndexSetsForFilesMatchingCondition](deletion-vectors/DeletionVectorBitmapGenerator.md#buildRowIndexSetsForFilesMatchingCondition)
 
-## Building Data Reader With Partition Values { #buildReaderWithPartitionValues }
+## Building Data Reader (With Partition Values) { #buildReaderWithPartitionValues }
 
 ```scala
 buildReaderWithPartitionValues(
@@ -41,7 +47,7 @@ buildReaderWithPartitionValues(
 
 `buildReaderWithPartitionValues` [prepares](#prepareSchema) the given schemas (e.g., `dataSchema`, `partitionSchema` and `requiredSchema`) before requesting the parent `ParquetFileFormat` to `buildReaderWithPartitionValues`.
 
-`buildReaderWithPartitionValues` is part of the `ParquetFileFormat` ([Spark SQL]({{ book.spark_sql }}/datasources/parquet/ParquetFileFormat#buildReaderWithPartitionValues)) abstraction.
+`buildReaderWithPartitionValues` is part of the `ParquetFileFormat` ([Spark SQL]({{ book.spark_sql }}/parquet/ParquetFileFormat#buildReaderWithPartitionValues)) abstraction.
 
 ### <span id="prepareSchema"> Preparing Schema
 
@@ -52,13 +58,33 @@ prepareSchema(
 
 `prepareSchema` [creates a physical schema](column-mapping/DeltaColumnMappingBase.md#createPhysicalSchema) (for the `inputSchema`, the [referenceSchema](#referenceSchema) and the [DeltaColumnMappingMode](#columnMappingMode)).
 
-## <span id="supportFieldName"> supportFieldName
+## supportFieldName { #supportFieldName }
 
-```scala
-supportFieldName(
-  name: String): Boolean
-```
+??? note "FileFormat"
 
-`supportFieldName` is enabled (`true`) when the [columnMappingMode](#columnMappingMode) is not `NoMapping` or requests the parent `ParquetFileFormat` to `supportFieldName`.
+    ```scala
+    supportFieldName(
+      name: String): Boolean
+    ```
 
-`supportFieldName` is part of the `ParquetFileFormat` ([Spark SQL]({{ book.spark_sql }}/datasources/parquet/ParquetFileFormat#supportFieldName)) abstraction.
+    `supportFieldName` is part of the `FileFormat` ([Spark SQL]({{ book.spark_sql }}/connectors/FileFormat#supportFieldName)) abstraction.
+
+`supportFieldName` is enabled (`true`) when either holds true:
+
+* The [DeltaColumnMappingMode](#columnMappingMode) is not `NoMapping`
+* The default (parent) `supportFieldName` ([Spark SQL]({{ book.spark_sql }}/connectors/FileFormat#supportFieldName))
+
+## metadataSchemaFields { #metadataSchemaFields }
+
+??? note "FileFormat"
+
+    ```scala
+    metadataSchemaFields: Seq[StructField]
+    ```
+
+    `metadataSchemaFields` is part of the `FileFormat` ([Spark SQL]({{ book.spark_sql }}/connectors/FileFormat/#metadataSchemaFields)) abstraction.
+
+Due to an issue in Spark SQL (to be reported), `metadataSchemaFields` removes `row_index` from the default `metadataSchemaFields` ([Spark SQL]({{ book.spark_sql }}/parquet/ParquetFileFormat/#metadataSchemaFields)).
+
+!!! note "ParquetFileFormat"
+    All what `ParquetFileFormat` does (when requested for the `metadataSchemaFields`) is to add the `row_index`. In other words, `DeltaParquetFileFormat` reverts this column addition.

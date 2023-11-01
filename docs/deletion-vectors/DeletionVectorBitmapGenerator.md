@@ -17,7 +17,7 @@ buildRowIndexSetsForFilesMatchingCondition(
 Column Name | Column
 ------------|-------
  `filePath` | `_metadata.file_path`
- `rowIndexCol` | `__delta_internal_row_index`
+ `rowIndexCol` | [__delta_internal_row_index](../DeltaParquetFileFormat.md#ROW_INDEX_COLUMN_NAME)
 
 `buildRowIndexSetsForFilesMatchingCondition` filters out the rows based on the given `condition` expression.
 
@@ -27,7 +27,7 @@ Column Name | Column
 
 `buildRowIndexSetsForFilesMatchingCondition` is used when:
 
-* `DeleteWithDeletionVectorsHelper` is requested to [findTouchedFiles](DeleteWithDeletionVectorsHelper.md#findTouchedFiles)
+* `DMLWithDeletionVectorsHelper` is requested to [findTouchedFiles](DMLWithDeletionVectorsHelper.md#findTouchedFiles)
 
 ### buildDeletionVectors { #buildDeletionVectors }
 

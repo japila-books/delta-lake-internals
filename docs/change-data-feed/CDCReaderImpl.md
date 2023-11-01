@@ -115,3 +115,20 @@ generateFileActionsWithInlineDv(
 ```
 
 `generateFileActionsWithInlineDv`...FIXME
+
+## scanIndex { #scanIndex }
+
+```scala
+scanIndex(
+  spark: SparkSession,
+  index: TahoeFileIndexWithSnapshotDescriptor,
+  isStreaming: Boolean = false): DataFrame
+```
+
+`scanIndex`...FIXME
+
+---
+
+`scanIndex` is used when:
+
+* `CDCReaderImpl` is requested to [changesToDF](#changesToDF), [getDeletedAndAddedRows](#getDeletedAndAddedRows), [processDeletionVectorActions](#processDeletionVectorActions)

@@ -13,4 +13,4 @@
 
 `TouchedFileWithDV` is created when:
 
-* `DeleteWithDeletionVectorsHelper` is requested to [findFilesWithMatchingRows](DeleteWithDeletionVectorsHelper.md#findFilesWithMatchingRows)
+* `DMLWithDeletionVectorsHelper` is requested to [findFilesWithMatchingRows](DMLWithDeletionVectorsHelper.md#findFilesWithMatchingRows)
