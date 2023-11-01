@@ -13,7 +13,20 @@
 
 * `DeltaFileFormat` is requested for the [fileFormat](DeltaFileFormat.md#fileFormat)
 
-## <span id="buildReaderWithPartitionValues"> Building Data Reader With Partition Values
+## \_\_delta_internal_row_index { #ROW_INDEX_COLUMN_NAME }
+
+`DeltaParquetFileFormat` defines `__delta_internal_row_index` name for the metadata column name with the index of a row within a file.
+
+`__delta_internal_row_index` is an [internal column](column-mapping/DeltaColumnMappingBase.md#DELTA_INTERNAL_COLUMNS).
+
+When `__delta_internal_row_index` column is found in the schema of a delta table, [DeltaParquetFileFormat](#buildReaderWithPartitionValues) creates an [iteratorWithAdditionalMetadataColumns](#iteratorWithAdditionalMetadataColumns).
+
+`__delta_internal_row_index` is used when:
+
+* `DMLWithDeletionVectorsHelper` is requested to `replaceFileIndex`
+* `DeletionVectorBitmapGenerator` is requested to [buildRowIndexSetsForFilesMatchingCondition](deletion-vectors/DeletionVectorBitmapGenerator.md#buildRowIndexSetsForFilesMatchingCondition)
+
+## Building Data Reader With Partition Values { #buildReaderWithPartitionValues }
 
 ```scala
 buildReaderWithPartitionValues(

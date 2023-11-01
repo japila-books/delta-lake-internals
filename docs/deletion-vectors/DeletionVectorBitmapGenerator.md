@@ -12,6 +12,15 @@ buildRowIndexSetsForFilesMatchingCondition(
   condition: Expression): Seq[DeletionVectorResult]
 ```
 
+`buildRowIndexSetsForFilesMatchingCondition` adds the following columns to the input `targetDf` DataFrame:
+
+Column Name | Column
+------------|-------
+ `filePath` | `_metadata.file_path`
+ `rowIndexCol` | `__delta_internal_row_index`
+
+`buildRowIndexSetsForFilesMatchingCondition` filters out the rows based on the given `condition` expression.
+
 `buildRowIndexSetsForFilesMatchingCondition`...FIXME
 
 ---
