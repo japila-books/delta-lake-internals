@@ -138,7 +138,7 @@ Used when:
 
 ### <span id="ENABLE_DELETION_VECTORS_CREATION"> enableDeletionVectors { #enableDeletionVectors }
 
-**delta.enableDeletionVectors**
+<h4>delta.enableDeletionVectors</h4>
 
 Enables [Deletion Vectors](deletion-vectors/index.md)
 

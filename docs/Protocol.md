@@ -217,7 +217,7 @@ minProtocolComponentsFromMetadata(
 `minProtocolComponentsFromMetadata` is used when:
 
 * `Protocol` is requested to [forNewTable](#forNewTable)
-* `CloneTableBase` is requested to [runInternal](commands/clone/CloneTableBase.md#runInternal)
+* `CloneTableBase` is requested to [determineTargetProtocol](commands/clone/CloneTableBase.md#determineTargetProtocol)
 
 ## upgradeProtocolFromMetadataForExistingTable { #upgradeProtocolFromMetadataForExistingTable }
 
@@ -243,9 +243,9 @@ minProtocolComponentsFromAutomaticallyEnabledFeatures(
   metadata: Metadata): (Int, Int, Set[TableFeature])
 ```
 
-`minProtocolComponentsFromAutomaticallyEnabledFeatures`...FIXME
+`minProtocolComponentsFromAutomaticallyEnabledFeatures` determines the minimum reader and writer versions based on [automatically enabled table features](#extractAutomaticallyEnabledFeatures).
 
-## <span id="demo"> Demo
+## Demo
 
 ```scala
 import org.apache.spark.sql.delta.actions.{Metadata, Protocol}

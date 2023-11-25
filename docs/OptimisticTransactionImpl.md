@@ -711,7 +711,7 @@ setNewProtocolWithFeaturesEnabledByMetadata(
   metadata: Metadata): Unit
 ```
 
-`setNewProtocolWithFeaturesEnabledByMetadata`...FIXME
+`setNewProtocolWithFeaturesEnabledByMetadata` [upgradeProtocolFromMetadataForExistingTable](Protocol.md#upgradeProtocolFromMetadataForExistingTable) (with the given [Metadata](Metadata.md) and the [Protocol](#protocol)) and makes it this transaction's [protocol](#newProtocol).
 
 ---
 

@@ -18,7 +18,7 @@
 * <span id="timestamp"> Timestamp
 * <span id="checksumOpt"> `VersionChecksum`
 
-While being created, `Snapshot` prints out the following INFO message to the logs and [initialize](#init):
+While being created, `Snapshot` prints out the following INFO message to the logs and triggers [initialization](#init).
 
 ```text
 Created snapshot [this]
@@ -28,13 +28,17 @@ Created snapshot [this]
 
 * `SnapshotManagement` is requested for a [Snapshot](SnapshotManagement.md#createSnapshot)
 
-### <span id="init"> Initializing
+### Initializing { #init }
 
 ```scala
 init(): Unit
 ```
 
-`init` requests the [DeltaLog](#deltaLog) for the [protocolRead](DeltaLog.md#protocolRead) for the [Protocol](#protocol).
+`init` validates the [protocol](#protocol) and the [metadata](#metadata):
+
+1. Requests the [DeltaLog](#deltaLog) to assert that the [Protocol](#protocol) is [protocolRead](DeltaLog.md#protocolRead)
+1. Requests the [DeltaLog](#deltaLog) to [assertTableFeaturesMatchMetadata](DeltaLog.md#assertTableFeaturesMatchMetadata) (with the [Protocol](#protocol) and the [Metadata](#metadata))
+1. [Records undefined types (in the Delta protocol)](SchemaUtils.md#recordUndefinedTypes) in the [schema](Metadata.md#schema) (of the [Metadata](#metadata))
 
 ## <span id="numIndexedCols"> Maximum Number of Indexed Columns
 
