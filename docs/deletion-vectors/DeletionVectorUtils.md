@@ -50,3 +50,25 @@ deletionVectorsWritable(
 
 * `OptimisticTransactionImpl` is requested to [getAssertDeletionVectorWellFormedFunc](../OptimisticTransactionImpl.md#getAssertDeletionVectorWellFormedFunc)
 * [DeleteCommand](../commands/delete/index.md) is executed (and requested to [shouldWritePersistentDeletionVectors](../commands/delete/DeleteCommand.md#shouldWritePersistentDeletionVectors))
+
+## isTableDVFree { #isTableDVFree }
+
+```scala
+isTableDVFree(
+  spark: SparkSession,
+  snapshot: Snapshot): Boolean
+```
+
+`isTableDVFree` indicates whether [Deletion Vectors](index.md) are present in the delta table (per the given [Snapshot](../Snapshot.md)).
+
+!!! note
+    Used only for [GenerateSymlinkManifest](../post-commit-hooks/GenerateSymlinkManifest.md).
+
+`isTableDVFree` is `true` unless [deletionVectorsReadable](#deletionVectorsReadable) (in the given [Snapshot](../Snapshot.md)) and there are `deletionVector`s in the [allFiles](../Snapshot.md#allFiles) in the given [Snapshot](../Snapshot.md).
+
+---
+
+`isTableDVFree` is used when:
+
+* `Protocol` is requested to [assertTablePropertyConstraintsSatisfied](../Protocol.md#assertTablePropertyConstraintsSatisfied) (with [compatibility.symlinkFormatManifest.enabled](../DeltaConfigs.md#compatibility.symlinkFormatManifest.enabled) enabled)
+* `GenerateSymlinkManifestImpl` is requested to `generateFullManifest`
