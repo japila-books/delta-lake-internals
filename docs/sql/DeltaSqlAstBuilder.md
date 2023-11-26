@@ -38,3 +38,12 @@ visitClone(
 ```
 
 `visitClone` creates a [CloneTableStatement](../commands/clone/CloneTableStatement.md) logical operator.
+
+## visitReorgTable { #visitReorgTable }
+
+```scala
+visitReorgTable(
+  ctx: ReorgTableContext): AnyRef
+```
+
+`visitReorgTable` creates a [DeltaReorgTable](../commands/reorg/DeltaReorgTable.md) logical operator.

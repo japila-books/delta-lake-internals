@@ -324,6 +324,7 @@ nav:
       - MultiDimClusteringFunctions: commands/optimize/MultiDimClusteringFunctions.md
       - OptimizeExecutor: commands/optimize/OptimizeExecutor.md
       - OptimizeMetrics: commands/optimize/OptimizeMetrics.md
+      - DeltaOptimizeContext: commands/optimize/DeltaOptimizeContext.md
       - OptimizeStats: commands/optimize/OptimizeStats.md
       - OptimizeTableCommand: commands/optimize/OptimizeTableCommand.md
       - OptimizeTableCommandBase: commands/optimize/OptimizeTableCommandBase.md
@@ -332,6 +333,8 @@ nav:
       - PartitionerExpr: commands/optimize/PartitionerExpr.md
       - SpaceFillingCurveClustering: commands/optimize/SpaceFillingCurveClustering.md
       - ZOrderClustering: commands/optimize/ZOrderClustering.md
+    - Reorg:
+      - ... | flat | commands/reorg/**.md
     - Restore:
       - commands/restore/index.md
       - RestoreTableCommand: commands/restore/RestoreTableCommand.md
