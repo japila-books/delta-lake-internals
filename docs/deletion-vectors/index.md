@@ -5,7 +5,9 @@ hide:
 
 # Deletion Vectors
 
-**Deletion Vectors** table feature represents deleted rows in a conditional [DELETE](../commands/delete/index.md) command (when executed with a delete condition).
+**Deletion Vectors** table feature is used to speed up a conditional [DELETE](../commands/delete/index.md) command (when executed with a delete condition) in such a way that deleted rows as marked as such with no physical data file rewrite.
+
+It is said that Deletion Vectors feature soft-deletes data.
 
 Deletion Vectors can be enabled on a delta table using [delta.enableDeletionVectors](../DeltaConfigs.md#enableDeletionVectors) table property.
 
@@ -14,6 +16,10 @@ Deletion Vectors is used on a delta table when all of the following hold:
 1. [spark.databricks.delta.delete.deletionVectors.persistent](../configuration-properties/DeltaSQLConf.md#DELETE_USE_PERSISTENT_DELETION_VECTORS) system-wide configuration property is enabled
 1. [delta.enableDeletionVectors](../DeltaConfigs.md#enableDeletionVectors) table property is enabled
 1. [DeletionVectorsTableFeature](DeletionVectorsTableFeature.md) is [supported](../table-features/TableFeatureSupport.md#isFeatureSupported) by the [Protocol](../Protocol.md)
+
+## REORG TABLE Command
+
+[REORG TABLE](../commands/reorg/index.md) is used to purge soft-deleted data.
 
 ## Persistent Deletion Vectors
 

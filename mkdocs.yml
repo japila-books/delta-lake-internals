@@ -319,7 +319,7 @@ nav:
       - ... | flat | commands/merge/**.md
     - Optimize:
       - ... | flat | commands/optimize/**.md
-    - Reorg:
+    - REORG TABLE:
       - ... | flat | commands/reorg/**.md
     - Restore:
       - commands/restore/index.md

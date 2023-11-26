@@ -1,4 +1,4 @@
-# OPTIMIZE Command
+# Optimize Command
 
 From [Optimize performance with file management](https://docs.databricks.com/delta/optimizations/file-mgmt.html):
 

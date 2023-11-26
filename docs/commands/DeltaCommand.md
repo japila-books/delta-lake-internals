@@ -5,12 +5,17 @@
 ## Implementations
 
 * [AlterDeltaTableCommand](alter/AlterDeltaTableCommand.md)
-* [ConvertToDeltaCommand](convert/ConvertToDeltaCommand.md)
+* [ConvertToDeltaCommandBase](convert/ConvertToDeltaCommand.md)
+* [CreateDeltaTableCommand](CreateDeltaTableCommand.md)
 * [DeleteCommand](delete/DeleteCommand.md)
-* [MergeIntoCommand](merge/MergeIntoCommand.md)
+* [DescribeDeltaDetailCommand](describe-detail/DescribeDeltaDetailCommand.md)
+* `DescribeDeltaHistory`
+* [DMLWithDeletionVectorsHelper](../deletion-vectors/DMLWithDeletionVectorsHelper.md)
+* [MergeIntoCommandBase](merge/MergeIntoCommandBase.md)
 * [OptimizeExecutor](optimize/OptimizeExecutor.md)
 * [OptimizeTableCommandBase](optimize/OptimizeTableCommandBase.md)
 * [RestoreTableCommand](restore/RestoreTableCommand.md)
+* `ShowDeltaTableColumnsCommand`
 * [StatisticsCollection](../StatisticsCollection.md)
 * [UpdateCommand](update/UpdateCommand.md)
 * [VacuumCommandImpl](vacuum/VacuumCommandImpl.md)
