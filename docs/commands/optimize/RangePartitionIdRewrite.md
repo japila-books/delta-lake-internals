@@ -1,3 +1,7 @@
+---
+title: RangePartitionIdRewrite
+---
+
 # RangePartitionIdRewrite Optimization Rule
 
 `RangePartitionIdRewrite` is an optimization rule (`Rule[LogicalPlan]`) to [rewrite RangePartitionIds to PartitionerExprs](#apply).

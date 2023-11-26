@@ -1,3 +1,7 @@
+---
+title: PartitionerExpr
+---
+
 # PartitionerExpr Unary Expression
 
 `PartitionerExpr` is a `UnaryExpression` ([Spark SQL]({{ book.spark_sql }}/expressions/UnaryExpression)) that represents [RangePartitionId](RangePartitionId.md) unary expression at execution (after [RangePartitionIdRewrite](RangePartitionIdRewrite.md) optimization rule).

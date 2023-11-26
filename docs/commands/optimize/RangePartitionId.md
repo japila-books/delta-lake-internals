@@ -1,3 +1,7 @@
+---
+title: RangePartitionId
+---
+
 # RangePartitionId Unary Expression
 
 `RangePartitionId` is a `UnaryExpression` ([Spark SQL]({{ book.spark_sql }}/expressions/UnaryExpression)) that represents [range_partition_id](MultiDimClusteringFunctions.md#range_partition_id) function in a logical query plan (until it is resolved into [PartitionerExpr](PartitionerExpr.md) by [RangePartitionIdRewrite](RangePartitionIdRewrite.md) optimization).

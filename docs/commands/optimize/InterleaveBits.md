@@ -1,3 +1,7 @@
+---
+title: InterleaveBits
+---
+
 # InterleaveBits Expression
 
 `InterleaveBits` is an `Expression` ([Spark SQL]({{ book.spark_sql }}/expressions/Expression)) for [interleave_bits](MultiDimClusteringFunctions.md#interleave_bits) function.
