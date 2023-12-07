@@ -1,6 +1,6 @@
 # DescribeDeltaHistoryCommand
 
-`DescribeDeltaHistoryCommand` is a `RunnableCommand` ([Spark SQL]({{ book.spark_sql }}/logical-operators/RunnableCommand)) that uses [DeltaHistoryManager](../../DeltaHistoryManager.md) for the [commit history](../../DeltaHistoryManager.md#getHistory) of a delta table.
+`DescribeDeltaHistoryCommand` is a leaf `RunnableCommand` ([Spark SQL]({{ book.spark_sql }}/logical-operators/RunnableCommand)) that uses [DeltaHistoryManager](../../DeltaHistoryManager.md) for the [commit history](../../DeltaHistoryManager.md#getHistory) of a delta table.
 
 `DescribeDeltaHistoryCommand` is used for [DESCRIBE HISTORY](../../sql/index.md#DESCRIBE-HISTORY) SQL command.
 
@@ -8,23 +8,24 @@
 
 `DescribeDeltaHistoryCommand` takes the following to be created:
 
-* <span id="path"> (optional) Directory
-* <span id="tableIdentifier"> (optional) `TableIdentifier`
-* <span id="limit"> (optional) Number of commits to display
-* <span id="output"> Output Attributes (default: [CommitInfo](../../CommitInfo.md))
+* <span id="table"> [DeltaTableV2](../../DeltaTableV2.md)
+* <span id="limit"> Limit
+* <span id="output"> Output Schema Attributes
 
-`DescribeDeltaHistoryCommand` is created for:
+`DescribeDeltaHistoryCommand` is created when:
 
-* [DESCRIBE HISTORY](../../sql/index.md#DESCRIBE-HISTORY) SQL command (that uses `DeltaSqlAstBuilder` to [parse DESCRIBE HISTORY SQL command](../../sql/DeltaSqlAstBuilder.md#visitDescribeDeltaHistory))
+* `DescribeDeltaHistory` is requested to [convert itself into an executable DescribeDeltaHistoryCommand](DescribeDeltaHistory.md#toCommand)
 
-## <span id="run"> Executing Command
+## Executing Command { #run }
 
-```scala
-run(
-  sparkSession: SparkSession): Seq[Row]
-```
+??? note "RunnableCommand"
 
-`run` is part of the `RunnableCommand` ([Spark SQL]({{ book.spark_sql }}/logical-operators/RunnableCommand#run)) abstraction.
+    ```scala
+    run(
+      sparkSession: SparkSession): Seq[Row]
+    ```
+
+    `run` is part of the `RunnableCommand` ([Spark SQL]({{ book.spark_sql }}/logical-operators/RunnableCommand#run)) abstraction.
 
 `run` creates a Hadoop `Path` to (the location of) the delta table (based on [DeltaTableIdentifier](../../DeltaTableIdentifier.md)).
 

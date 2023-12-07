@@ -39,6 +39,20 @@ visitClone(
 
 `visitClone` creates a [CloneTableStatement](../commands/clone/CloneTableStatement.md) logical operator.
 
+## visitDescribeDeltaHistory { #visitDescribeDeltaHistory }
+
+```scala
+visitDescribeDeltaHistory(
+  ctx: DescribeDeltaHistoryContext): LogicalPlan
+```
+
+`visitDescribeDeltaHistory` creates a [DescribeDeltaHistory](../commands/describe-history/DescribeDeltaHistory.md) logical operator for the following SQL statement:
+
+```antlr
+(DESC | DESCRIBE) HISTORY (path | table)
+  (LIMIT limit)?
+```
+
 ## visitReorgTable { #visitReorgTable }
 
 ```scala

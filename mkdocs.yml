@@ -309,9 +309,8 @@ nav:
       - DeltaDelete: commands/delete/DeltaDelete.md
     - DESCRIBE DETAIL:
       - ... | flat | commands/describe-detail/**.md
-    - Describe History:
-      - commands/describe-history/index.md
-      - DescribeDeltaHistoryCommand: commands/describe-history/DescribeDeltaHistoryCommand.md
+    - DESCRIBE HISTORY:
+      - ... | flat | commands/describe-history/**.md
     - Generate:
       - commands/generate/index.md
       - DeltaGenerateCommand: commands/generate/DeltaGenerateCommand.md
