@@ -71,14 +71,14 @@ Creates a [ConvertToDeltaCommand](../commands/convert/ConvertToDeltaCommand.md)
 
 Executes [DescribeDeltaDetailCommand](../commands/describe-detail/DescribeDeltaDetailCommand.md)
 
-## <span id="DESCRIBE-HISTORY"> DESCRIBE HISTORY
+## DESCRIBE HISTORY
 
 ```text
 (DESC | DESCRIBE) HISTORY (path | table)
   (LIMIT limit)?
 ```
 
-Executes [DescribeDeltaHistoryCommand](../commands/describe-history/DescribeDeltaHistoryCommand.md)
+Creates a [DescribeDeltaHistory](../commands/describe-history/DescribeDeltaHistory.md)
 
 ## <span id="GENERATE"> GENERATE
 

@@ -35,4 +35,4 @@ val spark = SparkSession
 assert(io.delta.VERSION == "{{ delta.version }}")
 ```
 
-It is also possible to use [DESCRIBE HISTORY](sql/index.md#DESCRIBE-HISTORY) and check out the [engineInfo](CommitInfo.md#engineInfo) column.
+It is also possible to use [DESCRIBE HISTORY](sql/index.md#describe-history) and check out the [engineInfo](CommitInfo.md#engineInfo) column.

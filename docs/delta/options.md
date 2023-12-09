@@ -162,7 +162,7 @@ Defines a [user-defined commit metadata](../CommitInfo.md#userMetadata)
 
 Take precedence over [spark.databricks.delta.commitInfo.userMetadata](../configuration-properties/DeltaSQLConf.md#commitInfo.userMetadata)
 
-Available by inspecting [CommitInfo](../CommitInfo.md)s using [DESCRIBE HISTORY](../sql/index.md#DESCRIBE-HISTORY) or [DeltaTable.history](../DeltaTable.md#history).
+Available by inspecting [CommitInfo](../CommitInfo.md)s using [DESCRIBE HISTORY](../sql/index.md#describe-history) or [DeltaTable.history](../DeltaTable.md#history).
 
 !!! example "Demo"
     Learn more in [Demo: User Metadata for Labelling Commits](../demo/user-metadata-for-labelling-commits.md).

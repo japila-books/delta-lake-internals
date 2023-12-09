@@ -22,7 +22,7 @@
 
 `CommitInfo` is created (using [apply](#apply) and [empty](#empty) utilities) when:
 
-* `DeltaHistoryManager` is requested for [version and commit history](DeltaHistoryManager.md#getHistory) (for [DeltaTable.history](DeltaTable.md#history) operator and [DESCRIBE HISTORY](sql/index.md#DESCRIBE-HISTORY) SQL command)
+* `DeltaHistoryManager` is requested for [version and commit history](DeltaHistoryManager.md#getHistory) (for [DeltaTable.history](DeltaTable.md#history) operator and [DESCRIBE HISTORY](sql/index.md#describe-history) SQL command)
 * `OptimisticTransactionImpl` is requested to [commit](OptimisticTransactionImpl.md#commit) (with [spark.databricks.delta.commitInfo.enabled](configuration-properties/DeltaSQLConf.md#commitInfo.enabled) configuration property enabled)
 * `DeltaCommand` is requested to [commitLarge](commands/DeltaCommand.md#commitLarge) (for [ConvertToDeltaCommand](commands/convert/ConvertToDeltaCommand.md) command and `FileAlreadyExistsException` was thrown)
 
@@ -58,7 +58,7 @@ Apache-Spark/[SPARK_VERSION] Delta-Lake/[VERSION]
 
 `CommitInfo` can be looked up using [DeltaHistoryManager](DeltaHistoryManager.md#getCommitInfo) for the following:
 
-* [DESCRIBE HISTORY](sql/index.md#DESCRIBE-HISTORY) SQL command
+* [DESCRIBE HISTORY](sql/index.md#describe-history) SQL command
 * [DeltaTable.history](DeltaTable.md#history) operation
 
 ## <span id="spark.databricks.delta.commitInfo.enabled"> spark.databricks.delta.commitInfo.enabled

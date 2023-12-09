@@ -10,7 +10,7 @@ SQL Statement | Logical Command
  <span id="visitDropTableConstraint"> [ALTER TABLE DROP CONSTRAINT](index.md#ALTER-TABLE-DROP-CONSTRAINT) | [AlterTableDropConstraint](../check-constraints/AlterTableDropConstraint.md)
  [CONVERT TO DELTA](index.md#CONVERT-TO-DELTA) | [ConvertToDeltaCommand](../commands/convert/ConvertToDeltaCommand.md)
  <span id="visitDescribeDeltaDetail"> [DESCRIBE DETAIL](index.md#DESCRIBE-DETAIL) | [DescribeDeltaDetailCommand](../commands/describe-detail/DescribeDeltaDetailCommand.md)
- <span id="visitDescribeDeltaHistory"> [DESCRIBE HISTORY](index.md#DESCRIBE-HISTORY) | [DescribeDeltaHistoryCommand](../commands/describe-history/DescribeDeltaHistoryCommand.md)
+ <span id="visitDescribeDeltaHistory"> [DESCRIBE HISTORY](index.md#describe-history) | [DescribeDeltaHistoryCommand](../commands/describe-history/DescribeDeltaHistoryCommand.md)
  <span id="visitGenerate"> [GENERATE](index.md#GENERATE) | [DeltaGenerateCommand](../commands/generate/DeltaGenerateCommand.md)
  <span id="visitOptimizeTable"> [OPTIMIZE](index.md#OPTIMIZE) | [OptimizeTableCommand](../commands/optimize/OptimizeTableCommand.md)
  <span id="visitRestore"> [RESTORE](index.md#RESTORE) | [RestoreTableStatement](../commands/restore/RestoreTableStatement.md)

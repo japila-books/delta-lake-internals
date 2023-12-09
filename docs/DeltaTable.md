@@ -32,7 +32,7 @@ deltaLog: DeltaLog
 
 [DeltaLog](DeltaTableV2.md#deltaLog) of the [DeltaTableV2](#table).
 
-## <span id="utilities"> Utilities (Static Methods)
+## Utilities (Static Methods) { #utilities }
 
 ### <span id="columnBuilder"> columnBuilder
 
@@ -67,7 +67,7 @@ convertToDelta(
 !!! note
     Refer to [Demo: Converting Parquet Dataset Into Delta Format](demo/Converting-Parquet-Dataset-Into-Delta-Format.md) for a demo of `DeltaTable.convertToDelta`.
 
-### <span id="create"> create
+### create
 
 ```scala
 create(): DeltaTableBuilder
@@ -153,7 +153,7 @@ isDeltaTable(
 
 `isDeltaTable`...FIXME
 
-### <span id="replace"> replace
+### replace
 
 ```scala
 replace(): DeltaTableBuilder
@@ -165,7 +165,7 @@ Creates a [DeltaTableBuilder](DeltaTableBuilder.md) (with `ReplaceTableOptions` 
 
 ## Operators
 
-### <span id="alias"> alias
+### alias
 
 ```scala
 alias(
@@ -174,7 +174,7 @@ alias(
 
 Applies an alias to the `DeltaTable` (equivalent to [as](#as))
 
-### <span id="as"> as
+### as
 
 ```scala
 as(
@@ -183,7 +183,7 @@ as(
 
 Applies an alias to the `DeltaTable`
 
-### <span id="delete"> delete
+### delete
 
 ```scala
 delete(): Unit
@@ -204,7 +204,7 @@ generate(
 
 [Executes the DeltaGenerateCommand](DeltaTableOperations.md#executeGenerate)
 
-### <span id="history"> history
+### history
 
 ```scala
 history(): DataFrame
@@ -212,9 +212,9 @@ history(
   limit: Int): DataFrame
 ```
 
-[Requests the DeltaHistoryManager for history](DeltaTableOperations.md#executeHistory).
+[Requests the DeltaHistoryManager for history](DeltaTableOperations.md#executeHistory)
 
-### <span id="merge"> merge
+### merge
 
 ```scala
 merge(
@@ -227,7 +227,7 @@ merge(
 
 Creates a [DeltaMergeBuilder](commands/merge/DeltaMergeBuilder.md)
 
-### <span id="optimize"> optimize
+### optimize
 
 ```scala
 optimize(): DeltaOptimizeBuilder
@@ -261,7 +261,7 @@ toDF: Dataset[Row]
 
 Returns the [DataFrame](#df) representation of the DeltaTable
 
-### <span id="update"> update
+### update
 
 ```scala
 update(

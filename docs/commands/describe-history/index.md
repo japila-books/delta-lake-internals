@@ -1,8 +1,8 @@
-# Describe History Command
+# DESCRIBE HISTORY Command
 
 Delta Lake supports displaying versions (_history_) of delta tables using the following high-level operators:
 
-* [DESCRIBE HISTORY](DescribeDeltaHistory.md) SQL command
+* [DESCRIBE HISTORY](../../sql/index.md#describe-history) SQL command
 * [DeltaTable.history](../../DeltaTable.md#history)
 
 ## Metrics Reporting
