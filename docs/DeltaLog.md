@@ -15,6 +15,21 @@
 
 * [DeltaLog.forTable](#forTable) utility is used
 
+## DeltaHistoryManager { #history }
+
+```scala
+history: DeltaHistoryManager
+```
+
+`DeltaLog` creates a [DeltaHistoryManager](DeltaHistoryManager.md) (when requested for one the very first time).
+
+??? note "Lazy Value"
+    `history` is a Scala **lazy value** to guarantee that the code to initialize it is executed once only (when accessed for the first time) and the computed value never changes afterwards.
+
+    Learn more in the [Scala Language Specification]({{ scala.spec }}/05-classes-and-objects.html#lazy).
+
+`DeltaLog` uses [spark.databricks.delta.history.maxKeysPerList](configuration-properties/index.md#spark.databricks.delta.history.maxKeysPerList) property for the [maxKeysPerList](DeltaHistoryManager.md#maxKeysPerList).
+
 ## <span id="_delta_log"> _delta_log Metadata Directory
 
 `DeltaLog` uses **_delta_log** metadata directory for the transaction log of a Delta table.

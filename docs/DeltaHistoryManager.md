@@ -7,14 +7,23 @@
 `DeltaHistoryManager` takes the following to be created:
 
 * <span id="deltaLog"> [DeltaLog](DeltaLog.md)
-* <span id="maxKeysPerList"> Maximum number of keys (default: `1000`)
+* [Maximum Number of Keys](#maxKeysPerList)
 
 `DeltaHistoryManager` is created when:
 
-* `DeltaLog` is requested for [one](DeltaLog.md#history)
-* `DeltaTableOperations` is requested to [execute history command](DeltaTableOperations.md#executeHistory)
+* `DeltaLog` is requested for the [DeltaHistoryManager](DeltaLog.md#history)
 
-## <span id="getHistory"> Version and Commit History
+### Maximum Number of Keys { #maxKeysPerList }
+
+`DeltaHistoryManager` can be given `maxKeysPerList` when [created](#creating-instance).
+
+Unless given, `maxKeysPerList` is `1000`.
+
+The value of `maxKeysPerList` can be configured using [spark.databricks.delta.history.maxKeysPerList](configuration-properties/index.md#spark.databricks.delta.history.maxKeysPerList) configuration property.
+
+`maxKeysPerList` is used to [look up the active commit at a given time](#getActiveCommitAtTime) (and uses [parallelSearch](#parallelSearch)).
+
+## Version and Commit History { #getHistory }
 
 ```scala
 getHistory(
@@ -31,7 +40,7 @@ getHistory(
 * `DeltaTableOperations` is requested to [executeHistory](DeltaTableOperations.md#executeHistory) (for [DeltaTable.history](DeltaTable.md#history) operator)
 * [DescribeDeltaHistoryCommand](commands/describe-history/DescribeDeltaHistoryCommand.md) is executed (for [DESCRIBE HISTORY](sql/index.md#describe-history) SQL command)
 
-### <span id="getCommitInfo"> getCommitInfo Utility
+### getCommitInfo { #getCommitInfo }
 
 ```scala
 getCommitInfo(
@@ -42,7 +51,7 @@ getCommitInfo(
 
 `getCommitInfo`...FIXME
 
-## <span id="getActiveCommitAtTime"> getActiveCommitAtTime
+## getActiveCommitAtTime { #getActiveCommitAtTime }
 
 ```scala
 getActiveCommitAtTime(
@@ -52,7 +61,18 @@ getActiveCommitAtTime(
   canReturnEarliestCommit: Boolean = false): Commit
 ```
 
+`getActiveCommitAtTime` determines the earliest commit to find based on the given `mustBeRecreatable` flag (default: `true`):
+
+* When enabled (default), `getActiveCommitAtTime` [getEarliestRecreatableCommit](#getEarliestRecreatableCommit)
+* When disabled, `getActiveCommitAtTime` [getEarliestDeltaFile](#getEarliestDeltaFile)
+
+`getActiveCommitAtTime` requests the [DeltaLog](#deltaLog) to [update](SnapshotManagement.md#update) that gives the latest [Snapshot](Snapshot.md) that is requested for the [latest version](Snapshot.md#version).
+
+`getActiveCommitAtTime` finds the commit. Based on how many commits to fetch (and the [maxKeysPerList](#maxKeysPerList)), `getActiveCommitAtTime` does [parallelSearch](#parallelSearch) or [not](#getCommits).
+
 `getActiveCommitAtTime`...FIXME
+
+---
 
 `getActiveCommitAtTime` is used when:
 

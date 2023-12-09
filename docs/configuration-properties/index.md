@@ -102,13 +102,19 @@ Default: `3`
 
 Default: `.s3-optimization-`
 
-### <span id="history.maxKeysPerList"><span id="DELTA_HISTORY_PAR_SEARCH_THRESHOLD"> history.maxKeysPerList
+### <span id="spark.databricks.delta.history.maxKeysPerList"><span id="DELTA_HISTORY_PAR_SEARCH_THRESHOLD"> history.maxKeysPerList { #history.maxKeysPerList }
 
-**spark.databricks.delta.history.maxKeysPerList** (internal) controls how many commits to list when performing a parallel search.
+**spark.databricks.delta.history.maxKeysPerList**
 
-The default is the maximum keys returned by S3 per list call. Azure can return 5000, therefore we choose 1000.
+(internal) How many commits to list when performing a parallel search
 
 Default: `1000`
+
+The default is the maximum keys returned by S3 per [ListObjectsV2]({{ s3.api }}/API_ListObjectsV2.html) call. Azure can return up to `5000` blobs in [List Blobs](https://learn.microsoft.com/en-us/rest/api/storageservices/list-blobs), therefore we choose `1000`.
+
+Used when:
+
+* `DeltaLog` is requested for the [DeltaHistoryManager](../DeltaLog.md#history)
 
 ### <span id="DELTA_HISTORY_METRICS_ENABLED"> history.metricsEnabled { #history.metricsEnabled }
 

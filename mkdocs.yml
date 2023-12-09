@@ -116,6 +116,8 @@ extra:
     scala: https://github.com/FasterXML/jackson-module-scala
   java:
     api: https://docs.oracle.com/en/java/javase/17/docs/api/java.base
+  s3:
+    api: https://docs.aws.amazon.com/AmazonS3/latest/API
   scala:
     api: https://www.scala-lang.org/api/2.13.8
     docs: https://docs.scala-lang.org/

@@ -10,6 +10,10 @@
 
 [spark.databricks.delta.delete.deletionVectors.persistent](index.md#delete.deletionVectors.persistent)
 
+## history.maxKeysPerList { #DELTA_HISTORY_PAR_SEARCH_THRESHOLD }
+
+[spark.databricks.delta.history.maxKeysPerList](index.md#history.maxKeysPerList)
+
 ## merge.materializeSource { #DELTA_COLLECT_STATS_USING_TABLE_SCHEMA }
 
 [spark.databricks.delta.merge.materializeSource](index.md#merge.materializeSource)
