@@ -110,7 +110,7 @@ Default: `.s3-optimization-`
 
 Default: `1000`
 
-The default is the maximum keys returned by S3 per [ListObjectsV2]({{ s3.api }}/API_ListObjectsV2.html) call. Azure can return up to `5000` blobs in [List Blobs](https://learn.microsoft.com/en-us/rest/api/storageservices/list-blobs), therefore we choose `1000`.
+The default is the maximum keys returned by S3 per [ListObjectsV2]({{ s3.api }}/API_ListObjectsV2.html) call. Microsoft Azure can return up to `5000` blobs (including all `BlobPrefix` elements) in a single [List Blobs](https://learn.microsoft.com/en-us/rest/api/storageservices/list-blobs) API call, and hence the default `1000`.
 
 Used when:
 

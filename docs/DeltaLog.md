@@ -28,7 +28,7 @@ history: DeltaHistoryManager
 
     Learn more in the [Scala Language Specification]({{ scala.spec }}/05-classes-and-objects.html#lazy).
 
-`DeltaLog` uses [spark.databricks.delta.history.maxKeysPerList](configuration-properties/index.md#spark.databricks.delta.history.maxKeysPerList) property for the [maxKeysPerList](DeltaHistoryManager.md#maxKeysPerList).
+`DeltaLog` uses [spark.databricks.delta.history.maxKeysPerList](configuration-properties/index.md#spark.databricks.delta.history.maxKeysPerList) configuration property for the [maxKeysPerList](DeltaHistoryManager.md#maxKeysPerList).
 
 ## <span id="_delta_log"> _delta_log Metadata Directory
 

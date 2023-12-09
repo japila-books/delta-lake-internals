@@ -7,21 +7,21 @@
 `DeltaHistoryManager` takes the following to be created:
 
 * <span id="deltaLog"> [DeltaLog](DeltaLog.md)
-* [Maximum Number of Keys](#maxKeysPerList)
+* [Maximum Number of Keys (per List API Call)](#maxKeysPerList)
 
 `DeltaHistoryManager` is created when:
 
 * `DeltaLog` is requested for the [DeltaHistoryManager](DeltaLog.md#history)
 
-### Maximum Number of Keys { #maxKeysPerList }
+### Maximum Number of Keys (per List API Call) { #maxKeysPerList }
 
-`DeltaHistoryManager` can be given `maxKeysPerList` when [created](#creating-instance).
+`DeltaHistoryManager` can be given the number of keys per a `List` API call when [created](#creating-instance).
 
 Unless given, `maxKeysPerList` is `1000`.
 
 The value of `maxKeysPerList` can be configured using [spark.databricks.delta.history.maxKeysPerList](configuration-properties/index.md#spark.databricks.delta.history.maxKeysPerList) configuration property.
 
-`maxKeysPerList` is used to [look up the active commit at a given time](#getActiveCommitAtTime) (and uses [parallelSearch](#parallelSearch)).
+`maxKeysPerList` is used to [look up the active commit at a given time](#getActiveCommitAtTime) (in [parallelSearch](#parallelSearch)).
 
 ## Version and Commit History { #getHistory }
 
@@ -78,3 +78,24 @@ getActiveCommitAtTime(
 
 * `DeltaTableUtils` utility is used to [resolveTimeTravelVersion](DeltaTableUtils.md#resolveTimeTravelVersion)
 * `DeltaSource` is requested for [getStartingVersion](delta/DeltaSource.md#getStartingVersion)
+
+### parallelSearch { #parallelSearch }
+
+```scala
+parallelSearch(
+  time: Long,
+  start: Long,
+  end: Long): Commit
+```
+
+`parallelSearch` finds the latest `Commit` that happened at or before the given `time` in the range `[start, end)`.
+
+`parallelSearch` [parallelSearch0](#parallelSearch0).
+
+### parallelSearch0 { #parallelSearch0 }
+
+```scala
+parallelSearch0
+```
+
+`parallelSearch0`...FIXME
