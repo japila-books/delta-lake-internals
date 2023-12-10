@@ -2,7 +2,7 @@
 title: DeltaReorgTableCommand
 ---
 
-# DeltaReorgTableCommand Leaf Logical Runnable Command
+# DeltaReorgTableCommand Leaf Logical Command
 
 `DeltaReorgTableCommand` is an [OptimizeTableCommandBase](../optimize/OptimizeTableCommandBase.md) that represents [DeltaReorgTable](DeltaReorgTable.md) logical operator at execution.
 
@@ -28,7 +28,7 @@ title: DeltaReorgTableCommand
 
     `run` is part of the `RunnableCommand` ([Spark SQL]({{ book.spark_sql }}/logical-operators/RunnableCommand/#run)) abstraction.
 
-`run` executes an [OptimizeTableCommand](../optimize/OptimizeTableCommand.md) with no [zOrderBy](../optimize/OptimizeTableCommand.md#zOrderBy) and the following [DeltaOptimizeContext](../optimize/DeltaOptimizeContext.md):
+`run` executes [OptimizeTableCommand](../optimize/OptimizeTableCommand.md) with no [zOrderBy](../optimize/OptimizeTableCommand.md#zOrderBy) and the following [DeltaOptimizeContext](../optimize/DeltaOptimizeContext.md):
 
 DeltaOptimizeContext | Value
 ---------------------|------

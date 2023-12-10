@@ -38,6 +38,10 @@
 
 [spark.databricks.delta.merge.optimizeMatchedOnlyMerge.enabled](index.md#merge.optimizeMatchedOnlyMerge.enabled)
 
+## optimize.zorder.checkStatsCollection.enabled { #DELTA_OPTIMIZE_ZORDER_COL_STAT_CHECK }
+
+[spark.databricks.delta.optimize.zorder.checkStatsCollection.enabled](index.md#optimize.zorder.checkStatsCollection.enabled)
+
 ## replaceWhere.constraintCheck.enabled { #REPLACEWHERE_CONSTRAINT_CHECK_ENABLED }
 
 [spark.databricks.delta.replaceWhere.constraintCheck.enabled](index.md#replaceWhere.constraintCheck.enabled)

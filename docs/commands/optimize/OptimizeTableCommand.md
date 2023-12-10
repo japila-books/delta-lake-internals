@@ -1,34 +1,49 @@
 # OptimizeTableCommand
 
-`OptimizeTableCommand` is a `LeafRunnableCommand` ([Spark SQL]({{ book.spark_sql }}/logical-operators/LeafRunnableCommand)) for the following high-level operators:
+`OptimizeTableCommand` is a [OptimizeTableCommandBase](OptimizeTableCommandBase.md) for the following high-level operators:
 
-* [OPTIMIZE](../../sql/index.md#OPTIMIZE) SQL command
 * [DeltaOptimizeBuilder.executeCompaction](../../DeltaOptimizeBuilder.md#executeCompaction)
 * [DeltaOptimizeBuilder.executeZOrderBy](../../DeltaOptimizeBuilder.md#executeZOrderBy)
+* [OPTIMIZE](../../sql/index.md#OPTIMIZE) SQL command
+* [REORG TABLE](../reorg/index.md) SQL command
 
-`OptimizeTableCommand` is an [OptimizeTableCommandBase](OptimizeTableCommandBase.md).
-
-Once [executed](#run), `OptimizeTableCommand` returns a `DataFrame` with the following:
-
-* [dataPath](../../DeltaLog.md#dataPath)
-* [OptimizeMetrics](OptimizeMetrics.md)
+`OptimizeTableCommand` uses [OptimizeExecutor](OptimizeExecutor.md) to [optimize](OptimizeExecutor.md#optimize) (when [executed](#run)).
 
 ## Creating Instance
 
 `OptimizeTableCommand` takes the following to be created:
 
-* <span id="path"> Table Path
-* <span id="tableId"> `TableIdentifier`
-* <span id="userPartitionPredicates"> Partition Predicates
-* <span id="options"> Options
+* <span id="child"> Child `LogicalPlan` ([Spark SQL]({{ book.spark_sql }}/logical-operators/LogicalPlan))
+* <span id="userPartitionPredicates"> User-Defined Partition Predicates
+* <span id="optimizeContext"> [DeltaOptimizeContext](DeltaOptimizeContext.md)
 * <span id="zOrderBy"> `zOrderBy` attributes (aka _interleaveBy_ attributes)
 
 `OptimizeTableCommand` is created when:
 
-* `DeltaSqlAstBuilder` is requested to [parse OPTIMIZE SQL statement](../../sql/DeltaSqlAstBuilder.md#visitOptimizeTable)
 * `DeltaOptimizeBuilder` is requested to [execute](../../DeltaOptimizeBuilder.md#execute)
+* `DeltaReorgTableCommand` is [executed](../reorg/DeltaReorgTableCommand.md#run)
+* `OptimizeTableCommand` is requested to [apply](#apply)
 
-## <span id="run"> Executing Command
+## Creating OptimizeTableCommand { #apply }
+
+```scala
+apply(
+  path: Option[String],
+  tableIdentifier: Option[TableIdentifier],
+  userPartitionPredicates: Seq[String],
+  optimizeContext: DeltaOptimizeContext = DeltaOptimizeContext())(
+  zOrderBy: Seq[UnresolvedAttribute]): OptimizeTableCommand
+```
+
+`apply`...FIXME
+
+---
+
+`apply` is used when:
+
+* `DeltaSqlAstBuilder` is requested to [parse OPTIMIZE command](../../sql/DeltaSqlAstBuilder.md#visitOptimizeTable)
+
+## Executing Command { #run }
 
 ??? note "Signature"
     ```scala
@@ -42,4 +57,4 @@ Once [executed](#run), `OptimizeTableCommand` returns a `DataFrame` with the fol
 
 `run` [validates the zOrderBy columns](OptimizeTableCommandBase.md#validateZorderByColumns) (that may throw `DeltaIllegalArgumentException` or `DeltaAnalysisException` exceptions and so break the command execution).
 
-In the end, `run` creates an [OptimizeExecutor](OptimizeExecutor.md) that is in turn requested to [optimize](OptimizeExecutor.md#optimize).
+In the end, `run` creates an [OptimizeExecutor](OptimizeExecutor.md) for [optimize](OptimizeExecutor.md#optimize) (with the given [userPartitionPredicates](#userPartitionPredicates), the [zOrderBy attributes](#zOrderBy))
