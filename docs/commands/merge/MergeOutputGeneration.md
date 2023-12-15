@@ -1,6 +1,6 @@
 # MergeOutputGeneration
 
-`MergeOutputGeneration` is an extension of the [MergeIntoCommandBase](MergeIntoCommandBase.md) abstraction for [merge output generators](#implementations) with logic to transform the merge clauses into expressions that can be evaluated to obtain the (possibly optimized) output of the [merge command](index.md).
+`MergeOutputGeneration` is an extension of the [MergeIntoCommandBase](MergeIntoCommandBase.md) abstraction for [merge output generators](#implementations) with logic to transform the merge clauses into expressions that can be evaluated to obtain the (possibly optimized) output of the [MERGE INTO command](index.md).
 
 ## Implementations
 

@@ -1,10 +1,13 @@
 # AppendOnlyTableFeature
 
-`AppendOnlyTableFeature` is a [LegacyWriterFeature](../table-features/LegacyWriterFeature.md) known by the name of [appendOnly](../table-features/TableFeature.md#name) for [Append-Only Tables](index.md).
+`AppendOnlyTableFeature` is a [LegacyWriterFeature](../table-features/LegacyWriterFeature.md) with the following properties:
 
-The [minimum writer protocol version](../table-features/TableFeature.md#minWriterVersion) that supports `AppendOnlyTableFeature` is `2`.
+Property | Value
+---------|------
+ [Name](../table-features/LegacyWriterFeature.md#name) | `appendOnly`
+ [Minimum writer protocol version](../table-features/LegacyWriterFeature.md#minWriterVersion) | `2`
 
-`AppendOnlyTableFeature` is a [FeatureAutomaticallyEnabledByMetadata](../table-features/FeatureAutomaticallyEnabledByMetadata.md) that uses [delta.appendOnly](../DeltaConfigs.md#appendOnly) table property to enable [Append-Only Tables](index.md).
+`AppendOnlyTableFeature` is a [FeatureAutomaticallyEnabledByMetadata](../table-features/FeatureAutomaticallyEnabledByMetadata.md) that uses [delta.appendOnly](../DeltaConfigs.md#appendOnly) table property to control [Append-Only Tables](index.md) feature.
 
 ## metadataRequiresFeatureToBeEnabled { #metadataRequiresFeatureToBeEnabled }
 

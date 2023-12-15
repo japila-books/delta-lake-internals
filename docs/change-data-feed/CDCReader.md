@@ -219,14 +219,16 @@ scanIndex(
 
 In the end, `scanIndex` wraps it up as a `DataFrame`.
 
-## <span id="isCDCEnabledOnTable"> isCDCEnabledOnTable
+## isCDCEnabledOnTable { #isCDCEnabledOnTable }
 
 ```scala
 isCDCEnabledOnTable(
   metadata: Metadata): Boolean
 ```
 
-`isCDCEnabledOnTable` is the value of the [delta.enableChangeDataFeed](../DeltaConfigs.md#CHANGE_DATA_FEED) table property.
+`isCDCEnabledOnTable` [metadataRequiresFeatureToBeEnabled](ChangeDataFeedTableFeature.md#metadataRequiresFeatureToBeEnabled).
+
+---
 
 `isCDCEnabledOnTable` is used when:
 

@@ -1,6 +1,8 @@
 # Change Data Feed
 
-**Change Data Feed (CDF)** (aka _Change Data Capture_ or _CDC_ in short) is a feature of Delta Lake that allows tracking row-level changes between versions of a delta table.
+**Change Data Feed (CDF)** (fka _Change Data Capture_ or _CDC_ in short) is a [table feature](ChangeDataFeedTableFeature.md) in Delta Lake that allows tracking row-level changes between versions of a delta table.
+
+Change Data Feed can be enabled on a delta table using [delta.enableChangeDataFeed](#delta.enableChangeDataFeed) table property.
 
 With so-called [CDC-Aware Table Scan (CDC Read)](CDCReader.md#isCDCRead), [loading a delta table](../delta/DeltaDataSource.md#RelationProvider-createRelation) gives data changes (not the data of a particular version of the delta table).
 
@@ -14,11 +16,11 @@ The heart of Change Data Feed table feature is [CDCReaderImpl](CDCReaderImpl.md#
 * [Streaming queries](../delta/DeltaSourceBase.md#createDataFrameBetweenOffsets)
 
 !!! note "New in Delta Lake 2.0.0"
-    Change Data Feed is a new feature in Delta Lake 2.0.0 (that was tracked under [Support for Change Data Feed in Delta Lake]({{ delta.issues }}/1105)).
+    Change Data Feed was released in Delta Lake 2.0.0 (that was tracked under [Support for Change Data Feed in Delta Lake]({{ delta.issues }}/1105)).
 
-## Enabling CDF for a Delta table
+## delta.enableChangeDataFeed { #delta.enableChangeDataFeed }
 
-Enable CDF for a table using [delta.enableChangeDataFeed](../DeltaConfigs.md#enableChangeDataFeed) table property.
+Change Data Feed can be enabled on a delta table using [delta.enableChangeDataFeed](../DeltaConfigs.md#enableChangeDataFeed) table property (through [ChangeDataFeedTableFeature](ChangeDataFeedTableFeature.md) that is a [FeatureAutomaticallyEnabledByMetadata](../table-features/FeatureAutomaticallyEnabledByMetadata.md) and uses this table property).
 
 ```sql
 ALTER TABLE delta_demo
@@ -37,7 +39,7 @@ Additionally, this property can be set for all new tables by default.
 SET spark.databricks.delta.properties.defaults.enableChangeDataFeed = true;
 ```
 
-## <span id="options"><span id="readChangeFeed"> Options
+## <span id="readChangeFeed"> Options { #options }
 
 Change Data Feed is enabled in batch and streaming queries using [readChangeFeed](../delta/DeltaDataSource.md#readChangeFeed) option.
 
@@ -71,7 +73,7 @@ Change Data Feed is enabled in batch and streaming queries using [readChangeFeed
 * [endingVersion](../delta/DeltaDataSource.md#CDC_END_VERSION_KEY)
 * [endingTimestamp](../delta/DeltaDataSource.md#CDC_END_TIMESTAMP_KEY)
 
-## <span id="_change_type"> _change_type Column
+## _change_type Column { #_change_type }
 
 [_change_type](CDCReader.md#_change_type) column represents a change type.
 

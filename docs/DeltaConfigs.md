@@ -1,6 +1,6 @@
 # DeltaConfigs (DeltaConfigsBase)
 
-`DeltaConfigs` holds the [table properties](table-properties.md) that can be set on a delta table.
+`DeltaConfigs` holds the supported [table properties](table-properties/index.md) in Delta Lake.
 
 ## Accessing DeltaConfigs
 
@@ -38,7 +38,9 @@ Used when:
 * `DeltaLog` is requested to [assertRemovable](DeltaLog.md#assertRemovable) (that in turn uses `DeltaErrors` utility to [modifyAppendOnlyTableException](DeltaErrors.md#modifyAppendOnlyTableException))
 * `AppendOnlyTableFeature` is requested to [metadataRequiresFeatureToBeEnabled](append-only-tables/AppendOnlyTableFeature.md#metadataRequiresFeatureToBeEnabled)
 
-### <span id="autoOptimize"><span id="AUTO_OPTIMIZE"> autoOptimize
+### <span id="AUTO_OPTIMIZE"> autoOptimize { #autoOptimize }
+
+**delta.autoOptimize**
 
 Whether this delta table will automagically optimize the layout of files during writes.
 
@@ -50,7 +52,9 @@ How often to [checkpoint](checkpoints/Checkpoints.md#checkpoint) the state of a 
 
 Default: `10`
 
-### <span id="checkpointRetentionDuration"><span id="CHECKPOINT_RETENTION_DURATION"> checkpointRetentionDuration
+### <span id="CHECKPOINT_RETENTION_DURATION"> checkpointRetentionDuration { #checkpointRetentionDuration }
+
+**delta.checkpointRetentionDuration**
 
 How long to keep checkpoint files around before deleting them
 
@@ -58,19 +62,25 @@ Default: `interval 2 days`
 
 The most recent checkpoint is never deleted. It is acceptable to keep checkpoint files beyond this duration until the next calendar day.
 
-### <span id="checkpoint.writeStatsAsJson"><span id="CHECKPOINT_WRITE_STATS_AS_JSON"> checkpoint.writeStatsAsJson
+### <span id="CHECKPOINT_WRITE_STATS_AS_JSON"> checkpoint.writeStatsAsJson { #checkpoint.writeStatsAsJson }
+
+**delta.checkpoint.writeStatsAsJson**
 
 Controls whether to write file statistics in the checkpoint in JSON format as the `stats` column.
 
 Default: `true`
 
-### <span id="checkpoint.writeStatsAsStruct"><span id="CHECKPOINT_WRITE_STATS_AS_STRUCT"> checkpoint.writeStatsAsStruct
+### <span id="CHECKPOINT_WRITE_STATS_AS_STRUCT"> checkpoint.writeStatsAsStruct { #checkpoint.writeStatsAsStruct }
+
+**delta.checkpoint.writeStatsAsStruct**
 
 Controls whether to write file statistics in the checkpoint in the struct format in the `stats_parsed` column and partition values as a struct as `partitionValues_parsed`
 
 Default: `undefined` (`Option[Boolean]`)
 
-### <span id="columnMapping.maxColumnId"><span id="COLUMN_MAPPING_MAX_ID"> columnMapping.maxColumnId
+### <span id="COLUMN_MAPPING_MAX_ID"> columnMapping.maxColumnId { #columnMapping.maxColumnId }
+
+**delta.columnMapping.maxColumnId**
 
 Maximum columnId used in the schema so far for [column mapping](column-mapping/index.md)
 
@@ -78,7 +88,9 @@ Cannot be set
 
 Default: `0`
 
-### <span id="columnMapping.mode"><span id="COLUMN_MAPPING_MODE"> columnMapping.mode
+### <span id="COLUMN_MAPPING_MODE"> columnMapping.mode { #columnMapping.mode }
+
+**delta.columnMapping.mode**
 
 [DeltaColumnMappingMode](column-mapping/DeltaColumnMappingMode.md) to read and write parquet data files
 
@@ -95,13 +107,17 @@ Used when:
 * `DeltaErrors` utility is used to [create a DeltaColumnMappingUnsupportedException](DeltaErrors.md#convertToDeltaWithColumnMappingNotSupported) (while [ConvertToDeltaCommand](commands/convert/ConvertToDeltaCommand.md) is executed)
 * `Metadata` is requested for the [column mapping mode](Metadata.md#columnMappingMode) (while `DeltaFileFormat` is requested for the [FileFormat](DeltaFileFormat.md#fileFormat))
 
-### <span id="compatibility.symlinkFormatManifest.enabled"><span id="SYMLINK_FORMAT_MANIFEST_ENABLED"> compatibility.symlinkFormatManifest.enabled
+### <span id="SYMLINK_FORMAT_MANIFEST_ENABLED"> compatibility.symlinkFormatManifest.enabled { #compatibility.symlinkFormatManifest.enabled }
+
+**delta.compatibility.symlinkFormatManifest.enabled**
 
 Whether to register the [GenerateSymlinkManifest](post-commit-hooks/GenerateSymlinkManifest.md) post-commit hook while [committing a transaction](OptimisticTransactionImpl.md#commit) or not
 
 Default: `false`
 
-### <span id="dataSkippingNumIndexedCols"><span id="DATA_SKIPPING_NUM_INDEXED_COLS"> dataSkippingNumIndexedCols
+### <span id="DATA_SKIPPING_NUM_INDEXED_COLS"> dataSkippingNumIndexedCols { #dataSkippingNumIndexedCols }
+
+**delta.dataSkippingNumIndexedCols**
 
 The number of columns to collect stats on for [data skipping](data-skipping/index.md). `-1` means collecting stats for all columns.
 
@@ -114,13 +130,17 @@ Used when:
 * `Snapshot` is requested for the [maximum number of indexed columns](Snapshot.md#numIndexedCols)
 * `TransactionalWrite` is requested to [write data out](TransactionalWrite.md#writeFiles)
 
-### <span id="deletedFileRetentionDuration"><span id="TOMBSTONE_RETENTION"> deletedFileRetentionDuration
+### <span id="TOMBSTONE_RETENTION"> deletedFileRetentionDuration { #deletedFileRetentionDuration }
+
+**delta.deletedFileRetentionDuration**
 
 How long to keep logically deleted data files around before deleting them physically (to prevent failures in stale readers after compactions or partition overwrites)
 
 Default: `interval 1 week`
 
-### <span id="enableChangeDataFeed"><span id="CHANGE_DATA_FEED"><span id="enableChangeDataCapture"> enableChangeDataFeed
+### <span id="CHANGE_DATA_FEED"><span id="enableChangeDataCapture"> enableChangeDataFeed { #enableChangeDataFeed }
+
+**delta.enableChangeDataFeed**
 
 Enables [Change Data Feed](change-data-feed/index.md)
 
@@ -138,7 +158,7 @@ Used when:
 
 ### <span id="ENABLE_DELETION_VECTORS_CREATION"> enableDeletionVectors { #enableDeletionVectors }
 
-<h4>delta.enableDeletionVectors</h4>
+**delta.enableDeletionVectors**
 
 Enables [Deletion Vectors](deletion-vectors/index.md)
 
@@ -150,13 +170,17 @@ Used when:
 * `Protocol` is requested to [assertTablePropertyConstraintsSatisfied](Protocol.md#assertTablePropertyConstraintsSatisfied)
 * `DeletionVectorUtils` is requested to [deletionVectorsWritable](deletion-vectors/DeletionVectorUtils.md#deletionVectorsWritable)
 
-### <span id="enableExpiredLogCleanup"><span id="ENABLE_EXPIRED_LOG_CLEANUP"> enableExpiredLogCleanup
+### <span id="ENABLE_EXPIRED_LOG_CLEANUP"> enableExpiredLogCleanup { #enableExpiredLogCleanup }
+
+**delta.enableExpiredLogCleanup**
 
 Whether to clean up expired log files and checkpoints
 
 Default: `true`
 
-### <span id="enableFullRetentionRollback"><span id="ENABLE_FULL_RETENTION_ROLLBACK"> enableFullRetentionRollback
+### <span id="ENABLE_FULL_RETENTION_ROLLBACK"> enableFullRetentionRollback { #enableFullRetentionRollback }
+
+**delta.enableFullRetentionRollback**
 
 Controls whether or not a delta table can be rolled back to any point within [logRetentionDuration](#LOG_RETENTION). When disabled, the table can be rolled back [checkpointRetentionDuration](#CHECKPOINT_RETENTION_DURATION) only.
 
@@ -175,7 +199,9 @@ Used when:
 * `RowTracking` is requested to [isEnabled](row-tracking/RowTracking.md#isEnabled)
 * `RowTrackingFeature` is requested to [metadataRequiresFeatureToBeEnabled](row-tracking/RowTrackingFeature.md#metadataRequiresFeatureToBeEnabled)
 
-### <span id="logRetentionDuration"><span id="LOG_RETENTION"> logRetentionDuration
+### <span id="LOG_RETENTION"> logRetentionDuration { #logRetentionDuration }
+
+**delta.logRetentionDuration**
 
 How long to keep obsolete logs around before deleting them. Delta can keep logs beyond the duration until the next calendar day to avoid constantly creating checkpoints.
 
@@ -187,7 +213,9 @@ Used when:
 
 * `MetadataCleanup` is requested for the [deltaRetentionMillis](MetadataCleanup.md#deltaRetentionMillis)
 
-### <span id="minReaderVersion"><span id="MIN_READER_VERSION"> minReaderVersion
+### <span id="MIN_READER_VERSION"> minReaderVersion { #minReaderVersion }
+
+**delta.minReaderVersion**
 
 The protocol reader version
 
@@ -195,7 +223,9 @@ Default: `1`
 
 This property is *not* stored as a table property in the `Metadata` action. It is stored as its own action. Having it modelled as a table property makes it easier to upgrade, and view the version.
 
-### <span id="minWriterVersion"><span id="MIN_WRITER_VERSION"> minWriterVersion
+### <span id="MIN_WRITER_VERSION"> minWriterVersion { #minWriterVersion }
+
+**delta.minWriterVersion**
 
 The protocol reader version
 
@@ -203,25 +233,31 @@ Default: `3`
 
 This property is *not* stored as a table property in the `Metadata` action. It is stored as its own action. Having it modelled as a table property makes it easier to upgrade, and view the version.
 
-### <span id="randomizeFilePrefixes"><span id="RANDOMIZE_FILE_PREFIXES"> randomizeFilePrefixes
+### <span id="RANDOMIZE_FILE_PREFIXES"> randomizeFilePrefixes { #randomizeFilePrefixes }
+
+**delta.randomizeFilePrefixes**
 
 Whether to use a random prefix in a file path instead of partition information (may be required for very high volume S3 calls to better be partitioned across S3 servers)
 
 Default: `false`
 
-### <span id="randomPrefixLength"><span id="RANDOM_PREFIX_LENGTH"> randomPrefixLength
+### <span id="RANDOM_PREFIX_LENGTH"> randomPrefixLength { #randomPrefixLength }
+
+**delta.randomPrefixLength**
 
 The length of the random prefix in a file path for [randomizeFilePrefixes](#RANDOMIZE_FILE_PREFIXES)
 
 Default: `2`
 
-### <span id="sampleRetentionDuration"><span id="SAMPLE_RETENTION"> sampleRetentionDuration
+### <span id="SAMPLE_RETENTION"> sampleRetentionDuration { #sampleRetentionDuration }
+
+**delta.sampleRetentionDuration**
 
 How long to keep delta sample files around before deleting them
 
 Default: `interval 7 days`
 
-## <span id="buildConfig"> Building Configuration
+## Building Configuration { #buildConfig }
 
 ```scala
 buildConfig[T](
@@ -237,7 +273,7 @@ buildConfig[T](
 
 `buildConfig` is used to define all of the [configuration properties](#configuration-properties) in a type-safe way and (as a side effect) register them with the system-wide [entries](#entries) internal registry.
 
-## <span id="entries"> System-Wide Configuration Entries Registry
+## System-Wide Configuration Entries Registry { #entries }
 
 ```scala
 entries: HashMap[String, DeltaConfig[_]]
@@ -303,6 +339,6 @@ normalizeConfigKeys(
 
 * [AlterTableUnsetPropertiesDeltaCommand](commands/alter/AlterTableUnsetPropertiesDeltaCommand.md) is executed
 
-## <span id="sqlConfPrefix"><span id="spark.databricks.delta.properties.defaults"> spark.databricks.delta.properties.defaults Prefix
+## <span id="spark.databricks.delta.properties.defaults"> spark.databricks.delta.properties.defaults Prefix { #sqlConfPrefix }
 
-DeltaConfigs uses **spark.databricks.delta.properties.defaults** prefix for [global configuration properties](#mergeGlobalConfigs).
+**spark.databricks.delta.properties.defaults** prefix is used for [global configuration properties](#mergeGlobalConfigs).

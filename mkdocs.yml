@@ -179,7 +179,7 @@ nav:
     - ... | row-tracking/**.md
     - ... | constraints/**.md
     - ... | table-features/**.md
-    - table-properties.md
+    - ... | table-properties/**.md
     - ... | time-travel/**.md
   - Internals:
     - Overview: overview.md
@@ -316,7 +316,7 @@ nav:
     - Generate:
       - commands/generate/index.md
       - DeltaGenerateCommand: commands/generate/DeltaGenerateCommand.md
-    - Merge:
+    - MERGE INTO:
       - ... | flat | commands/merge/**.md
     - Optimize:
       - ... | flat | commands/optimize/**.md

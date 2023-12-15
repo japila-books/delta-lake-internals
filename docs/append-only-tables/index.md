@@ -5,7 +5,7 @@ hide:
 
 # Append-Only Tables
 
-**Append-Only Tables** is a [table feature](AppendOnlyTableFeature.md) that [forbids deleting data files](../DeltaLog.md#assertRemovable) that could be a result of the following:
+**Append-Only Tables** is a [table feature](AppendOnlyTableFeature.md) in Delta Lake that [forbids deleting data files](../DeltaLog.md#assertRemovable) that could be a result of the following:
 
 * [Delete](../commands/delete/index.md), [Update](../commands/update/index.md), [WriteIntoDelta](../commands/WriteIntoDelta.md) (in `Overwrite` save mode) commands
 * `DeltaSink` to [addBatch](../delta/DeltaSink.md#addBatch) in `Complete` output mode

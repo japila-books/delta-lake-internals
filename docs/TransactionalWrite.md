@@ -4,7 +4,7 @@
 
 ## Contract
 
-### <span id="deltaLog"> DeltaLog
+### DeltaLog { #deltaLog }
 
 ```scala
 deltaLog: DeltaLog
@@ -23,7 +23,7 @@ Used when:
 * `ImplicitMetadataOperation` is requested to [updateMetadata](ImplicitMetadataOperation.md#updateMetadata)
 * `DeltaSink` is requested to [addBatch](delta/DeltaSink.md#addBatch)
 
-### <span id="metadata"> Metadata
+### Metadata { #metadata }
 
 ```scala
 metadata: Metadata
@@ -31,7 +31,7 @@ metadata: Metadata
 
 [Metadata](Metadata.md) (of the [delta table](#deltaLog)) that this transaction is changing
 
-### <span id="protocol"> Protocol
+### Protocol { #protocol }
 
 ```scala
 protocol: Protocol
@@ -44,7 +44,7 @@ Used when:
 * `OptimisticTransactionImpl` is requested to [updateMetadata](OptimisticTransactionImpl.md#updateMetadata), [verifyNewMetadata](OptimisticTransactionImpl.md#verifyNewMetadata) and [prepareCommit](OptimisticTransactionImpl.md#prepareCommit)
 * [ConvertToDeltaCommand](commands/convert/ConvertToDeltaCommand.md) is executed
 
-### <span id="snapshot"> Snapshot
+### Snapshot { #snapshot }
 
 ```scala
 snapshot: Snapshot
@@ -56,19 +56,19 @@ snapshot: Snapshot
 
 * [OptimisticTransaction](OptimisticTransaction.md)
 
-## <span id="history.metricsEnabled"> spark.databricks.delta.history.metricsEnabled
+## spark.databricks.delta.history.metricsEnabled { #history.metricsEnabled }
 
 With [spark.databricks.delta.history.metricsEnabled](configuration-properties/DeltaSQLConf.md#DELTA_HISTORY_METRICS_ENABLED) configuration property enabled, `TransactionalWrite` creates a `BasicWriteJobStatsTracker` ([Spark SQL]({{ book.spark_sql }}/datasources/BasicWriteJobStatsTracker)) and [registers SQL metrics](SQLMetricsReporting.md#registerSQLMetrics) (when requested to [write data out](#writeFiles)).
 
-## <span id="hasWritten"> hasWritten Flag
+## hasWritten Flag { #hasWritten }
 
 ```scala
 hasWritten: Boolean = false
 ```
 
-`TransactionalWrite` uses `hasWritten` internal registry to prevent `OptimisticTransactionImpl` from [updating metadata](OptimisticTransactionImpl.md#updateMetadata) after [having written out files](#writeFiles).
+`TransactionalWrite` uses `hasWritten` internal registry to prevent `OptimisticTransactionImpl` from [updating metadata](OptimisticTransactionImpl.md#updateMetadata) after [writting data out](#writeFiles).
 
-`hasWritten` is initially `false` and changes to `true` after [having data written out](#writeFiles).
+`hasWritten` is initially `false` and changes to `true` after [data is written out](#writeFiles).
 
 ## Writing Data Out { #writeFiles }
 
@@ -300,14 +300,14 @@ makeOutputNullable(
 
 `makeOutputNullable`...FIXME
 
-## <span id="performCDCPartition"> performCDCPartition
+## performCDCPartition { #performCDCPartition }
 
 ```scala
 performCDCPartition(
   inputData: Dataset[_]): (DataFrame, StructType)
 ```
 
-`performCDCPartition` returns the input `inputData` with or without [__is_cdc](change-data-feed/CDCReader.md#CDC_PARTITION_COL) extra column based on whether [Change Data Feed is enabled](change-data-feed/CDCReader.md#isCDCEnabledOnTable) for the table and [_change_type](change-data-feed/CDCReader.md#CDC_TYPE_COLUMN_NAME) column is available in the schema of the given `inputData` or not.
+`performCDCPartition` returns the input `inputData` with or without [__is_cdc](change-data-feed/CDCReader.md#CDC_PARTITION_COL) extra partition column based on whether [Change Data Feed is enabled](change-data-feed/CDCReader.md#isCDCEnabledOnTable) for the table and [_change_type](change-data-feed/CDCReader.md#CDC_TYPE_COLUMN_NAME) column is available in the schema of the given `inputData` or not.
 
 The value of the [__is_cdc](change-data-feed/CDCReader.md#CDC_PARTITION_COL) extra column is as follows:
 

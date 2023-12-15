@@ -30,7 +30,7 @@ TBLPROPERTIES (
 [TableFeature](TableFeature.md#allSupportedFeaturesMap) tracks all the supported table features:
 
 * [AppendOnlyTableFeature](../append-only-tables/AppendOnlyTableFeature.md)
-* `ChangeDataFeedTableFeature`
+* [ChangeDataFeedTableFeature](../change-data-feed/ChangeDataFeedTableFeature.md)
 * `CheckConstraintsTableFeature`
 * `ColumnMappingTableFeature`
 * [DeletionVectorsTableFeature](../deletion-vectors/DeletionVectorsTableFeature.md)
