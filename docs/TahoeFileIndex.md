@@ -4,6 +4,8 @@
 
 The aim of `TahoeFileIndex` (and `FileIndex` in general) is to reduce usage of very expensive disk access for file-related information using Hadoop [FileSystem]({{ hadoop.api }}/org/apache/hadoop/fs/FileSystem.html) API.
 
+`TahoeFileIndex` is [SupportsRowIndexFilters](SupportsRowIndexFilters.md).
+
 ## Contract
 
 ### Matching Files { #matchingFiles }

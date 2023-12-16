@@ -202,7 +202,6 @@ nav:
     - FileFormat:
       - DeltaFileFormat: DeltaFileFormat.md
       - DeltaParquetFileFormat: DeltaParquetFileFormat.md
-    - SupportsRowIndexFilters.md
     - Transaction Log (DeltaLog):
       - DeltaLog: DeltaLog.md
       - Operation: Operation.md
@@ -247,6 +246,7 @@ nav:
       - PreprocessTimeTravel: PreprocessTimeTravel.md
       - StagedDeltaTableV2: StagedDeltaTableV2.md
     - File Indices:
+      - SupportsRowIndexFilters.md
       - TahoeFileIndex: TahoeFileIndex.md
       - TahoeBatchFileIndex: TahoeBatchFileIndex.md
       - TahoeFileIndexWithSnapshotDescriptor: TahoeFileIndexWithSnapshotDescriptor.md
