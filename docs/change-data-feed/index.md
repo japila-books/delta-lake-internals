@@ -4,19 +4,18 @@
 
 Change Data Feed can be enabled on a delta table using [delta.enableChangeDataFeed](#delta.enableChangeDataFeed) table property.
 
-With so-called [CDC-Aware Table Scan (CDC Read)](CDCReader.md#isCDCRead), [loading a delta table](../delta/DeltaDataSource.md#RelationProvider-createRelation) gives data changes (not the data of a particular version of the delta table).
+With [CDC-Aware Table Scan (CDC Read)](CDCReaderImpl.md#isCDCRead), [loading a delta table](../delta/DeltaDataSource.md#RelationProvider-createRelation) gives data changes (not the data of a particular version of the delta table).
 
-As they put it (in [this comment](https://github.com/delta-io/delta/commit/d90f90b6656648e170835f92152b69f77346dfcf)), [CDCReader](CDCReader.md) is the key class used for Change Data Feed (with [DelayedCommitProtocol](../DelayedCommitProtocol.md) to handle it properly).
+CDC data changes are written out (by [DelayedCommitProtocol](../DelayedCommitProtocol.md)) to [_change_data](#_change_data) directory as `cdc-`-prefixed files.
 
-Non-CDC data is written out to the base directory of a delta table, while CDC data is written out to the [_change_data](CDCReader.md#CDC_LOCATION) special folder.
+As they put it (in [this comment](https://github.com/delta-io/delta/commit/d90f90b6656648e170835f92152b69f77346dfcf)), [CDCReader](CDCReader.md) is the key class used for Change Data Feed.
 
 The heart of Change Data Feed table feature is [CDCReaderImpl](CDCReaderImpl.md#changesToDF) with the following entry points based on query type:
 
 * [Batch queries](DeltaCDFRelation.md#buildScan)
 * [Streaming queries](../delta/DeltaSourceBase.md#createDataFrameBetweenOffsets)
 
-!!! note "New in Delta Lake 2.0.0"
-    Change Data Feed was released in Delta Lake 2.0.0 (that was tracked under [Support for Change Data Feed in Delta Lake]({{ delta.issues }}/1105)).
+Change Data Feed was released in Delta Lake 2.0.0 (that was tracked under [Support for Change Data Feed in Delta Lake]({{ delta.issues }}/1105)).
 
 ## delta.enableChangeDataFeed { #delta.enableChangeDataFeed }
 
@@ -73,22 +72,34 @@ Change Data Feed is enabled in batch and streaming queries using [readChangeFeed
 * [endingVersion](../delta/DeltaDataSource.md#CDC_END_VERSION_KEY)
 * [endingTimestamp](../delta/DeltaDataSource.md#CDC_END_TIMESTAMP_KEY)
 
-## _change_type Column { #_change_type }
+## Change Data Directory { #_change_data }
 
-[_change_type](CDCReader.md#_change_type) column represents a change type.
+[_change_data](CDCReader.md#_change_data) is the name of the directory (under the top-level data directory) for change data files.
 
- _change_type | Command
---------------|---------
- `delete` | [DeleteCommand](../commands/delete/DeleteCommand.md#performDelete)
- FIXME |
+This directory may contain partition directories (i.e. `_change_data/part1=value1/...`) with changes to data with partition values.
 
-## Protocol
+`_change_data` is a [hidden directory](../DeltaTableUtils.md#isHiddenDirectory) and must not be considered in delta-related file operations (e.g., [VACUUM](../commands/vacuum/index.md) and `FSCK`).
 
-Change Data Feed requires the [minimum protocol version to be 0 for readers and 4 for writers](../Protocol.md#requiredMinimumProtocol).
+## Change Type Column { #_change_type }
+
+Change data files contain the additional [_change_type](CDCReader.md#_change_type) column that identifies the type of change event (beside the data columns).
+
+ _change_type | Command | Description
+--------------|---------|------------
+ `delete` | [DELETE](../commands/delete/index.md) | The value has been deleted
+ `insert` | |
+ `update_postimage` | [UPDATE](../commands/update/index.md) | The value after [UPDATE](../commands/update/index.md)
+ `update_preimage` | [UPDATE](../commands/update/index.md) | The value before [UPDATE](../commands/update/index.md)
+
+When writing out changes to a delta table, `_change_type` column is used to partition rows with change events and write them out to [_change_data](#_change_data) directory (as [AddCDCFile](../AddCDCFile.md)s).
 
 ## Column Mapping Not Supported
 
 Change data feed reads are currently not supported on tables with [column mapping](../column-mapping/index.md) enabled (and a [DeltaUnsupportedOperationException is thrown](CDCReader.md#changesToDF)).
+
+## CDF Table-Valued Functions
+
+[CDF Table-Valued Functions](../table-valued-functions/index.md) are provided to read the table changes of delta tables.
 
 ## Demo
 

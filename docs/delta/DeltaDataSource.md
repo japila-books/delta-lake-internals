@@ -32,7 +32,7 @@ createRelation(
 
 `createRelation` [extracts time travel specification](#getTimeTravelVersion) (from the given `parameters`).
 
-`createRelation` collects CDF-specific options with [change data feed enabled](../change-data-feed/CDCReader.md#isCDCRead):
+`createRelation` collects CDF-specific options with [change data feed enabled](../change-data-feed/CDCReaderImpl.md#isCDCRead):
 
 * [readChangeFeed](DeltaDataSource.md#CDC_ENABLED_KEY) (with `true` value)
 * [startingVersion](DeltaDataSource.md#CDC_START_VERSION_KEY)
@@ -298,7 +298,7 @@ parsePathIdentifier(
 
 ## <span id="CDC_ENABLED_KEY"><span id="readChangeFeed"> readChangeFeed
 
-`DeltaDataSource` utility defines `readChangeFeed` value to indicate [CDC-aware table scan](../change-data-feed/CDCReader.md#isCDCRead) (when it is used as an read option and `true`).
+`DeltaDataSource` utility defines `readChangeFeed` value to indicate [CDC-aware table scan](../change-data-feed/CDCReaderImpl.md#isCDCRead) (when it is used as an read option and `true`).
 
 `readChangeFeed` is used alongside the following CDC options:
 
@@ -306,6 +306,8 @@ parsePathIdentifier(
 * [startingTimestamp](#CDC_START_TIMESTAMP_KEY)
 * [endingVersion](#CDC_END_VERSION_KEY)
 * [endingTimestamp](#CDC_END_TIMESTAMP_KEY)
+
+---
 
 `readChangeFeed` is used when:
 

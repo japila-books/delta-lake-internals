@@ -50,7 +50,7 @@ The `randomPrefixLength` is [always undefined](TransactionalWrite.md#getCommitte
 
 `DelayedCommitProtocol` uses them for [newTaskTempFile](#newTaskTempFile) (to create temporary files in [_change_data](change-data-feed/CDCReader.md#CDC_LOCATION) directory instead based on the regular expression).
 
-## <span id="addedFiles"> addedFiles
+## Added Files (on Executors) { #addedFiles }
 
 ```scala
 addedFiles: ArrayBuffer[(Map[String, String], String)]
@@ -62,11 +62,13 @@ addedFiles: ArrayBuffer[(Map[String, String], String)]
 
 `addedFiles` is initialized (as an empty collection) when [setting up a task](#setupTask).
 
+---
+
 `addedFiles` is used when:
 
 * `DelayedCommitProtocol` is requested to [commit a task](#commitTask) (on an executor and create a `TaskCommitMessage` with the files added while a task was writing data out)
 
-## <span id="addedStatuses"> AddFiles
+## Added Statuses (on Driver) { #addedStatuses }
 
 ```scala
 addedStatuses: ArrayBuffer[AddFile]
@@ -174,7 +176,7 @@ When neither the [randomPrefixLength](#randomPrefixLength) nor the partition dir
 
 In the end, `newTaskTempFile` returns the absolute path of the (relative) path in the [directory](#path).
 
-### <span id="getFileName"> File Name
+### File Name { #getFileName }
 
 ```scala
 getFileName(
@@ -197,7 +199,7 @@ The file name is created as follows:
 1. The `split` part is the task ID from the given `TaskAttemptContext` ([Apache Hadoop]({{ hadoop.api }}/org/apache/hadoop/mapreduce/TaskAttemptContext.html))
 1. The `uuid` part is a random UUID
 
-## <span id="commitTask"> Committing Task
+## Committing Task { #commitTask }
 
 ??? note "FileCommitProtocol"
 
@@ -208,12 +210,12 @@ The file name is created as follows:
 
     `commitTask` is part of the `FileCommitProtocol` ([Apache Spark]({{ book.spark_core }}/FileCommitProtocol#commitTask)) abstraction.
 
-`commitTask` creates a `TaskCommitMessage` with a [FileAction](#buildActionFromAddedFile) (a [AddCDCFile](AddCDCFile.md) or a [AddFile](AddFile.md)) for every [file added](#addedFiles) (if [there were any added successfully](#newTaskTempFile)). Otherwise, `commitTask` creates an empty `TaskCommitMessage`.
+`commitTask` creates a `TaskCommitMessage` with a [FileAction](#buildActionFromAddedFile) (a [AddCDCFile](AddCDCFile.md) or a [AddFile](AddFile.md) based on [__is_cdc](change-data-feed/CDCReader.md#CDC_PARTITION_COL) virtual partition column) for every [file added](#addedFiles) (if [there were any added successfully](#newTaskTempFile)). Otherwise, `commitTask` creates an empty `TaskCommitMessage`.
 
 !!! note
     A file is added (to the [addedFiles](#addedFiles) internal registry) when `DelayedCommitProtocol` is requested for a [new file (path)](#newTaskTempFile).
 
-### <span id="buildActionFromAddedFile"> buildActionFromAddedFile
+### buildActionFromAddedFile { #buildActionFromAddedFile }
 
 ```scala
 buildActionFromAddedFile(
@@ -221,6 +223,9 @@ buildActionFromAddedFile(
   stat: FileStatus,
   taskContext: TaskAttemptContext): FileAction
 ```
+
+!!! note
+    `f` argument is a pair of the partition values and one of the [file added](#addedFiles).
 
 `buildActionFromAddedFile` removes the [__is_cdc](change-data-feed/CDCReader.md#CDC_PARTITION_COL) virtual partition column and creates a [FileAction](FileAction.md):
 

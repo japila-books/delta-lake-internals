@@ -132,3 +132,25 @@ scanIndex(
 `scanIndex` is used when:
 
 * `CDCReaderImpl` is requested to [changesToDF](#changesToDF), [getDeletedAndAddedRows](#getDeletedAndAddedRows), [processDeletionVectorActions](#processDeletionVectorActions)
+
+## CDC-Aware Table Scan (CDC Read) { #isCDCRead }
+
+```scala
+isCDCRead(
+  options: CaseInsensitiveStringMap): Boolean
+```
+
+`isCDCRead` is `true` when one of the following options is specified (in the given `options`) with `true` value (case-insensitive):
+
+1. [readChangeFeed](../delta/DeltaDataSource.md#readChangeFeed)
+1. (legacy) [readChangeData](../delta/DeltaDataSource.md#readChangeData)
+
+Otherwise, `isCDCRead` is `false`.
+
+---
+
+`isCDCRead` is used when:
+
+* `DeltaRelation` utility is used to [fromV2Relation](../DeltaRelation.md#fromV2Relation)
+* `DeltaTableV2` is requested for the [cdcRelation](../DeltaTableV2.md#cdcRelation), [initialSnapshot](../DeltaTableV2.md#initialSnapshot), [withOptions](../DeltaTableV2.md#withOptions)
+* `DeltaDataSource` is requested for the [streaming source schema](../delta/DeltaDataSource.md#sourceSchema) and for a [relation](../delta/DeltaDataSource.md#RelationProvider-createRelation)

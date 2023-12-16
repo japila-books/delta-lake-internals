@@ -40,7 +40,7 @@ catalogTable: Option[CatalogTable] = None
 * `DeltaRelation` utility is used to [fromV2Relation](DeltaRelation.md#fromV2Relation)
 * [AlterTableSetLocationDeltaCommand](commands/alter/AlterTableSetLocationDeltaCommand.md) is executed
 
-### <span id="cdcOptions"> CDC Options
+### CDC Options { #cdcOptions }
 
 ```scala
 cdcOptions: CaseInsensitiveStringMap
@@ -50,7 +50,7 @@ cdcOptions: CaseInsensitiveStringMap
 
 `cdcOptions` is specified when:
 
-* `DeltaDataSource` is requested to [create a relation](delta/DeltaDataSource.md#RelationProvider-createRelation) (for [CDC read](change-data-feed/CDCReader.md#isCDCRead))
+* `DeltaDataSource` is requested to [create a relation](delta/DeltaDataSource.md#RelationProvider-createRelation) (for [CDC read](change-data-feed/CDCReaderImpl.md#isCDCRead))
 * `DeltaTableV2` is requested to [withOptions](#withOptions)
 
 `cdcOptions` is used when:

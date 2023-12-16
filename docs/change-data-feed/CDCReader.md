@@ -46,9 +46,11 @@ Otherwise, `getVersionForCDC` uses the given `options` map to get the value of t
 
 If neither the given `versionKey` nor the `timestampKey` key is available in the `options` map, `getVersionForCDC` returns `None` (_undefined value_).
 
-## <span id="CDC_LOCATION"><span id="_change_data"> _change_data Directory
+## <span id="_change_data"> _change_data Directory { #CDC_LOCATION }
 
-`CDCReader` defines `_change_data` as the name of the directory (under the data directory) where data changes of a delta table are written out (using [DelayedCommitProtocol](../DelayedCommitProtocol.md#newTaskTempFile)). This directory may contain partition directories.
+`CDCReader` uses `_change_data` as the name of the directory (under the data directory) where data changes of a delta table are written out (using [DelayedCommitProtocol](../DelayedCommitProtocol.md#newTaskTempFile)).
+
+This directory may contain partition directories.
 
 Used when:
 
@@ -76,13 +78,26 @@ Used when:
 
 * `DelayedCommitProtocol` is requested to [getFileName](../DelayedCommitProtocol.md#getFileName) and [buildActionFromAddedFile](../DelayedCommitProtocol.md#buildActionFromAddedFile)
 
-### <span id="CDC_TYPE_COLUMN_NAME"><span id="_change_type"> _change_type Column
+### <span id="_change_type"> Change Type Column { #CDC_TYPE_COLUMN_NAME }
 
-`CDCReader` defines `_change_type` column name for the column that represents a change type.
+`CDCReader` uses `_change_type` column name for the column that represents the type of a data change.
 
-`_change_type` is one of the [CDF Virtual Columns](#CDC_COLUMNS_IN_DATA) and among the columns in the [CDF-aware read schema](#cdcReadSchema).
+`_change_type` is a [CDF virtual column](#CDC_COLUMNS_IN_DATA) and among the columns in the [CDF-aware read schema](#cdcReadSchema).
 
 `CDC_TYPE_COLUMN_NAME` is used when:
+
+* `DeleteCommand` is requested to [rewriteFiles](../commands/delete/DeleteCommand.md#rewriteFiles) (with [Change Data Feed](index.md) enabled)
+* `UpdateCommand` is requested to [withUpdatedColumns](../commands/update/UpdateCommand.md#withUpdatedColumns) (with [Change Data Feed](index.md) enabled to add `update_preimage` and `update_postimage` columns)
+* `WriteIntoDelta` is requested to [write](../commands/WriteIntoDelta.md#write) (for `insert`s)
+* `CDCReader` is requested for the [CDC_COLUMNS_IN_DATA](#CDC_COLUMNS_IN_DATA), the [cdcAttributes](#cdcAttributes)
+* `CDCReaderImpl` is requested for the [cdcReadSchema](CDCReaderImpl.md#cdcReadSchema)
+* `ClassicMergeExecutor` is requested to [writeAllChanges](../commands/merge/ClassicMergeExecutor.md#writeAllChanges) (with [Change Data Feed](index.md) enabled)
+* `MergeOutputGeneration` is requested to [deduplicateCDFDeletes](../commands/merge/MergeOutputGeneration.md#deduplicateCDFDeletes) and [generateCdcAndOutputRows](../commands/merge/MergeOutputGeneration.md#generateCdcAndOutputRows)
+* `CdcAddFileIndex` is requested for the [matching files](CdcAddFileIndex.md#matchingFiles)
+* `TahoeRemoveFileIndex` is requested for the [matching files](TahoeRemoveFileIndex.md#matchingFiles)
+* `TransactionalWrite` is requested to [performCDCPartition](../TransactionalWrite.md#performCDCPartition)
+* `SchemaUtils` is requested to [normalizeColumnNames](../SchemaUtils.md#normalizeColumnNames)
+
 
 * `DeleteCommand` is requested to [performDelete](../commands/delete/DeleteCommand.md#performDelete) (and then [rewriteFiles](../commands/delete/DeleteCommand.md#rewriteFiles))
 * `MergeIntoCommand` is requested to [writeAllChanges](../commands/merge/MergeIntoCommand.md#writeAllChanges) (to [matchedClauseOutput](../commands/merge/MergeIntoCommand.md#matchedClauseOutput) and [notMatchedClauseOutput](../commands/merge/MergeIntoCommand.md#notMatchedClauseOutput))
@@ -132,27 +147,7 @@ Column(CDC_TYPE_NOT_CDC).as("_change_type")
 * `UpdateCommand` is requested to [withUpdatedColumns](../commands/update/UpdateCommand.md#withUpdatedColumns)
 * `WriteIntoDelta` is requested to [write](../commands/WriteIntoDelta.md#write)
 
-## <span id="isCDCRead"> CDC-Aware Table Scan (CDC Read)
-
-```scala
-isCDCRead(
-  options: CaseInsensitiveStringMap): Boolean
-```
-
-`isCDCRead` is `true` when one of the following options is specified (in the given `options`):
-
-1. [readChangeFeed](../delta/DeltaDataSource.md#CDC_ENABLED_KEY) with `true` value
-1. (legacy) [readChangeData](../delta/DeltaDataSource.md#CDC_ENABLED_KEY_LEGACY) with `true` value
-
-Otherwise, `isCDCRead` is `false`.
-
-`isCDCRead` is used when:
-
-* `DeltaRelation` utility is used to [fromV2Relation](../DeltaRelation.md#fromV2Relation)
-* `DeltaTableV2` is requested to [withOptions](../DeltaTableV2.md#withOptions)
-* `DeltaDataSource` is requested for the [streaming source schema](../delta/DeltaDataSource.md#sourceSchema) and to [create a BaseRelation](../delta/DeltaDataSource.md#RelationProvider-createRelation)
-
-## <span id="cdcReadSchema"> CDF-Aware Read Schema (Adding CDF Columns)
+## CDF-Aware Read Schema (Adding CDF Columns) { #cdcReadSchema }
 
 ```scala
 cdcReadSchema(
