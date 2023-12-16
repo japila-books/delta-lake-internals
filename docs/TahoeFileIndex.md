@@ -6,7 +6,7 @@ The aim of `TahoeFileIndex` (and `FileIndex` in general) is to reduce usage of v
 
 ## Contract
 
-### <span id="matchingFiles"> matchingFiles
+### Matching Files { #matchingFiles }
 
 ```scala
 matchingFiles(
@@ -34,7 +34,7 @@ Used for [listing data files](#listFiles)
 ??? note "Abstract Class"
     `TahoeFileIndex` is an abstract class and cannot be created directly. It is created indirectly for the [concrete TahoeFileIndexes](#implementations).
 
-## <span id="rootPaths"> Root Paths
+## Root Paths { #rootPaths }
 
 ```scala
 rootPaths: Seq[Path]
@@ -44,7 +44,7 @@ rootPaths: Seq[Path]
 
 `rootPaths` is part of the `FileIndex` ([Spark SQL]({{ book.spark_sql }}/datasources/FileIndex/#rootPaths)) abstraction.
 
-## <span id="listFiles"> Listing Files
+## Listing Files { #listFiles }
 
 ```scala
 listFiles(
@@ -56,7 +56,7 @@ listFiles(
 
 `listFiles` is part of the `FileIndex` ([Spark SQL]({{ book.spark_sql }}/datasources/FileIndex/#listFiles))abstraction.
 
-## <span id="partitionSchema"> Partitions
+## Partitions { #partitionSchema }
 
 ```scala
 partitionSchema: StructType
@@ -76,7 +76,7 @@ tableVersion: Long
 
 `tableVersion` is used when `TahoeFileIndex` is requested for the [human-friendly textual representation](#toString).
 
-## <span id="toString"> Textual Representation
+## Textual Representation { #toString }
 
 ```scala
 toString: String

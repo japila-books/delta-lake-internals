@@ -202,6 +202,7 @@ nav:
     - FileFormat:
       - DeltaFileFormat: DeltaFileFormat.md
       - DeltaParquetFileFormat: DeltaParquetFileFormat.md
+    - SupportsRowIndexFilters.md
     - Transaction Log (DeltaLog):
       - DeltaLog: DeltaLog.md
       - Operation: Operation.md

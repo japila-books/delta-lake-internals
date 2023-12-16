@@ -88,7 +88,7 @@ Used when:
 * `MergeIntoCommand` is requested to [writeAllChanges](../commands/merge/MergeIntoCommand.md#writeAllChanges) (to [matchedClauseOutput](../commands/merge/MergeIntoCommand.md#matchedClauseOutput) and [notMatchedClauseOutput](../commands/merge/MergeIntoCommand.md#notMatchedClauseOutput))
 * `UpdateCommand` is requested to [withUpdatedColumns](../commands/update/UpdateCommand.md#withUpdatedColumns)
 * `WriteIntoDelta` is requested to [write](../commands/WriteIntoDelta.md#write)
-* `CdcAddFileIndex` is requested to [matchingFiles](CdcAddFileIndex.md#matchingFiles)
+* `CdcAddFileIndex` is requested for the [matching files](CdcAddFileIndex.md#matchingFiles)
 * `TahoeRemoveFileIndex` is requested to [matchingFiles](TahoeRemoveFileIndex.md#matchingFiles)
 * `TransactionalWrite` is requested to [performCDCPartition](../TransactionalWrite.md#performCDCPartition)
 * `SchemaUtils` utility is used to [normalizeColumnNames](../SchemaUtils.md#normalizeColumnNames)
@@ -172,7 +172,7 @@ cdcReadSchema(
 * `CDCReader` utility is used to [getCDCRelation](#getCDCRelation) and [scanIndex](#scanIndex)
 * `DeltaRelation` utility is used to [fromV2Relation](../DeltaRelation.md#fromV2Relation)
 * `OptimisticTransactionImpl` is requested to [performCdcMetadataCheck](../OptimisticTransactionImpl.md#performCdcMetadataCheck)
-* `CdcAddFileIndex` is requested for the [partitionSchema](CdcAddFileIndex.md#partitionSchema)
+* `CdcAddFileIndex` is requested for the [partitions](CdcAddFileIndex.md#partitionSchema)
 * `TahoeRemoveFileIndex` is requested for the [partitionSchema](TahoeRemoveFileIndex.md#partitionSchema)
 * `DeltaDataSource` is requested for the [sourceSchema](../delta/DeltaDataSource.md#sourceSchema)
 * `DeltaSourceBase` is requested for the [schema](../delta/DeltaSourceBase.md#schema)
@@ -226,7 +226,7 @@ isCDCEnabledOnTable(
   metadata: Metadata): Boolean
 ```
 
-`isCDCEnabledOnTable` [metadataRequiresFeatureToBeEnabled](ChangeDataFeedTableFeature.md#metadataRequiresFeatureToBeEnabled).
+`isCDCEnabledOnTable` is an alias of [metadataRequiresFeatureToBeEnabled](ChangeDataFeedTableFeature.md#metadataRequiresFeatureToBeEnabled).
 
 ---
 
@@ -237,10 +237,10 @@ isCDCEnabledOnTable(
 * `CDCReader` is requested to [changesToDF](#changesToDF)
 * `TransactionalWrite` is requested to [performCDCPartition](../TransactionalWrite.md#performCDCPartition)
 
-## <span id="CDC_TYPE_INSERT"><span id="insert"> insert Change Type
+## <span id="insert"> insert Change Type { #CDC_TYPE_INSERT }
 
-`CDCReader` defines `insert` value for the value of the [_change_type](#CDC_TYPE_COLUMN_NAME) column in the following:
+`CDCReader` uses `insert` value as the value of the [_change_type](#CDC_TYPE_COLUMN_NAME) column in the following:
 
-* [notMatchedClauseOutput](../commands/merge/MergeIntoCommand.md#notMatchedClauseOutput) with [cdcEnabled](../commands/merge/MergeIntoCommand.md#cdcEnabled) (when [writeAllChanges](../commands/merge/MergeIntoCommand.md#writeAllChanges))
 * `WriteIntoDelta` is requested to [write data out](../commands/WriteIntoDelta.md#write) (with [isCDCEnabledOnTable](#isCDCEnabledOnTable))
-* `CdcAddFileIndex` is requested to [matchingFiles](CdcAddFileIndex.md#matchingFiles)
+* `MergeOutputGeneration` is requested to [generateAllActionExprs](../commands/merge/MergeOutputGeneration.md#generateAllActionExprs) and [generateCdcAndOutputRows](../commands/merge/MergeOutputGeneration.md#generateCdcAndOutputRows)
+* `CdcAddFileIndex` is requested for the [matching files](CdcAddFileIndex.md#matchingFiles)
