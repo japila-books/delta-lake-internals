@@ -72,6 +72,18 @@ Change Data Feed is enabled in batch and streaming queries using [readChangeFeed
 * [endingVersion](../delta/DeltaDataSource.md#CDC_END_VERSION_KEY)
 * [endingTimestamp](../delta/DeltaDataSource.md#CDC_END_TIMESTAMP_KEY)
 
+## CDF-Aware Read Schema
+
+Change Data Feed uses the following metadata columns for [CDF-aware scans](CDCReaderImpl.md#cdcReadSchema) (beside the data schema):
+
+Column Name | Data Type
+-----|----------
+ [_change_type](CDCReader.md#CDC_TYPE_COLUMN_NAME) | `StringType`
+ [_commit_version](CDCReader.md#CDC_COMMIT_VERSION) | `LongType`
+ [_commit_timestamp](CDCReader.md#CDC_COMMIT_TIMESTAMP) | `TimestampType`
+
+![CDF-Aware Read Schema](../images/cdf-metadata-columns.png)
+
 ## Change Data Directory { #_change_data }
 
 [_change_data](CDCReader.md#_change_data) is the name of the directory (under the top-level data directory) for change data files.
@@ -95,7 +107,7 @@ When writing out changes to a delta table, `_change_type` column is used to part
 
 ## Column Mapping Not Supported
 
-Change data feed reads are currently not supported on tables with [column mapping](../column-mapping/index.md) enabled (and a [DeltaUnsupportedOperationException is thrown](CDCReader.md#changesToDF)).
+Change data feed reads are currently not supported on tables with [column mapping](../column-mapping/index.md) enabled (and a [DeltaUnsupportedOperationException is thrown](CDCReaderImpl.md#changesToDF)).
 
 ## CDF Table-Valued Functions
 

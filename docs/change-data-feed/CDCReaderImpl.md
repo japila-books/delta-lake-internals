@@ -116,7 +116,7 @@ generateFileActionsWithInlineDv(
 
 `generateFileActionsWithInlineDv`...FIXME
 
-## scanIndex { #scanIndex }
+## Creating DataFrame over Delta-Aware FileIndex { #scanIndex }
 
 ```scala
 scanIndex(
@@ -125,13 +125,56 @@ scanIndex(
   isStreaming: Boolean = false): DataFrame
 ```
 
-`scanIndex`...FIXME
+!!! note "HadoopFsRelation"
+    In order to understand the `scanIndex`, it is firstly worth to understand the role of `HadoopFsRelation`.
+
+`scanIndex` creates a `HadoopFsRelation` ([Spark SQL]({{ book.spark_sql }}/HadoopFsRelation)) based on the given `TahoeFileIndexWithSnapshotDescriptor` as follows:
+
+Property | Value
+---------|------
+`location` | The given `TahoeFileIndexWithSnapshotDescriptor`
+`partitionSchema` | The [partitionSchema](../TahoeFileIndex.md#partitionSchema) of the given `TahoeFileIndexWithSnapshotDescriptor`
+`dataSchema` | The [CDF-aware read schema](#cdcReadSchema) based on the [schema](../SnapshotDescriptor.md#schema) of the given `TahoeFileIndexWithSnapshotDescriptor`
+`bucketSpec` | Undefined (`None`)
+`fileFormat` | A new [DeltaParquetFileFormat](../DeltaParquetFileFormat.md)
+`options` | The [options](../DeltaLog.md#options) of the [DeltaLog](../TahoeFileIndex.md#deltaLog) of the given `TahoeFileIndexWithSnapshotDescriptor`
+
+`scanIndex` creates a `LogicalRelation` ([Spark SQL]({{ book.spark_sql }}/LogicalRelation)) for the `HadoopFsRelation` (and the given `isStreaming` flag).
+
+In the end, `scanIndex` creates a `DataFrame` for the `LogicalRelation`.
 
 ---
 
 `scanIndex` is used when:
 
 * `CDCReaderImpl` is requested to [changesToDF](#changesToDF), [getDeletedAndAddedRows](#getDeletedAndAddedRows), [processDeletionVectorActions](#processDeletionVectorActions)
+
+## CDF-Aware Read Schema (Adding CDF Columns) { #cdcReadSchema }
+
+```scala
+cdcReadSchema(
+  deltaSchema: StructType): StructType
+```
+
+`cdcReadSchema` makes the given schema (`StructType`) of a delta table CDF-aware by appending the following CDF metadata fields:
+
+Column Name | Data Type
+-----|----------
+ [_change_type](CDCReader.md#CDC_TYPE_COLUMN_NAME) | `StringType`
+ [_commit_version](CDCReader.md#CDC_COMMIT_VERSION) | `LongType`
+ [_commit_timestamp](CDCReader.md#CDC_COMMIT_TIMESTAMP) | `TimestampType`
+
+---
+
+`cdcReadSchema` is used when:
+
+* `OptimisticTransactionImpl` is requested to [performCdcMetadataCheck](../OptimisticTransactionImpl.md#performCdcMetadataCheck)
+* `DeltaCDFRelation` is requested for the [schema](DeltaCDFRelation.md#schema)
+* `CDCReaderImpl` is requested to [changesToDF](#changesToDF), [scanIndex](#scanIndex)
+* `CdcAddFileIndex` is requested for the [partition schema](CdcAddFileIndex.md#partitionSchema)
+* `TahoeRemoveFileIndex` is requested for the [partition schema](TahoeRemoveFileIndex.md#partitionSchema)
+* `DeltaDataSource` is requested for the [sourceSchema](../delta/DeltaDataSource.md#sourceSchema)
+* `DeltaSourceBase` is requested to [checkReadIncompatibleSchemaChanges](../delta/DeltaSourceBase.md#checkReadIncompatibleSchemaChanges) and for the [schema](../delta/DeltaSourceBase.md#schema)
 
 ## CDC-Aware Table Scan (CDC Read) { #isCDCRead }
 
@@ -154,3 +197,22 @@ Otherwise, `isCDCRead` is `false`.
 * `DeltaRelation` utility is used to [fromV2Relation](../DeltaRelation.md#fromV2Relation)
 * `DeltaTableV2` is requested for the [cdcRelation](../DeltaTableV2.md#cdcRelation), [initialSnapshot](../DeltaTableV2.md#initialSnapshot), [withOptions](../DeltaTableV2.md#withOptions)
 * `DeltaDataSource` is requested for the [streaming source schema](../delta/DeltaDataSource.md#sourceSchema) and for a [relation](../delta/DeltaDataSource.md#RelationProvider-createRelation)
+
+## isCDCEnabledOnTable { #isCDCEnabledOnTable }
+
+```scala
+isCDCEnabledOnTable(
+  metadata: Metadata,
+  spark: SparkSession): Boolean
+```
+
+`isCDCEnabledOnTable` is an alias of [metadataRequiresFeatureToBeEnabled](ChangeDataFeedTableFeature.md#metadataRequiresFeatureToBeEnabled).
+
+---
+
+`isCDCEnabledOnTable` is used when:
+
+* `OptimisticTransactionImpl` is requested to [performCdcMetadataCheck](../OptimisticTransactionImpl.md#performCdcMetadataCheck) and [performCdcColumnMappingCheck](../OptimisticTransactionImpl.md#performCdcColumnMappingCheck)
+* `WriteIntoDelta` is requested to [write](../commands/WriteIntoDelta.md#write)
+* `CDCReaderImpl` is requested to [changesToDF](#changesToDF)
+* `TransactionalWrite` is requested to [performCDCPartition](../TransactionalWrite.md#performCDCPartition)
