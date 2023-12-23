@@ -87,7 +87,6 @@ changesToDF(
 * [isCDCEnabledOnTable](#isCDCEnabledOnTable)
 
 !!! danger "`useCoarseGrainedCDC` flag is disabled by default"
-    It is a fairly dangerous assertion given `useCoarseGrainedCDC` flag is disabled by default.
 
 `changesToDF`...FIXME
 
@@ -113,6 +112,16 @@ getDeletedAndAddedRows(
 ```
 
 `getDeletedAndAddedRows`...FIXME
+
+### buildCDCDataSpecSeq { #buildCDCDataSpecSeq }
+
+```scala
+buildCDCDataSpecSeq[T <: FileAction](
+  actionsByVersion: MutableMap[TableVersion, ListBuffer[T]],
+  versionToCommitInfo: MutableMap[Long, CommitInfo]): Seq[CDCDataSpec[T]]
+```
+
+`buildCDCDataSpecSeq` converts the given `actionsByVersion` into [CDCDataSpec](CDCDataSpec.md)s (with [CommitInfo](../CommitInfo.md)s from the given `versionToCommitInfo` mapping).
 
 ### processDeletionVectorActions { #processDeletionVectorActions }
 
