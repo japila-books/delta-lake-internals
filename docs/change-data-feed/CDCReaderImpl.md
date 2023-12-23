@@ -11,13 +11,38 @@ getCDCRelation(
   options: CaseInsensitiveStringMap): BaseRelation
 ```
 
+`getCDCRelation` [getVersionForCDC](#getVersionForCDC) with the following:
+
+* [startingVersion](../delta/DeltaDataSource.md#startingVersion) for the version key
+* [startingTimestamp](../delta/DeltaDataSource.md#startingTimestamp) for the timestamp key
+
 `getCDCRelation`...FIXME
 
 ---
 
 `getCDCRelation` is used when:
 
-* `DeltaLog` is requested to [create a BaseRelation](../DeltaLog.md#createRelation)
+* `DeltaTableV2` is requested for the [CDC-aware relation](../DeltaTableV2.md#cdcRelation)
+
+### Resolving Version { #getVersionForCDC }
+
+```scala
+getVersionForCDC(
+  spark: SparkSession,
+  deltaLog: DeltaLog,
+  conf: SQLConf,
+  options: CaseInsensitiveStringMap,
+  versionKey: String,
+  timestampKey: String): Option[ResolvedCDFVersion]
+```
+
+!!! note "FIXME Review Me"
+
+`getVersionForCDC` uses the given `options` map to get the value of the given `versionKey` key, if available.
+
+Otherwise, `getVersionForCDC` uses the given `options` map to get the value of the given `timestampKey` key, if available. `getVersionForCDC`...FIXME
+
+If neither the given `versionKey` nor the `timestampKey` key is available in the `options` map, `getVersionForCDC` returns `None` (_undefined value_).
 
 ## changesToBatchDF { #changesToBatchDF }
 

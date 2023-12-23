@@ -57,7 +57,31 @@ cdcOptions: CaseInsensitiveStringMap
 
 * `DeltaTableV2` is requested for a [BaseRelation](#toBaseRelation)
 
-## <span id="options"> Options
+## CDF-Aware Relation { #cdcRelation }
+
+```scala
+cdcRelation: Option[BaseRelation]
+```
+
+??? note "Lazy Value"
+    `cdcRelation` is a Scala **lazy value** to guarantee that the code to initialize it is executed once only (when accessed for the first time) and the computed value never changes afterwards.
+
+    Learn more in the [Scala Language Specification]({{ scala.spec }}/05-classes-and-objects.html#lazy).
+
+With [CDF-aware read](change-data-feed/CDCReader.md#isCDCRead), `cdcRelation` returns a [CDF-aware relation](change-data-feed/CDCReader.md#getCDCRelation) for the following:
+
+* [initialSnapshot](#initialSnapshot)
+* [timeTravelSpec](#timeTravelSpec)
+
+Otherwise, `cdcRelation` returns `None` (an _undefined_ value).
+
+---
+
+`cdcRelation` is used when:
+
+* `DeltaTableV2` is requested for the [table schema](#tableSchema) and the [relation](#toBaseRelation)
+
+## Options { #options }
 
 `DeltaTableV2` can be given options (as a `Map[String, String]`). Options are empty by default.
 

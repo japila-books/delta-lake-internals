@@ -2,50 +2,6 @@
 
 `CDCReader` utility is the key class for CDF and CDC in DeltaLake (per [this comment](https://github.com/delta-io/delta/commit/d90f90b6656648e170835f92152b69f77346dfcf)).
 
-## <span id="getCDCRelation"> getCDCRelation
-
-```scala
-getCDCRelation(
-  spark: SparkSession,
-  deltaLog: DeltaLog,
-  snapshotToUse: Snapshot,
-  partitionFilters: Seq[Expression],
-  conf: SQLConf,
-  options: CaseInsensitiveStringMap): BaseRelation
-```
-
-!!! note
-    `partitionFilters` argument is not used.
-
-`getCDCRelation` [getVersionForCDC](#getVersionForCDC) (with the [startingVersion](../delta/DeltaDataSource.md#CDC_START_VERSION_KEY) and [startingTimestamp](../delta/DeltaDataSource.md#CDC_START_TIMESTAMP_KEY) for the version and timestamp keys, respectively).
-
-`getCDCRelation`...FIXME
-
-`getCDCRelation` is used when:
-
-* `DeltaLog` is requested to [create a relation](../DeltaLog.md#createRelation)
-
-### <span id="getVersionForCDC"> Resolving Version
-
-```scala
-getVersionForCDC(
-  spark: SparkSession,
-  deltaLog: DeltaLog,
-  conf: SQLConf,
-  options: CaseInsensitiveStringMap,
-  versionKey: String,
-  timestampKey: String): Option[Long]
-```
-
-`getVersionForCDC` uses the given `options` map to get the value of the given `versionKey` key, if available.
-
-!!! note "When `versionKey` and `timestampKey` are specified"
-    `versionKey` and `timestampKey` are specified in the given `options` argument that is passed down through [getCDCRelation](#getCDCRelation) unmodified when `DeltaLog` is requested to [create a relation](../DeltaLog.md#createRelation) with non-empty `cdcOptions`.
-
-Otherwise, `getVersionForCDC` uses the given `options` map to get the value of the given `timestampKey` key, if available. `getVersionForCDC`...FIXME
-
-If neither the given `versionKey` nor the `timestampKey` key is available in the `options` map, `getVersionForCDC` returns `None` (_undefined value_).
-
 ## <span id="_change_data"> _change_data Directory { #CDC_LOCATION }
 
 `CDCReader` uses `_change_data` as the name of the directory (under the data directory) where data changes of a delta table are written out (using [DelayedCommitProtocol](../DelayedCommitProtocol.md#newTaskTempFile)).
