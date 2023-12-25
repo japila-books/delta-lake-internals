@@ -8,8 +8,8 @@
 
 * <span id="snapshotWithSchemaMode"> `SnapshotWithSchemaMode`
 * <span id="sqlContext"> `SQLContext` ([Spark SQL]({{ book.spark_sql }}/SQLContext))
-* <span id="startingVersion"> Optional start version
-* <span id="endingVersion"> Optional end version
+* <span id="startingVersion"> Starting version
+* <span id="endingVersion"> Ending version
 
 `DeltaCDFRelation` is created when:
 
@@ -29,4 +29,4 @@
 
 `buildScan` [changesToBatchDF](CDCReaderImpl.md#changesToBatchDF).
 
-In the end, `buildScan` selects the given `requiredColumns` (using `Dataset.select` operator) and requests it for the `RDD[Row]`.
+In the end, `buildScan` selects the given `requiredColumns` (using `Dataset.select` operator) and requests the `DataFrame` for the underlying `RDD[Row]`.

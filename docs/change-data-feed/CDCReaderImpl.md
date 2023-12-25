@@ -1,5 +1,11 @@
 # CDCReaderImpl
 
+`CDCReaderImpl` is an marker abstraction of [Change Data Feed-aware Readers](#implementations).
+
+## Implementations
+
+* [CDCReader](CDCReader.md)
+
 ## getCDCRelation { #getCDCRelation }
 
 ```scala
@@ -16,13 +22,26 @@ getCDCRelation(
 * [startingVersion](../delta/DeltaDataSource.md#startingVersion) for the version key
 * [startingTimestamp](../delta/DeltaDataSource.md#startingTimestamp) for the timestamp key
 
-`getCDCRelation`...FIXME
+`getCDCRelation` [getBatchSchemaModeForTable](#getBatchSchemaModeForTable).
+
+`getCDCRelation` [getVersionForCDC](#getVersionForCDC) with the following:
+
+* [endingVersion](../delta/DeltaDataSource.md#endingVersion) for the version key
+* [endingTimestamp](../delta/DeltaDataSource.md#endingTimestamp) for the timestamp key
+
+`getCDCRelation` prints out the following INFO message to the logs:
+
+```text
+startingVersion: [startingVersion], endingVersion: [endingVersionOpt]
+```
+
+In the end, `getCDCRelation` creates a [DeltaCDFRelation](DeltaCDFRelation.md).
 
 ---
 
 `getCDCRelation` is used when:
 
-* `DeltaTableV2` is requested for the [CDC-aware relation](../DeltaTableV2.md#cdcRelation)
+* `DeltaTableV2` is requested for the [CDC-aware BaseRelation](../DeltaTableV2.md#cdcRelation)
 
 ### Resolving Version { #getVersionForCDC }
 
@@ -56,13 +75,15 @@ changesToBatchDF(
   useCoarseGrainedCDC: Boolean = false): DataFrame
 ```
 
-`changesToBatchDF`...FIXME
+`changesToBatchDF` requests the given [DeltaLog](../DeltaLog.md) for all the [changes](../DeltaLog.md#getChanges) from the given `start` version (inclusive) until the given `end` version.
+
+In the end, `changesToBatchDF` [changesToDF](#changesToDF) with the changes per version (and `isStreaming` flag disabled).
 
 ---
 
 `changesToBatchDF` is used when:
 
-* `DeltaCDFRelation` is requested to [buildScan](DeltaCDFRelation.md#buildScan)
+* `DeltaCDFRelation` is requested to [build a scan](DeltaCDFRelation.md#buildScan)
 
 ## changesToDF { #changesToDF }
 
@@ -77,6 +98,17 @@ changesToDF(
   useCoarseGrainedCDC: Boolean = false): CDCVersionDiffInfo
 ```
 
+??? note "`isStreaming` Input Argument"
+
+    Value | Caller
+    ------|-------
+    `false` | <ul><li>The default</li><li>`CDCReaderImpl` is requested to [changesToBatchDF](#changesToBatchDF)</li></ul>
+    `true` | `DeltaSourceCDCSupport` is requested to [getCDCFileChangesAndCreateDataFrame](DeltaSourceCDCSupport.md#getCDCFileChangesAndCreateDataFrame)
+
+??? note "`useCoarseGrainedCDC` Input Argument"
+
+    `useCoarseGrainedCDC` is disabled (`false`) by default and for all the other uses.
+
 `changesToDF` [getTimestampsByVersion](#getTimestampsByVersion).
 
 `changesToDF` requests the [DeltaLog](../SnapshotDescriptor.md#deltaLog) (of the given [SnapshotDescriptor](../SnapshotDescriptor.md)) for the [Snapshot](../SnapshotManagement.md#getSnapshotAt) at the given `start`.
@@ -86,11 +118,9 @@ changesToDF(
 * The given `useCoarseGrainedCDC` flag
 * [isCDCEnabledOnTable](#isCDCEnabledOnTable)
 
-!!! danger "`useCoarseGrainedCDC` flag is disabled by default"
-
 `changesToDF`...FIXME
 
-In the end, `changesToDF` creates a new `CDCVersionDiffInfo`.
+In the end, `changesToDF` creates a new `CDCVersionDiffInfo` (with a `DataFrame`).
 
 ---
 
@@ -250,3 +280,7 @@ isCDCEnabledOnTable(
 * `WriteIntoDelta` is requested to [write](../commands/WriteIntoDelta.md#write)
 * `CDCReaderImpl` is requested to [changesToDF](#changesToDF)
 * `TransactionalWrite` is requested to [performCDCPartition](../TransactionalWrite.md#performCDCPartition)
+
+## Logging
+
+`CDCReaderImpl` is an abstract class and logging is configured using the logger of the [implementations](#implementations).
