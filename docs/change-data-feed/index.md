@@ -4,9 +4,9 @@
 
 Change Data Feed can be enabled on a delta table using [delta.enableChangeDataFeed](#delta.enableChangeDataFeed) table property.
 
-With [CDC-Aware Table Scan (CDC Read)](CDCReaderImpl.md#isCDCRead), [loading a delta table](../delta/DeltaDataSource.md#RelationProvider-createRelation) gives data changes (not the data of a particular version of the delta table).
+With [CDC-Aware Table Scan (CDC Read)](CDCReaderImpl.md#isCDCRead) (based on [readChangeFeed](../delta/options.md#readChangeFeed) read option), [loading a delta table](../delta/DeltaDataSource.md#RelationProvider-createRelation) gives data changes (not the data of a particular version of the delta table).
 
-CDC data changes are written out (by [DelayedCommitProtocol](../DelayedCommitProtocol.md)) to [_change_data](#_change_data) directory as `cdc-`-prefixed files.
+CDC data changes are written out (by [DelayedCommitProtocol](../DelayedCommitProtocol.md)) to [_change_data](#_change_data) directory as `cdc-`-prefixed parquet-encoded change data files.
 
 As they put it (in [this comment](https://github.com/delta-io/delta/commit/d90f90b6656648e170835f92152b69f77346dfcf)), [CDCReader](CDCReader.md) is the key class used for Change Data Feed.
 
@@ -76,11 +76,11 @@ Change Data Feed is enabled in batch and streaming queries using [readChangeFeed
 
 Change Data Feed uses the following metadata columns for [CDF-aware scans](CDCReaderImpl.md#cdcReadSchema) (beside the data schema):
 
-Column Name | Data Type
------|----------
- [_change_type](CDCReader.md#CDC_TYPE_COLUMN_NAME) | `StringType`
- [_commit_version](CDCReader.md#CDC_COMMIT_VERSION) | `LongType`
- [_commit_timestamp](CDCReader.md#CDC_COMMIT_TIMESTAMP) | `TimestampType`
+Column Name | Data Type | Description
+------------|-----------|------------
+ [_change_type](CDCReader.md#CDC_TYPE_COLUMN_NAME) | `StringType` | The type of a data change
+ [_commit_version](CDCReader.md#CDC_COMMIT_VERSION) | `LongType` |
+ [_commit_timestamp](CDCReader.md#CDC_COMMIT_TIMESTAMP) | `TimestampType` |
 
 ![CDF-Aware Read Schema](../images/cdf-metadata-columns.png)
 
@@ -112,6 +112,14 @@ Change data feed reads are currently not supported on tables with [column mappin
 ## CDF Table-Valued Functions
 
 [CDF Table-Valued Functions](../table-valued-functions/index.md) are provided to read the table changes of delta tables.
+
+## File Indices
+
+!!! note "FIXME What's the purpose of these indices?!"
+
+* [CdcAddFileIndex](CdcAddFileIndex.md)
+* [TahoeChangeFileIndex](TahoeChangeFileIndex.md)
+* [TahoeRemoveFileIndex](TahoeRemoveFileIndex.md)
 
 ## Demo
 

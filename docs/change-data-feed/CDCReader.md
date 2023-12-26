@@ -1,6 +1,8 @@
 # CDCReader
 
-`CDCReader` utility is the key class for CDF and CDC in DeltaLake (per [this comment](https://github.com/delta-io/delta/commit/d90f90b6656648e170835f92152b69f77346dfcf)).
+`CDCReader` is a [CDCReaderImpl](CDCReaderImpl.md).
+
+`CDCReader` utility plays the key role in [Change Data Capture](index.md) in Delta Lake (per [this comment](https://github.com/delta-io/delta/commit/d90f90b6656648e170835f92152b69f77346dfcf)).
 
 ## <span id="_change_data"> _change_data Directory { #CDC_LOCATION }
 
@@ -44,11 +46,13 @@ Used when:
 
 ### <span id="_change_type"> Change Type Column { #CDC_TYPE_COLUMN_NAME }
 
-`CDCReader` uses `_change_type` column name for the column that represents the type of a data change.
+`CDCReader` defines `_change_type` column name that represents the type of a data change.
 
-`_change_type` is a [CDF virtual column](#CDC_COLUMNS_IN_DATA) and among the columns in the [CDF-aware read schema](#cdcReadSchema).
+`_change_type` is a [CDF virtual column](#CDC_COLUMNS_IN_DATA) and among the columns in the [CDF-aware read schema](CDCReaderImpl.md#cdcReadSchema).
 
-`CDC_TYPE_COLUMN_NAME` is used when:
+`_change_type` is among the [cdcAttributes](#cdcAttributes)
+
+Used when:
 
 * `DeleteCommand` is requested to [rewriteFiles](../commands/delete/DeleteCommand.md#rewriteFiles) (with [Change Data Feed](index.md) enabled)
 * `UpdateCommand` is requested to [withUpdatedColumns](../commands/update/UpdateCommand.md#withUpdatedColumns) (with [Change Data Feed](index.md) enabled to add `update_preimage` and `update_postimage` columns)
@@ -61,6 +65,20 @@ Used when:
 * `TahoeRemoveFileIndex` is requested for the [matching files](TahoeRemoveFileIndex.md#matchingFiles)
 * `TransactionalWrite` is requested to [performCDCPartition](../TransactionalWrite.md#performCDCPartition)
 * `SchemaUtils` is requested to [normalizeColumnNames](../SchemaUtils.md#normalizeColumnNames)
+
+### <span id="_commit_version"> Commit Version Column { #CDC_COMMIT_VERSION }
+
+`CDCReader` defines `_commit_version` column name that represents...FIXME
+
+`_commit_version` is among the [DELTA_INTERNAL_COLUMNS](../column-mapping/DeltaColumnMappingBase.md#DELTA_INTERNAL_COLUMNS).
+
+`_commit_version` is among the [cdcAttributes](#cdcAttributes) and the [CDF-aware read schema](CDCReaderImpl.md#cdcReadSchema).
+
+Used when:
+
+* `CdcAddFileIndex` is requested for the [matching files](CdcAddFileIndex.md#matchingFiles)
+* `TahoeChangeFileIndex` is requested for the [matching files](TahoeChangeFileIndex.md#matchingFiles) and the [partitionSchema](TahoeChangeFileIndex.md#partitionSchema)
+* `TahoeRemoveFileIndex` is requested for the [matching files](TahoeRemoveFileIndex.md#matchingFiles)
 
 ## CDC_TYPE_NOT_CDC Literal { #CDC_TYPE_NOT_CDC }
 
