@@ -2,1677 +2,1677 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/Action/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/AddCDCFile/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/AddFile/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/AppendDelta/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/CachedDS/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/ColumnWithDefaultExprUtils/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/CommitInfo/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/ConflictChecker/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/CurrentTransactionInfo/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/DelayedCommitProtocol/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/DeltaAnalysis/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/DeltaCatalog/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/DeltaColumnBuilder/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/DeltaConfig/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/DeltaConfigs/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/DeltaErrors/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/DeltaErrorsBase/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/DeltaFileFormat/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/DeltaFileOperations/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/DeltaHistoryManager/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/DeltaJobStatisticsTracker/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/DeltaLog/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/DeltaLogFileIndex/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/DeltaLogging/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/DeltaOptimizeBuilder/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/DeltaParquetFileFormat/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/DeltaProgressReporter/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/DeltaRelation/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/DeltaSparkSessionExtension/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/DeltaTable/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/DeltaTableBuilder/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/DeltaTableIdentifier/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/DeltaTableOperations/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/DeltaTableUtils/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/DeltaTableV2/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/DeltaUnsupportedOperationsCheck/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/FileAction/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/FileNames/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/ImplicitMetadataOperation/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/InMemoryLogReplay/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/InitialSnapshot/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/IsolationLevel/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/LogSegment/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/LogStore/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/Metadata/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/MetadataCleanup/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/Operation/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/OptimisticTransaction/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/OptimisticTransactionImpl/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/PartitionFiltering/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/PreprocessTableDelete/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/PreprocessTableMerge/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/PreprocessTableUpdate/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/PreprocessTimeTravel/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/Protocol/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/ReadChecksum/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/RemoveFile/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/SQLMetricsReporting/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/SchemaMergingUtils/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/SchemaUtils/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/SetTransaction/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/SingleAction/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/Snapshot/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/SnapshotDescriptor/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/SnapshotManagement/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/StagedDeltaTableV2/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/State/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/StateCache/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/StatisticsCollection/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/SupportsRowIndexFilters/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/TahoeBatchFileIndex/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/TahoeFileIndex/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/TahoeFileIndexWithSnapshotDescriptor/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/TahoeLogFileIndex/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/TransactionalWrite/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/VerifyChecksum/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/WriteIntoDeltaBuilder/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/developer-api/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/installation/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/logging/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/overview/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/append-only-tables/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/append-only-tables/AppendOnlyTableFeature/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/change-data-feed/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/change-data-feed/CDCDataSpec/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/change-data-feed/CDCReader/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/change-data-feed/CDCReaderImpl/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/change-data-feed/CdcAddFileIndex/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/change-data-feed/ChangeDataFeedTableFeature/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/change-data-feed/DeltaCDFRelation/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/change-data-feed/DeltaSourceCDCSupport/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/change-data-feed/IndexedChangeFileSeq/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/change-data-feed/TahoeChangeFileIndex/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/change-data-feed/TahoeRemoveFileIndex/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/check-constraints/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/check-constraints/AddConstraint/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/check-constraints/AlterTableAddConstraint/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/check-constraints/AlterTableDropConstraint/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/check-constraints/DropConstraint/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/checkpoints/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/checkpoints/CheckpointHook/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/checkpoints/CheckpointV2/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/checkpoints/Checkpoints/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/column-invariants/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/column-invariants/Invariants/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/column-mapping/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/column-mapping/DeltaColumnMappingBase/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/column-mapping/DeltaColumnMappingMode/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/column-statistics/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/CreateDeltaTableCommand/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/DeltaCommand/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/WriteIntoDelta/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/alter/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/alter/AlterDeltaTableCommand/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/alter/AlterTableAddColumnsDeltaCommand/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/alter/AlterTableAddConstraintDeltaCommand/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/alter/AlterTableChangeColumnDeltaCommand/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/alter/AlterTableDropColumnsDeltaCommand/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/alter/AlterTableDropConstraintDeltaCommand/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/alter/AlterTableReplaceColumnsDeltaCommand/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/alter/AlterTableSetLocationDeltaCommand/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/alter/AlterTableSetPropertiesDeltaCommand/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/alter/AlterTableUnsetPropertiesDeltaCommand/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/clone/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/clone/CloneConvertedSource/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/clone/CloneDeltaSource/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/clone/CloneParquetSource/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/clone/CloneSource/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/clone/CloneTableBase/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/clone/CloneTableStatement/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/convert/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/convert/ConvertTargetTable/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/convert/ConvertToDeltaCommand/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/convert/ConvertToDeltaCommandUtils/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/convert/DeltaConvert/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/convert/FileManifest/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/convert/ManualListingFileManifest/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/convert/MetadataLogFileManifest/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/convert/ParquetTable/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/delete/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/delete/DeleteCommand/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/delete/DeleteCommandMetrics/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/delete/DeltaDelete/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/describe-detail/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/describe-detail/DescribeDeltaDetailCommand/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/describe-detail/TableDetail/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/describe-history/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/describe-history/DeltaHistory/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/describe-history/DescribeDeltaHistory/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/describe-history/DescribeDeltaHistoryCommand/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/generate/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/generate/DeltaGenerateCommand/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/merge/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/merge/ClassicMergeExecutor/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/merge/DeduplicateCDFDeletes/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/merge/DeltaMergeAction/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/merge/DeltaMergeBuilder/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/merge/DeltaMergeInto/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/merge/DeltaMergeIntoClause/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/merge/DeltaMergeIntoMatchedClause/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/merge/DeltaMergeIntoMatchedDeleteClause/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/merge/DeltaMergeIntoMatchedUpdateClause/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/merge/DeltaMergeIntoNotMatchedBySourceClause/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/merge/DeltaMergeIntoNotMatchedBySourceDeleteClause/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/merge/DeltaMergeIntoNotMatchedBySourceUpdateClause/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/merge/DeltaMergeIntoNotMatchedClause/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/merge/DeltaMergeIntoNotMatchedInsertClause/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/merge/DeltaMergeMatchedActionBuilder/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/merge/DeltaMergeNotMatchedActionBuilder/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/merge/DeltaMergeNotMatchedBySourceActionBuilder/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/merge/InsertOnlyMergeExecutor/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/merge/JoinedRowProcessor/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/merge/MergeIntoCommand/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/merge/MergeIntoCommandBase/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/merge/MergeIntoMaterializeSource/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/merge/MergeOutputGeneration/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/merge/MergeStats/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/optimize/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/optimize/DeltaOptimizeContext/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/optimize/InterleaveBits/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/optimize/MultiDimClustering/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/optimize/MultiDimClusteringFunctions/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/optimize/OptimizeExecutor/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/optimize/OptimizeMetrics/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/optimize/OptimizeStats/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/optimize/OptimizeTableCommand/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/optimize/OptimizeTableCommandBase/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/optimize/PartitionerExpr/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/optimize/RangePartitionId/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/optimize/RangePartitionIdRewrite/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/optimize/SpaceFillingCurveClustering/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/optimize/ZOrderClustering/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/reorg/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/reorg/DeltaReorgTable/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/reorg/DeltaReorgTableCommand/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/restore/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/restore/RestoreTableCommand/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/restore/RestoreTableCommandBase/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/restore/RestoreTableStatement/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/restore/TimeTravel/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/update/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/update/DeltaUpdateTable/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/update/UpdateCommand/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/vacuum/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/vacuum/VacuumCommand/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/vacuum/VacuumCommandImpl/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/vacuum/VacuumTableCommand/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/configuration-properties/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/configuration-properties/DeltaSQLConf/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/constraints/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/constraints/Check/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/constraints/CheckDeltaInvariant/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/constraints/Constraint/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/constraints/Constraints/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/constraints/DeltaInvariantChecker/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/constraints/DeltaInvariantCheckerExec/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/constraints/DeltaInvariantCheckerStrategy/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/constraints/Invariant/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/constraints/InvariantViolationException/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/contenders/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/create-table-like/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/data-skipping/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/data-skipping/ColumnPredicateBuilder/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/data-skipping/CountStarDeltaTable/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/data-skipping/DataFiltersBuilder/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/data-skipping/DataSkippingPredicateBuilder/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/data-skipping/DataSkippingReaderBase/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/data-skipping/DeltaDataSkippingType/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/data-skipping/DeltaScan/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/data-skipping/DeltaScanGenerator/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/data-skipping/FileSizeHistogram/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/data-skipping/OptimizeMetadataOnlyDeltaQuery/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/data-skipping/PrepareDeltaScan/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/data-skipping/PrepareDeltaScanBase/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/data-skipping/PreparedDeltaFileIndex/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/data-skipping/ReadsMetadataFields/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/data-skipping/ShowCountStarDeltaTable/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/data-skipping/StatsProvider/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/data-skipping/UsesMetadataFields/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/deletion-vectors/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/deletion-vectors/DMLWithDeletionVectorsHelper/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/deletion-vectors/DeletionVectorBitmapGenerator/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/deletion-vectors/DeletionVectorDescriptor/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/deletion-vectors/DeletionVectorSet/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/deletion-vectors/DeletionVectorUtils/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/deletion-vectors/DeletionVectorWriter/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/deletion-vectors/DeletionVectorsTableFeature/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/deletion-vectors/ScanWithDeletionVectors/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/deletion-vectors/StoredBitmap/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/deletion-vectors/TouchedFileWithDV/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/delta/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/delta/AdmissionLimits/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/delta/DeltaDataSource/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/delta/DeltaOptionParser/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/delta/DeltaOptions/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/delta/DeltaReadOptions/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/delta/DeltaSink/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/delta/DeltaSource/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/delta/DeltaSourceBase/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/delta/DeltaSourceOffset/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/delta/DeltaSourceSnapshot/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/delta/DeltaSourceUtils/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/delta/DeltaWriteOptions/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/delta/DeltaWriteOptionsImpl/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/delta/SnapshotIterator/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/delta/options/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/demo/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/demo/Converting-Parquet-Dataset-Into-Delta-Format/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/demo/Debugging-Delta-Lake-Using-IntelliJ-IDEA/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/demo/DeltaTable-DeltaLog-And-Snapshots/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/demo/Observing-Transaction-Retries/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/demo/Using-Delta-Lake-as-Streaming-Sink-in-Structured-Streaming/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/demo/change-data-feed/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/demo/column-mapping/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/demo/data-skipping/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/demo/dataChange/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/demo/generated-columns/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/demo/merge-operation/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/demo/optimize/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/demo/replaceWhere/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/demo/rolling-back-table-changes-restore-command/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/demo/schema-evolution/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/demo/stream-processing-of-delta-table/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/demo/time-travel/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/demo/user-metadata-for-labelling-commits/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/demo/vacuum/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/exceptions/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/exceptions/ConcurrentAppendException/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/exceptions/ConcurrentDeleteDeleteException/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/exceptions/ConcurrentDeleteReadException/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/exceptions/ConcurrentTransactionException/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/exceptions/ConcurrentWriteException/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/exceptions/DeltaConcurrentModificationException/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/exceptions/MetadataChangedException/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/exceptions/ProtocolChangedException/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/features/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/generated-columns/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/generated-columns/GeneratedColumn/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/limit-pushdown/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/post-commit-hooks/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/post-commit-hooks/GenerateSymlinkManifest/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/post-commit-hooks/PostCommitHook/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/row-tracking/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/row-tracking/DefaultRowCommitVersion/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/row-tracking/RowId/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/row-tracking/RowTracking/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/row-tracking/RowTrackingFeature/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/sql/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/sql/DeltaSqlAstBuilder/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/sql/DeltaSqlParser/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/storage/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/storage/DelegatingLogStore/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/storage/HDFSLogStore/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/storage/HadoopFileSystemLogStore/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/storage/LogStore/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/storage/LogStoreAdaptor/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/storage/LogStoreProvider/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/storage/S3SingleDriverLogStore/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/table-features/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/table-features/DomainMetadataTableFeature/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/table-features/FeatureAutomaticallyEnabledByMetadata/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/table-features/LegacyWriterFeature/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/table-features/ReaderWriterFeature/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/table-features/TableFeature/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/table-features/TableFeatureProtocolUtils/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/table-features/TableFeatureSupport/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/table-features/WriterFeature/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/table-properties/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/table-valued-functions/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/table-valued-functions/DeltaTableValueFunction/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/table-valued-functions/DeltaTableValueFunctions/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/time-travel/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/time-travel/DeltaTimeTravelSpec/</loc>
-         <lastmod>2023-12-25</lastmod>
+         <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
 </urlset>
