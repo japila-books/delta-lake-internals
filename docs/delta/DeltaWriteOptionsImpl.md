@@ -3,7 +3,7 @@
 `DeltaWriteOptionsImpl` is an [extension](#contract) of the [DeltaOptionParser](DeltaOptionParser.md) abstraction.
 
 !!! note "Fun Fact"
-    Despite the suffix (`Impl`), `DeltaWriteOptionsImpl` is not an implementation (_class_) but a trait.
+    Despite the suffix (`Impl`), `DeltaWriteOptionsImpl` is a trait not an implementation (_class_).
 
 ## Auto Schema Merging { #canMergeSchema }
 

@@ -4,38 +4,6 @@ title: Options
 
 # Options
 
-Delta Lake comes with options to fine-tune its uses. They can be defined using `option` method of the following:
-
-* `DataFrameReader` ([Spark SQL]({{ book.spark_sql }}/DataFrameReader)) and `DataFrameWriter` ([Spark SQL]({{ book.spark_sql }}/DataFrameWriter)) for batch queries
-* `DataStreamReader` ([Spark Structured Streaming]({{ book.structured_streaming }}/DataStreamReader)) and `DataStreamWriter` ([Spark Structured Streaming]({{ book.structured_streaming }}/DataStreamWriter)) for streaming queries
-* SQL queries
-
-## <span id="DeltaOptions"> Accessing Options
-
-The options are available at runtime as [DeltaOptions](DeltaOptions.md).
-
-```scala
-import org.apache.spark.sql.delta.DeltaOptions
-```
-
-```scala
-assert(DeltaOptions.OVERWRITE_SCHEMA_OPTION == "overwriteSchema")
-```
-
-```scala
-val options = new DeltaOptions(Map.empty[String, String], spark.sessionState.conf)
-assert(options.failOnDataLoss, "failOnDataLoss should be enabled by default")
-```
-
-```scala
-val options = new DeltaOptions(
-  Map(DeltaOptions.OVERWRITE_SCHEMA_OPTION -> true.toString),
-  spark.sessionState.conf)
-assert(
-  options.canOverwriteSchema,
-  s"${DeltaOptions.OVERWRITE_SCHEMA_OPTION} should be enabled")
-```
-
 ## <span id="checkpointLocation"> checkpointLocation
 
 Checkpoint directory for storing checkpoint data of streaming queries ([Spark Structured Streaming]({{ book.structured_streaming }}/configuration-properties/#spark.sql.streaming.checkpointLocation)).
@@ -127,17 +95,31 @@ Default: (undefined)
 !!! note
     Can also be specified using `load` method of `DataFrameReader` and `DataStreamReader`.
 
-## <span id="queryName"> queryName
+## queryName { #queryName }
 
-## <span id="CDC_READ_OPTION"><span id="readChangeFeed"> readChangeFeed
+## <span id="CDC_READ_OPTION"> readChangeFeed { #readChangeFeed }
 
-Enables [Change Data Feed](../change-data-feed/index.md) while reading a delta table (_CDC read_)
+Enables [Change Data Feed](../change-data-feed/index.md) while reading delta tables ([CDC-aware table scans](../change-data-feed/CDCReaderImpl.md#isCDCRead))
 
-Use [DeltaOptions.readChangeFeed](DeltaReadOptions.md#readChangeFeed) to access the value
+Use [DeltaOptions.readChangeFeed](DeltaReadOptions.md#readChangeFeed) for the value
 
-Requires either [startingVersion](#startingVersion) or [startingTimestamp](#startingTimestamp) option
+!!! note
+    Use the following options to fine-tune [Change Data Feed](../change-data-feed/index.md)-aware queries:
 
-## <span id="REPLACE_WHERE_OPTION"><span id="replaceWhere"> replaceWhere
+    * [startingVersion](#CDC_START_VERSION_KEY)
+    * [startingTimestamp](#CDC_START_TIMESTAMP_KEY)
+    * [endingVersion](#CDC_END_VERSION_KEY)
+    * [endingTimestamp](#CDC_END_TIMESTAMP_KEY)
+
+---
+
+`readChangeFeed` is used when:
+
+* `CDCStatementBase` is requested to `getOptions`
+* `CDCReaderImpl` is requested to [isCDCRead](../change-data-feed/CDCReaderImpl.md#isCDCRead)
+* `DeltaDataSource` is requested to [create a BaseRelation](#RelationProvider-createRelation)
+
+## <span id="REPLACE_WHERE_OPTION"> replaceWhere { #replaceWhere }
 
 Partition predicates (unless [replaceWhere.dataColumns.enabled](../configuration-properties/DeltaSQLConf.md#replaceWhere.dataColumns.enabled) is enabled to allow for arbitrary non-partition data predicates)
 

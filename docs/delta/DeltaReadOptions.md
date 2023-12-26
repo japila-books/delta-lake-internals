@@ -2,7 +2,7 @@
 
 `DeltaReadOptions` is an extension of the [DeltaOptionParser](DeltaOptionParser.md) abstraction with the values of the read options of [DeltaOptions](DeltaOptions.md).
 
-## <span id="excludeRegex"> excludeRegex
+## excludeRegex { #excludeRegex }
 
 ```scala
 excludeRegex: Option[Regex]
@@ -14,7 +14,7 @@ excludeRegex: Option[Regex]
 
 * `DeltaSource` is requested for the [excludeRegex](DeltaSource.md#excludeRegex)
 
-## <span id="failOnDataLoss"><span id="FAIL_ON_DATA_LOSS_OPTION"> failOnDataLoss
+## <span id="FAIL_ON_DATA_LOSS_OPTION"> failOnDataLoss { #failOnDataLoss }
 
 ```scala
 failOnDataLoss: Boolean
@@ -29,7 +29,7 @@ failOnDataLoss: Boolean
 * `DeltaSource` is requested to [getFileChanges](DeltaSource.md#getFileChanges)
 * `DeltaSourceCDCSupport` is requested to [getFileChangesForCDC](../change-data-feed/DeltaSourceCDCSupport.md#getFileChangesForCDC)
 
-## <span id="ignoreChanges"> ignoreChanges
+## ignoreChanges { #ignoreChanges }
 
 ```scala
 ignoreChanges: Boolean
@@ -41,7 +41,7 @@ ignoreChanges: Boolean
 
 * FIXME
 
-## <span id="ignoreDeletes"> ignoreDeletes
+## ignoreDeletes { #ignoreDeletes }
 
 ```scala
 ignoreDeletes: Boolean
@@ -53,7 +53,7 @@ ignoreDeletes: Boolean
 
 * FIXME
 
-## <span id="ignoreFileDeletion"> ignoreFileDeletion
+## ignoreFileDeletion { #ignoreFileDeletion }
 
 ```scala
 ignoreFileDeletion: Boolean
@@ -65,7 +65,7 @@ ignoreFileDeletion: Boolean
 
 * FIXME
 
-## <span id="maxBytesPerTrigger"> maxBytesPerTrigger
+## maxBytesPerTrigger { #maxBytesPerTrigger }
 
 ```scala
 maxBytesPerTrigger: Option[Long]
@@ -77,7 +77,7 @@ maxBytesPerTrigger: Option[Long]
 
 * FIXME
 
-## <span id="maxFilesPerTrigger"> maxFilesPerTrigger
+## maxFilesPerTrigger { #maxFilesPerTrigger }
 
 ```scala
 maxFilesPerTrigger: Option[Int]
@@ -89,23 +89,30 @@ maxFilesPerTrigger: Option[Int]
 
 * FIXME
 
-## <span id="readChangeFeed"> readChangeFeed
+## readChangeFeed { #readChangeFeed }
 
 ```scala
 readChangeFeed: Boolean
 ```
 
-`readChangeFeed` uses the [options](DeltaOptionParser.md#options) for the value of [readChangeFeed](options.md#CDC_READ_OPTION) option (if available or falls back to the legacy [readChangeData](options.md#readChangeData)).
+`readChangeFeed` uses the [options](DeltaOptionParser.md#options) for the boolean value of [readChangeFeed](options.md#CDC_READ_OPTION) option (if available or falls back to the legacy [readChangeData](options.md#readChangeData)).
 
-`readChangeFeed` is used when:
+!!! note "DeltaDataSource"
+    Also known as [CDC_ENABLED_KEY](DeltaDataSource.md#CDC_ENABLED_KEY).
 
-* `DeltaSourceBase` is requested for the [read schema](DeltaSourceBase.md#schema), to [getFileChangesWithRateLimit](DeltaSourceBase.md#getFileChangesWithRateLimit) (indirectly for `DeltaSource` to determine the [latest offset](DeltaSource.md#latestOffset)) and [getFileChangesAndCreateDataFrame](DeltaSourceBase.md#getFileChangesAndCreateDataFrame) (indirectly for the `DeltaSource` to [get a streaming micro-batch dataframe](DeltaSource.md#getBatch))
+---
 
-## <span id="startingTimestamp"> startingTimestamp
+`readChangeFeed` is used when `DeltaSourceBase` is requested for the following:
+
+* [checkReadIncompatibleSchemaChanges](DeltaSourceBase.md#checkReadIncompatibleSchemaChanges)
+* [getFileChangesAndCreateDataFrame](DeltaSourceBase.md#getFileChangesAndCreateDataFrame) (for the `DeltaSource` to [get a streaming micro-batch dataframe](DeltaSource.md#getBatch))
+* [getFileChangesWithRateLimit](DeltaSourceBase.md#getFileChangesWithRateLimit) (for `DeltaSource` to determine the [latest offset](DeltaSource.md#latestOffset))
+* The [read schema](DeltaSourceBase.md#schema)
+
+## startingTimestamp { #startingTimestamp }
 
 ```scala
 startingTimestamp: Option[String]
-
 ```
 
 `startingTimestamp`...FIXME
@@ -114,11 +121,10 @@ startingTimestamp: Option[String]
 
 * FIXME
 
-## <span id="startingVersion"> startingVersion
+## startingVersion { #startingVersion }
 
 ```scala
 startingVersion: Option[DeltaStartingVersion]
-
 ```
 
 `startingVersion`...FIXME

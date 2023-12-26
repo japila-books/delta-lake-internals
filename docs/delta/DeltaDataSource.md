@@ -292,23 +292,12 @@ parsePathIdentifier(
 
 `parsePathIdentifier`...FIXME
 
+---
+
 `parsePathIdentifier` is used when:
 
 * `DeltaTableV2` is requested for [metadata](../DeltaTableV2.md#rootPath) (for a non-catalog table)
 
-## <span id="CDC_ENABLED_KEY"><span id="readChangeFeed"> readChangeFeed
+## <span id="CDC_ENABLED_KEY"> readChangeFeed { #readChangeFeed }
 
-`DeltaDataSource` utility defines `readChangeFeed` value to indicate [CDC-aware table scan](../change-data-feed/CDCReaderImpl.md#isCDCRead) (when it is used as an read option and `true`).
-
-`readChangeFeed` is used alongside the following CDC options:
-
-* [startingVersion](#CDC_START_VERSION_KEY)
-* [startingTimestamp](#CDC_START_TIMESTAMP_KEY)
-* [endingVersion](#CDC_END_VERSION_KEY)
-* [endingTimestamp](#CDC_END_TIMESTAMP_KEY)
-
----
-
-`readChangeFeed` is used when:
-
-* `DeltaDataSource` is requested to [create a BaseRelation](#RelationProvider-createRelation)
+[readChangeFeed](options.md#readChangeFeed)

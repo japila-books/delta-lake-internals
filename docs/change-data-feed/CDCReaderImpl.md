@@ -2,6 +2,9 @@
 
 `CDCReaderImpl` is an marker abstraction of [Change Data Feed-aware Readers](#implementations).
 
+!!! note "Fun Fact"
+    Despite the suffix (`Impl`), `CDCReaderImpl` is a trait not an implementation (_class_).
+
 ## Implementations
 
 * [CDCReader](CDCReader.md)

@@ -1,7 +1,6 @@
 title: Delta Connector
 nav:
     - index.md
-    - Options:
-        - options.md
-        - ... | *Option*.md
+    - ... | [A-N]*.md
+    - options.md
     - ...

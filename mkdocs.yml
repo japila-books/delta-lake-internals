@@ -167,6 +167,7 @@ nav:
     - ... | configuration-properties/**.md
     - ... | data-skipping/**.md
     - ... | deletion-vectors/**.md
+    - ... | delta/**.md
     - developer-api.md
     - Generated Columns:
       - generated-columns/index.md
@@ -253,7 +254,6 @@ nav:
       - TahoeLogFileIndex: TahoeLogFileIndex.md
       - DeltaLogFileIndex: DeltaLogFileIndex.md
     - WriteIntoDeltaBuilder: WriteIntoDeltaBuilder.md
-  - ... | delta/**.md
   - Developer API:
     - DeltaTable: DeltaTable.md
     - DeltaTableBuilder: DeltaTableBuilder.md
