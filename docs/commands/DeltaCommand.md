@@ -15,7 +15,7 @@
 * [OptimizeExecutor](optimize/OptimizeExecutor.md)
 * [OptimizeTableCommandBase](optimize/OptimizeTableCommandBase.md)
 * [RestoreTableCommand](restore/RestoreTableCommand.md)
-* `ShowDeltaTableColumnsCommand`
+* [ShowDeltaTableColumnsCommand](ShowDeltaTableColumnsCommand.md)
 * [StatisticsCollection](../StatisticsCollection.md)
 * [UpdateCommand](update/UpdateCommand.md)
 * [VacuumCommandImpl](vacuum/VacuumCommandImpl.md)

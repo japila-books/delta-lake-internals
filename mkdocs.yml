@@ -329,6 +329,7 @@ nav:
       - RestoreTableCommandBase: commands/restore/RestoreTableCommandBase.md
       - RestoreTableStatement: commands/restore/RestoreTableStatement.md
       - TimeTravel: commands/restore/TimeTravel.md
+    - commands/ShowDeltaTableColumnsCommand.md
     - Update:
       - commands/update/index.md
       - UpdateCommand: commands/update/UpdateCommand.md
