@@ -224,15 +224,7 @@ nav:
       - PartitionFiltering: PartitionFiltering.md
       - LogSegment: LogSegment.md
     - DeltaHistoryManager: DeltaHistoryManager.md
-    - Storage:
-      - storage/index.md
-      - DelegatingLogStore: storage/DelegatingLogStore.md
-      - LogStore: storage/LogStore.md
-      - LogStoreAdaptor: storage/LogStoreAdaptor.md
-      - LogStoreProvider: storage/LogStoreProvider.md
-      - HadoopFileSystemLogStore: storage/HadoopFileSystemLogStore.md
-      - HDFSLogStore: storage/HDFSLogStore.md
-      - S3SingleDriverLogStore: storage/S3SingleDriverLogStore.md
+    - ... | storage/**.md
     - FileNames: FileNames.md
     - Spark SQL Extensions:
       - AppendDelta: AppendDelta.md
@@ -271,10 +263,7 @@ nav:
       - MetadataChangedException: exceptions/MetadataChangedException.md
       - ProtocolChangedException: exceptions/ProtocolChangedException.md
     - LogStore: LogStore.md
-  - Delta SQL:
-    - Delta SQL: sql/index.md
-    - DeltaSqlParser: sql/DeltaSqlParser.md
-    - DeltaSqlAstBuilder: sql/DeltaSqlAstBuilder.md
+  - ... | sql/**.md
   - Commands:
     - commands/index.md
     - DeltaCommand: commands/DeltaCommand.md
@@ -293,30 +282,18 @@ nav:
     - Clone:
       - ... | flat | commands/clone/**.md
     - Convert:
-      - commands/convert/index.md
-      - ConvertTargetTable: commands/convert/ConvertTargetTable.md
-      - ConvertToDeltaCommand: commands/convert/ConvertToDeltaCommand.md
-      - ConvertToDeltaCommandUtils: commands/convert/ConvertToDeltaCommandUtils.md
-      - DeltaConvert: commands/convert/DeltaConvert.md
-      - FileManifest: commands/convert/FileManifest.md
-      - ManualListingFileManifest: commands/convert/ManualListingFileManifest.md
-      - MetadataLogFileManifest: commands/convert/MetadataLogFileManifest.md
-      - ParquetTable: commands/convert/ParquetTable.md
+      - ... | flat | commands/convert/**.md
     - CREATE TABLE LIKE:
       - create-table-like/index.md
     - CreateDeltaTableCommand: commands/CreateDeltaTableCommand.md
     - Delete:
-      - commands/delete/index.md
-      - DeleteCommand: commands/delete/DeleteCommand.md
-      - commands/delete/DeleteCommandMetrics.md
-      - DeltaDelete: commands/delete/DeltaDelete.md
+      - ... | flat | commands/delete/**.md
     - DESCRIBE DETAIL:
       - ... | flat | commands/describe-detail/**.md
     - DESCRIBE HISTORY:
       - ... | flat | commands/describe-history/**.md
     - Generate:
-      - commands/generate/index.md
-      - DeltaGenerateCommand: commands/generate/DeltaGenerateCommand.md
+      - ... | flat | commands/generate/**.md
     - MERGE INTO:
       - ... | flat | commands/merge/**.md
     - Optimize:
@@ -324,22 +301,13 @@ nav:
     - REORG TABLE:
       - ... | flat | commands/reorg/**.md
     - Restore:
-      - commands/restore/index.md
-      - RestoreTableCommand: commands/restore/RestoreTableCommand.md
-      - RestoreTableCommandBase: commands/restore/RestoreTableCommandBase.md
-      - RestoreTableStatement: commands/restore/RestoreTableStatement.md
-      - TimeTravel: commands/restore/TimeTravel.md
+      - ... | flat | commands/restore/**.md
     - SHOW COLUMNS:
       - ... | flat | commands/show-columns/**.md
     - Update:
-      - commands/update/index.md
-      - UpdateCommand: commands/update/UpdateCommand.md
-      - DeltaUpdateTable: commands/update/DeltaUpdateTable.md
+      - ... | flat | commands/update/**.md
     - Vacuum:
-      - commands/vacuum/index.md
-      - VacuumCommand: commands/vacuum/VacuumCommand.md
-      - VacuumCommandImpl: commands/vacuum/VacuumCommandImpl.md
-      - VacuumTableCommand: commands/vacuum/VacuumTableCommand.md
+      - ... | flat | commands/vacuum/**.md
     - WriteIntoDelta: commands/WriteIntoDelta.md
   - Demos:
     - demo/index.md

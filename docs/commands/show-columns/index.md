@@ -1,6 +1,6 @@
 ---
 hide:
-- toc
+  - toc
 ---
 
 # SHOW COLUMNS Command

@@ -5,7 +5,7 @@
 !!! note
     `VacuumCommandImpl` is a Scala trait just to let Databricks provide a commercial version of vacuum command.
 
-## <span id="delete"> delete
+## delete { #delete }
 
 ```scala
 delete(
@@ -17,6 +17,8 @@ delete(
 ```
 
 `delete`...FIXME
+
+---
 
 `delete` is used when:
 

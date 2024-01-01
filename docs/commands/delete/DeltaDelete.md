@@ -1,3 +1,7 @@
+---
+title: DeltaDelete
+---
+
 # DeltaDelete Unary Logical Command
 
 `DeltaDelete` is an unary logical operator ([Spark SQL]({{ book.spark_sql }}/logical-operators/UnaryNode/)) that represents `DeleteFromTable`s ([Spark SQL]({{ book.spark_sql }}/logical-operators/DeleteFromTable/)) at execution.

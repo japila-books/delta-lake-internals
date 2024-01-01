@@ -1,7 +1,6 @@
 ---
 hide:
-
-- toc
+  - toc
 ---
 
 # RESTORE Command

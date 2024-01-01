@@ -1,3 +1,7 @@
+---
+title: ConvertToDeltaCommand
+---
+
 # ConvertToDeltaCommand (ConvertToDeltaCommandBase)
 
 `ConvertToDeltaCommand` is a [DeltaCommand](../DeltaCommand.md) that [converts a parquet table to delta format](#run).

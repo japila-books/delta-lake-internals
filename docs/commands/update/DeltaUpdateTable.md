@@ -1,3 +1,7 @@
+---
+title: DeltaUpdateTable
+---
+
 # DeltaUpdateTable Unary Logical Operator
 
 `DeltaUpdateTable` is an unary logical operator ([Spark SQL]({{ book.spark_sql }}/logical-operators/UnaryNode.md)) that represents `UpdateTable` ([Spark SQL]({{ book.spark_sql }}/logical-operators/UpdateTable/)) at execution.

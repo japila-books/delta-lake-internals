@@ -1,3 +1,7 @@
+---
+title: VacuumCommand
+---
+
 # VacuumCommand Utility
 
 `VacuumCommand` is a concrete [VacuumCommandImpl](VacuumCommandImpl.md) for [garbage collection of a delta table](#gc) for the following:
