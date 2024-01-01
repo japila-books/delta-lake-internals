@@ -566,11 +566,6 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://books.japila.pl/delta-lake-internals/commands/ShowDeltaTableColumnsCommand/</loc>
-         <lastmod>2024-01-01</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/WriteIntoDelta/</loc>
          <lastmod>2024-01-01</lastmod>
          <changefreq>daily</changefreq>
@@ -1012,6 +1007,16 @@
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/restore/TimeTravel/</loc>
+         <lastmod>2024-01-01</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://books.japila.pl/delta-lake-internals/commands/show-columns/</loc>
+         <lastmod>2024-01-01</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://books.japila.pl/delta-lake-internals/commands/show-columns/ShowDeltaTableColumnsCommand/</loc>
          <lastmod>2024-01-01</lastmod>
          <changefreq>daily</changefreq>
     </url>
