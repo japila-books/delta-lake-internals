@@ -18,7 +18,14 @@ matchingFiles(
 
 [AddFile](AddFile.md)s matching given partition and data filters (predicates)
 
-Used for [listing data files](#listFiles)
+See:
+
+* [TahoeRemoveFileIndex](change-data-feed/TahoeRemoveFileIndex.md#matchingFiles)
+
+Used when:
+
+* `TahoeFileIndex` is requested for [data files](#listFiles)
+* `ScanWithDeletionVectors` is requested for [createBroadcastDVMap](deletion-vectors/ScanWithDeletionVectors.md#createBroadcastDVMap)
 
 ## Implementations
 
