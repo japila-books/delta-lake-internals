@@ -8,7 +8,7 @@ With [CDC-Aware Table Scan (CDC Read)](CDCReaderImpl.md#isCDCRead) (based on [re
 
 CDC data changes are written out (by [DelayedCommitProtocol](../DelayedCommitProtocol.md)) to [_change_data](#_change_data) directory as `cdc-`-prefixed parquet-encoded change data files.
 
-[CDCReader](CDCReader.md) is the key class used for Change Data Feed. It [builds a DataFrame of the changes](CDCReaderImpl.md#changesToDF) for the following query types:
+[CDCReader](CDCReader.md) is the key class of Change Data Feed in Delta Lake. It [builds a DataFrame of the row-level changes](CDCReaderImpl.md#changesToDF) for the following query types:
 
 * [Batch queries](DeltaCDFRelation.md#buildScan) (Spark SQL)
 * [Streaming queries](../delta/DeltaSourceBase.md#createDataFrameBetweenOffsets) (Spark Structured Streaming)

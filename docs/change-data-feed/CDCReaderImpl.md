@@ -9,7 +9,7 @@
 
 * [CDCReader](CDCReader.md)
 
-## getCDCRelation { #getCDCRelation }
+## Creating CDF-Aware Relation { #getCDCRelation }
 
 ```scala
 getCDCRelation(
@@ -44,7 +44,7 @@ In the end, `getCDCRelation` creates a [DeltaCDFRelation](DeltaCDFRelation.md).
 
 `getCDCRelation` is used when:
 
-* `DeltaTableV2` is requested for the [CDC-aware BaseRelation](../DeltaTableV2.md#cdcRelation)
+* `DeltaTableV2` is requested for the [CDC-aware relation](../DeltaTableV2.md#cdcRelation)
 
 ### Resolving Version { #getVersionForCDC }
 
@@ -66,7 +66,7 @@ Otherwise, `getVersionForCDC` uses the given `options` map to get the value of t
 
 If neither the given `versionKey` nor the `timestampKey` key is available in the `options` map, `getVersionForCDC` returns `None` (_undefined value_).
 
-## changesToBatchDF { #changesToBatchDF }
+## Creating DataFrame of Changes for Batch Queries { #changesToBatchDF }
 
 ```scala
 changesToBatchDF(
@@ -78,9 +78,9 @@ changesToBatchDF(
   useCoarseGrainedCDC: Boolean = false): DataFrame
 ```
 
-`changesToBatchDF` requests the given [DeltaLog](../DeltaLog.md) for all the [changes](../DeltaLog.md#getChanges) from the given `start` version (inclusive) until the given `end` version.
+`changesToBatchDF` requests the given [DeltaLog](../DeltaLog.md) for the [changes](../DeltaLog.md#getChanges) from the given `start` version (inclusive) until the given `end` version.
 
-In the end, `changesToBatchDF` [changesToDF](#changesToDF) with the changes per version (and `isStreaming` flag disabled).
+In the end, `changesToBatchDF` [creates a DataFrame of changes](#changesToDF) (with the changes per version and `isStreaming` flag disabled).
 
 ---
 
@@ -88,7 +88,7 @@ In the end, `changesToBatchDF` [changesToDF](#changesToDF) with the changes per 
 
 * `DeltaCDFRelation` is requested to [build a scan](DeltaCDFRelation.md#buildScan)
 
-## changesToDF { #changesToDF }
+## Creating DataFrame of Changes { #changesToDF }
 
 ```scala
 changesToDF(
@@ -123,14 +123,14 @@ changesToDF(
 
 `changesToDF`...FIXME
 
-In the end, `changesToDF` creates a new `CDCVersionDiffInfo` (with a `DataFrame`).
+In the end, `changesToDF` creates a new [CDCVersionDiffInfo](CDCVersionDiffInfo.md) (with the `DataFrame` of the changes).
 
 ---
 
 `changesToDF` is used when:
 
-* `CDCReaderImpl` is requested to [changesToBatchDF](#changesToBatchDF)
-* `DeltaSourceCDCSupport` is requested to [getCDCFileChangesAndCreateDataFrame](DeltaSourceCDCSupport.md#getCDCFileChangesAndCreateDataFrame)
+* `CDCReaderImpl` is requested for a [DataFrame of changes](#changesToBatchDF)
+* `DeltaSourceCDCSupport` is requested for a [DataFrame of changes](DeltaSourceCDCSupport.md#getCDCFileChangesAndCreateDataFrame)
 
 ### getDeletedAndAddedRows { #getDeletedAndAddedRows }
 
