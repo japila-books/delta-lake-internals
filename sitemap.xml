@@ -441,6 +441,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://books.japila.pl/delta-lake-internals/change-data-feed/CDCVersionDiffInfo/</loc>
+         <lastmod>2024-01-06</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://books.japila.pl/delta-lake-internals/change-data-feed/CdcAddFileIndex/</loc>
          <lastmod>2024-01-06</lastmod>
          <changefreq>daily</changefreq>
