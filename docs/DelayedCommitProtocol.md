@@ -127,7 +127,7 @@ In the end, `commitJob` adds the `AddFile`s to [addedStatuses](#addedStatuses) r
 
 `setupTask` initializes the [addedFiles](#addedFiles) internal registry to be empty.
 
-## <span id="newTaskTempFile"> New Temp File
+## New Task Temp File { #newTaskTempFile }
 
 ??? note "FileCommitProtocol"
 
@@ -141,11 +141,15 @@ In the end, `commitJob` adds the `AddFile`s to [addedStatuses](#addedStatuses) r
     `newTaskTempFile` is part of the `FileCommitProtocol` ([Apache Spark]({{ book.spark_core }}/FileCommitProtocol#newTaskTempFile)) abstraction.
 
 !!! note
-    The given `dir` defines a partition directory if a query is written out to a partitioned table.
+    The given `dir` defines a partition directory if a query writes out to a partitioned table.
 
-`newTaskTempFile` [parses the partition values](#parsePartitions) out of the given `dir` or falls back to an empty `partitionValues`.
+`newTaskTempFile` [parses the partition values](#parsePartitions) in the given `dir`, if available, or assumes no partition values (`partitionValues`).
 
-`newTaskTempFile` [creates a file name](#getFileName) (for the given `TaskAttemptContext`, `ext` and the partition values).
+`newTaskTempFile` [creates a file name](#getFileName) to write data out (for the given `TaskAttemptContext`, `ext`ension and the partition values).
+
+!!! note "Change Data Feed"
+    While [creating a file name](#getFileName), `DelayedCommitProtocol` uses the [__is_cdc](change-data-feed/CDCReader.md#CDC_PARTITION_COL) virtual column name to split (_divide_) CDF data from the main table data.
+    If the `__is_cdc` column contains `true`, the file name uses `cdc-` prefix (not `part-`).
 
 `newTaskTempFile` builds a relative directory path (using the [randomPrefixLength](#randomPrefixLength) or the optional `dir` if either is defined).
 
@@ -165,6 +169,9 @@ In the end, `commitJob` adds the `AddFile`s to [addedStatuses](#addedStatuses) r
 
     assert(path == "_change_data/a/b/c")
     ```
+
+    !!! note "Change Data Feed"
+        This is when `DelayedCommitProtocol` "redirects" writing out the [__is_cdc=true](#cdcPartitionTrue)-partitioned CDF data files to [_change_data](change-data-feed/CDCReader.md#CDC_LOCATION) directory.
 
 * For the directory with the [__is_cdc=false](#cdcPartitionFalse) path prefix, `newTaskTempFile` removes the prefix and uses the changed directory as the parent of the file name.
 

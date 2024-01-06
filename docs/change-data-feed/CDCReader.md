@@ -30,7 +30,7 @@ CDC_COLUMNS_IN_DATA: Seq[String]
 * `ColumnWithDefaultExprUtils` is requested to [addDefaultExprsOrReturnConstraints](../ColumnWithDefaultExprUtils.md#addDefaultExprsOrReturnConstraints)
 * `DeltaColumnMappingBase` is requested for the [DELTA_INTERNAL_COLUMNS](../column-mapping/DeltaColumnMappingBase.md#DELTA_INTERNAL_COLUMNS)
 
-### <span id="__is_cdc"> __is_cdc Partition Column { #CDC_PARTITION_COL }
+### <span id="__is_cdc"> __is_cdc Virtual Partition Column { #CDC_PARTITION_COL }
 
 `CDCReader` defines `__is_cdc` column name to partition on with [Change Data Feed](#isCDCEnabledOnTable) enabled.
 
@@ -38,7 +38,7 @@ CDC_COLUMNS_IN_DATA: Seq[String]
 
 If added, `__is_cdc` column becomes the first partitioning column. It is then "consumed" by [DelayedCommitProtocol](../DelayedCommitProtocol.md#cdc) (to write changes to `cdc-`-prefixed files, not `part-`).
 
-`__is_cdc` is one of the [CDF Virtual Columns](#CDC_COLUMNS_IN_DATA).
+`__is_cdc` is a [virtual column](#CDC_COLUMNS_IN_DATA).
 
 Used when:
 

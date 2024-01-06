@@ -8,12 +8,10 @@ With [CDC-Aware Table Scan (CDC Read)](CDCReaderImpl.md#isCDCRead) (based on [re
 
 CDC data changes are written out (by [DelayedCommitProtocol](../DelayedCommitProtocol.md)) to [_change_data](#_change_data) directory as `cdc-`-prefixed parquet-encoded change data files.
 
-As they put it (in [this comment](https://github.com/delta-io/delta/commit/d90f90b6656648e170835f92152b69f77346dfcf)), [CDCReader](CDCReader.md) is the key class used for Change Data Feed.
+[CDCReader](CDCReader.md) is the key class used for Change Data Feed. It [builds a DataFrame of the changes](CDCReaderImpl.md#changesToDF) for the following query types:
 
-The heart of Change Data Feed table feature is [CDCReaderImpl](CDCReaderImpl.md#changesToDF) with the following entry points based on query type:
-
-* [Batch queries](DeltaCDFRelation.md#buildScan)
-* [Streaming queries](../delta/DeltaSourceBase.md#createDataFrameBetweenOffsets)
+* [Batch queries](DeltaCDFRelation.md#buildScan) (Spark SQL)
+* [Streaming queries](../delta/DeltaSourceBase.md#createDataFrameBetweenOffsets) (Spark Structured Streaming)
 
 Change Data Feed was released in Delta Lake 2.0.0 (that was tracked under [Support for Change Data Feed in Delta Lake]({{ delta.issues }}/1105)).
 
