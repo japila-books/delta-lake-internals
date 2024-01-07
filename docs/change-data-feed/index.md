@@ -4,11 +4,11 @@
 
 Change Data Feed can be enabled on a delta table using [delta.enableChangeDataFeed](#delta.enableChangeDataFeed) table property.
 
-With [CDC-Aware Table Scan (CDC Read)](CDCReaderImpl.md#isCDCRead) (based on [readChangeFeed](../delta/options.md#readChangeFeed) read option), [loading a delta table](../delta/DeltaDataSource.md#RelationProvider-createRelation) gives data changes (not the data of a particular version of the delta table).
+CDF data changes are written out (by [DelayedCommitProtocol](../DelayedCommitProtocol.md)) to [_change_data](#_change_data) directory as `cdc-`-prefixed parquet-encoded change data files.
 
-CDC data changes are written out (by [DelayedCommitProtocol](../DelayedCommitProtocol.md)) to [_change_data](#_change_data) directory as `cdc-`-prefixed parquet-encoded change data files.
+With [CDF-Aware Table Scan (CDF Read)](CDCReaderImpl.md#isCDCRead) (based on [readChangeFeed](../delta/options.md#readChangeFeed) read option), [loading a delta table](../delta/DeltaDataSource.md#RelationProvider-createRelation) gives data changes (not the data of a particular version of the delta table).
 
-[CDCReader](CDCReader.md) is the key class of Change Data Feed in Delta Lake. It [builds a DataFrame of the row-level changes](CDCReaderImpl.md#changesToDF) for the following query types:
+[CDCReader](CDCReader.md) is used to [build a DataFrame of the row-level changes](CDCReaderImpl.md#changesToDF) for all the possible structured query types (described using `DataFrame` API):
 
 * [Batch queries](DeltaCDFRelation.md#buildScan) (Spark SQL)
 * [Streaming queries](../delta/DeltaSourceBase.md#createDataFrameBetweenOffsets) (Spark Structured Streaming)
@@ -17,7 +17,7 @@ Change Data Feed was released in Delta Lake 2.0.0 (that was tracked under [Suppo
 
 ## delta.enableChangeDataFeed { #delta.enableChangeDataFeed }
 
-Change Data Feed can be enabled on a delta table using [delta.enableChangeDataFeed](../DeltaConfigs.md#enableChangeDataFeed) table property (through [ChangeDataFeedTableFeature](ChangeDataFeedTableFeature.md) that is a [FeatureAutomaticallyEnabledByMetadata](../table-features/FeatureAutomaticallyEnabledByMetadata.md) and uses this table property).
+Change Data Feed can be enabled on a delta table using [delta.enableChangeDataFeed](../DeltaConfigs.md#enableChangeDataFeed) table property (through [ChangeDataFeedTableFeature](ChangeDataFeedTableFeature.md)).
 
 ```sql
 ALTER TABLE delta_demo
@@ -118,6 +118,16 @@ Change data feed reads are currently not supported on tables with [column mappin
 * [CdcAddFileIndex](CdcAddFileIndex.md)
 * [TahoeChangeFileIndex](TahoeChangeFileIndex.md)
 * [TahoeRemoveFileIndex](TahoeRemoveFileIndex.md)
+
+## Change Data Feed in Streaming and Batch Queries
+
+`DataFrame` API-based Spark modules ([Spark SQL]({{ book.spark_sql }}) and [Spark Structured Streaming]({{ book.structured_streaming }}))...
+
+!!! note "FIXME"
+    Describe the following (move parts from the intro):
+
+    1. The entry points (abstractions) of each query type (batch and streaming) for loading CDF changes (table scans)
+    1. Writing data out
 
 ## Demo
 

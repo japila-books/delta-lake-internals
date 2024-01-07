@@ -18,7 +18,7 @@ With [readChangeFeed](DeltaReadOptions.md#readChangeFeed) option enabled, `schem
 
 In the end, `schema` returns the schema of a delta table with or without CDF columns (based on [readChangeFeed](DeltaReadOptions.md#readChangeFeed) option).
 
-## createDataFrameBetweenOffsets { #createDataFrameBetweenOffsets }
+## Creating Streaming DataFrame Between Offsets { #createDataFrameBetweenOffsets }
 
 ```scala
 createDataFrameBetweenOffsets(
@@ -30,16 +30,22 @@ createDataFrameBetweenOffsets(
   endOffset: DeltaSourceOffset): DataFrame
 ```
 
-`createDataFrameBetweenOffsets` [getFileChangesAndCreateDataFrame](#getFileChangesAndCreateDataFrame).
+`createDataFrameBetweenOffsets` [creates a streaming DataFrame between versions (possibly CDF-aware)](#getFileChangesAndCreateDataFrame).
 
-!!! note
-    The `startSourceVersion` and `startOffsetOption` input arguments are ignored. It looks like the method should be marked as `@obsolete` and soon removed.
+??? note "Obsolete Soon?"
+    `createDataFrameBetweenOffsets` is simply an alias of [getFileChangesAndCreateDataFrame](#getFileChangesAndCreateDataFrame).
+
+    Moreover, the `startSourceVersion` and `startOffsetOption` input arguments are ignored.
+
+    It looks like this method should be marked as `@obsolete` and soon removed.
+
+---
 
 `createDataFrameBetweenOffsets` is used when:
 
-* `DeltaSource` is requested for the [streaming micro-batch DataFrame](DeltaSource.md#getBatch)
+* `DeltaSource` is requested for a [streaming micro-batch DataFrame](DeltaSource.md#getBatch)
 
-### getFileChangesAndCreateDataFrame { #getFileChangesAndCreateDataFrame }
+### Creating Streaming DataFrame Between Versions (Possibly CDF-Aware) { #getFileChangesAndCreateDataFrame }
 
 ```scala
 getFileChangesAndCreateDataFrame(
@@ -53,7 +59,7 @@ With [readChangeFeed](DeltaReadOptions.md#readChangeFeed) option enabled, `getFi
 
 Otherwise, `getFileChangesAndCreateDataFrame` [gets the file changes](#getFileChanges) (as `IndexedFile`s with [AddFile](../AddFile.md)s, [RemoveFile](../RemoveFile.md)s or [AddCDCFile](../AddCDCFile.md)s) and take as much file changes so their version and index (these actions belong to) are up to and including [DeltaSourceOffset](DeltaSourceOffset.md) (based on the [reservoirVersion](DeltaSourceOffset.md#reservoirVersion) and [index](DeltaSourceOffset.md#index)). `getFileChangesAndCreateDataFrame` filters out the file changes with the [path](../FileAction.md#path) that matches the [excludeRegex](DeltaSource.md#excludeRegex) option. In the end, `getFileChangesAndCreateDataFrame` [createDataFrame](#createDataFrame) (from the filtered file changes).
 
-### <span id="createDataFrame"> createDataFrame
+### createDataFrame { #createDataFrame }
 
 ```scala
 createDataFrame(
@@ -64,7 +70,7 @@ createDataFrame(
 
 In the end, `createDataFrame` requests the [DeltaLog](DeltaSource.md#deltaLog) to [createDataFrame](../DeltaLog.md#createDataFrame) (for the `AddFile`s and with `isStreaming` flag enabled).
 
-## <span id="getStartingOffsetFromSpecificDeltaVersion"> getStartingOffsetFromSpecificDeltaVersion
+## getStartingOffsetFromSpecificDeltaVersion { #getStartingOffsetFromSpecificDeltaVersion }
 
 ```scala
 getStartingOffsetFromSpecificDeltaVersion(
@@ -77,11 +83,13 @@ getStartingOffsetFromSpecificDeltaVersion(
 
 `getStartingOffsetFromSpecificDeltaVersion` returns `None` for no (last) `IndexedFile`. Otherwise, `getStartingOffsetFromSpecificDeltaVersion` [buildOffsetFromIndexedFile](#buildOffsetFromIndexedFile).
 
+---
+
 `getStartingOffsetFromSpecificDeltaVersion` is used when:
 
 * `DeltaSource` is requested for the [starting offset](DeltaSource.md#getStartingOffset)
 
-## <span id="getNextOffsetFromPreviousOffset"> getNextOffsetFromPreviousOffset
+## getNextOffsetFromPreviousOffset { #getNextOffsetFromPreviousOffset }
 
 ```scala
 getNextOffsetFromPreviousOffset(
@@ -91,11 +99,13 @@ getNextOffsetFromPreviousOffset(
 
 `getNextOffsetFromPreviousOffset`...FIXME
 
+---
+
 `getNextOffsetFromPreviousOffset` is used when:
 
 * `DeltaSource` is requested for the [latest offset](DeltaSource.md#latestOffset)
 
-## <span id="getFileChangesWithRateLimit"> getFileChangesWithRateLimit
+## getFileChangesWithRateLimit { #getFileChangesWithRateLimit }
 
 ```scala
 getFileChangesWithRateLimit(
@@ -107,11 +117,13 @@ getFileChangesWithRateLimit(
 
 `getFileChangesWithRateLimit`...FIXME
 
+---
+
 `getFileChangesWithRateLimit` is used when:
 
 * `DeltaSourceBase` is requested to [getStartingOffsetFromSpecificDeltaVersion](#getStartingOffsetFromSpecificDeltaVersion) and [getNextOffsetFromPreviousOffset](#getNextOffsetFromPreviousOffset)
 
-## <span id="buildOffsetFromIndexedFile"> buildOffsetFromIndexedFile
+## buildOffsetFromIndexedFile { #buildOffsetFromIndexedFile }
 
 ```scala
 buildOffsetFromIndexedFile(
@@ -122,11 +134,13 @@ buildOffsetFromIndexedFile(
 
 `buildOffsetFromIndexedFile`...FIXME
 
+---
+
 `buildOffsetFromIndexedFile` is used when:
 
 * `DeltaSourceBase` is requested to [getStartingOffsetFromSpecificDeltaVersion](#getStartingOffsetFromSpecificDeltaVersion) and [getNextOffsetFromPreviousOffset](#getNextOffsetFromPreviousOffset)
 
-## <span id="SupportsAdmissionControl"> SupportsAdmissionControl
+## SupportsAdmissionControl { #SupportsAdmissionControl }
 
 `DeltaSourceBase` is a `SupportsAdmissionControl` ([Spark Structured Streaming]({{ book.structured_streaming }}/SupportsAdmissionControl)).
 

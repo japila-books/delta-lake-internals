@@ -2,8 +2,6 @@
 
 `DeltaSource` is a [DeltaSourceBase](DeltaSourceBase.md) of the [Delta Connector](index.md) for streaming queries.
 
-## <span id="DeltaSourceCDCSupport"> DeltaSourceCDCSupport
-
 `DeltaSource` is a [DeltaSourceCDCSupport](../change-data-feed/DeltaSourceCDCSupport.md).
 
 ## Creating Instance
@@ -19,43 +17,17 @@
 
 * `DeltaDataSource` is requested for a [streaming source](DeltaDataSource.md#createSource)
 
-## Demo
+## Streaming Micro-Batch DataFrame { #getBatch }
 
-```text
-val q = spark
-  .readStream               // Creating a streaming query
-  .format("delta")          // Using delta data source
-  .load("/tmp/users") // Over data in a delta table
-  .writeStream
-  .format("memory")
-  .option("queryName", "demo")
-  .start
-import org.apache.spark.sql.execution.streaming.{MicroBatchExecution, StreamingQueryWrapper}
-val plan = q.asInstanceOf[StreamingQueryWrapper]
-  .streamingQuery
-  .asInstanceOf[MicroBatchExecution]
-  .logicalPlan
-import org.apache.spark.sql.execution.streaming.StreamingExecutionRelation
-val relation = plan.collect { case r: StreamingExecutionRelation => r }.head
+??? note "Source"
 
-import org.apache.spark.sql.delta.sources.DeltaSource
-assert(relation.source.asInstanceOf[DeltaSource])
+    ```scala
+    getBatch(
+      start: Option[Offset],
+      end: Offset): DataFrame
+    ```
 
-scala> println(relation.source)
-DeltaSource[file:/tmp/users]
-```
-
-## <span id="getBatch"> Streaming Micro-Batch DataFrame
-
-```scala
-getBatch(
-  start: Option[Offset],
-  end: Offset): DataFrame
-```
-
-`getBatch` is part of the `Source` ([Spark Structured Streaming]({{ book.structured_streaming }}/Source#getBatch)) abstraction.
-
----
+    `getBatch` is part of the `Source` ([Spark Structured Streaming]({{ book.structured_streaming }}/Source#getBatch)) abstraction.
 
 `getBatch` creates a [DeltaSourceOffset](DeltaSourceOffset.md) for the [tableId](#tableId) (aka [reservoirId](DeltaSourceOffset.md#reservoirId)) and the given `end` offset.
 
@@ -73,17 +45,17 @@ start: [startOffsetOption] end: [end]
 
 In the end, `getBatch` [createDataFrameBetweenOffsets](DeltaSourceBase.md#createDataFrameBetweenOffsets) (for the `startVersion`, `startIndex`, `isStartingVersion` and `endOffset`).
 
-## <span id="latestOffset"> Latest Available Streaming Offset
+## Latest Available Streaming Offset { #latestOffset }
 
-```scala
-latestOffset(
-  startOffset: streaming.Offset,
-  limit: ReadLimit): streaming.Offset
-```
+??? note "SupportsAdmissionControl"
 
-`latestOffset` is part of the `SupportsAdmissionControl` ([Spark Structured Streaming]({{ book.structured_streaming }}/SupportsAdmissionControl#latestOffset)) abstraction.
+    ```scala
+    latestOffset(
+      startOffset: streaming.Offset,
+      limit: ReadLimit): streaming.Offset
+    ```
 
----
+    `latestOffset` is part of the `SupportsAdmissionControl` ([Spark Structured Streaming]({{ book.structured_streaming }}/SupportsAdmissionControl#latestOffset)) abstraction.
 
 `latestOffset` determines the latest offset (_currentOffset_) based on whether the [previousOffset](#previousOffset) internal registry is [initialized](#latestOffset-previousOffset-defined) or [not](#latestOffset-previousOffset-null).
 
@@ -95,11 +67,11 @@ previousOffset -> currentOffset: [previousOffset] -> [currentOffset]
 
 In the end, `latestOffset` returns the [previousOffset](#previousOffset) if defined or `null`.
 
-### <span id="latestOffset-previousOffset-null"> No previousOffset
+### No previousOffset { #latestOffset-previousOffset-null }
 
 For no [previousOffset](#previousOffset), `getOffset` [retrieves the starting offset](#getStartingOffset) (with a new [AdmissionLimits](AdmissionLimits.md) for the given `ReadLimit`).
 
-### <span id="latestOffset-previousOffset-defined"> previousOffset Available
+### previousOffset Available { #latestOffset-previousOffset-defined }
 
 When the [previousOffset](#previousOffset) is defined (which is when the `DeltaSource` is requested for another micro-batch), `latestOffset` [gets the changes](#getChangesWithRateLimit) as an indexed [AddFile](../AddFile.md)s (with the [previousOffset](#previousOffset) and a new [AdmissionLimits](AdmissionLimits.md) for the given `ReadLimit`).
 
@@ -116,7 +88,7 @@ With the [previousOffset](#previousOffset) and the [last indexed AddFile](#itera
 
     * [isStartingVersion](DeltaSourceOffset.md#isStartingVersion) flag of the [previous ending offset](#previousOffset) is enabled (`true`)
 
-### <span id="getStartingOffset"> getStartingOffset
+### getStartingOffset { #getStartingOffset }
 
 ```scala
 getStartingOffset(
@@ -143,7 +115,7 @@ getStartingOffset(
 assertion failed: getChangesWithRateLimit returns an invalid version: [v] (expected: >= [version])
 ```
 
-### <span id="getChangesWithRateLimit"> getChangesWithRateLimit
+### getChangesWithRateLimit { #getChangesWithRateLimit }
 
 ```scala
 getChangesWithRateLimit(
@@ -154,7 +126,7 @@ getChangesWithRateLimit(
 
 `getChangesWithRateLimit` [gets the changes](#getChanges) (as indexed [AddFile](../AddFile.md)s) for the given `fromVersion`, `fromIndex`, and `isStartingVersion` flag.
 
-### <span id="getOffset"> getOffset
+### getOffset { #getOffset }
 
 ```scala
 getOffset: Option[Offset]
@@ -172,7 +144,7 @@ latestOffset(Offset, ReadLimit) should be called instead of this method
 
 `DeltaSource` uses internal registries for the [DeltaSourceSnapshot](#initialState) and the [version](#initialStateVersion) to avoid requesting the [DeltaLog](#deltaLog) for [getSnapshotAt](../DeltaLog.md#getSnapshotAt).
 
-### <span id="initialState"> Snapshot
+### Snapshot { #initialState }
 
 `DeltaSource` uses `initialState` internal registry for the [DeltaSourceSnapshot](DeltaSourceSnapshot.md) of the state of the [delta table](#deltaLog) at the [initialStateVersion](#initialStateVersion).
 
@@ -184,7 +156,7 @@ Initially uninitialized (`null`).
 
 `DeltaSourceSnapshot` is [closed](DeltaSourceSnapshot.md#close) and dereferenced (`null`) when `DeltaSource` is requested to [cleanUpSnapshotResources](#cleanUpSnapshotResources) (due to [version change](#getSnapshotAt), [another micro-batch](#getBatch) or [stop](#stop)).
 
-### <span id="initialStateVersion"> Version
+### Version { #initialStateVersion }
 
 `DeltaSource` uses `initialStateVersion` internal registry to keep track of the version of [DeltaSourceSnapshot](DeltaSourceSnapshot.md) (when requested for [AddFiles of the delta table at a given version](#getSnapshotAt)).
 
@@ -194,17 +166,19 @@ Used when:
 
 * `DeltaSource` is requested for [AddFiles of the delta table at a given version](#getSnapshotAt) and to [cleanUpSnapshotResources](#cleanUpSnapshotResources) (and unpersist the current snapshot)
 
-## <span id="stop"> Stopping
+## Stopping { #stop }
 
-```scala
-stop(): Unit
-```
+??? note "Source"
 
-`stop` is part of the `Source` ([Spark Structured Streaming]({{ book.spark_sql }}/Source#stop)) abstraction.
+    ```scala
+    stop(): Unit
+    ```
+
+    `stop` is part of the `Source` ([Spark Structured Streaming]({{ book.spark_sql }}/Source#stop)) abstraction.
 
 `stop` simply [cleanUpSnapshotResources](#cleanUpSnapshotResources).
 
-## <span id="previousOffset"> Previous Offset
+## Previous Offset { #previousOffset }
 
 Ending [DeltaSourceOffset](DeltaSourceOffset.md) of the latest [micro-batch](#getBatch)
 
@@ -212,7 +186,7 @@ Starts uninitialized (`null`).
 
 Used when `DeltaSource` is requested for the [latest available offset](#getOffset).
 
-## <span id="getSnapshotAt"> AddFiles of Delta Table at Given Version
+## AddFiles of Delta Table at Given Version { #getSnapshotAt }
 
 ```scala
 getSnapshotAt(
@@ -235,7 +209,7 @@ In case the [DeltaSourceSnapshot](#initialState) hasn't been initialized yet (`n
 
 * `DeltaSource` is requested to [getChanges](#getChanges) (with `isStartingVersion` flag enabled)
 
-## <span id="getChanges"> getChanges
+## getChanges { #getChanges }
 
 ```scala
 getChanges(
@@ -265,7 +239,7 @@ In the end, `getChanges` filters out (_excludes_) indexed [AddFile](../AddFile.m
 
 * `DeltaSource` is requested for the [latest available offset](#getOffset) (when requested for the [files added (with rate limit)](#getChangesWithRateLimit)) and [getBatch](#getBatch)
 
-### <span id="getChanges-filterAndIndexDeltaLogs"> filterAndIndexDeltaLogs
+### filterAndIndexDeltaLogs { #getChanges-filterAndIndexDeltaLogs }
 
 ```scala
 filterAndIndexDeltaLogs(
@@ -274,7 +248,7 @@ filterAndIndexDeltaLogs(
 
 `filterAndIndexDeltaLogs`...FIXME
 
-### <span id="verifyStreamHygieneAndFilterAddFiles"> verifyStreamHygieneAndFilterAddFiles
+### verifyStreamHygieneAndFilterAddFiles { #verifyStreamHygieneAndFilterAddFiles }
 
 ```scala
 verifyStreamHygieneAndFilterAddFiles(
@@ -284,7 +258,7 @@ verifyStreamHygieneAndFilterAddFiles(
 
 `verifyStreamHygieneAndFilterAddFiles`...FIXME
 
-## <span id="cleanUpSnapshotResources"> cleanUpSnapshotResources
+## cleanUpSnapshotResources { #cleanUpSnapshotResources }
 
 ```scala
 cleanUpSnapshotResources(): Unit
@@ -297,21 +271,25 @@ cleanUpSnapshotResources(): Unit
 
 Otherwise, `cleanUpSnapshotResources` does nothing.
 
+---
+
 `cleanUpSnapshotResources` is used when:
 
 * `DeltaSource` is requested to [getSnapshotAt](#getSnapshotAt), [getBatch](#getBatch) and [stop](#stop)
 
-## <span id="getDefaultReadLimit"> ReadLimit
+## ReadLimit { #getDefaultReadLimit }
 
-```scala
-getDefaultReadLimit: ReadLimit
-```
+??? note "SupportsAdmissionControl"
 
-`getDefaultReadLimit` is part of the `SupportsAdmissionControl` ([Spark Structured Streaming]({{ book.structured_streaming }}/SupportsAdmissionControl#getDefaultReadLimit)) abstraction.
+    ```scala
+    getDefaultReadLimit: ReadLimit
+    ```
+
+    `getDefaultReadLimit` is part of the `SupportsAdmissionControl` ([Spark Structured Streaming]({{ book.structured_streaming }}/SupportsAdmissionControl#getDefaultReadLimit)) abstraction.
 
 `getDefaultReadLimit` creates a [AdmissionLimits](AdmissionLimits.md) and requests it for a corresponding [ReadLimit](AdmissionLimits.md#toReadLimit).
 
-## <span id="iteratorLast"> Retrieving Last Element From Iterator
+## Retrieving Last Element From Iterator { #iteratorLast }
 
 ```scala
 iteratorLast[T](
@@ -320,11 +298,13 @@ iteratorLast[T](
 
 `iteratorLast` simply returns the last element of the given `Iterator` ([Scala]({{ scala.api }}/scala/collection/Iterator.html)) or `None`.
 
+---
+
 `iteratorLast` is used when:
 
 * `DeltaSource` is requested to [getStartingOffset](#getStartingOffset) and [getOffset](#getOffset)
 
-## <span id="excludeRegex"> excludeRegex Option
+## excludeRegex Option { #excludeRegex }
 
 ```scala
 excludeRegex: Option[Regex]
@@ -342,14 +322,41 @@ excludeRegex: Option[Regex]
 * `DeltaSourceBase` is requested to [getFileChangesAndCreateDataFrame](DeltaSourceBase.md#getFileChangesAndCreateDataFrame)
 * `IndexedChangeFileSeq` (of [DeltaSourceCDCSupport](../change-data-feed/DeltaSourceCDCSupport.md)) is requested to [isValidIndexedFile](../change-data-feed/IndexedChangeFileSeq.md#isValidIndexedFile)
 
+## Demo
+
+```text
+val q = spark
+  .readStream               // Creating a streaming query
+  .format("delta")          // Using delta data source
+  .load("/tmp/users") // Over data in a delta table
+  .writeStream
+  .format("memory")
+  .option("queryName", "demo")
+  .start
+import org.apache.spark.sql.execution.streaming.{MicroBatchExecution, StreamingQueryWrapper}
+val plan = q.asInstanceOf[StreamingQueryWrapper]
+  .streamingQuery
+  .asInstanceOf[MicroBatchExecution]
+  .logicalPlan
+import org.apache.spark.sql.execution.streaming.StreamingExecutionRelation
+val relation = plan.collect { case r: StreamingExecutionRelation => r }.head
+
+import org.apache.spark.sql.delta.sources.DeltaSource
+assert(relation.source.asInstanceOf[DeltaSource])
+
+scala> println(relation.source)
+DeltaSource[file:/tmp/users]
+```
+
 ## Logging
 
 Enable `ALL` logging level for `org.apache.spark.sql.delta.sources.DeltaSource` logger to see what happens inside.
 
-Add the following line to `conf/log4j.properties`:
+Add the following line to `conf/log4j2.properties`:
 
 ```text
-log4j.logger.org.apache.spark.sql.delta.sources.DeltaSource=ALL
+logger.DeltaSource.name = org.apache.spark.sql.delta.sources.DeltaSource
+logger.DeltaSource.level = all
 ```
 
 Refer to [Logging](../logging.md).

@@ -2,6 +2,10 @@
 
 `DeltaSQLConf` contains [spark.databricks.delta](index.md#spark.databricks.delta)-prefixed configuration properties to configure behaviour of Delta Lake.
 
+## changeDataFeed.unsafeBatchReadOnIncompatibleSchemaChanges.enabled { #DELTA_CDF_UNSAFE_BATCH_READ_ON_INCOMPATIBLE_SCHEMA_CHANGES }
+
+[spark.databricks.delta.changeDataFeed.unsafeBatchReadOnIncompatibleSchemaChanges.enabled](index.md#changeDataFeed.unsafeBatchReadOnIncompatibleSchemaChanges.enabled)
+
 ## checkpoint.partSize { #DELTA_CHECKPOINT_PART_SIZE }
 
 [spark.databricks.delta.checkpoint.partSize](index.md#checkpoint.partSize)

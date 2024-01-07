@@ -24,6 +24,20 @@ Used when:
 
 * `AlterDeltaTableCommand` is requested to [checkDependentExpressions](../commands/alter/AlterDeltaTableCommand.md#checkDependentExpressions)
 
+### <span id="changeDataFeed.unsafeBatchReadOnIncompatibleSchemaChanges.enabled"><span id="DELTA_CDF_UNSAFE_BATCH_READ_ON_INCOMPATIBLE_SCHEMA_CHANGES"> changeDataFeed.unsafeBatchReadOnIncompatibleSchemaChanges.enabled
+
+**spark.databricks.delta.changeDataFeed.unsafeBatchReadOnIncompatibleSchemaChanges.enabled**
+
+**(internal)** Enables (_unblocks_) reading change data in batch (e.g. using `table_changes()`) on a delta table with column mapping schema operations
+
+It is currently blocked due to potential data loss and schema confusion, and hence considered risky.
+
+Default: `false`
+
+Used when:
+
+* `CDCReaderImpl` is requested for a [DataFrame of changes](../change-data-feed/CDCReaderImpl.md#changesToDF)
+
 ### <span id="checkLatestSchemaOnRead"><span id="DELTA_SCHEMA_ON_READ_CHECK_ENABLED"> checkLatestSchemaOnRead
 
 **spark.databricks.delta.checkLatestSchemaOnRead** enables a check that ensures that users won't read corrupt data if the source schema changes in an incompatible way.

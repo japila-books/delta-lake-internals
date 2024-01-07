@@ -15,7 +15,7 @@
 
 * `CDCReaderImpl` is requested for a [CDF-aware BaseRelation](CDCReaderImpl.md#getCDCRelation)
 
-## buildScan { #buildScan }
+## Building Distributed Scan { #buildScan }
 
 ??? note "PrunedFilteredScan"
 
@@ -27,6 +27,8 @@
 
     `buildScan` is part of the `PrunedFilteredScan` ([Spark SQL]({{ book.spark_sql }}/PrunedFilteredScan#buildScan)) abstraction.
 
-`buildScan` [changesToBatchDF](CDCReaderImpl.md#changesToBatchDF).
+`buildScan` [creates a batch DataFrame of changes](CDCReaderImpl.md#changesToBatchDF).
 
-In the end, `buildScan` selects the given `requiredColumns` (using `Dataset.select` operator) and requests the `DataFrame` for the underlying `RDD[Row]`.
+`buildScan` does column pruning with the `requiredColumns` defined (using `Dataset.select` operator).
+
+In the end, `buildScan` converts the `DataFrame` to `RDD[Row]` (using `DataFrame.rdd` operator).

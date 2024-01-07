@@ -66,7 +66,7 @@ Otherwise, `getVersionForCDC` uses the given `options` map to get the value of t
 
 If neither the given `versionKey` nor the `timestampKey` key is available in the `options` map, `getVersionForCDC` returns `None` (_undefined value_).
 
-## Creating DataFrame of Changes for Batch Queries { #changesToBatchDF }
+## Creating Batch DataFrame of Changes { #changesToBatchDF }
 
 ```scala
 changesToBatchDF(
@@ -110,7 +110,7 @@ changesToDF(
 
 ??? note "`useCoarseGrainedCDC` Input Argument"
 
-    `useCoarseGrainedCDC` is disabled (`false`) by default and for all the other uses.
+    `useCoarseGrainedCDC` is disabled (`false`) by default and for all the other known use cases.
 
 `changesToDF` [getTimestampsByVersion](#getTimestampsByVersion).
 
@@ -121,6 +121,8 @@ changesToDF(
 * The given `useCoarseGrainedCDC` flag
 * [isCDCEnabledOnTable](#isCDCEnabledOnTable)
 
+`changesToDF` reads [spark.databricks.delta.changeDataFeed.unsafeBatchReadOnIncompatibleSchemaChanges.enabled](../configuration-properties/index.md#changeDataFeed.unsafeBatchReadOnIncompatibleSchemaChanges.enabled) configuration property (that can potentially block batch reads, when the given `isStreaming` flag is disabled).
+
 `changesToDF`...FIXME
 
 In the end, `changesToDF` creates a new [CDCVersionDiffInfo](CDCVersionDiffInfo.md) (with the `DataFrame` of the changes).
@@ -129,8 +131,8 @@ In the end, `changesToDF` creates a new [CDCVersionDiffInfo](CDCVersionDiffInfo.
 
 `changesToDF` is used when:
 
-* `CDCReaderImpl` is requested for a [DataFrame of changes](#changesToBatchDF)
-* `DeltaSourceCDCSupport` is requested for a [DataFrame of changes](DeltaSourceCDCSupport.md#getCDCFileChangesAndCreateDataFrame)
+* `CDCReaderImpl` is requested for a [batch DataFrame of changes](#changesToBatchDF)
+* `DeltaSourceCDCSupport` is requested for a [streaming DataFrame of changes](DeltaSourceCDCSupport.md#getCDCFileChangesAndCreateDataFrame)
 
 ### getDeletedAndAddedRows { #getDeletedAndAddedRows }
 

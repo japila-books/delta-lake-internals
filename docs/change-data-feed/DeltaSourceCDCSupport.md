@@ -2,7 +2,9 @@
 
 `DeltaSourceCDCSupport` is an abstraction to bring [CDC support](index.md) to [DeltaSource](../delta/DeltaSource.md).
 
-## getCDCFileChangesAndCreateDataFrame { #getCDCFileChangesAndCreateDataFrame }
+`DeltaSourceCDCSupport` is used to [create a streaming DataFrame of changes](#getCDCFileChangesAndCreateDataFrame) (between start and end versions) in streaming queries over delta tables.
+
+## Creating Streaming DataFrame of Changes { #getCDCFileChangesAndCreateDataFrame }
 
 ```scala
 getCDCFileChangesAndCreateDataFrame(
@@ -12,18 +14,19 @@ getCDCFileChangesAndCreateDataFrame(
   endOffset: DeltaSourceOffset): DataFrame
 ```
 
-`getCDCFileChangesAndCreateDataFrame` [changesToDF](CDCReader.md#changesToDF) with the following:
+`getCDCFileChangesAndCreateDataFrame` [creates a streaming DataFrame of changes](CDCReaderImpl.md#changesToDF) with the following:
 
 * [getFileChangesForCDC](#getFileChangesForCDC) (with no `AdmissionLimits`) for the versions and their [FileAction](../FileAction.md)s
-* `isStreaming` enabled
+* `isStreaming` flag enabled
 
-In the end, `getCDCFileChangesAndCreateDataFrame` returns the `DataFrame` with the file changes (out of the `CDCVersionDiffInfo`).
+??? note "Metrics Discarded"
+    Although [CDCVersionDiffInfo](CDCVersionDiffInfo.md) returned from [creating the streaming DataFrame of changes](CDCReaderImpl.md#changesToDF) contains some metrics, they are discarded.
 
 ---
 
 `getCDCFileChangesAndCreateDataFrame` is used when:
 
-* `DeltaSourceBase` is requested to [createDataFrameBetweenOffsets](../delta/DeltaSourceBase.md#createDataFrameBetweenOffsets) (and to [getFileChangesAndCreateDataFrame](../delta/DeltaSourceBase.md#getFileChangesAndCreateDataFrame)) for `DeltaSource` for a [streaming DataFrame (with data between the start and end offsets)](../delta/DeltaSource.md#getBatch) with [readChangeFeed](../delta/options.md#readChangeFeed) option enabled
+* `DeltaSourceBase` is requested for a [streaming DataFrame between versions](../delta/DeltaSourceBase.md#getFileChangesAndCreateDataFrame) with [readChangeFeed](../delta/options.md#readChangeFeed) option enabled
 
 ## getFileChangesForCDC { #getFileChangesForCDC }
 
@@ -66,7 +69,7 @@ In the end, `getFileChangesForCDC` requests all the `IndexedChangeFileSeq`s to [
     * `DeltaSourceBase` when [getNextOffsetFromPreviousOffset](../delta/DeltaSourceBase.md#getNextOffsetFromPreviousOffset) based on [isStartingVersion](../delta/DeltaSourceOffset.md#isStartingVersion) (of the [previous offset](../delta/DeltaSourceOffset.md))
     * `DeltaSource` when [getBatch](../delta/DeltaSource.md#getBatch) with `startOffsetOption` specified and based on the [isStartingVersion](../delta/DeltaSourceOffset.md#isStartingVersion) (of the [start offset](../delta/DeltaSourceOffset.md))
 
-### <span id="filterAndIndexDeltaLogs"> filterAndIndexDeltaLogs
+### filterAndIndexDeltaLogs { #filterAndIndexDeltaLogs }
 
 ```scala
 filterAndIndexDeltaLogs(
@@ -81,7 +84,7 @@ filterAndIndexDeltaLogs(
 
 In the end, for every version, `filterAndIndexDeltaLogs` creates a [IndexedChangeFileSeq](IndexedChangeFileSeq.md) with the `IndexedFile`s (and the [isInitialSnapshot](IndexedChangeFileSeq.md#isInitialSnapshot) flag off).
 
-### <span id="filterCDCActions"> filterCDCActions
+### filterCDCActions { #filterCDCActions }
 
 ```scala
 filterCDCActions(
