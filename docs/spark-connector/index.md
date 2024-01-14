@@ -1,6 +1,6 @@
 ---
 title: Delta Connector
-subtitle: Spark Connector for Delta Lake
+subtitle: Delta Lake on Spark SQL
 ---
 
 # Delta Connector (Spark Connector for Delta Lake)

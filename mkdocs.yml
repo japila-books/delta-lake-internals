@@ -153,27 +153,17 @@ nav:
     - features/index.md
     - ... | append-only-tables/**.md
     - ... | change-data-feed/**.md
-    - CDF Table-Valued Functions:
-      - table-valued-functions/index.md
-      - table-valued-functions/DeltaTableValueFunction.md
-      - table-valued-functions/DeltaTableValueFunctions.md
+    - ... | table-valued-functions/**.md
     - ... | check-constraints/**.md
     - ... | checkpoints/**.md
-    - Column Invariants:
-      - column-invariants/index.md
-      - Invariants: column-invariants/Invariants.md
-    - Column Mapping:
-      - column-mapping/index.md
-      - DeltaColumnMappingBase: column-mapping/DeltaColumnMappingBase.md
-      - DeltaColumnMappingMode: column-mapping/DeltaColumnMappingMode.md
+    - ... | column-invariants/**.md
+    - ... | column-mapping/**.md
     - ... | column-statistics/**.md
     - ... | configuration-properties/**.md
     - ... | data-skipping/**.md
     - ... | deletion-vectors/**.md
     - developer-api.md
-    - Generated Columns:
-      - generated-columns/index.md
-      - GeneratedColumn: generated-columns/GeneratedColumn.md
+    - ... | generated-columns/**.md
     - installation.md
     - LIMIT Pushdown:
       - limit-pushdown/index.md
