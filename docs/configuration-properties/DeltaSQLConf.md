@@ -61,3 +61,11 @@
 ## stats.collect.using.tableSchema { #MERGE_MATERIALIZE_SOURCE }
 
 [spark.databricks.delta.stats.collect.using.tableSchema](index.md#stats.collect.using.tableSchema)
+
+## streaming.schemaTracking.enabled { #DELTA_STREAMING_ENABLE_SCHEMA_TRACKING }
+
+[spark.databricks.delta.streaming.schemaTracking.enabled](index.md#streaming.schemaTracking.enabled)
+
+## streaming.unsafeReadOnIncompatibleColumnMappingSchemaChanges.enabled { #DELTA_STREAMING_UNSAFE_READ_ON_INCOMPATIBLE_COLUMN_MAPPING_SCHEMA_CHANGES }
+
+[spark.databricks.delta.streaming.unsafeReadOnIncompatibleColumnMappingSchemaChanges.enabled](index.md#streaming.unsafeReadOnIncompatibleColumnMappingSchemaChanges.enabled)

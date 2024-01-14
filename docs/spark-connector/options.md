@@ -128,6 +128,16 @@ Available as [DeltaWriteOptions.replaceWhere](DeltaWriteOptions.md#replaceWhere)
 !!! example "Demo"
     Learn more in [Demo: replaceWhere](../demo/replaceWhere.md).
 
+## <span id="STREAMING_SOURCE_TRACKING_ID"> streamingSourceTrackingId { #streamingSourceTrackingId }
+
+The directory for a schema log of [DeltaSourceMetadataTrackingLog](DeltaSourceMetadataTrackingLog.md#rootMetadataLocation)
+
+Available as [DeltaOptions.sourceTrackingId](DeltaReadOptions.md#sourceTrackingId)
+
+Used when:
+
+* `DeltaAnalysis` is requested to [verifyDeltaSourceSchemaLocation](../DeltaAnalysis.md#verifyDeltaSourceSchemaLocation)
+
 ## <span id="timestampAsOf"><span id="TIME_TRAVEL_TIMESTAMP_KEY"> timestampAsOf
 
 [Timestamp](../time-travel/DeltaTimeTravelSpec.md#timestamp) of the version of a delta table for [Time Travel](../time-travel/index.md)

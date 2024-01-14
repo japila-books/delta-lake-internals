@@ -11,11 +11,20 @@
 * <span id="spark"> `SparkSession` ([Spark SQL]({{ book.spark_sql }}/SparkSession))
 * <span id="deltaLog"> [DeltaLog](../DeltaLog.md)
 * <span id="options"> [DeltaOptions](DeltaOptions.md)
+* <span id="snapshotAtSourceInit"> [SnapshotDescriptor](../SnapshotDescriptor.md)
+* <span id="metadataPath"> Metadata Path
+* [DeltaSourceMetadataTrackingLog](#metadataTrackingLog)
 * <span id="filters"> Filter `Expression`s (default: empty)
 
 `DeltaSource` is created when:
 
 * `DeltaDataSource` is requested for a [streaming source](DeltaDataSource.md#createSource)
+
+### DeltaSourceMetadataTrackingLog { #metadataTrackingLog }
+
+`DeltaSource` can be given a [DeltaSourceMetadataTrackingLog](DeltaSourceMetadataTrackingLog.md) when [created](#creating-instance). It is undefined (`None`) by default.
+
+`DeltaSourceMetadataTrackingLog` is given when `DeltaDataSource` is requested for a [MetadataTrackingLogForDeltaSource](DeltaDataSource.md#getMetadataTrackingLogForDeltaSource).
 
 ## Streaming Micro-Batch DataFrame { #getBatch }
 

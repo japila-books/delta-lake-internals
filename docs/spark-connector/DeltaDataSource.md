@@ -301,3 +301,30 @@ parsePathIdentifier(
 ## <span id="CDC_ENABLED_KEY"> readChangeFeed { #readChangeFeed }
 
 [readChangeFeed](options.md#readChangeFeed)
+
+## getMetadataTrackingLogForDeltaSource { #getMetadataTrackingLogForDeltaSource }
+
+```scala
+getMetadataTrackingLogForDeltaSource(
+  spark: SparkSession,
+  sourceSnapshot: Snapshot,
+  parameters: Map[String, String],
+  sourceMetadataPathOpt: Option[String] = None,
+  mergeConsecutiveSchemaChanges: Boolean = false): Option[DeltaSourceMetadataTrackingLog]
+```
+
+`getMetadataTrackingLogForDeltaSource` [finds the schema tracking location](#extractSchemaTrackingLocationConfig) and, if defined, [creates a DeltaSourceMetadataTrackingLog](DeltaSourceMetadataTrackingLog.md#create) (with the value of [streamingSourceTrackingId](options.md#streamingSourceTrackingId) option).
+
+---
+
+`getMetadataTrackingLogForDeltaSource` reports an `UnsupportedOperationException` for [spark.databricks.delta.streaming.schemaTracking.enabled](../configuration-properties/index.md#streaming.schemaTracking.enabled) disabled:
+
+```text
+Schema tracking location is not supported for Delta streaming source
+```
+
+---
+
+`getMetadataTrackingLogForDeltaSource` is used when:
+
+* `DeltaDataSource` is requested for a [streaming source](DeltaDataSource.md#createSource) and the [streaming source schema](DeltaDataSource.md#sourceSchema)

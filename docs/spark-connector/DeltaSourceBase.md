@@ -153,4 +153,48 @@ buildOffsetFromIndexedFile(
 allowUnsafeStreamingReadOnColumnMappingSchemaChanges: Boolean
 ```
 
-`allowUnsafeStreamingReadOnColumnMappingSchemaChanges` is the value of [DeltaSQLConf.DELTA_STREAMING_UNSAFE_READ_ON_INCOMPATIBLE_COLUMN_MAPPING_SCHEMA_CHANGES](../configuration-properties/DeltaSQLConf.md#DELTA_STREAMING_UNSAFE_READ_ON_INCOMPATIBLE_COLUMN_MAPPING_SCHEMA_CHANGES) configuration property.
+`allowUnsafeStreamingReadOnColumnMappingSchemaChanges` is the value of [spark.databricks.delta.streaming.unsafeReadOnIncompatibleColumnMappingSchemaChanges.enabled](../configuration-properties/index.md#DELTA_STREAMING_UNSAFE_READ_ON_INCOMPATIBLE_COLUMN_MAPPING_SCHEMA_CHANGES) configuration property.
+
+---
+
+`allowUnsafeStreamingReadOnColumnMappingSchemaChanges` is used when:
+
+* `DeltaSourceBase` is requested to [checkReadIncompatibleSchemaChangeOnStreamStartOnce](#checkReadIncompatibleSchemaChangeOnStreamStartOnce), [checkReadIncompatibleSchemaChanges](#checkReadIncompatibleSchemaChanges)
+* `DeltaSourceMetadataEvolutionSupport` is requested to `readyToInitializeMetadataTrackingEagerly` and `trackingMetadataChange`
+
+## isStreamingFromColumnMappingTable { #isStreamingFromColumnMappingTable }
+
+```scala
+isStreamingFromColumnMappingTable: Boolean
+```
+
+`DeltaSourceBase` initializes `isStreamingFromColumnMappingTable` internal flag when created.
+
+`isStreamingFromColumnMappingTable` is enabled (`true`) when streaming from a delta table with [Column Mapping](../column-mapping/index.md).
+
+In other words, `isStreamingFromColumnMappingTable` is enabled when the [DeltaColumnMappingMode](../Metadata.md#columnMappingMode) of the [Metadata](../SnapshotDescriptor.md#metadata) of this [SnapshotDescriptor](DeltaSource.md#snapshotAtSourceInit) is any value but [NoMapping](../column-mapping/DeltaColumnMappingMode.md#NoMapping).
+
+---
+
+`isStreamingFromColumnMappingTable` is used when:
+
+* `DeltaSourceBase` is requested to [checkReadIncompatibleSchemaChangeOnStreamStartOnce](#checkReadIncompatibleSchemaChangeOnStreamStartOnce), [checkReadIncompatibleSchemaChanges](#checkReadIncompatibleSchemaChanges)
+
+## persistedMetadataAtSourceInit { #persistedMetadataAtSourceInit }
+
+```scala
+persistedMetadataAtSourceInit: Option[PersistedMetadata]
+```
+
+`DeltaSourceBase` initializes `persistedMetadataAtSourceInit` internal flag when created.
+
+`persistedMetadataAtSourceInit` is the [PersistedMetadata](DeltaSourceMetadataTrackingLog.md#getCurrentTrackedMetadata) of this [DeltaSourceMetadataTrackingLog](DeltaSource.md#metadataTrackingLog), if all defined.
+
+In other words, `persistedMetadataAtSourceInit` is defined only when this [DeltaSourceMetadataTrackingLog](DeltaSource.md#metadataTrackingLog) was (at the very minimum).
+
+---
+
+`persistedMetadataAtSourceInit` is used when:
+
+* `DeltaSourceBase` is requested for a [SnapshotDescriptor](#readSnapshotDescriptor)
+* `DeltaSourceMetadataEvolutionSupport` is requested to [hasMetadataOrProtocolChangeComparedToStreamMetadata](DeltaSourceMetadataEvolutionSupport.md#hasMetadataOrProtocolChangeComparedToStreamMetadata)

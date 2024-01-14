@@ -545,6 +545,31 @@ Used when:
 * `DataSkippingReaderBase` is requested for the [files to scan](../data-skipping/DataSkippingReaderBase.md#filesForScan)
 * `PrepareDeltaScanBase` logical optimization is [executed](../data-skipping/PrepareDeltaScanBase.md#apply)
 
+### <span id="DELTA_STREAMING_ENABLE_SCHEMA_TRACKING"> streaming.schemaTracking.enabled { #streaming.schemaTracking.enabled }
+
+**spark.databricks.delta.streaming.schemaTracking.enabled**
+
+**(internal)** Controls whether the [delta streaming source](../spark-connector/DeltaDataSource.md) can support non-additive schema evolution for operations such as rename or drop column on column mapping enabled tables
+
+Default: `true`
+
+Used when:
+
+* `DeltaErrorsBase` is requested to [blockStreamingReadsWithIncompatibleColumnMappingSchemaChanges](../DeltaErrorsBase.md#blockStreamingReadsWithIncompatibleColumnMappingSchemaChanges)
+* `DeltaDataSource` is requested for a [DeltaSourceMetadataTrackingLog](../spark-connector/DeltaDataSource.md#getMetadataTrackingLogForDeltaSource)
+
+### <span id="DELTA_STREAMING_UNSAFE_READ_ON_INCOMPATIBLE_COLUMN_MAPPING_SCHEMA_CHANGES"> streaming.unsafeReadOnIncompatibleColumnMappingSchemaChanges.enabled { #streaming.unsafeReadOnIncompatibleColumnMappingSchemaChanges.enabled }
+
+**spark.databricks.delta.streaming.unsafeReadOnIncompatibleColumnMappingSchemaChanges.enabled**
+
+**(internal)** Controls (possibly unsafe) streaming read on delta tables with column mapping schema operations (e.g. rename or drop column) that could lead to data loss and schema confusion.
+
+Default: `false`
+
+Used when:
+
+* `DeltaSourceBase` is requested for the [allowUnsafeStreamingReadOnColumnMappingSchemaChanges](../spark-connector/DeltaSourceBase.md#allowUnsafeStreamingReadOnColumnMappingSchemaChanges)
+
 ### <span id="timeTravel.resolveOnIdentifier.enabled"><span id="RESOLVE_TIME_TRAVEL_ON_IDENTIFIER"> timeTravel.resolveOnIdentifier.enabled
 
 **spark.databricks.delta.timeTravel.resolveOnIdentifier.enabled** (internal) controls whether to resolve patterns as `@v123` and `@yyyyMMddHHmmssSSS` in path identifiers as [time travel](../time-travel/index.md) nodes.
