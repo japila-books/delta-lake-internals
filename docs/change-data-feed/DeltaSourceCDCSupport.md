@@ -1,6 +1,6 @@
 # DeltaSourceCDCSupport
 
-`DeltaSourceCDCSupport` is an abstraction to bring [CDC support](index.md) to [DeltaSource](../delta/DeltaSource.md).
+`DeltaSourceCDCSupport` is an abstraction to bring [CDC support](index.md) to [DeltaSource](../spark-connector/DeltaSource.md).
 
 `DeltaSourceCDCSupport` is used to [create a streaming DataFrame of changes](#getCDCFileChangesAndCreateDataFrame) (between start and end versions) in streaming queries over delta tables.
 
@@ -26,7 +26,7 @@ getCDCFileChangesAndCreateDataFrame(
 
 `getCDCFileChangesAndCreateDataFrame` is used when:
 
-* `DeltaSourceBase` is requested for a [streaming DataFrame between versions](../delta/DeltaSourceBase.md#getFileChangesAndCreateDataFrame) with [readChangeFeed](../delta/options.md#readChangeFeed) option enabled
+* `DeltaSourceBase` is requested for a [streaming DataFrame between versions](../spark-connector/DeltaSourceBase.md#getFileChangesAndCreateDataFrame) with [readChangeFeed](../spark-connector/options.md#readChangeFeed) option enabled
 
 ## getFileChangesForCDC { #getFileChangesForCDC }
 
@@ -39,7 +39,7 @@ getFileChangesForCDC(
   endOffset: Option[DeltaSourceOffset]): Iterator[(Long, Iterator[IndexedFile])]
 ```
 
-With [isStartingVersion](#getFileChangesForCDC-isStartingVersion) on (`true`), `getFileChangesForCDC` [gets the snapshot](../delta/DeltaSource.md#getSnapshotAt) at the `fromVersion` version and turns`dataChange` on for all [AddFile](../AddFile.md)s. `getFileChangesForCDC` creates a [IndexedChangeFileSeq](IndexedChangeFileSeq.md) (with the snapshot and `isInitialSnapshot` flag enabled). `getFileChangesForCDC`...FIXME
+With [isStartingVersion](#getFileChangesForCDC-isStartingVersion) on (`true`), `getFileChangesForCDC` [gets the snapshot](../spark-connector/DeltaSource.md#getSnapshotAt) at the `fromVersion` version and turns`dataChange` on for all [AddFile](../AddFile.md)s. `getFileChangesForCDC` creates a [IndexedChangeFileSeq](IndexedChangeFileSeq.md) (with the snapshot and `isInitialSnapshot` flag enabled). `getFileChangesForCDC`...FIXME
 
 With [isStartingVersion](#getFileChangesForCDC-isStartingVersion) off (`false`), `getFileChangesForCDC` [filterAndIndexDeltaLogs](#filterAndIndexDeltaLogs) for the `fromVersion` version.
 
@@ -51,7 +51,7 @@ In the end, `getFileChangesForCDC` requests all the `IndexedChangeFileSeq`s to [
 
 `getFileChangesForCDC` is used when:
 
-* `DeltaSourceBase` is requested to [getFileChangesWithRateLimit](../delta/DeltaSourceBase.md#getFileChangesWithRateLimit)
+* `DeltaSourceBase` is requested to [getFileChangesWithRateLimit](../spark-connector/DeltaSourceBase.md#getFileChangesWithRateLimit)
 * `DeltaSourceCDCSupport` is requested to [getCDCFileChangesAndCreateDataFrame](#getCDCFileChangesAndCreateDataFrame)
 
 ### <span id="getFileChangesForCDC-isStartingVersion"> isStartingVersion
@@ -59,15 +59,15 @@ In the end, `getFileChangesForCDC` requests all the `IndexedChangeFileSeq`s to [
 `getFileChangesForCDC` is given `isStartingVersion` flag when executed:
 
 * `true` for the following:
-    * `DeltaSource` when [getStartingVersion](../delta/DeltaSource.md#getStartingVersion) is undefined (returns `None`)
-    * `DeltaSource` when [getBatch](../delta/DeltaSource.md#getBatch) with `startOffsetOption` and [getStartingVersion](../delta/DeltaSource.md#getStartingVersion) both undefined (`None`s)
+    * `DeltaSource` when [getStartingVersion](../spark-connector/DeltaSource.md#getStartingVersion) is undefined (returns `None`)
+    * `DeltaSource` when [getBatch](../spark-connector/DeltaSource.md#getBatch) with `startOffsetOption` and [getStartingVersion](../spark-connector/DeltaSource.md#getStartingVersion) both undefined (`None`s)
 
 * `false` for the following:
-    * `DeltaSource` when [getBatch](../delta/DeltaSource.md#getBatch) with `startOffsetOption` undefined but [getStartingVersion](../delta/DeltaSource.md#getStartingVersion) specified
+    * `DeltaSource` when [getBatch](../spark-connector/DeltaSource.md#getBatch) with `startOffsetOption` undefined but [getStartingVersion](../spark-connector/DeltaSource.md#getStartingVersion) specified
 
 * `true` or `false` for the following:
-    * `DeltaSourceBase` when [getNextOffsetFromPreviousOffset](../delta/DeltaSourceBase.md#getNextOffsetFromPreviousOffset) based on [isStartingVersion](../delta/DeltaSourceOffset.md#isStartingVersion) (of the [previous offset](../delta/DeltaSourceOffset.md))
-    * `DeltaSource` when [getBatch](../delta/DeltaSource.md#getBatch) with `startOffsetOption` specified and based on the [isStartingVersion](../delta/DeltaSourceOffset.md#isStartingVersion) (of the [start offset](../delta/DeltaSourceOffset.md))
+    * `DeltaSourceBase` when [getNextOffsetFromPreviousOffset](../spark-connector/DeltaSourceBase.md#getNextOffsetFromPreviousOffset) based on [isStartingVersion](../spark-connector/DeltaSourceOffset.md#isStartingVersion) (of the [previous offset](../spark-connector/DeltaSourceOffset.md))
+    * `DeltaSource` when [getBatch](../spark-connector/DeltaSource.md#getBatch) with `startOffsetOption` specified and based on the [isStartingVersion](../spark-connector/DeltaSourceOffset.md#isStartingVersion) (of the [start offset](../spark-connector/DeltaSourceOffset.md))
 
 ### filterAndIndexDeltaLogs { #filterAndIndexDeltaLogs }
 
@@ -76,9 +76,9 @@ filterAndIndexDeltaLogs(
   startVersion: Long): Iterator[(Long, IndexedChangeFileSeq)]
 ```
 
-`filterAndIndexDeltaLogs` requests the [DeltaLog](../delta/DeltaSource.md#deltaLog) to [get the changes](../DeltaLog.md#getChanges) at the given `startVersion` version and on (`Iterator[(Long, Seq[Action])]`).
+`filterAndIndexDeltaLogs` requests the [DeltaLog](../spark-connector/DeltaSource.md#deltaLog) to [get the changes](../DeltaLog.md#getChanges) at the given `startVersion` version and on (`Iterator[(Long, Seq[Action])]`).
 
-`filterAndIndexDeltaLogs` uses [failOnDataLoss](../delta/options.md#failOnDataLoss) option to get the changes.
+`filterAndIndexDeltaLogs` uses [failOnDataLoss](../spark-connector/options.md#failOnDataLoss) option to get the changes.
 
 `filterAndIndexDeltaLogs` [filterCDCActions](#filterCDCActions) (across the actions across all the versions) and converts the [AddFile](../AddFile.md)s, [AddCDCFile](../AddCDCFile.md)s and [RemoveFile](../RemoveFile.md)s to `IndexedFile`s.
 

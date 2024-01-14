@@ -5,7 +5,7 @@ hide:
 
 # Demo: dataChange
 
-This demo shows [dataChange](../delta/options.md#dataChange) option in action.
+This demo shows [dataChange](../spark-connector/options.md#dataChange) option in action.
 
 In combination with `Overwrite` mode, `dataChange` option can be used to transactionally rearrange data in a delta table.
 

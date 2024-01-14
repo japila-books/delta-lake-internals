@@ -8,4 +8,4 @@ Table constraints can be one of the following:
 
 ## References
 
-* [Constraints](https://docs.databricks.com/delta/delta-constraints.html)
+* [Constraints]({{ delta.databricks }}/delta-constraints.html)

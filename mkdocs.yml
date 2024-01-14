@@ -104,6 +104,7 @@ extra:
     github: https://github.com/delta-io/delta/blob/v3.0.0
     commit: https://github.com/delta-io/delta/commit
     issues: https://github.com/delta-io/delta/issues
+    databricks: https://docs.databricks.com/delta
   guava:
     version: 16.0.1
     api: https://guava.dev/releases/16.0.1/api/docs
@@ -169,7 +170,6 @@ nav:
     - ... | configuration-properties/**.md
     - ... | data-skipping/**.md
     - ... | deletion-vectors/**.md
-    - ... | delta/**.md
     - developer-api.md
     - Generated Columns:
       - generated-columns/index.md
@@ -181,6 +181,7 @@ nav:
     - ... | post-commit-hooks/**.md
     - ... | row-tracking/**.md
     - ... | constraints/**.md
+    - ... | spark-connector/**.md
     - ... | table-features/**.md
     - ... | table-properties/**.md
     - ... | time-travel/**.md

@@ -1,6 +1,6 @@
 # Optimize Command
 
-From [Optimize performance with file management](https://docs.databricks.com/delta/optimizations/file-mgmt.html):
+From [Optimize performance with file management]({{ delta.databricks }}/optimizations/file-mgmt.html):
 
 > To improve query speed, Delta Lake on Databricks supports the ability to optimize the layout of data stored in cloud storage. Delta Lake on Databricks supports two layout algorithms: [bin-packing](#bin-packing) and [Z-Ordering](#z-ordering).
 

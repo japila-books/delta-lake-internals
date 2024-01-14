@@ -1,6 +1,11 @@
-# Delta Connector
+---
+title: Delta Connector
+subtitle: Spark Connector for Delta Lake
+---
 
-**Delta Connector** is an extension of Spark SQL (based on [Connector API]({{ book.spark_sql }}/connector)) to support batch and streaming queries over delta tables.
+# Delta Connector (Spark Connector for Delta Lake)
+
+**Delta Connector** (_Spark Connector for Delta Lake_) is an extension of Spark SQL (based on [Connector API]({{ book.spark_sql }}/connector)) to support batch and streaming queries over delta tables.
 
 ```scala
 val rawDeltaTable = spark

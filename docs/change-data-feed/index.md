@@ -6,12 +6,12 @@ Change Data Feed can be enabled on a delta table using [delta.enableChangeDataFe
 
 CDF data changes are written out (by [DelayedCommitProtocol](../DelayedCommitProtocol.md)) to [_change_data](#_change_data) directory as `cdc-`-prefixed parquet-encoded change data files.
 
-With [CDF-Aware Table Scan (CDF Read)](CDCReaderImpl.md#isCDCRead) (based on [readChangeFeed](../delta/options.md#readChangeFeed) read option), [loading a delta table](../delta/DeltaDataSource.md#RelationProvider-createRelation) gives data changes (not the data of a particular version of the delta table).
+With [CDF-Aware Table Scan (CDF Read)](CDCReaderImpl.md#isCDCRead) (based on [readChangeFeed](../spark-connector/options.md#readChangeFeed) read option), [loading a delta table](../spark-connector/DeltaDataSource.md#RelationProvider-createRelation) gives data changes (not the data of a particular version of the delta table).
 
 [CDCReader](CDCReader.md) is used to [build a DataFrame of the row-level changes](CDCReaderImpl.md#changesToDF) for all the possible structured query types (described using `DataFrame` API):
 
 * [Batch queries](DeltaCDFRelation.md#buildScan) (Spark SQL)
-* [Streaming queries](../delta/DeltaSourceBase.md#createDataFrameBetweenOffsets) (Spark Structured Streaming)
+* [Streaming queries](../spark-connector/DeltaSourceBase.md#createDataFrameBetweenOffsets) (Spark Structured Streaming)
 
 Change Data Feed was released in Delta Lake 2.0.0 (that was tracked under [Support for Change Data Feed in Delta Lake]({{ delta.issues }}/1105)).
 
@@ -38,7 +38,7 @@ SET spark.databricks.delta.properties.defaults.enableChangeDataFeed = true;
 
 ## <span id="readChangeFeed"> Options { #options }
 
-Change Data Feed is enabled in batch and streaming queries using [readChangeFeed](../delta/DeltaDataSource.md#readChangeFeed) option.
+Change Data Feed is enabled in batch and streaming queries using [readChangeFeed](../spark-connector/DeltaDataSource.md#readChangeFeed) option.
 
 === "Batch Query"
 
@@ -65,10 +65,10 @@ Change Data Feed is enabled in batch and streaming queries using [readChangeFeed
 
 `readChangeFeed` is used alongside the other CDC options:
 
-* [startingVersion](../delta/DeltaDataSource.md#CDC_START_VERSION_KEY)
-* [startingTimestamp](../delta/DeltaDataSource.md#CDC_START_TIMESTAMP_KEY)
-* [endingVersion](../delta/DeltaDataSource.md#CDC_END_VERSION_KEY)
-* [endingTimestamp](../delta/DeltaDataSource.md#CDC_END_TIMESTAMP_KEY)
+* [startingVersion](../spark-connector/DeltaDataSource.md#CDC_START_VERSION_KEY)
+* [startingTimestamp](../spark-connector/DeltaDataSource.md#CDC_START_TIMESTAMP_KEY)
+* [endingVersion](../spark-connector/DeltaDataSource.md#CDC_END_VERSION_KEY)
+* [endingTimestamp](../spark-connector/DeltaDataSource.md#CDC_END_TIMESTAMP_KEY)
 
 ## CDF-Aware Read Schema
 
@@ -135,4 +135,4 @@ Change data feed reads are currently not supported on tables with [column mappin
 
 ## Learn More
 
-1. [Delta Lake guide](https://docs.databricks.com/delta/delta-change-data-feed.html)
+1. [Delta Lake guide]({{ delta.databricks }}/delta-change-data-feed.html)

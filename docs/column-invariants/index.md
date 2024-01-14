@@ -1,7 +1,7 @@
 # Column Invariants
 
 !!! note
-    As per [this comment](https://github.com/delta-io/delta/blob/58b25108e1e275fa7e2ff4ba758184a19270cf15/core/src/main/scala/org/apache/spark/sql/delta/constraints/Constraints.scala#L34-L39), column invariants are old-style and users should use [CHECK constraints](../check-constraints/index.md):
+    As per [this comment]({{ delta.github }}/spark/src/main/scala/org/apache/spark/sql/delta/constraints/Constraints.scala#L34-L39), column invariants are old-style and users should use [CHECK constraints](../check-constraints/index.md):
 
     > Utilities for handling constraints. Right now this includes:
     > 

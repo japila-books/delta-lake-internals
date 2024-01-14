@@ -7,7 +7,7 @@ Generated Columns can be defined using the following high-level operator:
 * [DeltaColumnBuilder.generatedAlwaysAs](../DeltaColumnBuilder.md#generatedAlwaysAs)
 
 !!! note "SQL Not Supported"
-    SQL support is not available yet and tracked as [#1100](https://github.com/delta-io/delta/issues/1100).
+    SQL support is not available yet and tracked as [#1100]({{ delta.issues }}/1100).
 
 Generated Columns are stored in the [table metadata](../Metadata.md#schema).
 

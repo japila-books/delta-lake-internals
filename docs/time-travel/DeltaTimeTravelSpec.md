@@ -14,8 +14,8 @@
 
 * [DeltaAnalysis](../DeltaAnalysis.md) logical resolution rule is resolving [RestoreTableStatement](../commands/restore/RestoreTableStatement.md) unary logical operator
 * `DeltaTimeTravelSpec` utility is used to [resolve a path](#resolvePath)
-* `DeltaDataSource` utility is used to [getTimeTravelVersion](../delta/DeltaDataSource.md#getTimeTravelVersion)
-* `DeltaSource` is requested to for the [getStartingVersion](../delta/DeltaSource.md#getStartingVersion)
+* `DeltaDataSource` utility is used to [getTimeTravelVersion](../spark-connector/DeltaDataSource.md#getTimeTravelVersion)
+* `DeltaSource` is requested to for the [getStartingVersion](../spark-connector/DeltaSource.md#getStartingVersion)
 
 ### <span id="version"> Version
 
@@ -27,7 +27,7 @@ version: Option[Long]
 
 * [DeltaAnalysis](../DeltaAnalysis.md) logical resolution rule is executed (to resolve a [RestoreTableStatement](../commands/restore/RestoreTableStatement.md))
 * `DeltaTimeTravelSpec` utility is used to [resolve path](#resolvePath)
-* `DeltaDataSource` utility is used to [getTimeTravelVersion](../delta/DeltaDataSource.md#getTimeTravelVersion)
+* `DeltaDataSource` utility is used to [getTimeTravelVersion](../spark-connector/DeltaDataSource.md#getTimeTravelVersion)
 
 `version` is mutually exclusive with the [timestamp](#timestamp) (so only one can be specified).
 
@@ -39,8 +39,8 @@ The Creation Source ID indicates the API used to time travel:
 
 * [Creation Source ID](../commands/restore/TimeTravel.md#creationSource) of the [TimeTravel](../commands/restore/RestoreTableStatement.md#table) of [RestoreTableStatement](../commands/restore/RestoreTableStatement.md) unary logical operator (when [DeltaAnalysis](../DeltaAnalysis.md) logical resolution rule is executed)
 * `atSyntax.path` for [DeltaTimeTravelSpec](#resolvePath)
-* `dfReader` for [DeltaDataSource](../delta/DeltaDataSource.md#getTimeTravelVersion)
-* `deltaSource` for [DeltaSource](../delta/DeltaSource.md#getStartingVersion)
+* `dfReader` for [DeltaDataSource](../spark-connector/DeltaDataSource.md#getTimeTravelVersion)
+* `deltaSource` for [DeltaSource](../spark-connector/DeltaSource.md#getStartingVersion)
 
 ## <span id="TIMESTAMP_URI_FOR_TIME_TRAVEL"><span id="VERSION_URI_FOR_TIME_TRAVEL"> Time Travel Patterns
 

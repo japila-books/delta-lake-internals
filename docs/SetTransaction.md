@@ -8,7 +8,7 @@
 
 `SetTransaction` is created when:
 
-* `DeltaSink` is requested to [add a streaming micro-batch](delta/DeltaSink.md#addBatch) (for `STREAMING UPDATE` operation idempotence at query restart)
+* `DeltaSink` is requested to [add a streaming micro-batch](spark-connector/DeltaSink.md#addBatch) (for `STREAMING UPDATE` operation idempotence at query restart)
 
 ## Demo
 

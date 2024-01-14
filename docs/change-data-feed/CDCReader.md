@@ -2,7 +2,7 @@
 
 `CDCReader` is a [CDCReaderImpl](CDCReaderImpl.md).
 
-`CDCReader` utility plays the key role in [Change Data Capture](index.md) in Delta Lake (per [this comment](https://github.com/delta-io/delta/commit/d90f90b6656648e170835f92152b69f77346dfcf)).
+`CDCReader` utility plays the key role in [Change Data Capture](index.md) in Delta Lake (per [this comment]({{ delta.commit }}/d90f90b6656648e170835f92152b69f77346dfcf)).
 
 ## <span id="_change_data"> _change_data Directory { #CDC_LOCATION }
 

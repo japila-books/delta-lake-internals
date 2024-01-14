@@ -14,7 +14,7 @@ spark: SparkSession
 
 ## Implementations
 
-* [DeltaSourceSnapshot](delta/DeltaSourceSnapshot.md)
+* [DeltaSourceSnapshot](spark-connector/DeltaSourceSnapshot.md)
 * [Snapshot](Snapshot.md)
 
 ## <span id="cached"> Cached RDDs
@@ -42,7 +42,7 @@ cacheDS[A](
 `cacheDS` is used when:
 
 * `Snapshot` is requested for the [cachedState](Snapshot.md#cachedState)
-* `DeltaSourceSnapshot` is requested for the [initialFiles](delta/DeltaSourceSnapshot.md#initialFiles)
+* `DeltaSourceSnapshot` is requested for the [initialFiles](spark-connector/DeltaSourceSnapshot.md#initialFiles)
 * `DataSkippingReaderBase` is requested for the [withStatsCache](data-skipping/DataSkippingReaderBase.md#withStatsCache)
 
 ## <span id="uncache"> Uncaching All Cached Datasets
@@ -59,4 +59,4 @@ uncache[A](
 
 * `DeltaLog` utility is used to access [deltaLogCache](DeltaLog.md#deltaLogCache) and a cached entry expires
 * `SnapshotManagement` is requested to [update state of a Delta table](SnapshotManagement.md#updateInternal)
-* `DeltaSourceSnapshot` is requested to [close](delta/DeltaSourceSnapshot.md#close)
+* `DeltaSourceSnapshot` is requested to [close](spark-connector/DeltaSourceSnapshot.md#close)

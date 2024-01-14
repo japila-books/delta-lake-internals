@@ -123,7 +123,7 @@ Used when:
 
 Used when:
 
-* `DeltaSink` is requested to [addBatch](delta/DeltaSink.md#addBatch)
+* `DeltaSink` is requested to [addBatch](spark-connector/DeltaSink.md#addBatch)
 
 ### Truncate
 

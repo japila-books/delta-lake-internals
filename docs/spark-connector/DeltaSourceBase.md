@@ -146,3 +146,11 @@ buildOffsetFromIndexedFile(
 
 !!! note
     All the methods of `SupportsAdmissionControl` are in [DeltaSource](DeltaSource.md).
+
+## allowUnsafeStreamingReadOnColumnMappingSchemaChanges { #allowUnsafeStreamingReadOnColumnMappingSchemaChanges }
+
+```scala
+allowUnsafeStreamingReadOnColumnMappingSchemaChanges: Boolean
+```
+
+`allowUnsafeStreamingReadOnColumnMappingSchemaChanges` is the value of [DeltaSQLConf.DELTA_STREAMING_UNSAFE_READ_ON_INCOMPATIBLE_COLUMN_MAPPING_SCHEMA_CHANGES](../configuration-properties/DeltaSQLConf.md#DELTA_STREAMING_UNSAFE_READ_ON_INCOMPATIBLE_COLUMN_MAPPING_SCHEMA_CHANGES) configuration property.

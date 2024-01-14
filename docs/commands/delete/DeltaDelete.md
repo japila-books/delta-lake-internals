@@ -6,7 +6,7 @@ title: DeltaDelete
 
 `DeltaDelete` is an unary logical operator ([Spark SQL]({{ book.spark_sql }}/logical-operators/UnaryNode/)) that represents `DeleteFromTable`s ([Spark SQL]({{ book.spark_sql }}/logical-operators/DeleteFromTable/)) at execution.
 
-As per the [comment](https://github.com/delta-io/delta/blob/50f80f1a813309db5f2275748ab7756c65278d48/src/main/scala/org/apache/spark/sql/catalyst/plans/logical/DeltaDelete.scala#L21-L22):
+As per the [comment]({{ delta.github }}/spark/src/main/scala/org/apache/spark/sql/catalyst/plans/logical/DeltaDelete.scala#L21-L22):
 
 > Needs to be compatible with DBR 6 and can't use the new class added in Spark 3.0: `DeleteFromTable`.
 

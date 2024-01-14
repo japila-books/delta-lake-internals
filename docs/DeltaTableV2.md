@@ -18,7 +18,7 @@
 
 * `DeltaTable` utility is used to [forPath](DeltaTable.md#forPath) and [forName](DeltaTable.md#forName)
 * `DeltaCatalog` is requested to [load a table](DeltaCatalog.md#loadTable)
-* `DeltaDataSource` is requested to [load a table](delta/DeltaDataSource.md#getTable) or [create a table relation](delta/DeltaDataSource.md#RelationProvider-createRelation)
+* `DeltaDataSource` is requested to [load a table](spark-connector/DeltaDataSource.md#getTable) or [create a table relation](spark-connector/DeltaDataSource.md#RelationProvider-createRelation)
 
 ### Table Metadata (CatalogTable) { #catalogTable }
 
@@ -35,7 +35,7 @@ catalogTable: Option[CatalogTable] = None
 
 `catalogTable` is used when:
 
-* `DeltaTableV2` is requested for the [rootPath](#rootPath) (to avoid [parsing the path](delta/DeltaDataSource.md#parsePathIdentifier)), the [name](#name), the [properties](#properties) and the [CatalogTable](#v1Table) itself
+* `DeltaTableV2` is requested for the [rootPath](#rootPath) (to avoid [parsing the path](spark-connector/DeltaDataSource.md#parsePathIdentifier)), the [name](#name), the [properties](#properties) and the [CatalogTable](#v1Table) itself
 * [DeltaAnalysis](DeltaAnalysis.md) logical resolution rule is requested to resolve a [RestoreTableStatement](commands/restore/RestoreTableStatement.md) (for a `TableIdentifier`)
 * `DeltaRelation` utility is used to [fromV2Relation](DeltaRelation.md#fromV2Relation)
 * [AlterTableSetLocationDeltaCommand](commands/alter/AlterTableSetLocationDeltaCommand.md) is executed
@@ -50,7 +50,7 @@ cdcOptions: CaseInsensitiveStringMap
 
 `cdcOptions` is specified when:
 
-* `DeltaDataSource` is requested to [create a relation](delta/DeltaDataSource.md#RelationProvider-createRelation) (for [CDC read](change-data-feed/CDCReaderImpl.md#isCDCRead))
+* `DeltaDataSource` is requested to [create a relation](spark-connector/DeltaDataSource.md#RelationProvider-createRelation) (for [CDC read](change-data-feed/CDCReaderImpl.md#isCDCRead))
 * `DeltaTableV2` is requested to [withOptions](#withOptions)
 
 `cdcOptions` is used when:
@@ -85,7 +85,7 @@ Otherwise, `cdcRelation` returns `None` (an _undefined_ value).
 
 `DeltaTableV2` can be given options (as a `Map[String, String]`). Options are empty by default.
 
-The options are defined when `DeltaDataSource` is requested for a [relation](delta/DeltaDataSource.md#RelationProvider-createRelation) with [spark.databricks.delta.loadFileSystemConfigsFromDataFrameOptions](configuration-properties/DeltaSQLConf.md#loadFileSystemConfigsFromDataFrameOptions) configuration property enabled.
+The options are defined when `DeltaDataSource` is requested for a [relation](spark-connector/DeltaDataSource.md#RelationProvider-createRelation) with [spark.databricks.delta.loadFileSystemConfigsFromDataFrameOptions](configuration-properties/DeltaSQLConf.md#loadFileSystemConfigsFromDataFrameOptions) configuration property enabled.
 
 The options are used for the following:
 
@@ -136,7 +136,7 @@ v1Table call is not expected with path based DeltaTableV2
 
 `DeltaTableV2` is given a `DeltaTimeTravelSpec` when:
 
-* `DeltaDataSource` is requested for a [BaseRelation](delta/DeltaDataSource.md#RelationProvider-createRelation)
+* `DeltaDataSource` is requested for a [BaseRelation](spark-connector/DeltaDataSource.md#RelationProvider-createRelation)
 
 `DeltaTimeTravelSpec` is used for [timeTravelSpec](#timeTravelSpec).
 
@@ -242,7 +242,7 @@ timeTravelByPath: Option[DeltaTimeTravelSpec]
 
 `timeTravelByPath` is undefined when [CatalogTable](#catalogTable) is defined.
 
-With no [CatalogTable](#catalogTable) defined, `DeltaTableV2` [parses](delta/DeltaDataSource.md#parsePathIdentifier) the given [Path](#path) for the `timeTravelByPath` (that [resolvePath](time-travel/DeltaTimeTravelSpec.md#resolvePath) under the covers).
+With no [CatalogTable](#catalogTable) defined, `DeltaTableV2` [parses](spark-connector/DeltaDataSource.md#parsePathIdentifier) the given [Path](#path) for the `timeTravelByPath` (that [resolvePath](time-travel/DeltaTimeTravelSpec.md#resolvePath) under the covers).
 
 ## Converting to Insertable HadoopFsRelation { #toBaseRelation }
 
@@ -250,7 +250,7 @@ With no [CatalogTable](#catalogTable) defined, `DeltaTableV2` [parses](delta/Del
 toBaseRelation: BaseRelation
 ```
 
-`toBaseRelation` [verifyAndCreatePartitionFilters](delta/DeltaDataSource.md#verifyAndCreatePartitionFilters) for the [Path](#path), the [current Snapshot](SnapshotManagement.md#snapshot) and [partitionFilters](#partitionFilters).
+`toBaseRelation` [verifyAndCreatePartitionFilters](spark-connector/DeltaDataSource.md#verifyAndCreatePartitionFilters) for the [Path](#path), the [current Snapshot](SnapshotManagement.md#snapshot) and [partitionFilters](#partitionFilters).
 
 In the end, `toBaseRelation` requests the [DeltaLog](#deltaLog) for an [insertable HadoopFsRelation](DeltaLog.md#createRelation).
 
@@ -258,5 +258,5 @@ In the end, `toBaseRelation` requests the [DeltaLog](#deltaLog) for an [insertab
 
 `toBaseRelation` is used when:
 
-* `DeltaDataSource` is requested to [create a relation](delta/DeltaDataSource.md#RelationProvider-createRelation) (for a table scan)
+* `DeltaDataSource` is requested to [create a relation](spark-connector/DeltaDataSource.md#RelationProvider-createRelation) (for a table scan)
 * `DeltaRelation` is requested to [fromV2Relation](DeltaRelation.md#fromV2Relation)

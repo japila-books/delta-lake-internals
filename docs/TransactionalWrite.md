@@ -21,7 +21,7 @@ Used when:
 * `TransactionalWrite` is requested to [write a structured query out to a delta table](#writeFiles)
 * [GenerateSymlinkManifest](post-commit-hooks/GenerateSymlinkManifest.md) post-commit hook is executed
 * `ImplicitMetadataOperation` is requested to [updateMetadata](ImplicitMetadataOperation.md#updateMetadata)
-* `DeltaSink` is requested to [addBatch](delta/DeltaSink.md#addBatch)
+* `DeltaSink` is requested to [addBatch](spark-connector/DeltaSink.md#addBatch)
 
 ### Metadata { #metadata }
 
@@ -88,7 +88,7 @@ writeFiles(
 ```
 
 1. Uses no [Constraint](constraints/Constraint.md)s
-2. Uses no write-related [DeltaOptions](delta/DeltaOptions.md)
+2. Uses no write-related [DeltaOptions](spark-connector/DeltaOptions.md)
 3. Uses no [Constraint](constraints/Constraint.md)s
 
 `writeFiles` writes the given `data` (as a `Dataset`) to a [delta table](#deltaLog) and returns [AddFile](AddFile.md)s with [AddCDCFile](AddCDCFile.md)s (from the [DelayedCommitProtocol](#writeFiles-committer)).
@@ -102,7 +102,7 @@ writeFiles(
 * `MergeIntoCommand` is requested to [writeInsertsOnlyWhenNoMatchedClauses](commands/merge/MergeIntoCommand.md#writeInsertsOnlyWhenNoMatchedClauses) and [writeAllChanges](commands/merge/MergeIntoCommand.md#writeAllChanges)
 * `OptimizeExecutor` is requested to [runOptimizeBinJob](commands/optimize/OptimizeExecutor.md#runOptimizeBinJob)
 * `UpdateCommand` is requested to [rewriteFiles](commands/update/UpdateCommand.md#rewriteFiles)
-* `DeltaSink` is requested to [add a streaming micro-batch](delta/DeltaSink.md#addBatch)
+* `DeltaSink` is requested to [add a streaming micro-batch](spark-connector/DeltaSink.md#addBatch)
 
 ---
 
@@ -129,7 +129,7 @@ Even though it is so early, `writeFiles` turns the [hasWritten](#hasWritten) fla
 
 `writeFiles` [performs CDC augmentation](#performCDCPartition) (for the delta table with [Change Data Feed enabled](change-data-feed/CDCReader.md#isCDCEnabledOnTable)).
 
-`writeFiles` [normalizes](#normalizeData) the output dataset (based on the given [DeltaOptions](delta/DeltaOptions.md)).
+`writeFiles` [normalizes](#normalizeData) the output dataset (based on the given [DeltaOptions](spark-connector/DeltaOptions.md)).
 
 ### Step 2. Partitioning Columns { #writeFiles-partitioningColumns }
 
@@ -185,10 +185,10 @@ Metric Name | UI Description
 
 ### Step 6.4 Write Options { #writeFiles-options }
 
-`writeFiles` makes sure (_filters out_) that there are only the following [write options](delta/DeltaOptions.md) used (from the given `writeOptions`), if specified:
+`writeFiles` makes sure (_filters out_) that there are only the following [write options](spark-connector/DeltaOptions.md) used (from the given `writeOptions`), if specified:
 
-* [compression](delta/DeltaOptions.md#COMPRESSION)
-* [maxRecordsPerFile](delta/DeltaOptions.md#MAX_RECORDS_PER_FILE)
+* [compression](spark-connector/DeltaOptions.md#COMPRESSION)
+* [maxRecordsPerFile](spark-connector/DeltaOptions.md#MAX_RECORDS_PER_FILE)
 
 ### Step 6.5 FileFormatWriter { #writeFiles-FileFormatWriter }
 

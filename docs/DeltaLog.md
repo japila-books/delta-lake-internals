@@ -154,9 +154,9 @@ filterFileList(
 * `OptimisticTransactionImpl` is requested to [checkAndRetry](OptimisticTransactionImpl.md#checkAndRetry)
 * `PartitionFiltering` is requested to [filesForScan](PartitionFiltering.md#filesForScan)
 * `WriteIntoDelta` is requested to [write](commands/WriteIntoDelta.md#write)
-* `SnapshotIterator` is requested to [iterator](delta/SnapshotIterator.md#iterator)
+* `SnapshotIterator` is requested to [iterator](spark-connector/SnapshotIterator.md#iterator)
 * `TahoeBatchFileIndex` is requested to [matchingFiles](TahoeBatchFileIndex.md#matchingFiles)
-* `DeltaDataSource` utility is requested to [verifyAndCreatePartitionFilters](delta/DeltaDataSource.md#verifyAndCreatePartitionFilters)
+* `DeltaDataSource` utility is requested to [verifyAndCreatePartitionFilters](spark-connector/DeltaDataSource.md#verifyAndCreatePartitionFilters)
 
 ## FileFormats
 
@@ -188,7 +188,7 @@ In the end, `withNewTransaction` makes the transaction [no longer active](Optimi
 `withNewTransaction` is used when:
 
 * [DeleteCommand](commands/delete/DeleteCommand.md), [MergeIntoCommand](commands/merge/MergeIntoCommand.md), [RestoreTableCommand](commands/restore/RestoreTableCommand.md), [UpdateCommand](commands/update/UpdateCommand.md), and [WriteIntoDelta](commands/WriteIntoDelta.md) commands are executed
-* `DeltaSink` is requested to [add a streaming micro-batch](delta/DeltaSink.md#addBatch)
+* `DeltaSink` is requested to [add a streaming micro-batch](spark-connector/DeltaSink.md#addBatch)
 
 ## <span id="startTransaction"> Starting New Transaction
 
@@ -246,7 +246,7 @@ For all other cases, `update`...FIXME
 
 * `TahoeLogFileIndex` is requested for the [(historical or latest) snapshot](TahoeLogFileIndex.md#getSnapshot)
 
-* `DeltaDataSource` is requested for a [relation](delta/DeltaDataSource.md#RelationProvider-createRelation)
+* `DeltaDataSource` is requested for a [relation](spark-connector/DeltaDataSource.md#RelationProvider-createRelation)
 
 ### <span id="tryUpdate"> tryUpdate
 
@@ -285,9 +285,9 @@ snapshot: Snapshot
 
 * `TahoeLogFileIndex` is requested for the [table size](TahoeLogFileIndex.md#sizeInBytes)
 
-* `DeltaDataSource` is requested for the [schema of the streaming delta source](delta/DeltaDataSource.md#sourceSchema)
+* `DeltaDataSource` is requested for the [schema of the streaming delta source](spark-connector/DeltaDataSource.md#sourceSchema)
 
-* [DeltaSource](delta/DeltaSource.md) is created and requested for the [getStartingOffset](delta/DeltaSource.md#getStartingOffset), [getBatch](delta/DeltaSource.md#getBatch)
+* [DeltaSource](spark-connector/DeltaSource.md) is created and requested for the [getStartingOffset](spark-connector/DeltaSource.md#getStartingOffset), [getBatch](spark-connector/DeltaSource.md#getBatch)
 
 ## <span id="currentSnapshot"> Current State Snapshot
 
@@ -341,7 +341,7 @@ In the end, `createRelation` creates a `HadoopFsRelation` for the `TahoeLogFileI
 * `DeltaTableV2` is requested to [toBaseRelation](DeltaTableV2.md#toBaseRelation)
 * `WriteIntoDeltaBuilder` is requested to [buildForV1Write](WriteIntoDeltaBuilder.md#buildForV1Write)
 * `WriteIntoDelta` is requested to [removeFiles](commands/WriteIntoDelta.md#removeFiles)
-* `DeltaDataSource` is requested for a [writable relation](delta/DeltaDataSource.md#CreatableRelationProvider-createRelation)
+* `DeltaDataSource` is requested for a [writable relation](spark-connector/DeltaDataSource.md#CreatableRelationProvider-createRelation)
 
 ## <span id="createRelation-InsertableRelation"><span id="createRelation-InsertableRelation-insert"> insert
 
@@ -370,7 +370,7 @@ getSnapshotAt(
 
 * `DeltaLog` is requested for a [relation](#createRelation), and to [updateInternal](#updateInternal)
 
-* `DeltaSource` is requested for the [snapshot of a delta table at a given version](delta/DeltaSource.md#getSnapshotAt)
+* `DeltaSource` is requested for the [snapshot of a delta table at a given version](spark-connector/DeltaSource.md#getSnapshotAt)
 
 * `TahoeLogFileIndex` is requested for [historicalSnapshotOpt](TahoeLogFileIndex.md#historicalSnapshotOpt)
 
@@ -435,7 +435,7 @@ In the end, `createDataFrame` creates a `DataFrame` with (a logical query plan w
 * [AlterTableAddConstraintDeltaCommand](commands/alter/AlterTableAddConstraintDeltaCommand.md) is executed
 * [MergeIntoCommand](commands/merge/MergeIntoCommand.md) is executed (and requested to [buildTargetPlanWithFiles](commands/merge/MergeIntoCommand.md#buildTargetPlanWithFiles))
 * `OptimizeExecutor` is requested to [runOptimizeBinJob](commands/optimize/OptimizeExecutor.md#runOptimizeBinJob)
-* `DeltaSourceBase` is requested to [createDataFrame](delta/DeltaSourceBase.md#createDataFrame)
+* `DeltaSourceBase` is requested to [createDataFrame](spark-connector/DeltaSourceBase.md#createDataFrame)
 * `StatisticsCollection` utility is used to [recompute](StatisticsCollection.md#recompute)
 
 ### <span id="createDataFrame-demo"> Demo: DeltaLog.createDataFrame
@@ -621,7 +621,7 @@ protocolRead(
 
 * [Snapshot](Snapshot.md) is created
 
-* `DeltaSource` is requested to [verifyStreamHygieneAndFilterAddFiles](delta/DeltaSource.md#verifyStreamHygieneAndFilterAddFiles)
+* `DeltaSource` is requested to [verifyStreamHygieneAndFilterAddFiles](spark-connector/DeltaSource.md#verifyStreamHygieneAndFilterAddFiles)
 
 ## <span id="upgradeProtocol"> upgradeProtocol
 
@@ -715,7 +715,7 @@ With [delta.appendOnly](DeltaConfigs.md#IS_APPEND_ONLY) table property enabled, 
 
 * `OptimisticTransactionImpl` is requested to [prepareCommit](OptimisticTransactionImpl.md#prepareCommit)
 * [Delete](commands/delete/index.md), [Update](commands/update/index.md), [WriteIntoDelta](commands/WriteIntoDelta.md) (in `Overwrite` save mode) commands are executed
-* `DeltaSink` is requested to [addBatch](delta/DeltaSink.md#addBatch) in `Complete` output mode
+* `DeltaSink` is requested to [addBatch](spark-connector/DeltaSink.md#addBatch) in `Complete` output mode
 
 ## Logging
 

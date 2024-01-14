@@ -5,7 +5,7 @@ hide:
 
 # Demo: User Metadata for Labelling Commits
 
-The demo shows how to differentiate commits of a write batch query using [userMetadata](../delta/options.md#userMetadata) option.
+The demo shows how to differentiate commits of a write batch query using [userMetadata](../spark-connector/options.md#userMetadata) option.
 
 !!! tip
     A fine example could be for distinguishing between two or more separate streaming write queries.
@@ -50,7 +50,7 @@ d.history
 
 In this step, you're going to append new data to the existing Delta table.
 
-You're going to use [userMetadata](../delta/options.md#userMetadata) option for a custom user-defined historical marker (e.g. to know when this extra append happended in the life of the Delta table).
+You're going to use [userMetadata](../spark-connector/options.md#userMetadata) option for a custom user-defined historical marker (e.g. to know when this extra append happended in the life of the Delta table).
 
 ```text
 val userMetadata = "two more rows for demo"

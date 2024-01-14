@@ -38,7 +38,7 @@ isDeltaPath(
 `isDeltaPath` is positive (`true`) when all the following hold:
 
 1. `spark.sql.runSQLOnFiles` ([Spark SQL]({{ book.spark_sql }}/configuration-properties#spark.sql.runSQLOnFiles)) configuration property is `true`
-1. [DeltaSourceUtils.isDeltaTable(identifier.database)](delta/DeltaSourceUtils.md#isDeltaTable)
+1. [DeltaSourceUtils.isDeltaTable(identifier.database)](spark-connector/DeltaSourceUtils.md#isDeltaTable)
 1. The `TableIdentifier` is not a temporary view
 1. The table in the database (as specified in the `TableIdentifier`) does not exist
 1. The table part (of the `TableIdentifier`) is absolute (starts with `/`)

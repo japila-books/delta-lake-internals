@@ -88,7 +88,7 @@ DeltaTable.createOrReplace
 
     !!! bug ""
 
-        The following SQL query fails with an `AnalysisException` due to [this issue](https://github.com/delta-io/delta/issues/1215).
+        The following SQL query fails with an `AnalysisException` due to [this issue]({{ delta.issues }}/1215).
 
     ```sql
     --- FIXME: Fails with org.apache.spark.sql.

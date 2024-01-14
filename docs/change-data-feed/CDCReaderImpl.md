@@ -22,15 +22,15 @@ getCDCRelation(
 
 `getCDCRelation` [getVersionForCDC](#getVersionForCDC) with the following:
 
-* [startingVersion](../delta/DeltaDataSource.md#startingVersion) for the version key
-* [startingTimestamp](../delta/DeltaDataSource.md#startingTimestamp) for the timestamp key
+* [startingVersion](../spark-connector/DeltaDataSource.md#startingVersion) for the version key
+* [startingTimestamp](../spark-connector/DeltaDataSource.md#startingTimestamp) for the timestamp key
 
 `getCDCRelation` [getBatchSchemaModeForTable](#getBatchSchemaModeForTable).
 
 `getCDCRelation` [getVersionForCDC](#getVersionForCDC) with the following:
 
-* [endingVersion](../delta/DeltaDataSource.md#endingVersion) for the version key
-* [endingTimestamp](../delta/DeltaDataSource.md#endingTimestamp) for the timestamp key
+* [endingVersion](../spark-connector/DeltaDataSource.md#endingVersion) for the version key
+* [endingTimestamp](../spark-connector/DeltaDataSource.md#endingTimestamp) for the timestamp key
 
 `getCDCRelation` prints out the following INFO message to the logs:
 
@@ -242,8 +242,8 @@ Column Name | Data Type
 * `CDCReaderImpl` is requested to [changesToDF](#changesToDF), [scanIndex](#scanIndex)
 * `CdcAddFileIndex` is requested for the [partition schema](CdcAddFileIndex.md#partitionSchema)
 * `TahoeRemoveFileIndex` is requested for the [partition schema](TahoeRemoveFileIndex.md#partitionSchema)
-* `DeltaDataSource` is requested for the [sourceSchema](../delta/DeltaDataSource.md#sourceSchema)
-* `DeltaSourceBase` is requested to [checkReadIncompatibleSchemaChanges](../delta/DeltaSourceBase.md#checkReadIncompatibleSchemaChanges) and for the [schema](../delta/DeltaSourceBase.md#schema)
+* `DeltaDataSource` is requested for the [sourceSchema](../spark-connector/DeltaDataSource.md#sourceSchema)
+* `DeltaSourceBase` is requested to [checkReadIncompatibleSchemaChanges](../spark-connector/DeltaSourceBase.md#checkReadIncompatibleSchemaChanges) and for the [schema](../spark-connector/DeltaSourceBase.md#schema)
 
 ## CDC-Aware Table Scan (CDC Read) { #isCDCRead }
 
@@ -254,8 +254,8 @@ isCDCRead(
 
 `isCDCRead` is `true` when one of the following options is specified (in the given `options`) with `true` value (case-insensitive):
 
-1. [readChangeFeed](../delta/DeltaDataSource.md#readChangeFeed)
-1. (legacy) [readChangeData](../delta/DeltaDataSource.md#readChangeData)
+1. [readChangeFeed](../spark-connector/DeltaDataSource.md#readChangeFeed)
+1. (legacy) [readChangeData](../spark-connector/DeltaDataSource.md#readChangeData)
 
 Otherwise, `isCDCRead` is `false`.
 
@@ -265,7 +265,7 @@ Otherwise, `isCDCRead` is `false`.
 
 * `DeltaRelation` utility is used to [fromV2Relation](../DeltaRelation.md#fromV2Relation)
 * `DeltaTableV2` is requested for the [cdcRelation](../DeltaTableV2.md#cdcRelation), [initialSnapshot](../DeltaTableV2.md#initialSnapshot), [withOptions](../DeltaTableV2.md#withOptions)
-* `DeltaDataSource` is requested for the [streaming source schema](../delta/DeltaDataSource.md#sourceSchema) and for a [relation](../delta/DeltaDataSource.md#RelationProvider-createRelation)
+* `DeltaDataSource` is requested for the [streaming source schema](../spark-connector/DeltaDataSource.md#sourceSchema) and for a [relation](../spark-connector/DeltaDataSource.md#RelationProvider-createRelation)
 
 ## isCDCEnabledOnTable { #isCDCEnabledOnTable }
 

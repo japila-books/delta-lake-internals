@@ -14,7 +14,7 @@ extractIfPathContainsTimeTravel(
 
 `extractIfPathContainsTimeTravel` is used when:
 
-* `DeltaDataSource` is requested to [sourceSchema](delta/DeltaDataSource.md#sourceSchema) and [parsePathIdentifier](delta/DeltaDataSource.md#parsePathIdentifier)
+* `DeltaDataSource` is requested to [sourceSchema](spark-connector/DeltaDataSource.md#sourceSchema) and [parsePathIdentifier](spark-connector/DeltaDataSource.md#parsePathIdentifier)
 
 ## <span id="findDeltaTableRoot"> findDeltaTableRoot
 
@@ -34,7 +34,7 @@ For `_delta_log` or `_samples` directories, `findDeltaTableRoot` returns the par
 * [DeltaTable.isDeltaTable](DeltaTable.md#isDeltaTable) utility is used
 * [VacuumTableCommand](commands/vacuum/VacuumTableCommand.md) is executed
 * `DeltaTableUtils` utility is used to [isDeltaTable](#isDeltaTable)
-* `DeltaDataSource` utility is used to [parsePathIdentifier](delta/DeltaDataSource.md#parsePathIdentifier)
+* `DeltaDataSource` utility is used to [parsePathIdentifier](spark-connector/DeltaDataSource.md#parsePathIdentifier)
 
 ## <span id="isPredicatePartitionColumnsOnly"> isPredicatePartitionColumnsOnly
 
@@ -51,7 +51,7 @@ isPredicatePartitionColumnsOnly(
 
 * `DeltaTableUtils` is used to [isPredicateMetadataOnly](#isPredicateMetadataOnly)
 * `OptimisticTransactionImpl` is requested for the [filterFiles](OptimisticTransactionImpl.md#filterFiles)
-* `DeltaSourceSnapshot` is requested for the [partition](delta/DeltaSourceSnapshot.md#partitionFilters) and [data](delta/DeltaSourceSnapshot.md#dataFilters) filters
+* `DeltaSourceSnapshot` is requested for the [partition](spark-connector/DeltaSourceSnapshot.md#partitionFilters) and [data](spark-connector/DeltaSourceSnapshot.md#dataFilters) filters
 
 ## <span id="isDeltaTable"> isDeltaTable
 
@@ -148,5 +148,5 @@ With [spark.databricks.delta.schema.removeSparkInternalMetadata](configuration-p
 
 * `DeltaLog` is requested to [buildHadoopFsRelationWithFileIndex](DeltaLog.md#buildHadoopFsRelationWithFileIndex)
 * `DeltaTableV2` is requested to [tableSchema](DeltaTableV2.md#tableSchema)
-* `DeltaDataSource` is requested to [sourceSchema](delta/DeltaDataSource.md#sourceSchema)
-* `DeltaSourceBase` is requested for the [schema](delta/DeltaSourceBase.md#schema)
+* `DeltaDataSource` is requested to [sourceSchema](spark-connector/DeltaDataSource.md#sourceSchema)
+* `DeltaSourceBase` is requested for the [schema](spark-connector/DeltaSourceBase.md#schema)

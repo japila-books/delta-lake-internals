@@ -10,7 +10,7 @@
 
 * <span id="deltaLog"> [DeltaLog](../DeltaLog.md)
 * <span id="mode"> `SaveMode`
-* <span id="options"> [DeltaOptions](../delta/DeltaOptions.md)
+* <span id="options"> [DeltaOptions](../spark-connector/DeltaOptions.md)
 * <span id="partitionColumns"> Names of the partition columns
 * [Configuration](#configuration)
 * <span id="data"> Data (`DataFrame`)
@@ -19,18 +19,18 @@
 `WriteIntoDelta` is created when:
 
 * `DeltaDynamicPartitionOverwriteCommand` is executed
-* `DeltaLog` is requested to [create an insertable HadoopFsRelation](../DeltaLog.md#createRelation) (when `DeltaDataSource` is requested to create a relation as a [CreatableRelationProvider](../delta/DeltaDataSource.md#CreatableRelationProvider) or a [RelationProvider](../delta/DeltaDataSource.md#RelationProvider))
+* `DeltaLog` is requested to [create an insertable HadoopFsRelation](../DeltaLog.md#createRelation) (when `DeltaDataSource` is requested to create a relation as a [CreatableRelationProvider](../spark-connector/DeltaDataSource.md#CreatableRelationProvider) or a [RelationProvider](../spark-connector/DeltaDataSource.md#RelationProvider))
 * `DeltaCatalog` is requested to [create a delta table](../DeltaCatalog.md#createDeltaTable)
 * `WriteIntoDeltaBuilder` is requested to [build a V1Write](../WriteIntoDeltaBuilder.md#build)
 * [CreateDeltaTableCommand](CreateDeltaTableCommand.md) is executed
-* `DeltaDataSource` is requested to [create a relation (for writing)](../delta/DeltaDataSource.md#CreatableRelationProvider-createRelation) (as a [CreatableRelationProvider](../delta/DeltaDataSource.md#CreatableRelationProvider))
+* `DeltaDataSource` is requested to [create a relation (for writing)](../spark-connector/DeltaDataSource.md#CreatableRelationProvider-createRelation) (as a [CreatableRelationProvider](../spark-connector/DeltaDataSource.md#CreatableRelationProvider))
 
 ### Configuration { #configuration }
 
 `WriteIntoDelta` is given a `configuration` when [created](#creating-instance) as follows:
 
 * Always empty for [DeltaLog](../DeltaLog.md#createRelation)
-* Always empty for [DeltaDataSource](../delta/DeltaDataSource.md#createRelation)
+* Always empty for [DeltaDataSource](../spark-connector/DeltaDataSource.md#createRelation)
 * Existing properties of a delta table in [DeltaCatalog](../DeltaCatalog.md#createDeltaTable) (with the `comment` key based on the value in the catalog)
 * Existing [configuration](../Metadata.md#configuration) (of the [Metadata](../Snapshot.md#metadata) of the [Snapshot](../DeltaLog.md#snapshot) of the [DeltaLog](../WriteIntoDeltaBuilder.md#log)) for [WriteIntoDeltaBuilder](../WriteIntoDeltaBuilder.md#build)
 * Existing properties of a delta table for [CreateDeltaTableCommand](CreateDeltaTableCommand.md) (with the `comment` key based on the value in the catalog)
@@ -62,7 +62,7 @@ schemaInCatalog: Option[StructType] = None
 
 `run` requests the [DeltaLog](#deltaLog) to [start a new transaction](../DeltaLog.md#withNewTransaction).
 
-`run` [writes](#write) and requests the `OptimisticTransaction` to [commit](../OptimisticTransactionImpl.md#commit) (with `DeltaOperations.Write` operation with the [SaveMode](#mode), [partition columns](#partitionColumns), [replaceWhere](../delta/options.md#replaceWhere) and [userMetadata](../delta/options.md#userMetadata)).
+`run` [writes](#write) and requests the `OptimisticTransaction` to [commit](../OptimisticTransactionImpl.md#commit) (with `DeltaOperations.Write` operation with the [SaveMode](#mode), [partition columns](#partitionColumns), [replaceWhere](../spark-connector/options.md#replaceWhere) and [userMetadata](../spark-connector/options.md#userMetadata)).
 
 ## Writing Out Data { #write }
 
@@ -84,7 +84,7 @@ write(
 
 * For `Overwrite`, `write` requests the [DeltaLog](#deltaLog) to [assert being removable](../DeltaLog.md#assertRemovable)
 
-`write` [updateMetadata](../ImplicitMetadataOperation.md#updateMetadata) (with [rearrangeOnly](../delta/DeltaWriteOptionsImpl.md#rearrangeOnly) option).
+`write` [updateMetadata](../ImplicitMetadataOperation.md#updateMetadata) (with [rearrangeOnly](../spark-connector/DeltaWriteOptionsImpl.md#rearrangeOnly) option).
 
 `write`...FIXME
 
@@ -158,9 +158,9 @@ writeCmd.run(spark)
 
 `canOverwriteSchema` is `true` when all the following hold:
 
-1. [canOverwriteSchema](../delta/DeltaWriteOptionsImpl.md#canOverwriteSchema) is enabled (`true`) (in the [DeltaOptions](#options))
+1. [canOverwriteSchema](../spark-connector/DeltaWriteOptionsImpl.md#canOverwriteSchema) is enabled (`true`) (in the [DeltaOptions](#options))
 1. This `WriteIntoDelta` is [overwrite](#isOverwriteOperation) operation
-1. [replaceWhere](../delta/DeltaWriteOptions.md#replaceWhere) option is not defined (in the [DeltaOptions](#options))
+1. [replaceWhere](../spark-connector/DeltaWriteOptions.md#replaceWhere) option is not defined (in the [DeltaOptions](#options))
 
 ## <span id="isOverwriteOperation"> isOverwriteOperation
 

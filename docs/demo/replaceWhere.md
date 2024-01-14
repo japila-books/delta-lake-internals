@@ -5,7 +5,7 @@ hide:
 
 # Demo: replaceWhere
 
-This demo shows [replaceWhere](../delta/options.md#replaceWhere) predicate option.
+This demo shows [replaceWhere](../spark-connector/options.md#replaceWhere) predicate option.
 
 In combination with `Overwrite` mode, a `replaceWhere` option can be used to transactionally replace data that matches a predicate.
 

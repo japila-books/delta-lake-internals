@@ -23,7 +23,7 @@
 * `DelayedCommitProtocol` is requested to [buildActionFromAddedFile](DelayedCommitProtocol.md#buildActionFromAddedFile)
 * `TahoeChangeFileIndex` is requested to `matchingFiles`
 * `TahoeRemoveFileIndex` is requested to [matchingFiles](change-data-feed/TahoeRemoveFileIndex.md#matchingFiles)
-* `DeltaSource` is requested to [filterAndGetIndexedFiles](delta/DeltaSource.md#filterAndGetIndexedFiles) (for a sentinel)
+* `DeltaSource` is requested to [filterAndGetIndexedFiles](spark-connector/DeltaSource.md#filterAndGetIndexedFiles) (for a sentinel)
 
 ### dataChange { #dataChange }
 
@@ -45,7 +45,7 @@
 `dataChange` is disabled (`false`) when:
 
 * `TahoeChangeFileIndex` is requested to [matchingFiles](change-data-feed/TahoeChangeFileIndex.md#matchingFiles)
-* `DeltaSource` is requested to [filterAndGetIndexedFiles](delta/DeltaSource.md#filterAndGetIndexedFiles) (for a sentinel)
+* `DeltaSource` is requested to [filterAndGetIndexedFiles](spark-connector/DeltaSource.md#filterAndGetIndexedFiles) (for a sentinel)
 
 `dataChange` can also be specified when:
 
@@ -123,7 +123,7 @@ remove: RemoveFile
 
 * [MergeIntoCommand](commands/merge/MergeIntoCommand.md) is executed
 * `WriteIntoDelta` is requested to [write](commands/WriteIntoDelta.md#write) (with `Overwrite` mode)
-* `DeltaSink` is requested to [add a streaming micro-batch](delta/DeltaSink.md#addBatch) (with `Complete` output mode)
+* `DeltaSink` is requested to [add a streaming micro-batch](spark-connector/DeltaSink.md#addBatch) (with `Complete` output mode)
 
 ## Converting to RemoveFile { #removeWithTimestamp }
 

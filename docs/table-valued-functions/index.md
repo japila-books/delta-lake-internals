@@ -37,7 +37,7 @@ The CDF Table-Valued Functions are resolved (using [DeltaAnalysis](../DeltaAnaly
 
 * `startingVersion` or `startingTimestamp`
 * `endingVersion` or `endingTimestamp`
-* [readChangeFeed](../delta/DeltaDataSource.md#CDC_ENABLED_KEY) enabled
+* [readChangeFeed](../spark-connector/DeltaDataSource.md#CDC_ENABLED_KEY) enabled
 
 ## Demo
 

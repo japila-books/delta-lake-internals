@@ -83,9 +83,9 @@ replaceMetadataIfNecessary(
 
 `replaceMetadataIfNecessary` determines whether or not it is a replace operation (i.e., `CreateOrReplace` or `Replace` based on the [CreationMode](#operation)).
 
-`replaceMetadataIfNecessary` determines whether or not it is supposed not to overwrite the schema of a Delta table (based on the [overwriteSchema](../delta/DeltaWriteOptionsImpl.md#canOverwriteSchema) option in the input [DeltaOptions](../delta/DeltaOptions.md)).
+`replaceMetadataIfNecessary` determines whether or not it is supposed not to overwrite the schema of a Delta table (based on the [overwriteSchema](../spark-connector/DeltaWriteOptionsImpl.md#canOverwriteSchema) option in the input [DeltaOptions](../spark-connector/DeltaOptions.md)).
 
-In the end, only for an `CreateOrReplace` or `Replace` operation on an existing delta table with [overwriteSchema](../delta/DeltaWriteOptionsImpl.md#canOverwriteSchema) option enabled, `replaceMetadataIfNecessary` [updates the metadata](../OptimisticTransactionImpl.md#updateMetadataForNewTable) (on the given [OptimisticTransaction](../OptimisticTransaction.md)) with the given `schema`.
+In the end, only for an `CreateOrReplace` or `Replace` operation on an existing delta table with [overwriteSchema](../spark-connector/DeltaWriteOptionsImpl.md#canOverwriteSchema) option enabled, `replaceMetadataIfNecessary` [updates the metadata](../OptimisticTransactionImpl.md#updateMetadataForNewTable) (on the given [OptimisticTransaction](../OptimisticTransaction.md)) with the given `schema`.
 
 #### <span id="replaceMetadataIfNecessary-DeltaIllegalArgumentException"> DeltaIllegalArgumentException
 

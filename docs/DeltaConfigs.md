@@ -322,7 +322,7 @@ validateConfigurations(
 
 * `DeltaCatalog` is requested to [verifyTableAndSolidify](DeltaCatalog.md#verifyTableAndSolidify), [alterTable](DeltaCatalog.md#alterTable)
 * `CloneTableBase` is requested to [runInternal](commands/clone/CloneTableBase.md#runInternal)
-* `DeltaDataSource` is requested to [create a BaseRelation](delta/DeltaDataSource.md#createRelation)
+* `DeltaDataSource` is requested to [create a BaseRelation](spark-connector/DeltaDataSource.md#createRelation)
 
 ## normalizeConfigKeys { #normalizeConfigKeys }
 

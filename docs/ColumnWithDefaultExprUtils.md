@@ -50,10 +50,10 @@ isIdentityColumn(
   field: StructField): Boolean
 ```
 
-`isIdentityColumn` uses the `Metadata` (of the given `StructField`) to check the existence of [delta.identity.start](delta/DeltaSourceUtils.md#IDENTITY_INFO_START), [delta.identity.step](delta/DeltaSourceUtils.md#IDENTITY_INFO_STEP) and [delta.identity.allowExplicitInsert](delta/DeltaSourceUtils.md#IDENTITY_INFO_ALLOW_EXPLICIT_INSERT) metadata keys.
+`isIdentityColumn` uses the `Metadata` (of the given `StructField`) to check the existence of [delta.identity.start](spark-connector/DeltaSourceUtils.md#IDENTITY_INFO_START), [delta.identity.step](spark-connector/DeltaSourceUtils.md#IDENTITY_INFO_STEP) and [delta.identity.allowExplicitInsert](spark-connector/DeltaSourceUtils.md#IDENTITY_INFO_ALLOW_EXPLICIT_INSERT) metadata keys.
 
 !!! note "IDENTITY column"
-    **IDENTITY column** is a column with [delta.identity.start](delta/DeltaSourceUtils.md#IDENTITY_INFO_START), [delta.identity.step](delta/DeltaSourceUtils.md#IDENTITY_INFO_STEP) and [delta.identity.allowExplicitInsert](delta/DeltaSourceUtils.md#IDENTITY_INFO_ALLOW_EXPLICIT_INSERT) metadata.
+    **IDENTITY column** is a column with [delta.identity.start](spark-connector/DeltaSourceUtils.md#IDENTITY_INFO_START), [delta.identity.step](spark-connector/DeltaSourceUtils.md#IDENTITY_INFO_STEP) and [delta.identity.allowExplicitInsert](spark-connector/DeltaSourceUtils.md#IDENTITY_INFO_ALLOW_EXPLICIT_INSERT) metadata.
 
 `isIdentityColumn` is used when:
 
@@ -74,8 +74,8 @@ removeDefaultExpressions(
 * `DeltaLog` is requested to [create a BaseRelation](DeltaLog.md#createRelation) and [createDataFrame](DeltaLog.md#createDataFrame)
 * `OptimisticTransactionImpl` is requested to [updateMetadataInternal](OptimisticTransactionImpl.md#updateMetadataInternal)
 * `DeltaTableV2` is requested for the [tableSchema](DeltaTableV2.md#tableSchema)
-* `DeltaDataSource` is requested for the [sourceSchema](delta/DeltaDataSource.md#sourceSchema)
-* `DeltaSourceBase` is requested for the [schema](delta/DeltaSource.md#schema)
+* `DeltaDataSource` is requested for the [sourceSchema](spark-connector/DeltaDataSource.md#sourceSchema)
+* `DeltaSourceBase` is requested for the [schema](spark-connector/DeltaSource.md#schema)
 
 ## <span id="tableHasDefaultExpr"> tableHasDefaultExpr
 

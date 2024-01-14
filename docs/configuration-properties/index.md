@@ -148,7 +148,7 @@ Used when:
 * `TransactionalWrite` is requested to [writeFiles](../TransactionalWrite.md#writeFiles)
 
 !!! note "Github Commit"
-    The feature was added as part of [[SC-24567][DELTA] Add additional metrics to Describe Delta History](https://github.com/delta-io/delta/commit/54643efc07dfaa9028d228dcad6502d59e4bdb3a) commit.
+    The feature was added as part of [[SC-24567][DELTA] Add additional metrics to Describe Delta History]({{ delta.commit }}/54643efc07dfaa9028d228dcad6502d59e4bdb3a) commit.
 
 ### <span id="import.batchSize.schemaInference"><span id="DELTA_IMPORT_BATCH_SIZE_SCHEMA_INFERENCE"> import.batchSize.schemaInference
 
@@ -399,7 +399,7 @@ Used when:
 
 **spark.databricks.delta.replaceWhere.constraintCheck.enabled**
 
-Controls whether or not [replaceWhere](../delta/options.md#replaceWhere) on arbitrary expression and arbitrary columns enforces [constraints](../constraints/index.md) to replace the target table only when all the rows in the source dataframe match that constraint.
+Controls whether or not [replaceWhere](../spark-connector/options.md#replaceWhere) on arbitrary expression and arbitrary columns enforces [constraints](../constraints/index.md) to replace the target table only when all the rows in the source dataframe match that constraint.
 
 If disabled, it will skip the constraint check and replace with all the rows from the new dataframe.
 
@@ -429,13 +429,13 @@ Enables schema merging on appends (UPDATEs) and overwrites (INSERTs).
 
 Default: `false`
 
-Equivalent DataFrame option: [mergeSchema](../delta/options.md#mergeSchema)
+Equivalent DataFrame option: [mergeSchema](../spark-connector/options.md#mergeSchema)
 
 Used when:
 
 * `DeltaMergeInto` utility is used to [resolveReferencesAndSchema](../commands/merge/DeltaMergeInto.md#resolveReferencesAndSchema)
 * `MetadataMismatchErrorBuilder` is requested to `addSchemaMismatch`
-* `DeltaWriteOptionsImpl` is requested for [canMergeSchema](../delta/DeltaWriteOptionsImpl.md#canMergeSchema)
+* `DeltaWriteOptionsImpl` is requested for [canMergeSchema](../spark-connector/DeltaWriteOptionsImpl.md#canMergeSchema)
 * `MergeIntoCommand` is requested for [canMergeSchema](../commands/merge/MergeIntoCommand.md#canMergeSchema)
 
 ### <span id="DELTA_SCHEMA_REMOVE_SPARK_INTERNAL_METADATA"> schema.removeSparkInternalMetadata { #schema.removeSparkInternalMetadata }

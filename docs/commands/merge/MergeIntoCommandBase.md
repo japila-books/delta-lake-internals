@@ -435,7 +435,7 @@ includesInserts: Boolean
 
     `canMergeSchema` is part of the [ImplicitMetadataOperation](../../ImplicitMetadataOperation.md#canMergeSchema) abstraction.
 
-`canMergeSchema` creates a [DeltaOptions](../../delta/DeltaOptions.md) for the [canMergeSchema](../../delta/DeltaWriteOptionsImpl.md#canMergeSchema) (based on the [SQLConf](#conf) only).
+`canMergeSchema` creates a [DeltaOptions](../../spark-connector/DeltaOptions.md) for the [canMergeSchema](../../spark-connector/DeltaWriteOptionsImpl.md#canMergeSchema) (based on the [SQLConf](#conf) only).
 
 ??? note "Options always empty"
     Delta options cannot be passed to MERGE INTO, so they will always be empty and `canMergeSchema` relies on the [SQLConf](#conf) only.

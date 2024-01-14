@@ -35,7 +35,7 @@ registerSQLMetrics(
 
 * [DeleteCommand](commands/delete/DeleteCommand.md), [MergeIntoCommand](commands/merge/MergeIntoCommand.md), [UpdateCommand](commands/update/UpdateCommand.md) commands are executed
 * `TransactionalWrite` is requested to [writeFiles](TransactionalWrite.md#writeFiles)
-* `DeltaSink` is requested to [addBatch](delta/DeltaSink.md#addBatch)
+* `DeltaSink` is requested to [addBatch](spark-connector/DeltaSink.md#addBatch)
 
 ## <span id="getMetricsForOperation"> Operation Metrics
 

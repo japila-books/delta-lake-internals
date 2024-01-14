@@ -4,7 +4,7 @@
 
 Delta Lake allows you to store data on blob stores like HDFS, S3, Azure Data Lake, GCS, query from many processing engines including Apache Spark, Trino, Apache Hive, Apache Flink, and provides APIs for Scala, Java, Python, Rust, and Ruby.
 
-As [it was well said](https://github.com/delta-io/delta/issues/467#issuecomment-696708455): _"Delta is a storage format while Spark is an execution engine...to separate storage from compute."_ Yet, Delta Lake can run with other execution engines like [Trino](https://trino.io/docs/current/connector/delta-lake.html) or [Apache Flink](https://github.com/delta-io/connectors/tree/master/flink).
+As [it was well said]({{ delta.issues }}/467#issuecomment-696708455): _"Delta is a storage format while Spark is an execution engine...to separate storage from compute."_ Yet, Delta Lake can run with other execution engines like [Trino](https://trino.io/docs/current/connector/delta-lake.html) or [Apache Flink](https://github.com/delta-io/connectors/tree/master/flink).
 
 Delta Lake {{ delta.version }} supports Apache Spark {{ spark.version }} (cf. [build.sbt]({{ delta.github }}/build.sbt#L28)).
 
@@ -31,7 +31,7 @@ The following commands and operations can [transactionally write new data files 
 * [OptimizeTableCommand](./commands/optimize/OptimizeTableCommand.md)
 * [UpdateCommand](commands/update/UpdateCommand.md)
 * [WriteIntoDelta](commands/WriteIntoDelta.md)
-* [DeltaSink](delta/DeltaSink.md#addBatch)
+* [DeltaSink](spark-connector/DeltaSink.md#addBatch)
 
 ## Developer APIs
 
@@ -43,30 +43,30 @@ Delta Lake provides the following [Developer APIs](developer-api.md) for develop
 
 ## Structured Queries
 
-Delta Lake supports batch and streaming queries (Spark SQL and Structured Streaming, respectively) using [delta](delta/DeltaDataSource.md#DataSourceRegister) format.
+Delta Lake supports batch and streaming queries (Spark SQL and Structured Streaming, respectively) using [delta](spark-connector/DeltaDataSource.md#DataSourceRegister) format.
 
-In order to fine tune queries over data in Delta Lake use [options](delta/options.md).
+In order to fine tune queries over data in Delta Lake use [options](spark-connector/options.md).
 
 Structured queries can write (transactionally) to a delta table using the following interfaces:
 
 * [WriteIntoDelta](commands/WriteIntoDelta.md) command for batch queries (Spark SQL)
-* [DeltaSink](delta/DeltaSink.md) for streaming queries (Spark Structured Streaming)
+* [DeltaSink](spark-connector/DeltaSink.md) for streaming queries (Spark Structured Streaming)
 
 ### Batch Queries
 
 Delta Lake supports reading and writing in batch queries:
 
-* [Batch reads](delta/DeltaDataSource.md#RelationProvider) (as a `RelationProvider`)
+* [Batch reads](spark-connector/DeltaDataSource.md#RelationProvider) (as a `RelationProvider`)
 
-* [Batch writes](delta/DeltaDataSource.md#CreatableRelationProvider) (as a `CreatableRelationProvider`)
+* [Batch writes](spark-connector/DeltaDataSource.md#CreatableRelationProvider) (as a `CreatableRelationProvider`)
 
 ### Streaming Queries
 
 Delta Lake supports reading and writing in streaming queries:
 
-* [Stream reads](delta/DeltaDataSource.md#StreamSourceProvider) (as a `Source`)
+* [Stream reads](spark-connector/DeltaDataSource.md#StreamSourceProvider) (as a `Source`)
 
-* [Stream writes](delta/DeltaDataSource.md#StreamSinkProvider) (as a `Sink`)
+* [Stream writes](spark-connector/DeltaDataSource.md#StreamSinkProvider) (as a `Sink`)
 
 ## LogStore
 

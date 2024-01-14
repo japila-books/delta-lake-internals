@@ -124,7 +124,7 @@ With `stalenessAcceptable` flag turned off (the default value) and the state sna
 * `OptimisticTransactionImpl` is requested to [doCommit](OptimisticTransactionImpl.md#doCommit) and [getNextAttemptVersion](OptimisticTransactionImpl.md#getNextAttemptVersion)
 * `DeltaTableV2` is requested for a [Snapshot](DeltaTableV2.md#snapshot)
 * `TahoeLogFileIndex` is requested for a [Snapshot](TahoeLogFileIndex.md#getSnapshot)
-* `DeltaSource` is requested for the [getStartingVersion](delta/DeltaSource.md#getStartingVersion)
+* `DeltaSource` is requested for the [getStartingVersion](spark-connector/DeltaSource.md#getStartingVersion)
 * In [Delta commands](commands/DeltaCommand.md)...
 
 ### <span id="isSnapshotStale"> isSnapshotStale
