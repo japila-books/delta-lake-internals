@@ -1526,6 +1526,16 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://books.japila.pl/delta-lake-internals/spark-connector/DeltaSourceMetadataEvolutionSupport/</loc>
+         <lastmod>2024-01-14</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://books.japila.pl/delta-lake-internals/spark-connector/DeltaSourceMetadataTrackingLog/</loc>
+         <lastmod>2024-01-14</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://books.japila.pl/delta-lake-internals/spark-connector/DeltaSourceOffset/</loc>
          <lastmod>2024-01-14</lastmod>
          <changefreq>daily</changefreq>
