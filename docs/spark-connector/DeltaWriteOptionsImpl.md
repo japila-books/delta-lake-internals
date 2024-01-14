@@ -21,7 +21,7 @@ canMergeSchema: Boolean
 * `WriteIntoDelta` is [created](../commands/WriteIntoDelta.md#canMergeSchema)
 * `DeltaSink` is [created](DeltaSink.md#canMergeSchema)
 
-## <span id="canOverwriteSchema"> canOverwriteSchema
+## canOverwriteSchema { #canOverwriteSchema }
 
 ```scala
 canOverwriteSchema: Boolean
@@ -35,14 +35,30 @@ canOverwriteSchema: Boolean
 * `WriteIntoDelta` is [created](../commands/WriteIntoDelta.md#canOverwriteSchema)
 * `DeltaSink` is [created](DeltaSink.md#canOverwriteSchema)
 
-## <span id="rearrangeOnly"> rearrangeOnly
+## rearrangeOnly { #rearrangeOnly }
 
 ```scala
 rearrangeOnly: Boolean
 ```
 
-`rearrangeOnly` is the value of [dataChange](options.md#DATA_CHANGE_OPTION) option.
+`rearrangeOnly` is the negation of the value of [dataChange](options.md#DATA_CHANGE_OPTION) option.
+
+---
 
 `rearrangeOnly` is used when:
 
 * `WriteIntoDelta` is requested to [write](../commands/WriteIntoDelta.md#write)
+
+## isDynamicPartitionOverwriteMode { #isDynamicPartitionOverwriteMode }
+
+```scala
+isDynamicPartitionOverwriteMode: Boolean
+```
+
+`isDynamicPartitionOverwriteMode`...FIXME
+
+---
+
+`isDynamicPartitionOverwriteMode` is used when:
+
+* `WriteIntoDelta` is requested to [write data out](../commands/WriteIntoDelta.md#write)

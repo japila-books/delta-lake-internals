@@ -4,9 +4,9 @@ title: Options
 
 # Options
 
-## <span id="checkpointLocation"> checkpointLocation
+## checkpointLocation { #checkpointLocation }
 
-Checkpoint directory for storing checkpoint data of streaming queries ([Spark Structured Streaming]({{ book.structured_streaming }}/configuration-properties/#spark.sql.streaming.checkpointLocation)).
+Checkpoint directory for streaming queries ([Spark Structured Streaming]({{ book.structured_streaming }}/configuration-properties/#spark.sql.streaming.checkpointLocation)).
 
 ## <span id="DATA_CHANGE_OPTION"><span id="dataChange"> dataChange
 
@@ -73,11 +73,13 @@ Enables schema migration (and allows automatic schema merging during a write ope
 
 Equivalent SQL Session configuration: [spark.databricks.delta.schema.autoMerge.enabled](../configuration-properties/DeltaSQLConf.md#DELTA_SCHEMA_AUTO_MIGRATE)
 
-## <span id="OPTIMIZE_WRITE_OPTION"><span id="optimizeWrite"> optimizeWrite
+## <span id="OPTIMIZE_WRITE_OPTION"> optimizeWrite { #optimizeWrite }
 
-Enables...FIXME
+`optimizeWrite` is a writer option.
 
-## <span id="OVERWRITE_SCHEMA_OPTION"><span id="overwriteSchema"> overwriteSchema
+!!! danger "Not used"
+
+## <span id="OVERWRITE_SCHEMA_OPTION"> overwriteSchema { #overwriteSchema }
 
 Enables overwriting schema or change partitioning of a delta table during an overwrite write operation
 
@@ -86,7 +88,17 @@ Use [DeltaOptions.canOverwriteSchema](DeltaWriteOptionsImpl.md#canOverwriteSchem
 !!! note
     The schema cannot be overwritten when using [replaceWhere](#REPLACE_WHERE_OPTION) option.
 
-## <span id="path"> path
+## <span id="PARTITION_OVERWRITE_MODE_OPTION"> partitionOverwriteMode { #partitionOverwriteMode }
+
+Mutually exclusive with [replaceWhere](#replaceWhere)
+
+Used when:
+
+* `DeltaDynamicPartitionOverwriteCommand` is executed
+* `DeltaWriteOptionsImpl` is requested to [isDynamicPartitionOverwriteMode](DeltaWriteOptionsImpl.md#isDynamicPartitionOverwriteMode) and for [partitionOverwriteModeInOptions](DeltaWriteOptionsImpl.md#partitionOverwriteModeInOptions)
+* `WriteIntoDeltaBuilder` is requested to [overwriteDynamicPartitions](../WriteIntoDeltaBuilder.md#overwriteDynamicPartitions)
+
+## path { #path }
 
 **(required)** Directory on a Hadoop DFS-compliant file system with an optional [time travel](../time-travel/index.md) identifier
 
@@ -121,9 +133,11 @@ Use [DeltaOptions.readChangeFeed](DeltaReadOptions.md#readChangeFeed) for the va
 
 ## <span id="REPLACE_WHERE_OPTION"> replaceWhere { #replaceWhere }
 
-Partition predicates (unless [replaceWhere.dataColumns.enabled](../configuration-properties/DeltaSQLConf.md#replaceWhere.dataColumns.enabled) is enabled to allow for arbitrary non-partition data predicates)
+Partition predicates to overwrite only the data that matches predicates over partition columns (unless [replaceWhere.dataColumns.enabled](../configuration-properties/DeltaSQLConf.md#replaceWhere.dataColumns.enabled) is enabled)
 
 Available as [DeltaWriteOptions.replaceWhere](DeltaWriteOptions.md#replaceWhere)
+
+Mutually exclusive with [partitionOverwriteMode](#partitionOverwriteMode)
 
 !!! example "Demo"
     Learn more in [Demo: replaceWhere](../demo/replaceWhere.md).

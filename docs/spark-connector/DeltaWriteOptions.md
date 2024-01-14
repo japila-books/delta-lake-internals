@@ -4,7 +4,7 @@
 
 `DeltaWriteOptions` is [DeltaWriteOptionsImpl](DeltaWriteOptionsImpl.md) and [DeltaOptionParser](DeltaOptionParser.md).
 
-## <span id="replaceWhere"> replaceWhere
+## replaceWhere { #replaceWhere }
 
 ```scala
 replaceWhere: Option[String]
@@ -12,12 +12,14 @@ replaceWhere: Option[String]
 
 `replaceWhere` is the value of [replaceWhere](options.md#REPLACE_WHERE_OPTION) option.
 
+---
+
 `replaceWhere` is used when:
 
-* `WriteIntoDelta` command is [created](../commands/WriteIntoDelta.md#canOverwriteSchema) and [executed](../commands/WriteIntoDelta.md#run)
 * `CreateDeltaTableCommand` command is requested for a [Delta Operation](../commands/CreateDeltaTableCommand.md#getOperation) (for history purposes)
+* `WriteIntoDelta` command is [created](../commands/WriteIntoDelta.md#canOverwriteSchema), [executed](../commands/WriteIntoDelta.md#run) and requested to [write](../commands/WriteIntoDelta.md#write)
 
-## <span id="userMetadata"> userMetadata
+## userMetadata { #userMetadata }
 
 ```scala
 userMetadata: Option[String]
@@ -25,7 +27,7 @@ userMetadata: Option[String]
 
 `userMetadata` is the value of [userMetadata](options.md#USER_METADATA_OPTION) option.
 
-## <span id="optimizeWrite"> optimizeWrite
+## optimizeWrite { #optimizeWrite }
 
 ```scala
 optimizeWrite: Option[Boolean]
