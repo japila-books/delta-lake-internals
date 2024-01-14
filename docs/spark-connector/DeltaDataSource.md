@@ -227,26 +227,22 @@ Data source [dataSource] does not support [outputMode] output mode
 
 `createSink` is part of the `StreamSinkProvider` ([Spark Structured Streaming]({{ book.structured_streaming }}/StreamSinkProvider/#createSink)) abstraction.
 
-## <span id="TableProvider"> TableProvider
+## TableProvider { #TableProvider }
 
-`DeltaDataSource` is a`TableProvider` ([Spark SQL]({{ book.spark_sql }}/connector/TableProvider)).
+`DeltaDataSource` is a `TableProvider` ([Spark SQL]({{ book.spark_sql }}/connector/TableProvider)).
 
-`DeltaDataSource` allows registering Delta tables in a `HiveMetaStore`. Delta creates a transaction log at the table root directory, and the Hive MetaStore contains no information but the table format and the location of the table. All table properties, schema and partitioning information live in the transaction log to avoid a split brain situation.
+### Loading Delta Table { #getTable }
 
-The feature was added in [SC-34233](https://github.com/delta-io/commit/5cc383496b35905d3b7911a1f3418777156464c9).
+??? note "TableProvider"
 
-### <span id="getTable"> Loading Delta Table
+    ```scala
+    getTable(
+      schema: StructType,
+      partitioning: Array[Transform],
+      properties: Map[String, String]): Table
+    ```
 
-```scala
-getTable(
-  schema: StructType,
-  partitioning: Array[Transform],
-  properties: Map[String, String]): Table
-```
-
-`getTable` is part of the `TableProvider` ([Spark SQL]({{ book.spark_sql }}/connector/TableProvider#getTable)) abstraction.
-
----
+    `getTable` is part of the `TableProvider` ([Spark SQL]({{ book.spark_sql }}/connector/TableProvider#getTable)) abstraction.
 
 `getTable` creates a [DeltaTableV2](../DeltaTableV2.md) (with the [path](../DeltaTableV2.md#path) from the given `properties`).
 
@@ -257,6 +253,26 @@ getTable(
 ```text
 'path' is not specified
 ```
+
+## Schema Tracking Location { #extractSchemaTrackingLocationConfig }
+
+```scala
+extractSchemaTrackingLocationConfig(
+  spark: SparkSession,
+  parameters: Map[String, String]): Option[String]
+```
+
+`extractSchemaTrackingLocationConfig` is the value of the following options (if defined):
+
+* [schemaTrackingLocation](options.md#schemaTrackingLocation)
+* [schemaLocation](options.md#schemaLocation)
+
+---
+
+`extractSchemaTrackingLocationConfig` is used when:
+
+* `DeltaAnalysis` is requested to [verifyDeltaSourceSchemaLocation](../DeltaAnalysis.md#verifyDeltaSourceSchemaLocation)
+* `DeltaDataSource` is requested for a [DeltaSourceMetadataTrackingLog](#getMetadataTrackingLogForDeltaSource)
 
 ## <span id="getTimeTravelVersion"> Creating DeltaTimeTravelSpec
 

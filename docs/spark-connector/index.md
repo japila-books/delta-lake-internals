@@ -32,25 +32,3 @@ The options can be defined using `option` method of the following:
 * SQL queries
 
 The options are available at runtime as [DeltaOptions](DeltaOptions.md).
-
-```scala
-import org.apache.spark.sql.delta.DeltaOptions
-```
-
-```scala
-assert(DeltaOptions.OVERWRITE_SCHEMA_OPTION == "overwriteSchema")
-```
-
-```scala
-val options = new DeltaOptions(Map.empty[String, String], spark.sessionState.conf)
-assert(options.failOnDataLoss, "failOnDataLoss should be enabled by default")
-```
-
-```scala
-val options = new DeltaOptions(
-  Map(DeltaOptions.OVERWRITE_SCHEMA_OPTION -> true.toString),
-  spark.sessionState.conf)
-assert(
-  options.canOverwriteSchema,
-  s"${DeltaOptions.OVERWRITE_SCHEMA_OPTION} should be enabled")
-```

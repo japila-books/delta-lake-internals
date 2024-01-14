@@ -6,7 +6,9 @@ Delta Lake allows you to store data on blob stores like HDFS, S3, Azure Data Lak
 
 As [it was well said]({{ delta.issues }}/467#issuecomment-696708455): _"Delta is a storage format while Spark is an execution engine...to separate storage from compute."_ Yet, Delta Lake can run with other execution engines like [Trino](https://trino.io/docs/current/connector/delta-lake.html) or [Apache Flink](https://github.com/delta-io/connectors/tree/master/flink).
 
-Delta Lake {{ delta.version }} supports Apache Spark {{ spark.version }} (cf. [build.sbt]({{ delta.github }}/build.sbt#L28)).
+Delta tables can be registered in a table catalog. Delta Lake creates a transaction log at the root directory of a table, and the catalog contains no information but the table format and the location of the table. All table properties, schema and partitioning information live in the transaction log to avoid a "split brain" situation ([Wikipedia](https://en.wikipedia.org/wiki/Split-brain_(computing))).
+
+Delta Lake {{ delta.version }} supports Apache Spark {{ spark.version }} (cf. [build.sbt]({{ delta.github }}/build.sbt#L38)).
 
 ## Delta Tables
 
