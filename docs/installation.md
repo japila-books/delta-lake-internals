@@ -7,7 +7,7 @@ Installation of Delta Lake boils down to using spark-submit's `--packages` comma
 
 Make sure that the version of Scala in Apache Spark should match Delta Lake's.
 
-## <span id="application"> Spark SQL Application
+## Spark SQL Application { #application }
 
 ```scala
 import org.apache.spark.sql.SparkSession
@@ -22,17 +22,17 @@ val spark = SparkSession
 
 ```text
 ./bin/spark-shell \
-  --packages io.delta:delta-core_2.12:{{ delta.version }} \
+  --packages io.delta:delta-spark_2.13:3.1.0 \
   --conf spark.sql.extensions=io.delta.sql.DeltaSparkSessionExtension \
   --conf spark.sql.catalog.spark_catalog=org.apache.spark.sql.delta.catalog.DeltaCatalog
 ```
 
-## <span id="VERSION"> Version
+## Version { #VERSION }
 
 `io.delta.VERSION` can be used to show the version of Delta Lake installed.
 
 ```scala
-assert(io.delta.VERSION == "{{ delta.version }}")
+assert(io.delta.VERSION == "3.1.0")
 ```
 
 It is also possible to use [DESCRIBE HISTORY](sql/index.md#describe-history) and check out the [engineInfo](CommitInfo.md#engineInfo) column.
