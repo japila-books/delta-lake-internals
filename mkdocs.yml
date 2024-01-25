@@ -152,6 +152,7 @@ nav:
   - Features:
     - features/index.md
     - ... | append-only-tables/**.md
+    - ... | auto-compaction/**.md
     - ... | change-data-feed/**.md
     - ... | table-valued-functions/**.md
     - ... | check-constraints/**.md

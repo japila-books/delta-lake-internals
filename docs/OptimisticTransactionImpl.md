@@ -698,11 +698,17 @@ registerPostCommitHook(
   hook: PostCommitHook): Unit
 ```
 
+??? warning "Procedure"
+    `registerPostCommitHook` is a procedure (returns `Unit`) so _what happens inside stays inside_ (paraphrasing the [former advertising slogan of Las Vegas, Nevada](https://idioms.thefreedictionary.com/what+happens+in+Vegas+stays+in+Vegas)).
+
 `registerPostCommitHook` registers (_adds_) the given [PostCommitHook](post-commit-hooks/PostCommitHook.md) to the [postCommitHooks](#postCommitHooks) internal registry.
+
+---
 
 `registerPostCommitHook` is used when:
 
-* `OptimisticTransactionImpl` is created (and registers [CheckpointHook](checkpoints/CheckpointHook.md)) and [commitImpl](#commitImpl) (to register [GenerateSymlinkManifest](post-commit-hooks/GenerateSymlinkManifest.md))
+* `OptimisticTransactionImpl` is requested to [commitImpl](#commitImpl)
+* `TransactionalWrite` is requested to [write data out](TransactionalWrite.md#writeFiles)
 
 ## setNewProtocolWithFeaturesEnabledByMetadata { #setNewProtocolWithFeaturesEnabledByMetadata }
 

@@ -1,6 +1,6 @@
 # PostCommitHook
 
-`PostCommitHook` is an [abstraction](#contract) of [post-commit hooks](#implementations) to be [executed](#run) right after a successful [transaction commit](../OptimisticTransactionImpl.md#commit)).
+`PostCommitHook` is an [abstraction](#contract) of [post-commit hooks](#implementations) to be [executed](#run) at the end of a successful [transaction commit](../OptimisticTransactionImpl.md#commit).
 
 ## Contract
 
@@ -14,6 +14,7 @@ User-friendly name of the hook (for error reporting)
 
 See:
 
+* [AutoCompactBase](../auto-compaction/AutoCompactBase.md#name)
 * [CheckpointHook](../checkpoints/CheckpointHook.md#name)
 
 Used when:
@@ -32,8 +33,12 @@ run(
   committedActions: Seq[Action]): Unit
 ```
 
+??? warning "Procedure"
+    `run` is a procedure (returns `Unit`) so _what happens inside stays inside_ (paraphrasing the [former advertising slogan of Las Vegas, Nevada](https://idioms.thefreedictionary.com/what+happens+in+Vegas+stays+in+Vegas)).
+
 See:
 
+* [AutoCompactBase](../auto-compaction/AutoCompactBase.md#run)
 * [CheckpointHook](../checkpoints/CheckpointHook.md#run)
 
 Used when:
@@ -42,5 +47,8 @@ Used when:
 
 ## Implementations
 
+* [AutoCompactBase](../auto-compaction/AutoCompactBase.md)
 * [CheckpointHook](../checkpoints/CheckpointHook.md)
 * [GenerateSymlinkManifestImpl](GenerateSymlinkManifest.md)
+* `IcebergConverterHook`
+* `UpdateCatalogBase`
