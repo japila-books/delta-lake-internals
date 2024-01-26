@@ -513,6 +513,62 @@ postCommitHooks: ArrayBuffer[PostCommitHook]
 
 [PostCommitHook](post-commit-hooks/PostCommitHook.md)s can be registered using [registerPostCommitHook](#registerPostCommitHook).
 
+## Blind-Append Transaction { #isBlindAppend }
+
+```scala
+var isBlindAppend: Boolean = false
+```
+
+`OptimisticTransactionImpl` defines `isBlindAppend` flag to mark this transaction as blind-append.
+
+`isBlindAppend` is disabled (`false`) by default.
+
+`isBlindAppend` can be enabled (`true`) only when this `OptimisticTransactionImpl` is requested to [commitImpl](#commitImpl) and the following all hold:
+
+1. There are [AddFile](AddFile.md)s only in this [transaction](#prepareCommit)
+1. This transaction does not depend on files (i.e., the [readPredicates](#readPredicates) and the [readFiles](#readFiles) are all empty)
+
+## commitImpl { #commitImpl }
+
+```scala
+commitImpl(
+  actions: Seq[Action],
+  op: DeltaOperations.Operation,
+  canSkipEmptyCommits: Boolean,
+  tags: Map[String, String]): Option[Long]
+```
+
+`commitImpl`...FIXME
+
+---
+
+`commitImpl` is used when:
+
+* `OptimisticTransactionImpl` is requested to [commit](#commit), [commitIfNeeded](#commitIfNeeded)
+
+## commitIfNeeded { #commitIfNeeded }
+
+```scala
+commitIfNeeded(
+  actions: Seq[Action],
+  op: DeltaOperations.Operation,
+  tags: Map[String, String] = Map.empty): Unit
+```
+
+??? warning "Procedure"
+    `commitIfNeeded` is a procedure (returns `Unit`) so _what happens inside stays inside_ (paraphrasing the [former advertising slogan of Las Vegas, Nevada](https://idioms.thefreedictionary.com/what+happens+in+Vegas+stays+in+Vegas)).
+
+`commitIfNeeded` [commitImpl](#commitImpl) (with `canSkipEmptyCommits` flag enabled).
+
+---
+
+`commitIfNeeded` is used when:
+
+* [Delete](commands/delete/index.md) command is executed
+* [Merge](commands/merge/index.md) command is executed (and [commitAndRecordStats](commands/merge/MergeIntoCommand.md#commitAndRecordStats))
+* [Update](commands/update/index.md) command is executed (and [performUpdate](commands/update/UpdateCommand.md#performUpdate))
+* [WriteIntoDelta](commands/WriteIntoDelta.md) command is executed
+
 ## Internal Registries
 
 ### <span id="newMetadata"> newMetadata

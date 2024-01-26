@@ -162,6 +162,19 @@ In the end, `run` posts the SQL metric updates (as a `SparkListenerDriverAccumUp
 !!! note
     Use `SparkListener` ([Apache Spark]({{ book.spark_core }}/SparkListener)) to intercept `SparkListenerDriverAccumUpdates` events.
 
+### commitAndRecordStats { #commitAndRecordStats }
+
+```scala
+commitAndRecordStats(
+  spark: SparkSession,
+  deltaTxn: OptimisticTransaction,
+  mergeActions: Seq[FileAction],
+  startTime: Long,
+  materializeSourceReason: MergeIntoMaterializeSourceReason.MergeIntoMaterializeSourceReason): Unit
+```
+
+`commitAndRecordStats`...FIXME
+
 ## Logging
 
 Enable `ALL` logging level for `org.apache.spark.sql.delta.commands.MergeIntoCommand` logger to see what happens inside.

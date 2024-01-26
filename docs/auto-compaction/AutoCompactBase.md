@@ -33,9 +33,9 @@
 
     `run` is part of the [PostCommitHook](../post-commit-hooks/PostCommitHook.md#run) abstraction.
 
-`run` [determines the type of AutoCompact](#getAutoCompactType).
+`run` [determines whether Auto Compaction is enabled or not](#getAutoCompactType).
 
-`run` returns (and hence skips auto compacting) when [shouldSkipAutoCompact](#shouldSkipAutoCompact) is enabled.
+`run` does nothing and returns (and hence skips auto compacting) when [shouldSkipAutoCompact](#shouldSkipAutoCompact) is enabled.
 
 In the end, `run` [compactIfNecessary](#compactIfNecessary) with the following:
 
@@ -58,3 +58,33 @@ compactIfNecessary(
 When [shouldCompact](AutoCompactRequest.md#shouldCompact) is disabled, `compactIfNecessary` returns no [OptimizeMetrics](../commands/optimize/OptimizeMetrics.md).
 
 Otherwise, with [shouldCompact](AutoCompactRequest.md#shouldCompact) turned on, `compactIfNecessary` [performs auto compaction](AutoCompact.md#compact).
+
+### getAutoCompactType { #getAutoCompactType }
+
+```scala
+getAutoCompactType(
+  conf: SQLConf,
+  metadata: Metadata): Option[AutoCompactType]
+```
+
+`getAutoCompactType` is the value of the following (in the order of precedence):
+
+1. [spark.databricks.delta.autoCompact.enabled](../configuration-properties/DeltaSQLConf.md#autoCompact.enabled), if configured.
+1. [delta.autoOptimize](../DeltaConfigs.md#AUTO_OPTIMIZE) table property
+1. [delta.autoOptimize.autoCompact](../DeltaConfigs.md#AUTO_COMPACT) table property
+
+`getAutoCompactType` defaults to `false`.
+
+### shouldSkipAutoCompact { #shouldSkipAutoCompact }
+
+```scala
+shouldSkipAutoCompact(
+  autoCompactTypeOpt: Option[AutoCompactType],
+  spark: SparkSession,
+  txn: OptimisticTransactionImpl): Boolean
+```
+
+`shouldSkipAutoCompact` is enabled (`true`) for the following:
+
+1. The given `AutoCompactType` is empty (`None`)
+1. [isQualifiedForAutoCompact](AutoCompactUtils.md#isQualifiedForAutoCompact) is disabled

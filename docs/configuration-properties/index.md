@@ -24,11 +24,47 @@ Used when:
 
 * `AlterDeltaTableCommand` is requested to [checkDependentExpressions](../commands/alter/AlterDeltaTableCommand.md#checkDependentExpressions)
 
+### <span id="DELTA_AUTO_COMPACT_ENABLED"><span id="spark.databricks.delta.autoCompact.enabled"> autoCompact.enabled { #autoCompact.enabled }
+
+**spark.databricks.delta.autoCompact.enabled**
+
+Enables [Auto Compaction](../auto-compaction/index.md) on all writes across all delta tables in this session.
+
+Default: `false`
+
+Used when:
+
+* `AutoCompactBase` is requested for the [type of Auto Compaction](../auto-compaction/AutoCompactBase.md#getAutoCompactType)
+
+### <span id="DELTA_AUTO_COMPACT_MODIFIED_PARTITIONS_ONLY_ENABLED"><span id="spark.databricks.delta.autoCompact.modifiedPartitionsOnly.enabled"> autoCompact.modifiedPartitionsOnly.enabled { #autoCompact.modifiedPartitionsOnly.enabled }
+
+**(internal)** **spark.databricks.delta.autoCompact.modifiedPartitionsOnly.enabled**
+
+When enabled, [Auto Compaction](../auto-compaction/index.md) works only on the modified partitions of the delta transaction that triggers compaction.
+
+Default: `true`
+
+Used when:
+
+* `AutoCompactBase` is requested to [isModifiedPartitionsOnlyAutoCompactEnabled](../auto-compaction/AutoCompactUtils.md#isModifiedPartitionsOnlyAutoCompactEnabled)
+
+### <span id="DELTA_AUTO_COMPACT_NON_BLIND_APPEND_ENABLED"><span id="spark.databricks.delta.autoCompact.nonBlindAppend.enabled"> autoCompact.nonBlindAppend.enabled { #autoCompact.nonBlindAppend.enabled }
+
+**(internal)** **spark.databricks.delta.autoCompact.nonBlindAppend.enabled**
+
+When enabled, [Auto Compaction](../auto-compaction/index.md) is only triggered by non-blind-append write transactions.
+
+Default: `false`
+
+Used when:
+
+* `AutoCompactBase` is requested to [isNonBlindAppendAutoCompactEnabled](../auto-compaction/AutoCompactUtils.md#isNonBlindAppendAutoCompactEnabled)
+
 ### <span id="changeDataFeed.unsafeBatchReadOnIncompatibleSchemaChanges.enabled"><span id="DELTA_CDF_UNSAFE_BATCH_READ_ON_INCOMPATIBLE_SCHEMA_CHANGES"> changeDataFeed.unsafeBatchReadOnIncompatibleSchemaChanges.enabled
 
-**spark.databricks.delta.changeDataFeed.unsafeBatchReadOnIncompatibleSchemaChanges.enabled**
+**(internal)** **spark.databricks.delta.changeDataFeed.unsafeBatchReadOnIncompatibleSchemaChanges.enabled**
 
-**(internal)** Enables (_unblocks_) reading change data in batch (e.g. using `table_changes()`) on a delta table with column mapping schema operations
+Enables (_unblocks_) reading change data in batch (e.g. using `table_changes()`) on a delta table with column mapping schema operations
 
 It is currently blocked due to potential data loss and schema confusion, and hence considered risky.
 

@@ -38,13 +38,31 @@ Used when:
 * `DeltaLog` is requested to [assertRemovable](DeltaLog.md#assertRemovable) (that in turn uses `DeltaErrors` utility to [modifyAppendOnlyTableException](DeltaErrors.md#modifyAppendOnlyTableException))
 * `AppendOnlyTableFeature` is requested to [metadataRequiresFeatureToBeEnabled](append-only-tables/AppendOnlyTableFeature.md#metadataRequiresFeatureToBeEnabled)
 
-### <span id="AUTO_OPTIMIZE"> autoOptimize { #autoOptimize }
+### <span id="AUTO_OPTIMIZE"><span id="delta.autoOptimize"> autoOptimize { #autoOptimize }
 
 **delta.autoOptimize**
+
+!!! note "Deprecated"
+    `delta.autoOptimize` is deprecated in favour of [delta.autoOptimize.autoCompact](#delta.autoOptimize.autoCompact) table property since 3.1.0.
 
 Whether this delta table will automagically optimize the layout of files during writes.
 
 Default: `false`
+
+### <span id="AUTO_COMPACT"><span id="delta.autoOptimize.autoCompact"> autoOptimize.autoCompact { #autoOptimize.autoCompact }
+
+**delta.autoOptimize.autoCompact**
+
+Enables [Auto Compaction](auto-compaction/index.md)
+
+Default: `false`
+
+??? note "Replaces delta.autoOptimize"
+    `delta.autoOptimize.autoCompact` replaces [delta.autoOptimize.autoCompact](#delta.autoOptimize) table property since 3.1.0.
+
+Used when:
+
+* `AutoCompactBase` is requested for the [type of Auto Compaction](auto-compaction/AutoCompactBase.md#getAutoCompactType)
 
 ### <span id="checkpointInterval"><span id="CHECKPOINT_INTERVAL"> checkpointInterval
 

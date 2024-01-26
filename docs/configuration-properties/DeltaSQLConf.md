@@ -2,6 +2,18 @@
 
 `DeltaSQLConf` contains [spark.databricks.delta](index.md#spark.databricks.delta)-prefixed configuration properties to configure behaviour of Delta Lake.
 
+## autoCompact.enabled { #DELTA_AUTO_COMPACT_ENABLED }
+
+[spark.databricks.delta.autoCompact.enabled](index.md#autoCompact.enabled)
+
+## autoCompact.modifiedPartitionsOnly.enabled { #DELTA_AUTO_COMPACT_MODIFIED_PARTITIONS_ONLY_ENABLED }
+
+[spark.databricks.delta.autoCompact.modifiedPartitionsOnly.enabled](index.md#autoCompact.modifiedPartitionsOnly.enabled)
+
+## autoCompact.nonBlindAppend.enabled { #DELTA_AUTO_COMPACT_NON_BLIND_APPEND_ENABLED }
+
+[spark.databricks.delta.autoCompact.nonBlindAppend.enabled](index.md#autoCompact.nonBlindAppend.enabled)
+
 ## changeDataFeed.unsafeBatchReadOnIncompatibleSchemaChanges.enabled { #DELTA_CDF_UNSAFE_BATCH_READ_ON_INCOMPATIBLE_SCHEMA_CHANGES }
 
 [spark.databricks.delta.changeDataFeed.unsafeBatchReadOnIncompatibleSchemaChanges.enabled](index.md#changeDataFeed.unsafeBatchReadOnIncompatibleSchemaChanges.enabled)

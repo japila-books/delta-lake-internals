@@ -7,6 +7,7 @@ hide:
 
 The following is a list of the features of Delta Lake that make it so amazing (even _[awesomesauce](https://dictionary.cambridge.org/dictionary/english/awesomesauce)_ 😏):
 
+* [Auto Compaction](../auto-compaction/index.md)
 * [Change Data Feed](../change-data-feed/index.md)
 * [CHECK Constraints](../check-constraints/index.md)
 * [Column Invariants](../column-invariants/index.md)
