@@ -1,31 +1,35 @@
 # Table Properties
 
-Delta Lake uses [DeltaConfigs](../DeltaConfigs.md) with the table properties of delta tables.
+**Table Properties** are configuration properties that are used on table basis to customize behaviour of delta tables.
 
-Table properties start with `delta.` prefix.
+[DeltaConfigs](../DeltaConfigs.md) holds the supported table properties.
 
-Table Properties can be set on delta tables using [ALTER TABLE SET TBLPROPERTIES](../commands/alter/AlterTableSetPropertiesDeltaCommand.md) or [CREATE TABLE](../commands/CreateDeltaTableCommand.md) SQL commands.
+Table Properties use `delta.` prefix.
 
-```sql
-ALTER TABLE delta_demo
-SET TBLPROPERTIES (delta.enableChangeDataFeed = true)
-```
+Table Properties can be set using the following SQL commands:
 
-```sql
-CREATE TABLE delta_demo (id INT, name STRING, age INT)
-USING delta
-TBLPROPERTIES (delta.enableChangeDataFeed = true)
-```
+* [CREATE TABLE](../commands/CreateDeltaTableCommand.md) (with `TBLPROPERTIES` clause) for new delta tables
 
-Use `SHOW TBLPROPERTIES` SQL command to review the table properties of a delta table.
+    ```sql
+    CREATE TABLE new_delta_table (
+        id INT,
+        name STRING,
+        age INT)
+    USING delta
+    TBLPROPERTIES (
+        delta.enableChangeDataFeed = true)
+    ```
 
-```sql
-SHOW TBLPROPERTIES delta_demo;
-```
+* [ALTER TABLE SET TBLPROPERTIES](../commands/alter/AlterTableSetPropertiesDeltaCommand.md) on existing tables
+
+    ```sql
+    ALTER TABLE existing_delta_table
+    SET TBLPROPERTIES (delta.enableChangeDataFeed = true)
+    ```
 
 ## SHOW TBLPROPERTIES
 
-Table properties can be displayed using `SHOW TBLPROPERTIES` SQL command:
+Table properties of a delta table can be displayed using `SHOW TBLPROPERTIES` SQL command:
 
 ```sql
 SHOW TBLPROPERTIES <table_name>
