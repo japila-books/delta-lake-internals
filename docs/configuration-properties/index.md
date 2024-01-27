@@ -1,6 +1,13 @@
 # Configuration Properties
 
+Configuration properties are a way to control features of Delta Lake for the whole cluster (`SparkSession`, to be precise) and hence for all tables created by the cluster.
+
+??? note "Table Properties"
+    Unlike configuration properties, [Table Properties](../table-properties/index.md) are per table only.
+
 ## spark.databricks.delta { #spark.databricks.delta }
+
+Configuration properties use `spark.databricks.delta` prefix.
 
 ### <span id="alterLocation.bypassSchemaCheck"><span id="DELTA_ALTER_LOCATION_BYPASS_SCHEMA_CHECK"> alterLocation.bypassSchemaCheck
 
