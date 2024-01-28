@@ -1,3 +1,7 @@
+---
+title: DeltaInvariantCheckerExec
+---
+
 # DeltaInvariantCheckerExec Unary Physical Operator
 
 `DeltaInvariantCheckerExec` is an `UnaryExecNode` ([Spark SQL]({{ book.spark_sql }}/physical-operators/UnaryExecNode)) to [assert constraints](#doExecute).

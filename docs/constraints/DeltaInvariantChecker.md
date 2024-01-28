@@ -1,3 +1,7 @@
+---
+title: DeltaInvariantChecker
+---
+
 # DeltaInvariantChecker Unary Logical Operator
 
 `DeltaInvariantChecker` is a `UnaryNode` ([Spark SQL]({{ book.spark_sql }}/logical-operators/UnaryNode/)).

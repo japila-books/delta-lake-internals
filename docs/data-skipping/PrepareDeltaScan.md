@@ -1,3 +1,7 @@
+---
+title: PrepareDeltaScan
+---
+
 # PrepareDeltaScan Logical Optimization
 
 `PrepareDeltaScan` is a [PrepareDeltaScanBase](PrepareDeltaScanBase.md).

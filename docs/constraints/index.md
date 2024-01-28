@@ -1,3 +1,8 @@
+---
+hide:
+  - toc
+---
+
 # Table Constraints
 
 Table constraints can be one of the following:

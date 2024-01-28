@@ -1,3 +1,7 @@
+---
+title: DeltaInvariantCheckerStrategy
+---
+
 # DeltaInvariantCheckerStrategy Execution Planning Strategy
 
 `DeltaInvariantCheckerStrategy` is a `SparkStrategy` ([Spark SQL]({{ book.spark_sql }}/execution-planning-strategies/SparkStrategy/)) to [plan](#apply) a [DeltaInvariantChecker](DeltaInvariantChecker.md) unary logical operator (with constraints attached) into a [DeltaInvariantCheckerExec](DeltaInvariantCheckerExec.md) for execution.

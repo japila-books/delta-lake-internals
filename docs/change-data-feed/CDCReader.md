@@ -48,23 +48,16 @@ Used when:
 
 `CDCReader` defines `_change_type` column name that represents the type of a data change.
 
+Change Type | Command
+------------|--------
+ [delete](#CDC_TYPE_DELETE_STRING) | [Delete](../commands/delete/DeleteCommand.md#rewriteFiles)
+ [insert](#CDC_TYPE_INSERT) | [WriteIntoDelta](../commands/WriteIntoDelta.md#write)
+ [update_postimage](#CDC_TYPE_UPDATE_POSTIMAGE) | [Update](../commands/update/UpdateCommand.md#withUpdatedColumns)
+ [update_preimage](#CDC_TYPE_UPDATE_PREIMAGE) | [Update](../commands/update/UpdateCommand.md#withUpdatedColumns)
+
 `_change_type` is a [CDF virtual column](#CDC_COLUMNS_IN_DATA) and among the columns in the [CDF-aware read schema](CDCReaderImpl.md#cdcReadSchema).
 
-`_change_type` is among the [cdcAttributes](#cdcAttributes)
-
-Used when:
-
-* `DeleteCommand` is requested to [rewriteFiles](../commands/delete/DeleteCommand.md#rewriteFiles) (with [Change Data Feed](index.md) enabled)
-* `UpdateCommand` is requested to [withUpdatedColumns](../commands/update/UpdateCommand.md#withUpdatedColumns) (with [Change Data Feed](index.md) enabled to add `update_preimage` and `update_postimage` columns)
-* `WriteIntoDelta` is requested to [write](../commands/WriteIntoDelta.md#write) (for `insert`s)
-* `CDCReader` is requested for the [CDC_COLUMNS_IN_DATA](#CDC_COLUMNS_IN_DATA), the [cdcAttributes](#cdcAttributes)
-* `CDCReaderImpl` is requested for the [cdcReadSchema](CDCReaderImpl.md#cdcReadSchema)
-* `ClassicMergeExecutor` is requested to [writeAllChanges](../commands/merge/ClassicMergeExecutor.md#writeAllChanges) (with [Change Data Feed](index.md) enabled)
-* `MergeOutputGeneration` is requested to [deduplicateCDFDeletes](../commands/merge/MergeOutputGeneration.md#deduplicateCDFDeletes) and [generateCdcAndOutputRows](../commands/merge/MergeOutputGeneration.md#generateCdcAndOutputRows)
-* `CdcAddFileIndex` is requested for the [matching files](CdcAddFileIndex.md#matchingFiles)
-* `TahoeRemoveFileIndex` is requested for the [matching files](TahoeRemoveFileIndex.md#matchingFiles)
-* `TransactionalWrite` is requested to [performCDCPartition](../TransactionalWrite.md#performCDCPartition)
-* `SchemaUtils` is requested to [normalizeColumnNames](../SchemaUtils.md#normalizeColumnNames)
+`_change_type` is among the [cdcAttributes](#cdcAttributes).
 
 ### <span id="_commit_version"> Commit Version Column { #CDC_COMMIT_VERSION }
 

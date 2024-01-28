@@ -65,7 +65,7 @@ Change Data Feed is enabled in batch and streaming queries using [readChangeFeed
       .table("source")
     ```
 
-`readChangeFeed` is used alongside the other CDC options:
+`readChangeFeed` is used alongside the other CDF options:
 
 * [startingVersion](../spark-connector/DeltaDataSource.md#CDC_START_VERSION_KEY)
 * [startingTimestamp](../spark-connector/DeltaDataSource.md#CDC_START_TIMESTAMP_KEY)
