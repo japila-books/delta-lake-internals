@@ -46,7 +46,7 @@ init(): Unit
 numIndexedCols: Int
 ```
 
-`numIndexedCols` is the value of [dataSkippingNumIndexedCols](DeltaConfigs.md#DATA_SKIPPING_NUM_INDEXED_COLS) table property.
+`numIndexedCols` is the value of [dataSkippingNumIndexedCols](table-properties/DeltaConfigs.md#DATA_SKIPPING_NUM_INDEXED_COLS) table property.
 
 ??? note "Lazy Value"
     `numIndexedCols` is a Scala **lazy value** to guarantee that the code to initialize it is executed once only (when accessed for the first time) and the computed value never changes afterwards.

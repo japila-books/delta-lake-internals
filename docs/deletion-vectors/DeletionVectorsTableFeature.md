@@ -2,7 +2,7 @@
 
 `DeletionVectorsTableFeature` is a [ReaderWriterFeature](../table-features/ReaderWriterFeature.md) known by the name of [deletionVectors](../table-features/TableFeature.md#name).
 
-With [delta.enableDeletionVectors](../DeltaConfigs.md#enableDeletionVectors) table property enabled, `DeletionVectorsTableFeature` enables [Deletion Vectors](index.md).
+With [delta.enableDeletionVectors](../table-properties/DeltaConfigs.md#enableDeletionVectors) table property enabled, `DeletionVectorsTableFeature` enables [Deletion Vectors](index.md).
 
 `DeletionVectorsTableFeature` is a [FeatureAutomaticallyEnabledByMetadata](../table-features/FeatureAutomaticallyEnabledByMetadata.md).
 
@@ -30,4 +30,4 @@ With [delta.enableDeletionVectors](../DeltaConfigs.md#enableDeletionVectors) tab
 
     `metadataRequiresFeatureToBeEnabled` is part of the [FeatureAutomaticallyEnabledByMetadata](../table-features/FeatureAutomaticallyEnabledByMetadata.md#metadataRequiresFeatureToBeEnabled) abstraction.
 
-`metadataRequiresFeatureToBeEnabled` is the value of [delta.enableDeletionVectors](../DeltaConfigs.md#enableDeletionVectors) table property (in the [Metadata](../DeltaConfig.md#fromMetaData)).
+`metadataRequiresFeatureToBeEnabled` is the value of [delta.enableDeletionVectors](../table-properties/DeltaConfigs.md#enableDeletionVectors) table property (in the [Metadata](../table-properties/DeltaConfig.md#fromMetaData)).

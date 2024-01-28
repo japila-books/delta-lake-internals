@@ -13,11 +13,11 @@
 
 ### <span id="enableExpiredLogCleanup"> enableExpiredLogCleanup
 
-`MetadataCleanup` uses [enableExpiredLogCleanup](DeltaConfigs.md#ENABLE_EXPIRED_LOG_CLEANUP) table configuration to enable [log cleanup](#doLogCleanup).
+`MetadataCleanup` uses [enableExpiredLogCleanup](table-properties/DeltaConfigs.md#ENABLE_EXPIRED_LOG_CLEANUP) table configuration to enable [log cleanup](#doLogCleanup).
 
 ### <span id="deltaRetentionMillis"> logRetentionDuration
 
-`MetadataCleanup` uses [logRetentionDuration](DeltaConfigs.md#LOG_RETENTION) table configuration for [cleanUpExpiredLogs](#cleanUpExpiredLogs) (to determine `fileCutOffTime`).
+`MetadataCleanup` uses [logRetentionDuration](table-properties/DeltaConfigs.md#LOG_RETENTION) table configuration for [cleanUpExpiredLogs](#cleanUpExpiredLogs) (to determine `fileCutOffTime`).
 
 ## <span id="doLogCleanup"> Cleaning Up Expired Logs
 

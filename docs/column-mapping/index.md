@@ -2,7 +2,7 @@
 
 **Column Mapping** allows mapping physical columns names to their logical ones for reading and writing parquet data files.
 
-Column Mapping is enabled for a delta table using [delta.columnMapping.mode](../DeltaConfigs.md#COLUMN_MAPPING_MODE) table property.
+Column Mapping is enabled for a delta table using [delta.columnMapping.mode](../table-properties/DeltaConfigs.md#COLUMN_MAPPING_MODE) table property.
 
 Column Mapping turns [ALTER TABLE RENAME COLUMN](../commands/alter/AlterTableChangeColumnDeltaCommand.md) and [ALTER TABLE CHANGE COLUMN](../commands/alter/AlterTableChangeColumnDeltaCommand.md) commands into logical changes at metadata level (leading to no changes to the physical column names in parquet files and a mere [transactional metadata update](../commands/alter/AlterTableChangeColumnDeltaCommand.md#run-update) in a transaction log).
 

@@ -65,7 +65,7 @@ deltaLog.snapshot.metadata.id
 columnMappingMode: DeltaColumnMappingMode
 ```
 
-`columnMappingMode` is the value of [columnMapping.mode](DeltaConfigs.md#COLUMN_MAPPING_MODE) table property ([from this Metadata](DeltaConfig.md#fromMetaData)).
+`columnMappingMode` is the value of [columnMapping.mode](table-properties/DeltaConfigs.md#COLUMN_MAPPING_MODE) table property ([from this Metadata](table-properties/DeltaConfig.md#fromMetaData)).
 
 `columnMappingMode` is used when:
 

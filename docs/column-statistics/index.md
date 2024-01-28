@@ -9,4 +9,4 @@
 
 ## Table Properties
 
-* [delta.dataSkippingNumIndexedCols](../DeltaConfigs.md#dataSkippingNumIndexedCols)
+* [delta.dataSkippingNumIndexedCols](../table-properties/DeltaConfigs.md#dataSkippingNumIndexedCols)

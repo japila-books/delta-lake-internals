@@ -505,7 +505,7 @@ isCdcEnabled(
   deltaTxn: OptimisticTransaction): Boolean
 ```
 
-`isCdcEnabled` is the value of the [enableChangeDataFeed](../../DeltaConfigs.md#CHANGE_DATA_FEED) table property ([from](../../DeltaConfig.md#fromMetaData) the metadata of a delta table).
+`isCdcEnabled` is the value of the [enableChangeDataFeed](../../table-properties/DeltaConfigs.md#CHANGE_DATA_FEED) table property ([from](../../table-properties/DeltaConfig.md#fromMetaData) the metadata of a delta table).
 
 ---
 

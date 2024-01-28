@@ -159,7 +159,7 @@ If you are not sure, please use a value not less than "168 hours".
 Attempting to vacuum the delta table (even with `DRY RUN`) gives an `IllegalArgumentException` because of the default values of the following:
 
 * [spark.databricks.delta.retentionDurationCheck.enabled](../configuration-properties/DeltaSQLConf.md#DELTA_VACUUM_RETENTION_CHECK_ENABLED) configuration property
-* [deletedFileRetentionDuration](../DeltaConfigs.md#TOMBSTONE_RETENTION) table property
+* [deletedFileRetentionDuration](../table-properties/DeltaConfigs.md#TOMBSTONE_RETENTION) table property
 
 ## Vacuum DRY RUN
 
@@ -215,7 +215,7 @@ q.show(truncate = false)
 
 ### deletedFileRetentionDuration Table Property
 
-Let's [DESCRIBE DETAIL](../commands/describe-detail/index.md) to review the current table properties (incl. [deletedFileRetentionDuration](../DeltaConfigs.md#TOMBSTONE_RETENTION)).
+Let's [DESCRIBE DETAIL](../commands/describe-detail/index.md) to review the current table properties (incl. [deletedFileRetentionDuration](../table-properties/DeltaConfigs.md#TOMBSTONE_RETENTION)).
 
 ```scala
 val tid = s"delta.`$path`"

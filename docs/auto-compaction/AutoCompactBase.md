@@ -70,8 +70,8 @@ getAutoCompactType(
 `getAutoCompactType` is the value of the following (in the order of precedence):
 
 1. [spark.databricks.delta.autoCompact.enabled](../configuration-properties/DeltaSQLConf.md#autoCompact.enabled), if configured.
-1. [delta.autoOptimize](../DeltaConfigs.md#AUTO_OPTIMIZE) table property
-1. [delta.autoOptimize.autoCompact](../DeltaConfigs.md#AUTO_COMPACT) table property
+1. [delta.autoOptimize](../table-properties/DeltaConfigs.md#AUTO_OPTIMIZE) table property
+1. [delta.autoOptimize.autoCompact](../table-properties/DeltaConfigs.md#AUTO_COMPACT) table property
 
 `getAutoCompactType` defaults to `false`.
 

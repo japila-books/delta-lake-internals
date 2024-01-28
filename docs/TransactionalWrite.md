@@ -222,7 +222,7 @@ getOptionalStatsTrackerAndStatsCollection(
 
 `getOptionalStatsTrackerAndStatsCollection` [getStatsSchema](#getStatsSchema) (for the given `output` and `partitionSchema`).
 
-`getOptionalStatsTrackerAndStatsCollection` reads the value of [delta.dataSkippingNumIndexedCols](DeltaConfigs.md#DATA_SKIPPING_NUM_INDEXED_COLS) table property (from the [Metadata](OptimisticTransactionImpl.md#metadata)).
+`getOptionalStatsTrackerAndStatsCollection` reads the value of [delta.dataSkippingNumIndexedCols](table-properties/DeltaConfigs.md#DATA_SKIPPING_NUM_INDEXED_COLS) table property (from the [Metadata](OptimisticTransactionImpl.md#metadata)).
 
 `getOptionalStatsTrackerAndStatsCollection` creates a [StatisticsCollection](StatisticsCollection.md) (with the [tableDataSchema](StatisticsCollection.md#tableDataSchema) based on [spark.databricks.delta.stats.collect.using.tableSchema](configuration-properties/DeltaSQLConf.md#DELTA_COLLECT_STATS_USING_TABLE_SCHEMA) configuration property).
 

@@ -74,4 +74,4 @@ Please upgrade if you want to use this mode.
 
 `apply` is used when:
 
-* `DeltaConfigsBase` is requested to build [delta.columnMapping.mode](../DeltaConfigs.md#COLUMN_MAPPING_MODE) configuration property
+* `DeltaConfigsBase` is requested to build [delta.columnMapping.mode](../table-properties/DeltaConfigs.md#COLUMN_MAPPING_MODE) configuration property

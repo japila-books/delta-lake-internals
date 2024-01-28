@@ -97,7 +97,7 @@ rewriteFiles(
   numFilesToRewrite: Long): Seq[FileAction]
 ```
 
-`rewriteFiles` reads the [delta.enableChangeDataFeed](../../DeltaConfigs.md#CHANGE_DATA_FEED) table property of the delta table (from the [Metadata](../../OptimisticTransactionImpl.md#metadata) of the given [OptimisticTransaction](../../OptimisticTransaction.md)).
+`rewriteFiles` reads the [delta.enableChangeDataFeed](../../table-properties/DeltaConfigs.md#CHANGE_DATA_FEED) table property of the delta table (from the [Metadata](../../OptimisticTransactionImpl.md#metadata) of the given [OptimisticTransaction](../../OptimisticTransaction.md)).
 
 `rewriteFiles` creates a `numTouchedRows` metric and a `numTouchedRowsUdf` UDF to count the number of rows that have been _touched_.
 

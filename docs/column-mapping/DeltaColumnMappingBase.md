@@ -11,8 +11,8 @@
 `DeltaColumnMappingBase` defines a [Protocol](../Protocol.md) (with [MIN_READER_VERSION](#MIN_READER_VERSION) and [MIN_WRITER_VERSION](#MIN_WRITER_VERSION)) as the minimum protocol version for the readers and writers to delta tables with [column mapping](index.md).
 
 * `Protocol` utility is used for [requiredMinimumProtocol](../Protocol.md#requiredMinimumProtocol)
-* [delta.columnMapping.mode](../DeltaConfigs.md#COLUMN_MAPPING_MODE) configuration property
-* [delta.columnMapping.maxColumnId](../DeltaConfigs.md#COLUMN_MAPPING_MAX_ID) configuration property
+* [delta.columnMapping.mode](../table-properties/DeltaConfigs.md#COLUMN_MAPPING_MODE) configuration property
+* [delta.columnMapping.maxColumnId](../table-properties/DeltaConfigs.md#COLUMN_MAPPING_MAX_ID) configuration property
 * `DeltaErrors` is requested to [changeColumnMappingModeOnOldProtocol](../DeltaErrors.md#changeColumnMappingModeOnOldProtocol) (for error reporting)
 
 ### <span id="MIN_READER_VERSION"> Minimum Reader Version
@@ -145,7 +145,7 @@ tryFixMetadata(
   isChangingModeOnExistingTable: Boolean): Metadata
 ```
 
-`tryFixMetadata` reads [columnMapping.mode](../DeltaConfigs.md#columnMapping.mode) table property from the given `newMetadata` [table metadata](../DeltaConfig.md#fromMetaData).
+`tryFixMetadata` reads [columnMapping.mode](../table-properties/DeltaConfigs.md#columnMapping.mode) table property from the given `newMetadata` [table metadata](../table-properties/DeltaConfig.md#fromMetaData).
 
 If the [DeltaColumnMappingMode](DeltaColumnMappingMode.md) is [IdMapping](DeltaColumnMappingMode.md#IdMapping) or [NameMapping](DeltaColumnMappingMode.md#NameMapping), `tryFixMetadata` [assignColumnIdAndPhysicalName](#assignColumnIdAndPhysicalName) with the given `newMetadata` and `oldMetadata` metadata and `isChangingModeOnExistingTable` flag.
 

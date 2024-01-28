@@ -73,7 +73,7 @@ createRelation(
 
 `createSource` creates a [DeltaOptions](DeltaOptions.md) (with the given `parameters` and the current `SQLConf`).
 
-`createSource` [validateConfigurations](../DeltaConfigs.md#validateConfigurations) (with `delta.`-prefixed keys in the given`parameters`).
+`createSource` [validateConfigurations](../table-properties/DeltaConfigs.md#validateConfigurations) (with `delta.`-prefixed keys in the given`parameters`).
 
 `createRelation` [creates and executes a WriteIntoDelta command](../commands/WriteIntoDelta.md) with the given `data`.
 

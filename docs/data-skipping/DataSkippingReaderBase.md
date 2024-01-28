@@ -267,7 +267,7 @@ Name | Expression
 columnMappingMode: DeltaColumnMappingMode
 ```
 
-`columnMappingMode` is the value of [columnMapping.mode](../DeltaConfigs.md#COLUMN_MAPPING_MODE) table property (in the [Metadata](#metadata)).
+`columnMappingMode` is the value of [columnMapping.mode](../table-properties/DeltaConfigs.md#COLUMN_MAPPING_MODE) table property (in the [Metadata](#metadata)).
 
 ## <span id="getStatsColumnOpt"> getStatsColumnOpt
 

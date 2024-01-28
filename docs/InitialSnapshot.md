@@ -33,7 +33,7 @@ Snapshot | Value
 
 Metadata | Value
 ---------|------
- [configuration](#configuration) | [mergeGlobalConfigs](DeltaConfigs.md#mergeGlobalConfigs)
+ [configuration](#configuration) | [mergeGlobalConfigs](table-properties/DeltaConfigs.md#mergeGlobalConfigs)
  [createdTime](#createdTime) | Current time (in ms)
 
 ## <span id="computedState"> computedState

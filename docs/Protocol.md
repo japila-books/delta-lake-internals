@@ -114,7 +114,7 @@ Protocol(0, 2)
 
 ### <span id="requiredMinimumProtocol-appendOnly"> Append-Only Table
 
-`requiredMinimumProtocol` reads [appendOnly](DeltaConfigs.md#IS_APPEND_ONLY) table property (from the [table configuration](Metadata.md#configuration) of the given [Metadata](Metadata.md)).
+`requiredMinimumProtocol` reads [appendOnly](table-properties/DeltaConfigs.md#IS_APPEND_ONLY) table property (from the [table configuration](Metadata.md#configuration) of the given [Metadata](Metadata.md)).
 
 If set, `requiredMinimumProtocol` creates a new [Protocol](#creating-instance) with the [minWriterVersion](#minWriterVersion) to be `3`.
 
@@ -144,7 +144,7 @@ Protocol(0, 4)
 
 ### <span id="requiredMinimumProtocol-change-data-feed"> Change Data Feed
 
-`requiredMinimumProtocol` checks whether [delta.enableChangeDataFeed](DeltaConfigs.md#CHANGE_DATA_FEED) table property is enabled (in the given [Metadata](Metadata.md)).
+`requiredMinimumProtocol` checks whether [delta.enableChangeDataFeed](table-properties/DeltaConfigs.md#CHANGE_DATA_FEED) table property is enabled (in the given [Metadata](Metadata.md)).
 
 If enabled, `requiredMinimumProtocol` creates a new [Protocol](#creating-instance) with the [minWriterVersion](#minWriterVersion) to be `4`.
 

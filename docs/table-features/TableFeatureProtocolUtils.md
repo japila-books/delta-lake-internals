@@ -10,7 +10,7 @@ delta.feature.
 
 The prefix is used when:
 
-* `DeltaConfigsBase` is requested to [validateConfigurations](../DeltaConfigs.md#validateConfigurations), [mergeGlobalConfigs](../DeltaConfigs.md#mergeGlobalConfigs), [normalizeConfigKeys](../DeltaConfigs.md#normalizeConfigKeys), [normalizeConfigKey](../DeltaConfigs.md#normalizeConfigKey)
+* `DeltaConfigsBase` is requested to [validateConfigurations](../table-properties/DeltaConfigs.md#validateConfigurations), [mergeGlobalConfigs](../table-properties/DeltaConfigs.md#mergeGlobalConfigs), [normalizeConfigKeys](../table-properties/DeltaConfigs.md#normalizeConfigKeys), [normalizeConfigKey](../table-properties/DeltaConfigs.md#normalizeConfigKey)
 * `Snapshot` is requested to [getProperties](../Snapshot.md#getProperties)
 * `Protocol` is requested to [assertMetadataContainsNoProtocolProps](../Protocol.md#assertMetadataContainsNoProtocolProps)
 * `TableFeatureProtocolUtils` is requested to [propertyKey](#propertyKey), [getSupportedFeaturesFromTableConfigs](#getSupportedFeaturesFromTableConfigs), [isTableProtocolProperty](#isTableProtocolProperty)
@@ -25,7 +25,7 @@ spark.databricks.delta.properties.defaults.feature.
 
 The prefix is used when:
 
-* `DeltaConfigsBase` is requested to [mergeGlobalConfigs](../DeltaConfigs.md#mergeGlobalConfigs)
+* `DeltaConfigsBase` is requested to [mergeGlobalConfigs](../table-properties/DeltaConfigs.md#mergeGlobalConfigs)
 * `TableFeatureProtocolUtils` is requested for the [default session property key of a table feature](#defaultPropertyKey)
 
 ## isTableProtocolProperty { #isTableProtocolProperty }
@@ -39,14 +39,14 @@ isTableProtocolProperty(
 
 * [delta.minReaderVersion](../Protocol.md#MIN_READER_VERSION_PROP)
 * [delta.minWriterVersion](../Protocol.md#MIN_WRITER_VERSION_PROP)
-* [delta.ignoreProtocolDefaults](../DeltaConfigs.md#CREATE_TABLE_IGNORE_PROTOCOL_DEFAULTS)
+* [delta.ignoreProtocolDefaults](../table-properties/DeltaConfigs.md#CREATE_TABLE_IGNORE_PROTOCOL_DEFAULTS)
 * The `key` starts with the [delta.feature.](#FEATURE_PROP_PREFIX) prefix
 
 ---
 
 `isTableProtocolProperty` is used when:
 
-* `DeltaConfigsBase` is requested to [mergeGlobalConfigs](../DeltaConfigs.md#mergeGlobalConfigs)
+* `DeltaConfigsBase` is requested to [mergeGlobalConfigs](../table-properties/DeltaConfigs.md#mergeGlobalConfigs)
 * `OptimisticTransactionImpl` is requested to [updateMetadataInternal](../OptimisticTransactionImpl.md#updateMetadataInternal)
 * `Protocol` is requested to [forNewTable](../Protocol.md#forNewTable)
 

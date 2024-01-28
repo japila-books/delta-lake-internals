@@ -117,7 +117,7 @@ With all [action](FileAction.md)s with [dataChange](FileAction.md#dataChange) fl
 
 ### <span id="commit-registerPostCommitHook"> Registering Post-Commit Hook
 
-`commit` [registers](#registerPostCommitHook) the [GenerateSymlinkManifest](post-commit-hooks/GenerateSymlinkManifest.md) post-commit hook when there is a [FileAction](FileAction.md) among the actions and the [compatibility.symlinkFormatManifest.enabled](DeltaConfigs.md#SYMLINK_FORMAT_MANIFEST_ENABLED) table property is enabled.
+`commit` [registers](#registerPostCommitHook) the [GenerateSymlinkManifest](post-commit-hooks/GenerateSymlinkManifest.md) post-commit hook when there is a [FileAction](FileAction.md) among the actions and the [compatibility.symlinkFormatManifest.enabled](table-properties/DeltaConfigs.md#SYMLINK_FORMAT_MANIFEST_ENABLED) table property is enabled.
 
 ### <span id="commit-doCommitRetryIteratively"><span id="commit-commitVersion"><span id="commit-needsCheckpoint"> doCommitRetryIteratively
 
@@ -393,7 +393,7 @@ Attempting to commit version [attemptVersion] with [n] actions with [isolationLe
 A commit triggers checkpointing when the following all hold:
 
 1. The committed version is any version greater than `0`
-1. The committed version is a multiple of [delta.checkpointInterval](DeltaConfigs.md#CHECKPOINT_INTERVAL) table property
+1. The committed version is a multiple of [delta.checkpointInterval](table-properties/DeltaConfigs.md#CHECKPOINT_INTERVAL) table property
 
 ### <span id="doCommit-stats"> CommitStats
 

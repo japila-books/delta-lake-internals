@@ -42,7 +42,7 @@ deletionVectorsWritable(
 `deletionVectorsWritable` is enabled (`true`) when the following all hold:
 
 1. [DeletionVectorsTableFeature](DeletionVectorsTableFeature.md) is [supported](../table-features/TableFeatureSupport.md#isFeatureSupported) by the given [Protocol](../Protocol.md)
-1. [delta.enableDeletionVectors](../DeltaConfigs.md#ENABLE_DELETION_VECTORS_CREATION) is enabled in the table metadata (in the given [Metadata](../Metadata.md))
+1. [delta.enableDeletionVectors](../table-properties/DeltaConfigs.md#ENABLE_DELETION_VECTORS_CREATION) is enabled in the table metadata (in the given [Metadata](../Metadata.md))
 
 ---
 
@@ -70,5 +70,5 @@ isTableDVFree(
 
 `isTableDVFree` is used when:
 
-* `Protocol` is requested to [assertTablePropertyConstraintsSatisfied](../Protocol.md#assertTablePropertyConstraintsSatisfied) (with [compatibility.symlinkFormatManifest.enabled](../DeltaConfigs.md#compatibility.symlinkFormatManifest.enabled) enabled)
+* `Protocol` is requested to [assertTablePropertyConstraintsSatisfied](../Protocol.md#assertTablePropertyConstraintsSatisfied) (with [compatibility.symlinkFormatManifest.enabled](../table-properties/DeltaConfigs.md#compatibility.symlinkFormatManifest.enabled) enabled)
 * `GenerateSymlinkManifestImpl` is requested to `generateFullManifest`

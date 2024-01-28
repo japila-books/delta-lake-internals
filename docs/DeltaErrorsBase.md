@@ -12,7 +12,7 @@ convertToDeltaRowTrackingEnabledWithoutStatsCollection: Throwable
 * `messageParameters`:
     * [spark.databricks.delta.stats.collect](configuration-properties/index.md#DELTA_COLLECT_STATS)
     * The [default session config key](table-features/TableFeatureProtocolUtils.md#defaultPropertyKey) of [RowTrackingFeature](row-tracking/RowTrackingFeature.md)
-    * The [default table property key](DeltaConfig.md#defaultTablePropertyKey) of [delta.enableRowTracking](DeltaConfigs.md#ROW_TRACKING_ENABLED)
+    * The [default table property key](table-properties/DeltaConfig.md#defaultTablePropertyKey) of [delta.enableRowTracking](table-properties/DeltaConfigs.md#ROW_TRACKING_ENABLED)
 
 ---
 
@@ -32,7 +32,7 @@ modifyAppendOnlyTableException(
 * `errorClass`: `DELTA_CANNOT_MODIFY_APPEND_ONLY`
 * `messageParameters`:
     * The given `tableName`
-    * [delta.appendOnly](DeltaConfigs.md#IS_APPEND_ONLY)
+    * [delta.appendOnly](table-properties/DeltaConfigs.md#IS_APPEND_ONLY)
 
 ---
 

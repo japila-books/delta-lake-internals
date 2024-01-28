@@ -1,6 +1,10 @@
+---
+title: DeltaConfigs
+---
+
 # DeltaConfigs (DeltaConfigsBase)
 
-`DeltaConfigs` holds the supported [table properties](table-properties/index.md) in Delta Lake.
+`DeltaConfigs` holds the supported [table properties](index.md) in Delta Lake.
 
 ## Accessing DeltaConfigs
 
@@ -19,6 +23,12 @@ import org.apache.spark.sql.delta.DeltaConfigs
 DeltaConfigs.CHANGE_DATA_FEED.fromMetaData(metadata)
 ```
 
+## <span id="sqlConfPrefix"> System-Wide Defaults { #spark.databricks.delta.properties.defaults }
+
+**spark.databricks.delta.properties.defaults** prefix is used for [global table properties](#mergeGlobalConfigs).
+
+For every [table property](#table-properties) (without the `delta.` prefix) there is the corresponding system-wide (*global*) configuration property with `spark.databricks.delta.properties.defaults` prefix for the default values of the table properties for all delta tables.
+
 ## Table Properties
 
 All table properties start with `delta.` prefix.
@@ -27,7 +37,7 @@ All table properties start with `delta.` prefix.
 
 **delta.appendOnly**
 
-Turns a table into [append-only](append-only-tables/index.md)
+Turns a table into [append-only](../append-only-tables/index.md)
 
 When enabled, a table allows appends only and no updates or deletes.
 
@@ -35,8 +45,8 @@ Default: `false`
 
 Used when:
 
-* `DeltaLog` is requested to [assertRemovable](DeltaLog.md#assertRemovable) (that in turn uses `DeltaErrors` utility to [modifyAppendOnlyTableException](DeltaErrors.md#modifyAppendOnlyTableException))
-* `AppendOnlyTableFeature` is requested to [metadataRequiresFeatureToBeEnabled](append-only-tables/AppendOnlyTableFeature.md#metadataRequiresFeatureToBeEnabled)
+* `DeltaLog` is requested to [assertRemovable](../DeltaLog.md#assertRemovable) (that in turn uses `DeltaErrors` utility to [modifyAppendOnlyTableException](../DeltaErrors.md#modifyAppendOnlyTableException))
+* `AppendOnlyTableFeature` is requested to [metadataRequiresFeatureToBeEnabled](../append-only-tables/AppendOnlyTableFeature.md#metadataRequiresFeatureToBeEnabled)
 
 ### <span id="AUTO_OPTIMIZE"><span id="delta.autoOptimize"> autoOptimize { #autoOptimize }
 
@@ -53,7 +63,7 @@ Default: `false`
 
 **delta.autoOptimize.autoCompact**
 
-Enables [Auto Compaction](auto-compaction/index.md)
+Enables [Auto Compaction](../auto-compaction/index.md)
 
 Default: `false`
 
@@ -62,11 +72,11 @@ Default: `false`
 
 Used when:
 
-* `AutoCompactBase` is requested for the [type of Auto Compaction](auto-compaction/AutoCompactBase.md#getAutoCompactType)
+* `AutoCompactBase` is requested for the [type of Auto Compaction](../auto-compaction/AutoCompactBase.md#getAutoCompactType)
 
 ### <span id="checkpointInterval"><span id="CHECKPOINT_INTERVAL"> checkpointInterval
 
-How often to [checkpoint](checkpoints/Checkpoints.md#checkpoint) the state of a delta table (at the end of [transaction commit](OptimisticTransactionImpl.md#postCommit))
+How often to [checkpoint](../checkpoints/Checkpoints.md#checkpoint) the state of a delta table (at the end of [transaction commit](../OptimisticTransactionImpl.md#postCommit))
 
 Default: `10`
 
@@ -100,7 +110,7 @@ Default: `undefined` (`Option[Boolean]`)
 
 **delta.columnMapping.maxColumnId**
 
-Maximum columnId used in the schema so far for [column mapping](column-mapping/index.md)
+Maximum columnId used in the schema so far for [column mapping](../column-mapping/index.md)
 
 Cannot be set
 
@@ -110,26 +120,26 @@ Default: `0`
 
 **delta.columnMapping.mode**
 
-[DeltaColumnMappingMode](column-mapping/DeltaColumnMappingMode.md) to read and write parquet data files
+[DeltaColumnMappingMode](../column-mapping/DeltaColumnMappingMode.md) to read and write parquet data files
 
 Name    | Description
 --------|------------
  `none` | **(default)** A display name is the only valid identifier of a column
  `id`   | A column ID is the identifier of a column. This mode is used for tables converted from Iceberg and parquet files in this mode will also have corresponding field Ids for each column in their file schema.
- `name` | The physical column name is the identifier of a column. Stored as part of `StructField` metadata in the schema. Used for reading statistics and partition values in the [DeltaLog](DeltaLog.md).
+ `name` | The physical column name is the identifier of a column. Stored as part of `StructField` metadata in the schema. Used for reading statistics and partition values in the [DeltaLog](../DeltaLog.md).
 
 Used when:
 
-* `DeltaColumnMappingBase` is requested to [tryFixMetadata](column-mapping/DeltaColumnMappingBase.md#tryFixMetadata) (while `OptimisticTransactionImpl` is requested to [update the metadata](OptimisticTransactionImpl.md#updateMetadata))
-* `DeltaErrors` utility is used to [create a DeltaColumnMappingUnsupportedException](DeltaErrors.md#changeColumnMappingModeOnOldProtocol) (while `OptimisticTransactionImpl` is requested to [update the metadata](OptimisticTransactionImpl.md#updateMetadata))
-* `DeltaErrors` utility is used to [create a DeltaColumnMappingUnsupportedException](DeltaErrors.md#convertToDeltaWithColumnMappingNotSupported) (while [ConvertToDeltaCommand](commands/convert/ConvertToDeltaCommand.md) is executed)
-* `Metadata` is requested for the [column mapping mode](Metadata.md#columnMappingMode) (while `DeltaFileFormat` is requested for the [FileFormat](DeltaFileFormat.md#fileFormat))
+* `DeltaColumnMappingBase` is requested to [tryFixMetadata](../column-mapping/DeltaColumnMappingBase.md#tryFixMetadata) (while `OptimisticTransactionImpl` is requested to [update the metadata](../OptimisticTransactionImpl.md#updateMetadata))
+* `DeltaErrors` utility is used to [create a DeltaColumnMappingUnsupportedException](../DeltaErrors.md#changeColumnMappingModeOnOldProtocol) (while `OptimisticTransactionImpl` is requested to [update the metadata](../OptimisticTransactionImpl.md#updateMetadata))
+* `DeltaErrors` utility is used to [create a DeltaColumnMappingUnsupportedException](../DeltaErrors.md#convertToDeltaWithColumnMappingNotSupported) (while [ConvertToDeltaCommand](../commands/convert/ConvertToDeltaCommand.md) is executed)
+* `Metadata` is requested for the [column mapping mode](../Metadata.md#columnMappingMode) (while `DeltaFileFormat` is requested for the [FileFormat](../DeltaFileFormat.md#fileFormat))
 
 ### <span id="SYMLINK_FORMAT_MANIFEST_ENABLED"> compatibility.symlinkFormatManifest.enabled { #compatibility.symlinkFormatManifest.enabled }
 
 **delta.compatibility.symlinkFormatManifest.enabled**
 
-Whether to register the [GenerateSymlinkManifest](post-commit-hooks/GenerateSymlinkManifest.md) post-commit hook while [committing a transaction](OptimisticTransactionImpl.md#commit) or not
+Whether to register the [GenerateSymlinkManifest](../post-commit-hooks/GenerateSymlinkManifest.md) post-commit hook while [committing a transaction](../OptimisticTransactionImpl.md#commit) or not
 
 Default: `false`
 
@@ -137,7 +147,7 @@ Default: `false`
 
 **delta.dataSkippingNumIndexedCols**
 
-The number of columns to collect stats on for [data skipping](data-skipping/index.md). `-1` means collecting stats for all columns.
+The number of columns to collect stats on for [data skipping](../data-skipping/index.md). `-1` means collecting stats for all columns.
 
 Default: `32`
 
@@ -145,8 +155,8 @@ Must be larger than or equal to `-1`.
 
 Used when:
 
-* `Snapshot` is requested for the [maximum number of indexed columns](Snapshot.md#numIndexedCols)
-* `TransactionalWrite` is requested to [write data out](TransactionalWrite.md#writeFiles)
+* `Snapshot` is requested for the [maximum number of indexed columns](../Snapshot.md#numIndexedCols)
+* `TransactionalWrite` is requested to [write data out](../TransactionalWrite.md#writeFiles)
 
 ### <span id="TOMBSTONE_RETENTION"> deletedFileRetentionDuration { #deletedFileRetentionDuration }
 
@@ -160,7 +170,7 @@ Default: `interval 1 week`
 
 **delta.enableChangeDataFeed**
 
-Enables [Change Data Feed](change-data-feed/index.md)
+Enables [Change Data Feed](../change-data-feed/index.md)
 
 Default: `false`
 
@@ -168,25 +178,25 @@ Legacy configuration: `enableChangeDataCapture`
 
 Used when:
 
-* `Protocol` is requested for the [requiredMinimumProtocol](Protocol.md#requiredMinimumProtocol)
-* `DeleteCommand` is requested to [rewriteFiles](commands/delete/DeleteCommand.md#rewriteFiles)
-* `MergeIntoCommand` is requested to [writeAllChanges](commands/merge/MergeIntoCommand.md#writeAllChanges)
-* `UpdateCommand` is requested to [shouldOutputCdc](commands/update/UpdateCommand.md#shouldOutputCdc)
-* `CDCReader` is requested to [isCDCEnabledOnTable](change-data-feed/CDCReader.md#isCDCEnabledOnTable)
+* `Protocol` is requested for the [requiredMinimumProtocol](../Protocol.md#requiredMinimumProtocol)
+* `DeleteCommand` is requested to [rewriteFiles](../commands/delete/DeleteCommand.md#rewriteFiles)
+* `MergeIntoCommand` is requested to [writeAllChanges](../commands/merge/MergeIntoCommand.md#writeAllChanges)
+* `UpdateCommand` is requested to [shouldOutputCdc](../commands/update/UpdateCommand.md#shouldOutputCdc)
+* `CDCReader` is requested to [isCDCEnabledOnTable](../change-data-feed/CDCReader.md#isCDCEnabledOnTable)
 
 ### <span id="ENABLE_DELETION_VECTORS_CREATION"> enableDeletionVectors { #enableDeletionVectors }
 
 **delta.enableDeletionVectors**
 
-Enables [Deletion Vectors](deletion-vectors/index.md)
+Enables [Deletion Vectors](../deletion-vectors/index.md)
 
 Default: `false`
 
 Used when:
 
-* `DeletionVectorsTableFeature` is requested to [metadataRequiresFeatureToBeEnabled](deletion-vectors/DeletionVectorsTableFeature.md#metadataRequiresFeatureToBeEnabled)
-* `Protocol` is requested to [assertTablePropertyConstraintsSatisfied](Protocol.md#assertTablePropertyConstraintsSatisfied)
-* `DeletionVectorUtils` is requested to [deletionVectorsWritable](deletion-vectors/DeletionVectorUtils.md#deletionVectorsWritable)
+* `DeletionVectorsTableFeature` is requested to [metadataRequiresFeatureToBeEnabled](../deletion-vectors/DeletionVectorsTableFeature.md#metadataRequiresFeatureToBeEnabled)
+* `Protocol` is requested to [assertTablePropertyConstraintsSatisfied](../Protocol.md#assertTablePropertyConstraintsSatisfied)
+* `DeletionVectorUtils` is requested to [deletionVectorsWritable](../deletion-vectors/DeletionVectorUtils.md#deletionVectorsWritable)
 
 ### <span id="ENABLE_EXPIRED_LOG_CLEANUP"> enableExpiredLogCleanup { #enableExpiredLogCleanup }
 
@@ -212,10 +222,10 @@ Default: `false`
 
 Used when:
 
-* `DeltaErrorsBase` is requested to [convertToDeltaRowTrackingEnabledWithoutStatsCollection](DeltaErrorsBase.md#convertToDeltaRowTrackingEnabledWithoutStatsCollection)
-* `RowId` is requested to [isEnabled](row-tracking/RowId.md#isEnabled)
-* `RowTracking` is requested to [isEnabled](row-tracking/RowTracking.md#isEnabled)
-* `RowTrackingFeature` is requested to [metadataRequiresFeatureToBeEnabled](row-tracking/RowTrackingFeature.md#metadataRequiresFeatureToBeEnabled)
+* `DeltaErrorsBase` is requested to [convertToDeltaRowTrackingEnabledWithoutStatsCollection](../DeltaErrorsBase.md#convertToDeltaRowTrackingEnabledWithoutStatsCollection)
+* `RowId` is requested to [isEnabled](../row-tracking/RowId.md#isEnabled)
+* `RowTracking` is requested to [isEnabled](../row-tracking/RowTracking.md#isEnabled)
+* `RowTrackingFeature` is requested to [metadataRequiresFeatureToBeEnabled](../row-tracking/RowTrackingFeature.md#metadataRequiresFeatureToBeEnabled)
 
 ### <span id="LOG_RETENTION"> logRetentionDuration { #logRetentionDuration }
 
@@ -229,7 +239,7 @@ Examples: `2 weeks`, `365 days` (`months` and `years` are not accepted)
 
 Used when:
 
-* `MetadataCleanup` is requested for the [deltaRetentionMillis](MetadataCleanup.md#deltaRetentionMillis)
+* `MetadataCleanup` is requested for the [deltaRetentionMillis](../MetadataCleanup.md#deltaRetentionMillis)
 
 ### <span id="MIN_READER_VERSION"> minReaderVersion { #minReaderVersion }
 
@@ -316,13 +326,13 @@ mergeGlobalConfigs(
   protocol: Protocol): Map[String, String]
 ```
 
-`mergeGlobalConfigs` finds all [spark.databricks.delta.properties.defaults](#sqlConfPrefix)-prefixed configuration properties among the [entries](#entries).
+`mergeGlobalConfigs` finds all [spark.databricks.delta.properties.defaults](#sqlConfPrefix)-prefixed table properties among the [entries](#entries).
 
 ---
 
 `mergeGlobalConfigs` is used when:
 
-* `OptimisticTransactionImpl` is requested to [withGlobalConfigDefaults](OptimisticTransactionImpl.md#withGlobalConfigDefaults)
+* `OptimisticTransactionImpl` is requested to [withGlobalConfigDefaults](../OptimisticTransactionImpl.md#withGlobalConfigDefaults)
 * `InitialSnapshot` is created
 
 ## validateConfigurations { #validateConfigurations }
@@ -338,9 +348,9 @@ validateConfigurations(
 
 `validateConfigurations` is used when:
 
-* `DeltaCatalog` is requested to [verifyTableAndSolidify](DeltaCatalog.md#verifyTableAndSolidify), [alterTable](DeltaCatalog.md#alterTable)
-* `CloneTableBase` is requested to [runInternal](commands/clone/CloneTableBase.md#runInternal)
-* `DeltaDataSource` is requested to [create a BaseRelation](spark-connector/DeltaDataSource.md#createRelation)
+* `DeltaCatalog` is requested to [verifyTableAndSolidify](../DeltaCatalog.md#verifyTableAndSolidify), [alterTable](../DeltaCatalog.md#alterTable)
+* `CloneTableBase` is requested to [runInternal](../commands/clone/CloneTableBase.md#runInternal)
+* `DeltaDataSource` is requested to [create a BaseRelation](../spark-connector/DeltaDataSource.md#createRelation)
 
 ## normalizeConfigKeys { #normalizeConfigKeys }
 
@@ -355,8 +365,4 @@ normalizeConfigKeys(
 
 `normalizeConfigKeys` is used when:
 
-* [AlterTableUnsetPropertiesDeltaCommand](commands/alter/AlterTableUnsetPropertiesDeltaCommand.md) is executed
-
-## <span id="spark.databricks.delta.properties.defaults"> spark.databricks.delta.properties.defaults Prefix { #sqlConfPrefix }
-
-**spark.databricks.delta.properties.defaults** prefix is used for [global configuration properties](#mergeGlobalConfigs).
+* [AlterTableUnsetPropertiesDeltaCommand](../commands/alter/AlterTableUnsetPropertiesDeltaCommand.md) is executed

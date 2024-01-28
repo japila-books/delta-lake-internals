@@ -2,7 +2,7 @@
 
 **Table Properties** are configuration properties that are used on table basis to customize behaviour of delta tables.
 
-[DeltaConfigs](../DeltaConfigs.md) holds the supported table properties.
+[DeltaConfigs](../table-properties/DeltaConfigs.md) holds the supported table properties.
 
 Table Properties use `delta.` prefix.
 

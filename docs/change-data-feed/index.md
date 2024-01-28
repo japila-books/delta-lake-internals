@@ -4,6 +4,8 @@
 
 Change Data Feed can be enabled on a delta table using [delta.enableChangeDataFeed](#delta.enableChangeDataFeed) table property.
 
+Change Data Feed can be enabled globally (on all new delta tables) using [spark.databricks.delta.properties.defaults.enableChangeDataFeed](../table-properties/DeltaConfigs.md#spark.databricks.delta.properties.defaults) system-wide configuration property.
+
 CDF data changes are written out (by [DelayedCommitProtocol](../DelayedCommitProtocol.md)) to [_change_data](#_change_data) directory as `cdc-`-prefixed parquet-encoded change data files.
 
 With [CDF-Aware Table Scan (CDF Read)](CDCReaderImpl.md#isCDCRead) (based on [readChangeFeed](../spark-connector/options.md#readChangeFeed) read option), [loading a delta table](../spark-connector/DeltaDataSource.md#RelationProvider-createRelation) gives data changes (not the data of a particular version of the delta table).
@@ -17,7 +19,7 @@ Change Data Feed was released in Delta Lake 2.0.0 (that was tracked under [Suppo
 
 ## delta.enableChangeDataFeed { #delta.enableChangeDataFeed }
 
-Change Data Feed can be enabled on a delta table using [delta.enableChangeDataFeed](../DeltaConfigs.md#enableChangeDataFeed) table property (through [ChangeDataFeedTableFeature](ChangeDataFeedTableFeature.md)).
+Change Data Feed can be enabled on a delta table using [delta.enableChangeDataFeed](../table-properties/DeltaConfigs.md#enableChangeDataFeed) table property (through [ChangeDataFeedTableFeature](ChangeDataFeedTableFeature.md)).
 
 ```sql
 ALTER TABLE delta_demo

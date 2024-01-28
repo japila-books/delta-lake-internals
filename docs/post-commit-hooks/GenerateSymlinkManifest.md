@@ -6,7 +6,7 @@ title: GenerateSymlinkManifest
 
 `GenerateSymlinkManifest` is a [post-commit hook](PostCommitHook.md) to generate [incremental](#generateIncrementalManifest) and [full](#generateFullManifest) Hive-style manifests for delta tables.
 
-`GenerateSymlinkManifest` is registered when `OptimisticTransactionImpl` is requested to [commit](../OptimisticTransaction.md#commit) (with [delta.compatibility.symlinkFormatManifest.enabled](../DeltaConfigs.md#SYMLINK_FORMAT_MANIFEST_ENABLED) table property enabled).
+`GenerateSymlinkManifest` is registered when `OptimisticTransactionImpl` is requested to [commit](../OptimisticTransaction.md#commit) (with [delta.compatibility.symlinkFormatManifest.enabled](../table-properties/DeltaConfigs.md#SYMLINK_FORMAT_MANIFEST_ENABLED) table property enabled).
 
 ## <span id="run"> Executing Post-Commit Hook
 

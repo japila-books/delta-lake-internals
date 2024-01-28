@@ -93,7 +93,7 @@ In the end, `checkpoint` [cleans up the expired logs](../MetadataCleanup.md#doLo
 
 `checkpoint` is used when:
 
-* `OptimisticTransactionImpl` is requested to [postCommit](../OptimisticTransactionImpl.md#postCommit) (based on [checkpoint interval](../DeltaConfigs.md#CHECKPOINT_INTERVAL) table property)
+* `OptimisticTransactionImpl` is requested to [postCommit](../OptimisticTransactionImpl.md#postCommit) (based on [checkpoint interval](../table-properties/DeltaConfigs.md#CHECKPOINT_INTERVAL) table property)
 * `DeltaCommand` is requested to [updateAndCheckpoint](../commands/DeltaCommand.md#updateAndCheckpoint)
 
 ### checkpointAndCleanUpDeltaLog { #checkpointAndCleanUpDeltaLog }

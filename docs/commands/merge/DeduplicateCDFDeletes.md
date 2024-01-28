@@ -23,7 +23,7 @@ More precisely, `DeduplicateCDFDeletes` is an input argument of [MergeOutputGene
 `DeduplicateCDFDeletes` is given an `enabled` flag when [created](#creating-instance) based on the following:
 
 * Whether there are multiple matches (`hasMultipleMatches`)
-* [enableChangeDataFeed](../../DeltaConfigs.md#enableChangeDataFeed) table property
+* [enableChangeDataFeed](../../table-properties/DeltaConfigs.md#enableChangeDataFeed) table property
 
 ### includesInserts Flag { #includesInserts }
 

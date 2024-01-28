@@ -380,7 +380,7 @@ getSnapshotAt(
 checkpointInterval: Int
 ```
 
-`checkpointInterval` is the current value of [checkpointInterval](DeltaConfigs.md#CHECKPOINT_INTERVAL) table property ([from](DeltaConfigs.md#fromMetaData) the [Metadata](#metadata)).
+`checkpointInterval` is the current value of [checkpointInterval](table-properties/DeltaConfigs.md#CHECKPOINT_INTERVAL) table property ([from](table-properties/DeltaConfigs.md#fromMetaData) the [Metadata](#metadata)).
 
 `checkpointInterval` is used when:
 
@@ -573,7 +573,7 @@ minFileRetentionTimestamp: Long
 tombstoneRetentionMillis: Long
 ```
 
-`tombstoneRetentionMillis` gives the value of [deletedFileRetentionDuration](DeltaConfigs.md#TOMBSTONE_RETENTION) table property ([from](DeltaConfigs.md#fromMetaData) the [Metadata](#metadata)).
+`tombstoneRetentionMillis` gives the value of [deletedFileRetentionDuration](table-properties/DeltaConfigs.md#TOMBSTONE_RETENTION) table property ([from](table-properties/DeltaConfigs.md#fromMetaData) the [Metadata](#metadata)).
 
 `tombstoneRetentionMillis` is used when:
 
@@ -707,7 +707,7 @@ assertRemovable(): Unit
 ??? warning "Procedure"
     `assertRemovable` is a procedure (returns `Unit`) so _what happens inside stays inside_ (paraphrasing the [former advertising slogan of Las Vegas, Nevada](https://idioms.thefreedictionary.com/what+happens+in+Vegas+stays+in+Vegas)).
 
-With [delta.appendOnly](DeltaConfigs.md#IS_APPEND_ONLY) table property enabled, `assertRemovable` throws a [DeltaUnsupportedOperationException](DeltaErrors.md#modifyAppendOnlyTableException).
+With [delta.appendOnly](table-properties/DeltaConfigs.md#IS_APPEND_ONLY) table property enabled, `assertRemovable` throws a [DeltaUnsupportedOperationException](DeltaErrors.md#modifyAppendOnlyTableException).
 
 ---
 

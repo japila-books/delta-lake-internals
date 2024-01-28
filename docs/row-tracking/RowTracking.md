@@ -28,7 +28,7 @@ isEnabled(
 
 `isEnabled` is enabled (`true`) when the following are all met:
 
-1. [delta.enableRowTracking](../DeltaConfigs.md#ROW_TRACKING_ENABLED) table property is enabled ([in the given Metadata](../DeltaConfig.md#fromMetaData))
+1. [delta.enableRowTracking](../table-properties/DeltaConfigs.md#ROW_TRACKING_ENABLED) table property is enabled ([in the given Metadata](../table-properties/DeltaConfig.md#fromMetaData))
 1. Row Tracking feature [is supported](#isSupported)
 
 !!! danger "Not Used"

@@ -190,8 +190,6 @@ nav:
       - SetTransaction: SetTransaction.md
       - SingleAction: SingleAction.md
     - DelayedCommitProtocol.md
-    - DeltaConfig: DeltaConfig.md
-    - DeltaConfigs: DeltaConfigs.md
     - DeltaErrorsBase.md
     - DeltaTableIdentifier: DeltaTableIdentifier.md
     - FileFormat:

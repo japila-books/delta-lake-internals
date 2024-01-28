@@ -8,7 +8,7 @@ hide:
 !!! danger "Under Development"
     Row Tracking is under development and only available in testing.
 
-**Row Tracking** is enabled on a delta table using [delta.enableRowTracking](../DeltaConfigs.md#ROW_TRACKING_ENABLED) table property.
+**Row Tracking** is enabled on a delta table using [delta.enableRowTracking](../table-properties/DeltaConfigs.md#ROW_TRACKING_ENABLED) table property.
 
 === "SQL"
 

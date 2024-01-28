@@ -11,11 +11,11 @@ hide:
 * `DeltaSink` to [addBatch](../spark-connector/DeltaSink.md#addBatch) in `Complete` output mode
 * [RemoveFile](../RemoveFile.md)s with [dataChange](../RemoveFile.md#dataChange) (at [prepareCommit](../OptimisticTransactionImpl.md#prepareCommit))
 
-Append-Only Tables is enabled on a delta table using [delta.appendOnly](../DeltaConfigs.md#IS_APPEND_ONLY) table property (indirectly, through [AppendOnlyTableFeature](AppendOnlyTableFeature.md) that is a [FeatureAutomaticallyEnabledByMetadata](../table-features/FeatureAutomaticallyEnabledByMetadata.md) and uses this table property).
+Append-Only Tables is enabled on a delta table using [delta.appendOnly](../table-properties/DeltaConfigs.md#IS_APPEND_ONLY) table property (indirectly, through [AppendOnlyTableFeature](AppendOnlyTableFeature.md) that is a [FeatureAutomaticallyEnabledByMetadata](../table-features/FeatureAutomaticallyEnabledByMetadata.md) and uses this table property).
 
 ## Demo
 
-Create a delta table with [delta.appendOnly](../DeltaConfigs.md#appendOnly) table property enabled.
+Create a delta table with [delta.appendOnly](../table-properties/DeltaConfigs.md#appendOnly) table property enabled.
 
 === "SQL"
 

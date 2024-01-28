@@ -2,7 +2,7 @@
 
 [Delta Table Checkpoint](Checkpoints.md#checkpoint) is a process of writing out a [Snapshot](../Snapshot.md) of a delta table into one or more checkpoint files for faster state reconstruction (_future replays of the log_).
 
-Delta Table Checkpoint happens regularly at a [transaction commit](../OptimisticTransactionImpl.md#doCommit) every [checkpoint interval](../DeltaConfigs.md#CHECKPOINT_INTERVAL) or once at a [transaction commit](../OptimisticTransactionImpl.md#updateAndCheckpoint) for the following commands:
+Delta Table Checkpoint happens regularly at a [transaction commit](../OptimisticTransactionImpl.md#doCommit) every [checkpoint interval](../table-properties/DeltaConfigs.md#CHECKPOINT_INTERVAL) or once at a [transaction commit](../OptimisticTransactionImpl.md#updateAndCheckpoint) for the following commands:
 
 * [CloneTableBase](../commands/clone/CloneTableBase.md)
 * [ConvertToDeltaCommand](../commands/convert/ConvertToDeltaCommand.md)
