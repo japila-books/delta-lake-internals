@@ -221,11 +221,6 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://books.japila.pl/delta-lake-internals/MetadataCleanup/</loc>
-         <lastmod>2024-01-28</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://books.japila.pl/delta-lake-internals/Operation/</loc>
          <lastmod>2024-01-28</lastmod>
          <changefreq>daily</changefreq>
@@ -1447,6 +1442,16 @@
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/limit-pushdown/</loc>
+         <lastmod>2024-01-28</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://books.japila.pl/delta-lake-internals/log-cleanup/</loc>
+         <lastmod>2024-01-28</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://books.japila.pl/delta-lake-internals/log-cleanup/MetadataCleanup/</loc>
          <lastmod>2024-01-28</lastmod>
          <changefreq>daily</changefreq>
     </url>
