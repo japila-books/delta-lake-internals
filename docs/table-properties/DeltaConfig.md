@@ -33,7 +33,7 @@ In the end, `fromMetaData` converts the text representation to the proper type u
 * `Checkpoints` utility is used to [buildCheckpoint](../checkpoints/Checkpoints.md#buildCheckpoint)
 * `DeltaErrors` utility is used to [logFileNotFoundException](../DeltaErrors.md#logFileNotFoundException)
 * `DeltaLog` is requested for [checkpointInterval](../DeltaLog.md#checkpointInterval) and [deletedFileRetentionDuration](../DeltaLog.md#tombstoneRetentionMillis) table properties, and to [assert a table is not read-only](../DeltaLog.md#assertRemovable)
-* `MetadataCleanup` is requested for the [enableExpiredLogCleanup](../MetadataCleanup.md#enableExpiredLogCleanup) and the [deltaRetentionMillis](../MetadataCleanup.md#deltaRetentionMillis)
+* `MetadataCleanup` is requested for the [enableExpiredLogCleanup](../log-cleanup/MetadataCleanup.md#enableExpiredLogCleanup) and the [deltaRetentionMillis](../log-cleanup/MetadataCleanup.md#deltaRetentionMillis)
 * `OptimisticTransactionImpl` is requested to [commit](../OptimisticTransactionImpl.md#commit)
 * `Snapshot` is requested for the [numIndexedCols](../Snapshot.md#numIndexedCols)
 

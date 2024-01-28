@@ -198,13 +198,17 @@ Used when:
 * `Protocol` is requested to [assertTablePropertyConstraintsSatisfied](../Protocol.md#assertTablePropertyConstraintsSatisfied)
 * `DeletionVectorUtils` is requested to [deletionVectorsWritable](../deletion-vectors/DeletionVectorUtils.md#deletionVectorsWritable)
 
-### <span id="ENABLE_EXPIRED_LOG_CLEANUP"> enableExpiredLogCleanup { #enableExpiredLogCleanup }
+### <span id="ENABLE_EXPIRED_LOG_CLEANUP"><span id="enableExpiredLogCleanup"> enableExpiredLogCleanup { #delta.enableExpiredLogCleanup }
 
 **delta.enableExpiredLogCleanup**
 
-Whether to clean up expired log files and checkpoints
+Controls [Log Cleanup](../log-cleanup/index.md)
 
 Default: `true`
+
+Used when:
+
+* `MetadataCleanup` is requested for [whether to clean up expired log files and checkpoints](../log-cleanup/MetadataCleanup.md#enableExpiredLogCleanup)
 
 ### <span id="ENABLE_FULL_RETENTION_ROLLBACK"> enableFullRetentionRollback { #enableFullRetentionRollback }
 
@@ -239,7 +243,7 @@ Examples: `2 weeks`, `365 days` (`months` and `years` are not accepted)
 
 Used when:
 
-* `MetadataCleanup` is requested for the [deltaRetentionMillis](../MetadataCleanup.md#deltaRetentionMillis)
+* `MetadataCleanup` is requested for the [deltaRetentionMillis](../log-cleanup/MetadataCleanup.md#deltaRetentionMillis)
 
 ### <span id="MIN_READER_VERSION"> minReaderVersion { #minReaderVersion }
 

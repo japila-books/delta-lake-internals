@@ -52,7 +52,7 @@ Used when:
 * `Checkpoints` is requested to [findLastCompleteCheckpoint](../checkpoints/Checkpoints.md#findLastCompleteCheckpoint)
 * `DeltaHistoryManager` is requested to [getEarliestDeltaFile](../DeltaHistoryManager.md#getEarliestDeltaFile), [getEarliestReproducibleCommit](../DeltaHistoryManager.md#getEarliestReproducibleCommit) and [getCommits](../DeltaHistoryManager.md#getCommits)
 * `DeltaLog` is requested to [getChanges](../DeltaLog.md#getChanges)
-* `MetadataCleanup` is requested to [listExpiredDeltaLogs](../MetadataCleanup.md#listExpiredDeltaLogs)
+* `MetadataCleanup` is requested to [listExpiredDeltaLogs](../log-cleanup/MetadataCleanup.md#listExpiredDeltaLogs)
 * `SnapshotManagement` is requested to [listFrom](../SnapshotManagement.md#listFrom)
 * `DelegatingLogStore` is requested to [listFrom](DelegatingLogStore.md#listFrom)
 * `DeltaFileOperations` utility is used to [listUsingLogStore](../DeltaFileOperations.md#listUsingLogStore)

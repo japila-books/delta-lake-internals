@@ -15,23 +15,27 @@ dataPath: Path
 
 Hadoop [Path]({{ hadoop.api }}/org/apache/hadoop/fs/Path.html) to the data directory of the [delta table](#self)
 
-### <span id="doLogCleanup"> doLogCleanup
+### Cleaning Up Expired Logs { #doLogCleanup }
 
 ```scala
-doLogCleanup(): Unit
+doLogCleanup(
+  snapshotToCleanup: Snapshot): Unit
 ```
 
-Performs log cleanup (to remove stale log files)
+??? warning "Procedure"
+    `doLogCleanup` is a procedure (returns `Unit`) so _what happens inside stays inside_ (paraphrasing the [former advertising slogan of Las Vegas, Nevada](https://idioms.thefreedictionary.com/what+happens+in+Vegas+stays+in+Vegas)).
+
+Performs [log cleanup](../log-cleanup/index.md)
 
 See:
 
-* [DeltaLog](../DeltaLog.md#doLogCleanup)
+* [MetadataCleanup](../log-cleanup/MetadataCleanup.md#doLogCleanup)
 
 Used when:
 
-* `Checkpoints` is requested to [checkpointAndCleanUpDeltaLog](#checkpointAndCleanUpDeltaLog)
+* `Checkpoints` is requested to [checkpoint](#checkpoint) (and [checkpointAndCleanUpDeltaLog](#checkpointAndCleanUpDeltaLog))
 
-### <span id="logPath"> logPath
+### logPath { #logPath }
 
 ```scala
 logPath: Path
@@ -39,7 +43,7 @@ logPath: Path
 
 Hadoop [Path]({{ hadoop.api }}/org/apache/hadoop/fs/Path.html) to the log directory of the [delta table](#self)
 
-### <span id="metadata"> Metadata
+### Metadata
 
 ```scala
 metadata: Metadata
@@ -47,7 +51,7 @@ metadata: Metadata
 
 [Metadata](../Metadata.md) of the [delta table](#self)
 
-### <span id="snapshot"> snapshot
+### snapshot
 
 ```scala
 snapshot: Snapshot
@@ -55,7 +59,7 @@ snapshot: Snapshot
 
 [Snapshot](../Snapshot.md) of the [delta table](#self)
 
-### <span id="store"> store
+### store
 
 ```scala
 store: LogStore
@@ -75,7 +79,7 @@ store: LogStore
 
 * [Loading checkpoint metadata in](#loadMetadataFromFile)
 
-## <span id="checkpoint"> Checkpointing
+## Checkpointing { #checkpoint }
 
 ```scala
 checkpoint(): Unit
@@ -87,7 +91,7 @@ checkpoint(
 
 `checkpoint` requests the [LogStore](../DeltaLog.md#store) to [overwrite](../storage/LogStore.md#write) the [_last_checkpoint](#LAST_CHECKPOINT) file with the JSON-encoded checkpoint metadata.
 
-In the end, `checkpoint` [cleans up the expired logs](../MetadataCleanup.md#doLogCleanup) (if enabled).
+In the end, `checkpoint` [cleans up the expired logs](../log-cleanup/MetadataCleanup.md#doLogCleanup) (if enabled).
 
 ---
 
@@ -102,6 +106,9 @@ In the end, `checkpoint` [cleans up the expired logs](../MetadataCleanup.md#doLo
 checkpointAndCleanUpDeltaLog(
   snapshotToCheckpoint: Snapshot): Unit
 ```
+
+??? warning "Procedure"
+    `checkpointAndCleanUpDeltaLog` is a procedure (returns `Unit`) so _what happens inside stays inside_ (paraphrasing the [former advertising slogan of Las Vegas, Nevada](https://idioms.thefreedictionary.com/what+happens+in+Vegas+stays+in+Vegas)).
 
 `checkpointAndCleanUpDeltaLog` does the following (in the order):
 
@@ -164,7 +171,7 @@ lastCheckpoint: Option[CheckpointMetaData]
 `lastCheckpoint` is used when:
 
 * `SnapshotManagement` is requested to [load the latest snapshot](../SnapshotManagement.md#getSnapshotAtInit)
-* `MetadataCleanup` is requested to [listExpiredDeltaLogs](../MetadataCleanup.md#listExpiredDeltaLogs)
+* `MetadataCleanup` is requested to [listExpiredDeltaLogs](../log-cleanup/MetadataCleanup.md#listExpiredDeltaLogs)
 
 ### loadMetadataFromFile { #loadMetadataFromFile }
 

@@ -166,6 +166,7 @@ nav:
     - developer-api.md
     - ... | generated-columns/**.md
     - installation.md
+    - ... | log-cleanup/**.md
     - LIMIT Pushdown:
       - limit-pushdown/index.md
     - Logging: logging.md
@@ -201,7 +202,6 @@ nav:
       - SnapshotManagement: SnapshotManagement.md
       - SnapshotDescriptor.md
       - ReadChecksum: ReadChecksum.md
-      - MetadataCleanup: MetadataCleanup.md
       - VerifyChecksum: VerifyChecksum.md
     - Optimistic Transactions:
       - OptimisticTransaction: OptimisticTransaction.md
