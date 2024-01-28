@@ -396,11 +396,6 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://books.japila.pl/delta-lake-internals/overview/</loc>
-         <lastmod>2024-01-28</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://books.japila.pl/delta-lake-internals/append-only-tables/</loc>
          <lastmod>2024-01-28</lastmod>
          <changefreq>daily</changefreq>
