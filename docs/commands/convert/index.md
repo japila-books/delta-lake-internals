@@ -1,4 +1,4 @@
-# Convert to Delta Command
+# CONVERT Command
 
 Delta Lake supports converting (_importing_) parquet tables to delta format using the following high-level operators:
 

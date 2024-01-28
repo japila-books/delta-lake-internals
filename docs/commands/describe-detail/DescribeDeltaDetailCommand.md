@@ -42,6 +42,18 @@
 
 `run`...FIXME
 
+### describeDeltaTable { #describeDeltaTable }
+
+```scala
+describeDeltaTable(
+  sparkSession: SparkSession,
+  deltaLog: DeltaLog,
+  snapshot: Snapshot,
+  tableMetadata: Option[CatalogTable]): Seq[Row]
+```
+
+`describeDeltaTable`...FIXME
+
 ## Demo
 
 === "SQL"

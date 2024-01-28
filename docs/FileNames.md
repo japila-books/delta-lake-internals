@@ -1,11 +1,42 @@
-= FileNames Utility
+---
+title: FileNames
+---
 
-[cols="30m,70",options="header",width="100%"]
-|===
-| Name
-| Description
+# FileNames Utility
 
-| checkpointPrefix
+## Creating Hadoop Path To Delta Commit File { #deltaFile }
+
+```scala
+deltaFile(
+  path: Path,
+  version: Long): Path
+```
+
+`deltaFile` creates a `Path` ([Hadoop]({{ hadoop.api }}/Path.html)) to a file in the `path` directory.
+
+The format of the file is as follows:
+
+```text
+[version with leading 0s, up to 20 digits].json
+```
+
+Examples:
+
+* `00000000000000000001.json`
+* `00000000000000012345.json`
+
+---
+
+`deltaFile` is used when:
+
+* `DeltaHistoryManager` is requested for [the history of a delta table](DeltaHistoryManager.md#getHistory) (and [getCommitInfo](DeltaHistoryManager.md#getCommitInfo))
+* `OptimisticTransactionImpl` is requested to [commit large](OptimisticTransactionImpl.md#commitLarge) and to [commit](OptimisticTransactionImpl.md#doCommit) (and [write a commit file](OptimisticTransactionImpl.md#writeCommitFile))
+* `SnapshotManagement` is requested for the [LogSegment for a given version](SnapshotManagement.md#getLogSegmentForVersion) (and [validateDeltaVersions](SnapshotManagement.md#validateDeltaVersions))
+* [DESCRIBE DETAIL](commands/describe-detail/index.md) command is executed (and [describeDeltaTable](commands/describe-detail/DescribeDeltaDetailCommand.md#describeDeltaTable))
+
+<!---
+## Review Me
+
 a| [[checkpointPrefix]] Creates a Hadoop `Path` for a file name with a given `version`:
 
 ```
@@ -13,24 +44,4 @@ a| [[checkpointPrefix]] Creates a Hadoop `Path` for a file name with a given `ve
 ```
 
 E.g. `00000000000000000005.checkpoint`
-
-| isCheckpointFile
-a| [[isCheckpointFile]]
-
-| isDeltaFile
-a| [[isDeltaFile]]
-
-|===
-
-== [[deltaFile]] Creating Hadoop Path To Delta File -- `deltaFile` Utility
-
-[source, scala]
-----
-deltaFile(
-  path: Path,
-  version: Long): Path
-----
-
-`deltaFile` creates a Hadoop `Path` to a file of the format `[version][%020d].json` in the `path` directory, e.g. `00000000000000000001.json`.
-
-NOTE: `deltaFile` is used when...FIXME
+-->

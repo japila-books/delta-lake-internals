@@ -173,11 +173,11 @@ nav:
     - ... | row-tracking/**.md
     - ... | constraints/**.md
     - ... | spark-connector/**.md
+    - ... | storage/**.md
     - ... | table-features/**.md
     - ... | table-properties/**.md
     - ... | time-travel/**.md
   - Internals:
-    - Overview: overview.md
     - Actions:
       - Action: Action.md
       - AddCDCFile: AddCDCFile.md
@@ -216,7 +216,6 @@ nav:
       - PartitionFiltering: PartitionFiltering.md
       - LogSegment: LogSegment.md
     - DeltaHistoryManager: DeltaHistoryManager.md
-    - ... | storage/**.md
     - FileNames: FileNames.md
     - Spark SQL Extensions:
       - AppendDelta: AppendDelta.md

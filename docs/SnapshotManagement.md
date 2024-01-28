@@ -2,7 +2,11 @@
 
 `SnapshotManagement` is an extension for [DeltaLog](DeltaLog.md) to manage [Snapshot](#currentSnapshot)s.
 
-## <span id="currentSnapshot"><span id="snapshot"> Current Snapshot
+## <span id="snapshot"> Current Snapshot { #currentSnapshot }
+
+```scala
+currentSnapshot: CapturedSnapshot
+```
 
 `SnapshotManagement` defines `currentSnapshot` registry with the recently-loaded [Snapshot](Snapshot.md) of the [delta table](DeltaLog.md).
 
@@ -18,10 +22,10 @@
 * [update](#update) ([tryUpdate](#tryUpdate), [updateInternal](#updateInternal), [installLogSegmentInternal](#installLogSegmentInternal), [replaceSnapshot](#replaceSnapshot))
 * [updateAfterCommit](#updateAfterCommit)
 
-### <span id="getSnapshotAtInit"> Loading Latest Snapshot at Initialization
+### Loading Latest Snapshot at Initialization { #getSnapshotAtInit }
 
 ```scala
-getSnapshotAtInit: Snapshot
+getSnapshotAtInit: CapturedSnapshot
 ```
 
 `getSnapshotAtInit` [finds the LogSegment](#getLogSegmentFrom) of the delta table (using the [last checkpoint file](checkpoints/Checkpoints.md#readLastCheckpointFile) if available)
@@ -39,21 +43,28 @@ createSnapshotAtInitInternal(
 
 `createSnapshotAtInitInternal`...FIXME
 
-### <span id="getLogSegmentFrom"> Fetching Log Files for Version Checkpointed
+### Fetching Log Files for Version Checkpointed { #getLogSegmentFrom }
 
 ```scala
 getLogSegmentFrom(
-  startingCheckpoint: Option[CheckpointMetaData]): LogSegment
+  startingCheckpoint: Option[LastCheckpointInfo]): Option[LogSegment]
 ```
 
 `getLogSegmentFrom` [fetches log files for the version](#getLogSegmentForVersion) (based on the optional `CheckpointMetaData` as the starting checkpoint version to start listing log files from).
 
-## <span id="getLogSegmentForVersion"> Fetching Latest Checkpoint and Delta Log Files for Version
+## Fetching Latest LogSegment for Version { #getLogSegmentForVersion }
 
 ```scala
 getLogSegmentForVersion(
-  startCheckpoint: Option[Long],
-  versionToLoad: Option[Long] = None): LogSegment
+  versionToLoad: Option[Long] = None,
+  oldCheckpointProviderOpt: Option[UninitializedCheckpointProvider] = None,
+  lastCheckpointInfo: Option[LastCheckpointInfo] = None): Option[LogSegment]
+getLogSegmentForVersion(
+  versionToLoad: Option[Long],
+  files: Option[Array[FileStatus]],
+  validateLogSegmentWithoutCompactedDeltas: Boolean,
+  oldCheckpointProviderOpt: Option[UninitializedCheckpointProvider],
+  lastCheckpointInfo: Option[LastCheckpointInfo]): Option[LogSegment]
 ```
 
 `getLogSegmentForVersion` [list all the files](#listFrom) (in a transaction log) from the given `startCheckpoint` (or defaults to `0`).
@@ -70,11 +81,13 @@ getLogSegmentForVersion(
 
 In the end, `getLogSegmentForVersion` creates a [LogSegment](LogSegment.md) with the (checkpoint and delta) files.
 
+---
+
 `getLogSegmentForVersion` is used when:
 
-* `SnapshotManagement` is requested for [getLogSegmentFrom](#getLogSegmentFrom), [updateInternal](#updateInternal) and [getSnapshotAt](#getSnapshotAt)
+* `SnapshotManagement` is requested to [getUpdatedLogSegment](#getUpdatedLogSegment), [getLogSegmentAfterCommit](#getLogSegmentAfterCommit), [getLogSegmentFrom](#getLogSegmentFrom), [getSnapshotAt](#getSnapshotAt), [updateInternal](#updateInternal)
 
-### <span id="listFrom"> Listing Files from Version Upwards
+### Listing Files from Version Upwards { #listFrom }
 
 ```scala
 listFrom(
@@ -82,6 +95,20 @@ listFrom(
 ```
 
 `listFrom`...FIXME
+
+### validateDeltaVersions { #validateDeltaVersions }
+
+```scala
+validateDeltaVersions(
+  selectedDeltas: Array[FileStatus],
+  checkpointVersion: Long,
+  versionToLoad: Option[Long]): Unit
+```
+
+??? warning "Procedure"
+    `validateDeltaVersions` is a procedure (returns `Unit`) so _what happens inside stays inside_ (paraphrasing the [former advertising slogan of Las Vegas, Nevada](https://idioms.thefreedictionary.com/what+happens+in+Vegas+stays+in+Vegas)).
+
+`validateDeltaVersions`...FIXME
 
 ## <span id="createSnapshot"> Creating Snapshot
 
@@ -102,11 +129,12 @@ createSnapshot(
 
 `SnapshotManagement` uses `lastUpdateTimestamp` internal registry for the timestamp of the last successful update.
 
-## <span id="update"> Updating Current Snapshot
+## Updating Snapshot { #update }
 
 ```scala
 update(
-  stalenessAcceptable: Boolean = false): Snapshot
+  stalenessAcceptable: Boolean = false,
+  checkIfUpdatedSinceTs: Option[Long] = None): Snapshot
 ```
 
 `update` determines whether to do update asynchronously or not based on the input `stalenessAcceptable` flag and [isSnapshotStale](#isSnapshotStale).
@@ -140,7 +168,7 @@ isSnapshotStale: Boolean
 1. [spark.databricks.delta.stalenessLimit](configuration-properties/DeltaSQLConf.md#DELTA_ASYNC_UPDATE_STALENESS_TIME_LIMIT) configuration property is `0` (the default)
 1. Internal [lastUpdateTimestamp](#lastUpdateTimestamp) has never been updated (and is below `0`) or is at least [spark.databricks.delta.stalenessLimit](configuration-properties/DeltaSQLConf.md#DELTA_ASYNC_UPDATE_STALENESS_TIME_LIMIT) configuration property old
 
-### <span id="tryUpdate"> tryUpdate
+### tryUpdate { #tryUpdate }
 
 ```scala
 tryUpdate(
@@ -149,14 +177,12 @@ tryUpdate(
 
 `tryUpdate`...FIXME
 
-### <span id="updateInternal"> updateInternal
+### updateInternal { #updateInternal }
 
 ```scala
 updateInternal(
-  isAsync: Boolean): Snapshot // (1)
+  isAsync: Boolean): Snapshot
 ```
-
-1. `isAsync` flag is not used
 
 `updateInternal` requests the [current Snapshot](#currentSnapshot) for the [LogSegment](Snapshot.md#logSegment) that is in turn requested for the [checkpointVersion](LogSegment.md#checkpointVersion) to [get the LogSegment](#getLogSegmentForVersion) for.
 
@@ -195,7 +221,7 @@ replaceSnapshot(
 
 `replaceSnapshot` requests the [currentSnapshot](#currentSnapshot) to [uncache](StateCache.md#uncache) (and drop any cached data) and makes the given `newSnapshot` the [current one](#currentSnapshot).
 
-## <span id="updateAfterCommit"> updateAfterCommit
+## updateAfterCommit { #updateAfterCommit }
 
 ```scala
 updateAfterCommit(
@@ -211,6 +237,46 @@ updateAfterCommit(
 `updateAfterCommit` is used when:
 
 * `OptimisticTransactionImpl` is requested to [attempt a commit](OptimisticTransactionImpl.md#doCommit)
+
+### getLogSegmentAfterCommit { #getLogSegmentAfterCommit }
+
+```scala
+getLogSegmentAfterCommit(
+  oldCheckpointProvider: UninitializedCheckpointProvider): LogSegment
+```
+
+`getLogSegmentAfterCommit`...FIXME
+
+## getSnapshotAt { #getSnapshotAt }
+
+```scala
+getSnapshotAt(
+  version: Long,
+  lastCheckpointProvider: CheckpointProvider): Snapshot
+```
+
+`getSnapshotAt`...FIXME
+
+---
+
+`getSnapshotAt` is used when:
+
+* [CheckpointHook](checkpoints/CheckpointHook.md) is executed
+
+## getUpdatedLogSegment { #getUpdatedLogSegment }
+
+```scala
+getUpdatedLogSegment(
+  oldLogSegment: LogSegment): (LogSegment, Seq[FileStatus])
+```
+
+`getUpdatedLogSegment`...FIXME
+
+---
+
+`getUpdatedLogSegment` is used when:
+
+* `OptimisticTransactionImpl` is requested to [getConflictingVersions](OptimisticTransactionImpl.md#getConflictingVersions)
 
 ## Demo
 

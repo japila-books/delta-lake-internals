@@ -339,7 +339,7 @@ getOperationMetrics(
 
 `OptimisticTransactionImpl` uses the `CommitInfo` to `recordDeltaEvent` (as a `CommitStats`).
 
-## <span id="doCommit"> Attempting Commit
+## Attempting Commit { #doCommit }
 
 ```scala
 doCommit(
@@ -398,6 +398,17 @@ A commit triggers checkpointing when the following all hold:
 ### <span id="doCommit-stats"> CommitStats
 
 `doCommit` records a new `CommitStats` event.
+
+### writeCommitFile { #writeCommitFile }
+
+```scala
+writeCommitFile(
+  attemptVersion: Long,
+  jsonActions: Iterator[String],
+  currentTransactionInfo: CurrentTransactionInfo): Option[VersionChecksum]
+```
+
+`writeCommitFile`...FIXME
 
 ## <span id="checkAndRetry"> Retrying Commit
 
@@ -780,6 +791,27 @@ setNewProtocolWithFeaturesEnabledByMetadata(
 `setNewProtocolWithFeaturesEnabledByMetadata` is used when:
 
 * `OptimisticTransactionImpl` is requested to [updateMetadataInternal](#updateMetadataInternal) and [prepareCommit](#prepareCommit)
+
+## Committing Large (Data Files) { #commitLarge }
+
+```scala
+commitLarge(
+  spark: SparkSession,
+  actions: Iterator[Action],
+  op: DeltaOperations.Operation,
+  context: Map[String, String],
+  metrics: Map[String, String]): (Long, Snapshot)
+```
+
+`commitLarge`...FIXME
+
+---
+
+`commitLarge` is used for the following commands:
+
+* [CONVERT](commands/convert/index.md) (and [performConvert](commands/convert/ConvertToDeltaCommand.md#performConvert))
+* [CreateDeltaTableCommand](commands/CreateDeltaTableCommand.md) (and [handleClone](commands/clone/CloneTableBase.md#handleClone))
+* [RESTORE](commands/restore/index.md)
 
 ## Logging
 

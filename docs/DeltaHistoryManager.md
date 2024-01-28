@@ -23,7 +23,7 @@ The value of `maxKeysPerList` can be configured using [spark.databricks.delta.hi
 
 `maxKeysPerList` is used to [look up the active commit at a given time](#getActiveCommitAtTime) (in [parallelSearch](#parallelSearch)).
 
-## Version and Commit History { #getHistory }
+## Table History (Versions) { #getHistory }
 
 ```scala
 getHistory(
@@ -34,6 +34,8 @@ getHistory(
 ```
 
 `getHistory`...FIXME
+
+---
 
 `getHistory` is used when:
 
