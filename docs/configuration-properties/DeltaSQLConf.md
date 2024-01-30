@@ -22,6 +22,10 @@
 
 [spark.databricks.delta.checkpoint.partSize](index.md#checkpoint.partSize)
 
+## clusteredTable.enableClusteringTablePreview { #DELTA_CLUSTERING_TABLE_PREVIEW_ENABLED }
+
+[spark.databricks.delta.clusteredTable.enableClusteringTablePreview](index.md#clusteredTable.enableClusteringTablePreview)
+
 ## delete.deletionVectors.persistent { #DELETE_USE_PERSISTENT_DELETION_VECTORS }
 
 [spark.databricks.delta.delete.deletionVectors.persistent](index.md#delete.deletionVectors.persistent)

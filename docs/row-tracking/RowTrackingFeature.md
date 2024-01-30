@@ -42,6 +42,4 @@ With [delta.enableRowTracking](../table-properties/DeltaConfigs.md#ROW_TRACKING_
 
     `requiredFeatures` is part of the [TableFeature](../table-features/TableFeature.md#requiredFeatures) abstraction.
 
-`requiredFeatures` is a single-element collection:
-
-* [DomainMetadataTableFeature](../table-features/DomainMetadataTableFeature.md)
+`requiredFeatures` is a [DomainMetadataTableFeature](../table-features/DomainMetadataTableFeature.md).

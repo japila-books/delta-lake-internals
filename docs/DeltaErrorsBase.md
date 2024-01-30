@@ -1,5 +1,25 @@
 # DeltaErrorsBase
 
+## clusteringTablePreviewDisabledException { #clusteringTablePreviewDisabledException }
+
+```scala
+clusteringTablePreviewDisabledException(): Throwable
+```
+
+`clusteringTablePreviewDisabledException` creates an `UnsupportedOperationException` with the following error message:
+
+```text
+A clustered table is currently in preview and is disabled by default.
+Please set spark.databricks.delta.clusteredTable.enableClusteringTablePreview to true to enable it.
+Note that a clustered table is not recommended for production use (e.g., unsupported incremental clustering).
+```
+
+---
+
+`clusteringTablePreviewDisabledException` is used when:
+
+* `ClusteredTableUtilsBase` is requested to [validatePreviewEnabled](liquid-clustering/ClusteredTableUtilsBase.md#validatePreviewEnabled)
+
 ## convertToDeltaRowTrackingEnabledWithoutStatsCollection { #convertToDeltaRowTrackingEnabledWithoutStatsCollection }
 
 ```scala

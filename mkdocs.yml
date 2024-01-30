@@ -166,6 +166,7 @@ nav:
     - developer-api.md
     - ... | generated-columns/**.md
     - installation.md
+    - ... | liquid-clustering/**.md
     - ... | log-cleanup/**.md
     - LIMIT Pushdown:
       - limit-pushdown/index.md

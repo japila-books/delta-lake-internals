@@ -15,8 +15,11 @@ TableFeature | Value
 
 ## Implementations
 
+* `AllowColumnDefaultsTableFeature`
+* [ClusteringTableFeature](../liquid-clustering/ClusteringTableFeature.md)
 * [DomainMetadataTableFeature](DomainMetadataTableFeature.md)
 * `IcebergCompatV1TableFeature`
+* `IcebergCompatV2TableFeature`
 * [ReaderWriterFeature](ReaderWriterFeature.md)
 * [RowTrackingFeature](../row-tracking/RowTrackingFeature.md)
 

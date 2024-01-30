@@ -103,6 +103,19 @@ Used when:
 
 * `Checkpoints` is requested to [write out a state checkpoint](../checkpoints/Checkpoints.md#writeCheckpoint)
 
+### <span id="clusteredTable.enableClusteringTablePreview"><span id="DELTA_CLUSTERING_TABLE_PREVIEW_ENABLED"> clusteredTable.enableClusteringTablePreview { #spark.databricks.delta.clusteredTable.enableClusteringTablePreview }
+
+**spark.databricks.delta.clusteredTable.enableClusteringTablePreview**
+
+**(internal)** Controls [Liquid Clustering](../liquid-clustering/index.md)
+
+Default: `false`
+
+Used when:
+
+* `ClusteredTableUtilsBase` is requested to [validatePreviewEnabled](../liquid-clustering/ClusteredTableUtilsBase.md#validatePreviewEnabled)
+* `DeltaErrorsBase` is requested to [clusteringTablePreviewDisabledException](../DeltaErrorsBase.md#clusteringTablePreviewDisabledException)
+
 ### <span id="commitInfo.enabled"><span id="DELTA_COMMIT_INFO_ENABLED"> commitInfo.enabled
 
 **spark.databricks.delta.commitInfo.enabled** controls whether to [log commit information into a Delta log](../OptimisticTransactionImpl.md#commitInfo).
