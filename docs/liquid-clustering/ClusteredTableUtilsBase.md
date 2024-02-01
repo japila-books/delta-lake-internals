@@ -4,6 +4,92 @@ title: ClusteredTableUtils
 
 # ClusteredTableUtilsBase (ClusteredTableUtils)
 
+## clusteringColumns { #PROP_CLUSTERING_COLUMNS }
+
+`ClusteredTableUtilsBase` defines `clusteringColumns` value for the clustering columns.
+
+`clusteringColumns` is used when:
+
+* `ClusterBySpec` is requested to [toProperty](ClusterBySpec.md#toProperty)
+* `ClusteredTableUtilsBase` is requested to [getClusterBySpecOptional](#getClusterBySpecOptional), [removeClusteringColumnsProperty](#removeClusteringColumnsProperty)
+
+## removeClusteringColumnsProperty { #removeClusteringColumnsProperty }
+
+```scala
+removeClusteringColumnsProperty(
+  configuration: Map[String, String]): Map[String, String]
+```
+
+`removeClusteringColumnsProperty`...FIXME
+
+---
+
+`removeClusteringColumnsProperty` is used when:
+
+* `CreateDeltaTableCommand` is requested to [getProvidedMetadata](../commands/CreateDeltaTableCommand.md#getProvidedMetadata)
+
+## getDomainMetadataOptional { #getDomainMetadataOptional }
+
+```scala
+getDomainMetadataOptional(
+  table: CatalogTable,
+  txn: OptimisticTransaction): Option[DomainMetadata]
+```
+
+`getDomainMetadataOptional`...FIXME
+
+---
+
+`getDomainMetadataOptional` is used when:
+
+* `CreateDeltaTableCommand` is requested to [handleCreateTable](../commands/CreateDeltaTableCommand.md#handleCreateTable), [handleCreateTableAsSelect](../commands/CreateDeltaTableCommand.md#handleCreateTableAsSelect)
+
+## getClusterBySpecOptional { #getClusterBySpecOptional }
+
+```scala
+getClusterBySpecOptional(
+  table: CatalogTable): Option[ClusterBySpec]
+```
+
+`getClusterBySpecOptional`...FIXME
+
+---
+
+`getClusterBySpecOptional` is used when:
+
+* `CreateDeltaTableCommand` is requested to [handleCreateTableAsSelect](../commands/CreateDeltaTableCommand.md#handleCreateTableAsSelect)
+* `ClusteredTableUtilsBase` is requested to [getDomainMetadataOptional](#getDomainMetadataOptional)
+
+## getClusteringColumnsAsProperty { #getClusteringColumnsAsProperty }
+
+```scala
+getClusteringColumnsAsProperty(
+  maybeClusterBySpec: Option[ClusterBySpec]): Option[(String, String)]
+```
+
+`getClusteringColumnsAsProperty`...FIXME
+
+---
+
+`getClusteringColumnsAsProperty` is used when:
+
+* `DeltaCatalog` is requested to [verifyTableAndSolidify](../DeltaCatalog.md#verifyTableAndSolidify)
+
+## getTableFeatureProperties { #getTableFeatureProperties }
+
+```scala
+getTableFeatureProperties(
+  existingProperties: Map[String, String]): Map[String, String]
+```
+
+`getTableFeatureProperties`...FIXME
+
+---
+
+`getTableFeatureProperties` is used when:
+
+* `DeltaCatalog` is requested to [verifyTableAndSolidify](../DeltaCatalog.md#verifyTableAndSolidify)
+
 ## isSupported { #isSupported }
 
 ```scala

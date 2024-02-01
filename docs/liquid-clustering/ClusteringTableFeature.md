@@ -6,8 +6,8 @@
 
 `ClusteringTableFeature` is used when `ClusteredTableUtilsBase` is requested for the following:
 
-*  [getTableFeatureProperties](ClusteredTableUtilsBase.md#getTableFeatureProperties)
-*  [isSupported](ClusteredTableUtilsBase.md#isSupported)
+* [getTableFeatureProperties](ClusteredTableUtilsBase.md#getTableFeatureProperties)
+* [isSupported](ClusteredTableUtilsBase.md#isSupported)
 
 ## requiredFeatures { #requiredFeatures }
 
