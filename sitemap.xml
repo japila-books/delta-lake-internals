@@ -1451,6 +1451,16 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://books.japila.pl/delta-lake-internals/liquid-clustering/ClusterByParserUtils/</loc>
+         <lastmod>2024-02-02</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://books.japila.pl/delta-lake-internals/liquid-clustering/ClusterByPlan/</loc>
+         <lastmod>2024-02-02</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://books.japila.pl/delta-lake-internals/liquid-clustering/ClusterBySpec/</loc>
          <lastmod>2024-02-02</lastmod>
          <changefreq>daily</changefreq>
