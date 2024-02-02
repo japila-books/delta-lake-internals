@@ -39,6 +39,24 @@ visitClone(
 
 `visitClone` creates a [CloneTableStatement](../commands/clone/CloneTableStatement.md) logical operator.
 
+## visitClusterBy { #visitClusterBy }
+
+```scala
+visitClusterBy(
+  ctx: ClusterByContext): LogicalPlan
+```
+
+`visitClusterBy` creates a [ClusterByPlan](../liquid-clustering/ClusterByPlan.md) (with a [ClusterBySpec](../liquid-clustering/ClusterBySpec.md)) for `CLUSTER BY` clause.
+
+```sql
+CLUSTER BY (interleave, [interleave]*)
+```
+
+`interleave`s are the column names to cluster by.
+
+!!! note
+    `CLUSTER BY` is similar to `ZORDER BY` syntax-wise.
+
 ## visitDescribeDeltaHistory { #visitDescribeDeltaHistory }
 
 ```scala
