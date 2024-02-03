@@ -94,7 +94,7 @@ dropColumnMappingMetadata(
 * `DeltaLog` is requested for a [BaseRelation](../DeltaLog.md#createRelation) and for a [DataFrame](../DeltaLog.md#createDataFrame)
 * `DeltaTableV2` is requested for the [tableSchema](../DeltaTableV2.md#tableSchema)
 * [AlterTableSetLocationDeltaCommand](../commands/alter/AlterTableSetLocationDeltaCommand.md) command is executed
-* [CreateDeltaTableCommand](../commands/CreateDeltaTableCommand.md) command is executed
+* [CreateDeltaTableCommand](../commands/create-table/CreateDeltaTableCommand.md) command is executed
 * `ImplicitMetadataOperation` is requested to [update the metadata](../ImplicitMetadataOperation.md#updateMetadata)
 
 ## <span id="getPhysicalName"> Mapping Virtual to Physical Field Name

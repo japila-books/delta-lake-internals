@@ -50,7 +50,7 @@ resolveCloneCommand(
 * `Ignore` for [ifNotExists](commands/clone/CloneTableStatement.md#ifNotExists)
 * `ErrorIfExists` for all other cases
 
-In the end, `resolveCloneCommand` creates a [CreateDeltaTableCommand](commands/CreateDeltaTableCommand.md) logical operator.
+In the end, `resolveCloneCommand` creates a [CreateDeltaTableCommand](commands/create-table/CreateDeltaTableCommand.md) logical operator.
 
 ### CreateTableLikeCommand { #CreateTableLikeCommand }
 

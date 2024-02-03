@@ -16,6 +16,8 @@ Liquid Clustering is used for delta table that were created with `CLUSTER BY` cl
 
 Liquid Clustering is controlled using [spark.databricks.delta.clusteredTable.enableClusteringTablePreview](../configuration-properties/index.md#spark.databricks.delta.clusteredTable.enableClusteringTablePreview) configuration property.
 
+The clustering columns of a delta table are stored in a table catalog (as an extra table property).
+
 ## Limitations
 
 1. Liquid Clustering cannot be used with partitioning (`PARTITIONED BY`)

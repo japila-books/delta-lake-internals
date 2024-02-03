@@ -22,7 +22,7 @@
 * `DeltaLog` is requested to [create an insertable HadoopFsRelation](../DeltaLog.md#createRelation) (when `DeltaDataSource` is requested to create a relation as a [CreatableRelationProvider](../spark-connector/DeltaDataSource.md#CreatableRelationProvider) or a [RelationProvider](../spark-connector/DeltaDataSource.md#RelationProvider))
 * `DeltaCatalog` is requested to [create a delta table](../DeltaCatalog.md#createDeltaTable)
 * `WriteIntoDeltaBuilder` is requested to [build a V1Write](../WriteIntoDeltaBuilder.md#build)
-* [CreateDeltaTableCommand](CreateDeltaTableCommand.md) is executed
+* [CreateDeltaTableCommand](create-table/CreateDeltaTableCommand.md) is executed
 * `DeltaDataSource` is requested to [create a relation (for writing)](../spark-connector/DeltaDataSource.md#CreatableRelationProvider-createRelation) (as a [CreatableRelationProvider](../spark-connector/DeltaDataSource.md#CreatableRelationProvider))
 
 ### Configuration { #configuration }
@@ -33,7 +33,7 @@
 * Always empty for [DeltaDataSource](../spark-connector/DeltaDataSource.md#createRelation)
 * Existing properties of a delta table in [DeltaCatalog](../DeltaCatalog.md#createDeltaTable) (with the `comment` key based on the value in the catalog)
 * Existing [configuration](../Metadata.md#configuration) (of the [Metadata](../Snapshot.md#metadata) of the [Snapshot](../DeltaLog.md#snapshot) of the [DeltaLog](../WriteIntoDeltaBuilder.md#log)) for [WriteIntoDeltaBuilder](../WriteIntoDeltaBuilder.md#build)
-* Existing properties of a delta table for [CreateDeltaTableCommand](CreateDeltaTableCommand.md) (with the `comment` key based on the value in the catalog)
+* Existing properties of a delta table for [CreateDeltaTableCommand](create-table/CreateDeltaTableCommand.md) (with the `comment` key based on the value in the catalog)
 
 ### schemaInCatalog { #schemaInCatalog }
 
@@ -92,7 +92,7 @@ write(
 
 `write` is used the following commands are executed:
 
-* [CreateDeltaTableCommand](CreateDeltaTableCommand.md)
+* [CreateDeltaTableCommand](create-table/CreateDeltaTableCommand.md)
 * [WriteIntoDelta](#run)
 
 ### extractConstraints { #extractConstraints }

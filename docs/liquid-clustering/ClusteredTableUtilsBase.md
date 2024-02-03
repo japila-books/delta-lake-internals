@@ -26,7 +26,7 @@ removeClusteringColumnsProperty(
 
 `removeClusteringColumnsProperty` is used when:
 
-* `CreateDeltaTableCommand` is requested to [getProvidedMetadata](../commands/CreateDeltaTableCommand.md#getProvidedMetadata)
+* `CreateDeltaTableCommand` is requested to [getProvidedMetadata](../commands/create-table/CreateDeltaTableCommand.md#getProvidedMetadata)
 
 ## getDomainMetadataOptional { #getDomainMetadataOptional }
 
@@ -42,7 +42,7 @@ getDomainMetadataOptional(
 
 `getDomainMetadataOptional` is used when:
 
-* `CreateDeltaTableCommand` is requested to [handleCreateTable](../commands/CreateDeltaTableCommand.md#handleCreateTable), [handleCreateTableAsSelect](../commands/CreateDeltaTableCommand.md#handleCreateTableAsSelect)
+* `CreateDeltaTableCommand` is requested to [handleCreateTable](../commands/create-table/CreateDeltaTableCommand.md#handleCreateTable), [handleCreateTableAsSelect](../commands/create-table/CreateDeltaTableCommand.md#handleCreateTableAsSelect)
 
 ## getClusterBySpecOptional { #getClusterBySpecOptional }
 
@@ -57,7 +57,7 @@ getClusterBySpecOptional(
 
 `getClusterBySpecOptional` is used when:
 
-* `CreateDeltaTableCommand` is requested to [handleCreateTableAsSelect](../commands/CreateDeltaTableCommand.md#handleCreateTableAsSelect)
+* `CreateDeltaTableCommand` is requested to [handleCreateTableAsSelect](../commands/create-table/CreateDeltaTableCommand.md#handleCreateTableAsSelect)
 * `ClusteredTableUtilsBase` is requested to [getDomainMetadataOptional](#getDomainMetadataOptional)
 
 ## getClusteringColumnsAsProperty { #getClusteringColumnsAsProperty }
@@ -103,7 +103,7 @@ isSupported(
 
 `isSupported` is used when:
 
-* `CreateDeltaTableCommand` is requested to [validatePrerequisitesForClusteredTable](../commands/CreateDeltaTableCommand.md#validatePrerequisitesForClusteredTable)
+* `CreateDeltaTableCommand` is requested to [validatePrerequisitesForClusteredTable](../commands/create-table/CreateDeltaTableCommand.md#validatePrerequisitesForClusteredTable)
 * `OptimizeExecutor` is requested to [isClusteredTable](../commands/optimize/OptimizeExecutor.md#isClusteredTable)
 * [Optimize](../commands/optimize/index.md) command is executed
 * `ClusteredTableUtilsBase` is requested to [validatePreviewEnabled](ClusteredTableUtilsBase.md#validatePreviewEnabled)

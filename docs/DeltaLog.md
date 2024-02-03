@@ -207,7 +207,7 @@ startTransaction(): OptimisticTransaction
 
 * `AlterDeltaTableCommand` is requested to [startTransaction](commands/alter/AlterDeltaTableCommand.md#startTransaction)
 
-* [ConvertToDeltaCommand](commands/convert/ConvertToDeltaCommand.md) and [CreateDeltaTableCommand](commands/CreateDeltaTableCommand.md) are executed
+* [ConvertToDeltaCommand](commands/convert/ConvertToDeltaCommand.md) and [CreateDeltaTableCommand](commands/create-table/CreateDeltaTableCommand.md) are executed
 
 ## <span id="metadata"> metadata
 

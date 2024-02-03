@@ -16,7 +16,7 @@ replaceWhere: Option[String]
 
 `replaceWhere` is used when:
 
-* `CreateDeltaTableCommand` command is requested for a [Delta Operation](../commands/CreateDeltaTableCommand.md#getOperation) (for history purposes)
+* `CreateDeltaTableCommand` command is requested for a [Delta Operation](../commands/create-table/CreateDeltaTableCommand.md#getOperation) (for history purposes)
 * `WriteIntoDelta` command is [created](../commands/WriteIntoDelta.md#canOverwriteSchema), [executed](../commands/WriteIntoDelta.md#run) and requested to [write](../commands/WriteIntoDelta.md#write)
 
 ## userMetadata { #userMetadata }

@@ -275,9 +275,10 @@ nav:
       - ... | flat | commands/clone/**.md
     - Convert:
       - ... | flat | commands/convert/**.md
+    - CREATE TABLE:
+      - ... | flat | commands/create-table/**.md
     - CREATE TABLE LIKE:
       - create-table-like/index.md
-    - CreateDeltaTableCommand: commands/CreateDeltaTableCommand.md
     - Delete:
       - ... | flat | commands/delete/**.md
     - DESCRIBE DETAIL:

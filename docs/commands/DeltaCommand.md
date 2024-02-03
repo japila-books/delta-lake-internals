@@ -6,7 +6,7 @@
 
 * [AlterDeltaTableCommand](alter/AlterDeltaTableCommand.md)
 * [ConvertToDeltaCommandBase](convert/ConvertToDeltaCommand.md)
-* [CreateDeltaTableCommand](CreateDeltaTableCommand.md)
+* [CreateDeltaTableCommand](create-table/CreateDeltaTableCommand.md)
 * [DeleteCommand](delete/DeleteCommand.md)
 * [DescribeDeltaDetailCommand](describe-detail/DescribeDeltaDetailCommand.md)
 * [DescribeDeltaHistory](describe-history/DescribeDeltaHistory.md)

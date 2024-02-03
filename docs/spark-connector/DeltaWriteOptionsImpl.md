@@ -31,7 +31,7 @@ canOverwriteSchema: Boolean
 
 `canOverwriteSchema` is used when:
 
-* `CreateDeltaTableCommand` is [executed](../commands/CreateDeltaTableCommand.md) (and [replaceMetadataIfNecessary](../commands/CreateDeltaTableCommand.md#replaceMetadataIfNecessary))
+* `CreateDeltaTableCommand` is [executed](../commands/create-table/CreateDeltaTableCommand.md) (and [replaceMetadataIfNecessary](../commands/create-table/CreateDeltaTableCommand.md#replaceMetadataIfNecessary))
 * `WriteIntoDelta` is [created](../commands/WriteIntoDelta.md#canOverwriteSchema)
 * `DeltaSink` is [created](DeltaSink.md#canOverwriteSchema)
 

@@ -2,7 +2,7 @@
 
 Delta Lake supports creating an empty new delta table using `CREATE TABLE LIKE` DDL statement based on the definition and metadata of an existing table or view.
 
-Delta Lake resolves `CREATE TABLE LIKE`s with a delta source table or `USING delta` (case-insensitive) to a [CreateDeltaTableCommand](../commands/CreateDeltaTableCommand.md) using [DeltaAnalysis](../DeltaAnalysis.md) logical resolution rule.
+Delta Lake resolves `CREATE TABLE LIKE`s with a delta source table or `USING delta` (case-insensitive) to a [CreateDeltaTableCommand](../commands/create-table/CreateDeltaTableCommand.md) using [DeltaAnalysis](../DeltaAnalysis.md) logical resolution rule.
 
 !!! note "CREATE TABLE LIKE Feature for Delta #1584"
     [CREATE TABLE LIKE Feature for Delta #1584](https://github.com/delta-io/delta/pull/1584).

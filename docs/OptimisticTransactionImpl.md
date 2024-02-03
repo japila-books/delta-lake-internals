@@ -47,7 +47,7 @@ readVersion: Long
 `readVersion` is used when:
 
 * `OptimisticTransactionImpl` is requested to [updateMetadata](#updateMetadata) and [commit](#commit)
-* [AlterDeltaTableCommand](commands/alter/AlterDeltaTableCommand.md), [ConvertToDeltaCommand](commands/convert/ConvertToDeltaCommand.md), [CreateDeltaTableCommand](commands/CreateDeltaTableCommand.md) commands are executed
+* [AlterDeltaTableCommand](commands/alter/AlterDeltaTableCommand.md), [ConvertToDeltaCommand](commands/convert/ConvertToDeltaCommand.md), [CreateDeltaTableCommand](commands/create-table/CreateDeltaTableCommand.md) commands are executed
 * `DeltaCommand` is requested to [commitLarge](commands/DeltaCommand.md#commitLarge)
 * `WriteIntoDelta` is requested to [write](commands/WriteIntoDelta.md#write)
 * `ImplicitMetadataOperation` is requested to [updateMetadata](ImplicitMetadataOperation.md#updateMetadata)
@@ -76,7 +76,7 @@ commit(
     * [AlterTableSetPropertiesDeltaCommand](commands/alter/AlterTableSetPropertiesDeltaCommand.md)
     * [AlterTableUnsetPropertiesDeltaCommand](commands/alter/AlterTableUnsetPropertiesDeltaCommand.md)
 * [ConvertToDeltaCommand](commands/convert/ConvertToDeltaCommand.md) is executed
-* [CreateDeltaTableCommand](commands/CreateDeltaTableCommand.md) is executed
+* [CreateDeltaTableCommand](commands/create-table/CreateDeltaTableCommand.md) is executed
 * [DeleteCommand](commands/delete/DeleteCommand.md) is executed
 * `DeltaLog` is requested to [upgrade the protocol](DeltaLog.md#upgradeProtocol)
 * `DeltaSink` is requested to [add a streaming micro-batch](spark-connector/DeltaSink.md#addBatch)
@@ -663,7 +663,7 @@ updateMetadataForNewTable(
 
 `updateMetadataForNewTable` is used when:
 
-* [ConvertToDeltaCommand](commands/convert/ConvertToDeltaCommand.md) and [CreateDeltaTableCommand](commands/CreateDeltaTableCommand.md) are executed
+* [ConvertToDeltaCommand](commands/convert/ConvertToDeltaCommand.md) and [CreateDeltaTableCommand](commands/create-table/CreateDeltaTableCommand.md) are executed
 
 ## <span id="metadata"> Metadata
 
@@ -729,7 +729,7 @@ Internally, `filterFiles` requests the [Snapshot](#snapshot) for the [filesForSc
 
 * `DeltaSink` is requested to [add a streaming micro-batch](spark-connector/DeltaSink.md#addBatch) (with `Complete` output mode)
 * [DeleteCommand](commands/delete/DeleteCommand.md), [MergeIntoCommand](commands/merge/MergeIntoCommand.md) and [UpdateCommand](commands/update/UpdateCommand.md), [WriteIntoDelta](commands/WriteIntoDelta.md) are executed
-* [CreateDeltaTableCommand](commands/CreateDeltaTableCommand.md) is executed
+* [CreateDeltaTableCommand](commands/create-table/CreateDeltaTableCommand.md) is executed
 
 ## <span id="lockCommitIfEnabled"> lockCommitIfEnabled
 
@@ -810,7 +810,7 @@ commitLarge(
 `commitLarge` is used for the following commands:
 
 * [CONVERT](commands/convert/index.md) (and [performConvert](commands/convert/ConvertToDeltaCommand.md#performConvert))
-* [CreateDeltaTableCommand](commands/CreateDeltaTableCommand.md) (and [handleClone](commands/clone/CloneTableBase.md#handleClone))
+* [CreateDeltaTableCommand](commands/create-table/CreateDeltaTableCommand.md) (and [handleClone](commands/clone/CloneTableBase.md#handleClone))
 * [RESTORE](commands/restore/index.md)
 
 ## Logging

@@ -26,4 +26,4 @@ temporalClause
     ;
 ```
 
-`SHALLOW CLONE` becomes a [CloneTableStatement](CloneTableStatement.md) logical operator in a logical query plan that is resolved to a [CreateDeltaTableCommand](../CreateDeltaTableCommand.md).
+`SHALLOW CLONE` becomes a [CloneTableStatement](CloneTableStatement.md) logical operator in a logical query plan that is resolved to a [CreateDeltaTableCommand](../create-table/CreateDeltaTableCommand.md).
