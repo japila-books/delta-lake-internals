@@ -13,6 +13,20 @@ title: ClusteredTableUtils
 * `ClusterBySpec` is requested to [toProperty](ClusterBySpec.md#toProperty)
 * `ClusteredTableUtilsBase` is requested to [getClusterBySpecOptional](#getClusterBySpecOptional), [removeClusteringColumnsProperty](#removeClusteringColumnsProperty)
 
+## Clustering Provider { #clusteringProvider }
+
+```scala
+clusteringProvider: String
+```
+
+`clusteringProvider` is always **liquid**.
+
+---
+
+`clusteringProvider` is used when:
+
+* `OptimizeExecutor` is requested to [runOptimizeBinJob](../commands/optimize/OptimizeExecutor.md#runOptimizeBinJob)
+
 ## removeClusteringColumnsProperty { #removeClusteringColumnsProperty }
 
 ```scala

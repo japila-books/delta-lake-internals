@@ -17,7 +17,7 @@
 
 * `OptimizeTableCommand` is requested to [run](OptimizeTableCommand.md#run)
 
-## <span id="optimize"> optimize
+## optimize
 
 ```scala
 optimize(): Seq[Row]
@@ -51,7 +51,28 @@ Once the compaction jobs are done, `optimize` tries to commit the transaction (t
 
 In the end, `optimize` returns a `Row` with the data path (of the Delta table) and the optimize statistics.
 
-### <span id="runOptimizeBinJob"> runOptimizeBinJob
+### groupFilesIntoBins { #groupFilesIntoBins }
+
+```scala
+groupFilesIntoBins(
+  partitionsToCompact: Seq[(Map[String, String], Seq[AddFile])],
+  maxTargetFileSize: Long): Seq[(Map[String, String], Seq[AddFile])]
+```
+
+`groupFilesIntoBins`...FIXME
+
+### pruneCandidateFileList { #pruneCandidateFileList }
+
+```scala
+pruneCandidateFileList(
+  minFileSize: Long,
+  maxDeletedRowsRatio: Double,
+  files: Seq[AddFile]): Seq[AddFile]
+```
+
+`pruneCandidateFileList`...FIXME
+
+### runOptimizeBinJob { #runOptimizeBinJob }
 
 ```scala
 runOptimizeBinJob(
@@ -61,14 +82,24 @@ runOptimizeBinJob(
   maxFileSize: Long): Seq[FileAction]
 ```
 
-`runOptimizeBinJob` creates an input `DataFrame` to represent data described by the given [AddFile](../../AddFile.md)s. `runOptimizeBinJob` requests the [deltaLog](../../OptimisticTransaction.md#deltaLog) (of the given [OptimisticTransaction](../../OptimisticTransaction.md)) to [create the DataFrame](../../DeltaLog.md#createDataFrame) with `Optimize` action type.
+!!! note "maxFileSize"
+    `maxFileSize` is controlled using [spark.databricks.delta.optimize.maxFileSize](../../configuration-properties/index.md#spark.databricks.delta.optimize.maxFileSize) configuration property.
 
-For [Z-Ordering](index.md#z-ordering) ([isMultiDimClustering](#isMultiDimClustering) flag is enabled), `runOptimizeBinJob` does the following:
+    Unless it is executed as part of [Auto Compaction](../../auto-compaction/index.md) which uses [spark.databricks.delta.autoCompact.maxFileSize](../../configuration-properties/index.md#autoCompact.maxFileSize) configuration property.
 
-1. Calculates the approximate number of files (as the total [size](../../AddFile.md#size) of all the given `AddFile`s divided by the given `maxFileSize`)
-1. Repartitions the `DataFrame` to as many partitions as the approximate number of files using [multi-dimensional clustering](MultiDimClustering.md#cluster) for the [z-orderby columns](#zOrderByColumns)
+`runOptimizeBinJob` creates an input `DataFrame` for scanning data of the given [AddFile](../../AddFile.md)s. `runOptimizeBinJob` requests the [deltaLog](../../OptimisticTransaction.md#deltaLog) (of the given [OptimisticTransaction](../../OptimisticTransaction.md)) to [create the DataFrame](../../DeltaLog.md#createDataFrame) with `Optimize` action type.
 
-Otherwise, `runOptimizeBinJob` coalesces the `DataFrame` to `1` partition (using `DataFrame.coalesce` operator).
+`runOptimizeBinJob` creates a so-called `repartitionDF` as follows:
+
+* With [multi-dimensional clustering](#isMultiDimClustering) enabled (i.e., [Z-Order](index.md#z-ordering) or [Liquid Clustering](../../liquid-clustering/index.md)), `runOptimizeBinJob` does the following:
+
+    1. Calculates the approximate number of files (as the total [size](../../AddFile.md#size) of all the given [AddFile](../../AddFile.md)s divided by the given `maxFileSize`)
+    1. Repartitions the `DataFrame` to as many partitions as the approximate number of files using [multi-dimensional clustering](MultiDimClustering.md#cluster) (with the `DataFrame` to scan, the approximate number of files, the [clusteringColumns](#clusteringColumns) and the [curve](#curve))
+
+* Otherwise, `runOptimizeBinJob` repartitions the `DataFrame` to a one single partition using the following `DataFrame` operators based on [spark.databricks.delta.optimize.repartition.enabled](../../configuration-properties/index.md#spark.databricks.delta.optimize.repartition.enabled) configuration property:
+
+    * `DataFrame.repartition` with [spark.databricks.delta.optimize.repartition.enabled](../../configuration-properties/index.md#spark.databricks.delta.optimize.repartition.enabled) enabled
+    * `DataFrame.coalesce`, otherwise
 
 `runOptimizeBinJob` sets a custom description for the job group (for all future Spark jobs started by this thread).
 
@@ -85,7 +116,7 @@ File compaction job output should only have AddFiles
 
 In the end, `runOptimizeBinJob` returns the [AddFile](../../AddFile.md)s and [RemoveFile](../../RemoveFile.md)s.
 
-### <span id="commitAndRetry"> commitAndRetry
+### commitAndRetry { #commitAndRetry }
 
 ```scala
 commitAndRetry(
@@ -97,9 +128,24 @@ commitAndRetry(
 
 `commitAndRetry`...FIXME
 
-## <span id="isMultiDimClustering"> isMultiDimClustering Flag
+### createMetrics { #createMetrics }
 
-`OptimizeExecutor` defines `isMultiDimClustering` flag based on whether there are [zOrderByColumns](#zOrderByColumns) specified or not. In other words, `isMultiDimClustering` is `true` for OPTIMIZE ZORDER.
+```scala
+createMetrics(
+  sparkContext: SparkContext,
+  addedFiles: Seq[AddFile],
+  removedFiles: Seq[RemoveFile],
+  removedDVs: Seq[DeletionVectorDescriptor]): Map[String, SQLMetric]
+```
+
+`createMetrics`...FIXME
+
+## isMultiDimClustering Flag { #isMultiDimClustering }
+
+`OptimizeExecutor` defines `isMultiDimClustering` flag that is enabled (`true`) when either holds:
+
+* [Clustered Tables](#isClusteredTable) are supported
+* [ZORDER BY Columns](#zOrderByColumns) are specified
 
 The most important use of `isMultiDimClustering` flag is for [multi-dimensional clustering](MultiDimClustering.md#cluster) while [runOptimizeBinJob](#runOptimizeBinJob).
 
@@ -108,3 +154,14 @@ The most important use of `isMultiDimClustering` flag is for [multi-dimensional 
 * Determine data (parquet) files to [optimize](#optimize) (that in fact keeps all the files by partition)
 * Create a `ZOrderStats` at the end of [optimize](#optimize)
 * Keep all the files of a partition in a single bin in [groupFilesIntoBins](#groupFilesIntoBins)
+
+## isClusteredTable Flag { #isClusteredTable }
+
+`OptimizeExecutor` defines `isClusteredTable` flag that is enabled (`true`) when [clustered tables are supported](../../liquid-clustering/ClusteredTableUtilsBase.md#isSupported) (based on the [Protocol](../../Snapshot.md#protocol) of the [table snapshot](../../OptimisticTransaction.md#snapshot) under the [OptimisticTransaction](#txn)).
+
+`isClusteredTable` is used in the following:
+
+* [clusteringColumns](#clusteringColumns)
+* [curve](#curve)
+* [isMultiDimClustering](#isMultiDimClustering)
+* [runOptimizeBinJob](#runOptimizeBinJob)

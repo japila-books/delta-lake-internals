@@ -43,6 +43,18 @@ Used when:
 
 * `AutoCompactBase` is requested for the [type of Auto Compaction](../auto-compaction/AutoCompactBase.md#getAutoCompactType)
 
+### <span id="autoCompact.maxFileSize"><span id="DELTA_AUTO_COMPACT_MAX_FILE_SIZE"> autoCompact.maxFileSize { #spark.databricks.delta.autoCompact.maxFileSize }
+
+**spark.databricks.delta.autoCompact.maxFileSize**
+
+(internal) Target file size produced by [Auto Compaction](../auto-compaction/index.md)
+
+Default: `128 * 1024 * 1024` (`128MB`)
+
+Used when:
+
+* `AutoCompactBase` is requested to [compact](../auto-compaction/AutoCompactBase.md#compact)
+
 ### <span id="DELTA_AUTO_COMPACT_MODIFIED_PARTITIONS_ONLY_ENABLED"><span id="spark.databricks.delta.autoCompact.modifiedPartitionsOnly.enabled"> autoCompact.modifiedPartitionsOnly.enabled { #autoCompact.modifiedPartitionsOnly.enabled }
 
 **(internal)** **spark.databricks.delta.autoCompact.modifiedPartitionsOnly.enabled**
@@ -374,11 +386,13 @@ Used when:
 
 * `MergeIntoCommandBase` is requested to [write data(frame) out](../commands/merge/MergeIntoCommandBase.md#writeFiles)
 
-### <span id="optimize.maxFileSize"><span id="DELTA_OPTIMIZE_MAX_FILE_SIZE"> optimize.maxFileSize
+### <span id="optimize.maxFileSize"><span id="DELTA_OPTIMIZE_MAX_FILE_SIZE"> optimize.maxFileSize { #spark.databricks.delta.optimize.maxFileSize }
 
-**spark.databricks.delta.optimize.maxFileSize** (internal) Target file size produced by [OPTIMIZE](../sql/index.md#OPTIMIZE) command.
+**spark.databricks.delta.optimize.maxFileSize**
 
-Default: `1024 * 1024 * 1024`
+(internal) Target file size produced by [OPTIMIZE](../commands/optimize/index.md) command.
+
+Default: `1024 * 1024 * 1024` (`1GB`)
 
 Used when:
 
@@ -399,11 +413,25 @@ Used when:
 
 **spark.databricks.delta.optimize.minFileSize** (internal) Files which are smaller than this threshold (in bytes) will be grouped together and rewritten as larger files by the [OPTIMIZE](../sql/index.md#OPTIMIZE) command.
 
-Default: `1024 * 1024 * 1024` (1GB)
+Default: `1024 * 1024 * 1024` (`1GB`)
 
 Used when:
 
 * `OptimizeExecutor` is requested to [optimize](../commands/optimize/OptimizeExecutor.md#optimize)
+
+### <span id="optimize.repartition.enabled"><span id="DELTA_OPTIMIZE_REPARTITION_ENABLED"> optimize.repartition.enabled { #spark.databricks.delta.optimize.repartition.enabled }
+
+**spark.databricks.delta.optimize.repartition.enabled**
+
+(internal) Use `Dataset.repartition(1)` instead of `Dataset.coalesce(1)` to merge small files.
+`Dataset.coalesce(1)` is executed with only 1 task, if there are many tiny files within a bin (e.g. 1000 files of 50MB), it cannot be optimized with more executors.
+On the other hand, `Dataset.repartition(1)` incurs a shuffle stage yet the job can be distributed.
+
+Default: `false`
+
+Used when:
+
+* `OptimizeExecutor` is requested to [optimize](../commands/optimize/OptimizeExecutor.md#optimize) (and [runOptimizeBinJob](../commands/optimize/OptimizeExecutor.md#runOptimizeBinJob))
 
 ### <span id="DELTA_OPTIMIZE_ZORDER_COL_STAT_CHECK"> optimize.zorder.checkStatsCollection.enabled { #optimize.zorder.checkStatsCollection.enabled }
 

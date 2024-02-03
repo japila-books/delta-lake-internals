@@ -16,6 +16,7 @@
 * <span id="deletionVector"> [DeletionVectorDescriptor](deletion-vectors/DeletionVectorDescriptor.md)
 * <span id="baseRowId"> Base Row ID
 * <span id="defaultRowCommitVersion"> Default Row Commit Version
+* <span id="clusteringProvider"> Clustering Provider (default: undefined)
 
 `AddFile` is created when:
 

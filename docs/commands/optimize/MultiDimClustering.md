@@ -4,33 +4,66 @@
 
 ## Contract
 
-### <span id="cluster"> cluster
+### Multi-Dimensional Clustering { #cluster }
 
 ```scala
 cluster(
   df: DataFrame,
   colNames: Seq[String],
-  approxNumPartitions: Int): DataFrame
+  approxNumPartitions: Int,
+  randomizationExpressionOpt: Option[Column]): DataFrame
 ```
 
+Repartition the given `df` into `approxNumPartitions` based on the provided `colNames`
+
+See:
+
+* [SpaceFillingCurveClustering](SpaceFillingCurveClustering.md#cluster)
+
 !!! note
-    It can be surprising to find out that this method is never really used.
-    The reason is that there is a companion object `MultiDimClustering` with the [cluster](#cluster-utility) utility of the same signature that simply [ZOrderClustering.cluster](SpaceFillingCurveClustering.md#cluster) (bypassing any virtual calls as if there were multiple [implementations](#implementations) yet there is just one).
+    `randomizationExpressionOpt` is always undefined (`None`).
+
+Used when:
+
+* `MultiDimClustering` utility is requested to [cluster a DataFrame](#cluster-utility)
 
 ## Implementations
 
 * [SpaceFillingCurveClustering](SpaceFillingCurveClustering.md)
 
-## <span id="cluster-utility"> cluster
+## cluster { #cluster-utility }
 
 ```scala
 cluster(
   df: DataFrame,
   approxNumPartitions: Int,
-  colNames: Seq[String]): DataFrame
+  colNames: Seq[String],
+  curve: String): DataFrame
 ```
 
-`cluster` does [Z-Order clustering](SpaceFillingCurveClustering.md#cluster).
+`cluster` asserts that the given `colNames` contains at least one column name. Otherwise, `cluster` reports an `AssertionError`:
+
+```text
+assertion failed : Cannot cluster by zero columns!
+```
+
+`cluster` selects the multi-dimensional clustering algorithm based on the given `curve` name.
+
+Curve Type | Clustering Algorithm
+-----------|---------------------
+ `hilbert` | `HilbertClustering`
+ `zorder`  | `ZOrderClustering`
+
+??? note "SparkException"
+    `cluster` accepts these two algorithms only or throws a `SparkException`:
+
+    ```text
+    Unknown curve ([curve]), unable to perform multi dimensional clustering.
+    ```
+
+`cluster` requests the clustering implementation to [cluster](SpaceFillingCurveClustering.md#cluster) (with no `randomizationExpressionOpt`).
+
+---
 
 `cluster` is used when:
 

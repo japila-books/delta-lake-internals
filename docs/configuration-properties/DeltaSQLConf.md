@@ -58,6 +58,14 @@
 
 [spark.databricks.delta.merge.optimizeMatchedOnlyMerge.enabled](index.md#merge.optimizeMatchedOnlyMerge.enabled)
 
+## optimize.maxFileSize { #DELTA_OPTIMIZE_MAX_FILE_SIZE }
+
+[spark.databricks.delta.optimize.maxFileSize](index.md#optimize.maxFileSize)
+
+## optimize.repartition.enabled { #DELTA_OPTIMIZE_REPARTITION_ENABLED }
+
+[spark.databricks.delta.optimize.repartition.enabled](index.md#optimize.repartition.enabled)
+
 ## optimize.zorder.checkStatsCollection.enabled { #DELTA_OPTIMIZE_ZORDER_COL_STAT_CHECK }
 
 [spark.databricks.delta.optimize.zorder.checkStatsCollection.enabled](index.md#optimize.zorder.checkStatsCollection.enabled)

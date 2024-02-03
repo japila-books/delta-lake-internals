@@ -4,7 +4,7 @@
 
 ## Contract
 
-### <span id="getClusteringExpression"> getClusteringExpression
+### getClusteringExpression { #getClusteringExpression }
 
 ```scala
 getClusteringExpression(
@@ -20,16 +20,19 @@ Used when:
 
 * [ZOrderClustering](ZOrderClustering.md)
 
-## <span id="cluster"> Multi-Dimensional Clustering
+## Multi-Dimensional Clustering { #cluster }
 
-```scala
-cluster(
-  df: DataFrame,
-  colNames: Seq[String],
-  approxNumPartitions: Int): DataFrame
-```
+??? note "MultiDimClustering"
 
-`cluster` is part of the [MultiDimClustering](MultiDimClustering.md#cluster) abstraction.
+    ```scala
+    cluster(
+      df: DataFrame,
+      colNames: Seq[String],
+      approxNumPartitions: Int,
+      randomizationExpressionOpt: Option[Column]): DataFrame
+    ```
+
+    `cluster` is part of the [MultiDimClustering](MultiDimClustering.md#cluster) abstraction.
 
 `cluster` converts the given `colNames` into `Column`s (using the given `df` dataframe).
 

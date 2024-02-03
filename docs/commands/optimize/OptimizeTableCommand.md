@@ -1,6 +1,6 @@
 # OptimizeTableCommand
 
-`OptimizeTableCommand` is a [OptimizeTableCommandBase](OptimizeTableCommandBase.md) for the following high-level operators:
+`OptimizeTableCommand` is an [OptimizeTableCommandBase](OptimizeTableCommandBase.md) for the following high-level operators:
 
 * [DeltaOptimizeBuilder.executeCompaction](../../DeltaOptimizeBuilder.md#executeCompaction)
 * [DeltaOptimizeBuilder.executeZOrderBy](../../DeltaOptimizeBuilder.md#executeZOrderBy)
@@ -45,7 +45,8 @@ apply(
 
 ## Executing Command { #run }
 
-??? note "Signature"
+??? note "RunnableCommand"
+
     ```scala
     run(
       sparkSession: SparkSession): Seq[Row]
@@ -53,8 +54,15 @@ apply(
 
     `run` is part of the `RunnableCommand` ([Spark SQL]({{ book.spark_sql }}/logical-operators/RunnableCommand#run)) abstraction.
 
-`run` [gets the DeltaLog](../DeltaCommand.md#getDeltaLog) of the delta table (by the given [path](#path) or [TableIdentifier](#tableId)).
+`run` [extracts the delta table](#getDeltaTable) from the [child](#child) logical plan.
+
+`run` [starts a transaction](../../DeltaTableV2.md#startTransaction) (for this [DeltaTableV2](../../DeltaTableV2.md)).
+
+`run`...FIXME
 
 `run` [validates the zOrderBy columns](OptimizeTableCommandBase.md#validateZorderByColumns) (that may throw `DeltaIllegalArgumentException` or `DeltaAnalysisException` exceptions and so break the command execution).
 
-In the end, `run` creates an [OptimizeExecutor](OptimizeExecutor.md) for [optimize](OptimizeExecutor.md#optimize) (with the given [userPartitionPredicates](#userPartitionPredicates), the [zOrderBy attributes](#zOrderBy))
+In the end, `run` creates an [OptimizeExecutor](OptimizeExecutor.md) to [run optimization](OptimizeExecutor.md#optimize) (with the given [userPartitionPredicates](#userPartitionPredicates), the [zOrderBy attributes](#zOrderBy)).
+
+!!! note
+    [isAutoCompact](OptimizeExecutor.md#isAutoCompact) flag is disabled (`false`).
