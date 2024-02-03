@@ -176,6 +176,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://books.japila.pl/delta-lake-internals/DomainMetadata/</loc>
+         <lastmod>2024-02-03</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://books.japila.pl/delta-lake-internals/FileAction/</loc>
          <lastmod>2024-02-03</lastmod>
          <changefreq>daily</changefreq>
