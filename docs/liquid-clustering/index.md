@@ -12,11 +12,43 @@ subtitle: Clustered Tables
     1. A clustered table is currently in preview and is disabled by default.
     1. A clustered table is not recommended for production use (e.g., unsupported incremental clustering).
 
-Liquid Clustering is used for delta table that were created with `CLUSTER BY` clause.
+Liquid Clustering can be enabled using [spark.databricks.delta.clusteredTable.enableClusteringTablePreview](../configuration-properties/index.md#spark.databricks.delta.clusteredTable.enableClusteringTablePreview) configuration property.
 
-Liquid Clustering is controlled using [spark.databricks.delta.clusteredTable.enableClusteringTablePreview](../configuration-properties/index.md#spark.databricks.delta.clusteredTable.enableClusteringTablePreview) configuration property.
+```sql
+SET spark.databricks.delta.clusteredTable.enableClusteringTablePreview=true
+```
 
-The clustering columns of a delta table are stored in a table catalog (as an extra table property).
+Liquid Clustering can be applied to delta tables that were created with `CLUSTER BY` clause.
+
+```sql
+CREATE TABLE IF NOT EXISTS delta_table
+USING delta
+CLUSTER BY (id)
+AS
+SELECT * FROM values 1, 2, 3 t(id)
+```
+
+The clustering columns of a delta table are stored (_persisted_) in a table catalog (as [clusteringColumns](ClusteredTableUtilsBase.md#clusteringColumns) table property).
+
+```sql
+DESC EXTENDED delta_table
+```
+
+```text
++----------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------+-------+
+|col_name                    |data_type                                                                                                                                               |comment|
++----------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------+-------+
+|id                          |int                                                                                                                                                     |NULL   |
+|                            |                                                                                                                                                        |       |
+|# Detailed Table Information|                                                                                                                                                        |       |
+|Name                        |spark_catalog.default.delta_table                                                                                                                       |       |
+|Type                        |MANAGED                                                                                                                                                 |       |
+|Location                    |file:/Users/jacek/dev/oss/spark/spark-warehouse/delta_table                                                                                             |       |
+|Provider                    |delta                                                                                                                                                   |       |
+|Owner                       |jacek                                                                                                                                                   |       |
+|Table Properties            |[clusteringColumns=[["id"]],delta.feature.clustering=supported,delta.feature.domainMetadata=supported,delta.minReaderVersion=1,delta.minWriterVersion=7]|       |
++----------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------+-------+
+```
 
 ## Limitations
 

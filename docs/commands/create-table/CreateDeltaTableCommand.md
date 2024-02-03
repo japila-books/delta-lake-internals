@@ -142,6 +142,58 @@ handleCreateTable(
 
 `handleCreateTable`...FIXME
 
+#### Executing Post-Commit Updates { #runPostCommitUpdates }
+
+```scala
+runPostCommitUpdates(
+  sparkSession: SparkSession,
+  txnUsedForCommit: OptimisticTransaction,
+  deltaLog: DeltaLog,
+  tableWithLocation: CatalogTable): Unit
+```
+
+??? warning "Procedure"
+    `runPostCommitUpdates` is a procedure (returns `Unit`) so _what happens inside stays inside_ (paraphrasing the [former advertising slogan of Las Vegas, Nevada](https://idioms.thefreedictionary.com/what+happens+in+Vegas+stays+in+Vegas)).
+
+`runPostCommitUpdates` prints out the following INFO message to the logs:
+
+```text
+Table is path-based table: [tableByPath]. Update catalog with mode: [operation]
+```
+
+`runPostCommitUpdates` requests the given [DeltaLog](#deltaLog) to [update](../../SnapshotManagement.md#update).
+
+`runPostCommitUpdates` [updates the catalog](#updateCatalog).
+
+In the end, when `delta.universalFormat.enabledFormats` table property contains `iceberg`, `runPostCommitUpdates` requests the `UniversalFormatConverter` to `convertSnapshot`.
+
+#### Updating Table Catalog { #updateCatalog }
+
+```scala
+updateCatalog(
+  spark: SparkSession,
+  table: CatalogTable,
+  snapshot: Snapshot,
+  didNotChangeMetadata: Boolean): Unit
+```
+
+??? warning "Procedure"
+    `updateCatalog` is a procedure (returns `Unit`) so _what happens inside stays inside_ (paraphrasing the [former advertising slogan of Las Vegas, Nevada](https://idioms.thefreedictionary.com/what+happens+in+Vegas+stays+in+Vegas)).
+
+??? note "`didNotChangeMetadata` Not Used"
+
+`updateCatalog` prints out the following INFO message to the logs:
+
+```text
+Table is path-based table: [tableByPath]. Update catalog with mode: [operation]
+```
+
+`updateCatalog` requests the given [DeltaLog](#deltaLog) to [update](../../SnapshotManagement.md#update).
+
+`updateCatalog` [updates the catalog](#updateCatalog).
+
+In the end, when `delta.universalFormat.enabledFormats` table property contains `iceberg`, `updateCatalog` requests the `UniversalFormatConverter` to `convertSnapshot`.
+
 ## Provided Metadata { #getProvidedMetadata }
 
 ```scala
@@ -171,3 +223,16 @@ Metadata | Value
 `getProvidedMetadata` is used when:
 
 * `CreateDeltaTableCommand` is requested to [handleCreateTable](#handleCreateTable) and [replaceMetadataIfNecessary](#replaceMetadataIfNecessary)
+
+## Logging
+
+Enable `ALL` logging level for `org.apache.spark.sql.delta.commands.CreateDeltaTableCommand` logger to see what happens inside.
+
+Add the following line to `conf/log4j2.properties`:
+
+```text
+logger.CreateDeltaTableCommand.name = org.apache.spark.sql.delta.commands.CreateDeltaTableCommand
+logger.CreateDeltaTableCommand.level = all
+```
+
+Refer to [Logging](../../logging.md).

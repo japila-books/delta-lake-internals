@@ -6,7 +6,7 @@ title: ClusteredTableUtils
 
 ## clusteringColumns { #PROP_CLUSTERING_COLUMNS }
 
-`ClusteredTableUtilsBase` defines `clusteringColumns` value for the clustering columns.
+`ClusteredTableUtilsBase` defines `clusteringColumns` value for the name of the table property with the clustering columns of a delta table.
 
 `clusteringColumns` is used when:
 

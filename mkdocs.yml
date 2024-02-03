@@ -185,6 +185,7 @@ nav:
       - AddCDCFile: AddCDCFile.md
       - AddFile: AddFile.md
       - CommitInfo: CommitInfo.md
+      - DomainMetadata: DomainMetadata.md
       - FileAction: FileAction.md
       - Metadata: Metadata.md
       - Protocol: Protocol.md
