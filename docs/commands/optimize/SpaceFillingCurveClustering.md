@@ -4,7 +4,7 @@
 
 ## Contract
 
-### getClusteringExpression { #getClusteringExpression }
+### ClusteringExpression { #getClusteringExpression }
 
 ```scala
 getClusteringExpression(
@@ -12,12 +12,18 @@ getClusteringExpression(
   numRanges: Int): Column
 ```
 
+See:
+
+* [HilbertClustering](HilbertClustering.md#getClusteringExpression)
+* [ZOrderClustering](ZOrderClustering.md#getClusteringExpression)
+
 Used when:
 
 * `SpaceFillingCurveClustering` is requested to execute [multi-dimensional clustering](#cluster)
 
 ## Implementations
 
+* [HilbertClustering](HilbertClustering.md)
 * [ZOrderClustering](ZOrderClustering.md)
 
 ## Multi-Dimensional Clustering { #cluster }

@@ -41,18 +41,25 @@ cluster(
   curve: String): DataFrame
 ```
 
-`cluster` asserts that the given `colNames` contains at least one column name. Otherwise, `cluster` reports an `AssertionError`:
+??? note "`curve` Argument and Supported Values: `zorder` or `hilbert`"
+    `curve` is based on [OptimizeExecutor](OptimizeExecutor.md#curve) (and can only be two values, `zorder` or `hilbert`).
 
-```text
-assertion failed : Cannot cluster by zero columns!
-```
+`cluster` asserts that the given `colNames` contains at least one column name.
+
+??? note "AssertionError"
+
+    `cluster` reports an `AssertionError` for an unknown curve type name.
+
+    ```text
+    assertion failed : Cannot cluster by zero columns!
+    ```
 
 `cluster` selects the multi-dimensional clustering algorithm based on the given `curve` name.
 
 Curve Type | Clustering Algorithm
 -----------|---------------------
- `hilbert` | `HilbertClustering`
- `zorder`  | `ZOrderClustering`
+ `hilbert` | [HilbertClustering](HilbertClustering.md)
+ `zorder`  | [ZOrderClustering](ZOrderClustering.md)
 
 ??? note "SparkException"
     `cluster` accepts these two algorithms only or throws a `SparkException`:

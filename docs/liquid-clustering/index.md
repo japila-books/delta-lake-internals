@@ -6,19 +6,19 @@ subtitle: Clustered Tables
 
 # Liquid Clustering
 
-**Liquid Clustering** is an optimization technique in Delta Lake that...FIXME
+**Liquid Clustering** is an optimization technique in Delta Lake that uses [OPTIMIZE](../commands/optimize/index.md) with [Hilbert clustering](../commands/optimize/HilbertClustering.md).
 
 !!! info "Not Recommended for Production Use"
     1. A clustered table is currently in preview and is disabled by default.
     1. A clustered table is not recommended for production use (e.g., unsupported incremental clustering).
 
-Liquid Clustering can be enabled using [spark.databricks.delta.clusteredTable.enableClusteringTablePreview](../configuration-properties/index.md#spark.databricks.delta.clusteredTable.enableClusteringTablePreview) configuration property.
+Liquid Clustering can be enabled system-wide using [spark.databricks.delta.clusteredTable.enableClusteringTablePreview](../configuration-properties/index.md#spark.databricks.delta.clusteredTable.enableClusteringTablePreview) configuration property.
 
 ```sql
 SET spark.databricks.delta.clusteredTable.enableClusteringTablePreview=true
 ```
 
-Liquid Clustering can be applied to delta tables that were created with `CLUSTER BY` clause.
+Liquid Clustering can only be applied to delta tables created with `CLUSTER BY` clause.
 
 ```sql
 CREATE TABLE IF NOT EXISTS delta_table
@@ -54,3 +54,4 @@ DESC EXTENDED delta_table
 
 1. Liquid Clustering cannot be used with partitioning (`PARTITIONED BY`)
 1. Liquid Clustering cannot be used with bucketing (`CLUSTERED BY INTO BUCKETS`)
+1. Liquid Clustering can be used with 2 and [up to 9 columns](../commands/optimize/MultiDimClusteringFunctions.md#hilbert_index) to `CLUSTER BY`.

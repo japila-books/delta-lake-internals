@@ -1,0 +1,3 @@
+# HilbertByteArrayIndex
+
+`HilbertByteArrayIndex` is...FIXME

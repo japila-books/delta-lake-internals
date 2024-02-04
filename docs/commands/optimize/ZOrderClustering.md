@@ -1,24 +1,24 @@
 # ZOrderClustering
 
-`ZOrderClustering` is a [SpaceFillingCurveClustering](SpaceFillingCurveClustering.md) for [MultiDimClustering.cluster](MultiDimClustering.md#cluster-utility) utility.
+`ZOrderClustering` is a [SpaceFillingCurveClustering](SpaceFillingCurveClustering.md) for [multi-dimensional clustering](MultiDimClustering.md#cluster-utility) with [zorder](OptimizeExecutor.md#zorder) curve.
 
-## <span id="getClusteringExpression"> getClusteringExpression
+## Clustering Expression { #getClusteringExpression }
 
-```scala
-getClusteringExpression(
-  cols: Seq[Column],
-  numRanges: Int): Column
-```
+??? note "SpaceFillingCurveClustering"
 
-`getClusteringExpression` is part of the [SpaceFillingCurveClustering](SpaceFillingCurveClustering.md#getClusteringExpression) abstraction.
+    ```scala
+    getClusteringExpression(
+      cols: Seq[Column],
+      numRanges: Int): Column
+    ```
 
----
+    `getClusteringExpression` is part of the [SpaceFillingCurveClustering](SpaceFillingCurveClustering.md#getClusteringExpression) abstraction.
 
 `getClusteringExpression` creates a [range_partition_id](MultiDimClusteringFunctions.md#range_partition_id) function (with the given `numRanges` for the number of partitions) for every `Column` (in the given `cols`).
 
 In the end, `getClusteringExpression` [interleave_bits](MultiDimClusteringFunctions.md#interleave_bits) with the `range_partition_id` columns and casts the (evaluation) result to `StringType`.
 
-### <span id="getClusteringExpression-demo"> Demo
+### Demo { #getClusteringExpression-demo }
 
 For some reason, [getClusteringExpression](#getClusteringExpression) is `protected[skipping]` so let's hop over the fence with the following hack.
 

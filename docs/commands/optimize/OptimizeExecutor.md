@@ -11,13 +11,30 @@
 * <span id="sparkSession"> `SparkSession` ([Spark SQL]({{ book.spark_sql }}/SparkSession))
 * <span id="deltaLog"> [DeltaLog](../../DeltaLog.md) (of the Delta table to be optimized)
 * <span id="partitionPredicate"> Partition predicate expressions ([Spark SQL]({{ book.spark_sql }}/expressions/Expression))
-* <span id="zOrderByColumns"> Z-OrderBy Columns (Names)
+* <span id="zOrderByColumns"> Z-OrderBy Column Names
 
 `OptimizeExecutor` is created when:
 
 * `OptimizeTableCommand` is requested to [run](OptimizeTableCommand.md#run)
 
-## optimize
+## <span id="hilbert"><span id="zorder"> Curve { #curve }
+
+```scala
+curve: String
+```
+
+`curve` can be one of the two supported values:
+
+* `zorder` for one or more [zOrderByColumns](#zOrderByColumns)
+* `hilbert` for no [zOrderByColumns](#zOrderByColumns) and [clustered tables](#isClusteredTable) feature enabled
+
+---
+
+`curve` is used when:
+
+* `OptimizeExecutor` is requested to [runOptimizeBinJob](#runOptimizeBinJob)
+
+## Performing Optimization { #optimize }
 
 ```scala
 optimize(): Seq[Row]
