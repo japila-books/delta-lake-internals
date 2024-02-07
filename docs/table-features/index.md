@@ -27,19 +27,14 @@ TBLPROPERTIES (
 
 ## Supported Table Features
 
-[TableFeature](TableFeature.md#allSupportedFeaturesMap) tracks all the supported table features:
+[TableFeature](TableFeature.md#allSupportedFeaturesMap) keeps track of all the supported table features, featuring:
 
 * [AppendOnlyTableFeature](../append-only-tables/AppendOnlyTableFeature.md)
 * [ChangeDataFeedTableFeature](../change-data-feed/ChangeDataFeedTableFeature.md)
-* `CheckConstraintsTableFeature`
-* `ColumnMappingTableFeature`
+* [ClusteringTableFeature](../liquid-clustering/ClusteringTableFeature.md)
 * [DeletionVectorsTableFeature](../deletion-vectors/DeletionVectorsTableFeature.md)
-* `DomainMetadataTableFeature`
-* `GeneratedColumnsTableFeature`
-* `IcebergCompatV1TableFeature`
-* `InvariantsTableFeature`
+* [DomainMetadataTableFeature](DomainMetadataTableFeature.md)
 * [RowTrackingFeature](../row-tracking/RowTrackingFeature.md)
-* `TimestampNTZTableFeature`
 
 ## Legacy Table Features
 

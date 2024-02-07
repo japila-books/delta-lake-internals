@@ -173,9 +173,9 @@ nav:
     - Logging: logging.md
     - ... | post-commit-hooks/**.md
     - ... | row-tracking/**.md
-    - ... | constraints/**.md
     - ... | spark-connector/**.md
     - ... | storage/**.md
+    - ... | constraints/**.md
     - ... | table-features/**.md
     - ... | table-properties/**.md
     - ... | time-travel/**.md

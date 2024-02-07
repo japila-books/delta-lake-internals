@@ -8,7 +8,7 @@ subtitle: Clustered Tables
 
 **Liquid Clustering** is an optimization technique in Delta Lake that uses [OPTIMIZE](../commands/optimize/index.md) with [Hilbert clustering](../commands/optimize/HilbertClustering.md).
 
-!!! info "Not Recommended for Production Use"
+!!! warning "Not Recommended for Production Use"
     1. A clustered table is currently in preview and is disabled by default.
     1. A clustered table is not recommended for production use (e.g., unsupported incremental clustering).
 
@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS delta_table
 USING delta
 CLUSTER BY (id)
 AS
-SELECT * FROM values 1, 2, 3 t(id)
+  SELECT * FROM values 1, 2, 3 t(id)
 ```
 
 The clustering columns of a delta table are stored (_persisted_) in a table catalog (as [clusteringColumns](ClusteredTableUtilsBase.md#clusteringColumns) table property).

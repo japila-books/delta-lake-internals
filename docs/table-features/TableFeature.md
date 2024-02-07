@@ -69,16 +69,20 @@ allSupportedFeaturesMap: Map[String, TableFeature]
 
 `allSupportedFeaturesMap` is a collection of [TableFeature](TableFeature.md)s by their lower-case [name](#name):
 
+* `AllowColumnDefaultsTableFeature`
 * [AppendOnlyTableFeature](../append-only-tables/AppendOnlyTableFeature.md)
 * [ChangeDataFeedTableFeature](../change-data-feed/ChangeDataFeedTableFeature.md)
 * `CheckConstraintsTableFeature`
-* `DomainMetadataTableFeature`
-* `GeneratedColumnsTableFeature`
-* `InvariantsTableFeature`
+* [ClusteringTableFeature](../liquid-clustering/ClusteringTableFeature.md)
 * `ColumnMappingTableFeature`
-* `TimestampNTZTableFeature`
-* `IcebergCompatV1TableFeature`
 * [DeletionVectorsTableFeature](../deletion-vectors/DeletionVectorsTableFeature.md)
+* [DomainMetadataTableFeature](DomainMetadataTableFeature.md)
+* `GeneratedColumnsTableFeature`
+* `IcebergCompatV1TableFeature`
+* `IcebergCompatV2TableFeature`
+* `InvariantsTableFeature`
+* `TimestampNTZTableFeature`
+* `V2CheckpointTableFeature`
 
 ---
 
