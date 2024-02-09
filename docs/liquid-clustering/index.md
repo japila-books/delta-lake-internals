@@ -6,7 +6,9 @@ subtitle: Clustered Tables
 
 # Liquid Clustering
 
-**Liquid Clustering** is an optimization technique in Delta Lake that uses [OPTIMIZE](../commands/optimize/index.md) with [Hilbert clustering](../commands/optimize/HilbertClustering.md).
+**Liquid Clustering** (_Clustered Tables_) is an optimization technique in Delta Lake to trigger [OPTIMIZE](../commands/optimize/index.md) command with [Hilbert clustering](../commands/optimize/HilbertClustering.md) at the end of a successful write (with [Auto Compaction](../auto-compaction/index.md) enabled).
+
+In other words, [Auto Compaction](../auto-compaction/index.md) has to be enabled for Liquid Clustering to be even considered.
 
 !!! warning "Not Recommended for Production Use"
     1. A clustered table is currently in preview and is disabled by default.
@@ -18,7 +20,7 @@ Liquid Clustering can be enabled system-wide using [spark.databricks.delta.clust
 SET spark.databricks.delta.clusteredTable.enableClusteringTablePreview=true
 ```
 
-Liquid Clustering can only be applied to delta tables created with `CLUSTER BY` clause.
+Liquid Clustering can only be used on delta tables created with `CLUSTER BY` clause.
 
 ```sql
 CREATE TABLE IF NOT EXISTS delta_table
@@ -27,6 +29,8 @@ CLUSTER BY (id)
 AS
   SELECT * FROM values 1, 2, 3 t(id)
 ```
+
+At write time, Delta Lake registers [AutoCompact](../auto-compaction/AutoCompact.md) post-commit hook (part of [Auto Compaction](../auto-compaction/index.md) feature) that determines the type of optimization (incl. Liquid Clustering).
 
 The clustering columns of a delta table are stored (_persisted_) in a table catalog (as [clusteringColumns](ClusteredTableUtilsBase.md#clusteringColumns) table property).
 

@@ -11,6 +11,7 @@ title: DeltaReorgTableCommand
 `DeltaReorgTableCommand` takes the following to be created:
 
 * <span id="target"> Target table (`LogicalPlan`)
+* <span id="reorgTableSpec"> `DeltaReorgTableSpec`
 * <span id="predicates"> `WHERE` partition predicates
 
 `DeltaReorgTableCommand` is created when:

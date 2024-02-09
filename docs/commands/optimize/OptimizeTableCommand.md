@@ -9,6 +9,8 @@
 
 `OptimizeTableCommand` uses [OptimizeExecutor](OptimizeExecutor.md) to [optimize](OptimizeExecutor.md#optimize) (when [executed](#run)).
 
+`OptimizeTableCommand` is a `RunnableCommand` ([Spark SQL]({{ book.spark_sql }}/logical-operators/RunnableCommand)).
+
 ## Creating Instance
 
 `OptimizeTableCommand` takes the following to be created:
@@ -21,7 +23,7 @@
 `OptimizeTableCommand` is created when:
 
 * `DeltaOptimizeBuilder` is requested to [execute](../../DeltaOptimizeBuilder.md#execute)
-* `DeltaReorgTableCommand` is [executed](../reorg/DeltaReorgTableCommand.md#run)
+* `DeltaReorgTableCommand` is requested to [optimizeByReorg](../reorg/DeltaReorgTableCommand.md#optimizeByReorg)
 * `OptimizeTableCommand` is requested to [apply](#apply)
 
 ## Creating OptimizeTableCommand { #apply }
@@ -35,7 +37,7 @@ apply(
   zOrderBy: Seq[UnresolvedAttribute]): OptimizeTableCommand
 ```
 
-`apply`...FIXME
+`apply` creates an [OptimizeTableCommand](#creating-instance) for a delta table (based on the given `path` or `tableIdentifier`).
 
 ---
 

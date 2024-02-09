@@ -27,7 +27,7 @@ In the end, `getClusteringExpression` [hilbert_index](MultiDimClusteringFunction
 
 * The number of bits being one more than the number of trailing zeros of the int value with at most a single one-bit, in the position of the highest-order ("leftmost") one-bit in the `numRanges` value
 
-    ??? note "Number of Bits Example"
+    ??? note "Number of Bits Explained"
         Given `numRanges` is `5`, the position of the highest-order ("leftmost") one-bit is `2`.
 
         ```scala

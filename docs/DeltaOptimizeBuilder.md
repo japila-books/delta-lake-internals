@@ -65,7 +65,7 @@ where(
 
 `DeltaOptimizeBuilder` is created using [apply](#apply) factory method.
 
-## <span id="apply"> Creating DeltaOptimizeBuilder
+## Creating DeltaOptimizeBuilder { #apply }
 
 ```scala
 apply(
@@ -82,7 +82,7 @@ apply(
 
 * `DeltaTable` is requested to [optimize](DeltaTable.md#optimize)
 
-## <span id="execute"> Executing
+## Executing { #execute }
 
 ```scala
 execute(
@@ -90,6 +90,8 @@ execute(
 ```
 
 `execute` creates an [OptimizeTableCommand](commands/optimize/OptimizeTableCommand.md) (with [tableId](commands/optimize/OptimizeTableCommand.md#tableId), the [partitionFilter](#partitionFilter) and the given `zOrderBy` attributes) and executes it (while creating a `DataFrame`).
+
+---
 
 `execute` is used when:
 

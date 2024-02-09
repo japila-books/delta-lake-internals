@@ -9,13 +9,16 @@
 `OptimizeExecutor` takes the following to be created:
 
 * <span id="sparkSession"> `SparkSession` ([Spark SQL]({{ book.spark_sql }}/SparkSession))
-* <span id="deltaLog"> [DeltaLog](../../DeltaLog.md) (of the Delta table to be optimized)
+* <span id="txn"> [OptimisticTransaction](../../OptimisticTransaction.md)
 * <span id="partitionPredicate"> Partition predicate expressions ([Spark SQL]({{ book.spark_sql }}/expressions/Expression))
 * <span id="zOrderByColumns"> Z-OrderBy Column Names
+* <span id="isAutoCompact"> `isAutoCompact` flag
+* <span id="optimizeContext"> [DeltaOptimizeContext](DeltaOptimizeContext.md)
 
 `OptimizeExecutor` is created when:
 
-* `OptimizeTableCommand` is requested to [run](OptimizeTableCommand.md#run)
+* `OptimizeTableCommand` is [executed](OptimizeTableCommand.md#run)
+* `AutoCompactBase` is requested to [compact](../../auto-compaction/AutoCompactBase.md#compact)
 
 ## <span id="hilbert"><span id="zorder"> Curve { #curve }
 
@@ -40,9 +43,11 @@ curve: String
 optimize(): Seq[Row]
 ```
 
+---
+
 `optimize` is used when:
 
-* `OptimizeTableCommand` is requested to [run](OptimizeTableCommand.md#run)
+* `OptimizeTableCommand` is [executed](OptimizeTableCommand.md#run)
 
 ---
 
@@ -104,7 +109,7 @@ runOptimizeBinJob(
 
     Unless it is executed as part of [Auto Compaction](../../auto-compaction/index.md) which uses [spark.databricks.delta.autoCompact.maxFileSize](../../configuration-properties/index.md#autoCompact.maxFileSize) configuration property.
 
-`runOptimizeBinJob` creates an input `DataFrame` for scanning data of the given [AddFile](../../AddFile.md)s. `runOptimizeBinJob` requests the [deltaLog](../../OptimisticTransaction.md#deltaLog) (of the given [OptimisticTransaction](../../OptimisticTransaction.md)) to [create the DataFrame](../../DeltaLog.md#createDataFrame) with `Optimize` action type.
+`runOptimizeBinJob` creates an input `DataFrame` for scanning data of the given [AddFile](../../AddFile.md)s. `runOptimizeBinJob` requests the [DeltaLog](../../OptimisticTransaction.md#deltaLog) (of the given [OptimisticTransaction](../../OptimisticTransaction.md)) to [create the DataFrame](../../DeltaLog.md#createDataFrame) (with `Optimize` action type).
 
 `runOptimizeBinJob` creates a so-called `repartitionDF` as follows:
 
@@ -120,14 +125,17 @@ runOptimizeBinJob(
 
 `runOptimizeBinJob` sets a custom description for the job group (for all future Spark jobs started by this thread).
 
-`runOptimizeBinJob` writes out the repartitioned `DataFrame`. `runOptimizeBinJob` requests the given [OptimisticTransaction](../../OptimisticTransaction.md) to [writeFiles](../../TransactionalWrite.md#writeFiles).
+`runOptimizeBinJob` writes out the repartitioned `DataFrame`. `runOptimizeBinJob` requests the given [OptimisticTransaction](../../OptimisticTransaction.md) to [write data out](../../TransactionalWrite.md#writeFiles).
 
-`runOptimizeBinJob` marks all the [AddFile](../../AddFile.md)s (as the result of [writeFiles](../../TransactionalWrite.md#writeFiles)) as [not dataChange](../../AddFile.md#dataChange). No other [FileAction](../../FileAction.md)s are expected or `runOptimizeBinJob` throws an `IllegalStateException`:
+`runOptimizeBinJob` marks all the [AddFile](../../AddFile.md)s (the result of [writting data out](../../TransactionalWrite.md#writeFiles)) as [not dataChange](../../AddFile.md#dataChange).
 
-```text
-Unexpected action [other] with type [class].
-File compaction job output should only have AddFiles
-```
+??? note "IllegalStateException for non-`AddFile`s"
+    No other [FileAction](../../FileAction.md)s are expected or `runOptimizeBinJob` throws an `IllegalStateException`:
+
+    ```text
+    Unexpected action [other] with type [class].
+    File compaction job output should only have AddFiles
+    ```
 
 `runOptimizeBinJob` [creates RemoveFiles for all the given AddFiles](../../AddFile.md#removeWithTimestamp). `runOptimizeBinJob` uses the current timestamp and the `dataChange` flag is disabled (as was earlier with the `AddFile`s).
 
