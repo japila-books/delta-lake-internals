@@ -20,7 +20,7 @@ Liquid Clustering can be enabled system-wide using [spark.databricks.delta.clust
 SET spark.databricks.delta.clusteredTable.enableClusteringTablePreview=true
 ```
 
-Liquid Clustering can only be used on delta tables created with `CLUSTER BY` clause.
+Liquid Clustering can only be used on delta tables created with [CLUSTER BY](#cluster-by-clause) clause.
 
 ```sql
 CREATE TABLE IF NOT EXISTS delta_table
@@ -52,6 +52,18 @@ DESC EXTENDED delta_table
 |Owner                       |jacek                                                                                                                                                   |       |
 |Table Properties            |[clusteringColumns=[["id"]],delta.feature.clustering=supported,delta.feature.domainMetadata=supported,delta.minReaderVersion=1,delta.minWriterVersion=7]|       |
 +----------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------+-------+
+```
+
+## CLUSTER BY Clause
+
+!!! note "Spark 4.0.0"
+    With [SPARK-44886](https://issues.apache.org/jira/browse/SPARK-44886) resolved, support for clustered tables is slated to be available natively in Apache Spark 4.0.0 🔥
+
+`CLUSTER BY` clause is made available in `CREATE`/`REPLACE` SQL using [ClusterByParserUtils](ClusterByParserUtils.md) that is needed until a native support in Apache Spark is provided for catalog/datasource implementations to use for clustering.
+
+```sql
+CREATE TABLE tbl(a int, b string)
+CLUSTER BY (a, b)
 ```
 
 ## Limitations
