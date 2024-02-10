@@ -411,7 +411,9 @@ Used when:
 
 ### <span id="optimize.minFileSize"><span id="DELTA_OPTIMIZE_MIN_FILE_SIZE"> optimize.minFileSize
 
-**spark.databricks.delta.optimize.minFileSize** (internal) Files which are smaller than this threshold (in bytes) will be grouped together and rewritten as larger files by the [OPTIMIZE](../sql/index.md#OPTIMIZE) command.
+**spark.databricks.delta.optimize.minFileSize**
+
+(internal) Files which are smaller than this threshold (in bytes) will be grouped together and rewritten as larger files by the [OPTIMIZE](../sql/index.md#OPTIMIZE) command.
 
 Default: `1024 * 1024 * 1024` (`1GB`)
 
@@ -667,6 +669,47 @@ Default: `true`
 Default: `false`
 
 Enabling may result hitting rate limits on some storage backends. When enabled, parallelization is controlled by the default number of shuffle partitions.
+
+### <span id="write.txnAppId"><span id="DELTA_IDEMPOTENT_DML_TXN_APP_ID"> write.txnAppId { #spark.databricks.delta.write.txnAppId }
+
+**spark.databricks.delta.write.txnAppId**
+
+**(internal)** The user-defined application ID a write will be committed with.
+If specified, [spark.databricks.delta.write.txnVersion](#spark.databricks.delta.write.txnVersion) has to be set, too.
+
+Default: (undefined)
+
+Used when:
+
+* `DeltaCommand` is requested for the [txnVersion and txnAppId](../commands/DeltaCommand.md#getTxnVersionAndAppId)
+
+### <span id="write.txnVersion"><span id="DELTA_IDEMPOTENT_DML_TXN_VERSION"> write.txnVersion { #spark.databricks.delta.write.txnVersion }
+
+**spark.databricks.delta.write.txnVersion**
+
+**(internal)** The user-defined transaction version a write will be committed with.
+If specified, [spark.databricks.delta.write.txnAppId](#spark.databricks.delta.write.txnAppId) has to be set, too.
+To ensure idempotency, `txnVersion`s across different writes need to be monotonically increasing.
+
+Default: (undefined)
+
+Used when:
+
+* `DeltaCommand` is requested to [create a SetTransaction action](../commands/DeltaCommand.md#createSetTransaction), for the [txnVersion and txnAppId](../commands/DeltaCommand.md#getTxnVersionAndAppId) and [hasBeenExecuted](../commands/DeltaCommand.md#hasBeenExecuted)
+
+### <span id="write.txnVersion.autoReset.enabled"><span id="DELTA_IDEMPOTENT_DML_AUTO_RESET_ENABLED"> write.txnVersion.autoReset.enabled
+
+**spark.databricks.delta.write.txnVersion.autoReset.enabled**
+
+**(internal)** When enabled, automatically resets [spark.databricks.delta.write.txnVersion](#spark.databricks.delta.write.txnVersion) after every write
+
+If the `txnAppId` and `txnVersion` both [come from the session config](../commands/DeltaCommand.md#getTxnVersionAndAppId) (based on [write.txnAppId](#write.txnAppId) and [write.txnVersion](#write.txnVersion), respectively), [spark.databricks.delta.write.txnVersion](#spark.databricks.delta.write.txnVersion) is reset (_unset_), after skipping the current transaction, as a safety measure to prevent data loss if the user forgets to manually reset `txnVersion`
+
+Default: `false`
+
+Used when:
+
+* `DeltaCommand` is requested to [create a SetTransaction action](../commands/DeltaCommand.md#createSetTransaction) and [hasBeenExecuted](../commands/DeltaCommand.md#hasBeenExecuted)
 
 ## spark.delta.logStore.class { #spark.delta.logStore.class }
 

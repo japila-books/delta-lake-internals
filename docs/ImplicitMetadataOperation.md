@@ -135,7 +135,7 @@ normalizePartitionColumns(
 
 `normalizePartitionColumns`...FIXME
 
-### <span id="mergeSchema"> mergeSchema
+### mergeSchema { #mergeSchema }
 
 ```scala
 mergeSchema(
@@ -146,6 +146,24 @@ mergeSchema(
 ```
 
 `mergeSchema`...FIXME
+
+## New Domain Metadata { #getNewDomainMetadata }
+
+```scala
+getNewDomainMetadata(
+  txn: OptimisticTransaction,
+  canUpdateMetadata: Boolean,
+  isReplacingTable: Boolean,
+  clusterBySpecOpt: Option[ClusterBySpec] = None): Seq[DomainMetadata]
+```
+
+`getNewDomainMetadata`...FIXME
+
+---
+
+`getNewDomainMetadata` is used when:
+
+* `WriteIntoDelta` command is requested to [write data out](commands/WriteIntoDelta.md#write)
 
 ## Logging
 

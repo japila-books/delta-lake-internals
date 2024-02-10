@@ -1,6 +1,6 @@
 # WriteIntoDelta Command
 
-`WriteIntoDelta` is a [delta command](DeltaCommand.md) that can write [data(frame)](#data) transactionally into a [delta table](#deltaLog).
+`WriteIntoDelta` is a [delta command](DeltaCommand.md) that can write [data(frame)](#data) out transactionally into a [delta table](#deltaLog) (that can be already available or is about to be created).
 
 `WriteIntoDelta` is a `LeafRunnableCommand` ([Spark SQL]({{ book.spark_sql }}/logical-operators/LeafRunnableCommand)) logical operator.
 
@@ -18,7 +18,7 @@
 
 `WriteIntoDelta` is created when:
 
-* `DeltaDynamicPartitionOverwriteCommand` is executed
+* [DeltaDynamicPartitionOverwriteCommand](DeltaDynamicPartitionOverwriteCommand.md) is executed
 * `DeltaLog` is requested to [create an insertable HadoopFsRelation](../DeltaLog.md#createRelation) (when `DeltaDataSource` is requested to create a relation as a [CreatableRelationProvider](../spark-connector/DeltaDataSource.md#CreatableRelationProvider) or a [RelationProvider](../spark-connector/DeltaDataSource.md#RelationProvider))
 * `DeltaCatalog` is requested to [create a delta table](../DeltaCatalog.md#createDeltaTable)
 * `WriteIntoDeltaBuilder` is requested to [build a V1Write](../WriteIntoDeltaBuilder.md#build)

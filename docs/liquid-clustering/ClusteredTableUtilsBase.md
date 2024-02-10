@@ -40,23 +40,39 @@ removeClusteringColumnsProperty(
 
 `removeClusteringColumnsProperty` is used when:
 
-* `CreateDeltaTableCommand` is requested to [getProvidedMetadata](../commands/create-table/CreateDeltaTableCommand.md#getProvidedMetadata)
+* `CreateDeltaTableCommand` is requested for the [provided metadata](../commands/create-table/CreateDeltaTableCommand.md#getProvidedMetadata)
 
-## getDomainMetadataOptional { #getDomainMetadataOptional }
+## Domain Metadata { #getDomainMetadataOptional }
 
 ```scala
 getDomainMetadataOptional(
   table: CatalogTable,
+  txn: OptimisticTransaction): Option[DomainMetadata] // (1)!
+getDomainMetadataOptional(
+  clusterBySpecOpt: Option[ClusterBySpec],
   txn: OptimisticTransaction): Option[DomainMetadata]
 ```
 
-`getDomainMetadataOptional`...FIXME
+1. Uses [getClusterBySpecOptional](#getClusterBySpecOptional) with the given `CatalogTable` ([Spark SQL]({{ book.spark_sql }}/catalog/CatalogTable))
+
+`getDomainMetadataOptional` [validateClusteringColumnsInStatsSchema](#validateClusteringColumnsInStatsSchema) in the given [ClusterBySpec](ClusterBySpec.md), if specified.
+
+`getDomainMetadataOptional` [createDomainMetadata](#createDomainMetadata) with the [column names](ClusterBySpec.md#columnNames) (in the given [ClusterBySpec](ClusterBySpec.md)).
 
 ---
 
 `getDomainMetadataOptional` is used when:
 
 * `CreateDeltaTableCommand` is requested to [handleCreateTable](../commands/create-table/CreateDeltaTableCommand.md#handleCreateTable), [handleCreateTableAsSelect](../commands/create-table/CreateDeltaTableCommand.md#handleCreateTableAsSelect)
+
+### Creating DomainMetadata { #createDomainMetadata }
+
+```scala
+createDomainMetadata(
+  clusteringColumns: Seq[ClusteringColumn]): DomainMetadata
+```
+
+`createDomainMetadata` [creates a ClusteringMetadataDomain](ClusteringMetadataDomain.md#fromClusteringColumns) from the given `ClusteringColumn`s and [converts it to a DomainMetadata](JsonMetadataDomain.md#toDomainMetadata).
 
 ## getClusterBySpecOptional { #getClusterBySpecOptional }
 
@@ -72,7 +88,7 @@ getClusterBySpecOptional(
 `getClusterBySpecOptional` is used when:
 
 * `CreateDeltaTableCommand` is requested to [handleCreateTableAsSelect](../commands/create-table/CreateDeltaTableCommand.md#handleCreateTableAsSelect)
-* `ClusteredTableUtilsBase` is requested to [getDomainMetadataOptional](#getDomainMetadataOptional)
+* `ClusteredTableUtilsBase` is requested for the [domain metadata](#getDomainMetadataOptional)
 
 ## getClusteringColumnsAsProperty { #getClusteringColumnsAsProperty }
 

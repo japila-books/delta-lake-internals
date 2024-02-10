@@ -1,0 +1,3 @@
+# JsonMetadataDomain
+
+`JsonMetadataDomain` is...FIXME

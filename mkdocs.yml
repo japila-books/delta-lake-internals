@@ -282,6 +282,7 @@ nav:
       - create-table-like/index.md
     - Delete:
       - ... | flat | commands/delete/**.md
+    - DeltaDynamicPartitionOverwriteCommand: commands/DeltaDynamicPartitionOverwriteCommand.md
     - DESCRIBE DETAIL:
       - ... | flat | commands/describe-detail/**.md
     - DESCRIBE HISTORY:

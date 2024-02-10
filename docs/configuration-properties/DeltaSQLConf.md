@@ -93,3 +93,7 @@
 ## streaming.unsafeReadOnIncompatibleColumnMappingSchemaChanges.enabled { #DELTA_STREAMING_UNSAFE_READ_ON_INCOMPATIBLE_COLUMN_MAPPING_SCHEMA_CHANGES }
 
 [spark.databricks.delta.streaming.unsafeReadOnIncompatibleColumnMappingSchemaChanges.enabled](index.md#streaming.unsafeReadOnIncompatibleColumnMappingSchemaChanges.enabled)
+
+## write.txnVersion.autoReset.enabled { #DELTA_IDEMPOTENT_DML_AUTO_RESET_ENABLED }
+
+[spark.databricks.delta.write.txnVersion.autoReset.enabled](index.md#write.txnVersion.autoReset.enabled)

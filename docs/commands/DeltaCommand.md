@@ -224,6 +224,32 @@ sendDriverMetrics(
 * `MergeIntoCommand` is requested to [run merge](merge/MergeIntoCommand.md#runMerge)
 * `UpdateCommand` is requested to [run](update/UpdateCommand.md#run) (and [performUpdate](update/UpdateCommand.md#performUpdate))
 
+## Creating SetTransaction Action { #createSetTransaction }
+
+```scala
+createSetTransaction(
+  sparkSession: SparkSession,
+  deltaLog: DeltaLog,
+  options: Option[DeltaOptions] = None): Option[SetTransaction]
+```
+
+??? note "`options` Argument"
+    `options` is undefined (`None`) by default and is only defined when `WriteIntoDelta` is requested to [write data out](WriteIntoDelta.md#write).
+
+`createSetTransaction` creates (and returns) a new [SetTransaction](../SetTransaction.md) when the [transaction version and application ID](#getTxnVersionAndAppId) are both available (in either the given `SparkSession` or [DeltaOptions](../spark-connector/DeltaOptions.md)).
+
+??? note "spark.databricks.delta.write.txnVersion.autoReset.enabled"
+    `createSetTransaction` does something extra with [spark.databricks.delta.write.txnVersion.autoReset.enabled](../configuration-properties/index.md#spark.databricks.delta.write.txnVersion.autoReset.enabled) enabled.
+
+---
+
+`createSetTransaction` is used when:
+
+* `DeleteCommand` is requested to [performDelete](delete/DeleteCommand.md#performDelete)
+* `MergeIntoCommand` is requested to [commitAndRecordStats](merge/MergeIntoCommand.md#commitAndRecordStats)
+* `UpdateCommand` is requested to [performUpdate](update/UpdateCommand.md#performUpdate)
+* `WriteIntoDelta` is requested to [write data out](WriteIntoDelta.md#write)
+
 ## Logging
 
 `DeltaCommand` is an abstract class and logging is configured using the logger of the [implementations](#implementations).
