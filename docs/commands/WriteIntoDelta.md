@@ -18,7 +18,7 @@
 
 `WriteIntoDelta` is created when:
 
-* [DeltaDynamicPartitionOverwriteCommand](DeltaDynamicPartitionOverwriteCommand.md) is executed
+* [DeltaDynamicPartitionOverwriteCommand](../dynamic-partition-overwrite/DeltaDynamicPartitionOverwriteCommand.md) is executed
 * `DeltaLog` is requested to [create an insertable HadoopFsRelation](../DeltaLog.md#createRelation) (when `DeltaDataSource` is requested to create a relation as a [CreatableRelationProvider](../spark-connector/DeltaDataSource.md#CreatableRelationProvider) or a [RelationProvider](../spark-connector/DeltaDataSource.md#RelationProvider))
 * `DeltaCatalog` is requested to [create a delta table](../DeltaCatalog.md#createDeltaTable)
 * `WriteIntoDeltaBuilder` is requested to [build a V1Write](../WriteIntoDeltaBuilder.md#build)

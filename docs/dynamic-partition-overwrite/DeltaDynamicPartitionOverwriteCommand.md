@@ -1,6 +1,6 @@
 # DeltaDynamicPartitionOverwriteCommand
 
-`DeltaDynamicPartitionOverwriteCommand` is a `RunnableCommand` ([Spark SQL]({{ book.spark_sql }}/logical-operators/RunnableCommand/)) and a `V2WriteCommand` ([Spark SQL]({{ book.spark_sql }}/logical-operators/V2WriteCommand/)) for dynamic partition overwrite using [WriteIntoDelta](WriteIntoDelta.md).
+`DeltaDynamicPartitionOverwriteCommand` is a `RunnableCommand` ([Spark SQL]({{ book.spark_sql }}/logical-operators/RunnableCommand/)) and a `V2WriteCommand` ([Spark SQL]({{ book.spark_sql }}/logical-operators/V2WriteCommand/)) for dynamic partition overwrite using [WriteIntoDelta](../commands/WriteIntoDelta.md).
 
 `DeltaDynamicPartitionOverwriteCommand` sets [partitionOverwriteMode](../spark-connector/options.md#partitionOverwriteMode) option as `DYNAMIC` before [write](#run).
 

@@ -247,7 +247,7 @@ createSetTransaction(
 
 * `DeleteCommand` is requested to [performDelete](delete/DeleteCommand.md#performDelete)
 * `MergeIntoCommand` is requested to [commitAndRecordStats](merge/MergeIntoCommand.md#commitAndRecordStats)
-* `UpdateCommand` is requested to [performUpdate](update/UpdateCommand.md#performUpdate)
+* [Update](update/index.md) command is executed
 * `WriteIntoDelta` is requested to [write data out](WriteIntoDelta.md#write)
 
 ## Logging

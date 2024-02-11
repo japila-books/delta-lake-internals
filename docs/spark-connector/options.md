@@ -94,7 +94,7 @@ Mutually exclusive with [replaceWhere](#replaceWhere)
 
 Used when:
 
-* `DeltaDynamicPartitionOverwriteCommand` is executed
+* [DeltaDynamicPartitionOverwriteCommand](../dynamic-partition-overwrite/DeltaDynamicPartitionOverwriteCommand.md) is executed (and sets `partitionOverwriteMode` to `DYNAMIC`)
 * `DeltaWriteOptionsImpl` is requested to [isDynamicPartitionOverwriteMode](DeltaWriteOptionsImpl.md#isDynamicPartitionOverwriteMode) and for [partitionOverwriteModeInOptions](DeltaWriteOptionsImpl.md#partitionOverwriteModeInOptions)
 * `WriteIntoDeltaBuilder` is requested to [overwriteDynamicPartitions](../WriteIntoDeltaBuilder.md#overwriteDynamicPartitions)
 

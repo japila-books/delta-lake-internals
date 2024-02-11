@@ -28,18 +28,20 @@ Name              | web UI
 `scanTimeMs`      | time taken to scan the files for matches
 `rewriteTimeMs`   | time taken to rewrite the matched files
 
-## <span id="run"> Executing Command
+## <span id="performUpdate"><span id="rewriteFiles"><span id="buildUpdatedColumns"> Executing Command { #run }
 
-```scala
-run(
-  sparkSession: SparkSession): Seq[Row]
-```
+??? note "RunnableCommand"
 
-`run` is part of the `RunnableCommand` ([Spark SQL]({{ book.spark_sql }}/logical-operators/RunnableCommand/)) abstraction.
+    ```scala
+    run(
+      sparkSession: SparkSession): Seq[Row]
+    ```
+
+    `run` is part of the `RunnableCommand` ([Spark SQL]({{ book.spark_sql }}/logical-operators/RunnableCommand/#run)) abstraction.
 
 `run`...FIXME
 
-### <span id="performUpdate"> performUpdate
+### performUpdate
 
 ```scala
 performUpdate(
@@ -50,7 +52,7 @@ performUpdate(
 
 `performUpdate`...FIXME
 
-### <span id="rewriteFiles"> rewriteFiles
+### rewriteFiles
 
 ```scala
 rewriteFiles(
@@ -64,7 +66,7 @@ rewriteFiles(
 
 `rewriteFiles`...FIXME
 
-### <span id="buildUpdatedColumns"> buildUpdatedColumns
+### buildUpdatedColumns
 
 ```scala
 buildUpdatedColumns(

@@ -55,7 +55,14 @@ rearrangeOnly: Boolean
 isDynamicPartitionOverwriteMode: Boolean
 ```
 
-`isDynamicPartitionOverwriteMode`...FIXME
+`isDynamicPartitionOverwriteMode` determines the **partition overwrite mode** based on the value of [partitionOverwriteMode](#partitionOverwriteMode) option (in the [options](DeltaOptionParser.md#options)), if specified, or defaults to the value of `spark.sql.sources.partitionOverwriteMode` ([Spark SQL]({{ book.spark_sql }}/configuration-properties/#spark.sql.sources.partitionOverwriteMode)).
+
+??? note "DeltaIllegalArgumentException: `DYNAMIC` mode with Dynamic Partition Overwrite disabled"
+    For `DYNAMIC` partition overwrite mode and [dynamicPartitionOverwrite.enabled](../configuration-properties/index.md#dynamicPartitionOverwrite.enabled) disabled, `isDynamicPartitionOverwriteMode` reports a [DeltaIllegalArgumentException](../DeltaErrors.md#deltaDynamicPartitionOverwriteDisabled).
+
+With [dynamicPartitionOverwrite.enabled](../configuration-properties/index.md#dynamicPartitionOverwrite.enabled) disabled and the partition overwrite mode is anything but [DYNAMIC](../spark-connector/DeltaOptions.md#DYNAMIC), `isDynamicPartitionOverwriteMode` is off (returns `false`).
+
+Otherwise, `isDynamicPartitionOverwriteMode` is whether the partition overwrite mode is dynamic or not (static).
 
 ---
 

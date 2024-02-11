@@ -184,6 +184,19 @@ Default: `3`
 
 Default: `.s3-optimization-`
 
+### <span id="dynamicPartitionOverwrite.enabled"><span id="DYNAMIC_PARTITION_OVERWRITE_ENABLED"> dynamicPartitionOverwrite.enabled { #spark.databricks.delta.dynamicPartitionOverwrite.enabled }
+
+**spark.databricks.delta.dynamicPartitionOverwrite.enabled**
+
+**(internal)** Enables [Dynamic Partition Overwrite](../dynamic-partition-overwrite/index.md) (whether to overwrite partitions dynamically when `partitionOverwriteMode` is `dynamic` in either the SQL configuration or a `DataFrameWriter` option).
+When disabled, `partitionOverwriteMode` will be ignored.
+
+Default: `true`
+
+Used when:
+
+* `DeltaWriteOptionsImpl` is requested to [isDynamicPartitionOverwriteMode](../spark-connector/DeltaWriteOptionsImpl.md#isDynamicPartitionOverwriteMode)
+
 ### <span id="spark.databricks.delta.history.maxKeysPerList"><span id="DELTA_HISTORY_PAR_SEARCH_THRESHOLD"> history.maxKeysPerList { #history.maxKeysPerList }
 
 **spark.databricks.delta.history.maxKeysPerList**

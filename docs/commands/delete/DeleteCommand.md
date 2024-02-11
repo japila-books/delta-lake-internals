@@ -37,7 +37,7 @@
       sparkSession: SparkSession): Seq[Row]
     ```
 
-    `run` is part of the `RunnableCommand` ([Spark SQL]({{ book.spark_sql }}/logical-operators/RunnableCommand/)) abstraction.
+    `run` is part of the `RunnableCommand` ([Spark SQL]({{ book.spark_sql }}/logical-operators/RunnableCommand/#run)) abstraction.
 
 `run` requests the [TahoeFileIndex](#tahoeFileIndex) for the [DeltaLog](../../TahoeFileIndex.md#deltaLog) (and [asserts that the table is removable](../../DeltaLog.md#assertRemovable)).
 
@@ -45,7 +45,7 @@
 
 In the end, `run` re-caches all cached plans (incl. this relation itself) by requesting the `CacheManager` ([Spark SQL]({{ book.spark_sql }}/CacheManager)) to recache the [target](#target).
 
-## <span id="performDelete"> performDelete
+## performDelete { #performDelete }
 
 ```scala
 performDelete(

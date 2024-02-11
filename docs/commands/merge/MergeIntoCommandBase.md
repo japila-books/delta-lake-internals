@@ -238,7 +238,7 @@ In the end, `buildTargetPlanWithIndex` creates a `Project` logical operator with
       spark: SparkSession): Seq[Row]
     ```
 
-    `run` is part of the `RunnableCommand` ([Spark SQL]({{ book.spark_sql }}/logical-operators/RunnableCommand/)) abstraction.
+    `run` is part of the `RunnableCommand` ([Spark SQL]({{ book.spark_sql }}/logical-operators/RunnableCommand/#run)) abstraction.
 
 `run` is a transactional operation that is made up of the following steps:
 

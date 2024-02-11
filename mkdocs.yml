@@ -164,6 +164,7 @@ nav:
     - ... | data-skipping/**.md
     - ... | deletion-vectors/**.md
     - developer-api.md
+    - ... | dynamic-partition-overwrite/**.md
     - ... | generated-columns/**.md
     - installation.md
     - ... | liquid-clustering/**.md
@@ -282,7 +283,6 @@ nav:
       - create-table-like/index.md
     - Delete:
       - ... | flat | commands/delete/**.md
-    - DeltaDynamicPartitionOverwriteCommand: commands/DeltaDynamicPartitionOverwriteCommand.md
     - DESCRIBE DETAIL:
       - ... | flat | commands/describe-detail/**.md
     - DESCRIBE HISTORY:
