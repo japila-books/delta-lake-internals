@@ -813,6 +813,25 @@ commitLarge(
 * [CreateDeltaTableCommand](commands/create-table/CreateDeltaTableCommand.md) (and [handleClone](commands/clone/CloneTableBase.md#handleClone))
 * [RESTORE](commands/restore/index.md)
 
+## Metadata Can Be Updated { #canUpdateMetadata }
+
+```scala
+canUpdateMetadata: Boolean
+```
+
+`canUpdateMetadata` holds when neither this transaction has already written data nor the metadata has been already changed.
+
+In other words, `canUpdateMetadata` holds `true` when both of the following hold:
+
+1. [hasWritten](TransactionalWrite.md#hasWritten) is `false`
+1. [newMetadata](#newMetadata) is undefined
+
+---
+
+`canUpdateMetadata` is used when:
+
+* `WriteIntoDelta` is requested to [write data out](commands/WriteIntoDelta.md#write)
+
 ## Logging
 
 `OptimisticTransactionImpl` is a Scala trait and logging is configured using the logger of the [implementations](#implementations).

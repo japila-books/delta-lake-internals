@@ -202,9 +202,10 @@ nav:
     - Transaction Log (DeltaLog):
       - DeltaLog: DeltaLog.md
       - Operation: Operation.md
+      - ReadChecksum: ReadChecksum.md
       - SnapshotManagement: SnapshotManagement.md
       - SnapshotDescriptor.md
-      - ReadChecksum: ReadChecksum.md
+      - SnapshotStateManager: SnapshotStateManager.md
       - VerifyChecksum: VerifyChecksum.md
     - Optimistic Transactions:
       - OptimisticTransaction: OptimisticTransaction.md
@@ -333,6 +334,7 @@ nav:
     - DeltaRelation: DeltaRelation.md
     - DeltaTableOperations: DeltaTableOperations.md
     - DeltaTableUtils: DeltaTableUtils.md
+    - DomainMetadataUtils: DomainMetadataUtils.md
     - ImplicitMetadataOperation: ImplicitMetadataOperation.md
     - SchemaMergingUtils: SchemaMergingUtils.md
     - SchemaUtils: SchemaUtils.md

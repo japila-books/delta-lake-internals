@@ -94,7 +94,7 @@ val expected = new Path(s"file:$dataPath/_delta_log/_last_checkpoint")
 assert(deltaLog.LAST_CHECKPOINT == expected)
 ```
 
-## <span id="tableExists"> tableExists
+## tableExists { #tableExists }
 
 ```scala
 tableExists: Boolean
@@ -102,7 +102,9 @@ tableExists: Boolean
 
 `tableExists` requests the [current Snapshot](SnapshotManagement.md#snapshot) for the [version](Snapshot.md#version) and checks out whether it is `0` or higher.
 
-is used when:
+---
+
+`tableExists` is used when:
 
 * `DeltaTable` utility is used to [isDeltaTable](DeltaTable.md#isDeltaTable)
 * [DeltaUnsupportedOperationsCheck](DeltaUnsupportedOperationsCheck.md) logical check rule is executed

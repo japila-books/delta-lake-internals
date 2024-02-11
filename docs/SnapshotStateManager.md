@@ -1,0 +1,3 @@
+# SnapshotStateManager
+
+`SnapshotStateManager`...FIXME

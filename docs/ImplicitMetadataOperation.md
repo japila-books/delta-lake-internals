@@ -147,7 +147,7 @@ mergeSchema(
 
 `mergeSchema`...FIXME
 
-## New Domain Metadata { #getNewDomainMetadata }
+## New DomainMetadatas { #getNewDomainMetadata }
 
 ```scala
 getNewDomainMetadata(
@@ -157,7 +157,21 @@ getNewDomainMetadata(
   clusterBySpecOpt: Option[ClusterBySpec] = None): Seq[DomainMetadata]
 ```
 
-`getNewDomainMetadata`...FIXME
+`getNewDomainMetadata` is empty (no [DomainMetadata](DomainMetadata.md)) if either of the following holds:
+
+* The given `canUpdateMetadata` flag is `false`
+* The given `isReplacingTable` flag is `false` and the delta table (of the given [OptimisticTransaction](OptimisticTransaction.md#deltaLog)) [exists](DeltaLog.md#tableExists)
+
+??? note "`canUpdateMetadata` flag"
+    The input `canUpdateMetadata` flag is exactly [canUpdateMetadata](OptimisticTransactionImpl.md#canUpdateMetadata) of the given [OptimisticTransaction](OptimisticTransaction.md).
+
+??? note "`isReplacingTable` flag"
+    The input `isReplacingTable` flag holds true for the [SaveMode](commands/WriteIntoDelta.md#mode) being [Overwrite](commands/WriteIntoDelta.md#isOverwriteOperation) with no [replaceWhere](spark-connector/options.md#replaceWhere) option enabled.
+
+For all other cases, `getNewDomainMetadata` does one of the following:
+
+1. When the delta table (of the given [OptimisticTransaction](OptimisticTransaction.md#deltaLog)) does not [exist](DeltaLog.md#tableExists), `getNewDomainMetadata` gives a [DomainMetadata](liquid-clustering/ClusteredTableUtilsBase.md#getDomainMetadataOptional) for the given [ClusterBySpec](liquid-clustering/ClusterBySpec.md)
+1. Otherwise, `getNewDomainMetadata` [handles domain metadata for replacing a table](DomainMetadataUtils.md#handleDomainMetadataForReplaceTable) (with the [existing](SnapshotStateManager.md#domainMetadata) and the new clustered `DomainMetadata`)
 
 ---
 
