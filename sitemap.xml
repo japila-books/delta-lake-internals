@@ -181,6 +181,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://books.japila.pl/delta-lake-internals/DomainMetadataUtils/</loc>
+         <lastmod>2024-02-11</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://books.japila.pl/delta-lake-internals/FileAction/</loc>
          <lastmod>2024-02-11</lastmod>
          <changefreq>daily</changefreq>
@@ -317,6 +322,11 @@
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/SnapshotManagement/</loc>
+         <lastmod>2024-02-11</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://books.japila.pl/delta-lake-internals/SnapshotStateManager/</loc>
          <lastmod>2024-02-11</lastmod>
          <changefreq>daily</changefreq>
     </url>
