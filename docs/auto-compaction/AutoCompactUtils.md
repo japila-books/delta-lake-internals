@@ -12,13 +12,51 @@ prepareAutoCompactRequest(
   maxDeletedRowsRatio: Option[Double]): AutoCompactRequest
 ```
 
-`prepareAutoCompactRequest`...FIXME
+`prepareAutoCompactRequest` [reserveTablePartitions](#reserveTablePartitions).
+
+In the end, `prepareAutoCompactRequest` [createPartitionPredicate](#createPartitionPredicate) and creates a [AutoCompactRequest](AutoCompactRequest.md).
 
 ---
 
 `prepareAutoCompactRequest` is used when:
 
 * `AutoCompactBase` is requested to [compactIfNecessary](AutoCompactBase.md#compactIfNecessary)
+
+### createPartitionPredicate { #createPartitionPredicate }
+
+```scala
+createPartitionPredicate(
+  postCommitSnapshot: Snapshot,
+  partitions: PartitionKeySet): Seq[Expression]
+```
+
+`createPartitionPredicate`...FIXME
+
+### reserveTablePartitions { #reserveTablePartitions }
+
+```scala
+reserveTablePartitions(
+  spark: SparkSession,
+  deltaLog: DeltaLog,
+  postCommitSnapshot: Snapshot,
+  partitionsAddedToOpt: Option[PartitionKeySet],
+  opType: String,
+  maxDeletedRowsRatio: Option[Double]): (Boolean, PartitionKeySet)
+```
+
+`reserveTablePartitions`...FIXME
+
+### choosePartitionsBasedOnMinNumSmallFiles { #choosePartitionsBasedOnMinNumSmallFiles }
+
+```scala
+choosePartitionsBasedOnMinNumSmallFiles(
+  spark: SparkSession,
+  deltaLog: DeltaLog,
+  postCommitSnapshot: Snapshot,
+  freePartitionsAddedTo: PartitionKeySet): ChosenPartitionsResult
+```
+
+`choosePartitionsBasedOnMinNumSmallFiles`...FIXME
 
 ## isQualifiedForAutoCompact { #isQualifiedForAutoCompact }
 

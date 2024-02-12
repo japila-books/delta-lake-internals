@@ -67,13 +67,18 @@ getAutoCompactType(
   metadata: Metadata): Option[AutoCompactType]
 ```
 
-`getAutoCompactType` is the value of the following (in the order of precedence):
+??? note "Return Type"
+    `Option[AutoCompactType]` is the return type but it's a _fancy_ way to say "enabled" or "not".
 
-1. [spark.databricks.delta.autoCompact.enabled](../configuration-properties/DeltaSQLConf.md#autoCompact.enabled), if configured.
-1. [delta.autoOptimize](../table-properties/DeltaConfigs.md#AUTO_OPTIMIZE) table property
+    When `getAutoCompactType` returns `Some[AutoCompactType]` it means "enabled" while `None` is "disabled".
+
+`getAutoCompactType` is enabled when either is `true` (in the order of precedence):
+
+1. [spark.databricks.delta.autoCompact.enabled](../configuration-properties/index.md#autoCompact.enabled)
+1. (deprecated) [delta.autoOptimize](../table-properties/DeltaConfigs.md#AUTO_OPTIMIZE) table property
 1. [delta.autoOptimize.autoCompact](../table-properties/DeltaConfigs.md#AUTO_COMPACT) table property
 
-`getAutoCompactType` defaults to `false`.
+`getAutoCompactType` defaults to `false` (disabled).
 
 ### shouldSkipAutoCompact { #shouldSkipAutoCompact }
 
@@ -86,5 +91,5 @@ shouldSkipAutoCompact(
 
 `shouldSkipAutoCompact` is enabled (`true`) for the following:
 
-1. The given `AutoCompactType` is empty (`None`)
+1. The given `autoCompactTypeOpt` is empty (`None`)
 1. [isQualifiedForAutoCompact](AutoCompactUtils.md#isQualifiedForAutoCompact) is disabled
