@@ -57,7 +57,7 @@ compactIfNecessary(
 
 When [shouldCompact](AutoCompactRequest.md#shouldCompact) is disabled, `compactIfNecessary` returns no [OptimizeMetrics](../commands/optimize/OptimizeMetrics.md).
 
-Otherwise, with [shouldCompact](AutoCompactRequest.md#shouldCompact) turned on, `compactIfNecessary` [performs auto compaction](AutoCompact.md#compact).
+Otherwise, with [shouldCompact](AutoCompactRequest.md#shouldCompact) turned on, `compactIfNecessary` [performs auto compaction](#compact).
 
 ### getAutoCompactType { #getAutoCompactType }
 
@@ -93,3 +93,22 @@ shouldSkipAutoCompact(
 
 1. The given `autoCompactTypeOpt` is empty (`None`)
 1. [isQualifiedForAutoCompact](AutoCompactUtils.md#isQualifiedForAutoCompact) is disabled
+
+### compact { #compact }
+
+```scala
+compact(
+  spark: SparkSession,
+  deltaLog: DeltaLog,
+  catalogTable: Option[CatalogTable],
+  partitionPredicates: Seq[Expression] = Nil,
+  opType: String = OP_TYPE,
+  maxDeletedRowsRatio: Option[Double] = None): Seq[OptimizeMetrics]
+```
+
+`compact` takes the value of the following configuration properties:
+
+* [spark.databricks.delta.autoCompact.maxFileSize](../configuration-properties/index.md#spark.databricks.delta.autoCompact.maxFileSize)
+* [spark.databricks.delta.autoCompact.minFileSize](../configuration-properties/index.md#spark.databricks.delta.autoCompact.minFileSize)
+
+`compact`...FIXME

@@ -6,6 +6,14 @@
 
 [spark.databricks.delta.autoCompact.enabled](index.md#autoCompact.enabled)
 
+## autoCompact.maxFileSize { #DELTA_AUTO_COMPACT_MAX_FILE_SIZE }
+
+[spark.databricks.delta.autoCompact.maxFileSize](index.md#autoCompact.maxFileSize)
+
+## autoCompact.minFileSize { #DELTA_AUTO_COMPACT_MIN_FILE_SIZE }
+
+[spark.databricks.delta.autoCompact.minFileSize](index.md#autoCompact.minFileSize)
+
 ## autoCompact.modifiedPartitionsOnly.enabled { #DELTA_AUTO_COMPACT_MODIFIED_PARTITIONS_ONLY_ENABLED }
 
 [spark.databricks.delta.autoCompact.modifiedPartitionsOnly.enabled](index.md#autoCompact.modifiedPartitionsOnly.enabled)

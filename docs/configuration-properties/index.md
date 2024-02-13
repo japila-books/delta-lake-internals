@@ -55,6 +55,19 @@ Used when:
 
 * `AutoCompactBase` is requested to [compact](../auto-compaction/AutoCompactBase.md#compact)
 
+### <span id="autoCompact.minFileSize"><span id="DELTA_AUTO_COMPACT_MIN_FILE_SIZE"> autoCompact.minFileSize { #spark.databricks.delta.autoCompact.minFileSize }
+
+**spark.databricks.delta.autoCompact.minFileSize**
+
+**(internal)** Files which are smaller than this threshold (in bytes) will be grouped together and rewritten as larger files in [Auto Compaction](../auto-compaction/index.md)
+
+Default: The half of [spark.databricks.delta.autoCompact.maxFileSize](#autoCompact.maxFileSize)
+
+Used when:
+
+* `OptimisticTransactionImpl` is requested to [createAutoCompactStatsCollector](../OptimisticTransactionImpl.md#createAutoCompactStatsCollector)
+* `AutoCompactBase` is requested to [compact](../auto-compaction/AutoCompactBase.md#compact)
+
 ### <span id="DELTA_AUTO_COMPACT_MODIFIED_PARTITIONS_ONLY_ENABLED"><span id="spark.databricks.delta.autoCompact.modifiedPartitionsOnly.enabled"> autoCompact.modifiedPartitionsOnly.enabled { #autoCompact.modifiedPartitionsOnly.enabled }
 
 **(internal)** **spark.databricks.delta.autoCompact.modifiedPartitionsOnly.enabled**

@@ -81,6 +81,15 @@ isQualifiedForAutoCompact(
 
 * `AutoCompactBase` is requested to [shouldSkipAutoCompact](AutoCompactBase.md#shouldSkipAutoCompact)
 
+### isNonBlindAppendAutoCompactEnabled { #isNonBlindAppendAutoCompactEnabled }
+
+```scala
+isNonBlindAppendAutoCompactEnabled(
+  spark: SparkSession): Boolean
+```
+
+`isNonBlindAppendAutoCompactEnabled` is the value of [spark.databricks.delta.autoCompact.nonBlindAppend.enabled](../configuration-properties/index.md#spark.databricks.delta.autoCompact.nonBlindAppend.enabled) configuration property (in the given `SparkSession`).
+
 ## isModifiedPartitionsOnlyAutoCompactEnabled { #isModifiedPartitionsOnlyAutoCompactEnabled }
 
 ```scala
@@ -90,6 +99,8 @@ isModifiedPartitionsOnlyAutoCompactEnabled(
 
 `isModifiedPartitionsOnlyAutoCompactEnabled` says whether [Auto Compaction](index.md) should run on modified partitions only.
 
+---
+
 `isModifiedPartitionsOnlyAutoCompactEnabled` is the value of [spark.databricks.delta.autoCompact.modifiedPartitionsOnly.enabled](../configuration-properties/index.md#spark.databricks.delta.autoCompact.modifiedPartitionsOnly.enabled) configuration property (in the given `SparkSession`).
 
 ---
@@ -97,18 +108,3 @@ isModifiedPartitionsOnlyAutoCompactEnabled(
 `isModifiedPartitionsOnlyAutoCompactEnabled` is used when:
 
 * `AutoCompactUtils` is requested to [choosePartitionsBasedOnMinNumSmallFiles](#choosePartitionsBasedOnMinNumSmallFiles), [isQualifiedForAutoCompact](#isQualifiedForAutoCompact), [reserveTablePartitions](#reserveTablePartitions)
-
-## isNonBlindAppendAutoCompactEnabled { #isNonBlindAppendAutoCompactEnabled }
-
-```scala
-isNonBlindAppendAutoCompactEnabled(
-  spark: SparkSession): Boolean
-```
-
-`isNonBlindAppendAutoCompactEnabled` is the value of [spark.databricks.delta.autoCompact.nonBlindAppend.enabled](../configuration-properties/index.md#spark.databricks.delta.autoCompact.nonBlindAppend.enabled) configuration property (in the given `SparkSession`).
-
----
-
-`isNonBlindAppendAutoCompactEnabled` is used when:
-
-* `AutoCompactUtils` is requested to [isQualifiedForAutoCompact](#isQualifiedForAutoCompact)
