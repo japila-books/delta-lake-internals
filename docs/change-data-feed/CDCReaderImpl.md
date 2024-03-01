@@ -275,15 +275,15 @@ isCDCEnabledOnTable(
   spark: SparkSession): Boolean
 ```
 
-`isCDCEnabledOnTable` is an alias of [metadataRequiresFeatureToBeEnabled](ChangeDataFeedTableFeature.md#metadataRequiresFeatureToBeEnabled).
+`isCDCEnabledOnTable` [checks if the given metadata requires the Change Data Feed feature to be enabled](ChangeDataFeedTableFeature.md#metadataRequiresFeatureToBeEnabled) (based on [delta.enableChangeDataFeed](../table-properties/DeltaConfigs.md#enableChangeDataFeed) table property).
 
 ---
 
 `isCDCEnabledOnTable` is used when:
 
-* `OptimisticTransactionImpl` is requested to [performCdcMetadataCheck](../OptimisticTransactionImpl.md#performCdcMetadataCheck) and [performCdcColumnMappingCheck](../OptimisticTransactionImpl.md#performCdcColumnMappingCheck)
-* `WriteIntoDelta` is requested to [write](../commands/WriteIntoDelta.md#write)
-* `CDCReaderImpl` is requested to [changesToDF](#changesToDF)
+* `OptimisticTransactionImpl` is requested to [performCdcColumnMappingCheck](../OptimisticTransactionImpl.md#performCdcColumnMappingCheck) and [performCdcMetadataCheck](../OptimisticTransactionImpl.md#performCdcMetadataCheck)
+* `WriteIntoDelta` is requested to [write data out](../commands/WriteIntoDelta.md#write)
+* `CDCReaderImpl` is requested to [create a DataFrame of changes](#changesToDF)
 * `TransactionalWrite` is requested to [performCDCPartition](../TransactionalWrite.md#performCDCPartition)
 
 ## Logging

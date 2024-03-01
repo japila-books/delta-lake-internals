@@ -1,13 +1,13 @@
 # ChangeDataFeedTableFeature
 
+`ChangeDataFeedTableFeature` is a [FeatureAutomaticallyEnabledByMetadata](../table-features/FeatureAutomaticallyEnabledByMetadata.md) that uses [delta.enableChangeDataFeed](../table-properties/DeltaConfigs.md#enableChangeDataFeed) table property to control [Change Data Feed](index.md) feature.
+
 `ChangeDataFeedTableFeature` is a [LegacyWriterFeature](../table-features/LegacyWriterFeature.md) with the following properties:
 
 Property | Value
 ---------|------
  [Name](../table-features/LegacyWriterFeature.md#name) | `changeDataFeed`
  [Minimum writer protocol version](../table-features/LegacyWriterFeature.md#minWriterVersion) | `4`
-
-`ChangeDataFeedTableFeature` is a [FeatureAutomaticallyEnabledByMetadata](../table-features/FeatureAutomaticallyEnabledByMetadata.md) that uses [delta.enableChangeDataFeed](../table-properties/DeltaConfigs.md#enableChangeDataFeed) table property to control [Change Data Feed](index.md) feature.
 
 ## metadataRequiresFeatureToBeEnabled { #metadataRequiresFeatureToBeEnabled }
 

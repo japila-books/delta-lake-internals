@@ -6,13 +6,13 @@ In other words, `OptimisticTransactionImpl` is a set of [actions](Action.md) as 
 
 ## Contract
 
-### <span id="clock"> Clock
+### Clock { #clock }
 
 ```scala
 clock: Clock
 ```
 
-### <span id="deltaLog"> DeltaLog
+### DeltaLog { #deltaLog }
 
 ```scala
 deltaLog: DeltaLog
@@ -22,7 +22,7 @@ deltaLog: DeltaLog
 
 `deltaLog` is part of the [TransactionalWrite](TransactionalWrite.md#deltaLog) abstraction and seems to change it to `val` (from `def`).
 
-### <span id="snapshot"> Snapshot
+### Snapshot { #snapshot }
 
 ```scala
 snapshot: Snapshot
@@ -36,7 +36,7 @@ snapshot: Snapshot
 
 * [OptimisticTransaction](OptimisticTransaction.md)
 
-## <span id="readVersion"> Table Version at Reading Time
+## Table Version at Reading Time { #readVersion }
 
 ```scala
 readVersion: Long
@@ -52,7 +52,7 @@ readVersion: Long
 * `WriteIntoDelta` is requested to [write](commands/WriteIntoDelta.md#write)
 * `ImplicitMetadataOperation` is requested to [updateMetadata](ImplicitMetadataOperation.md#updateMetadata)
 
-## <span id="commit"> Transactional Commit
+## Transactional Commit { #commit }
 
 ```scala
 commit(
@@ -62,7 +62,7 @@ commit(
 
 `commit` attempts to commit the given [Action](Action.md)s (as part of the [Operation](Operation.md)) and gives the commit version.
 
-### <span id="commit-usage"> Usage
+### Usage { #commit-usage }
 
 `commit` is used when:
 
@@ -85,14 +85,6 @@ commit(
 * `StatisticsCollection` is requested to [recompute](StatisticsCollection.md#recompute)
 * [UpdateCommand](commands/update/UpdateCommand.md) is executed
 * [WriteIntoDelta](commands/WriteIntoDelta.md) is executed
-
-### <span id="performCdcMetadataCheck"> performCdcMetadataCheck
-
-```scala
-performCdcMetadataCheck(): Unit
-```
-
-`performCdcMetadataCheck`...FIXME
 
 ### <span id="commit-prepareCommit"><span id="commit-finalActions"> Preparing Commit
 
@@ -831,6 +823,31 @@ In other words, `canUpdateMetadata` holds `true` when both of the following hold
 `canUpdateMetadata` is used when:
 
 * `WriteIntoDelta` is requested to [write data out](commands/WriteIntoDelta.md#write)
+
+## Metadata Check for CDF Columns { #performCdcMetadataCheck }
+
+```scala
+performCdcMetadataCheck(): Unit
+```
+
+??? warning "Procedure"
+    `performCdcMetadataCheck` is a procedure (returns `Unit`) so _what happens inside stays inside_ (paraphrasing the [former advertising slogan of Las Vegas, Nevada](https://idioms.thefreedictionary.com/what+happens+in+Vegas+stays+in+Vegas)).
+
+??? note "Noop"
+    `performCdcMetadataCheck` does nothing (_noop_) when executed with either the [newMetadata](#newMetadata) registry empty or [isCDCEnabledOnTable](change-data-feed/CDCReaderImpl.md#isCDCEnabledOnTable).
+
+For the [new metadata](#newMetadata) and [Change Data Feed feature enabled on the table](change-data-feed/CDCReaderImpl.md#isCDCEnabledOnTable), `performCdcMetadataCheck` takes the column names of the newly-assigned metadata and compares them with the [reserved column names of CDF (CDF-aware read schema)](change-data-feed/CDCReaderImpl.md#cdcReadSchema).
+
+If there are any reserved CDF column names found in the new metadata, `performCdcMetadataCheck` throws a `DeltaIllegalStateException` for the following:
+
+* CDF was not enabled previously (in the initial metadata of the table snapshot) but reserved columns are present in the new schema
+* CDF was enabled but reserved columns are present in the new metadata (i.e., in the data)
+
+---
+
+`performCdcMetadataCheck` is used when:
+
+* `OptimisticTransactionImpl` is requested to [commitImpl](#commitImpl)
 
 ## Logging
 

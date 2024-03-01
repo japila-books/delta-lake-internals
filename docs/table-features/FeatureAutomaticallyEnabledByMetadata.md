@@ -12,13 +12,14 @@ metadataRequiresFeatureToBeEnabled(
   spark: SparkSession): Boolean
 ```
 
-Controls whether this [TableFeature](TableFeature.md) should be supported and enabled because its metadata requirements are satisfied
+Controls whether this [TableFeature](TableFeature.md) should be enabled because its metadata requirements are satisfied (e.g., a table property is enabled in the [configuration](../Metadata.md#configuration) of the given [Metadata](../Metadata.md))
 
 Enabled (`true`) for automatically enabled features (based on [metadata](../Metadata.md) configuration)
 
 See:
 
 * [AppendOnlyTableFeature](../append-only-tables/AppendOnlyTableFeature.md#metadataRequiresFeatureToBeEnabled)
+* [ChangeDataFeedTableFeature](../change-data-feed/ChangeDataFeedTableFeature.md#metadataRequiresFeatureToBeEnabled)
 * [DeletionVectorsTableFeature](../deletion-vectors/DeletionVectorsTableFeature.md#metadataRequiresFeatureToBeEnabled)
 * [RowTrackingFeature](../row-tracking/RowTrackingFeature.md#metadataRequiresFeatureToBeEnabled)
 
