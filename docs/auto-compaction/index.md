@@ -1,10 +1,8 @@
 # Auto Compaction
 
-**Auto Compaction** feature in Delta Lake allows for compacting files after a [successful write](../OptimisticTransactionImpl.md#registerPostCommitHook) into a delta table.
+**Auto Compaction** feature in Delta Lake is responsible for [compacting files](AutoCompactBase.md#compact) upon a [successful write](../OptimisticTransactionImpl.md#registerPostCommitHook) into a delta table.
 
-Auto Compaction can be enabled system-wide using [spark.databricks.delta.autoCompact.enabled](../configuration-properties/index.md#spark.databricks.delta.autoCompact.enabled) configuration property.
-
-Auto Compaction can be enabled on a delta table using [delta.autoOptimize.autoCompact](../table-properties/DeltaConfigs.md#autoOptimize.autoCompact) table property.
+Auto Compaction can be enabled system-wide or per table using [spark.databricks.delta.autoCompact.enabled](../configuration-properties/index.md#spark.databricks.delta.autoCompact.enabled) configuration property or [delta.autoOptimize.autoCompact](../table-properties/DeltaConfigs.md#autoOptimize.autoCompact) table property, respectively.
 
 ??? warning "delta.autoOptimize Table Property Deprecated"
     [delta.autoOptimize](../table-properties/DeltaConfigs.md#delta.autoOptimize) table property is deprecated.

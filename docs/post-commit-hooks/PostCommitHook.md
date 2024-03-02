@@ -4,7 +4,7 @@
 
 ## Contract
 
-### Name { #name }
+### Name
 
 ```scala
 name: String

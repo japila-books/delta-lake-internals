@@ -12,9 +12,7 @@ prepareAutoCompactRequest(
   maxDeletedRowsRatio: Option[Double]): AutoCompactRequest
 ```
 
-`prepareAutoCompactRequest` [reserveTablePartitions](#reserveTablePartitions).
-
-In the end, `prepareAutoCompactRequest` [createPartitionPredicate](#createPartitionPredicate) and creates a [AutoCompactRequest](AutoCompactRequest.md).
+`prepareAutoCompactRequest` creates an [AutoCompactRequest](AutoCompactRequest.md) based on [reserveTablePartitions](#reserveTablePartitions) and a [partition predicate](#createPartitionPredicate) (for the given [postCommitSnapshot](../Snapshot.md) and the reserved partitions).
 
 ---
 
@@ -43,6 +41,35 @@ reserveTablePartitions(
   opType: String,
   maxDeletedRowsRatio: Option[Double]): (Boolean, PartitionKeySet)
 ```
+
+??? warning "`maxDeletedRowsRatio` always undefined (`None`)"
+    `maxDeletedRowsRatio` is always `None` as that's what [prepareAutoCompactRequest](#prepareAutoCompactRequest) is called with when [compacting if necessary](AutoCompactBase.md#compactIfNecessary).
+  
+??? note "`opType` always `delta.commit.hooks.autoOptimize`"
+    `opType` is always [delta.commit.hooks.autoOptimize](AutoCompactBase.md#OP_TYPE).
+
+??? note "`partitionsAddedToOpt`"
+    `partitionsAddedToOpt` is the [set of distinct partitions that contain added files by the current transaction](../OptimisticTransactionImpl.md#partitionsAddedToOpt).
+
+??? note "Noop when the given `partitionsAddedToOpt` is empty"
+    `reserveTablePartitions` does nothing and exits early (_noop_) when the given `partitionsAddedToOpt` is empty.
+
+    `reserveTablePartitions` returns `(false, Set.empty[PartitionKey])`.
+
+`reserveTablePartitions` finds _free partitions_ to perform auto compaction on based on the two internal flags:
+
+* [isModifiedPartitionsOnlyAutoCompactEnabled](#isModifiedPartitionsOnlyAutoCompactEnabled)
+* [reservePartitionEnabled](#reservePartitionEnabled)
+
+When both enabled, `reserveTablePartitions` [filterFreePartitions](#filterFreePartitions). Otherwise, the given `partitionsAddedToOpt` is used as-is.
+
+`reserveTablePartitions` does nothing (_noop_) when there is no free partition. `reserveTablePartitions` returns `(false, Set.empty[PartitionKey])`.
+
+`reserveTablePartitions` [choosePartitionsBasedOnMinNumSmallFiles](#choosePartitionsBasedOnMinNumSmallFiles) with the free partitions.
+
+With `shouldCompactBasedOnNumFiles` enabled and no `chosenPartitionsBasedOnNumFiles`, `reserveTablePartitions` does nothing more and returns `(true, Set.empty[PartitionKey])`.
+
+`reserveTablePartitions` [choosePartitionsBasedOnDVs](#choosePartitionsBasedOnDVs) with the free partitions.
 
 `reserveTablePartitions`...FIXME
 

@@ -1,6 +1,6 @@
 # AutoCompactBase
 
-`AutoCompactBase` is an [extension](#contract) of the [PostCommitHook](../post-commit-hooks/PostCommitHook.md) abstraction for [post-commit hooks](#implementations) that [perform auto compaction](#run).
+`AutoCompactBase` is an [extension](#contract) of the [PostCommitHook](../post-commit-hooks/PostCommitHook.md) abstraction for [post-commit hooks](#implementations) that [perform auto compaction](#compact).
 
 ## Implementations
 
@@ -42,7 +42,7 @@ In the end, `run` [compactIfNecessary](#compactIfNecessary) with the following:
 * `delta.commit.hooks.autoOptimize` operation name
 * `maxDeletedRowsRatio` unspecified (`None`)
 
-### compactIfNecessary { #compactIfNecessary }
+### Compacting If Necessary { #compactIfNecessary }
 
 ```scala
 compactIfNecessary(
@@ -53,11 +53,11 @@ compactIfNecessary(
   maxDeletedRowsRatio: Option[Double]): Seq[OptimizeMetrics]
 ```
 
-`compactIfNecessary` [prepareAutoCompactRequest](AutoCompactUtils.md#prepareAutoCompactRequest).
+!!! note "`maxDeletedRowsRatio` always undefined (`None`)"
 
-When [shouldCompact](AutoCompactRequest.md#shouldCompact) is disabled, `compactIfNecessary` returns no [OptimizeMetrics](../commands/optimize/OptimizeMetrics.md).
+`compactIfNecessary` [prepares an AutoCompactRequest](AutoCompactUtils.md#prepareAutoCompactRequest) to determine whether to [perform auto compaction](#compact) or not (based on [shouldCompact](AutoCompactRequest.md#shouldCompact) flag of the [AutoCompactRequest](AutoCompactRequest.md)).
 
-Otherwise, with [shouldCompact](AutoCompactRequest.md#shouldCompact) turned on, `compactIfNecessary` [performs auto compaction](#compact).
+With [shouldCompact](AutoCompactRequest.md#shouldCompact) flag enabled, `compactIfNecessary` [performs auto compaction](#compact). Otherwise, `compactIfNecessary` returns no [OptimizeMetrics](../commands/optimize/OptimizeMetrics.md).
 
 ### getAutoCompactType { #getAutoCompactType }
 
@@ -94,7 +94,7 @@ shouldSkipAutoCompact(
 1. The given `autoCompactTypeOpt` is empty (`None`)
 1. [isQualifiedForAutoCompact](AutoCompactUtils.md#isQualifiedForAutoCompact) is disabled
 
-### compact { #compact }
+## Executing Auto Compaction { #compact }
 
 ```scala
 compact(
