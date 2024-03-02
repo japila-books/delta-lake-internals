@@ -106,9 +106,20 @@ compact(
   maxDeletedRowsRatio: Option[Double] = None): Seq[OptimizeMetrics]
 ```
 
-`compact` takes the value of the following configuration properties:
+`compact` [starts a transaction](../DeltaLog.md#startTransaction) on the [delta table](../DeltaLog.md) and performs [optimization](../commands/optimize/OptimizeExecutor.md#optimize).
+
+---
+
+`compact` requests the given [DeltaLog](../DeltaLog.md) to [start a transaction](../DeltaLog.md#startTransaction).
+
+`compact` creates a [DeltaOptimizeContext](../commands/optimize/DeltaOptimizeContext.md) with the value of the following configuration properties:
 
 * [spark.databricks.delta.autoCompact.maxFileSize](../configuration-properties/index.md#spark.databricks.delta.autoCompact.maxFileSize)
 * [spark.databricks.delta.autoCompact.minFileSize](../configuration-properties/index.md#spark.databricks.delta.autoCompact.minFileSize)
 
-`compact`...FIXME
+`compact` requests a new [OptimizeExecutor](../commands/optimize/OptimizeExecutor.md) (with no [zOrderByColumns](../commands/optimize/OptimizeExecutor.md#zOrderByColumns) and the [isAutoCompact](../commands/optimize/OptimizeExecutor.md#isAutoCompact) flag enabled) to [optimize](../commands/optimize/OptimizeExecutor.md#optimize).
+
+!!! note
+    The delta table to run [optimize](../commands/optimize/OptimizeExecutor.md#optimize) on is passed indirectly, as the [DeltaLog](../OptimisticTransaction.md#deltaLog) via the [OptimisticTransaction](../OptimisticTransaction.md).
+  
+In the end, `compact` returns the [OptimizeMetrics](../commands/optimize/OptimizeStats.md#toOptimizeMetrics) (from the [optimize](../commands/optimize/OptimizeExecutor.md#optimize) stats).
