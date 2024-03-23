@@ -8,7 +8,7 @@ Operation may have [performance metrics](#operationMetrics).
 
 ## Contract
 
-### <span id="parameters"> Parameters
+### Parameters { #parameters }
 
 ```scala
 parameters: Map[String, Any]
@@ -25,7 +25,7 @@ Used when:
 !!! note "Sealed Abstract Class"
     `Operation` is a Scala **sealed abstract class** which means that all of the implementations are in the same compilation unit (a single file).
 
-### <span id="AddColumns"> AddColumns
+### AddColumns { #AddColumns }
 
 [Name](#name): `ADD COLUMNS`
 
@@ -39,7 +39,7 @@ Used when:
 
 ### AddConstraint
 
-### <span id="ChangeColumn"> ChangeColumn
+### ChangeColumn { #ChangeColumn }
 
 Name            | Parameters | changesData
 ----------------|------------|------------
@@ -75,7 +75,7 @@ Used when:
 
 * [MergeIntoCommand](commands/merge/MergeIntoCommand.md) is executed (and committed to a Delta table)
 
-### <span id="Optimize"> Optimize
+### Optimize { #Optimize }
 
 Name | Parameters | changesData
 -----|------------|------------
@@ -85,7 +85,7 @@ Used when:
 
 * `OptimizeExecutor` is requested to [optimize](commands/optimize/OptimizeExecutor.md#optimize)
 
-### <span id="RenameColumn"> RenameColumn
+### RenameColumn { #RenameColumn }
 
 Name             | Parameters | changesData
 -----------------|------------|------------
@@ -111,7 +111,7 @@ Used when:
 
 * [AlterTableSetPropertiesDeltaCommand](commands/alter/AlterTableSetPropertiesDeltaCommand.md) is executed
 
-### <span id="StreamingUpdate"> StreamingUpdate
+### StreamingUpdate { #StreamingUpdate }
 
 [Name](#name): `STREAMING UPDATE`
 
@@ -125,7 +125,11 @@ Used when:
 
 * `DeltaSink` is requested to [addBatch](spark-connector/DeltaSink.md#addBatch)
 
-### Truncate
+### Truncate { #Truncate }
+
+Name        | Parameters    | changesData
+------------|---------------|------------
+ `TRUNCATE` | No parameters | `true`
 
 ### UnsetTableProperties
 
