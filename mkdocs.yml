@@ -100,8 +100,8 @@ extra:
     structured_streaming: https://books.japila.pl/spark-structured-streaming-internals
     spark_core: https://books.japila.pl/apache-spark-internals
   delta:
-    version: 3.1.0
-    github: https://github.com/delta-io/delta/blob/v3.1.0
+    version: 3.2.0
+    github: https://github.com/delta-io/delta/blob/v3.2.0
     commit: https://github.com/delta-io/delta/commit
     issues: https://github.com/delta-io/delta/issues
     databricks: https://docs.databricks.com/delta
@@ -109,9 +109,9 @@ extra:
     version: 16.0.1
     api: https://guava.dev/releases/16.0.1/api/docs
   hadoop:
-    version: 3.3.1
-    docs: https://hadoop.apache.org/docs/r3.3.1
-    api: https://hadoop.apache.org/docs/r3.3.1/api
+    version: 3.3.4
+    docs: https://hadoop.apache.org/docs/r3.3.4
+    api: https://hadoop.apache.org/docs/r3.3.4/api
   jackson:
     github: https://github.com/FasterXML/jackson
     scala: https://github.com/FasterXML/jackson-module-scala
@@ -120,7 +120,7 @@ extra:
   s3:
     api: https://docs.aws.amazon.com/AmazonS3/latest/API
   scala:
-    api: https://www.scala-lang.org/api/2.13.8
+    api: https://www.scala-lang.org/api/2.13.13
     docs: https://docs.scala-lang.org/
     spec: https://www.scala-lang.org/files/archive/spec/2.13
   social:
@@ -140,6 +140,7 @@ extra:
   # https://squidfunk.github.io/mkdocs-material/reference/#setting-the-page-status
   status:
     new: New in 3.0.0
+    new_320: New in 3.2.0
   # https://squidfunk.github.io/mkdocs-material/setup/setting-up-tags/#tag-icons-and-identifiers
   tags:
     DeveloperApi: developerapi
