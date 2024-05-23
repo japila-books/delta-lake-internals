@@ -9,7 +9,9 @@
 
 `OptimizeTableCommand` uses [OptimizeExecutor](OptimizeExecutor.md) to [optimize](OptimizeExecutor.md#optimize) (when [executed](#run)).
 
-`OptimizeTableCommand` is a `RunnableCommand` ([Spark SQL]({{ book.spark_sql }}/logical-operators/RunnableCommand)).
+`OptimizeTableCommand` is a transactional command (and [starts a transaction](../../DeltaTableV2.md#startTransaction) at the [beginning of execution](#run)).
+
+`OptimizeTableCommand` is a `UnaryNode` ([Spark SQL]({{ book.spark_sql }}/logical-operators/LogicalPlan#UnaryNode)).
 
 ## Creating Instance
 

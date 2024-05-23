@@ -1,3 +1,7 @@
+---
+title: SchemaUtils
+---
+
 # SchemaUtils Utility
 
 ## <span id="mergeSchemas"> mergeSchemas

@@ -1,3 +1,7 @@
+---
+title: DeltaTableOperations
+---
+
 # DeltaTableOperations &mdash; Delta DML Operations
 
 `DeltaTableOperations` is an abstraction of [management services](#implementations) for [DeltaTable commands](#delta-commands).

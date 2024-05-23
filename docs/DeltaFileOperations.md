@@ -1,3 +1,7 @@
+---
+title: DeltaFileOperations
+---
+
 # DeltaFileOperations Utilities
 
 ## <span id="listUsingLogStore"> listUsingLogStore

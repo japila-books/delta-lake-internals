@@ -275,6 +275,7 @@ nav:
       - AlterTableSetLocationDeltaCommand: commands/alter/AlterTableSetLocationDeltaCommand.md
       - SET TBLPROPERTIES: commands/alter/AlterTableSetPropertiesDeltaCommand.md
       - AlterTableUnsetPropertiesDeltaCommand: commands/alter/AlterTableUnsetPropertiesDeltaCommand.md
+      - RemoveColumnMappingCommand: commands/alter/RemoveColumnMappingCommand.md
     - Clone:
       - ... | flat | commands/clone/**.md
     - Convert:

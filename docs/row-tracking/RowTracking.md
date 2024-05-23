@@ -33,3 +33,23 @@ isEnabled(
 
 !!! danger "Not Used"
     `isEnabled` does not seem to be used.
+
+## addPreservedRowTrackingTagIfNotSet { #addPreservedRowTrackingTagIfNotSet }
+
+```scala
+addPreservedRowTrackingTagIfNotSet(
+  snapshot: SnapshotDescriptor,
+  tagsMap: Map[String, String] = Map.empty): Map[String, String]
+```
+
+`addPreservedRowTrackingTagIfNotSet`...FIXME
+
+---
+
+`addPreservedRowTrackingTagIfNotSet` is used when:
+
+* [DeleteCommand](../commands/delete/DeleteCommand.md) is executed
+* [MergeIntoCommand](../commands/merge/MergeIntoCommand.md) is [executed](../commands/merge/MergeIntoCommand.md#runMerge)
+* `OptimizeExecutor` is requested to [commitAndRetry](../commands/optimize/OptimizeExecutor.md#commitAndRetry)
+* `UpdateCommand` is requested to [performUpdate](../commands/update/UpdateCommand.md#performUpdate)
+* `RemoveColumnMappingCommand` is requested to [executed](../commands/alter/RemoveColumnMappingCommand.md#run)
