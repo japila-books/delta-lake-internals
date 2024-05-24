@@ -1,0 +1,3 @@
+# MetadataStructField
+
+`MetadataStructField` is...FIXME

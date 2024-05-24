@@ -1,6 +1,6 @@
 # DeltaTableUtils
 
-## <span id="extractIfPathContainsTimeTravel"> extractIfPathContainsTimeTravel
+## extractIfPathContainsTimeTravel { #extractIfPathContainsTimeTravel }
 
 ```scala
 extractIfPathContainsTimeTravel(
@@ -16,7 +16,7 @@ extractIfPathContainsTimeTravel(
 
 * `DeltaDataSource` is requested to [sourceSchema](spark-connector/DeltaDataSource.md#sourceSchema) and [parsePathIdentifier](spark-connector/DeltaDataSource.md#parsePathIdentifier)
 
-## <span id="findDeltaTableRoot"> findDeltaTableRoot
+## findDeltaTableRoot { #findDeltaTableRoot }
 
 ```scala
 findDeltaTableRoot(
@@ -36,7 +36,7 @@ For `_delta_log` or `_samples` directories, `findDeltaTableRoot` returns the par
 * `DeltaTableUtils` utility is used to [isDeltaTable](#isDeltaTable)
 * `DeltaDataSource` utility is used to [parsePathIdentifier](spark-connector/DeltaDataSource.md#parsePathIdentifier)
 
-## <span id="isPredicatePartitionColumnsOnly"> isPredicatePartitionColumnsOnly
+## isPredicatePartitionColumnsOnly { #isPredicatePartitionColumnsOnly }
 
 ```scala
 isPredicatePartitionColumnsOnly(
@@ -53,7 +53,7 @@ isPredicatePartitionColumnsOnly(
 * `OptimisticTransactionImpl` is requested for the [filterFiles](OptimisticTransactionImpl.md#filterFiles)
 * `DeltaSourceSnapshot` is requested for the [partition](spark-connector/DeltaSourceSnapshot.md#partitionFilters) and [data](spark-connector/DeltaSourceSnapshot.md#dataFilters) filters
 
-## <span id="isDeltaTable"> isDeltaTable
+## isDeltaTable { #isDeltaTable }
 
 ```scala
 isDeltaTable(
@@ -75,7 +75,7 @@ isDeltaTable(
 * `DeltaTableIdentifier` utility is used to [create a DeltaTableIdentifier from a TableIdentifier](DeltaTableIdentifier.md#apply)
 * `DeltaUnsupportedOperationsCheck` is requested to [fail](DeltaUnsupportedOperationsCheck.md#fail)
 
-## <span id="resolveTimeTravelVersion"> resolveTimeTravelVersion
+## resolveTimeTravelVersion { #resolveTimeTravelVersion }
 
 ```scala
 resolveTimeTravelVersion(
@@ -91,7 +91,7 @@ resolveTimeTravelVersion(
 * `DeltaLog` is requested to [create a relation (per partition filters and time travel)](DeltaLog.md#createRelation)
 * `DeltaTableV2` is requested for a [Snapshot](DeltaTableV2.md#snapshot)
 
-## <span id="splitMetadataAndDataPredicates"> splitMetadataAndDataPredicates
+## splitMetadataAndDataPredicates { #splitMetadataAndDataPredicates }
 
 ```scala
 splitMetadataAndDataPredicates(
@@ -108,7 +108,7 @@ splitMetadataAndDataPredicates(
 * [DeleteCommand](commands/delete/DeleteCommand.md) is executed (with a delete condition)
 * [UpdateCommand](commands/update/UpdateCommand.md) is executed
 
-### <span id="isPredicateMetadataOnly"> isPredicateMetadataOnly
+### isPredicateMetadataOnly { #isPredicateMetadataOnly }
 
 ```scala
 isPredicateMetadataOnly(
@@ -150,3 +150,19 @@ With [spark.databricks.delta.schema.removeSparkInternalMetadata](configuration-p
 * `DeltaTableV2` is requested to [tableSchema](DeltaTableV2.md#tableSchema)
 * `DeltaDataSource` is requested to [sourceSchema](spark-connector/DeltaDataSource.md#sourceSchema)
 * `DeltaSourceBase` is requested for the [schema](spark-connector/DeltaSourceBase.md#schema)
+
+## getFileMetadataColumn { #getFileMetadataColumn }
+
+```scala
+getFileMetadataColumn(
+  df: DataFrame): Column
+```
+
+`getFileMetadataColumn` requests the given `DataFrame` for the metadata column for the `_metadata` logical column name (using `Dataset.metadataColumn` operator).
+
+---
+
+`getFileMetadataColumn` is used when:
+
+* `RowCommitVersion` is requested to [preserveRowCommitVersions](row-tracking/RowCommitVersion.md#preserveRowCommitVersions)
+* `RowId` is requested to [preserveRowIds](row-tracking/RowId.md#preserveRowIds)

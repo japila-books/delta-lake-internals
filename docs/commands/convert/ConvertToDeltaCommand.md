@@ -6,6 +6,11 @@ title: ConvertToDeltaCommand
 
 `ConvertToDeltaCommand` is a [DeltaCommand](../DeltaCommand.md) that [converts a parquet table to delta format](#run).
 
+`ConvertToDeltaCommand` represents the following high-level operators:
+
+* [CONVERT TO DELTA](../../sql/index.md#CONVERT-TO-DELTA) SQL statement
+* [DeltaTable.convertToDelta](../../DeltaTable.md#convertToDelta)
+
 `ConvertToDeltaCommand` is a `LeafRunnableCommand` ([Spark SQL]({{ book.spark_sql }}/logical-operators/LeafRunnableCommand/)).
 
 `ConvertToDeltaCommand` requires that the [partition schema](#partitionSchema) matches the partitions of the [parquet table](#tableIdentifier) ([or an AnalysisException is thrown](#createAddFile-unexpectedNumPartitionColumnsFromFileNameException)).
@@ -33,9 +38,9 @@ title: ConvertToDeltaCommand
 * Always `true` for [DeltaTable.convertToDelta](../../DeltaTable.md#convertToDelta) utility
 * Always `true` for [CONVERT TO DELTA](../../sql/index.md#CONVERT-TO-DELTA) statement unless `NO STATISTICS` clause is used
 
-## <span id="run"> Executing Command
+## Executing Command { #run }
 
-??? note "Signature"
+??? note "RunnableCommand"
 
     ```scala
     run(

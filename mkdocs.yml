@@ -224,11 +224,13 @@ nav:
     - FileNames: FileNames.md
     - Spark SQL Extensions:
       - AppendDelta: AppendDelta.md
+      - CheckUnresolvedRelationTimeTravel: CheckUnresolvedRelationTimeTravel.md
       - DeltaAnalysis: DeltaAnalysis.md
       - DeltaCatalog: DeltaCatalog.md
       - DeltaSparkSessionExtension: DeltaSparkSessionExtension.md
       - DeltaTableV2: DeltaTableV2.md
       - DeltaUnsupportedOperationsCheck: DeltaUnsupportedOperationsCheck.md
+      - PostHocResolveUpCast: PostHocResolveUpCast.md
       - PreprocessTableDelete: PreprocessTableDelete.md
       - PreprocessTableMerge: PreprocessTableMerge.md
       - PreprocessTableUpdate: PreprocessTableUpdate.md

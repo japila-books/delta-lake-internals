@@ -125,6 +125,8 @@ prepareSchema(
 
     `metadataSchemaFields` is part of the `FileFormat` ([Spark SQL]({{ book.spark_sql }}/connectors/FileFormat/#metadataSchemaFields)) abstraction.
 
+!!! note "Review Me"
+
 Due to an issue in Spark SQL (to be reported), `metadataSchemaFields` removes `row_index` from the default `metadataSchemaFields` ([Spark SQL]({{ book.spark_sql }}/parquet/ParquetFileFormat/#metadataSchemaFields)).
 
 !!! note "ParquetFileFormat"

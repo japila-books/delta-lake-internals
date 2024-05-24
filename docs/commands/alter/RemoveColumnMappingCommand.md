@@ -40,6 +40,8 @@ run(
   removeColumnMappingTableProperty: Boolean): Unit
 ```
 
+`run` requests the [DeltaLog](#deltaLog) to [start a new transaction](../../DeltaLog.md#withNewTransaction).
+
 `run`...FIXME
 
 ---
