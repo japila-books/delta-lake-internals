@@ -102,6 +102,10 @@
 
 [spark.databricks.delta.streaming.unsafeReadOnIncompatibleColumnMappingSchemaChanges.enabled](index.md#streaming.unsafeReadOnIncompatibleColumnMappingSchemaChanges.enabled)
 
+## timeTravel.resolveOnIdentifier.enabled { #RESOLVE_TIME_TRAVEL_ON_IDENTIFIER }
+
+[spark.databricks.delta.timeTravel.resolveOnIdentifier.enabled](index.md#timeTravel.resolveOnIdentifier.enabled)
+
 ## write.txnVersion.autoReset.enabled { #DELTA_IDEMPOTENT_DML_AUTO_RESET_ENABLED }
 
 [spark.databricks.delta.write.txnVersion.autoReset.enabled](index.md#write.txnVersion.autoReset.enabled)

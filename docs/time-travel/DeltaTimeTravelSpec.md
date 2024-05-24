@@ -17,7 +17,7 @@
 * `DeltaDataSource` utility is used to [getTimeTravelVersion](../spark-connector/DeltaDataSource.md#getTimeTravelVersion)
 * `DeltaSource` is requested to for the [getStartingVersion](../spark-connector/DeltaSource.md#getStartingVersion)
 
-### <span id="version"> Version
+### Version
 
 ```scala
 version: Option[Long]
@@ -31,7 +31,7 @@ version: Option[Long]
 
 `version` is mutually exclusive with the [timestamp](#timestamp) (so only one can be specified).
 
-### <span id="creationSource"> Creation Source ID
+### Creation Source ID { #creationSource }
 
 `DeltaTimeTravelSpec` is given a **Creation Source ID** when [created](#creating-instance).
 
@@ -87,7 +87,7 @@ isApplicable(
 
 `isApplicable` is used when `DeltaTableUtils` utility is used to [extractIfPathContainsTimeTravel](../DeltaTableUtils.md#extractIfPathContainsTimeTravel).
 
-### <span id="identifierContainsTimeTravel"> identifierContainsTimeTravel
+### identifierContainsTimeTravel { #identifierContainsTimeTravel }
 
 ```scala
 identifierContainsTimeTravel(
