@@ -1,10 +1,10 @@
 # Action
 
-`Action` is an [abstraction](#contract) of [operations](#implementations) that change the state of a delta table.
+`Action` is an [abstraction](#contract) of [operations](#implementations) (_actions_) that change the state of a delta table.
 
 ## Contract
 
-### <span id="json"> JSON Representation
+### JSON Representation { #json }
 
 ```scala
 json: String
@@ -12,20 +12,25 @@ json: String
 
 Serializes (_converts_) the [(wrapped) action](#wrap) to JSON format
 
-`json` uses [Jackson]({{ jackson.github }}) library (with [jackson-module-scala]({{ jackson.scala }})) as the JSON processor.
+??? note "Jackson"
+    `json` uses [Jackson]({{ jackson.github }}) library (with [jackson-module-scala]({{ jackson.scala }})) as the JSON processor.
 
 Used when:
 
 * `OptimisticTransactionImpl` is requested to [doCommit](OptimisticTransactionImpl.md#doCommit)
 * `DeltaCommand` is requested to [commitLarge](commands/DeltaCommand.md#commitLarge)
 
-### <span id="wrap"> SingleAction Representation
+### SingleAction Representation { #wrap }
 
 ```scala
 wrap: SingleAction
 ```
 
 Wraps the action into a [SingleAction](SingleAction.md) for serialization
+
+See:
+
+* [AddCDCFile](AddCDCFile.md#wrap)
 
 Used when:
 
@@ -39,19 +44,21 @@ Used when:
 
     Learn more in the [Scala Language Specification]({{ scala.spec }}/05-classes-and-objects.html#sealed).
 
+* `CheckpointOnlyAction`
 * [CommitInfo](CommitInfo.md)
+* `DomainMetadata`
 * [FileAction](FileAction.md)
 * [Metadata](Metadata.md)
 * [Protocol](Protocol.md)
 * [SetTransaction](SetTransaction.md)
 
-## <span id="logSchema"> Log Schema
+## Log Schema { #logSchema }
 
 ```scala
 logSchema: StructType
 ```
 
-`logSchema` is the schema ([Spark SQL]({{ book.spark_sql }}/StructType)) of [SingleAction](SingleAction.md)s for `Snapshot` to [convert a DeltaLogFileIndex to a LogicalRelation](Snapshot.md#indexToRelation) and [emptyActions](Snapshot.md##emptyActions).
+`logSchema` is the schema ([Spark SQL]({{ book.spark_sql }}/StructType)) of [SingleAction](SingleAction.md)s for `Snapshot` to [convert a DeltaLogFileIndex to a LogicalRelation](Snapshot.md#indexToRelation) and [emptyActions](Snapshot.md#emptyActions).
 
 ```scala
 import org.apache.spark.sql.delta.actions.Action.logSchema
@@ -143,7 +150,7 @@ root
  |    |-- userMetadata: string (nullable = true)
 ```
 
-## <span id="fromJson"> Deserializing Action (from JSON)
+## Deserializing Action (from JSON) { #fromJson }
 
 ```scala
 fromJson(
@@ -151,6 +158,8 @@ fromJson(
 ```
 
 `fromJson` utility...FIXME
+
+---
 
 `fromJson` is used when:
 
