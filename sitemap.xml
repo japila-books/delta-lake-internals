@@ -221,6 +221,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://books.japila.pl/delta-lake-internals/JsonMetadataDomain/</loc>
+         <lastmod>2024-06-02</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://books.japila.pl/delta-lake-internals/LogSegment/</loc>
          <lastmod>2024-06-02</lastmod>
          <changefreq>daily</changefreq>
@@ -1547,11 +1552,6 @@
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/liquid-clustering/ClusteringTableFeature/</loc>
-         <lastmod>2024-06-02</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://books.japila.pl/delta-lake-internals/liquid-clustering/JsonMetadataDomain/</loc>
          <lastmod>2024-06-02</lastmod>
          <changefreq>daily</changefreq>
     </url>
