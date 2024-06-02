@@ -16,8 +16,8 @@
 * <span id="actions"> [Action](Action.md)s
 * <span id="readSnapshot"> Read [Snapshot](Snapshot.md)
 * <span id="commitInfo"> Optional [CommitInfo](CommitInfo.md)
-* <span id="readRowIdHighWatermark"> Read RowId HighWatermark
-* <span id="domainMetadata"> `DomainMetadata`s
+* <span id="readRowIdHighWatermark"> Read RowId High Watermark
+* <span id="domainMetadata"> [DomainMetadata](DomainMetadata.md)s
 
 `CurrentTransactionInfo` is created when:
 

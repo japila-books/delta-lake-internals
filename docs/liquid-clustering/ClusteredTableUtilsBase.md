@@ -72,7 +72,7 @@ createDomainMetadata(
   clusteringColumns: Seq[ClusteringColumn]): DomainMetadata
 ```
 
-`createDomainMetadata` [creates a ClusteringMetadataDomain](ClusteringMetadataDomain.md#fromClusteringColumns) from the given `ClusteringColumn`s and [converts it to a DomainMetadata](JsonMetadataDomain.md#toDomainMetadata).
+`createDomainMetadata` [creates a ClusteringMetadataDomain](ClusteringMetadataDomain.md#fromClusteringColumns) from the given `ClusteringColumn`s and [converts it to a DomainMetadata](../JsonMetadataDomain.md#toDomainMetadata).
 
 ## getClusterBySpecOptional { #getClusterBySpecOptional }
 

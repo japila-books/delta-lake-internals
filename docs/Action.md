@@ -31,6 +31,7 @@ Wraps the action into a [SingleAction](SingleAction.md) for serialization
 See:
 
 * [AddCDCFile](AddCDCFile.md#wrap)
+* [DomainMetadata](DomainMetadata.md#wrap)
 
 Used when:
 
@@ -46,7 +47,7 @@ Used when:
 
 * `CheckpointOnlyAction`
 * [CommitInfo](CommitInfo.md)
-* `DomainMetadata`
+* [DomainMetadata](DomainMetadata.md)
 * [FileAction](FileAction.md)
 * [Metadata](Metadata.md)
 * [Protocol](Protocol.md)

@@ -341,6 +341,7 @@ nav:
     - DeltaTableUtils: DeltaTableUtils.md
     - DomainMetadataUtils: DomainMetadataUtils.md
     - ImplicitMetadataOperation: ImplicitMetadataOperation.md
+    - JsonMetadataDomain: JsonMetadataDomain.md
     - SchemaMergingUtils: SchemaMergingUtils.md
     - SchemaUtils: SchemaUtils.md
     - StateCache:
