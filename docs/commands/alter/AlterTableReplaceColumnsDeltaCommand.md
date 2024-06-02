@@ -1,3 +1,7 @@
+---
+title: REPLACE COLUMNS
+---
+
 # AlterTableReplaceColumnsDeltaCommand
 
 `AlterTableReplaceColumnsDeltaCommand` is an [AlterDeltaTableCommand](AlterDeltaTableCommand.md).

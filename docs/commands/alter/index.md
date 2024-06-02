@@ -1,4 +1,8 @@
-# ALTER TABLE Commands
+---
+title: ALTER
+---
+
+# ALTER Commands
 
 Delta Lake supports altering delta tables using `ALTER TABLE` SQL commands with the following clauses:
 

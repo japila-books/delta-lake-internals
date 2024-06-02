@@ -1,4 +1,4 @@
-# Generate Command
+# GENERATE Command
 
 Delta Lake supports executing generator functions on delta tables using the following high-level operators:
 

@@ -1,4 +1,4 @@
-# REORG TABLE Command
+# REORG Command
 
 `REORG TABLE` physically deletes dropped rows and columns of a delta table.
 

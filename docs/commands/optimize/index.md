@@ -1,4 +1,4 @@
-# Optimize Command
+# OPTIMIZE Command
 
 From [Optimize performance with file management]({{ delta.databricks }}/optimizations/file-mgmt.html):
 

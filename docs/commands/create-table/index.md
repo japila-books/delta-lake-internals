@@ -1,4 +1,4 @@
-# CREATE TABLE
+# CREATE TABLE Command
 
 ```sql
 CREATE TABLE (IF NOT EXISTS)? [table]...

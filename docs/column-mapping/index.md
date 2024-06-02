@@ -20,4 +20,4 @@ Column Mapping requires the minimum protocol version to be [2 for readers and 5 
 
 ## Learn More
 
-1. [Delta Lake 1.2 - More Speed, Efficiency and Extensibility Than Ever](https://delta.io/blog/2022-05-05-delta-lake-1-2-released/)
+1. [Delta Lake 1.2 - More Speed, Efficiency and Extensibility Than Ever]({{ delta.blog }}/2022-05-05-delta-lake-1-2-released/)

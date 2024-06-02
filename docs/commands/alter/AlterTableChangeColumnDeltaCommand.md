@@ -1,3 +1,7 @@
+---
+title: CHANGE COLUMN
+---
+
 # AlterTableChangeColumnDeltaCommand
 
 `AlterTableChangeColumnDeltaCommand` is an [AlterDeltaTableCommand](AlterDeltaTableCommand.md) to change (_alter_) the name, the comment, the nullability, the position and the data type of a [column](#columnName) (of a [DeltaTableV2](#table)).

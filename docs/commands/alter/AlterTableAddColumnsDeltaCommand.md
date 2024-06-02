@@ -1,3 +1,7 @@
+---
+title: ADD COLUMNS
+---
+
 # AlterTableAddColumnsDeltaCommand
 
 `AlterTableAddColumnsDeltaCommand` is a `LeafRunnableCommand` ([Spark SQL]({{ book.spark_sql }}/logical-operators/LeafRunnableCommand)) that represents `ALTER TABLE ADD COLUMNS` SQL command.

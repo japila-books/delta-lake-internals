@@ -1,3 +1,7 @@
+---
+title: ADD CONSTRAINT
+---
+
 # AlterTableAddConstraintDeltaCommand
 
 `AlterTableAddConstraintDeltaCommand` is a transactional [AlterDeltaTableCommand](AlterDeltaTableCommand.md) to register a new CHECK constraint (when [altering a delta table](../../DeltaCatalog.md#alterTable) with [AddConstraint](../../check-constraints/AddConstraint.md) table changes).

@@ -18,4 +18,4 @@ Data Skipping uses [DataSkippingReaderBase](DataSkippingReaderBase.md) as the ma
 
 ## Learn More
 
-1. [Delta Lake 1.2 - More Speed, Efficiency and Extensibility Than Ever](https://delta.io/blog/2022-05-05-delta-lake-1-2-released/)
+1. [Delta Lake 1.2 - More Speed, Efficiency and Extensibility Than Ever]({{ delta.blog }}/2022-05-05-delta-lake-1-2-released/)

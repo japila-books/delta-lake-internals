@@ -1,3 +1,7 @@
+---
+title: WriteIntoDelta
+---
+
 # WriteIntoDelta Command
 
 `WriteIntoDelta` is a [delta command](DeltaCommand.md) that can write [data(frame)](#data) out transactionally into a [delta table](#deltaLog) (that can be already available or is about to be created).

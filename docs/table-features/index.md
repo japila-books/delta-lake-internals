@@ -15,15 +15,17 @@ A table feature can have dependencies ([required features](TableFeature.md#requi
 
 Table features can be examined using [DESCRIBE DETAIL](../commands/describe-detail/index.md).
 
-Table features can be enabled on a delta table using `TBLPROPERTIES`.
+Table features can be enabled on delta tables using `TBLPROPERTIES` clause of [CREATE TABLE](../commands/create-table/index.md) or [ALTER TABLE SET TBLPROPERTIES](../commands/alter/AlterTableSetPropertiesDeltaCommand.md) commands (new or existing one, respectively).
 
-```sql
-CREATE TABLE tbl(a int)
-USING delta
-TBLPROPERTIES (
-  'delta.enableRowTracking' = 'true'
-)
-```
+=== "SQL"
+
+    ```sql
+    CREATE TABLE tbl(a int)
+    USING delta
+    TBLPROPERTIES (
+      'delta.enableRowTracking' = 'true'
+    )
+    ```
 
 ## Supported Table Features
 
@@ -46,4 +48,4 @@ Table features can be [auto-update capable](FeatureAutomaticallyEnabledByMetadat
 
 ## Learn More
 
-* [Introducing Delta Lake Table Features](https://delta.io/blog/2023-07-27-delta-lake-table-features/)
+* [Introducing Delta Lake Table Features]({{ delta.blog }}/2023-07-27-delta-lake-table-features/)

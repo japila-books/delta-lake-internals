@@ -1,4 +1,4 @@
-# SHALLOW CLONE
+# SHALLOW CLONE Command
 
 Delta Lake supports [SHALLOW CLONE](../../sql/DeltaSqlAstBuilder.md#visitClone) clause in `CREATE TABLE` and `REPLACE TABLE` statements.
 

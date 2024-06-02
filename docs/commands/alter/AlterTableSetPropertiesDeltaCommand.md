@@ -1,3 +1,7 @@
+---
+title: SET TBLPROPERTIES
+---
+
 # AlterTableSetPropertiesDeltaCommand
 
 `AlterTableSetPropertiesDeltaCommand` is a transactional [AlterDeltaTableCommand](AlterDeltaTableCommand.md) for `SetProperty` table changes (when [altering a delta table](../../DeltaCatalog.md#alterTable)).

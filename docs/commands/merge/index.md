@@ -1,4 +1,4 @@
-# MERGE INTO Command
+# MERGE Command
 
 Delta Lake supports merging records into a delta table using the following high-level operators:
 

@@ -101,6 +101,7 @@ extra:
     spark_core: https://books.japila.pl/apache-spark-internals
   delta:
     version: 3.2.0
+    blog: https://delta.io/blog
     github: https://github.com/delta-io/delta/blob/v3.2.0
     commit: https://github.com/delta-io/delta/commit
     issues: https://github.com/delta-io/delta/issues
@@ -265,51 +266,40 @@ nav:
   - ... | sql/**.md
   - Commands:
     - commands/index.md
-    - DeltaCommand: commands/DeltaCommand.md
-    - ALTER TABLE:
-      - commands/alter/index.md
-      - AlterDeltaTableCommand: commands/alter/AlterDeltaTableCommand.md
-      - ADD COLUMNS: commands/alter/AlterTableAddColumnsDeltaCommand.md
-      - ADD CONSTRAINT: commands/alter/AlterTableAddConstraintDeltaCommand.md
-      - CHANGE COLUMN: commands/alter/AlterTableChangeColumnDeltaCommand.md
-      - AlterTableDropColumnsDeltaCommand: commands/alter/AlterTableDropColumnsDeltaCommand.md
-      - DROP CONSTRAINT: commands/alter/AlterTableDropConstraintDeltaCommand.md
-      - AlterTableReplaceColumnsDeltaCommand: commands/alter/AlterTableReplaceColumnsDeltaCommand.md
-      - AlterTableSetLocationDeltaCommand: commands/alter/AlterTableSetLocationDeltaCommand.md
-      - SET TBLPROPERTIES: commands/alter/AlterTableSetPropertiesDeltaCommand.md
-      - AlterTableUnsetPropertiesDeltaCommand: commands/alter/AlterTableUnsetPropertiesDeltaCommand.md
-      - RemoveColumnMappingCommand: commands/alter/RemoveColumnMappingCommand.md
-    - Clone:
+    - commands/DeltaCommand.md
+    - ALTER:
+      - ... | flat | commands/alter/**.md
+    - CLONE:
       - ... | flat | commands/clone/**.md
-    - Convert:
+    - CONVERT:
       - ... | flat | commands/convert/**.md
     - CREATE TABLE:
       - ... | flat | commands/create-table/**.md
     - CREATE TABLE LIKE:
       - create-table-like/index.md
-    - Delete:
+    - DELETE:
       - ... | flat | commands/delete/**.md
     - DESCRIBE DETAIL:
       - ... | flat | commands/describe-detail/**.md
     - DESCRIBE HISTORY:
       - ... | flat | commands/describe-history/**.md
-    - Generate:
+    - GENERATE:
       - ... | flat | commands/generate/**.md
-    - MERGE INTO:
+    - MERGE:
       - ... | flat | commands/merge/**.md
-    - Optimize:
+    - OPTIMIZE:
       - ... | flat | commands/optimize/**.md
-    - REORG TABLE:
+    - REORG:
       - ... | flat | commands/reorg/**.md
-    - Restore:
+    - RESTORE:
       - ... | flat | commands/restore/**.md
     - SHOW COLUMNS:
       - ... | flat | commands/show-columns/**.md
-    - Update:
+    - UPDATE:
       - ... | flat | commands/update/**.md
-    - Vacuum:
+    - VACUUM:
       - ... | flat | commands/vacuum/**.md
-    - WriteIntoDelta: commands/WriteIntoDelta.md
+    - commands/WriteIntoDelta.md
   - Demos:
     - demo/index.md
     - Change Data Feed: demo/change-data-feed.md
@@ -348,6 +338,7 @@ nav:
       - StateCache: StateCache.md
       - CachedDS: CachedDS.md
     - StatisticsCollection: StatisticsCollection.md
+    - UniversalFormat: UniversalFormat.md
   - Monitoring:
     - DeltaProgressReporter: DeltaProgressReporter.md
     - DeltaLogging: DeltaLogging.md

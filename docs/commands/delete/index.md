@@ -1,4 +1,4 @@
-# Delete Command
+# DELETE Command
 
 Delta Lake supports deleting records from delta tables using the following high-level operators:
 

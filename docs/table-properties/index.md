@@ -8,7 +8,7 @@ Table Properties use `delta.` prefix.
 
 Table Properties can be set using the following SQL commands:
 
-* [CREATE TABLE](../commands/create-table/CreateDeltaTableCommand.md) (with `TBLPROPERTIES` clause) for new delta tables
+* [CREATE TABLE](../commands/create-table/index.md) (with `TBLPROPERTIES` clause) for new delta tables
 
     ```sql
     CREATE TABLE new_delta_table (

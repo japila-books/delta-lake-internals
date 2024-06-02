@@ -30,4 +30,4 @@ With [delta.enableDeletionVectors](../table-properties/DeltaConfigs.md#enableDel
 
     `metadataRequiresFeatureToBeEnabled` is part of the [FeatureAutomaticallyEnabledByMetadata](../table-features/FeatureAutomaticallyEnabledByMetadata.md#metadataRequiresFeatureToBeEnabled) abstraction.
 
-`metadataRequiresFeatureToBeEnabled` is the value of [delta.enableDeletionVectors](../table-properties/DeltaConfigs.md#enableDeletionVectors) table property (in the [Metadata](../table-properties/DeltaConfig.md#fromMetaData)).
+`metadataRequiresFeatureToBeEnabled` is the value of [delta.enableDeletionVectors](../table-properties/DeltaConfigs.md#enableDeletionVectors) table property (in the given [Metadata](../table-properties/DeltaConfig.md#fromMetaData)).

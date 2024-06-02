@@ -195,8 +195,9 @@ Default: `false`
 Used when:
 
 * `DeletionVectorsTableFeature` is requested to [metadataRequiresFeatureToBeEnabled](../deletion-vectors/DeletionVectorsTableFeature.md#metadataRequiresFeatureToBeEnabled)
-* `Protocol` is requested to [assertTablePropertyConstraintsSatisfied](../Protocol.md#assertTablePropertyConstraintsSatisfied)
 * `DeletionVectorUtils` is requested to [deletionVectorsWritable](../deletion-vectors/DeletionVectorUtils.md#deletionVectorsWritable)
+* `Protocol` is requested to [assertTablePropertyConstraintsSatisfied](../Protocol.md#assertTablePropertyConstraintsSatisfied)
+* `UniversalFormat` is requested to [enforceHudiDependencies](../UniversalFormat.md#enforceHudiDependencies)
 
 ### <span id="ENABLE_EXPIRED_LOG_CLEANUP"><span id="enableExpiredLogCleanup"> enableExpiredLogCleanup { #delta.enableExpiredLogCleanup }
 

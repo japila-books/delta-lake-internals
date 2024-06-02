@@ -1,4 +1,8 @@
-# DeltaCommand
+---
+title: DeltaCommand
+---
+
+# DeltaCommand &mdash; Delta Commands
 
 `DeltaCommand` is a marker interface for [delta commands](#implementations).
 

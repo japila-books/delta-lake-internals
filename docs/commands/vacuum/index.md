@@ -1,4 +1,4 @@
-# Vacuum Command
+# VACUUM Command
 
 **Vacuum** command allows for [garbage collection of a delta table](VacuumCommand.md#gc).
 

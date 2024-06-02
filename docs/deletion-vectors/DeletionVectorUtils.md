@@ -49,7 +49,9 @@ deletionVectorsWritable(
 `deletionVectorsWritable` is used when:
 
 * `OptimisticTransactionImpl` is requested to [getAssertDeletionVectorWellFormedFunc](../OptimisticTransactionImpl.md#getAssertDeletionVectorWellFormedFunc)
-* [DeleteCommand](../commands/delete/index.md) is executed (and requested to [shouldWritePersistentDeletionVectors](../commands/delete/DeleteCommand.md#shouldWritePersistentDeletionVectors))
+* [DELETE](../commands/delete/index.md) command is executed (and requested to [shouldWritePersistentDeletionVectors](../commands/delete/DeleteCommand.md#shouldWritePersistentDeletionVectors))
+* [MERGE](../commands/merge/index.md) command is executed (and requested to [shouldWritePersistentDeletionVectors](../commands/merge/MergeIntoCommandBase.md#shouldWritePersistentDeletionVectors))
+* [UPDATE](../commands/update/index.md) command is executed (and requested to [shouldWritePersistentDeletionVectors](../commands/update/UpdateCommand.md#shouldWritePersistentDeletionVectors))
 
 ## isTableDVFree { #isTableDVFree }
 
