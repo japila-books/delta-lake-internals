@@ -235,6 +235,7 @@ nav:
       - PreprocessTableMerge: PreprocessTableMerge.md
       - PreprocessTableUpdate: PreprocessTableUpdate.md
       - PreprocessTimeTravel: PreprocessTimeTravel.md
+      - ResolveDeltaPathTable: ResolveDeltaPathTable.md
       - StagedDeltaTableV2: StagedDeltaTableV2.md
     - File Indices:
       - SupportsRowIndexFilters.md

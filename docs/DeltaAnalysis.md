@@ -1,3 +1,7 @@
+---
+title: DeltaAnalysis
+---
+
 # DeltaAnalysis Logical Resolution Rule
 
 `DeltaAnalysis` is a logical resolution rule ([Spark SQL]({{ book.spark_sql }}/catalyst/Rule/)).
