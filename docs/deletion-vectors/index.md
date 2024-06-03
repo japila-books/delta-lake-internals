@@ -2,12 +2,19 @@
 
 **Deletion Vectors** is a [table feature](../table-features/index.md) to _soft-delete_ records (merely marking them as removed without rewriting the underlying parquet data files).
 
-Deletion Vectors is supported by conditional [DELETE](../commands/delete/index.md)s (when executed with a delete condition).
+Deletion Vectors is supported by the following commands (based on their corresponding "guard" configuration properties):
+
+Command | Configuration Property
+-|-
+ [DELETE](../commands/delete/index.md)<br>(when executed with a condition) | [spark.databricks.delta.delete.deletionVectors.persistent](../configuration-properties/index.md#delete.deletionVectors.persistent)
+ [MERGE](../commands/merge/index.md) | [spark.databricks.delta.merge.deletionVectors.persistent](../configuration-properties/index.md#merge.deletionVectors.persistent)
+ [UPDATE](../commands/update/index.md) | [spark.databricks.delta.update.deletionVectors.persistent](../configuration-properties/index.md#update.deletionVectors.persistent)
 
 Deletion Vectors can be enabled on a delta table using [delta.enableDeletionVectors](../table-properties/DeltaConfigs.md#enableDeletionVectors) table property.
 
 ```sql
-ALTER TABLE my_delta_table SET TBLPROPERTIES ('delta.enableDeletionVectors' = true);
+ALTER TABLE my_delta_table
+SET TBLPROPERTIES ('delta.enableDeletionVectors' = true);
 ```
 
 Deletion Vectors is used on a delta table when all of the following hold:
@@ -26,7 +33,18 @@ Deletion Vectors is used on a delta table when all of the following hold:
 
 [spark.databricks.delta.delete.deletionVectors.persistent](../configuration-properties/index.md#delete.deletionVectors.persistent)
 
-## Iceberg-Compatibility Feature
+## UniForm Iceberg
+
+UniForm Iceberg (`IcebergCompatV2` and `IcebergCompatV1`) uses `CheckNoDeletionVector` check to assert that Deletion Vectors are disabled on a delta table.
+
+```text
+IcebergCompatV<version> requires Deletion Vectors to be disabled on the table.
+Please use the ALTER TABLE DROP FEATURE command to disable Deletion Vectors
+and to remove the existing Deletion Vectors from the table.
+```
+
+??? note "ALTER TABLE DROP FEATURE SQL command"
+    Use [ALTER TABLE DROP FEATURE](../sql/index.md#ALTER-TABLE-DROP-FEATURE) SQL command to drop a feature on a delta table.
 
 The Iceberg-compatibility feature ([REORG TABLE](../commands/reorg/index.md) with `ICEBERG_COMPAT_VERSION`) turns Deletion Vectors off.
 

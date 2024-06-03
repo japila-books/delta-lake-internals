@@ -31,12 +31,12 @@ deletionVectorsReadable(
 
 ```scala
 deletionVectorsWritable(
+  protocol: Protocol,
+  metadata: Metadata): Boolean
+deletionVectorsWritable(
   snapshot: SnapshotDescriptor,
   newProtocol: Option[Protocol] = None,
   newMetadata: Option[Metadata] = None): Boolean
-deletionVectorsWritable(
-  protocol: Protocol,
-  metadata: Metadata): Boolean
 ```
 
 `deletionVectorsWritable` is enabled (`true`) when the following all hold:
@@ -52,6 +52,7 @@ deletionVectorsWritable(
 * [DELETE](../commands/delete/index.md) command is executed (and requested to [shouldWritePersistentDeletionVectors](../commands/delete/DeleteCommand.md#shouldWritePersistentDeletionVectors))
 * [MERGE](../commands/merge/index.md) command is executed (and requested to [shouldWritePersistentDeletionVectors](../commands/merge/MergeIntoCommandBase.md#shouldWritePersistentDeletionVectors))
 * [UPDATE](../commands/update/index.md) command is executed (and requested to [shouldWritePersistentDeletionVectors](../commands/update/UpdateCommand.md#shouldWritePersistentDeletionVectors))
+* `CheckNoDeletionVector` is executed (for Iceberg-compatibility)
 
 ## isTableDVFree { #isTableDVFree }
 

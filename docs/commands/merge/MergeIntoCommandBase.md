@@ -512,3 +512,22 @@ isCdcEnabled(
 `isCdcEnabled` is used when:
 
 * `ClassicMergeExecutor` is requested to [findTouchedFiles](ClassicMergeExecutor.md#findTouchedFiles), [writeAllChanges](ClassicMergeExecutor.md#writeAllChanges)
+
+## shouldWritePersistentDeletionVectors { #shouldWritePersistentDeletionVectors }
+
+```scala
+shouldWritePersistentDeletionVectors(
+  spark: SparkSession,
+  txn: OptimisticTransaction): Boolean
+```
+
+`shouldWritePersistentDeletionVectors` is enabled (`true`) when the following all hold:
+
+1. [spark.databricks.delta.merge.deletionVectors.persistent](../../configuration-properties/index.md#merge.deletionVectors.persistent) configuration property is enabled (`true`)
+1. [Protocol and table configuration support deletion vectors feature](../../deletion-vectors/DeletionVectorUtils.md#deletionVectorsWritable)
+
+---
+
+`shouldWritePersistentDeletionVectors` is used when:
+
+* `MergeIntoCommand` is requested to [run a merge](MergeIntoCommand.md#runMerge)

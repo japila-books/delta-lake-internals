@@ -177,7 +177,7 @@ If disabled, merge the two configurations with the same semantics as update and 
 
 Default: `true`
 
-### <span id="delete.deletionVectors.persistent"><span id="DELETE_USE_PERSISTENT_DELETION_VECTORS"> delete.deletionVectors.persistent
+### <span id="DELETE_USE_PERSISTENT_DELETION_VECTORS"> delete.deletionVectors.persistent { #delete.deletionVectors.persistent }
 
 **spark.databricks.delta.delete.deletionVectors.persistent**
 
@@ -318,6 +318,14 @@ Used when:
 **spark.databricks.delta.maxSnapshotLineageLength** (internal) is the maximum lineage length of a Snapshot before Delta forces to build a Snapshot from scratch
 
 Default: `50`
+
+### <span id="MERGE_USE_PERSISTENT_DELETION_VECTORS"> merge.deletionVectors.persistent { #merge.deletionVectors.persistent }
+
+**spark.databricks.delta.merge.deletionVectors.persistent**
+
+**(internal)** Enables [persistent Deletion Vectors](../deletion-vectors/index.md) in [MERGE](../commands/merge/index.md) command
+
+Default: `true`
 
 ### <span id="MERGE_MATERIALIZE_SOURCE"> merge.materializeSource { #merge.materializeSource }
 
@@ -682,11 +690,25 @@ Used when:
 
 * `DeltaSourceBase` is requested for the [allowUnsafeStreamingReadOnColumnMappingSchemaChanges](../spark-connector/DeltaSourceBase.md#allowUnsafeStreamingReadOnColumnMappingSchemaChanges)
 
-### <span id="timeTravel.resolveOnIdentifier.enabled"><span id="RESOLVE_TIME_TRAVEL_ON_IDENTIFIER"> timeTravel.resolveOnIdentifier.enabled
+### <span id="RESOLVE_TIME_TRAVEL_ON_IDENTIFIER"> timeTravel.resolveOnIdentifier.enabled { #timeTravel.resolveOnIdentifier.enabled }
 
-**spark.databricks.delta.timeTravel.resolveOnIdentifier.enabled** (internal) controls whether to resolve patterns as `@v123` and `@yyyyMMddHHmmssSSS` in path identifiers as [time travel](../time-travel/index.md) nodes.
+**spark.databricks.delta.timeTravel.resolveOnIdentifier.enabled**
+
+**(internal)** Enables [time travel](../time-travel/index.md) patterns (as `@v123` and `@yyyyMMddHHmmssSSS`) in the path identifiers of delta tables
 
 Default: `true`
+
+### <span id="UPDATE_USE_PERSISTENT_DELETION_VECTORS"> update.deletionVectors.persistent { #update.deletionVectors.persistent }
+
+**spark.databricks.delta.update.deletionVectors.persistent**
+
+**(internal)** Enables [persistent Deletion Vectors](../deletion-vectors/index.md) in [UPDATE](../commands/update/index.md) command
+
+Default: `true`
+
+Used when:
+
+* [UpdateCommand](../commands/update/UpdateCommand.md) is executed (and [shouldWritePersistentDeletionVectors](../commands/update/UpdateCommand.md#shouldWritePersistentDeletionVectors))
 
 ### <span id="vacuum.parallelDelete.enabled"><span id="DELTA_VACUUM_PARALLEL_DELETE_ENABLED"> vacuum.parallelDelete.enabled
 

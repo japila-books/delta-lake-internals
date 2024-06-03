@@ -1,5 +1,7 @@
 # DMLWithDeletionVectorsHelper
 
+`DMLWithDeletionVectorsHelper` is a [DeltaCommand](../commands/DeltaCommand.md) with utilities for DML operations to work with [Deletion Vectors](index.md).
+
 ## createTargetDfForScanningForMatches { #createTargetDfForScanningForMatches }
 
 ```scala
@@ -57,7 +59,9 @@ findTouchedFiles(
   opName: String): Seq[TouchedFileWithDV]
 ```
 
-`findTouchedFiles`...FIXME
+`findTouchedFiles` requests the given [TahoeFileIndex](../TahoeFileIndex.md) (that is assumed a [TahoeBatchFileIndex](../TahoeBatchFileIndex.md)) for the [AddFiles](../TahoeBatchFileIndex.md#addFiles).
+
+In the end, `findTouchedFiles` [findFilesWithMatchingRows](#findFilesWithMatchingRows) with [candidate file map](../commands/DeltaCommand.md#generateCandidateFileMap) and [matched row index sets](DeletionVectorBitmapGenerator.md#buildRowIndexSetsForFilesMatchingCondition).
 
 ---
 

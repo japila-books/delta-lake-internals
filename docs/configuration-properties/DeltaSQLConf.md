@@ -42,6 +42,10 @@
 
 [spark.databricks.delta.history.maxKeysPerList](index.md#history.maxKeysPerList)
 
+## merge.deletionVectors.persistent { #MERGE_USE_PERSISTENT_DELETION_VECTORS }
+
+[spark.databricks.delta.merge.deletionVectors.persistent](index.md#merge.deletionVectors.persistent)
+
 ## merge.materializeSource { #DELTA_COLLECT_STATS_USING_TABLE_SCHEMA }
 
 [spark.databricks.delta.merge.materializeSource](index.md#merge.materializeSource)
@@ -105,6 +109,10 @@
 ## timeTravel.resolveOnIdentifier.enabled { #RESOLVE_TIME_TRAVEL_ON_IDENTIFIER }
 
 [spark.databricks.delta.timeTravel.resolveOnIdentifier.enabled](index.md#timeTravel.resolveOnIdentifier.enabled)
+
+## update.deletionVectors.persistent { #UPDATE_USE_PERSISTENT_DELETION_VECTORS }
+
+[spark.databricks.delta.update.deletionVectors.persistent](index.md#update.deletionVectors.persistent)
 
 ## write.txnVersion.autoReset.enabled { #DELTA_IDEMPOTENT_DML_AUTO_RESET_ENABLED }
 

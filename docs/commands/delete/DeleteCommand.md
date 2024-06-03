@@ -116,7 +116,7 @@ shouldWritePersistentDeletionVectors(
 `shouldWritePersistentDeletionVectors` is enabled (`true`) when the following all hold:
 
 1. [spark.databricks.delta.delete.deletionVectors.persistent](../../configuration-properties/DeltaSQLConf.md#DELETE_USE_PERSISTENT_DELETION_VECTORS) configuration property is enabled (`true`)
-1. [Protocol and table configuration support deletion vector feature](../../deletion-vectors/DeletionVectorUtils.md#deletionVectorsWritable)
+1. [Protocol and table configuration support deletion vectors feature](../../deletion-vectors/DeletionVectorUtils.md#deletionVectorsWritable)
 
 ## <span id="apply"> Creating DeleteCommand
 

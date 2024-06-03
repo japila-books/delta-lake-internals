@@ -1,8 +1,8 @@
 ---
-title: ALTER
+title: ALTER TABLE
 ---
 
-# ALTER Commands
+# ALTER TABLE Commands
 
 Delta Lake supports altering delta tables using `ALTER TABLE` SQL commands with the following clauses:
 
@@ -11,6 +11,7 @@ Delta Lake supports altering delta tables using `ALTER TABLE` SQL commands with 
 * [CHANGE COLUMN](AlterTableChangeColumnDeltaCommand.md)
 * [DROP COLUMNS](AlterTableDropColumnsDeltaCommand.md)
 * [DROP CONSTRAINT](AlterTableDropConstraintDeltaCommand.md)
+* [DROP FEATURE](AlterTableDropFeature.md)
 * [REPLACE COLUMNS](AlterTableReplaceColumnsDeltaCommand.md)
 * [SET TBLPROPERTIES](AlterTableSetPropertiesDeltaCommand.md)
 * [UNSET TBLPROPERTIES](AlterTableUnsetPropertiesDeltaCommand.md)

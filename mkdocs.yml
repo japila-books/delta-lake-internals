@@ -267,7 +267,7 @@ nav:
   - Commands:
     - commands/index.md
     - commands/DeltaCommand.md
-    - ALTER:
+    - ALTER TABLE:
       - ... | flat | commands/alter/**.md
     - CLONE:
       - ... | flat | commands/clone/**.md
