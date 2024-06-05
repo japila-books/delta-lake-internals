@@ -38,6 +38,10 @@
 
 [spark.databricks.delta.delete.deletionVectors.persistent](index.md#delete.deletionVectors.persistent)
 
+## deletionVectors.useMetadataRowIndex { #DELETION_VECTORS_USE_METADATA_ROW_INDEX }
+
+[spark.databricks.delta.deletionVectors.useMetadataRowIndex](index.md#deletionVectors.useMetadataRowIndex)
+
 ## history.maxKeysPerList { #DELTA_HISTORY_PAR_SEARCH_THRESHOLD }
 
 [spark.databricks.delta.history.maxKeysPerList](index.md#history.maxKeysPerList)

@@ -185,6 +185,21 @@ Enables [persistent Deletion Vectors](../deletion-vectors/index.md) in [DELETE](
 
 Default: `true`
 
+### <span id="DELETION_VECTORS_USE_METADATA_ROW_INDEX"> deletionVectors.useMetadataRowIndex { #deletionVectors.useMetadataRowIndex }
+
+**spark.databricks.delta.deletionVectors.useMetadataRowIndex**
+
+**(internal)** Enables using the Parquet reader generated `row_index` column for filtering deleted rows with [Deletion Vectors](../deletion-vectors/index.md) (that gives predicate pushdown and file splitting in scans).
+
+Default: `true`
+
+Used when:
+
+* `DeltaParquetFileFormat` is requested to [buildReaderWithPartitionValues](../DeltaParquetFileFormat.md#buildReaderWithPartitionValues)
+* `ScanWithDeletionVectors` is requested to [createScanWithSkipRowColumn](../deletion-vectors/ScanWithDeletionVectors.md#createScanWithSkipRowColumn)
+* `DeletionVectorBitmapGenerator` is requested to [buildRowIndexSetsForFilesMatchingCondition](../deletion-vectors/DeletionVectorBitmapGenerator.md#buildRowIndexSetsForFilesMatchingCondition)
+* `DMLWithDeletionVectorsHelper` is requested to [replaceFileIndex](../deletion-vectors/DMLWithDeletionVectorsHelper.md#replaceFileIndex)
+
 ### <span id="dummyFileManager.numOfFiles"><span id="DUMMY_FILE_MANAGER_NUM_OF_FILES"> dummyFileManager.numOfFiles
 
 **spark.databricks.delta.dummyFileManager.numOfFiles** (internal) controls how many dummy files to write in DummyFileManager

@@ -9,7 +9,9 @@ buildRowIndexSetsForFilesMatchingCondition(
   tableHasDVs: Boolean,
   targetDf: DataFrame,
   candidateFiles: Seq[AddFile],
-  condition: Expression): Seq[DeletionVectorResult]
+  condition: Expression,
+  fileNameColumnOpt: Option[Column] = None,
+  rowIndexColumnOpt: Option[Column] = None): Seq[DeletionVectorResult]
 ```
 
 `buildRowIndexSetsForFilesMatchingCondition` adds the following columns to the input `targetDf` DataFrame:

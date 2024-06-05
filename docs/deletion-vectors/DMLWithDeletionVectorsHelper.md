@@ -59,7 +59,10 @@ findTouchedFiles(
   opName: String): Seq[TouchedFileWithDV]
 ```
 
-`findTouchedFiles` requests the given [TahoeFileIndex](../TahoeFileIndex.md) (that is assumed a [TahoeBatchFileIndex](../TahoeBatchFileIndex.md)) for the [AddFiles](../TahoeBatchFileIndex.md#addFiles).
+??? note "Supported Operators"
+    `findTouchedFiles` supports [DELETE](../commands/delete/index.md) and [UPDATE](../commands/update/index.md) commands only (as indicated by `opName` argument).
+
+`findTouchedFiles` requests the given [TahoeFileIndex](../TahoeFileIndex.md) (that is assumed to be a [TahoeBatchFileIndex](../TahoeBatchFileIndex.md)) for the [data files](../TahoeBatchFileIndex.md#addFiles).
 
 In the end, `findTouchedFiles` [findFilesWithMatchingRows](#findFilesWithMatchingRows) with [candidate file map](../commands/DeltaCommand.md#generateCandidateFileMap) and [matched row index sets](DeletionVectorBitmapGenerator.md#buildRowIndexSetsForFilesMatchingCondition).
 
