@@ -293,17 +293,23 @@ writeAllChanges(
   spark: SparkSession,
   deltaTxn: OptimisticTransaction,
   filesToRewrite: Seq[AddFile],
-  deduplicateCDFDeletes: DeduplicateCDFDeletes): Seq[FileAction]
+  deduplicateCDFDeletes: DeduplicateCDFDeletes,
+  writeUnmodifiedRows: Boolean): Seq[FileAction]
 ```
 
 !!! note "Change Data Feed"
     `writeAllChanges` acts differently with or no [Change Data Feed](../../change-data-feed/index.md) enabled.
 
+!!! note "Deletion Vectors"
+    `writeUnmodifiedRows` input flag is disabled (`false`) to indicate that [Deletion Vectors](../../deletion-vectors/index.md) should be used (with  [shouldWritePersistentDeletionVectors](MergeIntoCommandBase.md#shouldWritePersistentDeletionVectors) enabled).
+
+    The unmodified rows do not have to be written out and `writeAllChanges` can perform stricter joins.
+
 `writeAllChanges` [records this merge operation](MergeIntoCommandBase.md#recordMergeOperation) with the following:
 
 Property | Value
 ---------|------
- `extraOpType` | <ul><li>**writeAllUpdatesAndDeletes** for [shouldOptimizeMatchedOnlyMerge](MergeIntoCommandBase.md#shouldOptimizeMatchedOnlyMerge)<li>**writeAllChanges** otherwise</ul>
+ `extraOpType` | <ul><li>**writeModifiedRowsOnly** for `writeUnmodifiedRows` disabled</li><li>**writeAllUpdatesAndDeletes** for [shouldOptimizeMatchedOnlyMerge](MergeIntoCommandBase.md#shouldOptimizeMatchedOnlyMerge)<li>**writeAllChanges** otherwise</ul>
  `status` | **MERGE operation - Rewriting [filesToRewrite] files**
  `sqlMetricName` | [rewriteTimeMs](MergeIntoCommandBase.md#rewriteTimeMs)
 
@@ -321,10 +327,18 @@ Property | Value
 
 `writeAllChanges` creates a `DataFrame` for the [target plan](#buildTargetPlanWithFiles) with the given [AddFile](../../AddFile.md)s to rewrite (`filesToRewrite`) (and no `columnsToDrop`).
 
-`writeAllChanges` determines the join type based on [shouldOptimizeMatchedOnlyMerge](MergeIntoCommandBase.md#shouldOptimizeMatchedOnlyMerge):
+`writeAllChanges` determines the join type.
+With `writeUnmodifiedRows` enabled (`true`), the join type is as follows:
 
-* `rightOuter` when enabled
-* `fullOuter` otherwise
+1. `rightOuter` for [shouldOptimizeMatchedOnlyMerge](MergeIntoCommandBase.md#shouldOptimizeMatchedOnlyMerge) enabled
+1. `fullOuter` otherwise
+
+With `writeUnmodifiedRows` disabled (`false`), the join type is as follows (in that order):
+
+1. `inner` for `isMatchedOnly` enabled
+1. `leftOuter` for no `notMatchedBySourceClauses`
+1. `rightOuter` for no `notMatchedClauses`
+1. `fullOuter` otherwise
 
 ??? note "`shouldOptimizeMatchedOnlyMerge` Used Twice"
     [shouldOptimizeMatchedOnlyMerge](MergeIntoCommandBase.md#shouldOptimizeMatchedOnlyMerge) is used twice for the following:

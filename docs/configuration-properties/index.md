@@ -342,6 +342,10 @@ Default: `50`
 
 Default: `true`
 
+Used when:
+
+* `MergeIntoCommandBase` is requested to [shouldWritePersistentDeletionVectors](../commands/merge/MergeIntoCommandBase.md#shouldWritePersistentDeletionVectors)
+
 ### <span id="MERGE_MATERIALIZE_SOURCE"> merge.materializeSource { #merge.materializeSource }
 
 **spark.databricks.delta.merge.materializeSource**

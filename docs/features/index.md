@@ -10,6 +10,7 @@
 * [Column Statistics](../column-statistics/index.md)
 * [Commands](../commands/index.md)
 * [Data Skipping](../data-skipping/index.md)
+* [Deletion Vectors](../deletion-vectors/index.md)
 * [Delta SQL](../sql/index.md)
 * [Developer API](../DeltaTable.md)
 * [Generated Columns](../generated-columns/index.md)
@@ -25,7 +26,7 @@ Delta Lake can run with other execution engines like [Trino](https://trino.io/do
 
 Delta tables can be registered in a table catalog. Delta Lake creates a transaction log at the root directory of a table, and the catalog contains no information but the table format and the location of the table. All table properties, schema and partitioning information live in the transaction log to avoid a "split brain" situation ([Wikipedia](https://en.wikipedia.org/wiki/Split-brain_(computing))).
 
-Delta Lake {{ delta.version }} supports Apache Spark {{ spark.version }} (cf. [build.sbt]({{ delta.github }}/build.sbt#L38)).
+Delta Lake {{ delta.version }} supports Apache Spark {{ spark.version }} (cf. [build.sbt]({{ delta.github }}/build.sbt#L37)).
 
 ## Delta Tables
 
