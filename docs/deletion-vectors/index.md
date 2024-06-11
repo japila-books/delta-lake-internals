@@ -30,13 +30,9 @@ There are two types of deletion vectors:
 
 (Persistent) Deletion Vectors are only supported on [parquet-based delta tables](../Protocol.md#assertTablePropertyConstraintsSatisfied).
 
-## REORG TABLE Command
+## Purge Soft-Deleted Rows
 
-[REORG TABLE](../commands/reorg/index.md) is used to purge soft-deleted data.
-
-## Persistent Deletion Vectors
-
-[spark.databricks.delta.delete.deletionVectors.persistent](../configuration-properties/index.md#delete.deletionVectors.persistent)
+[VACUUM](../commands/vacuum/index.md) and [OPTIMIZE](../commands/optimize/index.md) commands are used to purge soft-deleted rows.
 
 ## UniForm Iceberg
 
