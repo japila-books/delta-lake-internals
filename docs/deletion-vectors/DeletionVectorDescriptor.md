@@ -125,3 +125,35 @@ assembleDeletionVectorPath(
 
 * `DeletionVectorDescriptor` is requested to [absolutePath](DeletionVectorDescriptor.md#absolutePath) (for the [uuid marker](#UUID_DV_MARKER))
 * `DeletionVectorStoreUtils` is requested to [assembleDeletionVectorPathWithFileSystem](DeletionVectorStoreUtils.md#assembleDeletionVectorPathWithFileSystem)
+
+## isOnDisk { #isOnDisk }
+
+```scala
+isOnDisk: Boolean
+```
+
+`isOnDisk` is the negation (_opposite_) of the [isInline](#isInline) flag.
+
+---
+
+`isOnDisk` is used when:
+
+* `VacuumCommandImpl` is requested for the [path of an on-disk deletion vector](../commands/vacuum/VacuumCommandImpl.md#getDeletionVectorRelativePath)
+* `DeletionVectorStoredBitmap` is requested to [isOnDisk](DeletionVectorStoredBitmap.md#isOnDisk)
+* `StoredBitmap` utility is requested to [create a StoredBitmap](StoredBitmap.md#create)
+
+## isInline { #isInline }
+
+```scala
+isInline: Boolean
+```
+
+`isInline` holds true for the [storageType](#storageType) being [i](#INLINE_DV_MARKER).
+
+---
+
+`isInline` is used when:
+
+* `DeletionVectorDescriptor` is requested to [inlineData](#inlineData), [isOnDisk](#isOnDisk)
+* `DeletionVectorStoredBitmap` is requested to [isInline](DeletionVectorStoredBitmap.md#isInline)
+* `StoredBitmap` is requested to [inline](StoredBitmap.md#inline)

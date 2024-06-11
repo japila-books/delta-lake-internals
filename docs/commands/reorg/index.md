@@ -4,7 +4,10 @@
 
 ```sql
 REORG TABLE (delta.`/path/to/table` | delta_table_name)
-[WHERE partition_predicate] APPLY (PURGE)
+(
+    [WHERE partition_predicate] APPLY (PURGE) |
+    APPLY (UPGRADE UNIFORM (ICEBERG_COMPAT_VERSION = version))
+)
 ```
 
 `REORG TABLE` command requires the file path or the name of a delta table.

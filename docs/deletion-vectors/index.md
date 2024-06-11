@@ -23,6 +23,11 @@ Deletion Vectors is used on a delta table when all of the following hold:
 1. [delta.enableDeletionVectors](../table-properties/DeltaConfigs.md#enableDeletionVectors) table property is enabled
 1. [DeletionVectorsTableFeature](DeletionVectorsTableFeature.md) is [supported](../table-features/TableFeatureSupport.md#isFeatureSupported) by the [Protocol](../Protocol.md)
 
+There are two types of deletion vectors:
+
+* inline
+* on-disk (persistent)
+
 (Persistent) Deletion Vectors are only supported on [parquet-based delta tables](../Protocol.md#assertTablePropertyConstraintsSatisfied).
 
 ## REORG TABLE Command
@@ -62,6 +67,18 @@ Create a delta table with [delta.enableDeletionVectors](../table-properties/Delt
     )
     ```
 
+=== "Scala"
+
+    ```scala
+    sql("""
+    CREATE OR REPLACE TABLE tbl(id int)
+    USING delta
+    TBLPROPERTIES (
+      'delta.enableDeletionVectors' = 'true'
+    )
+    """)
+    ```
+
 Describe the detail of the delta table using [DESCRIBE DETAIL](../commands/describe-detail/index.md) command.
 
 === "Scala"
@@ -79,6 +96,90 @@ Describe the detail of the delta table using [DESCRIBE DETAIL](../commands/descr
     |spark_catalog.default.tbl|{delta.enableDeletionVectors -> true}|3               |7               |[deletionVectors]|
     +-------------------------+-------------------------------------+----------------+----------------+-----------------+
     ```
+
+```scala
+sql("INSERT INTO tbl VALUES 1, 2, 3")
+```
+
+Deletion Vectors is supported by [DELETE](../commands/delete/index.md) command.
+
+=== "Scala"
+
+    ```text
+    scala> sql("DELETE FROM tbl WHERE id=1").show()
+    +-----------------+
+    |num_affected_rows|
+    +-----------------+
+    |                1|
+    +-----------------+
+    ```
+
+```scala
+val location = sql("DESC DETAIL tbl").select("location").as[String].head()
+```
+
+```console hl_lines="4"
+$ ls -l spark-warehouse/tbl
+total 32
+drwxr-xr-x@ 9 jacek  staff  288 Jun 11 20:41 _delta_log
+-rw-r--r--@ 1 jacek  staff   43 Jun 11 20:41 deletion_vector_5366f7d2-59db-4b86-b160-af5b8f5944d6.bin
+-rw-r--r--@ 1 jacek  staff  449 Jun 11 20:39 part-00000-be36d6d7-fd71-4b4a-a6b3-fbb41d568abc-c000.snappy.parquet
+-rw-r--r--@ 1 jacek  staff  449 Jun 11 20:39 part-00001-728e8290-6af7-465d-9372-df7d0f981b62-c000.snappy.parquet
+-rw-r--r--@ 1 jacek  staff  449 Jun 11 20:39 part-00002-85c45a7f-8903-4a7c-bdd1-2f4998fcc8b4-c000.snappy.parquet
+```
+
+Physically delete dropped rows using [VACUUM](../commands/vacuum/index.md) command.
+
+```text
+scala> sql("DESC HISTORY tbl").select("version", "operation", "operationParameters").show(truncate=false)
++-------+------------+----------------------------------------------------------------------------------------------------------------------------------+
+|version|operation   |operationParameters                                                                                                               |
++-------+------------+----------------------------------------------------------------------------------------------------------------------------------+
+|2      |DELETE      |{predicate -> ["(a#2003 = 1)"]}                                                                                                   |
+|1      |WRITE       |{mode -> Append, partitionBy -> []}                                                                                               |
+|0      |CREATE TABLE|{partitionBy -> [], clusterBy -> [], description -> NULL, isManaged -> true, properties -> {"delta.enableDeletionVectors":"true"}}|
++-------+------------+----------------------------------------------------------------------------------------------------------------------------------+
+```
+
+```text
+scala> sql("SET spark.databricks.delta.retentionDurationCheck.enabled = false").show(truncate=false)
++-----------------------------------------------------+-----+
+|key                                                  |value|
++-----------------------------------------------------+-----+
+|spark.databricks.delta.retentionDurationCheck.enabled|false|
++-----------------------------------------------------+-----+
+```
+
+```text
+scala> sql("VACUUM tbl RETAIN 0 HOURS").show(truncate=false)
+Deleted 2 files and directories in a total of 1 directories.
++---------------------------------------------------+
+|path                                               |
++---------------------------------------------------+
+|file:/Users/jacek/dev/oss/spark/spark-warehouse/tbl|
++---------------------------------------------------+
+```
+
+```text
+scala> sql("DESC HISTORY tbl").select("version", "operation", "operationParameters").show(truncate=false)
++-------+------------+----------------------------------------------------------------------------------------------------------------------------------+
+|version|operation   |operationParameters                                                                                                               |
++-------+------------+----------------------------------------------------------------------------------------------------------------------------------+
+|4      |VACUUM END  |{status -> COMPLETED}                                                                                                             |
+|3      |VACUUM START|{retentionCheckEnabled -> false, defaultRetentionMillis -> 604800000, specifiedRetentionMillis -> 0}                              |
+|2      |DELETE      |{predicate -> ["(a#2003 = 1)"]}                                                                                                   |
+|1      |WRITE       |{mode -> Append, partitionBy -> []}                                                                                               |
+|0      |CREATE TABLE|{partitionBy -> [], clusterBy -> [], description -> NULL, isManaged -> true, properties -> {"delta.enableDeletionVectors":"true"}}|
++-------+------------+----------------------------------------------------------------------------------------------------------------------------------+
+```
+
+```console
+$ ls -l spark-warehouse/tbl
+total 16
+drwxr-xr-x@ 13 jacek  staff  416 Jun 11 21:08 _delta_log
+-rw-r--r--@  1 jacek  staff  449 Jun 11 20:39 part-00001-728e8290-6af7-465d-9372-df7d0f981b62-c000.snappy.parquet
+-rw-r--r--@  1 jacek  staff  449 Jun 11 20:39 part-00002-85c45a7f-8903-4a7c-bdd1-2f4998fcc8b4-c000.snappy.parquet
+```
 
 ## Learn More
 

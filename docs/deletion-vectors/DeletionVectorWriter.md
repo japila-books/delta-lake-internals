@@ -18,7 +18,7 @@ createMapperToStoreDeletionVectors(
 
 * `DeletionVectorSet` is requested to [build deletion vectors](DeletionVectorSet.md#computeResult) (and [bitmapStorageMapper](DeletionVectorSet.md#bitmapStorageMapper))
 
-### createDeletionVectorMapper { #createDeletionVectorMapper }
+### Creating Deletion Vector Partition Mapper Function { #createDeletionVectorMapper }
 
 ```scala
 createDeletionVectorMapper[InputT <: Sizing, OutputT](
