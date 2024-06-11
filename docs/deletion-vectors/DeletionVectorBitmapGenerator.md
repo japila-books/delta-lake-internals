@@ -18,12 +18,12 @@ buildRowIndexSetsForFilesMatchingCondition(
 
 Column Name | Column
 ------------|-------
- `filePath` | `_metadata.file_path`
- `rowIndexCol` | [__delta_internal_row_index](../DeltaParquetFileFormat.md#ROW_INDEX_COLUMN_NAME)
+ `filePath` | The given `fileNameColumnOpt` if specified or `_metadata.file_path`
+ `rowIndexCol` | The given `rowIndexColumnOpt` if specified or one of the following based on [spark.databricks.delta.deletionVectors.useMetadataRowIndex](../configuration-properties/index.md#deletionVectors.useMetadataRowIndex):<ul><li>`_metadata.row_index` (enabled)</li><li>[__delta_internal_row_index](../DeltaParquetFileFormat.md#ROW_INDEX_COLUMN_NAME)</li></ul>
 
-`buildRowIndexSetsForFilesMatchingCondition` filters out the rows based on the given `condition` expression.
+With the table uses deletion vectors already (based on the given `tableHasDVs`), `buildRowIndexSetsForFilesMatchingCondition`...FIXME...to add [deletionVectorId](#FILE_DV_ID_COL) column with the value of [deletionVector](../AddFile.md#deletionVector) of the given `candidateFiles`. Otherwise, the [deletionVectorId](#FILE_DV_ID_COL) is `null`.
 
-`buildRowIndexSetsForFilesMatchingCondition`...FIXME
+In the end, `buildRowIndexSetsForFilesMatchingCondition` [buildDeletionVectors](#buildDeletionVectors) (with the DataFrame).
 
 ---
 
@@ -31,7 +31,7 @@ Column Name | Column
 
 * `DMLWithDeletionVectorsHelper` is requested to [findTouchedFiles](DMLWithDeletionVectorsHelper.md#findTouchedFiles)
 
-### buildDeletionVectors { #buildDeletionVectors }
+### Building Deletion Vectors { #buildDeletionVectors }
 
 ```scala
 buildDeletionVectors(
@@ -41,4 +41,4 @@ buildDeletionVectors(
   deltaTxn: OptimisticTransaction): Seq[DeletionVectorResult]
 ```
 
-`buildDeletionVectors`...FIXME
+`buildDeletionVectors` creates a new [DeletionVectorSet](DeletionVectorSet.md) to [build the deletion vectors](DeletionVectorSet.md#computeResult).

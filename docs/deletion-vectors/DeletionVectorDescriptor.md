@@ -107,3 +107,21 @@ onDiskWithAbsolutePath(
 
 !!! note
     `onDiskWithAbsolutePath` is used for testing only.
+
+## assembleDeletionVectorPath { #assembleDeletionVectorPath }
+
+```scala
+assembleDeletionVectorPath(
+  targetParentPath: Path,
+  id: UUID,
+  prefix: String = ""): Path
+```
+
+`assembleDeletionVectorPath`...FIXME
+
+---
+
+`assembleDeletionVectorPath` is used when:
+
+* `DeletionVectorDescriptor` is requested to [absolutePath](DeletionVectorDescriptor.md#absolutePath) (for the [uuid marker](#UUID_DV_MARKER))
+* `DeletionVectorStoreUtils` is requested to [assembleDeletionVectorPathWithFileSystem](DeletionVectorStoreUtils.md#assembleDeletionVectorPathWithFileSystem)
