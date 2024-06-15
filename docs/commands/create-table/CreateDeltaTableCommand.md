@@ -106,41 +106,38 @@ handleCommit(
 
 `handleCommit` [starts a transaction](#startTxnForTableCreation).
 
-`handleCommit` executes the logic to handle the [query](#query) (that gives the result to be returned).
+`handleCommit` executes one of the following logic to handle the [query](#query) (that gives the result to be returned):
 
-In the end, `handleCommit` [runPostCommitUpdates](#runPostCommitUpdates).
+* [CloneTableCommand](#CloneTableCommand)
+* [WriteIntoDeltaLike](#WriteIntoDeltaLike)
+* [Some other query](#some-other-query) (that is neither a[CloneTableCommand](#CloneTableCommand) nor a [WriteIntoDeltaLike](#WriteIntoDeltaLike))
+* [No query](#no-query)
 
-#### CREATE TABLE AS SELECT { #handleCreateTableAsSelect }
+In the end, `handleCommit` [runs post-commit updates](#runPostCommitUpdates).
 
-```scala
-handleCreateTableAsSelect(
-  sparkSession: SparkSession,
-  txn: OptimisticTransaction,
-  deltaLog: DeltaLog,
-  deltaWriter: WriteIntoDeltaLike,
-  tableWithLocation: CatalogTable): Unit
-```
+#### CloneTableCommand { #CloneTableCommand }
 
-??? warning "Procedure"
-    `handleCreateTable` is a procedure (returns `Unit`) so _what happens inside stays inside_ (paraphrasing the [former advertising slogan of Las Vegas, Nevada](https://idioms.thefreedictionary.com/what+happens+in+Vegas+stays+in+Vegas)).
+`handleCommit` [checkPathEmpty](#checkPathEmpty).
 
-`handleCreateTableAsSelect`...FIXME
+`handleCommit` requests the [CloneTableCommand](../clone/CloneTableCommand.md) to [handleClone](../clone/CloneTableCommand.md#handleClone).
 
-#### CREATE TABLE { #handleCreateTable }
+#### WriteIntoDeltaLike { #WriteIntoDeltaLike }
 
-```scala
-handleCreateTable(
-  sparkSession: SparkSession,
-  txn: OptimisticTransaction,
-  tableWithLocation: CatalogTable,
-  fs: FileSystem,
-  hadoopConf: Configuration): Unit
-```
+`handleCommit` [checkPathEmpty](#checkPathEmpty).
 
-??? warning "Procedure"
-    `handleCreateTable` is a procedure (returns `Unit`) so _what happens inside stays inside_ (paraphrasing the [former advertising slogan of Las Vegas, Nevada](https://idioms.thefreedictionary.com/what+happens+in+Vegas+stays+in+Vegas)).
+`handleCommit` [handleCreateTableAsSelect](#handleCreateTableAsSelect).
 
-`handleCreateTable`...FIXME
+#### Some Other Query
+
+`handleCommit` [checkPathEmpty](#checkPathEmpty).
+
+`handleCommit` makes sure that the [query](#query) is not a `RunnableCommand` ([Spark SQL]({{ book.spark_sql }}/logical-operators/RunnableCommand)) or throws an `IllegalArgumentException`.
+
+`handleCommit` [handleCreateTableAsSelect](#handleCreateTableAsSelect) with a new [WriteIntoDelta](../WriteIntoDelta.md).
+
+#### No Query
+
+With no [query](#query) specified, `handleCommit` [handleCreateTable](#handleCreateTable)
 
 #### Executing Post-Commit Updates { #runPostCommitUpdates }
 

@@ -23,3 +23,30 @@ delete(
 `delete` is used when:
 
 * `VacuumCommand` is requested to [gc](VacuumCommand.md#gc)
+
+## getValidRelativePathsAndSubdirs { #getValidRelativePathsAndSubdirs }
+
+```scala
+getValidRelativePathsAndSubdirs(
+  action: FileAction,
+  fs: FileSystem,
+  basePath: Path,
+  relativizeIgnoreError: Boolean): Seq[String]
+```
+
+`getValidRelativePathsAndSubdirs`...FIXME
+
+---
+
+`getValidRelativePathsAndSubdirs` is used when:
+
+* `VacuumCommand` is requested to [gc](VacuumCommand.md#gc) (and [getValidFilesFromSnapshot](VacuumCommand.md#getValidFilesFromSnapshot))
+
+### getDeletionVectorRelativePath { #getDeletionVectorRelativePath }
+
+```scala
+getDeletionVectorRelativePath(
+  action: FileAction): Option[Path]
+```
+
+`getDeletionVectorRelativePath`...FIXME

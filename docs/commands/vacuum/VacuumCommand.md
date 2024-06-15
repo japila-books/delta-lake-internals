@@ -10,7 +10,7 @@ title: VacuumCommand
 
 * [VACUUM](../../sql/index.md#VACUUM) SQL command (as [VacuumTableCommand](VacuumTableCommand.md) is executed)
 
-## <span id="gc"> Garbage Collection of Delta Table
+## Garbage Collection of Delta Table { #gc }
 
 ```scala
 gc(
@@ -23,11 +23,11 @@ gc(
 
 `gc` requests the given `DeltaLog` to [update](../../DeltaLog.md#update) (and hence give the latest [Snapshot](../../Snapshot.md) of the delta table).
 
-### <span id="gc-retentionMillis"> retentionMillis
+### retentionMillis { #gc-retentionMillis }
 
 `gc` converts the [retention hours](#retentionHours) to milliseconds and [checkRetentionPeriodSafety](#checkRetentionPeriodSafety) (with [deletedFileRetentionDuration](../../DeltaLog.md#tombstoneRetentionMillis) table configuration).
 
-### <span id="gc-deleteBeforeTimestamp"><span id="deleteBeforeTimestamp"> Timestamp to Delete Files Before
+### <span id="gc-deleteBeforeTimestamp"> Timestamp to Delete Files Before { #deleteBeforeTimestamp }
 
 `gc` determines the timestamp to delete files before based on the [retentionMillis](#retentionMillis) (if defined) or defaults to [minFileRetentionTimestamp](../../DeltaLog.md#minFileRetentionTimestamp) table configuration.
 
@@ -37,7 +37,7 @@ gc(
 Starting garbage collection (dryRun = [dryRun]) of untracked files older than [deleteBeforeTimestamp] in [path]
 ```
 
-### <span id="gc-validFiles"> Valid Files
+### Valid Files { #gc-validFiles }
 
 `gc` requests the `Snapshot` for the [state dataset](../../Snapshot.md#state) and maps over partitions (`Dataset.mapPartitions`) with a map function that does the following (for every [Action](../../Action.md) in a partition of [SingleAction](../../SingleAction.md)s):
 
@@ -50,22 +50,22 @@ Starting garbage collection (dryRun = [dryRun]) of untracked files older than [d
 !!! note
     There is no DataFrame action executed so no processing yet (using Spark).
 
-### <span id="gc-allFilesAndDirs"> All Files and Directories Dataset
+### All Files and Directories Dataset { #gc-allFilesAndDirs }
 
 `gc` [finds all the files and directories](../../DeltaFileOperations.md#recursiveListDirs) (recursively) in the [data path](../../DeltaLog.md#dataPath) (with `spark.sql.sources.parallelPartitionDiscovery.parallelism` number of file listing tasks).
 
-### <span id="gc-allFilesAndDirs-cache"> Caching All Files and Directories Dataset
+### Caching All Files and Directories Dataset { #gc-allFilesAndDirs-cache }
 
 `gc` caches the [allFilesAndDirs](#gc-allFilesAndDirs) dataset.
 
-### <span id="gc-dirCounts"><span id="dirCounts"> Number of Directories
+### <span id="gc-dirCounts"> Number of Directories { #dirCounts }
 
 `gc` counts the number of directories (as the count of the rows with `isDir` column being `true` in the [allFilesAndDirs](#allFilesAndDirs) dataset).
 
 !!! note
     This step submits a Spark job for `Dataset.count`.
 
-### <span id="gc-diff"><span id="diff"> Paths Dataset
+### <span id="gc-diff"> Paths Dataset { #diff }
 
 `gc` creates a Spark SQL query to count `path`s of the [allFilesAndDirs](#allFilesAndDirs) with files with the `modificationTime` ealier than the [deleteBeforeTimestamp](#deleteBeforeTimestamp) and the directories (`isDir`s). That creates a `DataFrame` of `path` and `count` columns.
 
@@ -73,7 +73,7 @@ Starting garbage collection (dryRun = [dryRun]) of untracked files older than [d
 
 `gc` filters out paths with `count` more than `1` and selects `path`.
 
-### <span id="gc-dryRun"> Dry Run
+### Dry Run { #gc-dryRun }
 
 `gc` counts the rows in the [paths Dataset](#diff) for the number of files and directories that are safe to delete (_numFiles_).
 
@@ -88,7 +88,7 @@ Found [numFiles] files and directories in a total of [dirCounts] directories tha
 
 In the end, `gc` converts the paths to Hadoop DFS format and creates a `DataFrame` with a single `path` column.
 
-### <span id="gc-delete"> Deleting Files and Directories
+### Deleting Files and Directories { #gc-delete }
 
 `gc` prints out the following INFO message to the logs:
 
@@ -106,11 +106,11 @@ Deleted [filesDeleted] files and directories in a total of [dirCounts] directori
 
 In the end, `gc` creates a `DataFrame` with a single `path` column with just the [data path](../../DeltaLog.md#dataPath) of the delta table to vacuum.
 
-### <span id="gc-allFilesAndDirs-unpersist"> Unpersist All Files and Directories Dataset
+### Unpersist All Files and Directories Dataset { #gc-allFilesAndDirs-unpersist }
 
 `gc` unpersists the [allFilesAndDirs](#gc-allFilesAndDirs) dataset.
 
-### <span id="checkRetentionPeriodSafety"> checkRetentionPeriodSafety
+### checkRetentionPeriodSafety { #checkRetentionPeriodSafety }
 
 ```scala
 checkRetentionPeriodSafety(
@@ -120,6 +120,21 @@ checkRetentionPeriodSafety(
 ```
 
 `checkRetentionPeriodSafety`...FIXME
+
+### getValidFilesFromSnapshot { #getValidFilesFromSnapshot }
+
+```scala
+getValidFilesFromSnapshot(
+  spark: SparkSession,
+  basePath: String,
+  snapshot: Snapshot,
+  retentionMillis: Option[Long],
+  hadoopConf: Broadcast[SerializableConfiguration],
+  clock: Clock,
+  checkAbsolutePathOnly: Boolean): DataFrame
+```
+
+`getValidFilesFromSnapshot`...FIXME
 
 ## Logging
 

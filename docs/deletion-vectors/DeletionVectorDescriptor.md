@@ -1,16 +1,16 @@
 # DeletionVectorDescriptor
 
-`DeletionVectorDescriptor` describes a [deletion vector](index.md) attached to a file action.
+`DeletionVectorDescriptor` describes a [deletion vector](index.md) attached to a file.
 
 ## Creating Instance
 
 `DeletionVectorDescriptor` takes the following to be created:
 
-* <span id="storageType"> storageType
-* <span id="pathOrInlineDv"> pathOrInlineDv
-* <span id="offset"> offset
-* <span id="sizeInBytes"> sizeInBytes
-* <span id="cardinality"> cardinality
+* [Storage Type](#storageType)
+* <span id="pathOrInlineDv"> Path or an inline deletion vector
+* <span id="offset"> Offset
+* <span id="sizeInBytes"> Size (in bytes)
+* <span id="cardinality"> Cardinality
 * <span id="maxRowIndex"> maxRowIndex
 
 `DeletionVectorDescriptor` is created using the following utilities:
@@ -20,7 +20,23 @@
 * [inlineInLog](#inlineInLog)
 * [EMPTY](#EMPTY)
 
-## EMPTY { #EMPTY }
+### <span id="PATH_DV_MARKER"><span id="INLINE_DV_MARKER"><span id="UUID_DV_MARKER"> Storage Type { #storageType }
+
+```scala
+storageType: String
+```
+
+`DeletionVectorDescriptor` is given a **storage type** that indicates how the deletion vector is stored.
+
+The storage types of a deletion vector can be one of the following:
+
+Storage Type | Format | Description
+-|-|-
+ `p`(ath) | `<absolute path>` | Stored in a file that is available at an [absolute path](DeletionVectorDescriptor.md#pathOrInlineDv)
+ `i`(nline) | `<base85 encoded bytes>` | Stored inline in the transaction log
+ `u`(uid) | `<random prefix - optional><base85 encoded uuid>` | (UUID-based) Stored in a file with a [path relative to the data directory of a delta table](DeletionVectorDescriptor.md#pathOrInlineDv)
+
+## Creating Empty Deletion Vector { #EMPTY }
 
 ```scala
 EMPTY: DeletionVectorDescriptor
@@ -108,6 +124,45 @@ onDiskWithAbsolutePath(
 !!! note
     `onDiskWithAbsolutePath` is used for testing only.
 
+## copyWithAbsolutePath { #copyWithAbsolutePath }
+
+```scala
+copyWithAbsolutePath(
+  tableLocation: Path): DeletionVectorDescriptor
+```
+
+`copyWithAbsolutePath` creates a new copy of this `DeletionVectorDescriptor`.
+
+For [uuid](#UUID_DV_MARKER) storage type, `copyWithAbsolutePath` replaces the following:
+
+Attribute | New Value
+-|-
+ [Storage type](#storageType) | [p](#PATH_DV_MARKER)
+ [Path](#pathOrInlineDv) | The [absolute path](#absolutePath) based on the given `tableLocation`
+
+---
+
+`copyWithAbsolutePath` is used when:
+
+* `DeltaFileOperations` is requested to [makePathsAbsolute](../DeltaFileOperations.md#makePathsAbsolute)
+
+## Absolute Path { #absolutePath }
+
+```scala
+absolutePath(
+  tableLocation: Path): Path
+```
+
+`absolutePath`...FIXME
+
+---
+
+`absolutePath` is used when:
+
+* `DeletionVectorDescriptor` is requested to [copyWithAbsolutePath](#copyWithAbsolutePath) (for [SHALLOW CLONE](../commands/clone/index.md) command)
+* `DeletionVectorStoredBitmap` is requested for the [absolute path of this on-disk deletion vector](DeletionVectorStoredBitmap.md#onDiskPath)
+* [VACUUM](../commands/vacuum/index.md) command is executed (and [getDeletionVectorRelativePath](../commands/vacuum/VacuumCommandImpl.md#getDeletionVectorRelativePath))
+
 ## assembleDeletionVectorPath { #assembleDeletionVectorPath }
 
 ```scala
@@ -117,13 +172,13 @@ assembleDeletionVectorPath(
   prefix: String = ""): Path
 ```
 
-`assembleDeletionVectorPath`...FIXME
+`assembleDeletionVectorPath` creates a new `Path` ([Apache Hadoop]({{ hadoop.api }}/org/apache/hadoop/fs/Path.html)) for the given `targetParentPath` and `fileName` (and the optional `prefix`).
 
 ---
 
 `assembleDeletionVectorPath` is used when:
 
-* `DeletionVectorDescriptor` is requested to [absolutePath](DeletionVectorDescriptor.md#absolutePath) (for the [uuid marker](#UUID_DV_MARKER))
+* `DeletionVectorDescriptor` is requested to [absolutePath](#absolutePath) (for the [uuid marker](#UUID_DV_MARKER))
 * `DeletionVectorStoreUtils` is requested to [assembleDeletionVectorPathWithFileSystem](DeletionVectorStoreUtils.md#assembleDeletionVectorPathWithFileSystem)
 
 ## isOnDisk { #isOnDisk }

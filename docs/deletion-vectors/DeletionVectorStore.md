@@ -6,7 +6,7 @@
 
 ## Contract (Subset)
 
-### Reading Deletion Vector { #read }
+### Loading Deletion Vector { #read }
 
 ```scala
 read(
@@ -15,7 +15,7 @@ read(
   size: Int): RoaringBitmapArray
 ```
 
-Reads the Deletion Vector as `RoaringBitmapArray`
+Loads (_reads_) a deletion vector (as `RoaringBitmapArray`)
 
 See:
 
@@ -23,7 +23,7 @@ See:
 
 Used when:
 
-* `DeletionVectorStoredBitmap` is requested to [load deletion vectors](DeletionVectorStoredBitmap.md#load)
+* `DeletionVectorStoredBitmap` is requested to [load a deletion vector](DeletionVectorStoredBitmap.md#load)
 
 ## Implementations
 

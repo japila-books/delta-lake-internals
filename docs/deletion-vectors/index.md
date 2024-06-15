@@ -30,6 +30,18 @@ There are two types of deletion vectors:
 
 (Persistent) Deletion Vectors are only supported on [parquet-based delta tables](../Protocol.md#assertTablePropertyConstraintsSatisfied).
 
+## Storage Type
+
+A deletion vector can be stored in a file or inline in the transaction log of a delta table.
+
+There are the following [storage types of deletion vectors](DeletionVectorDescriptor.md#storageType):
+
+Storage Type | Format | Description
+-|-|-
+ [p](DeletionVectorDescriptor.md#PATH_DV_MARKER) | `<absolute path>` | Stored in a file by an [absolute path](DeletionVectorDescriptor.md#pathOrInlineDv)
+ [i](DeletionVectorDescriptor.md#INLINE_DV_MARKER) | `<base85 encoded bytes>` | Stored inline in the transaction log
+ [u](DeletionVectorDescriptor.md#UUID_DV_MARKER) | `<random prefix - optional><base85 encoded uuid>` | (UUID-based) Stored in a file with a [path relative to the data directory of a delta table](DeletionVectorDescriptor.md#pathOrInlineDv)
+
 ## Purge Soft-Deleted Rows
 
 [VACUUM](../commands/vacuum/index.md) and [OPTIMIZE](../commands/optimize/index.md) commands are used to purge soft-deleted rows.

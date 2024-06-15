@@ -4,7 +4,7 @@ title: DeltaFileOperations
 
 # DeltaFileOperations Utilities
 
-## <span id="listUsingLogStore"> listUsingLogStore
+## listUsingLogStore { #listUsingLogStore }
 
 ```scala
 listUsingLogStore(
@@ -20,7 +20,7 @@ listUsingLogStore(
 
 * `DeltaFileOperations` utility is used to [recurseDirectories](#recurseDirectories), [recursiveListDirs](#recursiveListDirs) and [localListDirs](#localListDirs)
 
-## <span id="localListDirs"> localListDirs
+## localListDirs { #localListDirs }
 
 ```scala
 localListDirs(
@@ -34,7 +34,23 @@ localListDirs(
 
 `localListDirs` seems not used.
 
-## <span id="recurseDirectories"> recurseDirectories
+## makePathsAbsolute { #makePathsAbsolute }
+
+```scala
+makePathsAbsolute(
+  qualifiedTablePath: String,
+  files: Dataset[AddFile]): Dataset[AddFile]
+```
+
+`makePathsAbsolute`...FIXME
+
+---
+
+`makePathsAbsolute` is used when:
+
+* `CloneTableBaseUtils` is requested to [handleNewDataFiles](commands/clone/CloneTableBaseUtils.md#handleNewDataFiles)
+
+## recurseDirectories { #recurseDirectories }
 
 ```scala
 recurseDirectories(
@@ -49,7 +65,7 @@ recurseDirectories(
 
 * `DeltaFileOperations` utility is used to [listUsingLogStore](#listUsingLogStore) and [recursiveListDirs](#recursiveListDirs)
 
-## <span id="recursiveListDirs"> recursiveListDirs
+## recursiveListDirs { #recursiveListDirs }
 
 ```scala
 recursiveListDirs(
@@ -67,7 +83,7 @@ recursiveListDirs(
 * `ManualListingFileManifest` is requested to [doList](commands/convert/ManualListingFileManifest.md#doList)
 * `VacuumCommand` utility is used to [gc](commands/vacuum/VacuumCommand.md#gc)
 
-## <span id="tryDeleteNonRecursive"> tryDeleteNonRecursive
+## tryDeleteNonRecursive { #tryDeleteNonRecursive }
 
 ```scala
 tryDeleteNonRecursive(
