@@ -1,6 +1,6 @@
 # DeletionVectorStoredBitmap
 
-`DeletionVectorStoredBitmap` is a [StoredBitmap](StoredBitmap.md).
+`DeletionVectorStoredBitmap` is a [StoredBitmap](StoredBitmap.md) of a deletion vector (described by [DeletionVectorDescriptor](#dvDescriptor)).
 
 ## Creating Instance
 
@@ -34,7 +34,11 @@ The path is specified only when `StoredBitmap` utility is requested to [create a
 
     `load` is part of the [StoredBitmap](StoredBitmap.md#load) abstraction.
 
-`load`...FIXME
+For an [empty deletion vector](#isEmpty), `load` creates a new empty `RoaringBitmapArray`.
+
+For an [inline deletion vector](#isInline), `load` creates a `RoaringBitmapArray` from the [inline data byte array](DeletionVectorDescriptor.md#inlineData) of this [DeletionVectorDescriptor](#dvDescriptor).
+
+Otherwise, `load` asserts that this deletion vector is [isOnDisk](#isOnDisk) and requests the given [DeletionVectorStore](DeletionVectorStore.md) to [load the RoaringBitmapArray](DeletionVectorStore.md#read).
 
 ### Absolute Path of On-Disk Deletion Vector { #onDiskPath }
 
