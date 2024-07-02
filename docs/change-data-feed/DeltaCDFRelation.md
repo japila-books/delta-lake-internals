@@ -13,7 +13,7 @@
 
 `DeltaCDFRelation` is created when:
 
-* `CDCReaderImpl` is requested for a [CDF-aware BaseRelation](CDCReaderImpl.md#getCDCRelation)
+* `CDCReaderImpl` is requested for a [CDF-aware BaseRelation](CDCReaderImpl.md#getCDCRelation) and [emptyCDFRelation](CDCReaderImpl.md#emptyCDFRelation)
 
 ## Building Distributed Scan { #buildScan }
 
@@ -32,3 +32,15 @@
 `buildScan` does column pruning with the `requiredColumns` defined (using `Dataset.select` operator).
 
 In the end, `buildScan` converts the `DataFrame` to `RDD[Row]` (using `DataFrame.rdd` operator).
+
+## Schema
+
+??? note "BaseRelation"
+
+    ```scala
+    schema: StructType
+    ```
+
+    `schema` is part of the `BaseRelation` ([Spark SQL]({{ book.spark_sql }}/BaseRelation/#schema)) abstraction.
+
+`schema` [cdcReadSchema](CDCReaderImpl.md#cdcReadSchema) for the [schema](../Metadata.md#schema) of the delta table (based on the [Metadata](../Snapshot.md#metadata) of the [snapshotForBatchSchema](#snapshotForBatchSchema)).
