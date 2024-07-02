@@ -17,14 +17,16 @@ Append-Only Tables is enabled on a delta table using [delta.appendOnly](../table
 
 Create a delta table with [delta.appendOnly](../table-properties/DeltaConfigs.md#appendOnly) table property enabled.
 
-=== "SQL"
+=== "Scala"
 
-    ```sql
+    ```scala
+    sql("""
     CREATE TABLE tbl(a int)
     USING delta
     TBLPROPERTIES (
       'delta.appendOnly' = 'true'
     )
+    """)
     ```
 
 Describe the detail of the delta table using [DESCRIBE DETAIL](../commands/describe-detail/index.md) command.
@@ -32,7 +34,9 @@ Describe the detail of the delta table using [DESCRIBE DETAIL](../commands/descr
 === "Scala"
 
     ```scala
-    sql("desc detail tbl")
+    sql("""
+      DESC DETAIL tbl
+      """)
       .select("name", "properties", "minReaderVersion", "minWriterVersion", "tableFeatures")
       .show(truncate = false)
     ```
@@ -47,33 +51,37 @@ Describe the detail of the delta table using [DESCRIBE DETAIL](../commands/descr
 
 Insert a record.
 
-=== "SQL"
+=== "Scala"
 
-    ```sql
+    ```scala
+    sql("""
     INSERT INTO tbl
     VALUES (1)
+    """)
     ```
 
 Delete a record. It should fail.
 
-=== "SQL"
+=== "Scala"
 
-    ```sql
+    ```scala
+    sql("""
     DELETE FROM tbl
     WHERE a = 1
+    """)
     ```
 
-And it did 👍
+And it did! 👍
 
 ```text
-org.apache.spark.sql.delta.DeltaUnsupportedOperationException: This table is configured to only allow appends. If you would like to permit updates or deletes, use 'ALTER TABLE null SET TBLPROPERTIES (delta.appendOnly=false)'.
-  at org.apache.spark.sql.delta.DeltaErrorsBase.modifyAppendOnlyTableException(DeltaErrors.scala:890)
-  at org.apache.spark.sql.delta.DeltaErrorsBase.modifyAppendOnlyTableException$(DeltaErrors.scala:886)
-  at org.apache.spark.sql.delta.DeltaErrors$.modifyAppendOnlyTableException(DeltaErrors.scala:2884)
-  at org.apache.spark.sql.delta.DeltaLog$.assertRemovable(DeltaLog.scala:947)
-  at org.apache.spark.sql.delta.commands.DeleteCommand.$anonfun$run$2(DeleteCommand.scala:115)
-  at org.apache.spark.sql.delta.commands.DeleteCommand.$anonfun$run$2$adapted(DeleteCommand.scala:114)
-  at org.apache.spark.sql.delta.DeltaLog.withNewTransaction(DeltaLog.scala:216)
-  at org.apache.spark.sql.delta.commands.DeleteCommand.$anonfun$run$1(DeleteCommand.scala:114)
+org.apache.spark.sql.delta.DeltaUnsupportedOperationException: [DELTA_CANNOT_MODIFY_APPEND_ONLY] This table is configured to only allow appends. If you would like to permit updates or deletes, use 'ALTER TABLE null SET TBLPROPERTIES (delta.appendOnly=false)'.
+  at org.apache.spark.sql.delta.DeltaErrorsBase.modifyAppendOnlyTableException(DeltaErrors.scala:961)
+  at org.apache.spark.sql.delta.DeltaErrorsBase.modifyAppendOnlyTableException$(DeltaErrors.scala:957)
+  at org.apache.spark.sql.delta.DeltaErrors$.modifyAppendOnlyTableException(DeltaErrors.scala:3382)
+  at org.apache.spark.sql.delta.DeltaLog$.assertRemovable(DeltaLog.scala:1009)
+  at org.apache.spark.sql.delta.commands.DeleteCommand.$anonfun$run$2(DeleteCommand.scala:122)
+  at org.apache.spark.sql.delta.commands.DeleteCommand.$anonfun$run$2$adapted(DeleteCommand.scala:121)
+  at org.apache.spark.sql.delta.DeltaLog.withNewTransaction(DeltaLog.scala:227)
+  at org.apache.spark.sql.delta.commands.DeleteCommand.$anonfun$run$1(DeleteCommand.scala:121)
   ...
 ```
