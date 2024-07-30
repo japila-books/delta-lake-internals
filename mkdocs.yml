@@ -343,5 +343,6 @@ nav:
     - DeltaProgressReporter: DeltaProgressReporter.md
     - DeltaLogging: DeltaLogging.md
     - SQLMetricsReporting: SQLMetricsReporting.md
+  - ... | kernel/**.md
   - Contenders:
     - Contenders: contenders/index.md
