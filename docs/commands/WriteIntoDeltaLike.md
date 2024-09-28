@@ -1,0 +1,3 @@
+# WriteIntoDeltaLike
+
+`WriteIntoDeltaLike` is...FIXME

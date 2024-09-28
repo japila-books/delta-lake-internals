@@ -1,0 +1,3 @@
+# UpdateCatalogBase
+
+`UpdateCatalogBase` is...FIXME

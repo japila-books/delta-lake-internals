@@ -182,6 +182,7 @@ nav:
     - ... | table-features/**.md
     - ... | table-properties/**.md
     - ... | time-travel/**.md
+    - ... | uniform/**.md
   - Internals:
     - Actions:
       - Action: Action.md
@@ -300,6 +301,7 @@ nav:
     - VACUUM:
       - ... | flat | commands/vacuum/**.md
     - commands/WriteIntoDelta.md
+    - commands/WriteIntoDeltaLike.md
   - Demos:
     - demo/index.md
     - Change Data Feed: demo/change-data-feed.md
@@ -324,6 +326,7 @@ nav:
   - Misc:
     - ColumnWithDefaultExprUtils: ColumnWithDefaultExprUtils.md
     - ConflictChecker: ConflictChecker.md
+    - CurrentTransactionInfo: CurrentTransactionInfo.md
     - DeltaFileOperations: DeltaFileOperations.md
     - DeltaJobStatisticsTracker: DeltaJobStatisticsTracker.md
     - DeltaRelation: DeltaRelation.md
@@ -338,7 +341,6 @@ nav:
       - StateCache: StateCache.md
       - CachedDS: CachedDS.md
     - StatisticsCollection: StatisticsCollection.md
-    - UniversalFormat: UniversalFormat.md
   - Monitoring:
     - DeltaProgressReporter: DeltaProgressReporter.md
     - DeltaLogging: DeltaLogging.md

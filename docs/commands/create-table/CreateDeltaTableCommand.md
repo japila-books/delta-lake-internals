@@ -11,7 +11,7 @@
 * <span id="table"> `CatalogTable` ([Spark SQL]({{ book.spark_sql }}/CatalogTable/))
 * <span id="existingTableOpt"> Existing `CatalogTable` (if available)
 * <span id="mode"> `SaveMode`
-* <span id="query"> Optional Data Query (`LogicalPlan`)
+* [Logical Query Plan](#query)
 * [CreationMode](#operation)
 * <span id="tableByPath"> `tableByPath` flag (default: `false`)
 * <span id="output"> Output attributes
@@ -23,6 +23,23 @@
     * `CreateTableLikeCommand` (with the delta table as the source or the provider being `delta`)
     * [CloneTableStatement](../../DeltaAnalysis.md#resolveCloneCommand)
 * `DeltaCatalog` is requested to [create a delta table](../../DeltaCatalog.md#createDeltaTable)
+
+### Optional Logical Query Plan { #query }
+
+```scala
+query: Option[LogicalPlan]
+```
+
+`CreateDeltaTableCommand` can be given a `LogicalPlan` ([Spark SQL]({{ book.spark_sql }}/logical-operators/LogicalPlan)) when [created](#creating-instance).
+
+The `LogicalPlan` can be one of the following (that triggers a custom handling):
+
+Logical Query Plan | Handler
+-|-
+[CloneTableCommand](../clone/CloneTableCommand.md) | [handleClone](../clone/CloneTableCommand.md#handleClone)
+[WriteIntoDeltaLike](../WriteIntoDeltaLike.md) | [handleCreateTableAsSelect](#handleCreateTableAsSelect)
+Some other `LogicalPlan` | [handleCreateTableAsSelect](#handleCreateTableAsSelect)
+Undefined | [handleCreateTable](#handleCreateTable)
 
 ### CreationMode { #operation }
 
@@ -162,7 +179,7 @@ Table is path-based table: [tableByPath]. Update catalog with mode: [operation]
 
 `runPostCommitUpdates` [updates the catalog](#updateCatalog).
 
-In the end, when `delta.universalFormat.enabledFormats` table property contains `iceberg`, `runPostCommitUpdates` requests the `UniversalFormatConverter` to `convertSnapshot`.
+In the end, when [delta.universalFormat.enabledFormats](../../table-properties/DeltaConfigs.md#universalFormat.enabledFormats) table property contains `iceberg`, `runPostCommitUpdates` requests the `UniversalFormatConverter` to [convertSnapshot](../../uniform/UniversalFormatConverter.md#convertSnapshot).
 
 #### Updating Table Catalog { #updateCatalog }
 
@@ -189,7 +206,33 @@ Table is path-based table: [tableByPath]. Update catalog with mode: [operation]
 
 `updateCatalog` [updates the catalog](#updateCatalog).
 
-In the end, when `delta.universalFormat.enabledFormats` table property contains `iceberg`, `updateCatalog` requests the `UniversalFormatConverter` to `convertSnapshot`.
+In the end, when [delta.universalFormat.enabledFormats](../../table-properties/DeltaConfigs.md#universalFormat.enabledFormats) table property contains `iceberg`, `updateCatalog` requests the `UniversalFormatConverter` to [convertSnapshot](../../uniform/UniversalFormatConverter.md#convertSnapshot).
+
+### handleCreateTable { #handleCreateTable }
+
+```scala
+handleCreateTable(
+  sparkSession: SparkSession,
+  txn: OptimisticTransaction,
+  tableWithLocation: CatalogTable,
+  fs: FileSystem,
+  hadoopConf: Configuration): Unit
+```
+
+`handleCreateTable`...FIXME
+
+### handleCreateTableAsSelect { #handleCreateTableAsSelect }
+
+```scala
+handleCreateTableAsSelect(
+  sparkSession: SparkSession,
+  txn: OptimisticTransaction,
+  deltaLog: DeltaLog,
+  deltaWriter: WriteIntoDeltaLike,
+  tableWithLocation: CatalogTable): Unit
+```
+
+`handleCreateTableAsSelect`...FIXME
 
 ## Provided Metadata { #getProvidedMetadata }
 

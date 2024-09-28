@@ -197,7 +197,7 @@ Used when:
 * `DeletionVectorsTableFeature` is requested to [metadataRequiresFeatureToBeEnabled](../deletion-vectors/DeletionVectorsTableFeature.md#metadataRequiresFeatureToBeEnabled)
 * `DeletionVectorUtils` is requested to [deletionVectorsWritable](../deletion-vectors/DeletionVectorUtils.md#deletionVectorsWritable)
 * `Protocol` is requested to [assertTablePropertyConstraintsSatisfied](../Protocol.md#assertTablePropertyConstraintsSatisfied)
-* `UniversalFormat` is requested to [enforceHudiDependencies](../UniversalFormat.md#enforceHudiDependencies)
+* `UniversalFormat` is requested to [enforceHudiDependencies](../uniform/UniversalFormat.md#enforceHudiDependencies)
 
 ### <span id="ENABLE_EXPIRED_LOG_CLEANUP"><span id="enableExpiredLogCleanup"> enableExpiredLogCleanup { #delta.enableExpiredLogCleanup }
 
@@ -289,6 +289,24 @@ Default: `2`
 How long to keep delta sample files around before deleting them
 
 Default: `interval 7 days`
+
+### <span id="UNIVERSAL_FORMAT_ENABLED_FORMATS"> universalFormat.enabledFormats { #universalFormat.enabledFormats }
+
+**delta.universalFormat.enabledFormats**
+
+A comma-separated list of table formats
+
+Default: (empty)
+
+Supported values:
+
+* `hudi`
+* `iceberg`
+
+Used when:
+
+* `ReorgTableForUpgradeUniformHelper` is requested to [doRewrite](../commands/reorg/ReorgTableForUpgradeUniformHelper.md#doRewrite)
+* `UniversalFormat` is requested to [enforceIcebergInvariantsAndDependencies](../uniform/UniversalFormat.md#enforceIcebergInvariantsAndDependencies), [hudiEnabled](../uniform/UniversalFormat.md#hudiEnabled), [icebergEnabled](../uniform/UniversalFormat.md#icebergEnabled)
 
 ## Building Configuration { #buildConfig }
 

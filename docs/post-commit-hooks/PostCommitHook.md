@@ -50,5 +50,6 @@ Used when:
 * [AutoCompactBase](../auto-compaction/AutoCompactBase.md)
 * [CheckpointHook](../checkpoints/CheckpointHook.md)
 * [GenerateSymlinkManifestImpl](GenerateSymlinkManifest.md)
-* `IcebergConverterHook`
-* `UpdateCatalogBase`
+* [HudiConverterHook](../uniform/HudiConverterHook.md)
+* [IcebergConverterHook](../uniform/IcebergConverterHook.md)
+* [UpdateCatalogBase](UpdateCatalogBase.md)
