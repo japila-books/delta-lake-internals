@@ -327,8 +327,10 @@ nav:
     - ColumnWithDefaultExprUtils: ColumnWithDefaultExprUtils.md
     - ConflictChecker: ConflictChecker.md
     - CurrentTransactionInfo: CurrentTransactionInfo.md
+    - DeltaFileFormatWriter: DeltaFileFormatWriter.md
     - DeltaFileOperations: DeltaFileOperations.md
     - DeltaJobStatisticsTracker: DeltaJobStatisticsTracker.md
+    - DeltaOptimizedWriterExec: DeltaOptimizedWriterExec.md
     - DeltaRelation: DeltaRelation.md
     - DeltaTableOperations: DeltaTableOperations.md
     - DeltaTableUtils: DeltaTableUtils.md
