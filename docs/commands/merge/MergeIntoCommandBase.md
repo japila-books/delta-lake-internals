@@ -464,14 +464,14 @@ Usage | Metric Name | valueToReturn
 ------|-------------|--------------
  `ClassicMergeExecutor` to [find files to rewrite](ClassicMergeExecutor.md#findTouchedFiles) | [numSourceRows](#numSourceRows) | `true`
  `ClassicMergeExecutor` to [write out merge changes](ClassicMergeExecutor.md#writeAllChanges) | [numSourceRowsInSecondScan](#numSourceRowsInSecondScan) | `true`
- | [numTargetRowsCopied](#numTargetRowsCopied) | `false`
+ &nbsp; | [numTargetRowsCopied](#numTargetRowsCopied) | `false`
  `InsertOnlyMergeExecutor` to [write out inserts](InsertOnlyMergeExecutor.md#writeOnlyInserts) | [numSourceRows](#numSourceRows) or [numSourceRowsInSecondScan](#numSourceRowsInSecondScan) | `true`
  `InsertOnlyMergeExecutor` to [generateInsertsOnlyOutputCols](InsertOnlyMergeExecutor.md#generateInsertsOnlyOutputCols) | [numTargetRowsInserted](#numTargetRowsInserted) | `false`
  `MergeOutputGeneration` to [generateAllActionExprs](MergeOutputGeneration.md#generateAllActionExprs) | [numTargetRowsUpdated](#numTargetRowsUpdated) | `false`
- | [numTargetRowsDeleted](#numTargetRowsDeleted) | `true`
- | [numTargetRowsInserted](#numTargetRowsInserted) | `false`
+ &nbsp; | [numTargetRowsDeleted](#numTargetRowsDeleted) | `true`
+ &nbsp; | [numTargetRowsInserted](#numTargetRowsInserted) | `false`
 
-## Writing Data(Frame) Out to Delta Table { #writeFiles }
+## Write Data(Frame) Out to Delta Table { #writeFiles }
 
 ```scala
 writeFiles(

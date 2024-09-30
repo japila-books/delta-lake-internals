@@ -103,14 +103,13 @@ writeFiles(
 
 `writeFiles` is used when:
 
-* `WriteIntoDelta` is requested to [writeAndReturnCommitData](commands/WriteIntoDelta.md#writeAndReturnCommitData)
 * `DeleteCommand` is requested to [rewriteFiles](commands/delete/DeleteCommand.md#rewriteFiles)
-* `MergeIntoCommandBase` is requested to [writeFiles](commands/merge/MergeIntoCommandBase.md#writeFiles)
-* `UpdateCommand` is requested to [rewriteFiles](commands/update/UpdateCommand.md#rewriteFiles)
-* `WriteIntoDelta` is requested to [writeAndReturnCommitData](commands/WriteIntoDelta.md#writeAndReturnCommitData), [writeFiles](commands/WriteIntoDelta.md#writeFiles)
 * `DeltaSink` is requested to [add a streaming micro-batch](spark-connector/DeltaSink.md#addBatch)
+* `MergeIntoCommandBase` is requested to [write data out](commands/merge/MergeIntoCommandBase.md#writeFiles)
 * `OptimizeExecutor` is requested to [runOptimizeBinJob](commands/optimize/OptimizeExecutor.md#runOptimizeBinJob)
 * `RemoveColumnMappingCommand` is requested to [write data out](commands/alter/RemoveColumnMappingCommand.md#writeData)
+* `UpdateCommand` is requested to [rewriteFiles](commands/update/UpdateCommand.md#rewriteFiles)
+* `WriteIntoDelta` is requested to [writeAndReturnCommitData](commands/WriteIntoDelta.md#writeAndReturnCommitData) (and [writeFiles](commands/WriteIntoDelta.md#writeFiles))
 
 ---
 

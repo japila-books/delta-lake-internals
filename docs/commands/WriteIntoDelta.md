@@ -150,7 +150,7 @@ val writeCmd = WriteIntoDelta(
 writeCmd.run(spark)
 ```
 
-## <span id="canOverwriteSchema"> canOverwriteSchema
+## canOverwriteSchema { #canOverwriteSchema }
 
 ??? note "ImplicitMetadataOperation"
 
@@ -166,7 +166,7 @@ writeCmd.run(spark)
 1. This `WriteIntoDelta` is [overwrite](#isOverwriteOperation) operation
 1. [replaceWhere](../spark-connector/DeltaWriteOptions.md#replaceWhere) option is not defined (in the [DeltaOptions](#options))
 
-## <span id="isOverwriteOperation"> isOverwriteOperation
+## isOverwriteOperation { #isOverwriteOperation }
 
 ```scala
 isOverwriteOperation: Boolean
@@ -174,6 +174,35 @@ isOverwriteOperation: Boolean
 
 `isOverwriteOperation` is `true` for the [SaveMode](#mode) to be `SaveMode.Overwrite`.
 
+---
+
 `isOverwriteOperation` is used when:
 
 * `WriteIntoDelta` is requested for the [canOverwriteSchema](#canOverwriteSchema) and to [write](#write)
+
+## writeAndReturnCommitData { #writeAndReturnCommitData }
+
+??? note "WriteIntoDeltaLike"
+
+    ```scala
+    writeAndReturnCommitData(
+      txn: OptimisticTransaction,
+      sparkSession: SparkSession,
+      clusterBySpecOpt: Option[ClusterBySpec] = None,
+      isTableReplace: Boolean = false): TaggedCommitData[Action]
+    ```
+
+    `writeAndReturnCommitData` is part of the [WriteIntoDeltaLike](WriteIntoDeltaLike.md#writeAndReturnCommitData) abstraction.
+
+`writeAndReturnCommitData`...FIXME
+
+### writeFiles { #writeFiles }
+
+```scala
+writeFiles(
+  txn: OptimisticTransaction,
+  data: DataFrame,
+  options: DeltaOptions): Seq[FileAction]
+```
+
+`writeFiles`...FIXME
