@@ -103,12 +103,13 @@ writeFiles(
 
 `writeFiles` is used when:
 
-* `WriteIntoDelta` is requested to [write](commands/WriteIntoDelta.md#write)
+* `WriteIntoDelta` is requested to [writeAndReturnCommitData](commands/WriteIntoDelta.md#writeAndReturnCommitData)
 * `DeleteCommand` is requested to [rewriteFiles](commands/delete/DeleteCommand.md#rewriteFiles)
-* `MergeIntoCommand` is requested to [writeInsertsOnlyWhenNoMatchedClauses](commands/merge/MergeIntoCommand.md#writeInsertsOnlyWhenNoMatchedClauses) and [writeAllChanges](commands/merge/MergeIntoCommand.md#writeAllChanges)
-* `OptimizeExecutor` is requested to [runOptimizeBinJob](commands/optimize/OptimizeExecutor.md#runOptimizeBinJob)
+* `MergeIntoCommandBase` is requested to [writeFiles](commands/merge/MergeIntoCommandBase.md#writeFiles)
 * `UpdateCommand` is requested to [rewriteFiles](commands/update/UpdateCommand.md#rewriteFiles)
+* `WriteIntoDelta` is requested to [writeAndReturnCommitData](commands/WriteIntoDelta.md#writeAndReturnCommitData), [writeFiles](commands/WriteIntoDelta.md#writeFiles)
 * `DeltaSink` is requested to [add a streaming micro-batch](spark-connector/DeltaSink.md#addBatch)
+* `OptimizeExecutor` is requested to [runOptimizeBinJob](commands/optimize/OptimizeExecutor.md#runOptimizeBinJob)
 * `RemoveColumnMappingCommand` is requested to [write data out](commands/alter/RemoveColumnMappingCommand.md#writeData)
 
 ---
@@ -212,7 +213,7 @@ Option | Value
 -|-
  [writePartitionColumns](spark-connector/DeltaOptions.md#WRITE_PARTITION_COLUMNS) | [isAnyEnabled](uniform/IcebergCompat.md#isAnyEnabled)
 
-### Step 6.6 FileFormatWriter { #writeFiles-FileFormatWriter }
+### Step 6.6 DeltaFileFormatWriter { #writeFiles-DeltaFileFormatWriter }
 
 As the very last step within the scope of the [new execution ID](#writeFiles-deltaTransactionalWrite), `writeFiles` [writes out the data](DeltaFileFormatWriter.md#write).
 
@@ -223,9 +224,17 @@ As the very last step within the scope of the [new execution ID](#writeFiles-del
 * No bucketing
 * [DeltaJobStatisticsTracker](#writeFiles-optionalStatsTracker) and [BasicWriteJobStatsTracker](#writeFiles-statsTrackers)
 
-### Step 7. AddFiles and AddCDCFiles { #writeFiles-FileActions }
+### Step 7. Collect AddFiles and AddCDCFiles { #writeFiles-FileActions }
 
-In the end, `writeFiles` returns [AddFile](AddFile.md)s and [AddCDCFile](AddCDCFile.md)s (from the [DelayedCommitProtocol](#writeFiles-committer)).
+`writeFiles` requests the [DelayedCommitProtocol](#getCommitter) for the [AddFiles](DelayedCommitProtocol.md#addedStatuses).
+
+With a [DeltaJobStatisticsTracker](#writeFiles-optionalStatsTracker), `writeFiles` adds the [recordedStats](DeltaJobStatisticsTracker.md#recordedStats) to every [AddFile](DelayedCommitProtocol.md#addedStatuses) (by [path](FileAction.md#toPath)).
+
+With [Iceberg Compatibility V2 enabled](uniform/IcebergCompatV2.md#isEnabled), `writeFiles` adds `ICEBERG_COMPAT_VERSION` tag with the value of `2` to every [AddFile](DelayedCommitProtocol.md#addedStatuses).
+
+With at least one [AddFile](DelayedCommitProtocol.md#addedStatuses) and the given `isOptimize` flag disabled, `writeFiles` [registers](OptimisticTransactionImpl.md#registerPostCommitHook) the [AutoCompact](auto-compaction/AutoCompact.md) post-commit hook.
+
+In the end, `writeFiles` returns the [AddFile](AddFile.md)s and [AddCDCFile](AddCDCFile.md)s (from the [DelayedCommitProtocol](#writeFiles-committer)).
 
 ### getOptionalStatsTrackerAndStatsCollection { #getOptionalStatsTrackerAndStatsCollection }
 
