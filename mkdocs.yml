@@ -166,6 +166,7 @@ nav:
     - developer-api.md
     - ... | dynamic-partition-overwrite/**.md
     - ... | generated-columns/**.md
+    - ... | identity-columns/**.md
     - installation.md
     - ... | liquid-clustering/**.md
     - ... | log-cleanup/**.md

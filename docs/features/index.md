@@ -14,6 +14,7 @@
 * [Delta SQL](../sql/index.md)
 * [Developer API](../DeltaTable.md)
 * [Generated Columns](../generated-columns/index.md)
+* [Identity Columns](../identity-columns/index.md) <sup>3.3.0</sup>
 * [Spark SQL integration with support for batch and streaming queries](../spark-connector/DeltaDataSource.md)
 * [Table Constraints](../constraints/index.md)
 * [Time Travel](../time-travel/index.md)
