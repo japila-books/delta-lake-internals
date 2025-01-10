@@ -7,7 +7,7 @@ repo_name: delta-lake-internals
 repo_url: https://github.com/japila-books/delta-lake-internals
 edit_uri: edit/main/docs/
 
-copyright: Copyright &copy; 2024 Jacek Laskowski
+copyright: Copyright &copy; 2024-2025 Jacek Laskowski
 
 theme:
   name: material
@@ -100,9 +100,9 @@ extra:
     structured_streaming: https://books.japila.pl/spark-structured-streaming-internals
     spark_core: https://books.japila.pl/apache-spark-internals
   delta:
-    version: 3.2.1
+    version: 3.3.0
     blog: https://delta.io/blog
-    github: https://github.com/delta-io/delta/blob/v3.2.1
+    github: https://github.com/delta-io/delta/blob/v3.3.0
     commit: https://github.com/delta-io/delta/commit
     issues: https://github.com/delta-io/delta/issues
     databricks: https://docs.databricks.com/delta
@@ -127,14 +127,12 @@ extra:
   social:
     - icon: fontawesome/brands/github
       link: https://github.com/jaceklaskowski
-    - icon: fontawesome/brands/twitter
-      link: https://twitter.com/jaceklaskowski
+    - icon: fontawesome/brands/bluesky
+      link: https://bsky.app/profile/books.japila.pl
     - icon: fontawesome/brands/linkedin
       link: https://linkedin.com/in/jaceklaskowski
     - icon: fontawesome/brands/medium
       link: https://jaceklaskowski.medium.com
-    - icon: fontawesome/brands/mastodon
-      link: https://fosstodon.org/@jaceklaskowski
   spark:
     version: 3.5.3
     docs: https://spark.apache.org/docs/3.5.3
