@@ -64,34 +64,40 @@ Registers the [Generation Expression](#generationExpr) of this field
 ### generatedAlwaysAsIdentity { #generatedAlwaysAsIdentity }
 
 ```scala
+generatedAlwaysAsIdentity(): DeltaColumnBuilder // (1)!
 generatedAlwaysAsIdentity(
   start: Long,
   step: Long): DeltaColumnBuilder
 ```
 
+1. Uses the defaults
+
 Sets the following:
 
-Property | Value
--|-
-[identityStart](#identityStart) | `start`
-[identityStep](#identityStep) | `step`
-[identityAllowExplicitInsert](#identityAllowExplicitInsert) | `false`
+Property | Value | Default Value
+-|-|-
+[identityStart](#identityStart) | `start` | 1
+[identityStep](#identityStep) | `step` | 1
+[identityAllowExplicitInsert](#identityAllowExplicitInsert) | `false` | (undefined)
 
 ### generatedByDefaultAsIdentity { #generatedByDefaultAsIdentity }
 
 ```scala
+generatedByDefaultAsIdentity(): DeltaColumnBuilder // (1)!
 generatedByDefaultAsIdentity(
   start: Long,
   step: Long): DeltaColumnBuilder
 ```
 
+1. Uses the defaults
+
 Sets the following:
 
-Property | Value
--|-
-[identityStart](#identityStart) | `start`
-[identityStep](#identityStep) | `step`
-[identityAllowExplicitInsert](#identityAllowExplicitInsert) | `true`
+Property | Value | Default Value
+-|-|-
+[identityStart](#identityStart) | `start` | 1
+[identityStep](#identityStep) | `step` | 1
+[identityAllowExplicitInsert](#identityAllowExplicitInsert) | `true` | (undefined)
 
 ### nullable { #nullable }
 

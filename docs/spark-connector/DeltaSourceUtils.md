@@ -19,9 +19,7 @@ Used when:
 
 ## <span id="IDENTITY_INFO_ALLOW_EXPLICIT_INSERT"> delta.identity.allowExplicitInsert { #delta.identity.allowExplicitInsert }
 
-`DeltaSourceUtils` defines `delta.identity.allowExplicitInsert` metadata key for...FIXME
-
-Used when:
+`delta.identity.allowExplicitInsert` metadata key is used when:
 
 * `ColumnWithDefaultExprUtils` utility is used to [isIdentityColumn](../ColumnWithDefaultExprUtils.md#isIdentityColumn) and [removeDefaultExpressions](../ColumnWithDefaultExprUtils.md#removeDefaultExpressions)
 
@@ -29,8 +27,16 @@ Used when:
 
 `delta.identity.start` table metadata key is used when:
 
-* `DeltaColumnBuilder` is requested to [build a StructField](../DeltaColumnBuilder.md#build) (with [identityAllowExplicitInsert](../DeltaColumnBuilder.md#identityAllowExplicitInsert) defined)
 * `ColumnWithDefaultExprUtils` is used to [isIdentityColumn](../ColumnWithDefaultExprUtils.md#isIdentityColumn) and [removeDefaultExpressions](../ColumnWithDefaultExprUtils.md#removeDefaultExpressions)
+* `DeltaColumnBuilder` is requested to [build a StructField](../DeltaColumnBuilder.md#build) (with [identityAllowExplicitInsert](../DeltaColumnBuilder.md#identityAllowExplicitInsert) defined)
+* `IdentityColumn` is used to [getIdentityInfo](../identity-columns/IdentityColumn.md#getIdentityInfo)
+
+## <span id="IDENTITY_INFO_HIGHWATERMARK"> delta.identity.highWaterMark { #delta.identity.highWaterMark }
+
+`delta.identity.highWaterMark` table metadata key is used when:
+
+* `ColumnWithDefaultExprUtils` is used to [removeDefaultExpressions](../ColumnWithDefaultExprUtils.md#removeDefaultExpressions)
+* `IdentityColumn` is requested to [getIdentityInfo](../identity-columns/IdentityColumn.md#getIdentityInfo) and [updateToValidHighWaterMark](../identity-columns/IdentityColumn.md#updateToValidHighWaterMark)
 
 ## <span id="IDENTITY_INFO_STEP"> delta.identity.step { #delta.identity.step }
 
