@@ -28,22 +28,22 @@ import io.delta.tables.DeltaColumnBuilder
 
 ## Operators
 
-### <span id="build"> build
+### Build StructField { #build }
 
 ```scala
 build(): StructField
 ```
 
-Creates a `StructField` ([Spark SQL]({{ book.spark_sql }}/types/StructField))
+Creates a `StructField` ([Spark SQL]({{ book.spark_sql }}/types/StructField)) (possibly with some field metadata)
 
-### <span id="comment"> comment
+### comment { #comment }
 
 ```scala
 comment(
   comment: String): DeltaColumnBuilder
 ```
 
-### <span id="dataType"> dataType
+### dataType { #dataType }
 
 ```scala
 dataType(
@@ -52,7 +52,7 @@ dataType(
   dataType: String): DeltaColumnBuilder
 ```
 
-### <span id="generatedAlwaysAs"> generatedAlwaysAs
+### generatedAlwaysAs { #generatedAlwaysAs }
 
 ```scala
 generatedAlwaysAs(
@@ -61,14 +61,46 @@ generatedAlwaysAs(
 
 Registers the [Generation Expression](#generationExpr) of this field
 
-### <span id="nullable"> nullable
+### generatedAlwaysAsIdentity { #generatedAlwaysAsIdentity }
+
+```scala
+generatedAlwaysAsIdentity(
+  start: Long,
+  step: Long): DeltaColumnBuilder
+```
+
+Sets the following:
+
+Property | Value
+-|-
+[identityStart](#identityStart) | `start`
+[identityStep](#identityStep) | `step`
+[identityAllowExplicitInsert](#identityAllowExplicitInsert) | `false`
+
+### generatedByDefaultAsIdentity { #generatedByDefaultAsIdentity }
+
+```scala
+generatedByDefaultAsIdentity(
+  start: Long,
+  step: Long): DeltaColumnBuilder
+```
+
+Sets the following:
+
+Property | Value
+-|-
+[identityStart](#identityStart) | `start`
+[identityStep](#identityStep) | `step`
+[identityAllowExplicitInsert](#identityAllowExplicitInsert) | `true`
+
+### nullable { #nullable }
 
 ```scala
 nullable(
   nullable: Boolean): DeltaColumnBuilder
 ```
 
-## <span id="generationExpr"> Generation Expression
+## Generation Expression { #generationExpr }
 
 ```scala
 generationExpr: Option[String] = None
@@ -77,3 +109,18 @@ generationExpr: Option[String] = None
 `DeltaColumnBuilder` uses `generationExpr` internal registry for the [generatedAlwaysAs](#generatedAlwaysAs) expression.
 
 When requested to [build a StructField](#build), `DeltaColumnBuilder` registers `generationExpr` under [delta.generationExpression](spark-connector/DeltaSourceUtils.md#GENERATION_EXPRESSION_METADATA_KEY) key in the metadata (of this field).
+
+## identityAllowExplicitInsert { #identityAllowExplicitInsert }
+
+```scala
+identityAllowExplicitInsert: Option[Boolean] = None
+```
+
+`identityAllowExplicitInsert` flag is used to indicate a call to the following methods:
+
+Method | Value
+-|-
+[generatedAlwaysAsIdentity](#generatedAlwaysAsIdentity) | `false`
+[generatedByDefaultAsIdentity](#generatedByDefaultAsIdentity) | `true`
+
+`identityAllowExplicitInsert` is used to [build a StructField](#build).

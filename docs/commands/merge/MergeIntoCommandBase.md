@@ -108,6 +108,15 @@ Used when:
 
 * `MergeIntoCommandBase` is requested to [run](#run)
 
+### checkIdentityColumnHighWaterMarks { #checkIdentityColumnHighWaterMarks }
+
+```scala
+checkIdentityColumnHighWaterMarks(
+  deltaTxn: OptimisticTransaction): Unit
+```
+
+`checkIdentityColumnHighWaterMarks`...FIXME
+
 ## Implementations
 
 * [MergeIntoCommand](MergeIntoCommand.md)

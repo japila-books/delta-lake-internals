@@ -7,7 +7,7 @@
     IDENTITY column is not supported
     ```
 
-## <span id="IDENTITY_MIN_WRITER_VERSION"> IDENTITY_MIN_WRITER_VERSION
+## IDENTITY_MIN_WRITER_VERSION { #IDENTITY_MIN_WRITER_VERSION }
 
 `ColumnWithDefaultExprUtils` uses `6` as the [minimum version of a writer](Protocol.md#minWriterVersion) for writing to `IDENTITY` columns.
 
@@ -16,7 +16,7 @@
 * `ColumnWithDefaultExprUtils` is used to [satisfyProtocol](#satisfyProtocol)
 * `Protocol` utility is used to [determine the required minimum protocol](Protocol.md#requiredMinimumProtocol)
 
-## <span id="columnHasDefaultExpr"> columnHasDefaultExpr
+## columnHasDefaultExpr { #columnHasDefaultExpr }
 
 ```scala
 columnHasDefaultExpr(
@@ -30,7 +30,7 @@ columnHasDefaultExpr(
 
 * `DeltaAnalysis` logical resolution rule is requested to `resolveQueryColumnsByName`
 
-## <span id="hasIdentityColumn"> hasIdentityColumn
+## hasIdentityColumn { #hasIdentityColumn }
 
 ```scala
 hasIdentityColumn(
@@ -43,41 +43,50 @@ hasIdentityColumn(
 
 * `Protocol` utility is used for the [required minimum protocol](Protocol.md#requiredMinimumProtocol)
 
-## <span id="isIdentityColumn"> isIdentityColumn
+## isIdentityColumn { #isIdentityColumn }
 
 ```scala
 isIdentityColumn(
   field: StructField): Boolean
 ```
 
-`isIdentityColumn` uses the `Metadata` (of the given `StructField`) to check the existence of [delta.identity.start](spark-connector/DeltaSourceUtils.md#IDENTITY_INFO_START), [delta.identity.step](spark-connector/DeltaSourceUtils.md#IDENTITY_INFO_STEP) and [delta.identity.allowExplicitInsert](spark-connector/DeltaSourceUtils.md#IDENTITY_INFO_ALLOW_EXPLICIT_INSERT) metadata keys.
+`isIdentityColumn` is used to find out whether a `StructField` is an [identity column](identity-columns/index.md) or not.
 
-!!! note "IDENTITY column"
-    **IDENTITY column** is a column with [delta.identity.start](spark-connector/DeltaSourceUtils.md#IDENTITY_INFO_START), [delta.identity.step](spark-connector/DeltaSourceUtils.md#IDENTITY_INFO_STEP) and [delta.identity.allowExplicitInsert](spark-connector/DeltaSourceUtils.md#IDENTITY_INFO_ALLOW_EXPLICIT_INSERT) metadata.
+`isIdentityColumn` uses the `Metadata` (of the given `StructField`) to check the existence of the following metadata keys:
+
+* [delta.identity.start](spark-connector/DeltaSourceUtils.md#IDENTITY_INFO_START)
+* [delta.identity.step](spark-connector/DeltaSourceUtils.md#IDENTITY_INFO_STEP)
+* [delta.identity.allowExplicitInsert](spark-connector/DeltaSourceUtils.md#IDENTITY_INFO_ALLOW_EXPLICIT_INSERT)
+
+---
 
 `isIdentityColumn` is used when:
 
-* `ColumnWithDefaultExprUtils` is used to [hasIdentityColumn](#hasIdentityColumn) and [removeDefaultExpressions](#removeDefaultExpressions)
+* `ColumnWithDefaultExprUtils` is used to [addDefaultExprsOrReturnConstraints](#addDefaultExprsOrReturnConstraints), [columnHasDefaultExpr](#columnHasDefaultExpr), [hasIdentityColumn](#hasIdentityColumn) and [removeDefaultExpressions](#removeDefaultExpressions)
+* `IdentityColumn` is requested to [blockExplicitIdentityColumnInsert](identity-columns/IdentityColumn.md#blockExplicitIdentityColumnInsert), [getIdentityColumns](identity-columns/IdentityColumn.md#getIdentityColumns), [syncIdentity](identity-columns/IdentityColumn.md#syncIdentity), [updateSchema](identity-columns/IdentityColumn.md#updateSchema), [updateToValidHighWaterMark](identity-columns/IdentityColumn.md#updateToValidHighWaterMark)
+* `DeltaCatalog` is requested to [alterTable](DeltaCatalog.md#alterTable) and [createDeltaTable](DeltaCatalog.md#createDeltaTable)
+* `MergeIntoCommandBase` is requested to [checkIdentityColumnHighWaterMarks](commands/merge/MergeIntoCommandBase.md#checkIdentityColumnHighWaterMarks)
+* `WriteIntoDelta` is requested to [writeAndReturnCommitData](commands/WriteIntoDelta.md#writeAndReturnCommitData)
 
-## <span id="removeDefaultExpressions"> Removing Default Expressions
+## Remove Default Expressions from Table Schema { #removeDefaultExpressions }
 
 ```scala
 removeDefaultExpressions(
   schema: StructType,
-  keepGeneratedColumns: Boolean = false): StructType
+  keepGeneratedColumns: Boolean = false,
+  keepIdentityColumns: Boolean = false): StructType
 ```
 
 `removeDefaultExpressions`...FIXME
 
+---
+
 `removeDefaultExpressions` is used when:
 
-* `DeltaLog` is requested to [create a BaseRelation](DeltaLog.md#createRelation) and [createDataFrame](DeltaLog.md#createDataFrame)
+* `DeltaTableUtils` is requested to [removeInternalWriterMetadata](DeltaTableUtils.md#removeInternalWriterMetadata)
 * `OptimisticTransactionImpl` is requested to [updateMetadataInternal](OptimisticTransactionImpl.md#updateMetadataInternal)
-* `DeltaTableV2` is requested for the [tableSchema](DeltaTableV2.md#tableSchema)
-* `DeltaDataSource` is requested for the [sourceSchema](spark-connector/DeltaDataSource.md#sourceSchema)
-* `DeltaSourceBase` is requested for the [schema](spark-connector/DeltaSource.md#schema)
 
-## <span id="tableHasDefaultExpr"> tableHasDefaultExpr
+## tableHasDefaultExpr { #tableHasDefaultExpr }
 
 ```scala
 tableHasDefaultExpr(
