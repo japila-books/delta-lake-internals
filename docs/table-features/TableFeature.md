@@ -8,9 +8,9 @@
 
 `TableFeature` takes the following to be created:
 
-* [name](#name)
-* <span id="minReaderVersion"> `minReaderVersion`
-* <span id="minWriterVersion"> `minWriterVersion`
+* [Name](#name)
+* <span id="minReaderVersion"> Minimum reader protocol version required
+* <span id="minWriterVersion"> Minimum writer protocol version required
 
 !!! note "Abstract Class"
     `TableFeature` is an abstract class and cannot be created directly. It is created indirectly for the [concrete TableFeatures](#implementations).
@@ -24,6 +24,8 @@ name: String
 The name of this table feature
 
 The name can only be a combination of letters, `-`s (dashes) and `_`s (underscores).
+
+---
 
 Used when:
 
@@ -55,7 +57,7 @@ Used when:
 
 ## Implementations
 
-* `LegacyWriterFeature`
+* [LegacyWriterFeature](LegacyWriterFeature.md)
 * [WriterFeature](WriterFeature.md)
 
 ??? note "Sealed Abstract Class"
@@ -69,20 +71,17 @@ allSupportedFeaturesMap: Map[String, TableFeature]
 
 `allSupportedFeaturesMap` is a collection of [TableFeature](TableFeature.md)s by their lower-case [name](#name):
 
-* `AllowColumnDefaultsTableFeature`
 * [AppendOnlyTableFeature](../append-only-tables/AppendOnlyTableFeature.md)
 * [ChangeDataFeedTableFeature](../change-data-feed/ChangeDataFeedTableFeature.md)
-* `CheckConstraintsTableFeature`
+* [CheckConstraintsTableFeature](../check-constraints/CheckConstraintsTableFeature.md)
 * [ClusteringTableFeature](../liquid-clustering/ClusteringTableFeature.md)
-* `ColumnMappingTableFeature`
+* [ColumnMappingTableFeature](../column-mapping/ColumnMappingTableFeature.md)
 * [DeletionVectorsTableFeature](../deletion-vectors/DeletionVectorsTableFeature.md)
 * [DomainMetadataTableFeature](DomainMetadataTableFeature.md)
-* `GeneratedColumnsTableFeature`
-* `IcebergCompatV1TableFeature`
-* `IcebergCompatV2TableFeature`
-* `InvariantsTableFeature`
-* `TimestampNTZTableFeature`
-* `V2CheckpointTableFeature`
+* [GeneratedColumnsTableFeature](../generated-columns/GeneratedColumnsTableFeature.md)
+* [IdentityColumnsTableFeature](../identity-columns/IdentityColumnsTableFeature.md)
+* [InvariantsTableFeature](../column-invariants/InvariantsTableFeature.md)
+* _others_
 
 ---
 
