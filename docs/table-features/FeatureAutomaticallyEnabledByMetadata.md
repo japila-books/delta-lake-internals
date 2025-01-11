@@ -21,6 +21,7 @@ See:
 * [AppendOnlyTableFeature](../append-only-tables/AppendOnlyTableFeature.md#metadataRequiresFeatureToBeEnabled)
 * [ChangeDataFeedTableFeature](../change-data-feed/ChangeDataFeedTableFeature.md#metadataRequiresFeatureToBeEnabled)
 * [DeletionVectorsTableFeature](../deletion-vectors/DeletionVectorsTableFeature.md#metadataRequiresFeatureToBeEnabled)
+* [IdentityColumnsTableFeature](../identity-columns/IdentityColumnsTableFeature.md#metadataRequiresFeatureToBeEnabled)
 * [RowTrackingFeature](../row-tracking/RowTrackingFeature.md#metadataRequiresFeatureToBeEnabled)
 
 Used when:
@@ -31,12 +32,12 @@ Used when:
 
 * [AppendOnlyTableFeature](../append-only-tables/AppendOnlyTableFeature.md)
 * [ChangeDataFeedTableFeature](../change-data-feed/ChangeDataFeedTableFeature.md)
-* `CheckConstraintsTableFeature`
-* `ColumnMappingTableFeature`
+* [CheckConstraintsTableFeature](../check-constraints/CheckConstraintsTableFeature.md)
+* [ColumnMappingTableFeature](../column-mapping/ColumnMappingTableFeature.md)
 * [DeletionVectorsTableFeature](../deletion-vectors/DeletionVectorsTableFeature.md)
-* `GeneratedColumnsTableFeature`
+* [GeneratedColumnsTableFeature](../generated-columns/GeneratedColumnsTableFeature.md)
 * `IcebergCompatV1TableFeature`
-* `InvariantsTableFeature`
+* [InvariantsTableFeature](../column-invariants/InvariantsTableFeature.md)
 * [RowTrackingFeature](../row-tracking/RowTrackingFeature.md)
 * `TimestampNTZTableFeature`
 

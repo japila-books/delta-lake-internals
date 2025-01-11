@@ -1,3 +1,7 @@
+---
+title: Invariants
+---
+
 # Invariants Utility
 
 ## <span id="INVARIANTS_FIELD"><span id="delta.invariants"> delta.invariants

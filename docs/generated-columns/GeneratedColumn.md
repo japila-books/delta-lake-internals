@@ -1,3 +1,7 @@
+---
+title: GeneratedColumn
+---
+
 # GeneratedColumn Utility
 
 `GeneratedColumn` is a utility for [Generated Columns](index.md).

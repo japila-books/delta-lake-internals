@@ -1,0 +1,3 @@
+# GeneratedColumnsTableFeature
+
+`GeneratedColumnsTableFeature` is...FIXME
