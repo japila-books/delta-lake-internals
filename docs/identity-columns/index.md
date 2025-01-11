@@ -2,6 +2,8 @@
 
 **Identity Columns** is a new feature in Delta Lake 3.3.0 that allows assigning unique values for each record writted out into a table (unless column values are provided explicitly).
 
+Identity Columns feature is enabled by default (using [spark.databricks.delta.identityColumn.enabled](../configuration-properties/index.md#spark.databricks.delta.identityColumn.enabled)).
+
 Identity Columns feature is supported by delta tables that meet one of the following requirements:
 
 * The tables must be on Writer Version 6

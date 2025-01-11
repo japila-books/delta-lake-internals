@@ -46,6 +46,10 @@
 
 [spark.databricks.delta.history.maxKeysPerList](index.md#history.maxKeysPerList)
 
+## <span id="DELTA_IDENTITY_COLUMN_ENABLED"> identityColumn.enabled { #identityColumn.enabled }
+
+[spark.databricks.delta.identityColumn.enabled](index.md#identityColumn.enabled)
+
 ## merge.deletionVectors.persistent { #MERGE_USE_PERSISTENT_DELETION_VECTORS }
 
 [spark.databricks.delta.merge.deletionVectors.persistent](index.md#merge.deletionVectors.persistent)

@@ -259,7 +259,19 @@ Used when:
 !!! note "Github Commit"
     The feature was added as part of [[SC-24567][DELTA] Add additional metrics to Describe Delta History]({{ delta.commit }}/54643efc07dfaa9028d228dcad6502d59e4bdb3a) commit.
 
-### <span id="import.batchSize.schemaInference"><span id="DELTA_IMPORT_BATCH_SIZE_SCHEMA_INFERENCE"> import.batchSize.schemaInference
+### <span id="DELTA_IDENTITY_COLUMN_ENABLED"><span id="spark.databricks.delta.identityColumn.enabled"> identityColumn.enabled { #identityColumn.enabled }
+
+**spark.databricks.delta.identityColumn.enabled**
+
+Enables [IDENTITY column](../identity-columns/index.md) support (writer table feature)
+
+Default: `true`
+
+Used when:
+
+* `OptimisticTransactionImpl` is requested to [updateMetadataInternal](../OptimisticTransactionImpl.md#updateMetadataInternal)
+
+### <span id="DELTA_IMPORT_BATCH_SIZE_SCHEMA_INFERENCE"> import.batchSize.schemaInference { #import.batchSize.schemaInference }
 
 **spark.databricks.delta.import.batchSize.schemaInference** (internal) is the number of files per batch for schema inference during [import](../commands/convert/ConvertToDeltaCommand.md#performConvert-schemaBatchSize).
 
