@@ -35,6 +35,38 @@ copySchemaWithMergedHighWaterMarks(
 * `CloneTableBase` is requested to [prepareSourceMetadata](../commands/clone/CloneTableBase.md#prepareSourceMetadata) (for [CreateDeltaTableCommand](../commands/create-table/CreateDeltaTableCommand.md))
 * `RestoreTableCommand` is [executed](../commands/restore/RestoreTableCommand.md#run)
 
+## Create Expression to Generate IDENTITY Values { #createIdentityColumnGenerationExpr }
+
+```scala
+createIdentityColumnGenerationExpr(
+  field: StructField): Expression
+```
+
+`createIdentityColumnGenerationExpr` creates a [GenerateIdentityValues](GenerateIdentityValues.md#apply) for the [IdentityInfo](#getIdentityInfo) for the given `StructField`.
+
+---
+
+`createIdentityColumnGenerationExpr` is used when:
+
+* `IdentityColumn` is requested to [createIdentityColumnGenerationExprAsColumn](#createIdentityColumnGenerationExprAsColumn)
+* `PreprocessTableMerge` is requested to [resolveImplicitColumns](../PreprocessTableMerge.md#resolveImplicitColumns)
+
+## Create Column to Generate IDENTITY Values { #createIdentityColumnGenerationExprAsColumn }
+
+```scala
+createIdentityColumnGenerationExprAsColumn(
+  field: StructField): Column
+```
+
+`createIdentityColumnGenerationExprAsColumn` creates a `Column` ([Spark SQL]({{ book.spark_sql }}/Column)) with a [GenerateIdentityValues](#createIdentityColumnGenerationExpr) expression for the given `StructField`.
+
+---
+
+`createIdentityColumnGenerationExprAsColumn` is used when:
+
+* `ColumnWithDefaultExprUtils` is requested to [addDefaultExprsOrReturnConstraints](../ColumnWithDefaultExprUtils.md#addDefaultExprsOrReturnConstraints)
+* `WriteIntoDelta` is requested to [writeAndReturnCommitData](../commands/WriteIntoDelta.md#writeAndReturnCommitData)
+
 ## getIdentityColumns { #getIdentityColumns }
 
 ```scala
