@@ -7,7 +7,7 @@ repo_name: delta-lake-internals
 repo_url: https://github.com/japila-books/delta-lake-internals
 edit_uri: edit/main/docs/
 
-copyright: Copyright &copy; 2024-2025 Jacek Laskowski
+copyright: Copyright &copy; 2025 Jacek Laskowski
 
 theme:
   name: material
@@ -20,6 +20,8 @@ theme:
     - content.code.annotate
     # https://squidfunk.github.io/mkdocs-material/upgrade/#contentcodecopy
     - content.code.copy
+    # https://squidfunk.github.io/mkdocs-material/reference/content-tabs/#linked-content-tabs
+    - content.tabs.link
     - content.tooltips
     - navigation.indexes
     - navigation.instant
@@ -32,19 +34,22 @@ theme:
     - search.highlight
     - search.share
     - search.suggest
+    - toc.follow
   palette:
-    - scheme: default
-      primary: indigo
-      accent: indigo
+    - media: "(prefers-color-scheme)"
       toggle:
-        icon: material/toggle-switch-off-outline
-        name: Switch to dark mode
-    - scheme: slate
-      primary: blue
-      accent: blue
-      toggle:
-        icon: material/toggle-switch
+        icon: material/brightness-auto
         name: Switch to light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      toggle:
+        icon: material/brightness-4
+        name: Switch to system preference
 
 markdown_extensions:
   - admonition
@@ -74,13 +79,13 @@ markdown_extensions:
   - pymdownx.tilde
 
 plugins:
-  - search
-  - minify:
-      minify_html: true
   - awesome-pages
   - macros
   # https://squidfunk.github.io/mkdocs-material/reference/#built-in-meta-plugin
   - meta
+  - minify:
+      minify_html: true
+  - search
   # https://squidfunk.github.io/mkdocs-material/setup/setting-up-tags/
   - tags:
       enabled: !ENV [CI, false]
@@ -100,9 +105,9 @@ extra:
     structured_streaming: https://books.japila.pl/spark-structured-streaming-internals
     spark_core: https://books.japila.pl/apache-spark-internals
   delta:
-    version: 3.3.0
+    version: 4.0.0
     blog: https://delta.io/blog
-    github: https://github.com/delta-io/delta/blob/v3.3.0
+    github: https://github.com/delta-io/delta/blob/v4.0.0
     commit: https://github.com/delta-io/delta/commit
     issues: https://github.com/delta-io/delta/issues
     databricks: https://docs.databricks.com/delta
@@ -110,9 +115,9 @@ extra:
     version: 16.0.1
     api: https://guava.dev/releases/16.0.1/api/docs
   hadoop:
-    version: 3.3.4
-    docs: https://hadoop.apache.org/docs/r3.3.4
-    api: https://hadoop.apache.org/docs/r3.3.4/api
+    version: 3.4.0
+    docs: https://hadoop.apache.org/docs/r3.4.0
+    api: https://hadoop.apache.org/docs/r3.4.0/api
   jackson:
     github: https://github.com/FasterXML/jackson
     scala: https://github.com/FasterXML/jackson-module-scala
@@ -121,6 +126,7 @@ extra:
   s3:
     api: https://docs.aws.amazon.com/AmazonS3/latest/API
   scala:
+    version: 2.13.13
     api: https://www.scala-lang.org/api/2.13.13
     docs: https://docs.scala-lang.org/
     spec: https://www.scala-lang.org/files/archive/spec/2.13
@@ -129,13 +135,19 @@ extra:
       link: https://github.com/jaceklaskowski
     - icon: fontawesome/brands/bluesky
       link: https://bsky.app/profile/books.japila.pl
+    - icon: fontawesome/brands/twitter
+      link: https://twitter.com/jaceklaskowski
     - icon: fontawesome/brands/linkedin
       link: https://linkedin.com/in/jaceklaskowski
     - icon: fontawesome/brands/medium
       link: https://jaceklaskowski.medium.com
+    - icon: fontawesome/brands/mastodon
+      link: https://fosstodon.org/@jaceklaskowski
   spark:
-    version: 3.5.3
-    docs: https://spark.apache.org/docs/3.5.3
+    # -DsparkVersion=master that gives SPARK_MASTER_VERSION
+    # https://github.com/delta-io/delta/blob/v4.0.0/build.sbt#L103-L126
+    version: 4.0.0
+    docs: https://spark.apache.org/docs/4.0.0
   # https://squidfunk.github.io/mkdocs-material/reference/#setting-the-page-status
   status:
     new: New in 3.0.0
@@ -143,6 +155,11 @@ extra:
   # https://squidfunk.github.io/mkdocs-material/setup/setting-up-tags/#tag-icons-and-identifiers
   tags:
     DeveloperApi: developerapi
+
+validation:
+  omitted_files: warn
+  absolute_links: warn
+  unrecognized_links: warn
 
 # The sections with ... use awesome-pages plugin
 # https://github.com/lukasgeiter/mkdocs-awesome-pages-plugin
