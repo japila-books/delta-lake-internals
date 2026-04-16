@@ -3,18 +3,18 @@ site_url: https://books.japila.pl/delta-lake-internals
 site_author: Jacek Laskowski
 site_description: Demystifying inner-workings of Delta Lake
 
-repo_name: delta-lake-internals
+repo_name: GitHub
 repo_url: https://github.com/japila-books/delta-lake-internals
 edit_uri: edit/main/docs/
 
-copyright: Copyright &copy; 2025 Jacek Laskowski
+copyright: Copyright &copy; 2025-26 Jacek Laskowski
 
 theme:
   name: material
   language: en
   icon:
     logo: material/book-open-page-variant
-    repo: fontawesome/brands/github
+    repo: material/github
   features:
     # https://squidfunk.github.io/mkdocs-material/reference/code-blocks/#adding-annotations
     - content.code.annotate
@@ -67,10 +67,15 @@ markdown_extensions:
   - pymdownx.emoji:
       emoji_index: !!python/name:material.extensions.emoji.twemoji
       emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
   - pymdownx.inlinehilite
   - pymdownx.magiclink
   - pymdownx.mark
   - pymdownx.smartsymbols
+  - pymdownx.snippets
   - pymdownx.superfences
   - pymdownx.tasklist:
       custom_checkbox: true
@@ -79,7 +84,8 @@ markdown_extensions:
   - pymdownx.tilde
 
 plugins:
-  - awesome-pages
+  # https://lukasgeiter.github.io/mkdocs-awesome-nav/migration-v3/
+  - awesome-nav
   - macros
   # https://squidfunk.github.io/mkdocs-material/reference/#built-in-meta-plugin
   - meta
@@ -105,9 +111,9 @@ extra:
     structured_streaming: https://books.japila.pl/spark-structured-streaming-internals
     spark_core: https://books.japila.pl/apache-spark-internals
   delta:
-    version: 4.0.0
+    version: 4.2.0
     blog: https://delta.io/blog
-    github: https://github.com/delta-io/delta/blob/v4.0.0
+    github: https://github.com/delta-io/delta/blob/v4.2.0
     commit: https://github.com/delta-io/delta/commit
     issues: https://github.com/delta-io/delta/issues
     databricks: https://docs.databricks.com/delta
@@ -115,9 +121,10 @@ extra:
     version: 16.0.1
     api: https://guava.dev/releases/16.0.1/api/docs
   hadoop:
-    version: 3.4.0
-    docs: https://hadoop.apache.org/docs/r3.4.0
-    api: https://hadoop.apache.org/docs/r3.4.0/api
+    # https://github.com/delta-io/delta/blob/v4.2.0/build.sbt#L57
+    version: 3.4.2
+    docs: https://hadoop.apache.org/docs/r3.4.2
+    api: https://hadoop.apache.org/docs/r3.4.2/api
   jackson:
     github: https://github.com/FasterXML/jackson
     scala: https://github.com/FasterXML/jackson-module-scala
@@ -126,8 +133,9 @@ extra:
   s3:
     api: https://docs.aws.amazon.com/AmazonS3/latest/API
   scala:
-    version: 2.13.13
-    api: https://www.scala-lang.org/api/2.13.13
+    # https://github.com/delta-io/delta/blob/v4.2.0/build.sbt#L31
+    version: 2.13.17
+    api: https://www.scala-lang.org/api/2.13.17
     docs: https://docs.scala-lang.org/
     spec: https://www.scala-lang.org/files/archive/spec/2.13
   social:
@@ -144,10 +152,9 @@ extra:
     - icon: fontawesome/brands/mastodon
       link: https://fosstodon.org/@jaceklaskowski
   spark:
-    # -DsparkVersion=master that gives SPARK_MASTER_VERSION
-    # https://github.com/delta-io/delta/blob/v4.0.0/build.sbt#L103-L126
-    version: 4.0.0
-    docs: https://spark.apache.org/docs/4.0.0
+    # https://github.com/delta-io/delta/blob/v4.2.0/project/CrossSparkVersions.scala#L301
+    version: 4.1.0
+    docs: https://spark.apache.org/docs/4.1.0
   # https://squidfunk.github.io/mkdocs-material/reference/#setting-the-page-status
   status:
     new: New in 3.0.0
@@ -161,208 +168,5 @@ validation:
   absolute_links: warn
   unrecognized_links: warn
 
-# The sections with ... use awesome-pages plugin
-# https://github.com/lukasgeiter/mkdocs-awesome-pages-plugin
-# Review .pages for setup
-nav:
-  - index.md
-  - Features:
-    - features/index.md
-    - ... | append-only-tables/**.md
-    - ... | auto-compaction/**.md
-    - ... | change-data-feed/**.md
-    - ... | table-valued-functions/**.md
-    - ... | check-constraints/**.md
-    - ... | checkpoints/**.md
-    - ... | column-invariants/**.md
-    - ... | column-mapping/**.md
-    - ... | column-statistics/**.md
-    - ... | configuration-properties/**.md
-    - ... | data-skipping/**.md
-    - ... | deletion-vectors/**.md
-    - developer-api.md
-    - ... | dynamic-partition-overwrite/**.md
-    - ... | generated-columns/**.md
-    - ... | identity-columns/**.md
-    - installation.md
-    - ... | liquid-clustering/**.md
-    - ... | log-cleanup/**.md
-    - LIMIT Pushdown:
-      - limit-pushdown/index.md
-    - Logging: logging.md
-    - ... | post-commit-hooks/**.md
-    - ... | row-tracking/**.md
-    - ... | spark-connector/**.md
-    - ... | storage/**.md
-    - ... | constraints/**.md
-    - ... | table-features/**.md
-    - ... | table-properties/**.md
-    - ... | time-travel/**.md
-    - ... | uniform/**.md
-  - Internals:
-    - Actions:
-      - Action: Action.md
-      - AddCDCFile: AddCDCFile.md
-      - AddFile: AddFile.md
-      - CommitInfo: CommitInfo.md
-      - DomainMetadata: DomainMetadata.md
-      - FileAction: FileAction.md
-      - Metadata: Metadata.md
-      - Protocol: Protocol.md
-      - RemoveFile: RemoveFile.md
-      - SetTransaction: SetTransaction.md
-      - SingleAction: SingleAction.md
-    - DelayedCommitProtocol.md
-    - DeltaErrorsBase.md
-    - DeltaTableIdentifier: DeltaTableIdentifier.md
-    - FileFormat:
-      - DeltaFileFormat: DeltaFileFormat.md
-      - DeltaParquetFileFormat: DeltaParquetFileFormat.md
-    - Transaction Log (DeltaLog):
-      - DeltaLog: DeltaLog.md
-      - Operation: Operation.md
-      - ReadChecksum: ReadChecksum.md
-      - SnapshotManagement: SnapshotManagement.md
-      - SnapshotDescriptor.md
-      - SnapshotStateManager: SnapshotStateManager.md
-      - VerifyChecksum: VerifyChecksum.md
-    - Optimistic Transactions:
-      - OptimisticTransaction: OptimisticTransaction.md
-      - OptimisticTransactionImpl: OptimisticTransactionImpl.md
-      - TransactionalWrite: TransactionalWrite.md
-      - IsolationLevel: IsolationLevel.md
-    - State Snapshot:
-      - Snapshot: Snapshot.md
-      - State.md
-      - InitialSnapshot.md
-      - InMemoryLogReplay: InMemoryLogReplay.md
-      - PartitionFiltering: PartitionFiltering.md
-      - LogSegment: LogSegment.md
-    - DeltaHistoryManager: DeltaHistoryManager.md
-    - FileNames: FileNames.md
-    - Spark SQL Extensions:
-      - AppendDelta: AppendDelta.md
-      - CheckUnresolvedRelationTimeTravel: CheckUnresolvedRelationTimeTravel.md
-      - DeltaAnalysis: DeltaAnalysis.md
-      - DeltaCatalog: DeltaCatalog.md
-      - DeltaSparkSessionExtension: DeltaSparkSessionExtension.md
-      - DeltaTableV2: DeltaTableV2.md
-      - DeltaUnsupportedOperationsCheck: DeltaUnsupportedOperationsCheck.md
-      - PostHocResolveUpCast: PostHocResolveUpCast.md
-      - PreprocessTableDelete: PreprocessTableDelete.md
-      - PreprocessTableMerge: PreprocessTableMerge.md
-      - PreprocessTableUpdate: PreprocessTableUpdate.md
-      - PreprocessTimeTravel: PreprocessTimeTravel.md
-      - ResolveDeltaPathTable: ResolveDeltaPathTable.md
-      - StagedDeltaTableV2: StagedDeltaTableV2.md
-    - File Indices:
-      - SupportsRowIndexFilters.md
-      - TahoeFileIndex: TahoeFileIndex.md
-      - TahoeBatchFileIndex: TahoeBatchFileIndex.md
-      - TahoeFileIndexWithSnapshotDescriptor: TahoeFileIndexWithSnapshotDescriptor.md
-      - TahoeLogFileIndex: TahoeLogFileIndex.md
-      - DeltaLogFileIndex: DeltaLogFileIndex.md
-    - WriteIntoDeltaBuilder: WriteIntoDeltaBuilder.md
-  - Developer API:
-    - DeltaTable: DeltaTable.md
-    - DeltaTableBuilder: DeltaTableBuilder.md
-    - DeltaColumnBuilder: DeltaColumnBuilder.md
-    - DeltaOptimizeBuilder: DeltaOptimizeBuilder.md
-    - Exceptions:
-      - exceptions/index.md
-      - ConcurrentAppendException: exceptions/ConcurrentAppendException.md
-      - ConcurrentDeleteDeleteException: exceptions/ConcurrentDeleteDeleteException.md
-      - ConcurrentDeleteReadException: exceptions/ConcurrentDeleteReadException.md
-      - ConcurrentTransactionException: exceptions/ConcurrentTransactionException.md
-      - ConcurrentWriteException: exceptions/ConcurrentWriteException.md
-      - DeltaConcurrentModificationException: exceptions/DeltaConcurrentModificationException.md
-      - DeltaErrors: DeltaErrors.md
-      - MetadataChangedException: exceptions/MetadataChangedException.md
-      - ProtocolChangedException: exceptions/ProtocolChangedException.md
-    - LogStore: LogStore.md
-  - ... | sql/**.md
-  - Commands:
-    - commands/index.md
-    - commands/DeltaCommand.md
-    - ALTER TABLE:
-      - ... | flat | commands/alter/**.md
-    - CLONE:
-      - ... | flat | commands/clone/**.md
-    - CONVERT:
-      - ... | flat | commands/convert/**.md
-    - CREATE TABLE:
-      - ... | flat | commands/create-table/**.md
-    - CREATE TABLE LIKE:
-      - create-table-like/index.md
-    - DELETE:
-      - ... | flat | commands/delete/**.md
-    - DESCRIBE DETAIL:
-      - ... | flat | commands/describe-detail/**.md
-    - DESCRIBE HISTORY:
-      - ... | flat | commands/describe-history/**.md
-    - GENERATE:
-      - ... | flat | commands/generate/**.md
-    - MERGE:
-      - ... | flat | commands/merge/**.md
-    - OPTIMIZE:
-      - ... | flat | commands/optimize/**.md
-    - REORG:
-      - ... | flat | commands/reorg/**.md
-    - RESTORE:
-      - ... | flat | commands/restore/**.md
-    - SHOW COLUMNS:
-      - ... | flat | commands/show-columns/**.md
-    - UPDATE:
-      - ... | flat | commands/update/**.md
-    - VACUUM:
-      - ... | flat | commands/vacuum/**.md
-    - commands/WriteIntoDelta.md
-    - commands/WriteIntoDeltaLike.md
-  - Demos:
-    - demo/index.md
-    - Change Data Feed: demo/change-data-feed.md
-    - Generated Columns: demo/generated-columns.md
-    - Column Mapping: demo/column-mapping.md
-    - Rolling Back Table Changes (Restore Command): demo/rolling-back-table-changes-restore-command.md
-    - Optimize: demo/optimize.md
-    - Data Skipping: demo/data-skipping.md
-    - Time Travel: demo/time-travel.md
-    - Vacuum: demo/vacuum.md
-    - dataChange: demo/dataChange.md
-    - replaceWhere: demo/replaceWhere.md
-    - Merge Operation: demo/merge-operation.md
-    - Converting Parquet Dataset Into Delta Format: demo/Converting-Parquet-Dataset-Into-Delta-Format.md
-    - Stream Processing of Delta Table: demo/stream-processing-of-delta-table.md
-    - Using Delta Lake as Streaming Sink in Structured Streaming: demo/Using-Delta-Lake-as-Streaming-Sink-in-Structured-Streaming.md
-    - Debugging Delta Lake Using IntelliJ IDEA: demo/Debugging-Delta-Lake-Using-IntelliJ-IDEA.md
-    - Observing Transaction Retries: demo/Observing-Transaction-Retries.md
-    - DeltaTable, DeltaLog And Snapshots: demo/DeltaTable-DeltaLog-And-Snapshots.md
-    - Schema Evolution: demo/schema-evolution.md
-    - User Metadata for Labelling Commits: demo/user-metadata-for-labelling-commits.md
-  - Misc:
-    - ColumnWithDefaultExprUtils: ColumnWithDefaultExprUtils.md
-    - ConflictChecker: ConflictChecker.md
-    - CurrentTransactionInfo: CurrentTransactionInfo.md
-    - DeltaFileFormatWriter: DeltaFileFormatWriter.md
-    - DeltaFileOperations: DeltaFileOperations.md
-    - DeltaJobStatisticsTracker: DeltaJobStatisticsTracker.md
-    - DeltaOptimizedWriterExec: DeltaOptimizedWriterExec.md
-    - DeltaRelation: DeltaRelation.md
-    - DeltaTableOperations: DeltaTableOperations.md
-    - DeltaTableUtils: DeltaTableUtils.md
-    - DomainMetadataUtils: DomainMetadataUtils.md
-    - ImplicitMetadataOperation: ImplicitMetadataOperation.md
-    - JsonMetadataDomain: JsonMetadataDomain.md
-    - SchemaMergingUtils: SchemaMergingUtils.md
-    - SchemaUtils: SchemaUtils.md
-    - StateCache:
-      - StateCache: StateCache.md
-      - CachedDS: CachedDS.md
-    - StatisticsCollection: StatisticsCollection.md
-  - Monitoring:
-    - DeltaProgressReporter: DeltaProgressReporter.md
-    - DeltaLogging: DeltaLogging.md
-    - SQLMetricsReporting: SQLMetricsReporting.md
-  - ... | kernel/**.md
-  - Contenders:
-    - Contenders: contenders/index.md
+# nav section is in the separate file ".nav.yml" managed by Awesome Nav for MkDocs plugin
+# https://lukasgeiter.github.io/mkdocs-awesome-nav/features/nav/

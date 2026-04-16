@@ -1,0 +1,168 @@
+# https://lukasgeiter.github.io/mkdocs-awesome-nav/
+nav:
+  - index.md
+  - Features:
+    - features/index.md
+    - Append-Only Tables: append-only-tables
+    - Auto Compaction: auto-compaction
+    - Change Data Feed: change-data-feed
+    - CDF Table-Valued Functions: table-valued-functions
+    - CHECK Constraints: check-constraints
+    - Checkpoints: checkpoints
+    - Column Invariants: column-invariants
+    - Column Mapping: column-mapping
+    - Column Statistics: column-statistics
+    - Configuration Properties: configuration-properties
+    - Data Skipping: data-skipping
+    - Deletion Vectors: deletion-vectors
+    - developer-api.md
+    - Dynamic Partition Overwrite: dynamic-partition-overwrite
+    - Generated Columns: generated-columns
+    - Identity Columns: identity-columns
+    - installation.md
+    - Liquid Clustering: liquid-clustering
+    - Log Cleanup: log-cleanup
+    - LIMIT Pushdown:
+      - limit-pushdown/index.md
+    - Logging: logging.md
+    - Post-Commit Hooks: post-commit-hooks
+    - Row Tracking: row-tracking
+    - Spark Connector: spark-connector
+    - Storage: storage
+    - Table Constraints: constraints
+    - Table Features: table-features
+    - Table Properties: table-properties
+    - Time Travel: time-travel
+    - Universal Format (UniForm): uniform
+  - Internals:
+    - Actions:
+      - Action: Action.md
+      - AddCDCFile: AddCDCFile.md
+      - AddFile: AddFile.md
+      - CommitInfo: CommitInfo.md
+      - DomainMetadata: DomainMetadata.md
+      - FileAction: FileAction.md
+      - Metadata: Metadata.md
+      - Protocol: Protocol.md
+      - RemoveFile: RemoveFile.md
+      - SetTransaction: SetTransaction.md
+      - SingleAction: SingleAction.md
+    - DelayedCommitProtocol.md
+    - DeltaErrorsBase.md
+    - DeltaTableIdentifier: DeltaTableIdentifier.md
+    - FileFormat:
+      - DeltaFileFormat: DeltaFileFormat.md
+      - DeltaParquetFileFormat: DeltaParquetFileFormat.md
+    - Transaction Log (DeltaLog):
+      - DeltaLog: DeltaLog.md
+      - Operation: Operation.md
+      - ReadChecksum: ReadChecksum.md
+      - SnapshotManagement: SnapshotManagement.md
+      - SnapshotDescriptor.md
+      - SnapshotStateManager: SnapshotStateManager.md
+      - VerifyChecksum: VerifyChecksum.md
+    - Optimistic Transactions:
+      - OptimisticTransaction: OptimisticTransaction.md
+      - OptimisticTransactionImpl: OptimisticTransactionImpl.md
+      - TransactionalWrite: TransactionalWrite.md
+      - IsolationLevel: IsolationLevel.md
+    - State Snapshot:
+      - Snapshot: Snapshot.md
+      - State.md
+      - InitialSnapshot.md
+      - InMemoryLogReplay: InMemoryLogReplay.md
+      - PartitionFiltering: PartitionFiltering.md
+      - LogSegment: LogSegment.md
+    - DeltaHistoryManager: DeltaHistoryManager.md
+    - FileNames: FileNames.md
+    - Spark SQL Extensions:
+      - AppendDelta: AppendDelta.md
+      - CheckUnresolvedRelationTimeTravel: CheckUnresolvedRelationTimeTravel.md
+      - DeltaAnalysis: DeltaAnalysis.md
+      - DeltaCatalog: DeltaCatalog.md
+      - DeltaSparkSessionExtension: DeltaSparkSessionExtension.md
+      - DeltaTableV2: DeltaTableV2.md
+      - DeltaUnsupportedOperationsCheck: DeltaUnsupportedOperationsCheck.md
+      - PostHocResolveUpCast: PostHocResolveUpCast.md
+      - PreprocessTableDelete: PreprocessTableDelete.md
+      - PreprocessTableMerge: PreprocessTableMerge.md
+      - PreprocessTableUpdate: PreprocessTableUpdate.md
+      - PreprocessTimeTravel: PreprocessTimeTravel.md
+      - ResolveDeltaPathTable: ResolveDeltaPathTable.md
+      - StagedDeltaTableV2: StagedDeltaTableV2.md
+    - File Indices:
+      - SupportsRowIndexFilters.md
+      - TahoeFileIndex: TahoeFileIndex.md
+      - TahoeBatchFileIndex: TahoeBatchFileIndex.md
+      - TahoeFileIndexWithSnapshotDescriptor: TahoeFileIndexWithSnapshotDescriptor.md
+      - TahoeLogFileIndex: TahoeLogFileIndex.md
+      - DeltaLogFileIndex: DeltaLogFileIndex.md
+    - WriteIntoDeltaBuilder: WriteIntoDeltaBuilder.md
+  - Developer API:
+    - DeltaTable: DeltaTable.md
+    - DeltaTableBuilder: DeltaTableBuilder.md
+    - DeltaColumnBuilder: DeltaColumnBuilder.md
+    - DeltaOptimizeBuilder: DeltaOptimizeBuilder.md
+    - Exceptions:
+      - exceptions/index.md
+      - ConcurrentAppendException: exceptions/ConcurrentAppendException.md
+      - ConcurrentDeleteDeleteException: exceptions/ConcurrentDeleteDeleteException.md
+      - ConcurrentDeleteReadException: exceptions/ConcurrentDeleteReadException.md
+      - ConcurrentTransactionException: exceptions/ConcurrentTransactionException.md
+      - ConcurrentWriteException: exceptions/ConcurrentWriteException.md
+      - DeltaConcurrentModificationException: exceptions/DeltaConcurrentModificationException.md
+      - DeltaErrors: DeltaErrors.md
+      - MetadataChangedException: exceptions/MetadataChangedException.md
+      - ProtocolChangedException: exceptions/ProtocolChangedException.md
+    - LogStore: LogStore.md
+  - Delta SQL: sql
+  - Commands:
+    - commands/index.md
+    - commands/DeltaCommand.md
+    - ALTER TABLE: commands/alter
+    - CLONE: commands/clone
+    - CONVERT: commands/convert
+    - CREATE TABLE: commands/create-table
+    - CREATE TABLE LIKE:
+      - create-table-like/index.md
+    - DELETE: commands/delete
+    - DESCRIBE DETAIL: commands/describe-detail
+    - DESCRIBE HISTORY: commands/describe-history
+    - GENERATE: commands/generate
+    - MERGE: commands/merge
+    - OPTIMIZE: commands/optimize
+    - REORG: commands/reorg
+    - RESTORE: commands/restore
+    - SHOW COLUMNS: commands/show-columns
+    - UPDATE: commands/update
+    - VACUUM: commands/vacuum
+    - commands/WriteIntoDelta.md
+    - commands/WriteIntoDeltaLike.md
+  - Demos: demo
+  - Misc:
+    - ColumnWithDefaultExprUtils: ColumnWithDefaultExprUtils.md
+    - ConflictChecker: ConflictChecker.md
+    - CurrentTransactionInfo: CurrentTransactionInfo.md
+    - DeltaFileFormatWriter: DeltaFileFormatWriter.md
+    - DeltaFileOperations: DeltaFileOperations.md
+    - DeltaJobStatisticsTracker: DeltaJobStatisticsTracker.md
+    - DeltaOptimizedWriterExec: DeltaOptimizedWriterExec.md
+    - DeltaRelation: DeltaRelation.md
+    - DeltaTableOperations: DeltaTableOperations.md
+    - DeltaTableUtils: DeltaTableUtils.md
+    - DomainMetadataUtils: DomainMetadataUtils.md
+    - ImplicitMetadataOperation: ImplicitMetadataOperation.md
+    - JsonMetadataDomain: JsonMetadataDomain.md
+    - SchemaMergingUtils: SchemaMergingUtils.md
+    - SchemaUtils: SchemaUtils.md
+    - StateCache:
+      - StateCache: StateCache.md
+      - CachedDS: CachedDS.md
+    - StatisticsCollection: StatisticsCollection.md
+  - Monitoring:
+    - DeltaProgressReporter: DeltaProgressReporter.md
+    - DeltaLogging: DeltaLogging.md
+    - SQLMetricsReporting: SQLMetricsReporting.md
+  - Delta Kernel: kernel
+  - Contenders:
+    - Contenders: contenders/index.md
