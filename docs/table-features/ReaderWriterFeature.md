@@ -6,8 +6,17 @@
 
 ## Implementations
 
+* [CatalogOwnedTableFeature](../catalog-managed-tables/CatalogOwnedTableFeature.md)
 * [DeletionVectorsTableFeature](../deletion-vectors/DeletionVectorsTableFeature.md)
+* `RedirectReaderWriterFeature`
 * `TimestampNTZTableFeature`
+* `TypeWideningTableFeatureBase`
+* `V2CheckpointTableFeature`
+* [VacuumProtocolCheckTableFeature](VacuumProtocolCheckTableFeature.md)
+* `VariantShreddingPreviewTableFeature`
+* `VariantShreddingTableFeature`
+* `VariantTypePreviewTableFeature`
+* `VariantTypeTableFeature`
 
 ??? note "Sealed Abstract Class"
     `ReaderWriterFeature` is a Scala **sealed abstract class** which means that all of the implementations are in the same compilation unit (a single file).
