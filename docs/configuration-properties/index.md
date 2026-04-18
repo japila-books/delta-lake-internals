@@ -741,6 +741,20 @@ Used when:
 
 * [UpdateCommand](../commands/update/UpdateCommand.md) is executed (and [shouldWritePersistentDeletionVectors](../commands/update/UpdateCommand.md#shouldWritePersistentDeletionVectors))
 
+### <span id="DISABLE_VARIANT_TABLE_FEATURE_FOR_SPARK_40"> variant.disableVariantTableFeatureForSpark40 { #variant.disableVariantTableFeatureForSpark40 }
+
+**spark.databricks.delta.variant.disableVariantTableFeatureForSpark40**
+
+**(internal)** If `true`, disables support for the 'variantType' and 'variantType-preview' table features on Spark 4.0 clients.
+Spark 4.0 does not support the parquet variant logical type annotation, which causes interoperability issues with Spark 4.1+.
+
+Default: `false`
+
+Used when:
+
+* `DeltaLog` is requested to [protocolCheck](../DeltaLog.md#protocolCheck)
+* `AbstractDeltaCatalog` is requested to [setVariantBlockingConfigIfUC](../AbstractDeltaCatalog.md#setVariantBlockingConfigIfUC)
+
 ### <span id="vacuum.parallelDelete.enabled"><span id="DELTA_VACUUM_PARALLEL_DELETE_ENABLED"> vacuum.parallelDelete.enabled
 
 **spark.databricks.delta.vacuum.parallelDelete.enabled** enables parallelizing the deletion of files during [vacuum](../commands/vacuum/index.md) command.

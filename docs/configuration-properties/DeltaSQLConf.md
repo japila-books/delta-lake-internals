@@ -46,7 +46,11 @@
 
 [spark.databricks.delta.history.maxKeysPerList](index.md#history.maxKeysPerList)
 
-## <span id="DELTA_IDENTITY_COLUMN_ENABLED"> identityColumn.enabled { #identityColumn.enabled }
+## variant.disableVariantTableFeatureForSpark40 { #DISABLE_VARIANT_TABLE_FEATURE_FOR_SPARK_40 }
+
+[spark.databricks.delta.variant.disableVariantTableFeatureForSpark40](index.md#variant.disableVariantTableFeatureForSpark40)
+
+## identityColumn.enabled { #DELTA_IDENTITY_COLUMN_ENABLED }
 
 [spark.databricks.delta.identityColumn.enabled](index.md#identityColumn.enabled)
 
