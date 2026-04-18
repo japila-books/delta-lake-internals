@@ -1609,11 +1609,19 @@
          <lastmod>2026-04-18</lastmod>
     </url>
     <url>
+         <loc>https://books.japila.pl/delta-lake-internals/table-features/InCommitTimestampTableFeature/</loc>
+         <lastmod>2026-04-18</lastmod>
+    </url>
+    <url>
          <loc>https://books.japila.pl/delta-lake-internals/table-features/LegacyWriterFeature/</loc>
          <lastmod>2026-04-18</lastmod>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/table-features/ReaderWriterFeature/</loc>
+         <lastmod>2026-04-18</lastmod>
+    </url>
+    <url>
+         <loc>https://books.japila.pl/delta-lake-internals/table-features/RemovableFeature/</loc>
          <lastmod>2026-04-18</lastmod>
     </url>
     <url>
@@ -1626,6 +1634,10 @@
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/table-features/TableFeatureSupport/</loc>
+         <lastmod>2026-04-18</lastmod>
+    </url>
+    <url>
+         <loc>https://books.japila.pl/delta-lake-internals/table-features/VacuumProtocolCheckTableFeature/</loc>
          <lastmod>2026-04-18</lastmod>
     </url>
     <url>
