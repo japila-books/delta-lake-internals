@@ -3,6 +3,8 @@ nav:
   - index.md
   - Features:
     - features/index.md
+    - Catalog-Managed Tables: catalog-managed-tables
+    - Coordinated Commits: coordinated-commits
     - Append-Only Tables: append-only-tables
     - Auto Compaction: auto-compaction
     - Change Data Feed: change-data-feed
