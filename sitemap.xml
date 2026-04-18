@@ -5,6 +5,10 @@
          <lastmod>2026-04-18</lastmod>
     </url>
     <url>
+         <loc>https://books.japila.pl/delta-lake-internals/AbstractDeltaCatalog/</loc>
+         <lastmod>2026-04-18</lastmod>
+    </url>
+    <url>
          <loc>https://books.japila.pl/delta-lake-internals/Action/</loc>
          <lastmod>2026-04-18</lastmod>
     </url>
@@ -18,6 +22,10 @@
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/AppendDelta/</loc>
+         <lastmod>2026-04-18</lastmod>
+    </url>
+    <url>
+         <loc>https://books.japila.pl/delta-lake-internals/ApplyV2Streaming/</loc>
          <lastmod>2026-04-18</lastmod>
     </url>
     <url>
@@ -302,6 +310,10 @@
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/StatisticsCollection/</loc>
+         <lastmod>2026-04-18</lastmod>
+    </url>
+    <url>
+         <loc>https://books.japila.pl/delta-lake-internals/SupportsPathIdentifier/</loc>
          <lastmod>2026-04-18</lastmod>
     </url>
     <url>
@@ -1166,6 +1178,14 @@
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/deletion-vectors/TouchedFileWithDV/</loc>
+         <lastmod>2026-04-18</lastmod>
+    </url>
+    <url>
+         <loc>https://books.japila.pl/delta-lake-internals/delta-spark-v2-connector/</loc>
+         <lastmod>2026-04-18</lastmod>
+    </url>
+    <url>
+         <loc>https://books.japila.pl/delta-lake-internals/delta-spark-v2-connector/SparkTable/</loc>
          <lastmod>2026-04-18</lastmod>
     </url>
     <url>
