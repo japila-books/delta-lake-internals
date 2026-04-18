@@ -110,6 +110,7 @@ extra:
     spark_sql: https://books.japila.pl/spark-sql-internals
     structured_streaming: https://books.japila.pl/spark-structured-streaming-internals
     spark_core: https://books.japila.pl/apache-spark-internals
+    unity_catalog: https://books.japila.pl/unity-catalog-internals
   delta:
     version: 4.2.0
     blog: https://delta.io/blog

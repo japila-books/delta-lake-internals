@@ -1,7 +1,22 @@
 # DeltaCatalog
 
-`DeltaCatalog` is a `DelegatingCatalogExtension` ([Spark SQL]({{ book.spark_sql }}/connector/catalog/DelegatingCatalogExtension/)) and a [StagingTableCatalog](#StagingTableCatalog).
+`DeltaCatalog` is an [AbstractDeltaCatalog](AbstractDeltaCatalog.md).
 
+## loadCatalogTable { #loadCatalogTable }
+
+??? note "AbstractDeltaCatalog"
+
+    ```java
+    Table loadCatalogTable(
+      Identifier ident,
+      CatalogTable catalogTable)
+    ```
+
+    `loadCatalogTable` is part of the [AbstractDeltaCatalog](AbstractDeltaCatalog.md#loadCatalogTable) abstraction.
+
+`loadCatalogTable`...FIXME
+
+<!--
 `DeltaCatalog` is [registered](installation.md) using `spark.sql.catalog.spark_catalog` ([Spark SQL]({{ book.spark_sql }}/configuration-properties/#spark.sql.catalog.spark_catalog)) configuration property.
 
 ## StagingTableCatalog { #StagingTableCatalog }
@@ -184,3 +199,4 @@ getProvider(
 `getProvider` is used when:
 
 * `DeltaCatalog` is requested to [createTable](#createTable), [stageReplace](#stageReplace), [stageCreateOrReplace](#stageCreateOrReplace) and [stageCreate](#stageCreate)
+-->

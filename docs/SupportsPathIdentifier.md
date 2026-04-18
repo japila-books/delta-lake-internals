@@ -1,0 +1,3 @@
+# SupportsPathIdentifier
+
+`SupportsPathIdentifier` is...FIXME

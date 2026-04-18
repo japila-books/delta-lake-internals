@@ -5,6 +5,7 @@ nav:
     - features/index.md
     - Catalog-Managed Tables: catalog-managed-tables
     - Coordinated Commits: coordinated-commits
+    - Delta Spark V2 Connector: delta-spark-v2-connector
     - Append-Only Tables: append-only-tables
     - Auto Compaction: auto-compaction
     - Change Data Feed: change-data-feed
@@ -37,6 +38,7 @@ nav:
     - Time Travel: time-travel
     - Universal Format (UniForm): uniform
   - Internals:
+    - AbstractDeltaCatalog.md
     - Actions:
       - Action: Action.md
       - AddCDCFile: AddCDCFile.md
@@ -50,6 +52,7 @@ nav:
       - SetTransaction: SetTransaction.md
       - SingleAction: SingleAction.md
     - DelayedCommitProtocol.md
+    - DeltaCatalog.md
     - DeltaErrorsBase.md
     - DeltaTableIdentifier: DeltaTableIdentifier.md
     - FileFormat:
@@ -81,7 +84,6 @@ nav:
       - AppendDelta: AppendDelta.md
       - CheckUnresolvedRelationTimeTravel: CheckUnresolvedRelationTimeTravel.md
       - DeltaAnalysis: DeltaAnalysis.md
-      - DeltaCatalog: DeltaCatalog.md
       - DeltaSparkSessionExtension: DeltaSparkSessionExtension.md
       - DeltaTableV2: DeltaTableV2.md
       - DeltaUnsupportedOperationsCheck: DeltaUnsupportedOperationsCheck.md
