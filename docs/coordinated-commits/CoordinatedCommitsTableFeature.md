@@ -1,0 +1,3 @@
+# CoordinatedCommitsTableFeature
+
+`CoordinatedCommitsTableFeature` is...FIXME

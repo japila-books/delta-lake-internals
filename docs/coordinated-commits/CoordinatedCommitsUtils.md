@@ -103,4 +103,6 @@ unbackfilledCommitsPresent(
 
 `unbackfilledCommitsPresent` is used when:
 
-* FIXME
+* `CoordinatedCommitsPreDowngradeCommand` is requested to [removeFeatureTracesIfNeeded](CoordinatedCommitsPreDowngradeCommand.md#removeFeatureTracesIfNeeded)
+* `CatalogOwnedTableFeature` is requested to [validateDropInvariants](../catalog-managed-tables/CatalogOwnedTableFeature.md#validateDropInvariants)
+* `CoordinatedCommitsTableFeature` is requested to [validateDropInvariants](CoordinatedCommitsTableFeature.md#validateDropInvariants)

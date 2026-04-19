@@ -44,3 +44,13 @@ executeDropFeatureWithHistoryTruncation(
 ```
 
 `executeDropFeatureWithHistoryTruncation`...FIXME
+
+### executeDropFeatureWithCheckpointProtection { #executeDropFeatureWithCheckpointProtection }
+
+```scala
+executeDropFeatureWithCheckpointProtection(
+  sparkSession: SparkSession,
+  removableFeature: TableFeature with RemovableFeature): Seq[Row]
+```
+
+`executeDropFeatureWithCheckpointProtection`...FIXME
