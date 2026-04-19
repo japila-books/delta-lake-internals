@@ -1045,6 +1045,14 @@
          <lastmod>2026-04-19</lastmod>
     </url>
     <url>
+         <loc>https://books.japila.pl/delta-lake-internals/coordinated-commits/CoordinatedCommitsPreDowngradeCommand/</loc>
+         <lastmod>2026-04-19</lastmod>
+    </url>
+    <url>
+         <loc>https://books.japila.pl/delta-lake-internals/coordinated-commits/CoordinatedCommitsTableFeature/</loc>
+         <lastmod>2026-04-19</lastmod>
+    </url>
+    <url>
          <loc>https://books.japila.pl/delta-lake-internals/coordinated-commits/CoordinatedCommitsUtils/</loc>
          <lastmod>2026-04-19</lastmod>
     </url>
@@ -1642,6 +1650,10 @@
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/table-features/LegacyWriterFeature/</loc>
+         <lastmod>2026-04-19</lastmod>
+    </url>
+    <url>
+         <loc>https://books.japila.pl/delta-lake-internals/table-features/PreDowngradeTableFeatureCommand/</loc>
          <lastmod>2026-04-19</lastmod>
     </url>
     <url>
