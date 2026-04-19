@@ -6,6 +6,28 @@ title: RemovableFeature
 
 `RemovableFeature` is an [extension](#contract) of the [TableFeature](TableFeature.md) abstraction for [table features](#implementations) that can be removed.
 
+## Contract (Subset)
+
+### validateDropInvariants { #validateDropInvariants }
+
+```scala
+validateDropInvariants(
+  table: DeltaTableV2,
+  snapshot: Snapshot): Boolean
+```
+
+See:
+
+* [CatalogOwnedTableFeature](../catalog-managed-tables/CatalogOwnedTableFeature.md#validateDropInvariants)
+
+Used when:
+
+* `ColumnMappingPreDowngradeCommand` is requested to [removeFeatureTracesIfNeeded](../ColumnMappingPreDowngradeCommand.md#removeFeatureTracesIfNeeded)
+* `DeletionVectorsPreDowngradeCommand` is requested to [removeFeatureTracesIfNeeded](../deletion-vectors/DeletionVectorsPreDowngradeCommand.md#removeFeatureTracesIfNeeded)
+* ... (_other commands_)
+* `TableFeature` is requested to [validateFeatureRemovalAtSnapshot](TableFeature.md#validateFeatureRemovalAtSnapshot)
+* `AlterTableDropFeatureDeltaCommand` is requested to [executeDropFeatureWithCheckpointProtection](../commands/alter/AlterTableDropFeatureDeltaCommand.md#executeDropFeatureWithCheckpointProtection) and [executeDropFeatureWithHistoryTruncation](../commands/alter/AlterTableDropFeatureDeltaCommand.md#executeDropFeatureWithHistoryTruncation)
+
 ## Implementations
 
 * [CatalogOwnedTableFeature](../catalog-managed-tables/CatalogOwnedTableFeature.md)

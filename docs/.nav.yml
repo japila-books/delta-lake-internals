@@ -51,6 +51,7 @@ nav:
       - RemoveFile: RemoveFile.md
       - SetTransaction: SetTransaction.md
       - SingleAction: SingleAction.md
+    - ColumnMappingPreDowngradeCommand.md
     - DelayedCommitProtocol.md
     - DeltaCatalog.md
     - DeltaErrorsBase.md

@@ -1,0 +1,3 @@
+# DeletionVectorsPreDowngradeCommand
+
+`DeletionVectorsPreDowngradeCommand` is...FIXME

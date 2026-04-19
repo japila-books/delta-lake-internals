@@ -89,3 +89,18 @@ getCoordinatedCommitsConfs(
 `getCoordinatedCommitsConfs` is used when:
 
 * `OptimisticTransactionImpl` is requested to [registerTableForCoordinatedCommitsIfNeeded](../OptimisticTransactionImpl.md#registerTableForCoordinatedCommitsIfNeeded)
+
+## unbackfilledCommitsPresent { #unbackfilledCommitsPresent }
+
+```scala
+unbackfilledCommitsPresent(
+  snapshot: Snapshot): Boolean
+```
+
+`unbackfilledCommitsPresent` is enabled (`true`) when there are [unbackfilled delta files](../FileNames.md#UnbackfilledDeltaFile) (files in `_staged_commits` directory).
+
+---
+
+`unbackfilledCommitsPresent` is used when:
+
+* FIXME

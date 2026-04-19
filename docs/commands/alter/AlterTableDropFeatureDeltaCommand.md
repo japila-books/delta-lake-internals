@@ -1,0 +1,3 @@
+# AlterTableDropFeatureDeltaCommand
+
+`AlterTableDropFeatureDeltaCommand` is...FIXME
