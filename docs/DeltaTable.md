@@ -195,7 +195,19 @@ delete(
 
 [Executes DeleteFromTable command](DeltaTableOperations.md#executeDelete)
 
-### <span id="generate"> generate
+### dropFeatureSupport { #dropFeatureSupport }
+
+```scala
+dropFeatureSupport(
+  featureName: String): Unit
+dropFeatureSupport(
+  featureName: String,
+  truncateHistory: Boolean): Unit
+```
+
+[Executes the AlterTableDropFeatureDeltaCommand](#executeDropFeature)
+
+### generate
 
 ```scala
 generate(
@@ -235,7 +247,7 @@ optimize(): DeltaOptimizeBuilder
 
 Creates a [DeltaOptimizeBuilder](DeltaOptimizeBuilder.md)
 
-### <span id="restoreToTimestamp"> restoreToTimestamp
+### restoreToTimestamp { #restoreToTimestamp }
 
 ```scala
 restoreToTimestamp(
@@ -244,7 +256,7 @@ restoreToTimestamp(
 
 [Executes Restore](DeltaTableOperations.md#executeRestore)
 
-### <span id="restoreToVersion"> restoreToVersion
+### restoreToVersion { #restoreToVersion }
 
 ```scala
 restoreToVersion(
@@ -253,7 +265,7 @@ restoreToVersion(
 
 [Executes Restore](DeltaTableOperations.md#executeRestore)
 
-### <span id="toDF"> toDF
+### toDF { #toDF }
 
 ```scala
 toDF: Dataset[Row]
@@ -273,7 +285,7 @@ update(
 
 [Executes UpdateTable command](DeltaTableOperations.md#executeUpdate)
 
-### <span id="updateExpr"> updateExpr
+### updateExpr { #updateExpr }
 
 ```scala
 updateExpr(
@@ -285,7 +297,7 @@ updateExpr(
 
 [Executes UpdateTable command](DeltaTableOperations.md#executeUpdate)
 
-### <span id="upgradeTableProtocol"> upgradeTableProtocol
+### upgradeTableProtocol { #upgradeTableProtocol }
 
 ```scala
 upgradeTableProtocol(
@@ -311,7 +323,7 @@ The reader or writer version cannot be downgraded.
 ??? "[SC-44271][DELTA] Introduce default protocol version for Delta tables"
     `upgradeTableProtocol` was introduced in [[SC-44271][DELTA] Introduce default protocol version for Delta tables]({{ delta.commit }}/6500abbf9a2f52046cbd30daaa81ffdc00cbb26f) commit.
 
-### <span id="vacuum"> vacuum
+### vacuum { #vacuum }
 
 ```scala
 vacuum(): DataFrame
@@ -320,3 +332,21 @@ vacuum(
 ```
 
 [Deletes files and directories](DeltaTableOperations.md#executeVacuum) (recursively) in the [DeltaTable](#deltaLog) that are not needed by the table (and maintains older versions up to the given retention threshold).
+
+## executeDropFeature { #executeDropFeature }
+
+```scala
+executeDropFeature(
+  featureName: String,
+  truncateHistory: Option[Boolean]): Unit
+```
+
+`executeDropFeature` creates an [AlterTableDropFeatureDeltaCommand](./commands/alter/AlterTableDropFeatureDeltaCommand.md) for this [DeltaTableV2](#table), the given `featureName` and `truncateHistory` (if defined or `false`).
+
+In the end, `executeDropFeature` creates a `Dataset` with the `AlterTableDropFeatureDeltaCommand` logical operator.
+
+---
+
+`executeDropFeature` is used when:
+
+* `DeltaTable` is requested to [dropFeatureSupport](#dropFeatureSupport)

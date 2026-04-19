@@ -33,6 +33,19 @@ title: CatalogOwnedTableFeature
       snapshot: Snapshot): Boolean
     ```
 
-    `validateDropInvariants` is part of the [TableFeature](../table-features/TableFeature.md#validateDropInvariants) abstraction.
+    `validateDropInvariants` is part of the [RemovableFeature](../table-features/RemovableFeature.md#validateDropInvariants) abstraction.
 
 `validateDropInvariants` is positive (`true`) when there are no [unbackfilledCommitsPresent](../coordinated-commits/CoordinatedCommitsUtils.md#unbackfilledCommitsPresent) for the given [Snapshot](../Snapshot.md).
+
+## actionUsesFeature { #actionUsesFeature }
+
+??? note "TableFeature"
+
+    ```scala
+    actionUsesFeature(
+      action: Action): Boolean
+    ```
+
+    `actionUsesFeature` is part of the [RemovableFeature](../table-features/RemovableFeature.md#actionUsesFeature) abstraction.
+
+`actionUsesFeature` is always negative (`false`).

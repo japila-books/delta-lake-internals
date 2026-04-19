@@ -4,7 +4,7 @@
 
 ## Contract
 
-### <span id="table"> table
+### table { #table }
 
 ```scala
 table: DeltaTableV2
@@ -19,15 +19,17 @@ Used when:
 ## Implementations
 
 * [AlterTableAddColumnsDeltaCommand](AlterTableAddColumnsDeltaCommand.md)
-* [AlterTableAddConstraintDeltaCommand](AlterTableAddConstraintDeltaCommand.md)
 * [AlterTableChangeColumnDeltaCommand](AlterTableChangeColumnDeltaCommand.md)
-* [AlterTableDropConstraintDeltaCommand](AlterTableDropConstraintDeltaCommand.md)
+* [AlterTableClusterByDeltaCommand](AlterTableClusterByDeltaCommand.md)
+* [AlterTableConstraintDeltaCommand](AlterTableConstraintDeltaCommand.md)
+* [AlterTableDropColumnsDeltaCommand](AlterTableDropColumnsDeltaCommand.md)
+* [AlterTableDropFeatureDeltaCommand](AlterTableDropFeatureDeltaCommand.md)
 * [AlterTableReplaceColumnsDeltaCommand](AlterTableReplaceColumnsDeltaCommand.md)
 * [AlterTableSetLocationDeltaCommand](AlterTableSetLocationDeltaCommand.md)
 * [AlterTableSetPropertiesDeltaCommand](AlterTableSetPropertiesDeltaCommand.md)
 * [AlterTableUnsetPropertiesDeltaCommand](AlterTableUnsetPropertiesDeltaCommand.md)
 
-## <span id="startTransaction"> startTransaction
+## startTransaction { #startTransaction }
 
 ```scala
 startTransaction(): OptimisticTransaction
@@ -35,7 +37,7 @@ startTransaction(): OptimisticTransaction
 
 `startTransaction` simply requests the [DeltaTableV2](#table) for the [DeltaLog](../../DeltaTableV2.md#deltaLog) that in turn is requested to [startTransaction](../../DeltaLog.md#startTransaction).
 
-## <span id="checkDependentExpressions"> Checking Dependent Expressions
+## Checking Dependent Expressions { #checkDependentExpressions }
 
 ```scala
 checkDependentExpressions(
@@ -56,7 +58,7 @@ checkDependentExpressions(
 
 * [AlterTableDropColumnsDeltaCommand](AlterTableDropColumnsDeltaCommand.md) and [AlterTableChangeColumnDeltaCommand](AlterTableChangeColumnDeltaCommand.md) are executed
 
-### <span id="checkDependentExpressions-check-constraints"> Check Constraints
+### Check Constraints { #checkDependentExpressions-check-constraints }
 
 `checkDependentExpressions` [findDependentConstraints](../../constraints/Constraints.md#findDependentConstraints) (with the given`columnParts` and the [newMetadata](../../Metadata.md)) and [throws an AnalysisException if there are any](../../DeltaErrors.md#foundViolatingConstraintsForColumnChange):
 
@@ -65,7 +67,7 @@ Cannot [operationName] column [columnName] because this column is referenced by 
     [constraints]
 ```
 
-### <span id="checkDependentExpressions-generated-columns"> Generated Columns
+### Generated Columns { #checkDependentExpressions-generated-columns }
 
 `checkDependentExpressions` [findDependentGeneratedColumns](../../SchemaUtils.md#findDependentGeneratedColumns) (with the given`columnParts`, the [newMetadata](../../Metadata.md) and [protocol](../../Protocol.md)) and [throws an AnalysisException if there are any](../../DeltaErrors.md#foundViolatingGeneratedColumnsForColumnChange):
 

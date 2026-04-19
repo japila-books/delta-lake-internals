@@ -8,6 +8,21 @@ title: RemovableFeature
 
 ## Contract (Subset)
 
+### actionUsesFeature { #actionUsesFeature }
+
+```scala
+actionUsesFeature(
+  action: Action): Boolean
+```
+
+See:
+
+* [CatalogOwnedTableFeature](../catalog-managed-tables/CatalogOwnedTableFeature.md#actionUsesFeature)
+
+Used when:
+
+* `RemovableFeature` is requested to [containsFeatureTraces](#containsFeatureTraces)
+
 ### validateDropInvariants { #validateDropInvariants }
 
 ```scala
@@ -50,3 +65,35 @@ Used when:
     `RemovableFeature` is a Scala **sealed trait** which means that all of the implementations are in the same compilation unit (a single file).
 
     Learn more in the [Scala Language Specification]({{ scala.spec }}/05-classes-and-objects.html#sealed).
+
+## historyContainsFeature { #historyContainsFeature }
+
+```scala
+historyContainsFeature(
+  spark: SparkSession,
+  table: DeltaTableV2,
+  downgradeTxnReadSnapshot: Snapshot): Boolean
+```
+
+`historyContainsFeature`...FIXME
+
+---
+
+`historyContainsFeature` is used when:
+
+* `AlterTableDropFeatureDeltaCommand` is requested to [executeDropFeatureWithHistoryTruncation](../commands/alter/AlterTableDropFeatureDeltaCommand.md#executeDropFeatureWithHistoryTruncation)
+
+## containsFeatureTraces { #containsFeatureTraces }
+
+```scala
+containsFeatureTraces(
+  ds: Dataset[SingleAction]): Boolean
+```
+
+`containsFeatureTraces` checks out whether the given dataset of actions has got any [Action](../Action.md) that [uses this feature](#actionUsesFeature).
+
+---
+
+`containsFeatureTraces` is used when:
+
+* `RemovableFeature` is requested to [historyContainsFeature](#historyContainsFeature)

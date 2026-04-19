@@ -4,7 +4,7 @@ title: FileNames
 
 # FileNames Utility
 
-## Staged Commit Directory for Log Path { #commitDirPath }
+## Create Staged Commit Directory for Log Path { #commitDirPath }
 
 ```scala
 commitDirPath(
