@@ -569,6 +569,14 @@
          <lastmod>2026-04-19</lastmod>
     </url>
     <url>
+         <loc>https://books.japila.pl/delta-lake-internals/commands/alter/AlterTableClusterByDeltaCommand/</loc>
+         <lastmod>2026-04-19</lastmod>
+    </url>
+    <url>
+         <loc>https://books.japila.pl/delta-lake-internals/commands/alter/AlterTableConstraintDeltaCommand/</loc>
+         <lastmod>2026-04-19</lastmod>
+    </url>
+    <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/alter/AlterTableDropColumnsDeltaCommand/</loc>
          <lastmod>2026-04-19</lastmod>
     </url>
@@ -598,6 +606,10 @@
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/commands/alter/AlterTableUnsetPropertiesDeltaCommand/</loc>
+         <lastmod>2026-04-19</lastmod>
+    </url>
+    <url>
+         <loc>https://books.japila.pl/delta-lake-internals/commands/alter/DropFeature/</loc>
          <lastmod>2026-04-19</lastmod>
     </url>
     <url>
