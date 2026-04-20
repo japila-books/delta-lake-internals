@@ -4,7 +4,6 @@ nav:
   - Features:
     - features/index.md
     - Catalog-Managed Tables: catalog-managed-tables
-    - Coordinated Commits: coordinated-commits
     - Delta Spark V2 Connector: delta-spark-v2-connector
     - Append-Only Tables: append-only-tables
     - Auto Compaction: auto-compaction
@@ -16,6 +15,7 @@ nav:
     - Column Mapping: column-mapping
     - Column Statistics: column-statistics
     - Configuration Properties: configuration-properties
+    - Coordinated Commits: coordinated-commits
     - Data Skipping: data-skipping
     - Deletion Vectors: deletion-vectors
     - developer-api.md
