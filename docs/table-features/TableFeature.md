@@ -36,7 +36,7 @@ Used when:
 * `TableFeatureSupport` is requested to [withFeature](TableFeatureSupport.md#withFeature), [canUpgradeTo](TableFeatureSupport.md#canUpgradeTo), [isFeatureSupported](TableFeatureSupport.md#isFeatureSupported), [propertyKey](TableFeatureSupport.md#propertyKey), [defaultPropertyKey](TableFeatureSupport.md#defaultPropertyKey)
 * `DescribeDeltaDetailCommand` is executed (and requested to [describeDeltaTable](../commands/describe-detail/DescribeDeltaDetailCommand.md#describeDeltaTable))
 
-### Required Features { #requiredFeatures }
+### Required Table Features { #requiredFeatures }
 
 ```scala
 requiredFeatures: Set[TableFeature]

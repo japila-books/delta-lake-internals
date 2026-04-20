@@ -143,6 +143,24 @@ Whether to register the [GenerateSymlinkManifest](../post-commit-hooks/GenerateS
 
 Default: `false`
 
+### <span id="COORDINATED_COMMITS_COORDINATOR_NAME"> coordinatedCommits.commitCoordinator-preview { #coordinatedCommits.commitCoordinator-preview }
+
+**delta.coordinatedCommits.commitCoordinator-preview**
+
+The commit-coordinator name for this table.
+This is used to determine which implementation of commit-coordinator to use when committing to this table.
+If not set (default), the table will be considered as file system table and commits will be done via atomically publishing the commit file.
+
+Default: `null`
+
+Used when:
+
+* `OptimisticTransactionImpl` is requested to [getMetadataWithDependentFeaturesEnabled](../OptimisticTransactionImpl.md#getMetadataWithDependentFeaturesEnabled)
+* `Snapshot` is requested to [getTableCommitCoordinatorForWrites](../Snapshot.md#getTableCommitCoordinatorForWrites)
+* `CoordinatedCommitsTableFeature` is requested to [metadataRequiresFeatureToBeEnabled](../coordinated-commits/CoordinatedCommitsTableFeature.md#metadataRequiresFeatureToBeEnabled)
+* `Metadata` is requested to [coordinatedCommitsCoordinatorName](../Metadata.md#coordinatedCommitsCoordinatorName)
+* `CoordinatedCommitsUtils` is requested for [TABLE_PROPERTY_CONFS](../coordinated-commits/CoordinatedCommitsUtils.md#TABLE_PROPERTY_CONFS) and [verifyContainsOnlyCoordinatorNameAndConf](../coordinated-commits/CoordinatedCommitsUtils.md#verifyContainsOnlyCoordinatorNameAndConf)
+
 ### <span id="DATA_SKIPPING_NUM_INDEXED_COLS"> dataSkippingNumIndexedCols { #dataSkippingNumIndexedCols }
 
 **delta.dataSkippingNumIndexedCols**

@@ -30,7 +30,7 @@ TableFeature | Value
 
 `WriterFeature` takes the following to be created:
 
-* [name](TableFeature.md#name)
+* <span id="name"> [name](TableFeature.md#name)
 
 !!! note "Abstract Class"
     `WriterFeature` is an abstract class and cannot be created directly. It is created indirectly for the [concrete WriterFeatures](#implementations).

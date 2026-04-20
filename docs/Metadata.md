@@ -88,3 +88,24 @@ dataSchema: StructType
 
 * `OptimisticTransactionImpl` is requested to [verify a new metadata](OptimisticTransactionImpl.md#verifyNewMetadata)
 * `Snapshot` is requested for the [data schema](Snapshot.md#dataSchema)
+
+## coordinatedCommitsCoordinatorName { #coordinatedCommitsCoordinatorName }
+
+```scala
+coordinatedCommitsCoordinatorName: Option[String]
+```
+
+`coordinatedCommitsCoordinatorName` is the value of [delta.coordinatedCommits.commitCoordinator-preview](./table-properties/DeltaConfigs.md#COORDINATED_COMMITS_COORDINATOR_NAME) in [this Metadata](./table-properties/DeltaConfig.md#fromMetaData).
+
+??? note "Lazy Value"
+    `coordinatedCommitsCoordinatorName` is a Scala **lazy value** to guarantee that the code to initialize it is executed once only (when accessed for the first time) and the computed value never changes afterwards.
+
+    Learn more in the [Scala Language Specification]({{ scala.spec }}/05-classes-and-objects.html#lazy).
+
+---
+
+`coordinatedCommitsCoordinatorName` is used when:
+
+* `OptimisticTransactionImpl` is requested to [doCommitRetryIteratively](OptimisticTransactionImpl.md#doCommitRetryIteratively) and [prepareCommit](OptimisticTransactionImpl.md#prepareCommit)
+* `CoordinatedCommitsUtils` is requested to [getCommitCoordinatorClient](coordinated-commits/CoordinatedCommitsUtils.md#getCommitCoordinatorClient) and [getCoordinatedCommitsConfs](coordinated-commits/CoordinatedCommitsUtils.md#getCoordinatedCommitsConfs)
+* `TransactionHelper` is requested to [createCoordinatedCommitsStats](TransactionHelper.md#createCoordinatedCommitsStats)

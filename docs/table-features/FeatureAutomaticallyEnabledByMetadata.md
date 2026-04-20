@@ -1,6 +1,10 @@
-# FeatureAutomaticallyEnabledByMetadata
+---
+title: FeatureAutomaticallyEnabledByMetadata
+---
 
-`FeatureAutomaticallyEnabledByMetadata` is an [extension](#contract) of the [TableFeature](TableFeature.md) abstraction for [table features](#implementations) that can be enabled via a change in a table metadata.
+# FeatureAutomaticallyEnabledByMetadata Table Features
+
+`FeatureAutomaticallyEnabledByMetadata` is an [extension](#contract) of the [TableFeature](TableFeature.md) abstraction for [table features](#implementations) that [can be enabled via a change in a table metadata](#metadataRequiresFeatureToBeEnabled).
 
 ## Contract
 
@@ -20,6 +24,7 @@ See:
 
 * [AppendOnlyTableFeature](../append-only-tables/AppendOnlyTableFeature.md#metadataRequiresFeatureToBeEnabled)
 * [ChangeDataFeedTableFeature](../change-data-feed/ChangeDataFeedTableFeature.md#metadataRequiresFeatureToBeEnabled)
+* [CoordinatedCommitsTableFeature](../coordinated-commits/CoordinatedCommitsTableFeature.md#metadataRequiresFeatureToBeEnabled)
 * [DeletionVectorsTableFeature](../deletion-vectors/DeletionVectorsTableFeature.md#metadataRequiresFeatureToBeEnabled)
 * [IdentityColumnsTableFeature](../identity-columns/IdentityColumnsTableFeature.md#metadataRequiresFeatureToBeEnabled)
 * [RowTrackingFeature](../row-tracking/RowTrackingFeature.md#metadataRequiresFeatureToBeEnabled)
@@ -34,12 +39,14 @@ Used when:
 * [ChangeDataFeedTableFeature](../change-data-feed/ChangeDataFeedTableFeature.md)
 * [CheckConstraintsTableFeature](../check-constraints/CheckConstraintsTableFeature.md)
 * [ColumnMappingTableFeature](../column-mapping/ColumnMappingTableFeature.md)
+* [CoordinatedCommitsTableFeature](../coordinated-commits/CoordinatedCommitsTableFeature.md)
 * [DeletionVectorsTableFeature](../deletion-vectors/DeletionVectorsTableFeature.md)
 * [GeneratedColumnsTableFeature](../generated-columns/GeneratedColumnsTableFeature.md)
 * `IcebergCompatV1TableFeature`
 * [InvariantsTableFeature](../column-invariants/InvariantsTableFeature.md)
 * [RowTrackingFeature](../row-tracking/RowTrackingFeature.md)
 * `TimestampNTZTableFeature`
+* _others_
 
 ??? note "Sealed Trait"
     `FeatureAutomaticallyEnabledByMetadata` is a Scala **sealed trait** which means that all of the implementations are in the same compilation unit (a single file).

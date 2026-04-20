@@ -49,7 +49,7 @@ Used when:
 * `CheckConstraintsTableFeature`
 * `CheckpointProtectionTableFeature`
 * `ColumnMappingTableFeature`
-* `CoordinatedCommitsTableFeature`
+* [CoordinatedCommitsTableFeature](../coordinated-commits/CoordinatedCommitsTableFeature.md)
 * [DeletionVectorsTableFeature](../deletion-vectors/DeletionVectorsTableFeature.md)
 * [DomainMetadataTableFeature](DomainMetadataTableFeature.md)
 * [InCommitTimestampTableFeature](InCommitTimestampTableFeature.md)
