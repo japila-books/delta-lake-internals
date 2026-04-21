@@ -24,7 +24,7 @@ Used when:
 * `DynamoDBCommitCoordinatorClient` is requested to `commit`
 * `UCCommitCoordinatorClient` is requested to [commitImpl](../unity-catalog/UCCommitCoordinatorClient.md#commitImpl) and [attemptFullBackfill](../unity-catalog/UCCommitCoordinatorClient.md#attemptFullBackfill)
 * `AbstractBatchBackfillingCommitCoordinatorClient` is requested to `commit`
-* `TableCommitCoordinatorClient` is requested to `backfillToVersion`
+* `TableCommitCoordinatorClient` is requested to [backfillToVersion](TableCommitCoordinatorClient.md#backfillToVersion)
 
 ### commit { #commit }
 
@@ -44,7 +44,7 @@ See:
 
 Used when:
 
-* `TableCommitCoordinatorClient` is requested to `commit`
+* `TableCommitCoordinatorClient` is requested to [commit](TableCommitCoordinatorClient.md#commit)
 
 ### getCommits { #getCommits }
 
@@ -63,7 +63,7 @@ Used when:
 
 * `UCCommitCoordinatorClient` is requested to [getLastKnownBackfilledVersion](../unity-catalog/UCCommitCoordinatorClient.md#getLastKnownBackfilledVersion) and [backfillToVersion](../unity-catalog/UCCommitCoordinatorClient.md#backfillToVersion)
 * `AbstractBatchBackfillingCommitCoordinatorClient` is requested to `backfillToVersion`
-* `TableCommitCoordinatorClient` is requested to `getCommits`
+* `TableCommitCoordinatorClient` is requested to [getCommits](TableCommitCoordinatorClient.md#getCommits)
 
 ### registerTable { #registerTable }
 
@@ -120,4 +120,4 @@ semanticEquals(
 
 `semanticEquals` is used when:
 
-* `TableCommitCoordinatorClient` is requested to `semanticsEquals`
+* `TableCommitCoordinatorClient` is requested to [semanticsEquals](TableCommitCoordinatorClient.md#semanticsEquals)
