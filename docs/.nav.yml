@@ -4,6 +4,7 @@ nav:
   - Features:
     - features/index.md
     - Catalog-Managed Tables: catalog-managed-tables
+    - Unity Catalog Support: unity-catalog
     - Delta Spark V2 Connector: delta-spark-v2-connector
     - Append-Only Tables: append-only-tables
     - Auto Compaction: auto-compaction

@@ -1,0 +1,3 @@
+# UCCatalogManagedCommitter
+
+`UCCatalogManagedCommitter` is...FIXME
