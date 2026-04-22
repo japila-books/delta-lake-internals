@@ -1,0 +1,3 @@
+# CheckpointFileManager
+
+`CheckpointFileManager` is...FIXME

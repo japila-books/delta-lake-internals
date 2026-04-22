@@ -22,7 +22,7 @@ Used when:
 * `DeltaErrorsBase` is requested to [postCommitHookFailedException](../DeltaErrors.md#postCommitHookFailedException)
 * `OptimisticTransactionImpl` is requested to [runPostCommitHook](../OptimisticTransactionImpl.md#runPostCommitHook) (that failed)
 
-### Executing Post-Commit Hook { #run }
+### Execute Post-Commit Hook { #run }
 
 ```scala
 run(
@@ -49,7 +49,9 @@ Used when:
 
 * [AutoCompactBase](../auto-compaction/AutoCompactBase.md)
 * [CheckpointHook](../checkpoints/CheckpointHook.md)
+* [ChecksumHook](../version-checksums/ChecksumHook.md)
 * [GenerateSymlinkManifestImpl](GenerateSymlinkManifest.md)
 * [HudiConverterHook](../uniform/HudiConverterHook.md)
 * [IcebergConverterHook](../uniform/IcebergConverterHook.md)
 * [UpdateCatalogBase](UpdateCatalogBase.md)
+* [UpdateMetricsHook](../unity-catalog/UpdateMetricsHook.md)

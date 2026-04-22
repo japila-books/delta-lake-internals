@@ -4,7 +4,7 @@
 
 ## Contract
 
-### <span id="filesForScan"> filesForScan
+### filesForScan { #filesForScan }
 
 ```scala
 filesForScan(
@@ -23,7 +23,7 @@ Used when:
 
 * `PrepareDeltaScanBase` is requested to [filesForScan](PrepareDeltaScanBase.md#filesForScan)
 
-### <span id="filesWithStatsForScan"> filesWithStatsForScan
+### filesWithStatsForScan { #filesWithStatsForScan }
 
 ```scala
 filesWithStatsForScan(
@@ -34,7 +34,7 @@ Used when:
 
 * `OptimizeMetadataOnlyDeltaQuery` is requested to [optimizeQueryWithMetadata](OptimizeMetadataOnlyDeltaQuery.md#optimizeQueryWithMetadata)
 
-### <span id="snapshotToScan"> Snapshot to Scan
+### Snapshot to Scan { #snapshotToScan }
 
 ```scala
 snapshotToScan: Snapshot

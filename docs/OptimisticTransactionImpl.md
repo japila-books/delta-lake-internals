@@ -4,6 +4,8 @@
 
 In other words, `OptimisticTransactionImpl` is a set of [actions](Action.md) as part of an [Operation](Operation.md) that changes the state of a [delta table](#deltaLog) transactionally.
 
+`OptimisticTransactionImpl` is a [RecordChecksum](./version-checksums/RecordChecksum.md).
+
 ## Contract
 
 ### Clock { #clock }

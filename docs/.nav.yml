@@ -38,6 +38,7 @@ nav:
     - Table Properties: table-properties
     - Time Travel: time-travel
     - Universal Format (UniForm): uniform
+    - Version Checksums: version-checksums
   - Internals:
     - AbstractDeltaCatalog.md
     - Actions:
@@ -104,6 +105,7 @@ nav:
       - TahoeLogFileIndex: TahoeLogFileIndex.md
       - DeltaLogFileIndex: DeltaLogFileIndex.md
     - WriteIntoDeltaBuilder: WriteIntoDeltaBuilder.md
+    - "*"
   - Developer API:
     - DeltaTable: DeltaTable.md
     - DeltaTableBuilder: DeltaTableBuilder.md
