@@ -6,7 +6,7 @@ title: CatalogOwnedTableFeature
 
 `CatalogOwnedTableFeature` is a [ReaderWriterFeature](../table-features/ReaderWriterFeature.md) with [catalogManaged](../table-features/ReaderWriterFeature.md#name) name.
 
-`CatalogOwnedTableFeature` is a [RemovableFeature](../table-features/RemovableFeature.md)
+`CatalogOwnedTableFeature` is a [RemovableFeature](../table-features/RemovableFeature.md).
 
 ## requiredFeatures { #requiredFeatures }
 

@@ -25,6 +25,5 @@ Key | Value
 
 [IdentityColumn](IdentityColumn.md) and [ColumnWithDefaultExprUtils](../ColumnWithDefaultExprUtils.md#isIdentityColumn) utilities are used to work with identity columns.
 
-## Learn More
-
-* [Identity Columns]({{ delta.github }}/PROTOCOL.md#identity-columns) in Delta Lake's table protocol specification
+!!! note "Delta Transaction Log Protocol Specification"
+    Identity Columns feature is described in [Identity Columns]({{ delta.github }}/PROTOCOL.md#identity-columns) in [Delta Transaction Log Protocol]({{ delta.github }}/PROTOCOL.md) specification.

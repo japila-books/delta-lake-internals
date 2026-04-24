@@ -27,8 +27,9 @@
 
 * <span id="name"> [name](TableFeature.md#name)
 
-!!! note "Abstract Class"
-    `ReaderWriterFeature` is an abstract class and cannot be created directly. It is created indirectly for the [concrete CLASSs](#implementations).
+??? note "Abstract Class"
+    `ReaderWriterFeature` is an abstract class and cannot be created directly.
+    It is created indirectly for the [concrete ReaderWriterFeatures](#implementations).
 
 ## Minimum Reader Version { #minReaderVersion }
 

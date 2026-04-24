@@ -11,4 +11,4 @@ Version Checksums can be used to validate the integrity of a delta table.
 [RecordChecksum](RecordChecksum.md) abstraction is used to [writeChecksumFile](RecordChecksum.md#writeChecksumFile).
 
 !!! note "Delta Transaction Log Protocol Specification"
-    Version Checksums feature is described in [Version Checksum File]({{ delta.github }}/PROTOCOL.md#version-checksum-file) in [Delta Transaction Log Protocol Specification]({{ delta.github }}/PROTOCOL.md).
+    Version Checksums feature is described in [Version Checksum File]({{ delta.github }}/PROTOCOL.md#version-checksum-file) in [Delta Transaction Log Protocol]({{ delta.github }}/PROTOCOL.md) specification.
