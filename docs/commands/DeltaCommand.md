@@ -254,6 +254,30 @@ createSetTransaction(
 * [Update](update/index.md) command is executed
 * `WriteIntoDelta` is requested to [write data out](WriteIntoDelta.md#write)
 
+## Extract CatalogTable of Table { #getTableCatalogTable }
+
+```scala
+getTableCatalogTable(
+  target: LogicalPlan,
+  cmd: String): Option[CatalogTable]
+```
+
+`getTableCatalogTable` extracts the `CatalogTable` ([Spark SQL]({{ book.spark_sql }}/CatalogTable/)) of the table based on the given `LogicalPlan`:
+
+* For `ResolvedTable` ([Spark SQL]({{ book.spark_sql }}/logical-operators/ResolvedTable/)) over [DeltaTableV2](../DeltaTableV2.md), `getTableCatalogTable` uses the [CatalogTable](../DeltaTableV2.md#catalogTable).
+* For `ResolvedTable` over `V1Table` ([Spark SQL]({{ book.spark_sql }}/connector/V1Table/)), `getTableCatalogTable` uses the [CatalogTable](../DeltaTableV2.md#catalogTable).
+
+??? note "`CatalogTable` is optional"
+    In either case, the `CatalogTable` is optional and can be undefined.
+
+Otherwise, `getTableCatalogTable` returns `None`.
+
+---
+
+`getTableCatalogTable` is used when:
+
+* `DescribeDeltaDetailCommand` is requested to [run](./describe-detail/DescribeDeltaDetailCommand.md#run)
+
 ## Logging
 
 `DeltaCommand` is an abstract class and logging is configured using the logger of the [implementations](#implementations).

@@ -1,21 +1,38 @@
 # DescribeDeltaDetailCommand
 
-`DescribeDeltaDetailCommand` is a leaf `RunnableCommand` ([Spark SQL]({{ book.spark_sql }}/logical-operators/RunnableCommand)) that represents [DESCRIBE DETAIL](../../sql/DeltaSqlAstBuilder.md#visitDescribeDeltaDetail) SQL command at execution.
+`DescribeDeltaDetailCommand` is a leaf `RunnableCommand` ([Spark SQL]({{ book.spark_sql }}/logical-operators/RunnableCommand)) that represents the following high-level operators at execution:
 
-```text
-(DESC | DESCRIBE) DETAIL (path | table)
-```
+* [DESCRIBE DETAIL](../../sql/DeltaSqlAstBuilder.md#visitDescribeDeltaDetail) SQL command
+* [DeltaTable.detail](../../DeltaTable.md#detail)
 
 ## Creating Instance
 
 `DescribeDeltaDetailCommand` takes the following to be created:
 
-* <span id="path"> (optional) Table Path
-* <span id="tableIdentifier"> (optional) Table identifier
+* <span id="child"> Child logical operator ([Spark SQL]({{ book.spark_sql }}/logical-operators/LogicalPlan))
+* <span id="hadoopConf"> Hadoop Configuration (`Map[String, String]`)
 
-`DescribeDeltaDetailCommand` is created when:
+`DescribeDeltaDetailCommand` is created using [apply](#apply) utility.
+
+## Create DescribeDeltaDetailCommand { #apply }
+
+```scala
+apply(
+  path: Option[String],
+  tableIdentifier: Option[TableIdentifier],
+  hadoopConf: Map[String, String]): DescribeDeltaDetailCommand
+```
+
+`apply` creates a `UnresolvedPathOrIdentifier` for the optional `path` and `tableIdentifier`.
+
+In the end, `apply` creates a [DescribeDeltaDetailCommand](#creating-instance).
+
+---
+
+`apply` is used when:
 
 * `DeltaSqlAstBuilder` is requested to [parse DESCRIBE DETAIL SQL command](../../sql/DeltaSqlAstBuilder.md#visitDescribeDeltaDetail)
+* `DeltaTableOperations` is requested to [executeDetails](../../DeltaTableOperations.md#executeDetails)
 
 ## Output (Schema) Attributes { #output }
 
@@ -29,7 +46,7 @@
 
 `output` is the fields of [TableDetail](TableDetail.md).
 
-## Executing Command { #run }
+## Execute Command { #run }
 
 ??? note "RunnableCommand"
 
@@ -40,7 +57,11 @@
 
     `run` is part of the `RunnableCommand` ([Spark SQL]({{ book.spark_sql }}/logical-operators/RunnableCommand#run)) abstraction.
 
+`run` [finds the CatalogTable](../DeltaCommand.md#getTableCatalogTable) (of this [table](#child)).
+
 `run`...FIXME
+
+For an existing delta table (the [version](../../Snapshot.md#version) is at least `0`), `run` [describeDeltaTable](#describeDeltaTable).
 
 ### describeDeltaTable { #describeDeltaTable }
 

@@ -10,13 +10,13 @@ title: DeltaTableOperations
 
 * [DeltaTable](DeltaTable.md)
 
-## <span id="self"> DeltaTable
+## DeltaTable { #self }
 
 `DeltaTableOperations` uses Scala's **self-type** feature which forces it to be mixed into [DeltaTable](DeltaTable.md) or its subtypes.
 
 ## DeltaTable Commands
 
-### <span id="executeDelete"> executeDelete
+### executeDelete { #executeDelete }
 
 ```scala
 executeDelete(
@@ -30,11 +30,29 @@ executeDelete(
 !!! note "DeleteFromTable and DeltaDelete"
     `DeleteFromTable` is resolved to [DeltaDelete](commands/delete/DeltaDelete.md) logical command.
 
+---
+
 `executeDelete` is used when:
 
 * `DeltaTable` is requested to [delete](DeltaTable.md#delete)
 
-### <span id="executeGenerate"> executeGenerate
+### executeDetails { #executeDetails }
+
+```scala
+executeDetails(
+  path: String,
+  tableIdentifier: Option[TableIdentifier]): DataFrame
+```
+
+`executeDetails` creates a `DataFrame` for a [DescribeDeltaDetailCommand](commands/describe-detail/DescribeDeltaDetailCommand.md).
+
+---
+
+`executeDetails` is used when:
+
+* `DeltaTable` is requested to [detail](DeltaTable.md#detail)
+
+### executeGenerate { #executeGenerate }
 
 ```scala
 executeGenerate(
@@ -43,11 +61,13 @@ executeGenerate(
 
 `executeGenerate` creates a `DataFrame` for a [DeltaGenerateCommand](commands/generate/DeltaGenerateCommand.md).
 
+---
+
 `executeGenerate` is used when:
 
 * `DeltaTable` is requested to [generate](DeltaTable.md#generate)
 
-### <span id="executeHistory"> executeHistory
+### executeHistory { #executeHistory }
 
 ```scala
 executeHistory(
@@ -58,11 +78,13 @@ executeHistory(
 
 `executeHistory` requests the given [DeltaLog](DeltaLog.md) for the [DeltaHistoryManager](DeltaLog.md#history) for the [history](DeltaHistoryManager.md#getHistory).
 
+---
+
 `executeHistory` is used when:
 
 * `DeltaTable` is requested to [history](DeltaTable.md#history)
 
-### <span id="executeRestore"> executeRestore
+### executeRestore { #executeRestore }
 
 ```scala
 executeRestore(
@@ -75,11 +97,13 @@ executeRestore(
 
 `executeRestore` creates a `DataFrame` for the `DeleteFromTable`.
 
+---
+
 `executeRestore` is used when:
 
 * `DeltaTable` is requested to [restoreToVersion](DeltaTable.md#restoreToVersion) and [restoreToTimestamp](DeltaTable.md#restoreToTimestamp)
 
-### <span id="executeUpdate"> executeUpdate
+### executeUpdate { #executeUpdate }
 
 ```scala
 executeUpdate(
@@ -94,11 +118,13 @@ executeUpdate(
 !!! note "UpdateTable and DeltaUpdateTable"
     `UpdateTable` is resolved to [DeltaUpdateTable](commands/update/DeltaUpdateTable.md) logical command.
 
+---
+
 `executeUpdate` is used when:
 
 * `DeltaTable` is requested to [update](DeltaTable.md#update) and [updateExpr](DeltaTable.md#updateExpr)
 
-### <span id="executeVacuum"> executeVacuum
+### executeVacuum { #executeVacuum }
 
 ```scala
 executeVacuum(
@@ -108,6 +134,8 @@ executeVacuum(
 ```
 
 `executeVacuum` [runs garbage collection](commands/vacuum/VacuumCommand.md#gc) of the given [DeltaLog](DeltaLog.md).
+
+---
 
 `executeVacuum` is used when:
 

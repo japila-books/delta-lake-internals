@@ -24,7 +24,7 @@ import io.delta.tables.DeltaTable
 
 `DeltaTable` is created using [DeltaTable.forPath](#forPath) and [DeltaTable.forName](#forName) utilities (and indirectly using [create](#create), [createIfNotExists](#createIfNotExists), [createOrReplace](#createOrReplace) and [replace](#replace)).
 
-## <span id="deltaLog"> DeltaLog
+## DeltaLog { #deltaLog }
 
 ```scala
 deltaLog: DeltaLog
@@ -34,7 +34,7 @@ deltaLog: DeltaLog
 
 ## Utilities (Static Methods) { #utilities }
 
-### <span id="columnBuilder"> columnBuilder
+### columnBuilder { #columnBuilder }
 
 ```scala
 columnBuilder(
@@ -46,7 +46,7 @@ columnBuilder(
 
 Creates a [DeltaColumnBuilder](DeltaColumnBuilder.md)
 
-### <span id="convertToDelta"> convertToDelta
+### convertToDelta { #convertToDelta }
 
 ```scala
 convertToDelta(
@@ -77,7 +77,7 @@ create(
 
 Creates a [DeltaTableBuilder](DeltaTableBuilder.md)
 
-### <span id="createIfNotExists"> createIfNotExists
+### createIfNotExists { #createIfNotExists }
 
 ```scala
 createIfNotExists(): DeltaTableBuilder
@@ -87,7 +87,7 @@ createIfNotExists(
 
 Creates a [DeltaTableBuilder](DeltaTableBuilder.md) (with `CreateTableOptions` and `ifNotExists` flag enabled)
 
-### <span id="createOrReplace"> createOrReplace
+### createOrReplace { #createOrReplace }
 
 ```scala
 createOrReplace(): DeltaTableBuilder
@@ -97,7 +97,7 @@ createOrReplace(
 
 Creates a [DeltaTableBuilder](DeltaTableBuilder.md) (with `ReplaceTableOptions` and `orCreate` flag enabled)
 
-### <span id="forName"> forName
+### forName { #forName }
 
 ```scala
 forName(
@@ -120,7 +120,7 @@ forName(
 [deltaTableIdentifier] is not a Delta table.
 ```
 
-### <span id="forPath"> forPath
+### forPath { #forPath }
 
 ```scala
 forPath(
@@ -141,7 +141,7 @@ forPath(
 [deltaTableIdentifier] is not a Delta table.
 ```
 
-### <span id="isDeltaTable"> isDeltaTable
+### isDeltaTable { #isDeltaTable }
 
 ```scala
 isDeltaTable(
@@ -182,6 +182,14 @@ as(
 ```
 
 Applies an alias to the `DeltaTable`
+
+### detail
+
+```scala
+detail(): DataFrame
+```
+
+[Executes DescribeDeltaDetailCommand command](DeltaTableOperations.md#executeDetails) for this [delta table](#deltaLog)
 
 ### delete
 
