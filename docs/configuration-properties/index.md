@@ -9,6 +9,27 @@ Configuration properties are a way to control features of Delta Lake for the who
 
 Configuration properties use `spark.databricks.delta` prefix.
 
+### <span id="ALLOW_ARBITRARY_TABLE_PROPERTIES"> allowArbitraryProperties.enabled { #allowArbitraryProperties.enabled }
+
+**spark.databricks.delta.allowArbitraryProperties.enabled**
+
+Controls whether arbitrary Delta table properties are allowed.
+
+When enabled, table properties with the prefix `delta.` are not checked for validity.
+Table property validity is based on the current Delta version being used and feature support in that version.
+Arbitrary properties without the `delta.` prefix are always allowed regardless of this config.
+
+Please use with caution.
+When enabled, there will be no warning when unsupported table properties for the Delta version being used are set,
+or when properties are set incorrectly (for example, misspelled).
+
+Default: `false`
+
+Used when:
+
+* `DeltaConfigsBase` is requested to [validate table properties](../table-properties/DeltaConfigs.md#validateConfigurations)
+* `DeltaErrorsBase` is requested to [unknownConfigurationKeyException](../DeltaErrorsBase.md#unknownConfigurationKeyException)
+
 ### <span id="alterLocation.bypassSchemaCheck"><span id="DELTA_ALTER_LOCATION_BYPASS_SCHEMA_CHECK"> alterLocation.bypassSchemaCheck
 
 **spark.databricks.delta.alterLocation.bypassSchemaCheck**

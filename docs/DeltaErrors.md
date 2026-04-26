@@ -1,6 +1,6 @@
 # DeltaErrors Utility
 
-## <span id="concurrentAppendException"> concurrentAppendException
+## concurrentAppendException { #concurrentAppendException }
 
 ```scala
 concurrentAppendException(
@@ -21,7 +21,7 @@ Refer to [docs]/concurrency-control.html for more details.
 
 * `OptimisticTransactionImpl` is requested to [check logical conflicts with concurrent updates](OptimisticTransactionImpl.md#checkForConflicts)
 
-## <span id="concurrentDeleteDeleteException"> concurrentDeleteDeleteException
+## concurrentDeleteDeleteException { #concurrentDeleteDeleteException }
 
 ```scala
 concurrentDeleteDeleteException(
@@ -41,7 +41,7 @@ Refer to [docs]/concurrency-control.html for more details.
 
 * `OptimisticTransactionImpl` is requested to [check for logical conflicts with concurrent updates](OptimisticTransactionImpl.md#checkForConflicts)
 
-## <span id="concurrentDeleteReadException"> concurrentDeleteReadException
+## concurrentDeleteReadException { #concurrentDeleteReadException }
 
 ```scala
 concurrentDeleteReadException(
@@ -61,7 +61,7 @@ Refer to [docs]/concurrency-control.html for more details.
 
 * `OptimisticTransactionImpl` is requested to [check for logical conflicts with concurrent updates](OptimisticTransactionImpl.md#checkForConflicts)
 
-## <span id="concurrentTransactionException"> concurrentTransactionException
+## concurrentTransactionException { #concurrentTransactionException }
 
 ```scala
 concurrentTransactionException(
@@ -81,7 +81,7 @@ Refer to [docs]/concurrency-control.html for more details.
 
 * `OptimisticTransactionImpl` is requested to [check for logical conflicts with concurrent updates](OptimisticTransactionImpl.md#checkForConflicts)
 
-## <span id="concurrentWriteException"> concurrentWriteException
+## concurrentWriteException { #concurrentWriteException }
 
 ```scala
 concurrentWriteException(
@@ -100,7 +100,7 @@ Refer to [docs]/concurrency-control.html for more details.
 
 * [Convert to Delta](commands/convert/index.md) command is executed (and `DeltaCommand` is requested to [commitLarge](commands/DeltaCommand.md#commitLarge))
 
-## <span id="metadataChangedException"> metadataChangedException
+## metadataChangedException { #metadataChangedException }
 
 ```scala
 metadataChangedException(
@@ -119,7 +119,7 @@ Refer to [docs]/concurrency-control.html for more details.
 
 * `OptimisticTransactionImpl` is requested to [check for logical conflicts with concurrent updates](OptimisticTransactionImpl.md#checkForConflicts)
 
-## <span id="protocolChangedException"> protocolChangedException
+## protocolChangedException { #protocolChangedException }
 
 ```scala
 protocolChangedException(
@@ -140,7 +140,7 @@ Refer to [docs]/concurrency-control.html for more details.
 
 * `OptimisticTransactionImpl` is requested to [check for logical conflicts with concurrent updates](OptimisticTransactionImpl.md#checkForConflicts)
 
-## <span id="modifyAppendOnlyTableException"> modifyAppendOnlyTableException
+## modifyAppendOnlyTableException { #modifyAppendOnlyTableException }
 
 ```scala
 modifyAppendOnlyTableException: Throwable
@@ -156,7 +156,7 @@ This table is configured to only allow appends. If you would like to permit upda
 
 * `DeltaLog` is requested to [assertRemovable](DeltaLog.md#assertRemovable)
 
-## <span id="notNullColumnMissingException"> notNullColumnMissingException
+## notNullColumnMissingException { #notNullColumnMissingException }
 
 ```scala
 notNullColumnMissingException(
@@ -173,7 +173,7 @@ Column [name], which has a NOT NULL constraint, is missing from the data being w
 
 * `DeltaInvariantCheckerExec` utility is used to [buildInvariantChecks](constraints/DeltaInvariantCheckerExec.md#buildInvariantChecks)
 
-## <span id="postCommitHookFailedException"> Reporting Post-Commit Hook Failure
+## Reporting Post-Commit Hook Failure { #postCommitHookFailedException }
 
 ```scala
 postCommitHookFailedException(
@@ -193,7 +193,7 @@ Committing to the Delta table version [failedOnCommitVersion] succeeded but erro
 
 * `GenerateSymlinkManifestImpl` is requested to [handleError](post-commit-hooks/GenerateSymlinkManifest.md#handleError)
 
-## <span id="changeColumnMappingModeOnOldProtocol"> changeColumnMappingModeOnOldProtocol
+## changeColumnMappingModeOnOldProtocol { #changeColumnMappingModeOnOldProtocol }
 
 ```scala
 changeColumnMappingModeOnOldProtocol(
@@ -206,7 +206,7 @@ changeColumnMappingModeOnOldProtocol(
 
 * `DeltaColumnMappingBase` is requested to [verifyAndUpdateMetadataChange](column-mapping/DeltaColumnMappingBase.md#verifyAndUpdateMetadataChange)
 
-## <span id="convertToDeltaWithColumnMappingNotSupported"> convertToDeltaWithColumnMappingNotSupported
+## convertToDeltaWithColumnMappingNotSupported { #convertToDeltaWithColumnMappingNotSupported }
 
 ```scala
 convertToDeltaWithColumnMappingNotSupported(
@@ -218,3 +218,21 @@ convertToDeltaWithColumnMappingNotSupported(
 `convertToDeltaWithColumnMappingNotSupported` is used when:
 
 * `ConvertToDeltaCommandBase` is requested to [checkColumnMapping](commands/convert/ConvertToDeltaCommand.md#checkColumnMapping)
+
+## unknownConfigurationKeyException { #unknownConfigurationKeyException }
+
+```scala
+unknownConfigurationKeyException(
+  confKey: String): Throwable
+```
+
+`unknownConfigurationKeyException` creates a [DeltaAnalysisException](DeltaAnalysisException.md) for `DELTA_UNKNOWN_CONFIGURATION` [error class](DeltaAnalysisException.md#errorClass) and the following [message parameters](DeltaAnalysisException.md#messageParameters):
+
+1. The given `confKey`
+1. [spark.databricks.delta.allowArbitraryProperties.enabled](./configuration-properties/index.md#ALLOW_ARBITRARY_TABLE_PROPERTIES)
+
+---
+
+`unknownConfigurationKeyException` is used when:
+
+* `DeltaConfigsBase` is requested to [validate table properties](./table-properties/DeltaConfigs.md#validateConfigurations)

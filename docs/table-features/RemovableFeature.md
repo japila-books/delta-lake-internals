@@ -23,7 +23,7 @@ Used when:
 
 * `RemovableFeature` is requested to [containsFeatureTraces](#containsFeatureTraces)
 
-### validateDropInvariants { #validateDropInvariants }
+### Validate Drop Invariants { #validateDropInvariants }
 
 ```scala
 validateDropInvariants(

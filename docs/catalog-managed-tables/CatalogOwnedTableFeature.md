@@ -8,7 +8,7 @@ title: CatalogOwnedTableFeature
 
 `CatalogOwnedTableFeature` is a [RemovableFeature](../table-features/RemovableFeature.md).
 
-## requiredFeatures { #requiredFeatures }
+## Required Table Features { #requiredFeatures }
 
 ??? note "TableFeature"
 
@@ -20,10 +20,10 @@ title: CatalogOwnedTableFeature
 
 `requiredFeatures` is a collection of the following [TableFeature](../table-features/TableFeature.md)s:
 
-1. [InCommitTimestampTableFeature](../table-features/InCommitTimestampTableFeature.md)
-1. [VacuumProtocolCheckTableFeature](../table-features/VacuumProtocolCheckTableFeature.md)
+* [InCommitTimestampTableFeature](../table-features/InCommitTimestampTableFeature.md)
+* [VacuumProtocolCheckTableFeature](../table-features/VacuumProtocolCheckTableFeature.md)
 
-## validateDropInvariants { #validateDropInvariants }
+## Validate Drop Invariants { #validateDropInvariants }
 
 ??? note "TableFeature"
 

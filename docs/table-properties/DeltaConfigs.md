@@ -376,21 +376,38 @@ mergeGlobalConfigs(
 * `OptimisticTransactionImpl` is requested to [withGlobalConfigDefaults](../OptimisticTransactionImpl.md#withGlobalConfigDefaults)
 * `InitialSnapshot` is created
 
-## validateConfigurations { #validateConfigurations }
+## Validate Table Properties { #validateConfigurations }
 
 ```scala
 validateConfigurations(
   configurations: Map[String, String]): Map[String, String]
 ```
 
-`validateConfigurations`...FIXME
+`validateConfigurations` reads [spark.databricks.delta.allowArbitraryProperties.enabled](../configuration-properties/index.md#ALLOW_ARBITRARY_TABLE_PROPERTIES) configuration property (from the `SQLConf` of the active `SparkSession`).
+
+`validateConfigurations` goes over the key-value configuration pairs (of the given `configurations`) and checks out their validity.
+
+1. All `delta.constraints.`-prefixed table properites are allowed
+1. All [delta.feature.](../table-features/TableFeatureProtocolUtils.md#FEATURE_PROP_PREFIX)-prefixed table properites are allowed
+1. For `delta.`-prefixed table properties, `validateConfigurations` looks it up in the [system-wide configuration entries registry](#entries):
+    * ...
+    * When not found and [spark.databricks.delta.allowArbitraryProperties.enabled](../configuration-properties/index.md#ALLOW_ARBITRARY_TABLE_PROPERTIES) configuration property is disabled, `validateConfigurations` reports the [DeltaAnalysisException](../DeltaErrors.md#unknownConfigurationKeyException).
+
+        ```text
+        Unknown configuration was specified: delta.unknown_table_property
+        To disable this check, set spark.databricks.delta.allowArbitraryProperties.enabled=true in the Spark session configuration.
+        ```
+
+1. `validateConfigurations`...FIXME
 
 ---
 
 `validateConfigurations` is used when:
 
-* `DeltaCatalog` is requested to [verifyTableAndSolidify](../DeltaCatalog.md#verifyTableAndSolidify), [alterTable](../DeltaCatalog.md#alterTable)
-* `CloneTableBase` is requested to [runInternal](../commands/clone/CloneTableBase.md#runInternal)
+* `DeltaTable` is requested to [upgradeTableProtocol](../DeltaTable.md#upgradeTableProtocol)
+* `DeltaAnalysis` is requested to [createCatalogTableForCloneCommand](../DeltaAnalysis.md#createCatalogTableForCloneCommand)
+* `AbstractDeltaCatalog` is requested to [alterTable](../AbstractDeltaCatalog.md#alterTable) and [verifyTableAndSolidify](../AbstractDeltaCatalog.md#verifyTableAndSolidify)
+* `CloneTableBase` is requested to [determineTargetMetadata](../commands/clone/CloneTableBase.md#determineTargetMetadata), [determineTargetProtocol](../commands/clone/CloneTableBase.md#determineTargetProtocol), [verifyMetadataInvariants](../commands/clone/CloneTableBase.md#verifyMetadataInvariants)
 * `DeltaDataSource` is requested to [create a BaseRelation](../spark-connector/DeltaDataSource.md#createRelation)
 
 ## normalizeConfigKeys { #normalizeConfigKeys }

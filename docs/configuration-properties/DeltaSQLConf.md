@@ -2,6 +2,10 @@
 
 `DeltaSQLConf` contains [spark.databricks.delta](index.md#spark.databricks.delta)-prefixed configuration properties to configure behaviour of Delta Lake.
 
+## allowArbitraryProperties.enabled { #ALLOW_ARBITRARY_TABLE_PROPERTIES }
+
+[spark.databricks.delta.allowArbitraryProperties.enabled](index.md#allowArbitraryProperties.enabled)
+
 ## autoCompact.enabled { #DELTA_AUTO_COMPACT_ENABLED }
 
 [spark.databricks.delta.autoCompact.enabled](index.md#autoCompact.enabled)
