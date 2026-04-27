@@ -14,35 +14,47 @@
 
 `StagedDeltaTableV2` is created when:
 
-* `DeltaCatalog` is requested to [stageReplace](DeltaCatalog.md#stageReplace), [stageCreateOrReplace](DeltaCatalog.md#stageCreateOrReplace) or [stageCreate](DeltaCatalog.md#stageCreate)
+* `AbstractDeltaCatalog` is requested to [stageCreate](AbstractDeltaCatalog.md#stageCreate), [stageCreateOrReplace](AbstractDeltaCatalog.md#stageCreateOrReplace), and [stageReplace](AbstractDeltaCatalog.md#stageReplace)
 
-### <span id="operation"> CreationMode
+### CreationMode { #operation }
 
-`StagedDeltaTableV2` is given a `CreationMode` when [created](#creating-instance):
+`StagedDeltaTableV2` is given a `CreationMode` when [created](#creating-instance).
 
-* `Create` for [stageCreate](DeltaCatalog.md#stageCreate)
-* `CreateOrReplace` for [stageCreateOrReplace](DeltaCatalog.md#stageCreateOrReplace)
-* `Replace` for [stageReplace](DeltaCatalog.md#stageReplace)
+TableCreationModes | AbstractDeltaCatalog's Operation
+-|-
+ `Create` | [stageCreate](AbstractDeltaCatalog.md#stageCreate)
+ `CreateOrReplace` | [stageCreateOrReplace](AbstractDeltaCatalog.md#stageCreateOrReplace)
+ `Replace` | [stageReplace](AbstractDeltaCatalog.md#stageReplace)
 
-## <span id="commitStagedChanges"> commitStagedChanges
+## commitStagedChanges { #commitStagedChanges }
 
-```scala
-commitStagedChanges(): Unit
-```
+??? note "StagedTable"
 
-`commitStagedChanges` is part of the `StagedTable` ([Spark SQL]({{ book.spark_sql }}/connector/StagedTable/#commitStagedChanges)) abstraction.
+    ```scala
+    commitStagedChanges(): Unit
+    ```
 
----
+    `commitStagedChanges` is part of the `StagedTable` ([Spark SQL]({{ book.spark_sql }}/connector/StagedTable/#commitStagedChanges)) abstraction.
+
+`commitStagedChanges` [getTablePropsAndWriteOptions](AbstractDeltaCatalog.md#getTablePropsAndWriteOptions) from this [properties](#properties).
 
 `commitStagedChanges`...FIXME
 
-## <span id="newWriteBuilder"> Creating WriteBuilder
+`commitStagedChanges` [expandTableProps](AbstractDeltaCatalog.md#expandTableProps).
 
-```scala
-newWriteBuilder(
-  info: LogicalWriteInfo): V1WriteBuilder
-```
+When in [Unity Catalog execution mode](AbstractDeltaCatalog.md#isUnityCatalog), `commitStagedChanges` [translateUCTableIdProperty](AbstractDeltaCatalog.md#translateUCTableIdProperty).
 
-`newWriteBuilder`...FIXME
+In the end, `commitStagedChanges` [createDeltaTable](AbstractDeltaCatalog.md#createDeltaTable).
 
-`newWriteBuilder` is part of the `SupportsWrite` ([Spark SQL]({{ book.spark_sql }}/connector/SupportsWrite/#newWriteBuilder)) abstraction.
+## Creating WriteBuilder { #newWriteBuilder }
+
+??? note "SupportsWrite"
+
+    ```scala
+    newWriteBuilder(
+      info: LogicalWriteInfo): WriteBuilder
+    ```
+
+    `newWriteBuilder` is part of the `SupportsWrite` ([Spark SQL]({{ book.spark_sql }}/connector/SupportsWrite/#newWriteBuilder)) abstraction.
+
+`newWriteBuilder` creates a [DeltaV1WriteBuilder](DeltaV1WriteBuilder.md) (with the `options` of the given `LogicalWriteInfo`).

@@ -15,4 +15,5 @@ Catalog-managed tables are assumed to be owned by a catalog, and thus referred t
 
 ## Learn More
 
+1. [Delta Lake Docs]({{ delta.docs }}/delta-catalog-managed-tables/)
 1. [[PROTOCOL RFC] Catalog-managed Tables]({{ delta.issues }}/4381)

@@ -114,6 +114,7 @@ extra:
   delta:
     version: 4.2.0
     blog: https://delta.io/blog
+    docs: https://docs.delta.io
     github: https://github.com/delta-io/delta/blob/v4.2.0
     commit: https://github.com/delta-io/delta/commit
     issues: https://github.com/delta-io/delta/issues
