@@ -2,7 +2,14 @@
 
 `CreateDeltaTableCommand` is a `LeafRunnableCommand` ([Spark SQL]({{ book.spark_sql }}/logical-operators/LeafRunnableCommand/)) to [create a delta table](#run) (for [DeltaCatalog](../../DeltaCatalog.md#createDeltaTable)).
 
+`CreateDeltaTableCommand` represents the following SQL commands at execution for delta tables:
+
+* `CREATE TABLE ... LIKE` ([Spark SQL]({{ book.spark_sql }}/logical-operators/CreateTableLikeCommand/))
+* [SHALLOW CLONE](../clone/index.md)
+
 `CreateDeltaTableCommand` is a [DeltaCommand](../DeltaCommand.md).
+
+`CreateDeltaTableCommand` is a [CreateDeltaTableLike](CreateDeltaTableLike.md) command.
 
 ## Creating Instance
 
@@ -12,17 +19,35 @@
 * <span id="existingTableOpt"> Existing `CatalogTable` (if available)
 * <span id="mode"> `SaveMode`
 * [Logical Query Plan](#query)
-* [CreationMode](#operation)
+* [Create Operation](#operation)
 * <span id="tableByPath"> `tableByPath` flag (default: `false`)
 * <span id="output"> Output attributes
-* <span id="protocol"> Optional [Protocol](../../Protocol.md)
+* <span id="protocol"> [Protocol](../../Protocol.md) (optional)
+* [allowCatalogManaged](#allowCatalogManaged) flag
+* <span id="createTableFunc"> Create Table Function (default: undefined)
 
 `CreateDeltaTableCommand` is created when:
 
 * [DeltaAnalysis](../../DeltaAnalysis.md) logical resolution rule is executed for the following:
     * `CreateTableLikeCommand` (with the delta table as the source or the provider being `delta`)
     * [CloneTableStatement](../../DeltaAnalysis.md#resolveCloneCommand)
-* `DeltaCatalog` is requested to [create a delta table](../../DeltaCatalog.md#createDeltaTable)
+* `AbstractDeltaCatalog` is requested to [create a delta table](../../AbstractDeltaCatalog.md#createDeltaTable)
+
+### allowCatalogManaged Flag { #allowCatalogManaged }
+
+??? note "CreateDeltaTableLike"
+
+    ```scala
+    allowCatalogManaged: Boolean
+    ```
+
+    `allowCatalogManaged` is part of the [CreateDeltaTableLike](CreateDeltaTableLike.md#allowCatalogManaged) abstraction.
+
+`CreateDeltaTableCommand` can be given `allowCatalogManaged` flag when [created](#creating-instance).
+
+`allowCatalogManaged` is disabled (`false`) by default.
+
+`allowCatalogManaged` can be enabled (`true`) only when `AbstractDeltaCatalog` is requested to [create a delta table](../../AbstractDeltaCatalog.md#createDeltaTable) with [Unity Catalog configured](../../AbstractDeltaCatalog.md#unity-catalog).
 
 ### Optional Logical Query Plan { #query }
 
@@ -41,7 +66,7 @@ Logical Query Plan | Handler
 Some other `LogicalPlan` | [handleCreateTableAsSelect](#handleCreateTableAsSelect)
 Undefined | [handleCreateTable](#handleCreateTable)
 
-### CreationMode { #operation }
+### Create Operation { #operation }
 
 `CreateDeltaTableCommand` can be given a `CreationMode` when [created](#creating-instance):
 
@@ -51,7 +76,7 @@ Undefined | [handleCreateTable](#handleCreateTable)
 
 `CreationMode` is `Create` by default or specified by [DeltaCatalog](../../DeltaCatalog.md#createDeltaTable).
 
-## Executing Command { #run }
+## Execute Command { #run }
 
 ??? note "RunnableCommand"
 
@@ -63,6 +88,18 @@ Undefined | [handleCreateTable](#handleCreateTable)
     `run` is part of the `RunnableCommand` ([Spark SQL]({{ book.spark_sql }}/logical-operators/RunnableCommand/#run)) abstraction.
 
 `run`...FIXME
+
+??? warning "DELTA_UNSUPPORTED_CATALOG_MANAGED_TABLE_CREATION Error" 
+    `run` checks whether it is allowed to create a [catalog-managed table](../../catalog-managed-tables/index.md) using the following:
+    
+    * this [allowCatalogManaged](#allowCatalogManaged) flag is enabled and [CatalogOwnedTableFeature](../../catalog-managed-tables/CatalogOwnedTableFeature.md) is among the [supported table features](../../table-features/TableFeatureProtocolUtils.md#getSupportedFeaturesFromTableConfigs) (of this [CatalogTable](#table)).
+    * [spark.databricks.delta.properties.defaults.feature.catalogManaged](../../catalog-managed-tables/CatalogOwnedTableUtils.md#defaultCatalogOwnedEnabled) configuration property is enabled globally.
+
+    If neither is positive, `run` throws a [DeltaUnsupportedOperationException](../../DeltaErrorsBase.md#deltaCannotCreateCatalogManagedTable):
+
+    ```text
+    Creating a catalog-managed table using delta is unsupported.
+    ```
 
 ### updateCatalog { #updateCatalog }
 

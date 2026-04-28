@@ -40,6 +40,24 @@ convertToDeltaRowTrackingEnabledWithoutStatsCollection: Throwable
 
 * `RowId` is requested to [checkStatsCollectedIfRowTrackingSupported](row-tracking/RowId.md#checkStatsCollectedIfRowTrackingSupported)
 
+## deltaCannotCreateCatalogManagedTable { #deltaCannotCreateCatalogManagedTable }
+
+```scala
+deltaCannotCreateCatalogManagedTable(): Throwable
+```
+
+`deltaCannotCreateCatalogManagedTable` creates a `DeltaUnsupportedOperationException` with the following error message:
+
+```text
+Creating a catalog-managed table using delta is unsupported.
+```
+
+---
+
+`deltaCannotCreateCatalogManagedTable` is used when:
+
+* `CreateDeltaTableCommand` is [executed](./commands/create-table/CreateDeltaTableCommand.md#run)
+
 ## modifyAppendOnlyTableException { #modifyAppendOnlyTableException }
 
 ```scala

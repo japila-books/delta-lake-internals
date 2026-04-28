@@ -56,7 +56,6 @@ nav:
     - ColumnMappingPreDowngradeCommand.md
     - DelayedCommitProtocol.md
     - DeltaCatalog.md
-    - DeltaErrorsBase.md
     - DeltaTableIdentifier: DeltaTableIdentifier.md
     - FileFormat:
       - DeltaFileFormat: DeltaFileFormat.md
@@ -120,6 +119,7 @@ nav:
       - ConcurrentWriteException: exceptions/ConcurrentWriteException.md
       - DeltaConcurrentModificationException: exceptions/DeltaConcurrentModificationException.md
       - DeltaErrors: DeltaErrors.md
+      - DeltaErrorsBase: DeltaErrorsBase.md
       - MetadataChangedException: exceptions/MetadataChangedException.md
       - ProtocolChangedException: exceptions/ProtocolChangedException.md
     - LogStore: LogStore.md

@@ -88,45 +88,6 @@ TableChange | AlterDeltaTableCommand
 
 If found and the table is a delta table (Spark SQL's [V1Table]({{ book.spark_sql }}/connector/V1Table/) with `delta` provider), `loadTable` creates a [DeltaTableV2](DeltaTableV2.md).
 
-## Creating Delta Table { #createDeltaTable }
-
-```scala
-createDeltaTable(
-  ident: Identifier,
-  schema: StructType,
-  partitions: Array[Transform],
-  allTableProperties: Map[String, String],
-  writeOptions: Map[String, String],
-  sourceQuery: Option[DataFrame],
-  operation: TableCreationModes.CreationMode): Table
-```
-
-`createDeltaTable`...FIXME
-
----
-
-`createDeltaTable` is used when:
-
-* `DeltaCatalog` is requested to [create a table](#createTable)
-* `StagedDeltaTableV2` is requested to [commitStagedChanges](StagedDeltaTableV2.md#commitStagedChanges)
-
-### Operation { #createDeltaTable-operation }
-
-`createDeltaTable` is given an argument of type `TableCreationModes.CreationMode`:
-
-* `Create` when [DeltaCatalog creates a table](#createTable)
-* `StagedDeltaTableV2` is given a [CreationMode](StagedDeltaTableV2.md#operation) when created
-
-### validateClusterBySpec { #validateClusterBySpec }
-
-```scala
-validateClusterBySpec(
-  maybeClusterBySpec: Option[ClusterBySpec],
-  schema: StructType): Unit
-```
-
-`validateClusterBySpec`...FIXME
-
 ## Looking Up Table Provider { #getProvider }
 
 ```scala

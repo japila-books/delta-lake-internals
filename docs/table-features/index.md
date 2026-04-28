@@ -11,6 +11,11 @@ A table feature can be a [writer](WriterFeature.md), a reader or a [reader-write
 
 There are [protocol- and metadata-enabled table features](../Protocol.md#extractAutomaticallyEnabledFeatures).
 
+Table features can be enabled using the following:
+
+* Selectively, per delta table, using table properties with [delta.feature](TableFeatureProtocolUtils.md#FEATURE_PROP_PREFIX) prefix (with the only supported value [supported](TableFeatureProtocolUtils.md#FEATURE_PROP_SUPPORTED)).
+* Globally, for all the delta tables in a `SparkSession`, using configuration properties with [spark.databricks.delta.properties.defaults.feature](TableFeatureProtocolUtils.md#DEFAULT_FEATURE_PROP_PREFIX) prefix.
+
 A table feature can have dependencies ([required features](TableFeature.md#requiredFeatures)) that have to be enabled in order for the feature to be enabled.
 
 Table features can be examined using [DESCRIBE DETAIL](../commands/describe-detail/index.md).
@@ -24,6 +29,17 @@ Table features can be enabled on delta tables using `TBLPROPERTIES` clause of [C
     USING delta
     TBLPROPERTIES (
       'delta.enableRowTracking' = 'true'
+    )
+    ```
+
+=== "Scala"
+
+    ```scala
+    (spark.range(1)
+      .writeTo("uc_delta")
+      .using("delta")
+      .tableProperty("delta.feature.catalogManaged", "supported")
+      .create()
     )
     ```
 

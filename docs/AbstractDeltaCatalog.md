@@ -11,6 +11,18 @@
 * [DeltaCatalog](DeltaCatalog.md)
 * `DeltaCatalogV1` (V1 legacy implementation)
 
+## Catalog-Managed Delta Tables { #unity-catalog }
+
+`AbstractDeltaCatalog` can create [Catalog-Managed Delta Tables](./catalog-managed-tables/index.md) when executed with [Unity Catalog](#isUnityCatalog) installed
+and the table type is [MANAGED](#managed-tables).
+
+## Managed Tables
+
+`AbstractDeltaCatalog` can [create a managed delta table](#createDeltaTable) when one of the following holds:
+
+* it is a catalog table (not based on a [path identifier](SupportsPathIdentifier.md#isPathIdentifier)) with no `location` table propery specified
+* `is_managed_location` reserved property is `true` and [Unity Catalog](#isUnityCatalog) is installed
+
 ## DelegatingCatalogExtension { #DelegatingCatalogExtension }
 
 `AbstractDeltaCatalog` is a `DelegatingCatalogExtension` ([Spark SQL]({{ book.spark_sql }}/connector/catalog/DelegatingCatalogExtension/)).
@@ -148,3 +160,35 @@ getTablePropsAndWriteOptions(
 
 * `AbstractDeltaCatalog` is requested to [createTable](#createTable)
 * `StagedDeltaTableV2` is requested to [commitStagedChanges](StagedDeltaTableV2.md#commitStagedChanges)
+
+## Creating Delta Table { #createDeltaTable }
+
+```scala
+createDeltaTable(
+  ident: Identifier,
+  schema: StructType,
+  partitions: Array[Transform],
+  allTableProperties: util.Map[String, String],
+  writeOptions: Map[String, String],
+  sourceQuery: Option[DataFrame],
+  operation: TableCreationModes.CreationMode): Table
+```
+
+`createDeltaTable`...FIXME
+
+---
+
+`createDeltaTable` is used when:
+
+* `AbstractDeltaCatalog` is requested to [createTable](#createTable)
+* `StagedDeltaTableV2` is requested to [commitStagedChanges](StagedDeltaTableV2.md#commitStagedChanges)
+
+### validateClusterBySpec { #validateClusterBySpec }
+
+```scala
+validateClusterBySpec(
+  maybeClusterBySpec: Option[ClusterBySpec],
+  schema: StructType): Unit
+```
+
+`validateClusterBySpec`...FIXME

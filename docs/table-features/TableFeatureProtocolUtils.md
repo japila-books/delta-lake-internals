@@ -1,6 +1,16 @@
 # TableFeatureProtocolUtils
 
-## <span id="FEATURE_PROP_PREFIX"> delta.feature Property Prefix { #delta.feature }
+## <span id="FEATURE_PROP_SUPPORTED"> supported { #supported }
+
+`TableFeatureProtocolUtils` defines `supported` (previously `enabled`) as the [only acceptable value for supported table features](#getSupportedFeaturesFromTableConfigs).
+
+Used when:
+
+* `DeltaTable` is requested to [addFeatureSupport](../DeltaTable.md#addFeatureSupport)
+* `Snapshot` is requested to [getProperties](../Snapshot.md#getProperties)
+* `ClusteredTableUtilsBase` is requested for [table feature properties](../liquid-clustering/ClusteredTableUtilsBase.md#getTableFeatureProperties)
+
+## <span id="FEATURE_PROP_PREFIX"> delta.feature Table Property Prefix { #delta.feature }
 
 `TableFeatureProtocolUtils` defines the following property prefix for table features:
 
@@ -15,7 +25,7 @@ The prefix is used when:
 * `Protocol` is requested to [assertMetadataContainsNoProtocolProps](../Protocol.md#assertMetadataContainsNoProtocolProps)
 * `TableFeatureProtocolUtils` is requested to [propertyKey](#propertyKey), [getSupportedFeaturesFromTableConfigs](#getSupportedFeaturesFromTableConfigs), [isTableProtocolProperty](#isTableProtocolProperty)
 
-## <span id="DEFAULT_FEATURE_PROP_PREFIX"> spark.databricks.delta.properties.defaults.feature Property Prefix { #spark.databricks.delta.properties.defaults.feature }
+## <span id="DEFAULT_FEATURE_PROP_PREFIX"> spark.databricks.delta.properties.defaults.feature Configuration Property Prefix { #spark.databricks.delta.properties.defaults.feature }
 
 `TableFeatureProtocolUtils` defines the following prefix for the Spark session properties of table features:
 
@@ -63,6 +73,9 @@ getSupportedFeaturesFromTableConfigs(
 
 `getSupportedFeaturesFromTableConfigs` is used when:
 
+* `CatalogOwnedTableUtils` is requested to [shouldEnableCatalogOwned](../catalog-managed-tables/CatalogOwnedTableUtils.md#shouldEnableCatalogOwned) and [validatePropertiesForCreateDeltaTableCommand](../catalog-managed-tables/CatalogOwnedTableUtils.md#validatePropertiesForCreateDeltaTableCommand)
+* `CreateDeltaTableCommand` is [executed](../commands/create-table/CreateDeltaTableCommand.md#run)
+* `DeltaAnalysis` logical analysis rule is [executed with a logical plan](../DeltaAnalysis.md#apply)
 * `OptimisticTransactionImpl` is requested to [updateMetadataInternal](../OptimisticTransactionImpl.md#updateMetadataInternal)
 * `Protocol` is requested to [minProtocolComponentsFromMetadata](../Protocol.md#minProtocolComponentsFromMetadata)
 
