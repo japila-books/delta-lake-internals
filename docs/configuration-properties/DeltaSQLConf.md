@@ -130,6 +130,10 @@
 
 [spark.databricks.delta.update.deletionVectors.persistent](index.md#update.deletionVectors.persistent)
 
+## v2.enableMode { #V2_ENABLE_MODE }
+
+[spark.databricks.delta.v2.enableMode](index.md#v2.enableMode)
+
 ## write.txnVersion.autoReset.enabled { #DELTA_IDEMPOTENT_DML_AUTO_RESET_ENABLED }
 
 [spark.databricks.delta.write.txnVersion.autoReset.enabled](index.md#write.txnVersion.autoReset.enabled)

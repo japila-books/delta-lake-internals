@@ -23,6 +23,23 @@ and the table type is [MANAGED](#managed-tables).
 * it is a catalog table (not based on a [path identifier](SupportsPathIdentifier.md#isPathIdentifier)) with no `location` table propery specified
 * `is_managed_location` reserved property is `true` and [Unity Catalog](#isUnityCatalog) is installed
 
+## loadCatalogTable { #loadCatalogTable }
+
+```scala
+loadCatalogTable(
+  ident: Identifier,
+  catalogTable: CatalogTable): Table
+```
+
+`loadCatalogTable` creates a [DeltaTableV2](DeltaTableV2.md).
+
+---
+
+`loadCatalogTable` is used when:
+
+* `DeltaCatalog` is requested to [load a CatalogTable](DeltaCatalog.md#loadCatalogTable)
+* `AbstractDeltaCatalog` is requested to [load a delta table](#loadTable)
+
 ## DelegatingCatalogExtension { #DelegatingCatalogExtension }
 
 `AbstractDeltaCatalog` is a `DelegatingCatalogExtension` ([Spark SQL]({{ book.spark_sql }}/connector/catalog/DelegatingCatalogExtension/)).

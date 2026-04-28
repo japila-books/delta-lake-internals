@@ -4,6 +4,9 @@
 
 The storage location of catalog-managed delta tables is fully owned by a catalog, and thus they are often referred to as **Catalog-Owned Tables**.
 
+!!! note "Unity Catalog Only"
+    Delta Lake 4.2.0 supports [Unity Catalog](../AbstractDeltaCatalog.md#isUnityCatalog) only.
+
 Catalog-managed tables are created with [CatalogOwnedTableFeature](CatalogOwnedTableFeature.md) table feature enabled using the following:
 
 * Per delta table, using [delta.feature.catalogManaged](../table-features/TableFeatureProtocolUtils.md#FEATURE_PROP_PREFIX) table property

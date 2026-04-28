@@ -776,6 +776,22 @@ Used when:
 * `DeltaLog` is requested to [protocolCheck](../DeltaLog.md#protocolCheck)
 * `AbstractDeltaCatalog` is requested to [setVariantBlockingConfigIfUC](../AbstractDeltaCatalog.md#setVariantBlockingConfigIfUC)
 
+### <span id="V2_ENABLE_MODE"> v2.enableMode { #v2.enableMode }
+
+**spark.databricks.delta.v2.enableMode**
+
+Whether to use Delta Connector v1 or v2:
+
+* `AUTO` to use v2 only for v2 supported operations
+* `NONE` to use v1 connector for all cases
+* `STRICT` only for testing
+
+Default: `AUTO`
+
+Used when:
+
+* `DeltaV2Mode` is requested to [mode](../DeltaV2Mode.md#mode)
+
 ### <span id="vacuum.parallelDelete.enabled"><span id="DELTA_VACUUM_PARALLEL_DELETE_ENABLED"> vacuum.parallelDelete.enabled
 
 **spark.databricks.delta.vacuum.parallelDelete.enabled** enables parallelizing the deletion of files during [vacuum](../commands/vacuum/index.md) command.

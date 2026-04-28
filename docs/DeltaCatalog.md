@@ -14,7 +14,35 @@
 
     `loadCatalogTable` is part of the [AbstractDeltaCatalog](AbstractDeltaCatalog.md#loadCatalogTable) abstraction.
 
-`loadCatalogTable`...FIXME
+`loadCatalogTable` [loadTableInternal](#loadTableInternal) to decide on the table implementation:
+
+* [SparkTable](./delta-spark-v2-connector/SparkTable.md)
+* [DeltaTableV2](AbstractDeltaCatalog.md#loadCatalogTable)
+
+## loadPathTable { #loadPathTable }
+
+??? note "AbstractDeltaCatalog"
+
+    ```java
+    Table loadPathTable(
+      Identifier ident)
+    ```
+
+    `loadPathTable` is part of the [AbstractDeltaCatalog](AbstractDeltaCatalog.md#loadPathTable) abstraction.
+
+`loadPathTable`...FIXME
+
+## Load Delta Table { #loadTableInternal }
+
+```java
+Table loadTableInternal(
+  Supplier<Table> v2ConnectorSupplier,
+  Supplier<Table> v1ConnectorSupplier)
+```
+
+`loadTableInternal` creates a [DeltaV2Mode](DeltaV2Mode.md) (for the `SQLConf` of the active `SparkSession`).
+
+When [shouldCatalogReturnV2Tables](DeltaV2Mode.md#shouldCatalogReturnV2Tables) `loadTableInternal` uses the given `v2ConnectorSupplier`. Otherwise, `loadTableInternal` uses the given `v1ConnectorSupplier`.
 
 <!--
 `DeltaCatalog` is [registered](installation.md) using `spark.sql.catalog.spark_catalog` ([Spark SQL]({{ book.spark_sql }}/configuration-properties/#spark.sql.catalog.spark_catalog)) configuration property.
