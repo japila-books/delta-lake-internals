@@ -4,8 +4,7 @@
 
 The storage location of catalog-managed delta tables is fully owned by a catalog, and thus they are often referred to as **Catalog-Owned Tables**.
 
-!!! note "Unity Catalog Only"
-    Delta Lake 4.2.0 supports [Unity Catalog](../AbstractDeltaCatalog.md#isUnityCatalog) only.
+Catalog-managed tables are supported with [Unity Catalog](../AbstractDeltaCatalog.md#isUnityCatalog) only.
 
 Catalog-managed tables are created with [CatalogOwnedTableFeature](CatalogOwnedTableFeature.md) table feature enabled using the following:
 
@@ -15,6 +14,10 @@ Catalog-managed tables are created with [CatalogOwnedTableFeature](CatalogOwnedT
 [AbstractDeltaCatalog](../AbstractDeltaCatalog.md) can create catalog-managed delta tables when executed with [Unity Catalog](../AbstractDeltaCatalog.md#isUnityCatalog) and the table type is [MANAGED](../AbstractDeltaCatalog.md#managed-tables).
 
 [CreateDeltaTableCommand](../commands/create-table/CreateDeltaTableCommand.md#run) makes sure that this table feature is enabled before creating a catalog-managed delta table (or `DELTA_UNSUPPORTED_CATALOG_MANAGED_TABLE_CREATION` error is thrown).
+
+## Demo
+
+[Demo: Catalog-Managed Tables with Unity Catalog](../demo/catalog-managed-tables-unity-catalog.md)
 
 ## Unsupported Commands
 

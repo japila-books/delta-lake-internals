@@ -8,6 +8,7 @@ hide:
 
 The following demos are available:
 
+- [Catalog-Managed Tables with Unity Catalog](./catalog-managed-tables-unity-catalog.md)
 - [Change Data Feed](change-data-feed.md)
 - [Generated Columns](generated-columns.md)
 - [Column Mapping](column-mapping.md)
