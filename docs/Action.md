@@ -168,3 +168,24 @@ fromJson(
 * `DeltaLog` is requested for the [changes of the given delta version and later](DeltaLog.md#getChanges)
 * `OptimisticTransactionImpl` is requested to [checkForConflicts](OptimisticTransactionImpl.md#checkForConflicts)
 * `DeltaCommand` is requested to [commitLarge](commands/DeltaCommand.md#commitLarge)
+
+## Supported Protocol Version { #supportedProtocolVersion }
+
+```scala
+supportedProtocolVersion(
+  withAllFeatures: Boolean = true,
+  featuresToExclude: Seq[TableFeature] = Seq.empty): Protocol
+```
+
+With the given `withAllFeatures` enabled (the default), `supportedProtocolVersion` takes [allSupportedFeaturesMap](./table-features/TableFeature.md#allSupportedFeaturesMap) (with the `featuresToExclude` excluded, if given).
+
+In the end, `supportedProtocolVersion` returns this [Protocol](#protocolVersion) with the [table features](./table-features/TableFeatureSupport.md#withFeatures) added.
+
+---
+
+`supportedProtocolVersion` is used when:
+
+* `DeltaConfigs` is requested to [minReaderVersion](./table-properties/DeltaConfigs.md#MIN_READER_VERSION) and [minWriterVersion](./table-properties/DeltaConfigs.md#MIN_WRITER_VERSION)
+* `DeltaLog` is requested to [assert protocol correctness](DeltaLog.md#protocolCheck)
+* `Action` is requested to [supportedReaderVersionNumbers](#supportedReaderVersionNumbers) and [supportedWriterVersionNumbers](#supportedWriterVersionNumbers)
+* `TableFeatureSupport` is requested to [supportedForRead](./table-features/TableFeatureSupport.md#supportedForRead) and [supportedForWrite](./table-features/TableFeatureSupport.md#supportedForWrite)

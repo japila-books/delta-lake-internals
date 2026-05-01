@@ -72,15 +72,22 @@ allSupportedFeaturesMap: Map[String, TableFeature]
 `allSupportedFeaturesMap` is a collection of [TableFeature](TableFeature.md)s by their lower-case [name](#name):
 
 * [AppendOnlyTableFeature](../append-only-tables/AppendOnlyTableFeature.md)
+* [CatalogOwnedTableFeature](../catalog-managed-tables/CatalogOwnedTableFeature.md)
 * [ChangeDataFeedTableFeature](../change-data-feed/ChangeDataFeedTableFeature.md)
 * [CheckConstraintsTableFeature](../check-constraints/CheckConstraintsTableFeature.md)
 * [ClusteringTableFeature](../liquid-clustering/ClusteringTableFeature.md)
 * [ColumnMappingTableFeature](../column-mapping/ColumnMappingTableFeature.md)
+* [CoordinatedCommitsTableFeature](../coordinated-commits/CoordinatedCommitsTableFeature.md)
 * [DeletionVectorsTableFeature](../deletion-vectors/DeletionVectorsTableFeature.md)
 * [DomainMetadataTableFeature](DomainMetadataTableFeature.md)
 * [GeneratedColumnsTableFeature](../generated-columns/GeneratedColumnsTableFeature.md)
 * [IdentityColumnsTableFeature](../identity-columns/IdentityColumnsTableFeature.md)
+* [InCommitTimestampTableFeature](./InCommitTimestampTableFeature.md)
 * [InvariantsTableFeature](../column-invariants/InvariantsTableFeature.md)
+* [RowTrackingFeature](../row-tracking/RowTrackingFeature.md)
+* [VacuumProtocolCheckTableFeature](./VacuumProtocolCheckTableFeature.md)
+* [VariantTypePreviewTableFeature](VariantTypePreviewTableFeature.md)
+* [VariantTypeTableFeature](VariantTypeTableFeature.md)
 * _others_
 
 ---

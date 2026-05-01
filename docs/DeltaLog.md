@@ -719,6 +719,24 @@ With [delta.appendOnly](table-properties/DeltaConfigs.md#IS_APPEND_ONLY) table p
 * [Delete](commands/delete/index.md), [Update](commands/update/index.md), [WriteIntoDelta](commands/WriteIntoDelta.md) (in `Overwrite` save mode) commands are executed
 * `DeltaSink` is requested to [addBatch](spark-connector/DeltaSink.md#addBatch) in `Complete` output mode
 
+## Assert Protocol Correctness { #protocolCheck }
+
+```scala
+protocolCheck(
+  tableProtocol: Protocol,
+  readOrWrite: String): Unit
+```
+
+`protocolCheck` determines the [maximum protocol version supported](Action.md#supportedProtocolVersion) (possibly excluding the unsupported variant features based on [spark.databricks.delta.variant.disableVariantTableFeatureForSpark40](./configuration-properties/index.md#DISABLE_VARIANT_TABLE_FEATURE_FOR_SPARK_40) configuration property).
+
+`protocolCheck`...FIXME
+
+---
+
+`protocolCheck` is used when:
+
+* `DeltaLog` is requested to [protocolRead](DeltaLog.md#protocolRead) and [protocolWrite](DeltaLog.md#protocolWrite)
+
 ## Logging
 
 Enable `ALL` logging level for `org.apache.spark.sql.delta.DeltaLog` logger to see what happens inside.

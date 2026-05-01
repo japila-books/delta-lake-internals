@@ -1,0 +1,3 @@
+# VariantTypeTableFeature
+
+`VariantTypeTableFeature` is...FIXME

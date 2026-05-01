@@ -766,7 +766,7 @@ Used when:
 
 **spark.databricks.delta.variant.disableVariantTableFeatureForSpark40**
 
-**(internal)** If `true`, disables support for the 'variantType' and 'variantType-preview' table features on Spark 4.0 clients.
+**(internal)** If `true`, disables support for the [variantType](../table-features/VariantTypeTableFeature.md) and [variantType-preview](../table-features/VariantTypePreviewTableFeature.md) table features on Spark 4.0 clients.
 Spark 4.0 does not support the parquet variant logical type annotation, which causes interoperability issues with Spark 4.1+.
 
 Default: `false`

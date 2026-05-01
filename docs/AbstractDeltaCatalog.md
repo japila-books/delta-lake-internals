@@ -154,7 +154,7 @@ In other words, `isUnityCatalog` is `true` if the underlying catalog is a Unity 
 setVariantBlockingConfigIfUC(): Unit
 ```
 
-Only when executed in [isUnityCatalog](#isUnityCatalog) mode, `setVariantBlockingConfigIfUC` sets the internal [spark.databricks.delta.variant.disableVariantTableFeatureForSpark40](./configuration-properties/index.md#variant.disableVariantTableFeatureForSpark40) configuration property to `true`.
+When in [Unity Catalog execution mode](#isUnityCatalog), `setVariantBlockingConfigIfUC` sets [spark.databricks.delta.variant.disableVariantTableFeatureForSpark40](./configuration-properties/index.md#variant.disableVariantTableFeatureForSpark40) configuration property to `true`.
 
 ---
 
