@@ -9,18 +9,6 @@
          <lastmod>2026-05-02</lastmod>
     </url>
     <url>
-         <loc>https://books.japila.pl/delta-lake-internals/Action/</loc>
-         <lastmod>2026-05-02</lastmod>
-    </url>
-    <url>
-         <loc>https://books.japila.pl/delta-lake-internals/AddCDCFile/</loc>
-         <lastmod>2026-05-02</lastmod>
-    </url>
-    <url>
-         <loc>https://books.japila.pl/delta-lake-internals/AddFile/</loc>
-         <lastmod>2026-05-02</lastmod>
-    </url>
-    <url>
          <loc>https://books.japila.pl/delta-lake-internals/AppendDelta/</loc>
          <lastmod>2026-05-02</lastmod>
     </url>
@@ -46,10 +34,6 @@
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/ColumnWithDefaultExprUtils/</loc>
-         <lastmod>2026-05-02</lastmod>
-    </url>
-    <url>
-         <loc>https://books.japila.pl/delta-lake-internals/CommitInfo/</loc>
          <lastmod>2026-05-02</lastmod>
     </url>
     <url>
@@ -181,15 +165,7 @@
          <lastmod>2026-05-02</lastmod>
     </url>
     <url>
-         <loc>https://books.japila.pl/delta-lake-internals/DomainMetadata/</loc>
-         <lastmod>2026-05-02</lastmod>
-    </url>
-    <url>
          <loc>https://books.japila.pl/delta-lake-internals/DomainMetadataUtils/</loc>
-         <lastmod>2026-05-02</lastmod>
-    </url>
-    <url>
-         <loc>https://books.japila.pl/delta-lake-internals/FileAction/</loc>
          <lastmod>2026-05-02</lastmod>
     </url>
     <url>
@@ -222,10 +198,6 @@
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/LogStore/</loc>
-         <lastmod>2026-05-02</lastmod>
-    </url>
-    <url>
-         <loc>https://books.japila.pl/delta-lake-internals/Metadata/</loc>
          <lastmod>2026-05-02</lastmod>
     </url>
     <url>
@@ -265,15 +237,7 @@
          <lastmod>2026-05-02</lastmod>
     </url>
     <url>
-         <loc>https://books.japila.pl/delta-lake-internals/Protocol/</loc>
-         <lastmod>2026-05-02</lastmod>
-    </url>
-    <url>
          <loc>https://books.japila.pl/delta-lake-internals/ReadChecksum/</loc>
-         <lastmod>2026-05-02</lastmod>
-    </url>
-    <url>
-         <loc>https://books.japila.pl/delta-lake-internals/RemoveFile/</loc>
          <lastmod>2026-05-02</lastmod>
     </url>
     <url>
@@ -290,14 +254,6 @@
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/SchemaUtils/</loc>
-         <lastmod>2026-05-02</lastmod>
-    </url>
-    <url>
-         <loc>https://books.japila.pl/delta-lake-internals/SetTransaction/</loc>
-         <lastmod>2026-05-02</lastmod>
-    </url>
-    <url>
-         <loc>https://books.japila.pl/delta-lake-internals/SingleAction/</loc>
          <lastmod>2026-05-02</lastmod>
     </url>
     <url>
@@ -382,6 +338,54 @@
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/logging/</loc>
+         <lastmod>2026-05-02</lastmod>
+    </url>
+    <url>
+         <loc>https://books.japila.pl/delta-lake-internals/actions/</loc>
+         <lastmod>2026-05-02</lastmod>
+    </url>
+    <url>
+         <loc>https://books.japila.pl/delta-lake-internals/actions/Action/</loc>
+         <lastmod>2026-05-02</lastmod>
+    </url>
+    <url>
+         <loc>https://books.japila.pl/delta-lake-internals/actions/AddCDCFile/</loc>
+         <lastmod>2026-05-02</lastmod>
+    </url>
+    <url>
+         <loc>https://books.japila.pl/delta-lake-internals/actions/AddFile/</loc>
+         <lastmod>2026-05-02</lastmod>
+    </url>
+    <url>
+         <loc>https://books.japila.pl/delta-lake-internals/actions/CommitInfo/</loc>
+         <lastmod>2026-05-02</lastmod>
+    </url>
+    <url>
+         <loc>https://books.japila.pl/delta-lake-internals/actions/DomainMetadata/</loc>
+         <lastmod>2026-05-02</lastmod>
+    </url>
+    <url>
+         <loc>https://books.japila.pl/delta-lake-internals/actions/FileAction/</loc>
+         <lastmod>2026-05-02</lastmod>
+    </url>
+    <url>
+         <loc>https://books.japila.pl/delta-lake-internals/actions/Metadata/</loc>
+         <lastmod>2026-05-02</lastmod>
+    </url>
+    <url>
+         <loc>https://books.japila.pl/delta-lake-internals/actions/Protocol/</loc>
+         <lastmod>2026-05-02</lastmod>
+    </url>
+    <url>
+         <loc>https://books.japila.pl/delta-lake-internals/actions/RemoveFile/</loc>
+         <lastmod>2026-05-02</lastmod>
+    </url>
+    <url>
+         <loc>https://books.japila.pl/delta-lake-internals/actions/SetTransaction/</loc>
+         <lastmod>2026-05-02</lastmod>
+    </url>
+    <url>
+         <loc>https://books.japila.pl/delta-lake-internals/actions/SingleAction/</loc>
          <lastmod>2026-05-02</lastmod>
     </url>
     <url>
@@ -1622,6 +1626,10 @@
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/spark-connector/DeltaWriteOptionsImpl/</loc>
+         <lastmod>2026-05-02</lastmod>
+    </url>
+    <url>
+         <loc>https://books.japila.pl/delta-lake-internals/spark-connector/PersistedMetadata/</loc>
          <lastmod>2026-05-02</lastmod>
     </url>
     <url>
