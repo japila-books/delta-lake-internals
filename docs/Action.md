@@ -185,7 +185,7 @@ In the end, `supportedProtocolVersion` returns this [Protocol](#protocolVersion)
 
 `supportedProtocolVersion` is used when:
 
-* `DeltaConfigs` is requested to [minReaderVersion](./table-properties/DeltaConfigs.md#MIN_READER_VERSION) and [minWriterVersion](./table-properties/DeltaConfigs.md#MIN_WRITER_VERSION)
+* `Action` is requested for the [supportedReaderVersionNumbers](#supportedReaderVersionNumbers) and [supportedWriterVersionNumbers](#supportedWriterVersionNumbers)
+* `DeltaConfigs` is requested for the minimum (lowest) protocol version of the [reader](./table-properties/DeltaConfigs.md#MIN_READER_VERSION) and [writer](./table-properties/DeltaConfigs.md#MIN_WRITER_VERSION)
 * `DeltaLog` is requested to [assert protocol correctness](DeltaLog.md#protocolCheck)
-* `Action` is requested to [supportedReaderVersionNumbers](#supportedReaderVersionNumbers) and [supportedWriterVersionNumbers](#supportedWriterVersionNumbers)
 * `TableFeatureSupport` is requested to [supportedForRead](./table-features/TableFeatureSupport.md#supportedForRead) and [supportedForWrite](./table-features/TableFeatureSupport.md#supportedForWrite)

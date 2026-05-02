@@ -1,45 +1,78 @@
 # Protocol
 
-`Protocol` is an [Action](Action.md).
+`Protocol` is an [Action](Action.md) with [TableFeatureSupport](./table-features/TableFeatureSupport.md).
 
 ## Creating Instance
 
 `Protocol` takes the following to be created:
 
-* <span id="minReaderVersion"> Minimum Reader Version Allowed (default: `1`)
-* <span id="minWriterVersion"> Minimum Writer Version Allowed (default: `3`)
+* <span id="minReaderVersion"> Minimum Reader Version required to read this delta table
+* <span id="minWriterVersion"> Minimum Writer Version required to write to this delta table.
+* <span id="readerFeatures"> Reader features that need to be supported to read this delta table (optional)
+* <span id="writerFeatures"> Writer features that need to be supported to write to this delta table (optional)
 
-`Protocol` is created when:
+`Protocol` is created using [apply](#apply) and [forTableFeature](#forTableFeature) factories.
 
-* `DeltaTable` is requested to [upgradeTableProtocol](DeltaTable.md#upgradeTableProtocol)
-* _FIXME_
+## Create Protocol { #apply }
 
-## <span id="forNewTable"> forNewTable
+```scala
+apply(
+  minReaderVersion: Int = Action.readerVersion,
+  minWriterVersion: Int = Action.writerVersion): Protocol
+```
+
+`apply` creates a [Protocol](#creating-instance) for the given `minReaderVersion` and `minWriterVersion`.
+
+`apply` [supportsReaderFeatures](./table-features/TableFeatureProtocolUtils.md#supportsReaderFeatures) and [supportsWriterFeatures](./table-features/TableFeatureProtocolUtils.md#supportsWriterFeatures) to initialize [readerFeatures](#readerFeatures) and [writerFeatures](#writerFeatures).
+
+---
+
+`apply` is used when:
+
+* `OptimisticTransactionImpl` is requested to [updateMetadataInternal](OptimisticTransactionImpl.md#updateMetadataInternal)
+* `TableFeature` is requested to [minProtocolVersion](./table-features/TableFeature.md#minProtocolVersion)
+* `Action` is requested to [protocolVersion](./Action.md#protocolVersion)
+* `Protocol` is requested to [forNewTable](#forNewTable), [minProtocolComponentsFromMetadata](#minProtocolComponentsFromMetadata), [upgradeProtocolFromMetadataForExistingTable](#upgradeProtocolFromMetadataForExistingTable)
+* `TableFeatureSupport` is requested to [denormalized](./table-features/TableFeatureSupport.md#denormalized), [merge](./table-features/TableFeatureSupport.md#merge), [normalized](./table-features/TableFeatureSupport.md#normalized)
+* `CloneTableBase` is requested to [determineTargetProtocol](./commands/clone/CloneTableBase.md#determineTargetProtocol)
+* `CloneConvertedSource` is requested to [protocol](./commands/clone/CloneConvertedSource.md#protocol)
+* `CreateDeltaTableCommand` is requested to [handleCreateTable](./commands/create-table/CreateDeltaTableCommand.md#handleCreateTable)
+* `RowTrackingBackfillCommand` is requested to [upgradeProtocolIfRequired](./row-tracking/RowTrackingBackfillCommand.md#upgradeProtocolIfRequired)
+* `CDCReaderImpl` is requested to [isCDCEnabledOnTable](./change-data-feed/CDCReaderImpl.md#isCDCEnabledOnTable)
+
+## forTableFeature { #forTableFeature }
+
+```scala
+forTableFeature(
+  tf: TableFeature): Protocol
+```
+
+`forTableFeature`...FIXME
+
+---
+
+`forTableFeature` is used when:
+
+* `IcebergCompatBase` is requested to `enforceInvariantsAndDependencies`
+
+## forNewTable { #forNewTable }
 
 ```scala
 forNewTable(
   spark: SparkSession,
-  metadata: Metadata): Protocol
+  metadataOpt: Option[Metadata]): Protocol
 ```
 
 `forNewTable` creates a new [Protocol](#creating-instance) for the given `SparkSession` and [Metadata](Metadata.md).
 
+---
+
 `forNewTable` is used when:
 
-* `OptimisticTransactionImpl` is requested to [updateMetadata](OptimisticTransactionImpl.md#updateMetadata) and [updateMetadataForNewTable](OptimisticTransactionImpl.md#updateMetadataForNewTable)
-* `InitialSnapshot` is requested to `computedState`
+* `OptimisticTransactionImpl` is requested to [updateMetadataInternal](OptimisticTransactionImpl.md#updateMetadataInternal)
+* `DummySnapshot` is requested for the `protocol`
 
-### <span id="apply"> apply
-
-```scala
-apply(
-  spark: SparkSession,
-  metadataOpt: Option[Metadata]): Protocol
-```
-
-`apply`...FIXME
-
-## <span id="checkProtocolRequirements"> checkProtocolRequirements
+## checkProtocolRequirements { #checkProtocolRequirements }
 
 ```scala
 checkProtocolRequirements(
@@ -68,7 +101,7 @@ Should not have the protocol version (delta.minWriterVersion) as part of table p
 
 * `OptimisticTransactionImpl` is requested to [verify a new metadata](OptimisticTransactionImpl.md#verifyNewMetadata)
 
-## <span id="requiredMinimumProtocol"> Required Minimum Protocol
+## Required Minimum Protocol { #requiredMinimumProtocol }
 
 ```scala
 requiredMinimumProtocol(
