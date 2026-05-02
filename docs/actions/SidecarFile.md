@@ -1,0 +1,3 @@
+# SidecarFile
+
+`SidecarFile` is...FIXME

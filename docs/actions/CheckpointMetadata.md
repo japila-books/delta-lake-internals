@@ -1,0 +1,3 @@
+# CheckpointMetadata
+
+`CheckpointMetadata` is...FIXME

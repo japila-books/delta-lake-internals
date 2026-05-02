@@ -50,10 +50,6 @@
 
 [spark.databricks.delta.history.maxKeysPerList](index.md#history.maxKeysPerList)
 
-## variant.disableVariantTableFeatureForSpark40 { #DISABLE_VARIANT_TABLE_FEATURE_FOR_SPARK_40 }
-
-[spark.databricks.delta.variant.disableVariantTableFeatureForSpark40](index.md#variant.disableVariantTableFeatureForSpark40)
-
 ## identityColumn.enabled { #DELTA_IDENTITY_COLUMN_ENABLED }
 
 [spark.databricks.delta.identityColumn.enabled](index.md#identityColumn.enabled)
@@ -122,9 +118,29 @@
 
 [spark.databricks.delta.streaming.unsafeReadOnIncompatibleColumnMappingSchemaChanges.enabled](index.md#streaming.unsafeReadOnIncompatibleColumnMappingSchemaChanges.enabled)
 
+## streaming.unsafeReadOnIncompatibleSchemaChangesDuringStreamStart.enabled { #DELTA_STREAMING_UNSAFE_READ_ON_INCOMPATIBLE_SCHEMA_CHANGES_DURING_STREAM_START }
+
+[spark.databricks.delta.streaming.unsafeReadOnIncompatibleSchemaChangesDuringStreamStart.enabled](index.md#streaming.unsafeReadOnIncompatibleSchemaChangesDuringStreamStart.enabled)
+
+## streaming.unsafeReadOnPartitionColumnChanges.enabled { #DELTA_STREAMING_UNSAFE_READ_ON_PARTITION_COLUMN_CHANGE }
+
+[spark.databricks.delta.streaming.unsafeReadOnPartitionColumnChanges.enabled](index.md#streaming.unsafeReadOnPartitionColumnChanges.enabled)
+
+## streaming.unsafeReadOnNullabilityChange.enabled { #DELTA_STREAM_UNSAFE_READ_ON_NULLABILITY_CHANGE }
+
+[spark.databricks.delta.streaming.unsafeReadOnNullabilityChange.enabled](index.md#streaming.unsafeReadOnNullabilityChange.enabled)
+
 ## timeTravel.resolveOnIdentifier.enabled { #RESOLVE_TIME_TRAVEL_ON_IDENTIFIER }
 
 [spark.databricks.delta.timeTravel.resolveOnIdentifier.enabled](index.md#timeTravel.resolveOnIdentifier.enabled)
+
+## typeWidening.enableStreamingSchemaTracking { #DELTA_TYPE_WIDENING_ENABLE_STREAMING_SCHEMA_TRACKING }
+
+[spark.databricks.delta.typeWidening.enableStreamingSchemaTracking](index.md#typeWidening.enableStreamingSchemaTracking)
+
+## typeWidening.allowTypeChangeStreamingDeltaSource { #DELTA_ALLOW_TYPE_WIDENING_STREAMING_SOURCE }
+
+[spark.databricks.delta.typeWidening.allowTypeChangeStreamingDeltaSource](index.md#typeWidening.allowTypeChangeStreamingDeltaSource)
 
 ## update.deletionVectors.persistent { #UPDATE_USE_PERSISTENT_DELETION_VECTORS }
 
@@ -133,6 +149,10 @@
 ## v2.enableMode { #V2_ENABLE_MODE }
 
 [spark.databricks.delta.v2.enableMode](index.md#v2.enableMode)
+
+## variant.disableVariantTableFeatureForSpark40 { #DISABLE_VARIANT_TABLE_FEATURE_FOR_SPARK_40 }
+
+[spark.databricks.delta.variant.disableVariantTableFeatureForSpark40](index.md#variant.disableVariantTableFeatureForSpark40)
 
 ## write.txnVersion.autoReset.enabled { #DELTA_IDEMPOTENT_DML_AUTO_RESET_ENABLED }
 

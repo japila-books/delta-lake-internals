@@ -198,3 +198,23 @@ In other words, `persistedMetadataAtSourceInit` is defined only when this [Delta
 
 * `DeltaSourceBase` is requested for a [SnapshotDescriptor](#readSnapshotDescriptor)
 * `DeltaSourceMetadataEvolutionSupport` is requested to [hasMetadataOrProtocolChangeComparedToStreamMetadata](DeltaSourceMetadataEvolutionSupport.md#hasMetadataOrProtocolChangeComparedToStreamMetadata)
+
+## SchemaReadOptions { #schemaReadOptions }
+
+```scala
+schemaReadOptions: SchemaReadOptions
+```
+
+`schemaReadOptions` [creates a SchemaReadOptions](SchemaReadOptions.md#fromSparkSession) (for this [SparkSession](DeltaSource.md#spark) and [SnapshotDescriptor](DeltaSource.md#snapshotAtSourceInit)).
+
+??? note "Lazy Value"
+    `schemaReadOptions` is a Scala **lazy value** to guarantee that the code to initialize it is executed once only (when accessed for the first time) and the computed value never changes afterwards.
+
+    Learn more in the [Scala Language Specification]({{ scala.spec }}/05-classes-and-objects.html#lazy).
+
+---
+
+`schemaReadOptions` is used when:
+
+* `DeltaSourceBase` is requested to [checkNonAdditiveSchemaChanges](#checkNonAdditiveSchemaChanges), [checkReadIncompatibleSchemaChangeOnStreamStartOnce](#checkReadIncompatibleSchemaChangeOnStreamStartOnce) and [checkReadIncompatibleSchemaChanges](#checkReadIncompatibleSchemaChanges)
+* `DeltaSourceMetadataEvolutionSupport` is requested to [readyToInitializeMetadataTrackingEagerly](DeltaSourceMetadataEvolutionSupport.md#readyToInitializeMetadataTrackingEagerly) and [trackingMetadataChange](DeltaSourceMetadataEvolutionSupport.md#trackingMetadataChange)

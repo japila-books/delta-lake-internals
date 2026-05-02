@@ -4,6 +4,6 @@
 
 The main abstraction is [Action](Action.md).
 
-Actions increment the version of the delta table.
+Actions can (and in most cases will) increment the version of the delta table.
 
 Actions can be [serialized to JSON format](Action.md#json).

@@ -20,7 +20,7 @@ Used when:
 * `Checkpoints` is requested to [writeTopLevelV2Checkpoint](../checkpoints/Checkpoints.md#writeTopLevelV2Checkpoint)
 * `OptimisticTransactionImpl` is requested to [commitLarge](OptimisticTransactionImpl.md#commitLarge), [doCommit](OptimisticTransactionImpl.md#doCommit), [validateAddFileForNullPartitions](OptimisticTransactionImpl.md#validateAddFileForNullPartitions), [validateAddFileNotEmpty](OptimisticTransactionImpl.md#validateAddFileNotEmpty)
 * `DeltaSourceMetadataTrackingLog` is requested to [getMergedConsecutiveMetadataChanges](../spark-connector/DeltaSourceMetadataTrackingLog.md#getMergedConsecutiveMetadataChanges)
-* `PersistedMetadata` is requested to [apply](../spark-connector/PersistedMetadata.md#apply)
+* `PersistedMetadata` is [created](../spark-connector/PersistedMetadata.md#apply)
 
 ### SingleAction Representation { #wrap }
 
@@ -47,7 +47,7 @@ Used when:
 
     Learn more in the [Scala Language Specification]({{ scala.spec }}/05-classes-and-objects.html#sealed).
 
-* `CheckpointOnlyAction`
+* [CheckpointOnlyAction](CheckpointOnlyAction.md)
 * [CommitInfo](CommitInfo.md)
 * [DomainMetadata](DomainMetadata.md)
 * [FileAction](FileAction.md)
