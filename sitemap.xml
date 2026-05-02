@@ -357,6 +357,14 @@
          <lastmod>2026-05-02</lastmod>
     </url>
     <url>
+         <loc>https://books.japila.pl/delta-lake-internals/actions/CheckpointMetadata/</loc>
+         <lastmod>2026-05-02</lastmod>
+    </url>
+    <url>
+         <loc>https://books.japila.pl/delta-lake-internals/actions/CheckpointOnlyAction/</loc>
+         <lastmod>2026-05-02</lastmod>
+    </url>
+    <url>
          <loc>https://books.japila.pl/delta-lake-internals/actions/CommitInfo/</loc>
          <lastmod>2026-05-02</lastmod>
     </url>
@@ -382,6 +390,10 @@
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/actions/SetTransaction/</loc>
+         <lastmod>2026-05-02</lastmod>
+    </url>
+    <url>
+         <loc>https://books.japila.pl/delta-lake-internals/actions/SidecarFile/</loc>
          <lastmod>2026-05-02</lastmod>
     </url>
     <url>
@@ -1633,11 +1645,19 @@
          <lastmod>2026-05-02</lastmod>
     </url>
     <url>
+         <loc>https://books.japila.pl/delta-lake-internals/spark-connector/SchemaReadOptions/</loc>
+         <lastmod>2026-05-02</lastmod>
+    </url>
+    <url>
          <loc>https://books.japila.pl/delta-lake-internals/spark-connector/SchemaTrackingLog/</loc>
          <lastmod>2026-05-02</lastmod>
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/spark-connector/SnapshotIterator/</loc>
+         <lastmod>2026-05-02</lastmod>
+    </url>
+    <url>
+         <loc>https://books.japila.pl/delta-lake-internals/spark-connector/SparkMicroBatchStream/</loc>
          <lastmod>2026-05-02</lastmod>
     </url>
     <url>
