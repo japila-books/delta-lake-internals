@@ -41,18 +41,7 @@ nav:
     - Version Checksums: version-checksums
   - Internals:
     - AbstractDeltaCatalog.md
-    - Actions:
-      - Action: Action.md
-      - AddCDCFile: AddCDCFile.md
-      - AddFile: AddFile.md
-      - CommitInfo: CommitInfo.md
-      - DomainMetadata: DomainMetadata.md
-      - FileAction: FileAction.md
-      - Metadata: Metadata.md
-      - Protocol: Protocol.md
-      - RemoveFile: RemoveFile.md
-      - SetTransaction: SetTransaction.md
-      - SingleAction: SingleAction.md
+    - Actions: actions
     - ColumnMappingPreDowngradeCommand.md
     - DelayedCommitProtocol.md
     - DeltaCatalog.md

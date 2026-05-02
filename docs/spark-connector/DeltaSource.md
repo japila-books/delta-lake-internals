@@ -4,6 +4,8 @@
 
 `DeltaSource` is a [DeltaSourceCDCSupport](../change-data-feed/DeltaSourceCDCSupport.md).
 
+`DeltaSource` is a [DeltaSourceMetadataEvolutionSupport](DeltaSourceMetadataEvolutionSupport.md).
+
 ## Creating Instance
 
 `DeltaSource` takes the following to be created:
@@ -53,6 +55,16 @@ start: [startOffsetOption] end: [end]
 ```
 
 In the end, `getBatch` [createDataFrameBetweenOffsets](DeltaSourceBase.md#createDataFrameBetweenOffsets) (for the `startVersion`, `startIndex`, `isStartingVersion` and `endOffset`).
+
+### validateAndInitMetadataLogForPlannedBatchesDuringStreamStart { #validateAndInitMetadataLogForPlannedBatchesDuringStreamStart }
+
+```scala
+validateAndInitMetadataLogForPlannedBatchesDuringStreamStart(
+  startVersion: Long,
+  endOffset: DeltaSourceOffset): Unit
+```
+
+`validateAndInitMetadataLogForPlannedBatchesDuringStreamStart`...FIXME
 
 ## Latest Available Streaming Offset { #latestOffset }
 

@@ -17,8 +17,10 @@ Serializes (_converts_) the [(wrapped) action](#wrap) to JSON format
 
 Used when:
 
-* `OptimisticTransactionImpl` is requested to [doCommit](OptimisticTransactionImpl.md#doCommit)
-* `DeltaCommand` is requested to [commitLarge](commands/DeltaCommand.md#commitLarge)
+* `Checkpoints` is requested to [writeTopLevelV2Checkpoint](../checkpoints/Checkpoints.md#writeTopLevelV2Checkpoint)
+* `OptimisticTransactionImpl` is requested to [commitLarge](OptimisticTransactionImpl.md#commitLarge), [doCommit](OptimisticTransactionImpl.md#doCommit), [validateAddFileForNullPartitions](OptimisticTransactionImpl.md#validateAddFileForNullPartitions), [validateAddFileNotEmpty](OptimisticTransactionImpl.md#validateAddFileNotEmpty)
+* `DeltaSourceMetadataTrackingLog` is requested to [getMergedConsecutiveMetadataChanges](../spark-connector/DeltaSourceMetadataTrackingLog.md#getMergedConsecutiveMetadataChanges)
+* `PersistedMetadata` is requested to [apply](../spark-connector/PersistedMetadata.md#apply)
 
 ### SingleAction Representation { #wrap }
 
