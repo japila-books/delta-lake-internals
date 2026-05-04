@@ -31,3 +31,16 @@ With [delta.enableDeletionVectors](../table-properties/DeltaConfigs.md#enableDel
     `metadataRequiresFeatureToBeEnabled` is part of the [FeatureAutomaticallyEnabledByMetadata](../table-features/FeatureAutomaticallyEnabledByMetadata.md#metadataRequiresFeatureToBeEnabled) abstraction.
 
 `metadataRequiresFeatureToBeEnabled` is the value of [delta.enableDeletionVectors](../table-properties/DeltaConfigs.md#enableDeletionVectors) table property (in the given [Metadata](../table-properties/DeltaConfig.md#fromMetaData)).
+
+## preDowngradeCommand { #preDowngradeCommand }
+
+??? note "RemovableFeature"
+
+    ```scala
+    preDowngradeCommand(
+      table: DeltaTableV2): PreDowngradeTableFeatureCommand
+    ```
+
+    `preDowngradeCommand` is part of the [RemovableFeature](../table-features/RemovableFeature.md#preDowngradeCommand) abstraction.
+
+`preDowngradeCommand` creates a [DeletionVectorsPreDowngradeCommand](DeletionVectorsPreDowngradeCommand.md) (with the given [DeltaTableV2](../DeltaTableV2.md)).

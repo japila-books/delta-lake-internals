@@ -1,10 +1,12 @@
 ---
-title: DROP FEATURE
+title: AlterTableDropFeature
 ---
 
 # AlterTableDropFeature Command
 
-`AlterTableDropFeature` is an `AlterTableCommand` ([Spark SQL]({{ book.spark_sql }}/logical-operators/AlterTableCommand)) unary logical operator that represents [ALTER TABLE DROP FEATURE](../../sql/index.md#ALTER-TABLE-DROP-FEATURE) SQL command in a logical query plan.
+`AlterTableDropFeature` is an `AlterTableCommand` ([Spark SQL]({{ book.spark_sql }}/logical-operators/AlterTableCommand)) unary logical operator that represents the following high-level operator in a logical query plan:
+
+* [ALTER TABLE DROP FEATURE](../../sql/index.md#ALTER-TABLE-DROP-FEATURE) SQL command
 
 `AlterTableDropFeature` supports a single feature removal (by the [feature name](#featureName)).
 

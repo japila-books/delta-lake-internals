@@ -10,7 +10,7 @@
 json: String
 ```
 
-Serializes (_converts_) the [(wrapped) action](#wrap) to JSON format
+Serializes (_converts_) this [(wrapped) action](#wrap) to JSON format
 
 ??? note "Jackson"
     `json` uses [Jackson]({{ jackson.github }}) library (with [jackson-module-scala]({{ jackson.scala }})) as the JSON processor.
@@ -18,7 +18,7 @@ Serializes (_converts_) the [(wrapped) action](#wrap) to JSON format
 Used when:
 
 * `Checkpoints` is requested to [writeTopLevelV2Checkpoint](../checkpoints/Checkpoints.md#writeTopLevelV2Checkpoint)
-* `OptimisticTransactionImpl` is requested to [commitLarge](OptimisticTransactionImpl.md#commitLarge), [doCommit](OptimisticTransactionImpl.md#doCommit), [validateAddFileForNullPartitions](OptimisticTransactionImpl.md#validateAddFileForNullPartitions), [validateAddFileNotEmpty](OptimisticTransactionImpl.md#validateAddFileNotEmpty)
+* `OptimisticTransactionImpl` is requested to [large commit](../OptimisticTransactionImpl.md#commitLarge), [doCommit](../OptimisticTransactionImpl.md#doCommit), [validateAddFileForNullPartitions](../OptimisticTransactionImpl.md#validateAddFileForNullPartitions), [validateAddFileNotEmpty](../OptimisticTransactionImpl.md#validateAddFileNotEmpty)
 * `DeltaSourceMetadataTrackingLog` is requested to [getMergedConsecutiveMetadataChanges](../spark-connector/DeltaSourceMetadataTrackingLog.md#getMergedConsecutiveMetadataChanges)
 * `PersistedMetadata` is [created](../spark-connector/PersistedMetadata.md#apply)
 

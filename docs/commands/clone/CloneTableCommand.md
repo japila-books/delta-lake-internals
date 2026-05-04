@@ -21,7 +21,8 @@
 handleClone(
   sparkSession: SparkSession,
   txn: OptimisticTransaction,
-  targetDeltaLog: DeltaLog): Seq[Row]
+  targetDeltaLog: DeltaLog,
+  commandMetrics: Option[Map[String, SQLMetric]] = None): Seq[Row]
 ```
 
 `handleClone`...FIXME

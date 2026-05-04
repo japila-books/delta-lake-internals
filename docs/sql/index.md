@@ -32,7 +32,7 @@ ALTER TABLE table
 DROP FEATURE featureName (TRUNCATE HISTORY)?
 ```
 
-Creates a [AlterTableDropFeature](../commands/alter/AlterTableDropFeature.md) logical operator
+Creates an [AlterTableDropFeature](../commands/alter/AlterTableDropFeature.md) logical operator
 
 ## CLONE { #clone }
 

@@ -1,6 +1,10 @@
+---
+title: DROP FEATURE
+---
+
 # AlterTableDropFeatureDeltaCommand
 
-`AlterTableDropFeatureDeltaCommand` is a `LeafRunnableCommand` ([Spark SQL]({{ book.spark_sql }}/logical-operators/LeafRunnableCommand)) logical operator that represents the following commands at execution:
+`AlterTableDropFeatureDeltaCommand` is a `LeafRunnableCommand` ([Spark SQL]({{ book.spark_sql }}/logical-operators/LeafRunnableCommand)) logical operator that represents the following high-level operators at execution:
 
 * [ALTER TABLE DROP FEATURE](AlterTableDropFeature.md) SQL command
 * [DeltaTable.dropFeatureSupport](../../DeltaTable.md#dropFeatureSupport)

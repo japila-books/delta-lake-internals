@@ -185,3 +185,27 @@ loadMetadataFromFile(
 `loadMetadataFromFile` uses the [LogStore](../DeltaLog.md#store) to [read](#read) the []`_last_checkpoint` file.
 
 In case the `_last_checkpoint` file is corrupted, `loadMetadataFromFile`...FIXME
+
+## writeTopLevelV2Checkpoint { #writeTopLevelV2Checkpoint }
+
+```scala
+writeTopLevelV2Checkpoint(
+  v2CheckpointFormat: V2Checkpoint.Format,
+  sidecarCheckpointFiles: Array[SerializableFileStatus],
+  spark: SparkSession,
+  sidecarSchema: StructType,
+  snapshot: Snapshot,
+  deltaLog: DeltaLog,
+  rowsWrittenInCheckpointJob: Long,
+  parquetFilesSizeInBytes: Long,
+  hadoopConf: Configuration,
+  useRename: Boolean) : (FileStatus, Seq[Action], LastCheckpointV2, Option[StructType])
+```
+
+`writeTopLevelV2Checkpoint`...FIXME
+
+---
+
+`writeTopLevelV2Checkpoint` is used when:
+
+* `Checkpoints` is requested to [writeCheckpoint](#writeCheckpoint)

@@ -17,10 +17,11 @@ removeFeatureTracesIfNeeded(
 See:
 
 * [CoordinatedCommitsPreDowngradeCommand](../coordinated-commits/CoordinatedCommitsPreDowngradeCommand.md#removeFeatureTracesIfNeeded)
+* [DeletionVectorsPreDowngradeCommand](../deletion-vectors/DeletionVectorsPreDowngradeCommand.md#removeFeatureTracesIfNeeded)
 
 Used when:
 
-* `AlterTableDropFeatureDeltaCommand` is requested to [executeDropFeatureWithCheckpointProtection](../commands/alter/AlterTableDropFeatureDeltaCommand.md#executeDropFeatureWithCheckpointProtection) and [executeDropFeatureWithHistoryTruncation](../commands/alter/AlterTableDropFeatureDeltaCommand.md#executeDropFeatureWithHistoryTruncation)
+* [ALTER TABLE DROP FEATURE](../commands/alter/AlterTableDropFeature.md) command is executed (and `AlterTableDropFeatureDeltaCommand` is requested to [executeDropFeatureWithCheckpointProtection](../commands/alter/AlterTableDropFeatureDeltaCommand.md#executeDropFeatureWithCheckpointProtection) and [executeDropFeatureWithHistoryTruncation](../commands/alter/AlterTableDropFeatureDeltaCommand.md#executeDropFeatureWithHistoryTruncation))
 
 ## Implementations
 
@@ -28,7 +29,7 @@ Used when:
 * `CheckpointProtectionPreDowngradeCommand`
 * `ColumnMappingPreDowngradeCommand`
 * [CoordinatedCommitsPreDowngradeCommand](../coordinated-commits/CoordinatedCommitsPreDowngradeCommand.md)
-* `DeletionVectorsPreDowngradeCommand`
+* [DeletionVectorsPreDowngradeCommand](../deletion-vectors/DeletionVectorsPreDowngradeCommand.md)
 * `DomainMetadataPreDowngradeCommand`
 * `InCommitTimestampsPreDowngradeCommand`
 * `MaterializePartitionColumnsPreDowngradeCommand`

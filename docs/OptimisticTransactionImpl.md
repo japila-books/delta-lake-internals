@@ -786,12 +786,13 @@ setNewProtocolWithFeaturesEnabledByMetadata(
 
 * `OptimisticTransactionImpl` is requested to [updateMetadataInternal](#updateMetadataInternal) and [prepareCommit](#prepareCommit)
 
-## Committing Large (Data Files) { #commitLarge }
+## Large Commit { #commitLarge }
 
 ```scala
 commitLarge(
   spark: SparkSession,
-  actions: Iterator[Action],
+  nonProtocolMetadataActions: Iterator[Action],
+  newProtocolOpt: Option[Protocol],
   op: DeltaOperations.Operation,
   context: Map[String, String],
   metrics: Map[String, String]): (Long, Snapshot)
@@ -803,8 +804,9 @@ commitLarge(
 
 `commitLarge` is used for the following commands:
 
-* [CONVERT](commands/convert/index.md) (and [performConvert](commands/convert/ConvertToDeltaCommand.md#performConvert))
-* [CreateDeltaTableCommand](commands/create-table/CreateDeltaTableCommand.md) (and [handleClone](commands/clone/CloneTableBase.md#handleClone))
+* [ALTER TABLE DROP FEATURE](./commands/alter/AlterTableDropFeatureDeltaCommand.md) (and `DeletionVectorsPreDowngradeCommand` is requested to [removeFeatureTracesIfNeeded](./deletion-vectors/DeletionVectorsPreDowngradeCommand.md#removeFeatureTracesIfNeeded) that [generateDVTombstones](./deletion-vectors/DeletionVectorsPreDowngradeCommand.md#generateDVTombstones))
+* `CloneTableBase` is requested to [handleClone](./commands/clone/CloneTableBase.md#handleClone)
+* [CONVERT](commands/convert/index.md) (to [performConvert](commands/convert/ConvertToDeltaCommand.md#performConvert))
 * [RESTORE](commands/restore/index.md)
 
 ## Metadata Can Be Updated { #canUpdateMetadata }

@@ -43,6 +43,23 @@ Used when:
 * `TableFeature` is requested to [validateFeatureRemovalAtSnapshot](TableFeature.md#validateFeatureRemovalAtSnapshot)
 * `AlterTableDropFeatureDeltaCommand` is requested to [executeDropFeatureWithCheckpointProtection](../commands/alter/AlterTableDropFeatureDeltaCommand.md#executeDropFeatureWithCheckpointProtection) and [executeDropFeatureWithHistoryTruncation](../commands/alter/AlterTableDropFeatureDeltaCommand.md#executeDropFeatureWithHistoryTruncation)
 
+### preDowngradeCommand { #preDowngradeCommand }
+
+```scala
+preDowngradeCommand(
+  table: DeltaTableV2): PreDowngradeTableFeatureCommand
+```
+
+Create a [PreDowngradeTableFeatureCommand](PreDowngradeTableFeatureCommand.md) with the given [DeltaTableV2](../DeltaTableV2.md)
+
+See:
+
+* [DeletionVectorsTableFeature](../deletion-vectors/DeletionVectorsTableFeature.md#preDowngradeCommand)
+
+Used when:
+
+* `AlterTableDropFeatureDeltaCommand` is requested to [executeDropFeatureWithCheckpointProtection](../commands/alter/AlterTableDropFeatureDeltaCommand.md#executeDropFeatureWithCheckpointProtection) and [executeDropFeatureWithHistoryTruncation](../commands/alter/AlterTableDropFeatureDeltaCommand.md#executeDropFeatureWithHistoryTruncation)
+
 ## Implementations
 
 * [CatalogOwnedTableFeature](../catalog-managed-tables/CatalogOwnedTableFeature.md)
@@ -97,3 +114,18 @@ containsFeatureTraces(
 `containsFeatureTraces` is used when:
 
 * `RemovableFeature` is requested to [historyContainsFeature](#historyContainsFeature)
+
+## requiresHistoryProtection { #requiresHistoryProtection }
+
+```scala
+requiresHistoryProtection: Boolean
+```
+
+`requiresHistoryProtection` is enabled (`true`) when [this table feature is a ReaderWriterFeatureType](TableFeature.md#isReaderWriterFeature).
+
+---
+
+`requiresHistoryProtection` is used when:
+
+* `RemovableFeature` is requested to [historyContainsFeature](#historyContainsFeature) and [isProtocolRemovingFeatureWithHistoryProtection](#isProtocolRemovingFeatureWithHistoryProtection)
+* `AlterTableDropFeatureDeltaCommand` is [executed](../commands/alter/AlterTableDropFeatureDeltaCommand.md)

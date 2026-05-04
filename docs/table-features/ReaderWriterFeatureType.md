@@ -1,0 +1,3 @@
+# ReaderWriterFeatureType
+
+`ReaderWriterFeatureType` is...FIXME
