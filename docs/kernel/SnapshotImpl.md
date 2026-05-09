@@ -1,0 +1,3 @@
+# SnapshotImpl
+
+`SnapshotImpl` is...FIXME

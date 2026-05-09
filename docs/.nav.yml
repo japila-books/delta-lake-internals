@@ -49,6 +49,8 @@ nav:
     - FileFormat:
       - DeltaFileFormat: DeltaFileFormat.md
       - DeltaParquetFileFormat: DeltaParquetFileFormat.md
+      - DeltaParquetFileFormatBase: DeltaParquetFileFormatBase.md
+      - DeltaParquetFileFormatV2: DeltaParquetFileFormatV2.md
     - Transaction Log (DeltaLog):
       - DeltaLog: DeltaLog.md
       - Operation: Operation.md

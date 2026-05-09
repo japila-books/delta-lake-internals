@@ -1,0 +1,3 @@
+# ProtocolMetadataAdapter
+
+`ProtocolMetadataAdapter` is...FIXME
