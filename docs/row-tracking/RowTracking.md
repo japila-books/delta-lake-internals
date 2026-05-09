@@ -94,23 +94,6 @@ addPreservedRowTrackingTagIfNotSet(
 * `UpdateCommand` is requested to [performUpdate](../commands/update/UpdateCommand.md#performUpdate)
 * `RemoveColumnMappingCommand` is requested to [executed](../commands/alter/RemoveColumnMappingCommand.md#run)
 
-## createMetadataStructFields { #createMetadataStructFields }
-
-```scala
-createMetadataStructFields(
-  protocol: Protocol,
-  metadata: Metadata,
-  nullable: Boolean): Iterable[StructField]
-```
-
-`createMetadataStructFields`...FIXME
-
----
-
-`createMetadataStructFields` is used when:
-
-* `DeltaParquetFileFormat` is requested to [metadataSchemaFields](../DeltaParquetFileFormat.md#metadataSchemaFields)
-
 ## preserveRowTrackingColumns { #preserveRowTrackingColumns }
 
 ```scala
