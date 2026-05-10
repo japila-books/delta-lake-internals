@@ -50,7 +50,7 @@ When `optimizationsEnabled` is disabled, [prepareFiltersForRead](#prepareFilters
 ## Implementations
 
 * [DeltaParquetFileFormat](DeltaParquetFileFormat.md)
-* [DeltaParquetFileFormatV2](DeltaParquetFileFormatV2.md)
+* [DeltaParquetFileFormatV2](./spark-connector-v2/DeltaParquetFileFormatV2.md)
 
 ## Creating Instance
 

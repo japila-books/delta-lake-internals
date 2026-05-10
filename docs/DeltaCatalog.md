@@ -16,7 +16,7 @@
 
 `loadCatalogTable` [loadTableInternal](#loadTableInternal) to decide on the table implementation:
 
-* [SparkTable](./delta-spark-v2-connector/SparkTable.md)
+* [SparkTable](./spark-connector-v2/SparkTable.md)
 * [DeltaTableV2](AbstractDeltaCatalog.md#loadCatalogTable)
 
 ## loadPathTable { #loadPathTable }

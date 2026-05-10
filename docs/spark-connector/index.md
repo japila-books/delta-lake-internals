@@ -1,9 +1,9 @@
 ---
-title: Delta Connector
+title: Spark Connector V1
 subtitle: Delta Lake on Spark SQL
 ---
 
-# Delta Connector (Spark Connector for Delta Lake)
+# Spark Connector V1
 
 **Delta Connector** (_Spark Connector for Delta Lake_) is an extension of Spark SQL (based on [Connector API]({{ book.spark_sql }}/connector)) to support batch and streaming queries over delta tables.
 
