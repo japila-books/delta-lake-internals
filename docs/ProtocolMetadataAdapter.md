@@ -1,8 +1,24 @@
 # ProtocolMetadataAdapter
 
-`ProtocolMetadataAdapter` is an [abstraction](#contract) of [adapters](#implementations) that hide implementation details of [Protocol](./actions/Protocol.md) and [Metadata](./actions/Metadata.md) classes between the two Spark Connectors: [Spark Connector V1](./spark-connector/index.md) and [Kernel-based Spark Connector V2](./spark-connector-v2/index.md).
+`ProtocolMetadataAdapter` is an [abstraction](#contract) of [adapters](#implementations) for [DeltaParquetFileFormatBase](DeltaParquetFileFormatBase.md#protocolMetadataAdapter) to work alongside the two Spark Connector implementations:
 
-## Contract (Subset)
+* [Spark Connector V1](./spark-connector/index.md)
+* [Kernel-based Spark Connector V2](./spark-connector-v2/index.md)
+
+`ProtocolMetadataAdapter` hides the implementation details of [Protocol](./actions/Protocol.md) and [Metadata](./actions/Metadata.md) classes between the Delta Spark connectors.
+
+## Contract
+
+### assertTableReadable { #assertTableReadable }
+
+```scala
+assertTableReadable(
+  sparkSession: SparkSession): Unit
+```
+
+Used when:
+
+* `DeltaParquetFileFormatBase` is [created](DeltaParquetFileFormatBase.md)
 
 ### columnMappingMode { #columnMappingMode }
 
@@ -14,7 +30,7 @@ columnMappingMode: DeltaColumnMappingMode
 
 Used when:
 
-* FIXME
+* `DeltaParquetFileFormatBase` is [created](DeltaParquetFileFormatBase.md#columnMappingMode)
 
 ### createRowTrackingMetadataFields { #createRowTrackingMetadataFields }
 
@@ -28,19 +44,17 @@ Metadata columns for [Row Tracking](./row-tracking/index.md)
 
 Used when:
 
-* FIXME
+* `DeltaParquetFileFormatBase` is requested for the [metadataSchemaFields](DeltaParquetFileFormatBase.md#metadataSchemaFields)
 
-### isRowIdEnabled { #isRowIdEnabled }
+### getReferenceSchema { #getReferenceSchema }
 
 ```scala
-isRowIdEnabled: Boolean
+getReferenceSchema: StructType
 ```
-
-Whether [Row Tracking](./row-tracking/index.md) is enabled on this table
 
 Used when:
 
-* FIXME
+* `DeltaParquetFileFormatBase` is [created](DeltaParquetFileFormatBase.md#referenceSchema)
 
 ### isDeletionVectorReadable { #isDeletionVectorReadable }
 
@@ -52,7 +66,7 @@ Whether [Deletion Vectors](./deletion-vectors/index.md) are readable on this tab
 
 Used when:
 
-* FIXME
+* `DeltaParquetFileFormatBase` is requested for the [metadataSchemaFields](DeltaParquetFileFormatBase.md#metadataSchemaFields)
 
 ### isIcebergCompatAnyEnabled { #isIcebergCompatAnyEnabled }
 
@@ -64,7 +78,32 @@ Whether any version of [IcebergCompat](./uniform/IcebergCompat.md) is enabled on
 
 Used when:
 
-* FIXME
+* `DeltaParquetFileFormatBase` is requested to [prepareWrite](DeltaParquetFileFormatBase.md#prepareWrite)
+
+### isIcebergCompatGeqEnabled { #isIcebergCompatGeqEnabled }
+
+```scala
+isIcebergCompatGeqEnabled(
+  version: Int): Boolean
+```
+
+Whether [IcebergCompat](./uniform/IcebergCompat.md) is enabled at or above the specified version
+
+Used when:
+
+* `DeltaParquetFileFormatBase` is requested for the [prepareWrite](DeltaParquetFileFormatBase.md#prepareWrite)
+
+### isRowIdEnabled { #isRowIdEnabled }
+
+```scala
+isRowIdEnabled: Boolean
+```
+
+Whether [Row Tracking](./row-tracking/index.md) is enabled on this table
+
+Used when:
+
+* `DeltaParquetFileFormatBase` is requested for the [metadataSchemaFields](DeltaParquetFileFormatBase.md#metadataSchemaFields)
 
 ## Implementations
 
