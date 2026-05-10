@@ -245,10 +245,6 @@
          <lastmod>2026-05-10</lastmod>
     </url>
     <url>
-         <loc>https://books.japila.pl/delta-lake-internals/ProtocolMetadataAdapterV1/</loc>
-         <lastmod>2026-05-10</lastmod>
-    </url>
-    <url>
          <loc>https://books.japila.pl/delta-lake-internals/ReadChecksum/</loc>
          <lastmod>2026-05-10</lastmod>
     </url>
@@ -1650,6 +1646,10 @@
     </url>
     <url>
          <loc>https://books.japila.pl/delta-lake-internals/spark-connector/PersistedMetadata/</loc>
+         <lastmod>2026-05-10</lastmod>
+    </url>
+    <url>
+         <loc>https://books.japila.pl/delta-lake-internals/spark-connector/ProtocolMetadataAdapterV1/</loc>
          <lastmod>2026-05-10</lastmod>
     </url>
     <url>
