@@ -112,10 +112,10 @@ extra:
     spark_core: https://books.japila.pl/apache-spark-internals
     unity_catalog: https://books.japila.pl/unity-catalog-internals
   delta:
-    version: 4.2.0
+    version: 4.3.0
     blog: https://delta.io/blog
     docs: https://docs.delta.io
-    github: https://github.com/delta-io/delta/blob/v4.2.0
+    github: https://github.com/delta-io/delta/blob/v4.3.0
     commit: https://github.com/delta-io/delta/commit
     issues: https://github.com/delta-io/delta/issues
     databricks: https://docs.databricks.com/delta
@@ -123,7 +123,7 @@ extra:
     version: 16.0.1
     api: https://guava.dev/releases/16.0.1/api/docs
   hadoop:
-    # https://github.com/delta-io/delta/blob/v4.2.0/build.sbt#L57
+    # https://github.com/delta-io/delta/blob/v4.3.0/build.sbt#L57
     version: 3.4.2
     docs: https://hadoop.apache.org/docs/r3.4.2
     api: https://hadoop.apache.org/docs/r3.4.2/api
@@ -135,7 +135,7 @@ extra:
   s3:
     api: https://docs.aws.amazon.com/AmazonS3/latest/API
   scala:
-    # https://github.com/delta-io/delta/blob/v4.2.0/build.sbt#L31
+    # https://github.com/delta-io/delta/blob/v4.3.0/build.sbt#L31
     version: 2.13.17
     api: https://www.scala-lang.org/api/2.13.17
     docs: https://docs.scala-lang.org/
@@ -154,7 +154,7 @@ extra:
     - icon: fontawesome/brands/mastodon
       link: https://fosstodon.org/@jaceklaskowski
   spark:
-    # https://github.com/delta-io/delta/blob/v4.2.0/project/CrossSparkVersions.scala#L301
+    # https://github.com/delta-io/delta/blob/v4.3.0/project/CrossSparkVersions.scala#L279
     version: 4.1.0
     docs: https://spark.apache.org/docs/4.1.0
   # https://squidfunk.github.io/mkdocs-material/reference/#setting-the-page-status
